@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dronord Studio</title>
+  <style>
+    /* ===== STYLE GÉNÉRAL ===== */
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #fff;
+      overflow-x: hidden;
+      border-left: 6px solid #f1f1f1; /* fine bordure gauche */
+      border-right: 6px solid #f1f1f1; /* fine bordure droite */
+    }
+
+    /* ===== HEADER / LOGO + MENU ===== */
+    header {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px 0;
+      background-color: white;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    header img {
+      width: 160px;
+      height: auto;
+      display: block;
+      margin-bottom: 10px; /* rapproche le menu du logo */
+    }
+
+    nav {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: black;
+      font-size: 16px;
+      letter-spacing: 0.5px;
+      transition: opacity 0.3s;
+    }
+
+    nav a:hover {
+      opacity: 0.7;
+    }
+
+    /* ===== GALERIE MINIATURES ===== */
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0;
+      min-height: 100vh;
+    }
+
+    .gallery-item {
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+      aspect-ratio: 16/9;
+    }
+
+    .gallery-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.4s ease, filter 0.4s ease;
+    }
+
+    .gallery-item:hover img {
+      transform: scale(1.05);
+      filter: brightness(1.1);
+    }
+
+    /* ===== Overlay titre sur les miniatures ===== */
+    .gallery-item .overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.4);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .gallery-item .overlay span {
+      color: #fff;
+      font-size: 1.5rem;
+      text-align: center;
+      padding: 10px;
+    }
+
+    .gallery-item:hover .overlay {
+      opacity: 1;
+    }
+
+    /* ===== ICÔNES SOCIAUX ===== */
+    .social-footer {
+      position: fixed;
+      bottom: 20px;
+      left: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      z-index: 100;
+    }
+
+    .social-footer img {
+      width: 22px;
+      height: 22px;
+      opacity: 0.8;
+      transition: opacity 0.3s ease, transform 0.3s ease;
+    }
+
+    .social-footer img:hover {
+      opacity: 1;
+      transform: scale(1.15);
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 768px) {
+      .gallery {
+        grid-template-columns: 1fr;
+      }
+      body {
+        border-left: 0;
+        border-right: 0;
+      }
+      .social-footer {
+        flex-direction: row;
+        bottom: 15px;
+        left: 15px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ===== HEADER ===== -->
+  <header>
+    <a href="index.html">
+      <img src="dronord_logo_transparent.png" alt="Logo Dronord" />
+    </a>
+    <nav>
+      <a href="index.html">Film</a>
+      <a href="about.html">About</a>
+      <a href="gallery.html">Gallery</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+  </header>
+
+  <!-- ===== MINIATURES ===== -->
+  <section class="gallery">
+    <a class="gallery-item" href="video1.html">
+      <img src="1.png" alt="Vidéo 1">
+      <div class="overlay">
+        <span>Iceland 4K</span>
+      </div>
+    </a>
+    <a class="gallery-item" href="video2.html">
+      <img src="2.png" alt="Vidéo 2">
+      <div class="overlay">
+        <span>Vidéo 2</span>
+      </div>
+    </a>
+    <a class="gallery-item" href="video3.html">
+      <img src="3.png" alt="Vidéo 3">
+      <div class="overlay">
+        <span>Vidéo 3</span>
+      </div>
+    </a>
+    <a class="gallery-item" href="video4.html">
+      <img src="4.png" alt="Vidéo 4">
+      <div class="overlay">
+        <span>Vidéo 4</span>
+      </div>
+    </a>
+  </section>
+
+  <!-- ===== RÉSEAUX SOCIAUX ===== -->
+  <footer class="social-footer">
+    <a href="https://www.instagram.com/_cauvin_" target="_blank">
+      <img src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/instagram.svg" alt="Instagram" />
+    </a>
+    <a href="https://www.youtube.com/@DRONORD18" target="_blank">
+      <img src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/youtube.svg" alt="YouTube" />
+    </a>
+    <a href="https://www.tiktok.com/@toncompte" target="_blank">
+      <img src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/tiktok.svg" alt="TikTok" />
+    </a>
+  </footer>
+
+</body>
+</html>
