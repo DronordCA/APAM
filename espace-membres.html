@@ -117,6 +117,10 @@
       border: 1px solid #d5dfec;
       padding: 18px 20px 20px;
       background: #f7f9fc;
+
+      display: flex;
+      flex-direction: column;
+      height: 100%; /* même hauteur pour tous les blocs */
     }
 
     .member-section h2 {
@@ -133,7 +137,7 @@
 
     .member-section a.section-link {
       display: inline-block;
-      margin-top: 4px;
+      margin-top: auto; /* pousse le lien en bas du bloc */
       color: #062037;
       font-weight: 600;
       text-decoration: none;
