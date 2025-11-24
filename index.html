@@ -127,10 +127,54 @@
     .card {
       position: relative;
       overflow: hidden;
-      border-radius: 8px;
+      border-radius: 16px;
       background: #ddd;
       cursor: pointer;
       text-decoration: none;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.12);
+      transform: translateY(0);
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 16px 35px rgba(0,0,0,0.18);
+    }
+    .card img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.4s ease;
+    }
+    .card:hover img {
+      transform: scale(1.05);
+    }
+    .card-label {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(6, 32, 55, 0.9), rgba(6, 32, 55, 0.1));
+      color: #fff;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      padding-bottom: 18px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      opacity: 0;
+      transition: opacity 0.25s ease;
+      text-transform: uppercase;
+    }
+    .card:hover .card-label {
+      opacity: 1;
+    }
+    .card-label-inner {
+      display:flex;
+      align-items:center;
+      gap:8px;
+      font-size:0.85rem;
+    }
+    .card-label-icon {
+      font-size:1.1rem;
     }
     .card img {
       width: 100%;
@@ -181,6 +225,62 @@
 
     @media (max-width: 768px) {
       header {
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+      }
+      nav a {
+        margin-left: 0;
+        margin-right: 15px;
+        font-size: 0.95rem;
+      }
+      .hero {
+        height: 320px;
+      }
+      .hero-title {
+        font-size: 1.6rem;
+      }
+      .hero-subtitle {
+        font-size: 0.9rem;
+      }
+      .cards {
+        padding: 0 20px;
+      }
+      .social-floating {
+        right: 10px;
+      }
+    }
+
+    /* Reset header for desktop */
+    @media (min-width: 769px) {
+      header {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+      }
+    }
+      nav a {
+        margin-left:0;
+        margin-right:15px;
+        font-size:0.95rem;
+      }
+      .hero {
+        height:320px;
+      }
+      .hero-title {
+        font-size:1.6rem;
+      }
+      .hero-subtitle {
+        font-size:0.9rem;
+      }
+      .cards {
+        padding:0 20px;
+      }
+      .social-floating {
+        right:10px;
+      }
+    }
+    header {
         flex-direction:column;
         align-items:flex-start;
         gap:10px;
@@ -239,16 +339,16 @@
 
   <section class="cards">
     <a href="flotte.html" class="card">
-      <img src="images/flotte.jpg" alt="Notre flotte" />
-      <div class="card-label">Notre flotte</div>
+      <img src="https://picsum.photos/400/250?random=1" alt="Notre flotte" />
+      <div class="card-label"><div class="card-label-inner"><span class="card-label-icon">✈️</span><span>Notre flotte</span></div></div>
     </a>
     <a href="localisation.html" class="card">
-      <img src="images/localisation.jpg" alt="Où nous trouver" />
-      <div class="card-label">Où nous trouver</div>
+      <img src="https://picsum.photos/400/250?random=2" alt="Où nous trouver" />
+      <div class="card-label"><div class="card-label-inner"><span class="card-label-icon">📍</span><span>Où nous trouver</span></div></div>
     </a>
     <a href="installations.html" class="card">
-      <img src="images/installations.jpg" alt="Nos installations" />
-      <div class="card-label">Nos installations</div>
+      <img src="https://picsum.photos/400/250?random=3" alt="Nos installations" />
+      <div class="card-label"><div class="card-label-inner"><span class="card-label-icon">🏠</span><span>Nos installations</span></div></div>
     </a>
   </section>
 
