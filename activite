@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>APAM – Activités</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    /* HEADER + MENU */
+
+    header {
+      background: white;
+      padding: 10px 30px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid #ddd;
+      position: relative;
+      z-index: 100;
+    }
+
+    .logo {
+      height: 60px;
+    }
+
+    .main-nav {
+      display: flex;
+      align-items: center;
+    }
+
+    .main-nav a {
+      margin-left: 25px;
+      text-decoration: none;
+      color: #062037;
+      font-weight: 700;
+      position: relative;
+      padding-bottom: 4px;
+      transition: color 0.2s ease;
+    }
+
+    .main-nav a::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 0;
+      height: 2px;
+      background: #062037;
+      transition: width 0.2s ease;
+    }
+
+    .main-nav a:hover {
+      color: #000;
+    }
+
+    .main-nav a:hover::after {
+      width: 100%;
+    }
+
+    /* Bouton menu mobile (hamburger) */
+
+    .menu-toggle {
+      display: none; /* caché sur desktop */
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 8px;
+    }
+
+    .menu-toggle span {
+      display: block;
+      width: 22px;
+      height: 2px;
+      background: #062037;
+      margin: 4px 0;
+      transition: transform 0.2s ease, opacity 0.2s ease;
+    }
+
+    /* CONTENU PAGE ACTIVITÉ */
+
+    .page-activity {
+      max-width: 1000px;
+      margin: 40px auto 60px;
+      padding: 0 30px;
+    }
+
+    .page-activity h1 {
+      font-size: 2rem;
+      color: #062037;
+      margin-bottom: 10px;
+    }
+
+    .page-activity p {
+      color: #555;
+      line-height: 1.6;
+    }
+
+    /* ICÔNES RÉSEAUX FLOTTANTES */
+
+    .social-floating {
+      position: fixed;
+      top: 50%;
+      right: 20px;
+      transform: translateY(-50%);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      z-index: 50;
+    }
+
+    .social-floating a img {
+      width: 22px;
+      height: 22px;
+      display: block;
+      filter: invert(1) brightness(200%); /* icônes blanches */
+      opacity: 0.9;
+      transition:
+        opacity 0.2s ease,
+        filter 0.2s ease,
+        transform 0.2s ease;
+    }
+
+    .social-floating a img:hover {
+      opacity: 1;
+      filter: invert(1) brightness(250%);
+      transform: translateY(-2px);
+    }
+
+    /* FOOTER */
+
+    .site-footer {
+      background: #062037;
+      color: #fff;
+      padding: 40px 20px 20px;
+      margin-top: 60px;
+    }
+
+    .footer-content {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 40px;
+    }
+
+    .footer-column h4 {
+      margin-bottom: 12px;
+      font-size: 1.1rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+      padding-bottom: 6px;
+    }
+
+    .footer-column a {
+      display: block;
+      color: #fff;
+      opacity: 0.85;
+      margin-bottom: 6px;
+      text-decoration: none;
+      transition: opacity 0.2s ease;
+    }
+
+    .footer-column a:hover {
+      opacity: 1;
+    }
+
+    .footer-brand {
+      max-width: 220px;
+    }
+
+    .footer-logo {
+      height: 40px;
+      display: block;
+      margin-bottom: 10px;
+    }
+
+    .footer-brand p {
+      font-size: 0.9rem;
+      opacity: 0.85;
+    }
+
+    .copyright {
+      text-align: center;
+      margin-top: 30px;
+      opacity: 0.7;
+      font-size: 0.85rem;
+    }
+
+    /* RESPONSIVE MOBILE */
+
+    @media (max-width: 768px) {
+      header {
+        padding: 10px 16px;
+      }
+
+      .main-nav {
+        position: absolute;
+        top: 70px;
+        right: 16px;
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        padding: 12px 16px;
+        flex-direction: column;
+        align-items: flex-start;
+        display: none; /* masqué par défaut sur mobile */
+      }
+
+      .main-nav a {
+        margin: 6px 0;
+      }
+
+      .menu-toggle {
+        display: block; /* bouton visible sur mobile */
+      }
+
+      .social-floating {
+        right: 10px;
+      }
+
+      .footer-content {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      /* Quand le menu est ouvert */
+      .main-nav.open {
+        display: flex;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <img src="apam-logo.png" alt="Logo APAM" class="logo" />
+
+    <!-- Bouton menu mobile -->
+    <button class="menu-toggle" aria-label="Ouvrir le menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+
+    <!-- Menu principal -->
+    <nav class="main-nav">
+      <a href="index.html">Accueil</a>
+      <a href="#">À propos</a>
+      <a href="activite.html">Activité</a>
+      <a href="#">Tarif</a>
+      <a href="#">Galerie</a>
+      <a href="#">Contact</a>
+      <a href="https://openflyers.com/apam/" target="_blank">OpenFlyer</a>
+    </nav>
+  </header>
+
+  <main class="page-activity">
+    <h1>Nos activités</h1>
+    <p>
+      Sur cette page, vous pourrez présenter les différentes activités proposées par l’APAM :
+      école de pilotage, vols découverte, baptêmes de l’air, perfectionnement, voyages, etc.
+      (Texte provisoire que tu pourras remplacer.)
+    </p>
+  </main>
+
+  <!-- Icônes réseaux sociaux flottantes -->
+  <div class="social-floating">
+    <a href="https://www.instagram.com/_cauvin_" target="_blank" aria-label="Instagram">
+      <img src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/instagram.svg" alt="Instagram" />
+    </a>
+    <a href="https://www.youtube.com/@DRONORD18" target="_blank" aria-label="YouTube">
+      <img src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/youtube.svg" alt="YouTube" />
+    </a>
+    <a href="https://www.tiktok.com/@toncompte" target="_blank" aria-label="TikTok">
+      <img src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/tiktok.svg" alt="TikTok" />
+    </a>
+  </div>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="footer-content">
+      <div class="footer-column footer-brand">
+        <img src="apam-logo.png" alt="Logo APAM" class="footer-logo" />
+        <p>Aéroclub APAM L’Aigle Saint-Michel.</p>
+      </div>
+
+      <div class="footer-column">
+        <h4>Plan du site</h4>
+        <a href="index.html">Accueil</a>
+        <a href="#">À propos</a>
+        <a href="activite.html">Activité</a>
+        <a href="#">Tarif</a>
+        <a href="#">Galerie</a>
+        <a href="#">Contact</a>
+        <a href="https://openflyers.com/apam/" target="_blank">OpenFlyer</a>
+      </div>
+
+      <div class="footer-column">
+        <h4>Réseaux sociaux</h4>
+        <a href="https://www.instagram.com/_cauvin_" target="_blank">Instagram</a>
+        <a href="https://www.youtube.com/@DRONORD18" target="_blank">YouTube</a>
+        <a href="https://www.tiktok.com/@toncompte" target="_blank">TikTok</a>
+      </div>
+    </div>
+
+    <p class="copyright">
+      © 2025 APAM – Tous droits réservés.
+    </p>
+  </footer>
+
+  <!-- Petit script pour le menu mobile -->
+  <script>
+    const menuToggle = document.querySelector('.menu-toggle');
+    const nav = document.querySelector('.main-nav');
+
+    menuToggle.addEventListener('click', () => {
+      nav.classList.toggle('open');
+    });
+  </script>
+</body>
+</html>
