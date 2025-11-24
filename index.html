@@ -5,117 +5,177 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>APAM</title>
   <style>
-    body { margin:0; font-family: Arial, sans-serif; }
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    /* HEADER + MENU */
+
     header {
-      background:white;
-      padding:10px 30px;
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      border-bottom:1px solid #ddd;
+      background: white;
+      padding: 10px 30px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid #ddd;
+      position: relative;
+      z-index: 100;
     }
-    nav a {
-      margin-left:25px;
-      text-decoration:none;
-      color:#062037;
-      font-weight:700;
-      position:relative;
-      padding-bottom:4px;
-      transition:color 0.2s ease;
-    }
-    nav a::after {
-      content:"";
-      position:absolute;
-      left:0;
-      bottom:0;
-      width:0;
-      height:2px;
-      background:#062037;
-      transition:width 0.2s ease;
-    }
-    nav a:hover {
-      color:#000;
-    }
-    nav a:hover::after {
-      width:100%;
-    }
-    .hero {
-      width:100%;
-      height:500px;
-      background:url('Rallye-CDAO-01.jpg') top/cover no-repeat;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      position:relative;
-      color:#fff;
-      text-align:center;
-    }
-    .hero::before {
-      content:"";
-      position:absolute;
-      inset:0;
-      background:linear-gradient(to bottom, rgba(0,0,0,0.25), rgba(0,0,0,0.5));
-      opacity:0.6;
-      transition:opacity 0.3s ease;
-    }
-    .hero:hover::before {
-      opacity:0.85;
-    }
-    .hero-content {
-      position:relative;
-      z-index:1;
-      padding:0 20px;
-    }
-    .hero-title {
-      font-size:2.2rem;
-      margin-bottom:0.75rem;
-    }
-    .hero-subtitle {
-      font-size:1rem;
-      margin-bottom:1.5rem;
-      opacity:0.9;
-    }
-    .hero-button {
-      display:inline-block;
-      padding:10px 24px;
-      border-radius:999px;
-      border:2px solid #fff;
-      background:#062037;
-      color:#fff;
-      text-decoration:none;
-      font-weight:600;
-      font-size:0.95rem;
-      letter-spacing:0.03em;
-      opacity:0;
-      transform:translateY(8px);
-      transition:opacity 0.3s ease, transform 0.3s ease, background 0.2s ease, color 0.2s ease;
-    }
-    .hero:hover .hero-button {
-      opacity:1;
-      transform:translateY(0);
-    }
-    .hero-button:hover {
-      background:#fff;
-      color:#062037;
-    }
+
     .logo {
-      height:60px;
+      height: 60px;
     }
-      .intro {
+
+    .main-nav {
+      display: flex;
+      align-items: center;
+    }
+
+    .main-nav a {
+      margin-left: 25px;
+      text-decoration: none;
+      color: #062037;
+      font-weight: 700;
+      position: relative;
+      padding-bottom: 4px;
+      transition: color 0.2s ease;
+    }
+
+    .main-nav a::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 0;
+      height: 2px;
+      background: #062037;
+      transition: width 0.2s ease;
+    }
+
+    .main-nav a:hover {
+      color: #000;
+    }
+
+    .main-nav a:hover::after {
+      width: 100%;
+    }
+
+    /* Bouton menu mobile (hamburger) */
+
+    .menu-toggle {
+      display: none; /* caché sur desktop */
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 8px;
+    }
+
+    .menu-toggle span {
+      display: block;
+      width: 22px;
+      height: 2px;
+      background: #062037;
+      margin: 4px 0;
+      transition: transform 0.2s ease, opacity 0.2s ease;
+    }
+
+    /* HERO */
+
+    .hero {
+      width: 100%;
+      height: 500px; /* desktop */
+      background: url('Rallye-CDAO-01.jpg') top/cover no-repeat;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      color: #fff;
+      text-align: center;
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.5));
+      opacity: 0.6;
+      transition: opacity 0.3s ease;
+    }
+
+    .hero:hover::before {
+      opacity: 0.85;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      padding: 0 20px;
+    }
+
+    .hero-title {
+      font-size: 2.2rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .hero-subtitle {
+      font-size: 1rem;
+      margin-bottom: 1.5rem;
+      opacity: 0.9;
+    }
+
+    .hero-button {
+      display: inline-block;
+      padding: 10px 24px;
+      border-radius: 999px;
+      border: 2px solid #fff;
+      background: #062037;
+      color: #fff;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.95rem;
+      letter-spacing: 0.03em;
+      opacity: 0;
+      transform: translateY(8px);
+      transition:
+        opacity 0.3s ease,
+        transform 0.3s ease,
+        background 0.2s ease,
+        color 0.2s ease;
+    }
+
+    .hero:hover .hero-button {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .hero-button:hover {
+      background: #fff;
+      color: #062037;
+    }
+
+    /* INTRO */
+
+    .intro {
       max-width: 900px;
       margin: 40px auto 10px;
       padding: 0 30px;
       text-align: center;
     }
+
     .intro h2 {
       font-size: 1.8rem;
       margin-bottom: 0.5rem;
       color: #062037;
     }
+
     .intro p {
       color: #555;
       font-size: 1rem;
     }
+
+    /* CARDS */
+
     .cards {
       max-width: 1100px;
       margin: 20px auto 60px;
@@ -124,6 +184,7 @@
       grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
       gap: 20px;
     }
+
     .card {
       position: relative;
       overflow: hidden;
@@ -131,14 +192,16 @@
       background: #ddd;
       cursor: pointer;
       text-decoration: none;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.12);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
       transform: translateY(0);
       transition: transform 0.25s ease, box-shadow 0.25s ease;
     }
+
     .card:hover {
       transform: translateY(-4px);
-      box-shadow: 0 16px 35px rgba(0,0,0,0.18);
+      box-shadow: 0 16px 35px rgba(0, 0, 0, 0.18);
     }
+
     .card img {
       width: 100%;
       height: 200px;
@@ -146,9 +209,11 @@
       display: block;
       transition: transform 0.4s ease;
     }
+
     .card:hover img {
       transform: scale(1.05);
     }
+
     .card-label {
       position: absolute;
       inset: 0;
@@ -164,191 +229,186 @@
       transition: opacity 0.25s ease;
       text-transform: uppercase;
     }
+
     .card:hover .card-label {
       opacity: 1;
     }
+
     .card-label-inner {
-      display:flex;
-      align-items:center;
-      gap:8px;
-      font-size:0.85rem;
-    }
-    .card-label-icon {
-      font-size:1.1rem;
-    }
-    .card img {
-      width: 100%;
-      height: 180px;
-      object-fit: cover;
-      display: block;
-    }
-    .card-label {
-      position: absolute;
-      inset: 0;
-      background: rgba(6, 32, 55, 0.7);
-      color: #fff;
       display: flex;
       align-items: center;
-      justify-content: center;
-      font-weight: 700;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      opacity: 0;
-      transition: opacity 0.25s ease;
+      gap: 8px;
+      font-size: 0.85rem;
     }
-    .card:hover .card-label {
+
+    .card-label-icon {
+      font-size: 1.1rem;
+    }
+
+    /* ICÔNES RÉSEAUX FLOTTANTES */
+
+    .social-floating {
+      position: fixed;
+      top: 50%;
+      right: 20px;
+      transform: translateY(-50%);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      z-index: 50;
+    }
+
+    .social-floating a img {
+      width: 22px;
+      height: 22px;
+      display: block;
+      filter: invert(1) brightness(200%); /* icônes blanches */
+      opacity: 0.9;
+      transition:
+        opacity 0.2s ease,
+        filter 0.2s ease,
+        transform 0.2s ease;
+    }
+
+    .social-floating a img:hover {
+      opacity: 1;
+      filter: invert(1) brightness(250%);
+      transform: translateY(-2px);
+    }
+
+    /* FOOTER */
+
+    .site-footer {
+      background: #062037;
+      color: #fff;
+      padding: 40px 20px 20px;
+      margin-top: 60px;
+    }
+
+    .footer-content {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 40px;
+    }
+
+    .footer-column h4 {
+      margin-bottom: 12px;
+      font-size: 1.1rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+      padding-bottom: 6px;
+    }
+
+    .footer-column a {
+      display: block;
+      color: #fff;
+      opacity: 0.85;
+      margin-bottom: 6px;
+      text-decoration: none;
+      transition: opacity 0.2s ease;
+    }
+
+    .footer-column a:hover {
       opacity: 1;
     }
-      .social-floating {
-      position:fixed;
-      top:50%;
-      right:20px;
-      transform:translateY(-50%);
-      display:flex;
-      flex-direction:column;
-      gap:10px;
-      z-index:50;
+
+    .footer-brand {
+      max-width: 220px;
     }
-    .social-floating a img {
-      width:22px;
-      height:22px;
-      display:block;
-      filter:invert(1) brightness(200%);
-      opacity:0.9;
-      transition:opacity 0.2s ease, filter 0.2s ease, transform 0.2s ease;
+
+    .footer-logo {
+      height: 40px;
+      display: block;
+      margin-bottom: 10px;
     }
-    .social-floating a img:hover {
-      opacity:1;
-      filter:none;
-      transform:translateY(-2px);
+
+    .footer-brand p {
+      font-size: 0.9rem;
+      opacity: 0.85;
     }
+
+    .copyright {
+      text-align: center;
+      margin-top: 30px;
+      opacity: 0.7;
+      font-size: 0.85rem;
+    }
+
+    /* RESPONSIVE MOBILE */
 
     @media (max-width: 768px) {
       header {
+        padding: 10px 16px;
+      }
+
+      .main-nav {
+        position: absolute;
+        top: 70px;
+        right: 16px;
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        padding: 12px 16px;
         flex-direction: column;
-        align-items: center;
-        gap: 10px;
+        align-items: flex-start;
+        display: none; /* masqué par défaut sur mobile */
       }
-      nav a {
-        margin-left: 0;
-        margin-right: 15px;
-        font-size: 0.95rem;
+
+      .main-nav a {
+        margin: 6px 0;
       }
+
+      .menu-toggle {
+        display: block; /* bouton visible sur mobile */
+      }
+
       .hero {
-        height: 320px;
+        height: 420px;
       }
+
       .hero-title {
         font-size: 1.6rem;
       }
+
       .hero-subtitle {
         font-size: 0.9rem;
       }
+
       .cards {
         padding: 0 20px;
       }
+
       .social-floating {
         right: 10px;
       }
-    }
 
-    /* Reset header for desktop */
-    @media (min-width: 769px) {
-      header {
-        flex-direction: row;
-        align-items: center;
-        justify-content: space-between;
+      .footer-content {
+        flex-direction: column;
+        align-items: flex-start;
       }
-    }
-      nav a {
-        margin-left:0;
-        margin-right:15px;
-        font-size:0.95rem;
+
+      /* Quand le menu est ouvert */
+      .main-nav.open {
+        display: flex;
       }
-      .hero {
-        height:320px;
-      }
-      .hero-title {
-        font-size:1.6rem;
-      }
-      .hero-subtitle {
-        font-size:0.9rem;
-      }
-      .cards {
-        padding:0 20px;
-      }
-      .social-floating {
-        right:10px;
-      }
-    }
-    header {
-        flex-direction:column;
-        align-items:flex-start;
-        gap:10px;
-      }
-      nav a {
-        margin-left:0;
-        margin-right:15px;
-        font-size:0.95rem;
-      }
-      .hero {
-        height:320px;
-      }
-      .hero-title {
-        font-size:1.6rem;
-      }
-      .hero-subtitle {
-        font-size:0.9rem;
-      }
-      .cards {
-        padding:0 20px;
-      }
-      .social-floating {
-        right:10px;
-      }
-    }
-      .site-footer {
-      background:#062037;
-      color:#fff;
-      padding:40px 20px 20px;
-      margin-top:60px;
-    }
-    .footer-content {
-      max-width:1100px;
-      margin:0 auto;
-      display:flex;
-      justify-content:space-between;
-      flex-wrap:wrap;
-      gap:40px;
-    }
-    .footer-column h4 {
-      margin-bottom:12px;
-      font-size:1.1rem;
-      border-bottom:1px solid rgba(255,255,255,0.3);
-      padding-bottom:6px;
-    }
-    .footer-column a {
-      display:block;
-      color:#fff;
-      opacity:0.85;
-      margin-bottom:6px;
-      text-decoration:none;
-      transition:opacity 0.2s ease;
-    }
-    .footer-column a:hover {
-      opacity:1;
-    }
-    .copyright {
-      text-align:center;
-      margin-top:30px;
-      opacity:0.7;
-      font-size:0.85rem;
     }
   </style>
 </head>
 <body>
   <header>
-    <img src="/mnt/data/A_vector_graphic_logo_for_the_Aéro-Club_de_Saint-M.png" alt="Logo APAM" class="logo" />
-    <nav>
+    <img src="apam-logo.png" alt="Logo APAM" class="logo" />
+
+    <!-- Bouton menu mobile -->
+    <button class="menu-toggle" aria-label="Ouvrir le menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+
+    <!-- Menu principal -->
+    <nav class="main-nav">
       <a href="#">Accueil</a>
       <a href="#">À propos</a>
       <a href="activite.html">Activité</a>
@@ -359,10 +419,12 @@
     </nav>
   </header>
 
-    <div class="hero">
+  <div class="hero">
     <div class="hero-content">
       <h1 class="hero-title">Aéroclub APAM L’Aigle Saint-Michel</h1>
-      <p class="hero-subtitle">Vols, formation et convivialité sur l’aérodrome de L’Aigle Saint-Michel.</p>
+      <p class="hero-subtitle">
+        Vols, formation et convivialité sur l’aérodrome de L’Aigle Saint-Michel.
+      </p>
       <a href="#" class="hero-button">Découvrir le club</a>
     </div>
   </div>
@@ -370,25 +432,43 @@
   <section class="intro">
     <h2>Bienvenue à l’APAM</h2>
     <p>
-      L’APAM est un aéroclub dédié aux passionnés d’aviation légère. Nous proposons de la formation, des vols découverte et un cadre convivial pour partager la passion du vol. (Texte générique que tu pourras modifier.)
+      L’APAM est un aéroclub dédié aux passionnés d’aviation légère. Nous proposons de la
+      formation, des vols découverte et un cadre convivial pour partager la passion du vol.
+      (Texte générique que tu pourras modifier.)
     </p>
   </section>
 
   <section class="cards">
     <a href="flotte.html" class="card">
       <img src="https://picsum.photos/400/250?random=1" alt="Notre flotte" />
-      <div class="card-label"><div class="card-label-inner"><span class="card-label-icon">✈️</span><span>Notre flotte</span></div></div>
+      <div class="card-label">
+        <div class="card-label-inner">
+          <span class="card-label-icon">✈️</span>
+          <span>Notre flotte</span>
+        </div>
+      </div>
     </a>
     <a href="localisation.html" class="card">
       <img src="https://picsum.photos/400/250?random=2" alt="Où nous trouver" />
-      <div class="card-label"><div class="card-label-inner"><span class="card-label-icon">📍</span><span>Où nous trouver</span></div></div>
+      <div class="card-label">
+        <div class="card-label-inner">
+          <span class="card-label-icon">📍</span>
+          <span>Où nous trouver</span>
+        </div>
+      </div>
     </a>
     <a href="installations.html" class="card">
       <img src="https://picsum.photos/400/250?random=3" alt="Nos installations" />
-      <div class="card-label"><div class="card-label-inner"><span class="card-label-icon">🏠</span><span>Nos installations</span></div></div>
+      <div class="card-label">
+        <div class="card-label-inner">
+          <span class="card-label-icon">🏠</span>
+          <span>Nos installations</span>
+        </div>
+      </div>
     </a>
   </section>
 
+  <!-- Icônes réseaux sociaux flottantes -->
   <div class="social-floating">
     <a href="https://www.instagram.com/_cauvin_" target="_blank" aria-label="Instagram">
       <img src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/instagram.svg" alt="Instagram" />
@@ -400,8 +480,15 @@
       <img src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/tiktok.svg" alt="TikTok" />
     </a>
   </div>
+
+  <!-- Footer -->
   <footer class="site-footer">
     <div class="footer-content">
+      <div class="footer-column footer-brand">
+        <img src="apam-logo.png" alt="Logo APAM" class="footer-logo" />
+        <p>Aéroclub APAM L’Aigle Saint-Michel.</p>
+      </div>
+
       <div class="footer-column">
         <h4>Plan du site</h4>
         <a href="#">Accueil</a>
@@ -412,6 +499,7 @@
         <a href="#">Contact</a>
         <a href="https://openflyers.com/apam/" target="_blank">OpenFlyer</a>
       </div>
+
       <div class="footer-column">
         <h4>Réseaux sociaux</h4>
         <a href="https://www.instagram.com/_cauvin_" target="_blank">Instagram</a>
@@ -419,7 +507,20 @@
         <a href="https://www.tiktok.com/@toncompte" target="_blank">TikTok</a>
       </div>
     </div>
-    <p class="copyright">© 2025 APAM – Tous droits réservés.</p>
+
+    <p class="copyright">
+      © 2025 APAM – Tous droits réservés.
+    </p>
   </footer>
+
+  <!-- Petit script pour le menu mobile -->
+  <script>
+    const menuToggle = document.querySelector('.menu-toggle');
+    const nav = document.querySelector('.main-nav');
+
+    menuToggle.addEventListener('click', () => {
+      nav.classList.toggle('open');
+    });
+  </script>
 </body>
 </html>
