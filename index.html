@@ -19,6 +19,25 @@
       text-decoration:none;
       color:#062037;
       font-weight:700;
+      position:relative;
+      padding-bottom:4px;
+      transition:color 0.2s ease;
+    }
+    nav a::after {
+      content:"";
+      position:absolute;
+      left:0;
+      bottom:0;
+      width:0;
+      height:2px;
+      background:#062037;
+      transition:width 0.2s ease;
+    }
+    nav a:hover {
+      color:#000;
+    }
+    nav a:hover::after {
+      width:100%;
     }
     .hero {
       width:100%;
@@ -27,8 +46,57 @@
       display:flex;
       align-items:center;
       justify-content:center;
-      font-size:24px;
-      color:#666;
+      position:relative;
+      color:#fff;
+      text-align:center;
+    }
+    .hero::before {
+      content:"";
+      position:absolute;
+      inset:0;
+      background:linear-gradient(to bottom, rgba(0,0,0,0.25), rgba(0,0,0,0.5));
+      opacity:0.6;
+      transition:opacity 0.3s ease;
+    }
+    .hero:hover::before {
+      opacity:0.85;
+    }
+    .hero-content {
+      position:relative;
+      z-index:1;
+      padding:0 20px;
+    }
+    .hero-title {
+      font-size:2.2rem;
+      margin-bottom:0.75rem;
+    }
+    .hero-subtitle {
+      font-size:1rem;
+      margin-bottom:1.5rem;
+      opacity:0.9;
+    }
+    .hero-button {
+      display:inline-block;
+      padding:10px 24px;
+      border-radius:999px;
+      border:2px solid #fff;
+      background:#062037;
+      color:#fff;
+      text-decoration:none;
+      font-weight:600;
+      font-size:0.95rem;
+      letter-spacing:0.03em;
+      opacity:0;
+      transform:translateY(8px);
+      transition:opacity 0.3s ease, transform 0.3s ease, background 0.2s ease, color 0.2s ease;
+    }
+    .hero:hover .hero-button {
+      opacity:1;
+      transform:translateY(0);
+    }
+    .hero-button:hover {
+      background:#fff;
+      color:#062037;
     }
     .logo {
       height:60px;
@@ -87,11 +155,62 @@
     .card:hover .card-label {
       opacity: 1;
     }
+      .social-floating {
+      position:fixed;
+      top:50%;
+      right:20px;
+      transform:translateY(-50%);
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+      z-index:50;
+    }
+    .social-floating a img {
+      width:22px;
+      height:22px;
+      display:block;
+      filter:grayscale(100%);
+      opacity:0.8;
+      transition:opacity 0.2s ease, filter 0.2s ease, transform 0.2s ease;
+    }
+    .social-floating a img:hover {
+      opacity:1;
+      filter:none;
+      transform:translateY(-2px);
+    }
+
+    @media (max-width: 768px) {
+      header {
+        flex-direction:column;
+        align-items:flex-start;
+        gap:10px;
+      }
+      nav a {
+        margin-left:0;
+        margin-right:15px;
+        font-size:0.95rem;
+      }
+      .hero {
+        height:320px;
+      }
+      .hero-title {
+        font-size:1.6rem;
+      }
+      .hero-subtitle {
+        font-size:0.9rem;
+      }
+      .cards {
+        padding:0 20px;
+      }
+      .social-floating {
+        right:10px;
+      }
+    }
   </style>
 </head>
 <body>
   <header>
-    <img src="apam-logo.png" alt="Logo APAM" class="logo" />
+    <img src="/mnt/data/A_vector_graphic_logo_for_the_Aéro-Club_de_Saint-M.png" alt="Logo APAM" class="logo" />
     <nav>
       <a href="#">Accueil</a>
       <a href="#">À propos</a>
@@ -103,8 +222,12 @@
     </nav>
   </header>
 
-  <div class="hero">
-    
+    <div class="hero">
+    <div class="hero-content">
+      <h1 class="hero-title">Aéroclub APAM L’Aigle Saint-Michel</h1>
+      <p class="hero-subtitle">Vols, formation et convivialité sur l’aérodrome de L’Aigle Saint-Michel.</p>
+      <a href="#" class="hero-button">Découvrir le club</a>
+    </div>
   </div>
 
   <section class="intro">
@@ -128,5 +251,17 @@
       <div class="card-label">Nos installations</div>
     </a>
   </section>
+
+  <div class="social-floating">
+    <a href="https://www.instagram.com/_cauvin_" target="_blank" aria-label="Instagram">
+      <img src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/instagram.svg" alt="Instagram" />
+    </a>
+    <a href="https://www.youtube.com/@DRONORD18" target="_blank" aria-label="YouTube">
+      <img src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/youtube.svg" alt="YouTube" />
+    </a>
+    <a href="https://www.tiktok.com/@toncompte" target="_blank" aria-label="TikTok">
+      <img src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/tiktok.svg" alt="TikTok" />
+    </a>
+  </div>
 </body>
 </html>
