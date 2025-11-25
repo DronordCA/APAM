@@ -11,9 +11,9 @@
       --apam-blue-dark: #031023;
       --apam-blue: #062037;
       --apam-blue-soft: #1b3658;
-      --glass-bg: rgba(255, 255, 255, 0.85);
+      --glass-bg: rgba(255, 255, 255, 0.9);
       --glass-border: rgba(15, 35, 70, 0.08);
-      --glass-shadow: 0 10px 28px rgba(0, 0, 0, 0.12);
+      --glass-shadow: 0 10px 26px rgba(0, 0, 0, 0.12);
       --text-main: #062037;
       --text-soft: #5f6b85;
       --accent: #4aa3ff;
@@ -34,9 +34,10 @@
 
     a {
       color: inherit;
+      text-decoration: none;
     }
 
-    /* ================== HEADER + MENU (même style que l’index) ================== */
+    /* ================== HEADER + MENU (clair) ================== */
 
     header {
       position: fixed;
@@ -50,8 +51,8 @@
       justify-content: space-between;
       backdrop-filter: blur(20px);
       -webkit-backdrop-filter: blur(20px);
-      background: rgba(3, 16, 35, 0.07); /* ultra transparent */
-      border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+      background: rgba(255, 255, 255, 0.92);
+      border-bottom: 1px solid rgba(6, 32, 55, 0.12);
     }
 
     .logo {
@@ -66,7 +67,7 @@
 
     .main-nav a {
       text-decoration: none;
-      color: #ffffff;
+      color: var(--apam-blue);
       font-weight: 600;
       font-size: 0.92rem;
       padding: 7px 16px;
@@ -82,10 +83,10 @@
     }
 
     .main-nav a:hover {
-      color: #ffffff;
-      background: rgba(255, 255, 255, 0.08);
-      border-color: rgba(255, 255, 255, 0.3);
-      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.2);
+      color: var(--apam-blue);
+      background: rgba(6, 32, 55, 0.04);
+      border-color: rgba(6, 32, 55, 0.16);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
       transform: translateY(-1px);
     }
 
@@ -96,39 +97,37 @@
         rgba(70, 140, 255, 0.98)
       );
       border-color: rgba(74, 163, 255, 0.9);
-      box-shadow: 0 14px 30px rgba(74, 163, 255, 0.6);
+      box-shadow: 0 14px 30px rgba(74, 163, 255, 0.4);
       color: #02101f;
     }
 
-    /* Bouton menu mobile en "bulle" */
-
     .menu-toggle {
       display: none;
-      background: rgba(3, 16, 35, 0.85);
-      color: #ffffff;
-      font-weight: 600;
-      font-size: 0.9rem;
+      background: rgba(255, 255, 255, 0.9);
       border-radius: 999px;
-      border: 1px solid rgba(255, 255, 255, 0.3);
+      border: 1px solid rgba(6, 32, 55, 0.25);
       cursor: pointer;
-      padding: 7px 16px;
-      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3);
+      padding: 7px 10px;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
     }
 
-    .menu-toggle:hover {
-      background: rgba(3, 16, 35, 0.95);
-      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4);
+    .menu-toggle span {
+      display: block;
+      width: 18px;
+      height: 2px;
+      background: var(--apam-blue);
+      margin: 3px 0;
+      border-radius: 999px;
+      transition: transform 0.2s ease, opacity 0.2s ease;
     }
 
-    /* ================== WRAPPER CONTENU ================== */
+    /* ================== CONTENU GLOBAL ================== */
 
     main {
       max-width: 1100px;
-      margin: 100px auto 50px; /* 100px pour laisser la place au header fixé */
-      padding: 0 20px 0 20px;
+      margin: 120px auto 50px;
+      padding: 0 20px;
     }
-
-    /* ================== CARTES SECTIONS ================== */
 
     .section-card {
       background: var(--glass-bg);
@@ -138,10 +137,35 @@
       backdrop-filter: blur(16px);
       -webkit-backdrop-filter: blur(16px);
       padding: 22px 22px 24px;
-      margin-bottom: 24px;
+      margin-bottom: 26px;
     }
 
-    /* ================== HERO / INTRO ACTIVITÉS ================== */
+    /* ================== ANIMATIONS REVEAL ================== */
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition:
+        opacity 0.6s ease-out,
+        transform 0.6s ease-out;
+    }
+
+    .reveal-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .reveal-delay-1 {
+      transition-delay: 0.1s;
+    }
+    .reveal-delay-2 {
+      transition-delay: 0.2s;
+    }
+    .reveal-delay-3 {
+      transition-delay: 0.3s;
+    }
+
+    /* ================== HERO ACTIVITÉS ================== */
 
     .activity-hero {
       margin-bottom: 18px;
@@ -154,8 +178,8 @@
       font-size: 0.75rem;
       text-transform: uppercase;
       letter-spacing: 0.12em;
-      background: rgba(228, 236, 255, 0.9);
-      color: #1f3b63;
+      background: rgba(74, 163, 255, 0.12);
+      color: var(--apam-blue);
       padding: 4px 10px;
       border-radius: 999px;
       margin-bottom: 10px;
@@ -165,7 +189,7 @@
       width: 6px;
       height: 6px;
       border-radius: 999px;
-      background: #1f3b63;
+      background: var(--apam-blue);
     }
 
     .activity-hero h1 {
@@ -190,7 +214,7 @@
 
     .activity-note {
       font-size: 0.9rem;
-      color: #8a94ae;
+      color: #7b8498;
       margin: 0;
     }
 
@@ -233,13 +257,16 @@
     }
 
     .activity-card {
-      background: rgba(247, 249, 252, 0.95);
+      background: rgba(255, 255, 255, 0.9);
       border-radius: 18px;
-      border: 1px solid rgba(213, 223, 236, 0.9);
+      border: 1px solid rgba(15, 35, 70, 0.08);
       padding: 16px 16px 14px;
       display: flex;
       flex-direction: column;
       gap: 6px;
+      box-shadow: 0 8px 20px rgba(3, 10, 24, 0.04);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
     }
 
     .activity-card-header {
@@ -253,7 +280,7 @@
       width: 32px;
       height: 32px;
       border-radius: 999px;
-      background: #e4ecff;
+      background: rgba(74, 163, 255, 0.13);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -288,7 +315,7 @@
     .activity-highlight {
       font-size: 0.85rem;
       color: #1f3b63;
-      background: #e4ecff;
+      background: rgba(74, 163, 255, 0.12);
       border-radius: 999px;
       padding: 3px 9px;
       display: inline-block;
@@ -322,31 +349,14 @@
     }
 
     .fleet-card {
-      border-radius: 16px;
-      border: 1px solid rgba(213, 223, 236, 0.9);
+      border-radius: 18px;
+      border: 1px solid rgba(15, 35, 70, 0.08);
       padding: 14px 14px 12px;
-      background: #fdfdff;
+      background: rgba(255, 255, 255, 0.9);
       font-size: 0.95rem;
-      box-shadow: 0 8px 20px rgba(7, 31, 56, 0.06);
-      cursor: pointer;
-      transition:
-        transform 0.22s ease,
-        box-shadow 0.22s ease,
-        border-color 0.22s ease,
-        background 0.22s ease;
-    }
-
-    .fleet-card:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 14px 30px rgba(7, 31, 56, 0.16);
-      border-color: rgba(74, 163, 255, 0.8);
-      background: #ffffff;
-    }
-
-    .fleet-card h3 {
-      margin: 0 0 4px;
-      font-size: 1.1rem;
-      color: var(--apam-blue);
+      box-shadow: 0 8px 20px rgba(3, 10, 24, 0.04);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
     }
 
     .fleet-role {
@@ -358,6 +368,22 @@
       margin-bottom: 4px;
     }
 
+    .fleet-card h3 {
+      margin: 0 0 4px;
+      font-size: 1.1rem;
+      color: var(--apam-blue);
+    }
+
+    .fleet-card h3 a {
+      text-decoration: none;
+      color: inherit;
+      border-bottom: 1px solid rgba(74, 163, 255, 0.5);
+    }
+
+    .fleet-card h3 a:hover {
+      border-bottom-color: transparent;
+    }
+
     .fleet-card p {
       margin: 0;
       color: var(--text-soft);
@@ -365,7 +391,7 @@
       font-size: 0.9rem;
     }
 
-    /* ================== TARIFS / FAQ ================== */
+    /* ================== TARIFS & FAQ ================== */
 
     .pricing-wrapper-title {
       display: flex;
@@ -382,13 +408,16 @@
     }
 
     .pricing-block {
-      background: rgba(247, 249, 252, 0.98);
+      background: rgba(255, 255, 255, 0.9);
       border-radius: 18px;
-      border: 1px solid rgba(213, 223, 236, 0.9);
+      border: 1px solid rgba(15, 35, 70, 0.08);
       padding: 16px 18px 18px;
       font-size: 0.93rem;
       color: var(--text-soft);
       line-height: 1.6;
+      box-shadow: 0 8px 20px rgba(3, 10, 24, 0.04);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
     }
 
     .pricing-block h2 {
@@ -412,7 +441,7 @@
 
     .pricing-note {
       font-size: 0.85rem;
-      color: #8a94ae;
+      color: #7b8498;
       margin-top: 4px;
     }
 
@@ -422,7 +451,7 @@
       font-weight: 600;
       color: var(--apam-blue);
       text-decoration: none;
-      border-bottom: 1px solid rgba(6, 32, 55, 0.5);
+      border-bottom: 1px solid rgba(6, 32, 55, 0.4);
       padding-bottom: 1px;
     }
 
@@ -460,8 +489,8 @@
 
     .faq-question span.q-badge {
       font-size: 0.8rem;
-      background: #e4ecff;
-      color: #1f3b63;
+      background: rgba(74, 163, 255, 0.12);
+      color: var(--apam-blue);
       padding: 2px 6px;
       border-radius: 999px;
     }
@@ -473,25 +502,7 @@
       line-height: 1.5;
     }
 
-    /* ================== ANIMATIONS SCROLL (comme index) ================== */
-
-    .reveal {
-      opacity: 0;
-      transform: translateY(18px);
-      filter: blur(6px);
-      transition:
-        opacity 0.6s ease,
-        transform 0.6s ease,
-        filter 0.6s ease;
-    }
-
-    .reveal-visible {
-      opacity: 1;
-      transform: translateY(0);
-      filter: blur(0);
-    }
-
- /* ================== ICÔNES RÉSEAUX FLOTTANTES (glass) ================== */
+    /* ================== ICÔNES RÉSEAUX FLOTTANTES ================== */
 
     .social-floating {
       position: fixed;
@@ -504,43 +515,34 @@
       z-index: 50;
     }
 
-    .social-floating a {
-      width: 38px;
-      height: 38px;
-      border-radius: 999px;
-      background: rgba(3, 16, 35, 0.82);
-      border: 1px solid rgba(255, 255, 255, 0.3);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 10px 26px rgba(0, 0, 0, 0.45);
-      transition:
-        transform 0.18s ease,
-        box-shadow 0.18s ease,
-        background 0.2s ease;
-    }
-
     .social-floating a img {
-      width: 20px;
-      height: 20px;
+      width: 22px;
+      height: 22px;
       display: block;
-      filter: invert(1) brightness(190%);
+      filter: invert(1) brightness(100%);
+      opacity: 0.9;
+      transition:
+        opacity 0.2s ease,
+        filter 0.2s ease,
+        transform 0.2s ease;
     }
 
-    .social-floating a:hover {
+    .social-floating a img:hover {
+      opacity: 1;
+      filter: invert(1) brightness(140%);
       transform: translateY(-2px);
-      box-shadow: 0 14px 34px rgba(0, 0, 0, 0.55);
-      background: rgba(3, 16, 35, 0.96);
     }
-    /* ================== FOOTER LIQUID GLASS ================== */
+
+    /* ================== FOOTER ================== */
 
     .site-footer {
-      background: transparent;
+      background: rgba(255, 255, 255, 0.96);
       color: var(--apam-blue);
-      padding: 40px 20px 24px;
+      padding: 32px 20px 18px;
       margin-top: 40px;
+      border-top: 1px solid rgba(6, 32, 55, 0.12);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
     }
 
     .footer-content {
@@ -550,14 +552,7 @@
       justify-content: space-between;
       align-items: flex-start;
       flex-wrap: wrap;
-      gap: 32px;
-      background: var(--glass-bg);
-      border-radius: 24px;
-      border: 1px solid var(--glass-border);
-      box-shadow: var(--glass-shadow);
-      backdrop-filter: blur(18px);
-      -webkit-backdrop-filter: blur(18px);
-      padding: 22px 24px 20px;
+      gap: 26px;
     }
 
     .footer-brand {
@@ -574,6 +569,7 @@
     .footer-brand p {
       font-size: 0.9rem;
       opacity: 0.85;
+      color: var(--text-soft);
     }
 
     .footer-column {
@@ -586,6 +582,7 @@
       font-size: 1rem;
       border-bottom: 1px solid rgba(6, 32, 55, 0.15);
       padding-bottom: 5px;
+      color: var(--apam-blue);
     }
 
     .footer-column a {
@@ -607,20 +604,10 @@
       margin-top: 18px;
       opacity: 0.7;
       font-size: 0.82rem;
+      color: var(--text-soft);
     }
 
     /* ================== RESPONSIVE ================== */
-
-    @media (max-width: 900px) {
-      main {
-        padding: 0 16px;
-        margin-top: 90px;
-      }
-
-      .pricing-section {
-        grid-template-columns: 1fr;
-      }
-    }
 
     @media (max-width: 768px) {
       header {
@@ -654,8 +641,11 @@
 
       .menu-toggle {
         display: inline-flex;
-        align-items: center;
-        justify-content: center;
+      }
+
+      main {
+        padding: 0 16px;
+        margin-top: 110px;
       }
 
       .social-floating {
@@ -665,17 +655,10 @@
       .footer-content {
         flex-direction: column;
         align-items: flex-start;
-        padding: 16px 18px 14px;
-        gap: 18px;
       }
 
-      .site-footer {
-        padding: 24px 16px 18px;
-        margin-top: 24px;
-      }
-
-      .copyright {
-        margin-top: 12px;
+      .pricing-section {
+        grid-template-columns: 1fr;
       }
     }
   </style>
@@ -685,10 +668,12 @@
   <header>
     <img src="apam-logo.png" alt="Logo APAM" class="logo" />
 
-    <!-- Bouton menu mobile -->
-    <button class="menu-toggle" aria-label="Ouvrir le menu">Menu</button>
+    <button class="menu-toggle" aria-label="Ouvrir le menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
 
-    <!-- Menu principal -->
     <nav class="main-nav">
       <a href="index.html">Accueil</a>
       <a href="#">À propos</a>
@@ -720,7 +705,7 @@
     </section>
 
     <!-- FORMATION PILOTE PRIVÉ -->
-    <section class="section-card activity-section reveal">
+    <section class="section-card activity-section reveal reveal-delay-1">
       <h2>
         <span class="section-chip">Formation</span>
         <span class="section-emoji">🎓</span>
@@ -732,7 +717,7 @@
       </p>
 
       <div class="activity-grid">
-        <article class="activity-card reveal">
+        <article class="activity-card">
           <div class="activity-card-header">
             <div class="activity-card-emoji-wrap">
               <span class="activity-card-emoji">🛩️</span>
@@ -751,7 +736,7 @@
           <span class="activity-highlight">Parfait pour commencer sereinement</span>
         </article>
 
-        <article class="activity-card reveal">
+        <article class="activity-card">
           <div class="activity-card-header">
             <div class="activity-card-emoji-wrap">
               <span class="activity-card-emoji">📘</span>
@@ -770,7 +755,7 @@
           <span class="activity-highlight">La référence des licences de loisir</span>
         </article>
 
-        <article class="activity-card reveal">
+        <article class="activity-card">
           <div class="activity-card-header">
             <div class="activity-card-emoji-wrap">
               <span class="activity-card-emoji">🌙</span>
@@ -792,7 +777,7 @@
     </section>
 
     <!-- FORMATIONS COMPLÉMENTAIRES -->
-    <section class="section-card activity-section reveal">
+    <section class="section-card activity-section reveal reveal-delay-1">
       <h2>
         <span class="section-chip">Perfectionnement</span>
         <span class="section-emoji">⚙️</span>
@@ -804,7 +789,7 @@
       </p>
 
       <div class="activity-grid">
-        <article class="activity-card reveal">
+        <article class="activity-card">
           <div class="activity-card-header">
             <div class="activity-card-emoji-wrap">
               <span class="activity-card-emoji">🧰</span>
@@ -822,7 +807,7 @@
           </ul>
         </article>
 
-        <article class="activity-card reveal">
+        <article class="activity-card">
           <div class="activity-card-header">
             <div class="activity-card-emoji-wrap">
               <span class="activity-card-emoji">🖥️</span>
@@ -843,7 +828,7 @@
     </section>
 
     <!-- DÉCOUVERTE & VIE DU CLUB -->
-    <section class="section-card activity-section reveal">
+    <section class="section-card activity-section reveal reveal-delay-1">
       <h2>
         <span class="section-chip">Découverte</span>
         <span class="section-emoji">🤝</span>
@@ -855,7 +840,7 @@
       </p>
 
       <div class="activity-grid">
-        <article class="activity-card reveal">
+        <article class="activity-card">
           <div class="activity-card-header">
             <div class="activity-card-emoji-wrap">
               <span class="activity-card-emoji">👨‍✈️</span>
@@ -873,7 +858,7 @@
           </ul>
         </article>
 
-        <article class="activity-card reveal">
+        <article class="activity-card">
           <div class="activity-card-header">
             <div class="activity-card-emoji-wrap">
               <span class="activity-card-emoji">🧭</span>
@@ -891,7 +876,7 @@
           </ul>
         </article>
 
-        <article class="activity-card reveal">
+        <article class="activity-card">
           <div class="activity-card-header">
             <div class="activity-card-emoji-wrap">
               <span class="activity-card-emoji">🔥</span>
@@ -924,27 +909,27 @@
       </p>
 
       <div class="fleet-grid">
-        <article class="fleet-card reveal" data-target="cessna-152">
+        <article class="fleet-card">
           <div class="fleet-role">Avion école biplace</div>
-          <h3>Cessna 152</h3>
+          <h3><a href="flotte.html">Cessna 152</a></h3>
           <p>
             Avion robuste et pédagogique, utilisé principalement pour l’instruction de base et les
             premiers solos. Parfait pour apprendre les fondamentaux du pilotage.
           </p>
         </article>
 
-        <article class="fleet-card reveal" data-target="cirrus-sr20">
+        <article class="fleet-card">
           <div class="fleet-role">Voyage 4 places</div>
-          <h3>Cirrus SR20</h3>
+          <h3><a href="flotte.html">Cirrus SR20</a></h3>
           <p>
             Avion moderne, confortable et équipé d’une avionique avancée, idéal pour les
             navigations de distance et les vols club.
           </p>
         </article>
 
-        <article class="fleet-card reveal" data-target="tb200">
+        <article class="fleet-card">
           <div class="fleet-role">Voyage 4 places</div>
-          <h3>SOCATA TB200</h3>
+          <h3><a href="flotte.html">SOCATA TB200</a></h3>
           <p>
             Avion de voyage polyvalent, utilisé pour les navigations en groupe, les voyages club et
             la formation à l’hélice à pas variable.
@@ -954,7 +939,7 @@
     </section>
 
     <!-- TARIFS & QUESTIONS FRÉQUENTES -->
-    <section class="section-card reveal">
+    <section class="section-card reveal reveal-delay-1">
       <div class="pricing-wrapper-title">
         <span class="section-chip">Infos pratiques</span>
         <span class="section-emoji">💶</span>
@@ -962,7 +947,7 @@
       </div>
 
       <div class="pricing-section">
-        <div class="pricing-block reveal">
+        <div class="pricing-block">
           <h2>Tarifs & inscription</h2>
           <p>
             Les tarifs de location des avions et les cotisations sont mis à jour régulièrement par
@@ -981,7 +966,7 @@
           <a href="#" class="pricing-link">Consulter la page Tarifs</a>
         </div>
 
-        <div class="pricing-block faq-block reveal">
+        <div class="pricing-block faq-block">
           <h3>Questions fréquentes</h3>
 
           <div class="faq-item">
@@ -1024,19 +1009,28 @@
   <!-- ============ RÉSEAUX FLOTTANTS ============ -->
   <div class="social-floating">
     <a href="https://www.instagram.com/_cauvin_" target="_blank" aria-label="Instagram">
-      <img src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/instagram.svg" alt="Instagram" />
+      <img
+        src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/instagram.svg"
+        alt="Instagram"
+      />
     </a>
     <a href="https://www.youtube.com/@DRONORD18" target="_blank" aria-label="YouTube">
-      <img src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/youtube.svg" alt="YouTube" />
+      <img
+        src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/youtube.svg"
+        alt="YouTube"
+      />
     </a>
     <a href="https://www.tiktok.com/@toncompte" target="_blank" aria-label="TikTok">
-      <img src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/tiktok.svg" alt="TikTok" />
+      <img
+        src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/tiktok.svg"
+        alt="TikTok"
+      />
     </a>
   </div>
 
   <!-- ============ FOOTER ============ -->
   <footer class="site-footer">
-    <div class="footer-content reveal">
+    <div class="footer-content">
       <div class="footer-brand">
         <img src="apam-logo.png" alt="Logo APAM" class="footer-logo" />
         <p>
@@ -1069,9 +1063,8 @@
     </p>
   </footer>
 
-  <!-- ============ SCRIPTS ============ -->
+  <!-- ============ SCRIPT MENU + REVEAL ============ -->
   <script>
-    // Menu mobile
     const menuToggle = document.querySelector(".menu-toggle");
     const nav = document.querySelector(".main-nav");
 
@@ -1079,34 +1072,19 @@
       nav.classList.toggle("open");
     });
 
-    // Animations scroll (même logique que sur l'index)
     const observer = new IntersectionObserver(
-      (entries, obs) => {
-        entries.forEach(entry => {
+      (entries) => {
+        entries.forEach((entry) => {
           if (entry.isIntersecting) {
             entry.target.classList.add("reveal-visible");
-            obs.unobserve(entry.target);
+            observer.unobserve(entry.target);
           }
         });
       },
-      {
-        threshold: 0.18
-      }
+      { threshold: 0.1 }
     );
 
-    document.querySelectorAll(".reveal").forEach(el => {
-      observer.observe(el);
-    });
-
-    // Cartes flotte cliquables -> flotte.html#ancre
-    document.querySelectorAll(".fleet-card").forEach(card => {
-      const target = card.dataset.target;
-      if (target) {
-        card.addEventListener("click", () => {
-          window.location.href = "flotte.html#" + target;
-        });
-      }
-    });
+    document.querySelectorAll(".reveal").forEach((el) => observer.observe(el));
   </script>
 </body>
 </html>
