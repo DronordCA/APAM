@@ -8,6 +8,8 @@
     body {
       margin: 0;
       font-family: Arial, sans-serif;
+      background: #eef2f8;
+      color: #062037;
     }
 
     /* HEADER + MENU */
@@ -98,13 +100,13 @@
       content: "";
       position: absolute;
       inset: 0;
-      background: linear-gradient(to bottom, rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.5));
-      opacity: 0.6;
+      background: linear-gradient(to bottom, rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.55));
+      opacity: 0.7;
       transition: opacity 0.3s ease;
     }
 
     .hero:hover::before {
-      opacity: 0.85;
+      opacity: 0.9;
     }
 
     .hero-content {
@@ -114,14 +116,37 @@
     }
 
     .hero-title {
-      font-size: 2.2rem;
+      font-size: 2.4rem;
       margin-bottom: 0.75rem;
     }
 
     .hero-subtitle {
-      font-size: 1rem;
+      font-size: 1.05rem;
       margin-bottom: 1.5rem;
       opacity: 0.9;
+      max-width: 650px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .hero-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 999px;
+      padding: 4px 10px;
+      margin-bottom: 10px;
+    }
+
+    .hero-tag-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      background: #ffdd57;
     }
 
     .hero-button {
@@ -154,17 +179,50 @@
       color: #062037;
     }
 
-    /* INTRO */
+    /* WRAPPER PRINCIPAL */
 
-    .intro {
-      max-width: 900px;
-      margin: 40px auto 10px;
-      padding: 0 30px;
-      text-align: center;
+    main {
+      max-width: 1100px;
+      margin: 30px auto 60px;
+      padding: 0 20px;
+    }
+
+    /* SECTION-CARD GÉNÉRIQUE */
+
+    .section-card {
+      background: #ffffff;
+      border-radius: 18px;
+      border: 1px solid #d5dfec;
+      box-shadow: 0 12px 30px rgba(7, 31, 56, 0.07);
+      padding: 22px 22px 24px;
+      margin-bottom: 24px;
+    }
+
+    /* INTRO / PRESENTATION */
+
+    .home-intro-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      background: #e4ecff;
+      color: #1f3b63;
+      padding: 4px 10px;
+      border-radius: 999px;
+      margin-bottom: 10px;
+    }
+
+    .home-intro-tag-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      background: #1f3b63;
     }
 
     .intro h2 {
-      font-size: 1.8rem;
+      font-size: 1.9rem;
       margin-bottom: 0.5rem;
       color: #062037;
     }
@@ -172,16 +230,93 @@
     .intro p {
       color: #555;
       font-size: 1rem;
+      line-height: 1.6;
+      margin-bottom: 10px;
+      max-width: 800px;
+    }
+
+    .intro-highlight {
+      font-size: 0.9rem;
+      color: #1f3b63;
+      background: #e4ecff;
+      padding: 4px 10px;
+      border-radius: 999px;
+      display: inline-block;
+      margin-top: 6px;
+    }
+
+    .intro-keypoints {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-top: 16px;
+    }
+
+    .intro-keypoint {
+      font-size: 0.9rem;
+      background: #f7f9fc;
+      border-radius: 999px;
+      padding: 6px 12px;
+      border: 1px solid #d5dfec;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: #062037;
+    }
+
+    .intro-keypoint span.emoji {
+      font-size: 1rem;
+    }
+
+    /* BLOCS "DÉCOUVRIR LE CLUB" */
+
+    .home-block-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 8px;
+    }
+
+    .home-block-title {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .home-block-title h3 {
+      margin: 0;
+      font-size: 1.4rem;
+      color: #062037;
+    }
+
+    .home-block-title span.emoji {
+      font-size: 1.4rem;
+    }
+
+    .home-block-subtitle {
+      margin: 0;
+      font-size: 0.9rem;
+      color: #667;
+    }
+
+    .home-badge {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      background: #062037;
+      color: #fff;
+      border-radius: 999px;
+      padding: 3px 9px;
+      white-space: nowrap;
     }
 
     /* CARDS */
 
     .cards {
-      max-width: 1100px;
-      margin: 20px auto 60px;
-      padding: 0 30px;
+      margin-top: 14px;
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
       gap: 20px;
     }
 
@@ -204,7 +339,7 @@
 
     .card img {
       width: 100%;
-      height: 200px;
+      height: 210px;
       object-fit: cover;
       display: block;
       transition: transform 0.4s ease;
@@ -217,12 +352,12 @@
     .card-label {
       position: absolute;
       inset: 0;
-      background: linear-gradient(to top, rgba(6, 32, 55, 0.9), rgba(6, 32, 55, 0.1));
+      background: linear-gradient(to top, rgba(6, 32, 55, 0.95), rgba(6, 32, 55, 0.15));
       color: #fff;
       display: flex;
       align-items: flex-end;
       justify-content: center;
-      padding-bottom: 18px;
+      padding-bottom: 16px;
       font-weight: 700;
       letter-spacing: 0.08em;
       opacity: 0;
@@ -282,7 +417,7 @@
       background: #062037;
       color: #fff;
       padding: 40px 20px 20px;
-      margin-top: 60px;
+      margin-top: 40px;
     }
 
     .footer-content {
@@ -369,15 +504,19 @@
       }
 
       .hero-title {
-        font-size: 1.6rem;
+        font-size: 1.9rem;
       }
 
       .hero-subtitle {
-        font-size: 0.9rem;
+        font-size: 0.95rem;
+      }
+
+      main {
+        padding: 0 16px;
       }
 
       .cards {
-        padding: 0 20px;
+        grid-template-columns: 1fr;
       }
 
       .social-floating {
@@ -389,7 +528,6 @@
         align-items: flex-start;
       }
 
-      /* Quand le menu est ouvert */
       .main-nav.open {
         display: flex;
       }
@@ -409,7 +547,7 @@
 
     <!-- Menu principal -->
     <nav class="main-nav">
-      <a href="#">Accueil</a>
+      <a href="index.html">Accueil</a>
       <a href="#">À propos</a>
       <a href="activite.html">Activité</a>
       <a href="#">Tarif</a>
@@ -419,54 +557,109 @@
     </nav>
   </header>
 
+  <!-- HERO AVEC PHOTO -->
   <div class="hero">
     <div class="hero-content">
+      <div class="hero-tag">
+        <span class="hero-tag-dot"></span>
+        <span>Aéroclub associatif</span>
+      </div>
       <h1 class="hero-title">Aéroclub APAM L’Aigle Saint-Michel</h1>
       <p class="hero-subtitle">
-        Vols, formation et convivialité sur l’aérodrome de L’Aigle Saint-Michel.
+        Vols, formation et convivialité sur l’aérodrome de L’Aigle Saint-Michel : une communauté
+        de passionnés, des avions entretenus avec soin et une ambiance chaleureuse au club-house.
       </p>
-      <a href="#" class="hero-button">Découvrir le club</a>
+      <a href="activite.html" class="hero-button">Découvrir le club</a>
     </div>
   </div>
 
-  <section class="intro">
-    <h2>Bienvenue à l’APAM</h2>
-    <p>
-      L’APAM est un aéroclub dédié aux passionnés d’aviation légère. Nous proposons de la
-      formation, des vols découverte et un cadre convivial pour partager la passion du vol.
-      (Texte générique que tu pourras modifier.)
-    </p>
-  </section>
+  <main>
+    <!-- CARD DE PRESENTATION -->
+    <section class="section-card intro">
+      <div class="home-intro-tag">
+        <span class="home-intro-tag-dot"></span>
+        <span>Bienvenue à l’APAM</span>
+      </div>
+      <h2>Un aéroclub pour apprendre, partager et voyager</h2>
+      <p>
+        L’APAM est un aéroclub dédié à l’aviation de loisir. Que vous soyez élève pilote,
+        pilote breveté ou simplement curieux de découvrir le vol, notre équipe d’instructeurs et de bénévoles
+        vous accompagne dans votre parcours.
+      </p>
+      <p>
+        Au programme : formation PPL ou LAPL, vols locaux, navigation en campagne, voyages à plusieurs avions,
+        et une vraie vie de club autour du café au retour de vol.
+      </p>
+      <span class="intro-highlight">
+        Basé à L’Aigle Saint-Michel, au cœur de la Normandie.
+      </span>
 
-  <section class="cards">
-    <a href="flotte.html" class="card">
-      <img src="https://picsum.photos/400/250?random=1" alt="Notre flotte" />
-      <div class="card-label">
-        <div class="card-label-inner">
-          <span class="card-label-icon">✈️</span>
-          <span>Notre flotte</span>
+      <div class="intro-keypoints">
+        <div class="intro-keypoint">
+          <span class="emoji">✈️</span>
+          <span>Une flotte entretenue et équipée</span>
+        </div>
+        <div class="intro-keypoint">
+          <span class="emoji">🎓</span>
+          <span>Formation encadrée par des instructeurs FI</span>
+        </div>
+        <div class="intro-keypoint">
+          <span class="emoji">🧭</span>
+          <span>Voyages et sorties club réguliers</span>
+        </div>
+        <div class="intro-keypoint">
+          <span class="emoji">🤝</span>
+          <span>Ambiance conviviale et accessible</span>
         </div>
       </div>
-    </a>
-    <a href="localisation.html" class="card">
-      <img src="https://picsum.photos/400/250?random=2" alt="Où nous trouver" />
-      <div class="card-label">
-        <div class="card-label-inner">
-          <span class="card-label-icon">📍</span>
-          <span>Où nous trouver</span>
+    </section>
+
+    <!-- SECTION "DÉCOUVRIR LE CLUB" + CARTES -->
+    <section class="section-card">
+      <div class="home-block-header">
+        <div class="home-block-title">
+          <span class="emoji">🔍</span>
+          <h3>Découvrir l’aéroclub</h3>
         </div>
+        <span class="home-badge">En un coup d’œil</span>
       </div>
-    </a>
-    <a href="installations.html" class="card">
-      <img src="https://picsum.photos/400/250?random=3" alt="Nos installations" />
-      <div class="card-label">
-        <div class="card-label-inner">
-          <span class="card-label-icon">🏠</span>
-          <span>Nos installations</span>
-        </div>
+      <p class="home-block-subtitle">
+        Quelques portes d’entrée pour mieux connaître l’APAM : flotte, terrain et installations.
+      </p>
+
+      <div class="cards">
+        <a href="flotte.html" class="card">
+          <img src="https://picsum.photos/400/250?random=21" alt="Notre flotte" />
+          <div class="card-label">
+            <div class="card-label-inner">
+              <span class="card-label-icon">✈️</span>
+              <span>Notre flotte</span>
+            </div>
+          </div>
+        </a>
+
+        <a href="localisation.html" class="card">
+          <img src="https://picsum.photos/400/250?random=22" alt="Où nous trouver" />
+          <div class="card-label">
+            <div class="card-label-inner">
+              <span class="card-label-icon">📍</span>
+              <span>Où nous trouver</span>
+            </div>
+          </div>
+        </a>
+
+        <a href="installations.html" class="card">
+          <img src="https://picsum.photos/400/250?random=23" alt="Nos installations" />
+          <div class="card-label">
+            <div class="card-label-inner">
+              <span class="card-label-icon">🏠</span>
+              <span>Nos installations</span>
+            </div>
+          </div>
+        </a>
       </div>
-    </a>
-  </section>
+    </section>
+  </main>
 
   <!-- Icônes réseaux sociaux flottantes -->
   <div class="social-floating">
@@ -491,7 +684,7 @@
 
       <div class="footer-column">
         <h4>Plan du site</h4>
-        <a href="#">Accueil</a>
+        <a href="index.html">Accueil</a>
         <a href="#">À propos</a>
         <a href="activite.html">Activité</a>
         <a href="#">Tarif</a>
