@@ -3,384 +3,511 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>APAM</title>
+  <title>APAM – Aéroclub L’Aigle Saint-Michel</title>
   <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #eef2f8;
-      color: #062037;
+    /* ================== BASE ================== */
+
+    :root {
+      --apam-blue-dark: #031023;
+      --apam-blue: #062037;
+      --apam-blue-soft: #1b3658;
+      --glass-bg: rgba(255, 255, 255, 0.09);
+      --glass-border: rgba(255, 255, 255, 0.22);
+      --glass-shadow: 0 18px 45px rgba(0, 0, 0, 0.35);
+      --text-main: #f7f8ff;
+      --text-soft: #c6d0ea;
+      --accent: #4aa3ff;
     }
 
-    /* HEADER + MENU */
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+        sans-serif;
+      color: var(--text-main);
+      background:
+        radial-gradient(circle at 0% 0%, #123d70 0, transparent 50%),
+        radial-gradient(circle at 100% 0%, #274682 0, transparent 55%),
+        radial-gradient(circle at 50% 100%, #07152b 0, #020714 60%, #000 100%);
+      min-height: 100vh;
+    }
+
+    a {
+      color: inherit;
+    }
+
+    /* ================== HEADER + MENU ================== */
 
     header {
-      background: white;
-      padding: 10px 30px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      padding: 10px 26px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      border-bottom: 1px solid #ddd;
-      position: relative;
-      z-index: 100;
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      background: linear-gradient(
+        to bottom,
+        rgba(3, 10, 25, 0.85),
+        rgba(3, 10, 25, 0.6),
+        rgba(3, 10, 25, 0.2)
+      );
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
     }
 
     .logo {
-      height: 60px;
+      height: 56px;
     }
 
     .main-nav {
       display: flex;
       align-items: center;
+      gap: 10px;
     }
 
     .main-nav a {
-      margin-left: 25px;
       text-decoration: none;
-      color: #062037;
-      font-weight: 700;
-      position: relative;
-      padding-bottom: 4px;
-      transition: color 0.2s ease;
-    }
+      color: var(--text-main);
+      font-weight: 600;
+      font-size: 0.92rem;
+      padding: 7px 16px;
+      border-radius: 999px;
 
-    .main-nav a::after {
-      content: "";
-      position: absolute;
-      left: 0;
-      bottom: 0;
-      width: 0;
-      height: 2px;
-      background: #062037;
-      transition: width 0.2s ease;
+      background: transparent;
+      border: 1px solid transparent;
+
+      transition:
+        color 0.18s ease,
+        background 0.25s ease,
+        box-shadow 0.25s ease,
+        border-color 0.2s ease,
+        transform 0.18s ease;
     }
 
     .main-nav a:hover {
-      color: #000;
+      color: #ffffff;
+      background: rgba(255, 255, 255, 0.14);
+      border-color: rgba(255, 255, 255, 0.3);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.28);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      transform: translateY(-1px);
     }
 
-    .main-nav a:hover::after {
-      width: 100%;
+    /* Accueil actif */
+    .main-nav a.active {
+      background: rgba(255, 255, 255, 0.16);
+      border-color: rgba(255, 255, 255, 0.4);
+      box-shadow: 0 14px 32px rgba(0, 0, 0, 0.35);
     }
 
     /* Bouton menu mobile (hamburger) */
 
     .menu-toggle {
-      display: none; /* caché sur desktop */
-      background: none;
-      border: none;
+      display: none;
+      background: rgba(3, 16, 35, 0.75);
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
       cursor: pointer;
-      padding: 8px;
+      padding: 7px 10px;
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
     }
 
     .menu-toggle span {
       display: block;
-      width: 22px;
+      width: 18px;
       height: 2px;
-      background: #062037;
-      margin: 4px 0;
+      background: #ffffff;
+      margin: 3px 0;
+      border-radius: 999px;
       transition: transform 0.2s ease, opacity 0.2s ease;
     }
 
-    /* HERO */
+    /* ================== HERO ================== */
 
     .hero {
       width: 100%;
-      height: 500px; /* desktop */
-      background: url('Rallye-CDAO-01.jpg') top/cover no-repeat;
+      height: 520px;
+      background: url("Rallye-CDAO-01.jpg") center/cover no-repeat;
+      position: relative;
       display: flex;
       align-items: center;
       justify-content: center;
-      position: relative;
+      padding: 40px 20px;
       color: #fff;
-      text-align: center;
     }
 
     .hero::before {
       content: "";
       position: absolute;
       inset: 0;
-      background: linear-gradient(to bottom, rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.55));
-      opacity: 0.7;
-      transition: opacity 0.3s ease;
+      background: radial-gradient(
+          circle at 20% 0%,
+          rgba(0, 0, 0, 0.5),
+          transparent 60%
+        ),
+        linear-gradient(to bottom, rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.75));
     }
 
-    .hero:hover::before {
-      opacity: 0.9;
-    }
-
-    .hero-content {
+    .hero-inner {
       position: relative;
+      max-width: 1000px;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      gap: 28px;
+      flex-wrap: wrap;
       z-index: 1;
-      padding: 0 20px;
+    }
+
+    /* Carte glass principale */
+
+    .hero-card {
+      flex: 1 1 320px;
+      background: var(--glass-bg);
+      border-radius: 26px;
+      border: 1px solid var(--glass-border);
+      box-shadow: var(--glass-shadow);
+      backdrop-filter: blur(26px);
+      -webkit-backdrop-filter: blur(26px);
+      padding: 22px 24px 22px;
+    }
+
+    .hero-eyebrow {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      color: var(--text-soft);
+      margin-bottom: 4px;
     }
 
     .hero-title {
-      font-size: 2.4rem;
-      margin-bottom: 0.75rem;
+      font-size: 2.1rem;
+      line-height: 1.15;
+      margin: 0 0 8px;
+    }
+
+    .hero-highlight {
+      color: #91c4ff;
+      font-weight: 650;
     }
 
     .hero-subtitle {
-      font-size: 1.05rem;
-      margin-bottom: 1.5rem;
-      opacity: 0.9;
-      max-width: 650px;
-      margin-left: auto;
-      margin-right: auto;
+      margin: 0 0 16px;
+      font-size: 0.98rem;
+      color: var(--text-soft);
+      line-height: 1.6;
+    }
+
+    .hero-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 18px;
     }
 
     .hero-tag {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      font-size: 0.75rem;
-      text-transform: uppercase;
-      letter-spacing: 0.12em;
-      background: rgba(255, 255, 255, 0.1);
+      font-size: 0.78rem;
+      padding: 5px 12px;
       border-radius: 999px;
-      padding: 4px 10px;
-      margin-bottom: 10px;
+      background: rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      color: #f5f8ff;
     }
 
-    .hero-tag-dot {
-      width: 6px;
-      height: 6px;
-      border-radius: 999px;
-      background: #ffdd57;
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
     }
 
     .hero-button {
-      display: inline-block;
-      padding: 10px 24px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 9px 20px;
       border-radius: 999px;
-      border: 2px solid #fff;
-      background: #062037;
-      color: #fff;
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      background: linear-gradient(
+        135deg,
+        rgba(139, 199, 255, 0.9),
+        rgba(70, 140, 255, 0.9)
+      );
+      color: #02101f;
       text-decoration: none;
       font-weight: 600;
-      font-size: 0.95rem;
-      letter-spacing: 0.03em;
-      opacity: 0;
-      transform: translateY(8px);
+      font-size: 0.9rem;
+      box-shadow: 0 16px 38px rgba(0, 0, 0, 0.45);
+      cursor: pointer;
       transition:
-        opacity 0.3s ease,
-        transform 0.3s ease,
-        background 0.2s ease,
-        color 0.2s ease;
+        transform 0.18s ease,
+        box-shadow 0.18s ease,
+        background 0.2s ease;
     }
 
-    .hero:hover .hero-button {
-      opacity: 1;
-      transform: translateY(0);
+    .hero-button span.icon {
+      font-size: 1rem;
     }
 
     .hero-button:hover {
-      background: #fff;
-      color: #062037;
+      transform: translateY(-1px);
+      box-shadow: 0 20px 45px rgba(0, 0, 0, 0.55);
+      background: linear-gradient(
+        135deg,
+        rgba(165, 210, 255, 1),
+        rgba(100, 160, 255, 1)
+      );
     }
 
-    /* WRAPPER PRINCIPAL */
+    .hero-secondary {
+      font-size: 0.82rem;
+      color: var(--text-soft);
+    }
+
+    .hero-secondary span {
+      opacity: 0.8;
+    }
+
+    /* Petit bloc “stats” à droite */
+
+    .hero-stats {
+      flex: 0 1 270px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .hero-stat-card {
+      background: rgba(3, 10, 30, 0.68);
+      border-radius: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      box-shadow: 0 14px 34px rgba(0, 0, 0, 0.45);
+      padding: 12px 16px 13px;
+      backdrop-filter: blur(22px);
+      -webkit-backdrop-filter: blur(22px);
+      font-size: 0.86rem;
+    }
+
+    .hero-stat-label {
+      color: var(--text-soft);
+      font-size: 0.78rem;
+      margin-bottom: 4px;
+    }
+
+    .hero-stat-main {
+      font-weight: 600;
+      font-size: 0.95rem;
+    }
+
+    .hero-stat-sub {
+      font-size: 0.75rem;
+      color: #9fb3d6;
+    }
+
+    /* ================== CONTENU PRINCIPAL ================== */
 
     main {
-      max-width: 1100px;
-      margin: 30px auto 60px;
-      padding: 0 20px;
+      padding: 40px 20px 60px;
     }
 
-    /* SECTION-CARD GÉNÉRIQUE */
-
-    .section-card {
-      background: #ffffff;
-      border-radius: 18px;
-      border: 1px solid #d5dfec;
-      box-shadow: 0 12px 30px rgba(7, 31, 56, 0.07);
-      padding: 22px 22px 24px;
-      margin-bottom: 24px;
+    .intro {
+      max-width: 900px;
+      margin: 0 auto 28px;
+      text-align: center;
+      color: var(--text-soft);
     }
 
-    /* INTRO / PRESENTATION */
-
-    .home-intro-tag {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      font-size: 0.75rem;
-      text-transform: uppercase;
-      letter-spacing: 0.12em;
-      background: #e4ecff;
-      color: #1f3b63;
-      padding: 4px 10px;
-      border-radius: 999px;
-      margin-bottom: 10px;
-    }
-
-    .home-intro-tag-dot {
-      width: 6px;
-      height: 6px;
-      border-radius: 999px;
-      background: #1f3b63;
-    }
-
-    .intro h2 {
-      font-size: 1.9rem;
-      margin-bottom: 0.5rem;
-      color: #062037;
+    .intro-title {
+      font-size: 1.8rem;
+      margin-bottom: 8px;
+      color: #fdfdff;
     }
 
     .intro p {
-      color: #555;
-      font-size: 1rem;
-      line-height: 1.6;
-      margin-bottom: 10px;
-      max-width: 800px;
-    }
-
-    .intro-highlight {
-      font-size: 0.9rem;
-      color: #1f3b63;
-      background: #e4ecff;
-      padding: 4px 10px;
-      border-radius: 999px;
-      display: inline-block;
-      margin-top: 6px;
-    }
-
-    .intro-keypoints {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 14px;
-      margin-top: 16px;
-    }
-
-    .intro-keypoint {
-      font-size: 0.9rem;
-      background: #f7f9fc;
-      border-radius: 999px;
-      padding: 6px 12px;
-      border: 1px solid #d5dfec;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      color: #062037;
-    }
-
-    .intro-keypoint span.emoji {
-      font-size: 1rem;
-    }
-
-    /* BLOCS "DÉCOUVRIR LE CLUB" */
-
-    .home-block-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 8px;
-    }
-
-    .home-block-title {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .home-block-title h3 {
       margin: 0;
-      font-size: 1.4rem;
-      color: #062037;
+      line-height: 1.7;
+      font-size: 0.98rem;
     }
 
-    .home-block-title span.emoji {
-      font-size: 1.4rem;
-    }
+    /* Section "capsules" de mise en avant */
 
-    .home-block-subtitle {
-      margin: 0;
-      font-size: 0.9rem;
-      color: #667;
-    }
-
-    .home-badge {
-      font-size: 0.75rem;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      background: #062037;
-      color: #fff;
-      border-radius: 999px;
-      padding: 3px 9px;
-      white-space: nowrap;
-    }
-
-    /* CARDS */
-
-    .cards {
-      margin-top: 14px;
+    .pill-section {
+      max-width: 1100px;
+      margin: 0 auto 32px;
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 20px;
+      gap: 16px;
+    }
+
+    .pill-card {
+      background: var(--glass-bg);
+      border-radius: 22px;
+      border: 1px solid var(--glass-border);
+      box-shadow: var(--glass-shadow);
+      backdrop-filter: blur(22px);
+      -webkit-backdrop-filter: blur(22px);
+      padding: 14px 16px 16px;
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 0.9rem;
+      color: var(--text-soft);
+    }
+
+    .pill-icon {
+      width: 28px;
+      height: 28px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.15);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+    }
+
+    .pill-title {
+      font-size: 0.95rem;
+      color: #fdfdff;
+      font-weight: 600;
+      margin-bottom: 2px;
+    }
+
+    /* ================== CARDS “DÉCOUVERTE” ================== */
+
+    .cards-section {
+      max-width: 1100px;
+      margin: 0 auto 40px;
+    }
+
+    .cards-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 16px;
+      margin-bottom: 14px;
+    }
+
+    .cards-header h2 {
+      margin: 0;
+      font-size: 1.4rem;
+      color: #fdfdff;
+    }
+
+    .cards-header p {
+      margin: 0;
+      font-size: 0.9rem;
+      color: var(--text-soft);
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 18px;
     }
 
     .card {
       position: relative;
+      border-radius: 22px;
       overflow: hidden;
-      border-radius: 16px;
-      background: #ddd;
       cursor: pointer;
       text-decoration: none;
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
-      transform: translateY(0);
-      transition: transform 0.25s ease, box-shadow 0.25s ease;
+      color: inherit;
+
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      box-shadow: var(--glass-shadow);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+
+      display: flex;
+      flex-direction: column;
+      min-height: 220px;
+
+      transition:
+        transform 0.24s ease,
+        box-shadow 0.24s ease,
+        border-color 0.24s ease;
     }
 
     .card:hover {
       transform: translateY(-4px);
-      box-shadow: 0 16px 35px rgba(0, 0, 0, 0.18);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.55);
+      border-color: rgba(255, 255, 255, 0.45);
+    }
+
+    .card-img-wrap {
+      position: relative;
+      height: 170px;
+      overflow: hidden;
     }
 
     .card img {
       width: 100%;
-      height: 210px;
+      height: 100%;
       object-fit: cover;
       display: block;
-      transition: transform 0.4s ease;
+      filter: saturate(1.05);
+      transition: transform 0.45s ease, filter 0.3s ease;
     }
 
     .card:hover img {
-      transform: scale(1.05);
+      transform: scale(1.06);
+      filter: saturate(1.2);
+    }
+
+    .card-gradient {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        to top,
+        rgba(0, 0, 0, 0.65),
+        transparent 55%
+      );
     }
 
     .card-label {
       position: absolute;
-      inset: 0;
-      background: linear-gradient(to top, rgba(6, 32, 55, 0.95), rgba(6, 32, 55, 0.15));
-      color: #fff;
-      display: flex;
-      align-items: flex-end;
-      justify-content: center;
-      padding-bottom: 16px;
-      font-weight: 700;
-      letter-spacing: 0.08em;
-      opacity: 0;
-      transition: opacity 0.25s ease;
-      text-transform: uppercase;
-    }
-
-    .card:hover .card-label {
-      opacity: 1;
-    }
-
-    .card-label-inner {
-      display: flex;
+      left: 12px;
+      bottom: 10px;
+      display: inline-flex;
       align-items: center;
       gap: 8px;
-      font-size: 0.85rem;
+      padding: 6px 12px;
+      border-radius: 999px;
+      background: rgba(0, 0, 0, 0.55);
+      color: #ffffff;
+      font-size: 0.8rem;
+      font-weight: 600;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
     }
 
     .card-label-icon {
-      font-size: 1.1rem;
+      font-size: 1rem;
     }
 
-    /* ICÔNES RÉSEAUX FLOTTANTES */
+    .card-body {
+      padding: 12px 14px 13px;
+      font-size: 0.9rem;
+      color: var(--text-soft);
+    }
+
+    .card-body-title {
+      font-size: 0.98rem;
+      color: #fdfdff;
+      margin-bottom: 4px;
+      font-weight: 600;
+    }
+
+    /* ================== ICÔNES RÉSEAUX FLOTTANTES ================== */
 
     .social-floating {
       position: fixed;
@@ -397,7 +524,7 @@
       width: 22px;
       height: 22px;
       display: block;
-      filter: invert(1) brightness(200%); /* icônes blanches */
+      filter: invert(1) brightness(200%);
       opacity: 0.9;
       transition:
         opacity 0.2s ease,
@@ -411,13 +538,14 @@
       transform: translateY(-2px);
     }
 
-    /* FOOTER */
+    /* ================== FOOTER ================== */
 
     .site-footer {
-      background: #062037;
-      color: #fff;
+      background: radial-gradient(circle at 50% 0%, #16305a 0, #020714 65%);
+      color: #ffffff;
       padding: 40px 20px 20px;
       margin-top: 40px;
+      border-top: 1px solid rgba(255, 255, 255, 0.12);
     }
 
     .footer-content {
@@ -429,28 +557,8 @@
       gap: 40px;
     }
 
-    .footer-column h4 {
-      margin-bottom: 12px;
-      font-size: 1.1rem;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.3);
-      padding-bottom: 6px;
-    }
-
-    .footer-column a {
-      display: block;
-      color: #fff;
-      opacity: 0.85;
-      margin-bottom: 6px;
-      text-decoration: none;
-      transition: opacity 0.2s ease;
-    }
-
-    .footer-column a:hover {
-      opacity: 1;
-    }
-
     .footer-brand {
-      max-width: 220px;
+      max-width: 260px;
     }
 
     .footer-logo {
@@ -464,14 +572,51 @@
       opacity: 0.85;
     }
 
-    .copyright {
-      text-align: center;
-      margin-top: 30px;
-      opacity: 0.7;
-      font-size: 0.85rem;
+    .footer-column h4 {
+      margin-bottom: 10px;
+      font-size: 1rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+      padding-bottom: 5px;
     }
 
-    /* RESPONSIVE MOBILE */
+    .footer-column a {
+      display: block;
+      color: #ffffff;
+      opacity: 0.82;
+      margin-bottom: 6px;
+      font-size: 0.9rem;
+      text-decoration: none;
+      transition: opacity 0.2s ease;
+    }
+
+    .footer-column a:hover {
+      opacity: 1;
+    }
+
+    .copyright {
+      text-align: center;
+      margin-top: 26px;
+      opacity: 0.7;
+      font-size: 0.82rem;
+    }
+
+    /* ================== RESPONSIVE ================== */
+
+    @media (max-width: 900px) {
+      .hero {
+        height: auto;
+        padding: 32px 18px 40px;
+      }
+
+      .hero-inner {
+        flex-direction: column;
+      }
+
+      .hero-card,
+      .hero-stats {
+        width: 100%;
+      }
+    }
 
     @media (max-width: 768px) {
       header {
@@ -480,43 +625,40 @@
 
       .main-nav {
         position: absolute;
-        top: 70px;
+        top: 64px;
         right: 16px;
-        background: white;
-        border-radius: 8px;
-        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
-        padding: 12px 16px;
+        left: 16px;
         flex-direction: column;
         align-items: flex-start;
-        display: none; /* masqué par défaut sur mobile */
+        padding: 10px 10px 12px;
+        border-radius: 18px;
+        background: rgba(3, 10, 30, 0.94);
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        box-shadow: 0 18px 40px rgba(0, 0, 0, 0.65);
+        display: none;
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
       }
 
       .main-nav a {
-        margin: 6px 0;
+        margin: 3px 4px;
+        width: 100%;
+      }
+
+      .main-nav.open {
+        display: flex;
       }
 
       .menu-toggle {
-        display: block; /* bouton visible sur mobile */
-      }
-
-      .hero {
-        height: 420px;
+        display: inline-flex;
       }
 
       .hero-title {
-        font-size: 1.9rem;
+        font-size: 1.7rem;
       }
 
-      .hero-subtitle {
-        font-size: 0.95rem;
-      }
-
-      main {
-        padding: 0 16px;
-      }
-
-      .cards {
-        grid-template-columns: 1fr;
+      .intro {
+        padding: 0 8px;
       }
 
       .social-floating {
@@ -527,14 +669,11 @@
         flex-direction: column;
         align-items: flex-start;
       }
-
-      .main-nav.open {
-        display: flex;
-      }
     }
   </style>
 </head>
 <body>
+  <!-- ============ HEADER ============ -->
   <header>
     <img src="apam-logo.png" alt="Logo APAM" class="logo" />
 
@@ -547,7 +686,7 @@
 
     <!-- Menu principal -->
     <nav class="main-nav">
-      <a href="index.html">Accueil</a>
+      <a href="index.html" class="active">Accueil</a>
       <a href="#">À propos</a>
       <a href="activite.html">Activité</a>
       <a href="#">Tarif</a>
@@ -557,129 +696,202 @@
     </nav>
   </header>
 
-  <!-- HERO AVEC PHOTO -->
-  <div class="hero">
-    <div class="hero-content">
-      <div class="hero-tag">
-        <span class="hero-tag-dot"></span>
-        <span>Aéroclub associatif</span>
+  <!-- ============ HERO ============ -->
+  <section class="hero">
+    <div class="hero-inner">
+      <div class="hero-card">
+        <div class="hero-eyebrow">Aéroclub APAM</div>
+        <h1 class="hero-title">
+          L’aéroclub de
+          <span class="hero-highlight">L’Aigle Saint-Michel</span>
+        </h1>
+        <p class="hero-subtitle">
+          Formations, vols découverte et voyages entre passionnés, dans un cadre convivial
+          et professionnel sur la plateforme de L’Aigle Saint-Michel.
+        </p>
+
+        <div class="hero-tags">
+          <span class="hero-tag">Vols découverte</span>
+          <span class="hero-tag">Formation PPL / LAPL</span>
+          <span class="hero-tag">Voyages club</span>
+        </div>
+
+        <div class="hero-actions">
+          <a href="activite.html" class="hero-button">
+            <span class="icon">✈️</span>
+            <span>Découvrir le club</span>
+          </a>
+          <div class="hero-secondary">
+            <span>Ou contactez le club pour en savoir plus.</span>
+          </div>
+        </div>
       </div>
-      <h1 class="hero-title">Aéroclub APAM L’Aigle Saint-Michel</h1>
-      <p class="hero-subtitle">
-        Vols, formation et convivialité sur l’aérodrome de L’Aigle Saint-Michel : une communauté
-        de passionnés, des avions entretenus avec soin et une ambiance chaleureuse au club-house.
-      </p>
-      <a href="activite.html" class="hero-button">Découvrir le club</a>
+
+      <div class="hero-stats">
+        <div class="hero-stat-card">
+          <div class="hero-stat-label">Notre flotte</div>
+          <div class="hero-stat-main">Avions école & voyage</div>
+          <div class="hero-stat-sub">
+            Idéal pour l’instruction, le perfectionnement et les balades aériennes.
+          </div>
+        </div>
+        <div class="hero-stat-card">
+          <div class="hero-stat-label">Activités du club</div>
+          <div class="hero-stat-main">Voyages, rallyes & événements</div>
+          <div class="hero-stat-sub">
+            Une communauté de pilotes pour partager des projets de vols en France et à
+            l’étranger.
+          </div>
+        </div>
+      </div>
     </div>
-  </div>
+  </section>
 
+  <!-- ============ CONTENU ============ -->
   <main>
-    <!-- CARD DE PRESENTATION -->
-    <section class="section-card intro">
-      <div class="home-intro-tag">
-        <span class="home-intro-tag-dot"></span>
-        <span>Bienvenue à l’APAM</span>
-      </div>
-      <h2>Un aéroclub pour apprendre, partager et voyager</h2>
+    <!-- Intro -->
+    <section class="intro">
+      <h2 class="intro-title">Bienvenue à l’APAM</h2>
       <p>
-        L’APAM est un aéroclub dédié à l’aviation de loisir. Que vous soyez élève pilote,
-        pilote breveté ou simplement curieux de découvrir le vol, notre équipe d’instructeurs et de bénévoles
-        vous accompagne dans votre parcours.
+        L’APAM est un aéroclub dédié aux passionnés d’aviation légère. Que vous souhaitiez
+        découvrir le vol, apprendre à piloter ou simplement rejoindre une communauté de
+        pilotes, notre équipe vous accompagne dans un environnement convivial et sécurisé.
       </p>
-      <p>
-        Au programme : formation PPL ou LAPL, vols locaux, navigation en campagne, voyages à plusieurs avions,
-        et une vraie vie de club autour du café au retour de vol.
-      </p>
-      <span class="intro-highlight">
-        Basé à L’Aigle Saint-Michel, au cœur de la Normandie.
-      </span>
-
-      <div class="intro-keypoints">
-        <div class="intro-keypoint">
-          <span class="emoji">✈️</span>
-          <span>Une flotte entretenue et équipée</span>
-        </div>
-        <div class="intro-keypoint">
-          <span class="emoji">🎓</span>
-          <span>Formation encadrée par des instructeurs FI</span>
-        </div>
-        <div class="intro-keypoint">
-          <span class="emoji">🧭</span>
-          <span>Voyages et sorties club réguliers</span>
-        </div>
-        <div class="intro-keypoint">
-          <span class="emoji">🤝</span>
-          <span>Ambiance conviviale et accessible</span>
-        </div>
-      </div>
     </section>
 
-    <!-- SECTION "DÉCOUVRIR LE CLUB" + CARTES -->
-    <section class="section-card">
-      <div class="home-block-header">
-        <div class="home-block-title">
-          <span class="emoji">🔍</span>
-          <h3>Découvrir l’aéroclub</h3>
+    <!-- Petites "capsules" de mise en avant -->
+    <section class="pill-section">
+      <article class="pill-card">
+        <div class="pill-icon">🎓</div>
+        <div>
+          <div class="pill-title">Formation & progression</div>
+          <p>
+            Du premier vol aux navigations, les instructeurs vous guident pas à pas vers
+            l’autonomie.
+          </p>
         </div>
-        <span class="home-badge">En un coup d’œil</span>
+      </article>
+
+      <article class="pill-card">
+        <div class="pill-icon">🌍</div>
+        <div>
+          <div class="pill-title">Voyages & esprit club</div>
+          <p>
+            Sorties à la journée, week-ends et voyages plus lointains organisés avec les
+            membres.
+          </p>
+        </div>
+      </article>
+
+      <article class="pill-card">
+        <div class="pill-icon">🛩️</div>
+        <div>
+          <div class="pill-title">Flotte entretenue</div>
+          <p>
+            Des avions régulièrement suivis et équipés pour une pratique sereine du vol de
+            loisir.
+          </p>
+        </div>
+      </article>
+    </section>
+
+    <!-- Cartes "Notre flotte / Où nous trouver / Nos installations" -->
+    <section class="cards-section">
+      <div class="cards-header">
+        <h2>Découvrir le club</h2>
+        <p>Un aperçu rapide de ce que vous trouverez à l’APAM.</p>
       </div>
-      <p class="home-block-subtitle">
-        Quelques portes d’entrée pour mieux connaître l’APAM : flotte, terrain et installations.
-      </p>
 
       <div class="cards">
+        <!-- Notre flotte -->
         <a href="flotte.html" class="card">
-          <img src="https://picsum.photos/400/250?random=21" alt="Notre flotte" />
-          <div class="card-label">
-            <div class="card-label-inner">
+          <div class="card-img-wrap">
+            <img src="https://picsum.photos/800/500?random=11" alt="Notre flotte" />
+            <div class="card-gradient"></div>
+            <div class="card-label">
               <span class="card-label-icon">✈️</span>
               <span>Notre flotte</span>
             </div>
           </div>
+          <div class="card-body">
+            <div class="card-body-title">Avions école & voyage</div>
+            <p>
+              Découvrez les machines de l’aéroclub, leurs caractéristiques et leur
+              disponibilité.
+            </p>
+          </div>
         </a>
 
+        <!-- Où nous trouver -->
         <a href="localisation.html" class="card">
-          <img src="https://picsum.photos/400/250?random=22" alt="Où nous trouver" />
-          <div class="card-label">
-            <div class="card-label-inner">
+          <div class="card-img-wrap">
+            <img src="https://picsum.photos/800/500?random=12" alt="Où nous trouver" />
+            <div class="card-gradient"></div>
+            <div class="card-label">
               <span class="card-label-icon">📍</span>
               <span>Où nous trouver</span>
             </div>
           </div>
+          <div class="card-body">
+            <div class="card-body-title">Aérodrome de L’Aigle Saint-Michel</div>
+            <p>
+              Coordonnées, plan d’accès et informations pratiques pour venir au club.
+            </p>
+          </div>
         </a>
 
+        <!-- Nos installations -->
         <a href="installations.html" class="card">
-          <img src="https://picsum.photos/400/250?random=23" alt="Nos installations" />
-          <div class="card-label">
-            <div class="card-label-inner">
+          <div class="card-img-wrap">
+            <img src="https://picsum.photos/800/500?random=13" alt="Nos installations" />
+            <div class="card-gradient"></div>
+            <div class="card-label">
               <span class="card-label-icon">🏠</span>
               <span>Nos installations</span>
             </div>
+          </div>
+          <div class="card-body">
+            <div class="card-body-title">Locaux & vie du club</div>
+            <p>
+              Briefing, salle de cours, club-house : découvrez le quotidien de l’APAM.
+            </p>
           </div>
         </a>
       </div>
     </section>
   </main>
 
-  <!-- Icônes réseaux sociaux flottantes -->
+  <!-- ============ RÉSEAUX FLOTTANTS ============ -->
   <div class="social-floating">
     <a href="https://www.instagram.com/_cauvin_" target="_blank" aria-label="Instagram">
-      <img src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/instagram.svg" alt="Instagram" />
+      <img
+        src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/instagram.svg"
+        alt="Instagram"
+      />
     </a>
     <a href="https://www.youtube.com/@DRONORD18" target="_blank" aria-label="YouTube">
-      <img src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/youtube.svg" alt="YouTube" />
+      <img
+        src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/youtube.svg"
+        alt="YouTube"
+      />
     </a>
     <a href="https://www.tiktok.com/@toncompte" target="_blank" aria-label="TikTok">
-      <img src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/tiktok.svg" alt="TikTok" />
+      <img
+        src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/tiktok.svg"
+        alt="TikTok"
+      />
     </a>
   </div>
 
-  <!-- Footer -->
+  <!-- ============ FOOTER ============ -->
   <footer class="site-footer">
     <div class="footer-content">
-      <div class="footer-column footer-brand">
+      <div class="footer-brand">
         <img src="apam-logo.png" alt="Logo APAM" class="footer-logo" />
-        <p>Aéroclub APAM L’Aigle Saint-Michel.</p>
+        <p>
+          Aéroclub APAM L’Aigle Saint-Michel – un cadre convivial pour découvrir, apprendre
+          et partager la passion du vol.
+        </p>
       </div>
 
       <div class="footer-column">
@@ -706,13 +918,13 @@
     </p>
   </footer>
 
-  <!-- Petit script pour le menu mobile -->
+  <!-- ============ SCRIPT MENU MOBILE ============ -->
   <script>
-    const menuToggle = document.querySelector('.menu-toggle');
-    const nav = document.querySelector('.main-nav');
+    const menuToggle = document.querySelector(".menu-toggle");
+    const nav = document.querySelector(".main-nav");
 
-    menuToggle.addEventListener('click', () => {
-      nav.classList.toggle('open');
+    menuToggle.addEventListener("click", () => {
+      nav.classList.toggle("open");
     });
   </script>
 </body>
