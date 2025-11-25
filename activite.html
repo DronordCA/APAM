@@ -39,16 +39,23 @@
     /* ================== HEADER EN PILULE ================== */
 
     header {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      z-index: 100;
-      padding: 10px 0;
-      display: flex;
-      justify-content: center;
-      pointer-events: none; /* pour que seule la pilule soit cliquable */
-      background: transparent;
+  position: fixed;
+  top: 18px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 200;
+  padding: 10px 26px;
+  background: rgba(3, 16, 35, 0.03); /* ultra transparent */
+  backdrop-filter: blur(22px);
+  -webkit-backdrop-filter: blur(22px);
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.45);
+  width: calc(100% - 60px);
+  max-width: 1250px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
     }
 
     .header-shell {
@@ -85,7 +92,7 @@
       text-decoration: none;
       color: var(--apam-blue);
       font-weight: 600;
-      font-size: 0.9rem;
+      font-size: 0.92rem;
       padding: 7px 14px;
       border-radius: 999px;
 
