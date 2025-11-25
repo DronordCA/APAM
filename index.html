@@ -39,7 +39,7 @@
     /* ================== HEADER + MENU ================== */
 
     header {
-      position: fixed;            /* <<< important : fixé en haut */
+      position: fixed;
       top: 0;
       left: 0;
       right: 0;
@@ -71,10 +71,8 @@
       font-size: 0.92rem;
       padding: 7px 16px;
       border-radius: 999px;
-
       background: transparent;
       border: 1px solid transparent;
-
       transition:
         color 0.18s ease,
         background 0.25s ease,
@@ -91,7 +89,6 @@
       transform: translateY(-1px);
     }
 
-    /* Accueil actif */
     .main-nav a.active {
       background: linear-gradient(
         135deg,
@@ -102,8 +99,6 @@
       box-shadow: 0 14px 30px rgba(74, 163, 255, 0.6);
       color: #02101f;
     }
-
-    /* Bouton menu mobile (hamburger) */
 
     .menu-toggle {
       display: none;
@@ -129,7 +124,7 @@
 
     .hero {
       width: 100%;
-      height: 480px;
+      min-height: calc(100vh - 80px); /* occupe quasiment tout l'écran */
       background: url("Rallye-CDAO-01.jpg") center/cover no-repeat;
       position: relative;
       display: flex;
@@ -137,7 +132,7 @@
       justify-content: center;
       padding: 40px 20px;
       color: #fff;
-      margin-top: 0; /* l’image monte bien sous le header */
+      margin-top: 0;
     }
 
     .hero::before {
@@ -161,10 +156,8 @@
       gap: 28px;
       flex-wrap: wrap;
       z-index: 1;
-      margin-top: 40px; /* pour que le contenu ne soit pas caché par le header */
+      margin-top: 40px; /* pour compenser le header fixé */
     }
-
-    /* Carte glass principale */
 
     .hero-card {
       flex: 1 1 320px;
@@ -275,8 +268,6 @@
       opacity: 0.9;
     }
 
-    /* Petit bloc “stats” à droite */
-
     .hero-stats {
       flex: 0 1 270px;
       display: flex;
@@ -316,7 +307,7 @@
 
     main {
       padding: 40px 20px 60px;
-      margin-top: 0; /* le hero gère le décalage du header */
+      margin-top: 0;
     }
 
     .intro {
@@ -337,8 +328,6 @@
       line-height: 1.7;
       font-size: 0.98rem;
     }
-
-    /* Section "capsules" de mise en avant */
 
     .pill-section {
       max-width: 1100px;
@@ -382,8 +371,6 @@
       margin-bottom: 2px;
     }
 
-    /* ================== CARDS “DÉCOUVERTE” ================== */
-
     .cards-section {
       max-width: 1100px;
       margin: 0 auto 40px;
@@ -422,15 +409,12 @@
       cursor: pointer;
       text-decoration: none;
       color: inherit;
-
       background: #ffffff;
       border: 1px solid rgba(10, 40, 80, 0.08);
       box-shadow: 0 10px 26px rgba(0, 0, 0, 0.1);
-
       display: flex;
       flex-direction: column;
       min-height: 220px;
-
       transition:
         transform 0.24s ease,
         box-shadow 0.24s ease,
@@ -602,6 +586,7 @@
 
     @media (max-width: 900px) {
       .hero {
+        min-height: 0;
         height: auto;
         padding: 32px 18px 40px;
       }
@@ -675,14 +660,12 @@
   <header>
     <img src="apam-logo.png" alt="Logo APAM" class="logo" />
 
-    <!-- Bouton menu mobile -->
     <button class="menu-toggle" aria-label="Ouvrir le menu">
       <span></span>
       <span></span>
       <span></span>
     </button>
 
-    <!-- Menu principal -->
     <nav class="main-nav">
       <a href="index.html" class="active">Accueil</a>
       <a href="#">À propos</a>
@@ -747,7 +730,6 @@
 
   <!-- ============ CONTENU ============ -->
   <main>
-    <!-- Intro -->
     <section class="intro">
       <h2 class="intro-title">Bienvenue à l’APAM</h2>
       <p>
@@ -757,7 +739,6 @@
       </p>
     </section>
 
-    <!-- Petites "capsules" de mise en avant -->
     <section class="pill-section">
       <article class="pill-card">
         <div class="pill-icon">🎓</div>
@@ -793,7 +774,6 @@
       </article>
     </section>
 
-    <!-- Cartes "Notre flotte / Où nous trouver / Nos installations" -->
     <section class="cards-section">
       <div class="cards-header">
         <h2>Découvrir le club</h2>
@@ -801,7 +781,6 @@
       </div>
 
       <div class="cards">
-        <!-- Notre flotte -->
         <a href="flotte.html" class="card">
           <div class="card-img-wrap">
             <img src="https://picsum.photos/800/500?random=11" alt="Notre flotte" />
@@ -820,7 +799,6 @@
           </div>
         </a>
 
-        <!-- Où nous trouver -->
         <a href="localisation.html" class="card">
           <div class="card-img-wrap">
             <img src="https://picsum.photos/800/500?random=12" alt="Où nous trouver" />
@@ -838,7 +816,6 @@
           </div>
         </a>
 
-        <!-- Nos installations -->
         <a href="installations.html" class="card">
           <div class="card-img-wrap">
             <img src="https://picsum.photos/800/500?random=13" alt="Nos installations" />
@@ -862,22 +839,13 @@
   <!-- ============ RÉSEAUX FLOTTANTS ============ -->
   <div class="social-floating">
     <a href="https://www.instagram.com/_cauvin_" target="_blank" aria-label="Instagram">
-      <img
-        src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/instagram.svg"
-        alt="Instagram"
-      />
+      <img src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/instagram.svg" alt="Instagram" />
     </a>
     <a href="https://www.youtube.com/@DRONORD18" target="_blank" aria-label="YouTube">
-      <img
-        src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/youtube.svg"
-        alt="YouTube"
-      />
+      <img src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/youtube.svg" alt="YouTube" />
     </a>
     <a href="https://www.tiktok.com/@toncompte" target="_blank" aria-label="TikTok">
-      <img
-        src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/tiktok.svg"
-        alt="TikTok"
-      />
+      <img src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/tiktok.svg" alt="TikTok" />
     </a>
   </div>
 
