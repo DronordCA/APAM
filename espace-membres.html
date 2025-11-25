@@ -13,7 +13,7 @@
       --apam-blue-soft: #1b3658;
       --glass-bg: rgba(255, 255, 255, 0.9);
       --glass-border: rgba(15, 35, 70, 0.08);
-      --glass-shadow: 0 10px 26px rgba(0, 0, 0, 0.12);
+      --glass-shadow: 0 10px 28px rgba(0, 0, 0, 0.12);
       --text-main: #062037;
       --text-soft: #5f6b85;
       --accent: #4aa3ff;
@@ -34,10 +34,36 @@
 
     a {
       color: inherit;
-      text-decoration: none;
     }
 
-    /* ================== HEADER EN PILULE ================== */
+    /* ================== ANIMATIONS SCROLL ================== */
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(18px);
+      transition:
+        opacity 0.6s ease,
+        transform 0.6s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .reveal-delay-1 {
+      transition-delay: 0.08s;
+    }
+
+    .reveal-delay-2 {
+      transition-delay: 0.16s;
+    }
+
+    .reveal-delay-3 {
+      transition-delay: 0.24s;
+    }
+
+    /* ================== HEADER + MENU (PILULE LIQUID GLASS) ================== */
 
     header {
       position: fixed;
@@ -45,54 +71,50 @@
       left: 0;
       right: 0;
       z-index: 100;
-      padding: 10px 0;
+      padding: 10px 16px;
       display: flex;
       justify-content: center;
-      pointer-events: none; /* pour que seule la pilule soit cliquable */
       background: transparent;
+      border-bottom: none;
+      pointer-events: none; /* seule la pilule est cliquable */
     }
 
-    .header-shell {
-      pointer-events: auto;
-      width: 100%;
+    .header-inner {
       max-width: 1100px;
-      margin: 0 16px;
-      padding: 8px 18px;
-      border-radius: 999px;
-      background: rgba(255, 255, 255, 0.4);
-      border: 1px solid rgba(6, 32, 55, 0.12);
-      backdrop-filter: blur(18px);
-      -webkit-backdrop-filter: blur(18px);
-      box-shadow: var(--glass-shadow);
+      width: 100%;
       display: flex;
       align-items: center;
       justify-content: space-between;
       gap: 16px;
-      position: relative;
+      padding: 8px 18px;
+      border-radius: 999px;
+      background: rgba(3, 16, 35, 0.07); /* ultra transparent */
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.45);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      pointer-events: auto;
     }
 
     .logo {
-      height: 44px; /* légèrement réduit pour mieux respirer dans la pilule */
-      flex-shrink: 0;
+      height: 48px;
     }
 
     .main-nav {
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 10px;
     }
 
     .main-nav a {
       text-decoration: none;
       color: var(--apam-blue);
       font-weight: 600;
-      font-size: 0.9rem;
-      padding: 7px 14px;
+      font-size: 0.92rem;
+      padding: 7px 16px;
       border-radius: 999px;
-
       background: transparent;
       border: 1px solid transparent;
-
       transition:
         color 0.18s ease,
         background 0.25s ease,
@@ -103,9 +125,9 @@
 
     .main-nav a:hover {
       color: var(--apam-blue);
-      background: rgba(6, 32, 55, 0.05);
-      border-color: rgba(6, 32, 55, 0.15);
-      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.08);
+      background: rgba(255, 255, 255, 0.9);
+      border-color: rgba(6, 32, 55, 0.18);
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.16);
       transform: translateY(-1px);
     }
 
@@ -116,62 +138,35 @@
         rgba(70, 140, 255, 0.98)
       );
       border-color: rgba(74, 163, 255, 0.9);
-      box-shadow: 0 14px 30px rgba(74, 163, 255, 0.45);
+      box-shadow: 0 14px 30px rgba(74, 163, 255, 0.6);
       color: #02101f;
     }
 
-    /* Bouton MENU mobile (liquid glass) */
+    /* Bouton menu mobile */
 
     .menu-toggle {
       display: none;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-      background: rgba(255, 255, 255, 0.9);
+      background: rgba(3, 16, 35, 0.85);
+      color: #ffffff;
+      font-weight: 600;
+      font-size: 0.86rem;
       border-radius: 999px;
-      border: 1px solid rgba(6, 32, 55, 0.15);
+      border: 1px solid rgba(255, 255, 255, 0.3);
       cursor: pointer;
-      padding: 6px 14px;
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
-      font-size: 0.78rem;
-      text-transform: uppercase;
-      letter-spacing: 0.12em;
-      color: var(--apam-blue);
-      flex-shrink: 0;
+      padding: 7px 14px;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3);
     }
 
-    .menu-toggle-icon {
-      width: 14px;
-      height: 2px;
-      border-radius: 999px;
-      background: var(--apam-blue);
-      position: relative;
+    .menu-toggle:hover {
+      background: rgba(3, 16, 35, 0.95);
+      box-shadow: 0 8px 22px rgba(0, 0, 0, 0.4);
     }
 
-    .menu-toggle-icon::before,
-    .menu-toggle-icon::after {
-      content: "";
-      position: absolute;
-      left: 0;
-      right: 0;
-      height: 2px;
-      border-radius: 999px;
-      background: var(--apam-blue);
-    }
-
-    .menu-toggle-icon::before {
-      top: -4px;
-    }
-
-    .menu-toggle-icon::after {
-      top: 4px;
-    }
-
-    /* ================== CONTENU GLOBAL ================== */
+    /* ================== CONTENU PRINCIPAL ================== */
 
     main {
       max-width: 1100px;
-      margin: 120px auto 50px;
+      margin: 110px auto 50px; /* décalage pour le header fixe */
       padding: 0 20px;
     }
 
@@ -183,29 +178,10 @@
       backdrop-filter: blur(16px);
       -webkit-backdrop-filter: blur(16px);
       padding: 22px 22px 24px;
-      margin-bottom: 26px;
+      margin-bottom: 24px;
     }
 
-    /* ================== ANIMATIONS REVEAL ================== */
-
-    .reveal {
-      opacity: 0;
-      transform: translateY(24px);
-      transition:
-        opacity 0.6s ease-out,
-        transform 0.6s ease-out;
-    }
-
-    .reveal-visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    .reveal-delay-1 {
-      transition-delay: 0.1s;
-    }
-
-    /* ================== HERO ESPACE MEMBRES ================== */
+    /* HERO ESPACE MEMBRES (petit bloc intro) */
 
     .member-hero {
       margin-bottom: 18px;
@@ -218,8 +194,8 @@
       font-size: 0.75rem;
       text-transform: uppercase;
       letter-spacing: 0.12em;
-      background: rgba(74, 163, 255, 0.12);
-      color: var(--apam-blue);
+      background: rgba(6, 32, 55, 0.05);
+      color: var(--apam-blue-soft);
       padding: 4px 10px;
       border-radius: 999px;
       margin-bottom: 10px;
@@ -229,7 +205,7 @@
       width: 6px;
       height: 6px;
       border-radius: 999px;
-      background: var(--apam-blue);
+      background: var(--apam-blue-soft);
     }
 
     .member-hero h1 {
@@ -254,11 +230,11 @@
 
     .member-hint {
       font-size: 0.9rem;
-      color: #7b8498;
+      color: #7a859c;
       margin: 0;
     }
 
-    /* ================== BLOCS DOCUMENTS MEMBRES ================== */
+    /* BLOCS DOCUMENTS MEMBRES */
 
     .member-docs-section h2 {
       display: flex;
@@ -297,16 +273,14 @@
     }
 
     .member-card {
-      background: rgba(255, 255, 255, 0.9);
+      background: rgba(255, 255, 255, 0.96);
       border-radius: 18px;
       border: 1px solid rgba(15, 35, 70, 0.08);
       padding: 16px 16px 14px;
       display: flex;
       flex-direction: column;
       gap: 6px;
-      box-shadow: 0 8px 20px rgba(3, 10, 24, 0.04);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
+      box-shadow: 0 12px 26px rgba(3, 16, 35, 0.08);
     }
 
     .member-card-header {
@@ -320,7 +294,7 @@
       width: 32px;
       height: 32px;
       border-radius: 999px;
-      background: rgba(74, 163, 255, 0.13);
+      background: rgba(74, 163, 255, 0.14);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -344,52 +318,48 @@
       line-height: 1.5;
     }
 
+    .member-card p {
+      margin-bottom: 8px;
+    }
+
     .member-highlight {
       font-size: 0.8rem;
-      color: #1f3b63;
+      color: var(--apam-blue-soft);
       background: rgba(74, 163, 255, 0.12);
       border-radius: 999px;
       padding: 3px 9px;
       display: inline-block;
-      margin-top: 4px;
+      margin-bottom: 10px;
       align-self: flex-start;
     }
 
-    .member-card-actions {
-      margin-top: auto;
-      padding-top: 8px;
-      display: flex;
-      align-items: center;
-    }
-
-    .member-cta {
+    .member-card a.section-link {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 6px;
-      padding: 7px 16px;
+      padding: 8px 16px;
       border-radius: 999px;
-      border: 1px solid rgba(74, 163, 255, 0.6);
+      font-weight: 600;
+      font-size: 0.9rem;
+      text-decoration: none;
+      border: 1px solid rgba(74, 163, 255, 0.9);
       background: linear-gradient(
         135deg,
-        rgba(139, 199, 255, 0.95),
-        rgba(70, 140, 255, 0.95)
+        rgba(139, 199, 255, 0.98),
+        rgba(70, 140, 255, 0.98)
       );
       color: #02101f;
-      text-decoration: none;
-      font-weight: 600;
-      font-size: 0.88rem;
-      box-shadow: 0 10px 26px rgba(0, 0, 0, 0.18);
-      cursor: pointer;
+      box-shadow: 0 10px 24px rgba(74, 163, 255, 0.45);
+      margin-top: auto; /* aligne les boutons en bas des cartes */
       transition:
         transform 0.18s ease,
         box-shadow 0.18s ease,
         background 0.2s ease;
     }
 
-    .member-cta:hover {
+    .member-card a.section-link:hover {
       transform: translateY(-1px);
-      box-shadow: 0 14px 32px rgba(0, 0, 0, 0.24);
+      box-shadow: 0 14px 32px rgba(74, 163, 255, 0.6);
       background: linear-gradient(
         135deg,
         rgba(165, 210, 255, 1),
@@ -397,7 +367,7 @@
       );
     }
 
-    /* ================== LIENS UTILES ================== */
+    /* LIENS UTILES */
 
     .useful-links h2 {
       font-size: 1.7rem;
@@ -407,12 +377,12 @@
 
     .useful-intro {
       color: var(--text-soft);
-      margin-bottom: 22px;
+      margin-bottom: 25px;
       line-height: 1.6;
     }
 
     .useful-category {
-      margin-bottom: 24px;
+      margin-bottom: 28px;
     }
 
     .useful-category h3 {
@@ -436,26 +406,23 @@
 
     .useful-card {
       display: block;
-      background: rgba(255, 255, 255, 0.9);
+      background: rgba(255, 255, 255, 0.96);
       padding: 14px 16px 16px;
       border-radius: 14px;
       border: 1px solid rgba(15, 35, 70, 0.08);
       text-decoration: none;
       color: var(--apam-blue);
+      font-size: 0.95rem;
+      box-shadow: 0 10px 22px rgba(3, 16, 35, 0.08);
       transition:
         transform 0.25s ease,
         box-shadow 0.25s ease,
         border-color 0.2s ease;
-      font-size: 0.95rem;
-      box-shadow: 0 8px 20px rgba(3, 10, 24, 0.04);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
     }
 
     .useful-card h4 {
       margin: 0 0 4px;
       font-size: 1rem;
-      color: var(--apam-blue);
     }
 
     .useful-card p {
@@ -466,7 +433,7 @@
 
     .useful-card:hover {
       transform: translateY(-3px);
-      box-shadow: 0 12px 26px rgba(0, 0, 0, 0.16);
+      box-shadow: 0 14px 30px rgba(3, 16, 35, 0.18);
       border-color: rgba(74, 163, 255, 0.7);
     }
 
@@ -487,7 +454,7 @@
       width: 22px;
       height: 22px;
       display: block;
-      filter: invert(1) brightness(100%);
+      filter: invert(1) brightness(200%);
       opacity: 0.9;
       transition:
         opacity 0.2s ease,
@@ -497,20 +464,18 @@
 
     .social-floating a img:hover {
       opacity: 1;
-      filter: invert(1) brightness(140%);
+      filter: invert(1) brightness(250%);
       transform: translateY(-2px);
     }
 
     /* ================== FOOTER ================== */
 
     .site-footer {
-      background: rgba(255, 255, 255, 0.96);
+      background: #ffffff;
       color: var(--apam-blue);
-      padding: 32px 20px 18px;
+      padding: 40px 20px 20px;
       margin-top: 40px;
       border-top: 1px solid rgba(6, 32, 55, 0.12);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
     }
 
     .footer-content {
@@ -520,7 +485,7 @@
       justify-content: space-between;
       align-items: flex-start;
       flex-wrap: wrap;
-      gap: 26px;
+      gap: 32px;
     }
 
     .footer-brand {
@@ -537,7 +502,6 @@
     .footer-brand p {
       font-size: 0.9rem;
       opacity: 0.85;
-      color: var(--text-soft);
     }
 
     .footer-column {
@@ -550,7 +514,6 @@
       font-size: 1rem;
       border-bottom: 1px solid rgba(6, 32, 55, 0.15);
       padding-bottom: 5px;
-      color: var(--apam-blue);
     }
 
     .footer-column a {
@@ -569,17 +532,26 @@
 
     .copyright {
       text-align: center;
-      margin-top: 18px;
+      margin-top: 26px;
       opacity: 0.7;
       font-size: 0.82rem;
-      color: var(--text-soft);
     }
 
     /* ================== RESPONSIVE ================== */
 
+    @media (max-width: 900px) {
+      main {
+        margin-top: 100px;
+      }
+    }
+
     @media (max-width: 768px) {
       header {
-        padding: 10px 16px;
+        padding: 10px 10px;
+      }
+
+      .header-inner {
+        padding: 8px 14px;
       }
 
       .main-nav {
@@ -609,11 +581,8 @@
 
       .menu-toggle {
         display: inline-flex;
-      }
-
-      main {
-        padding: 0 16px;
-        margin-top: 110px;
+        align-items: center;
+        justify-content: center;
       }
 
       .social-floating {
@@ -630,23 +599,21 @@
 <body>
   <!-- ============ HEADER ============ -->
   <header>
-    <img src="apam-logo.png" alt="Logo APAM" class="logo" />
+    <div class="header-inner">
+      <img src="apam-logo.png" alt="Logo APAM" class="logo" />
 
-    <button class="menu-toggle" aria-label="Ouvrir le menu">
-      <span></span>
-      <span></span>
-      <span></span>
-    </button>
+      <button class="menu-toggle" aria-label="Ouvrir le menu">Menu</button>
 
-    <nav class="main-nav">
-      <a href="index.html">Accueil</a>
-      <a href="#">À propos</a>
-      <a href="activite.html">Activité</a>
-      <a href="#">Tarif</a>
-      <a href="espace-membres.html" class="active">Membres</a>
-      <a href="#">Contact</a>
-      <a href="https://openflyers.com/apam/" target="_blank">OpenFlyer</a>
-    </nav>
+      <nav class="main-nav">
+        <a href="index.html">Accueil</a>
+        <a href="#">À propos</a>
+        <a href="activite.html">Activité</a>
+        <a href="#">Tarif</a>
+        <a href="espace-membres.html" class="active">Membres</a>
+        <a href="#">Contact</a>
+        <a href="https://openflyers.com/apam/" target="_blank">OpenFlyer</a>
+      </nav>
+    </div>
   </header>
 
   <!-- ============ CONTENU ============ -->
@@ -668,7 +635,7 @@
       </p>
     </section>
 
-    <!-- DOCUMENTS MEMBRES -->
+    <!-- 4 BLOCS DOCUMENTS MEMBRES -->
     <section class="section-card member-docs-section reveal reveal-delay-1">
       <h2>
         <span class="section-chip">Documents</span>
@@ -694,11 +661,9 @@
             tous les membres.
           </p>
           <span class="member-highlight">Pour tous les pilotes du club</span>
-          <div class="member-card-actions">
-            <a class="member-cta" href="#" target="_blank">
-              <span>Accéder à la documentation générale</span>
-            </a>
-          </div>
+          <a class="section-link" href="#" target="_blank">
+            Accéder à la documentation générale
+          </a>
         </article>
 
         <!-- Documentation avions -->
@@ -714,11 +679,9 @@
             l’APAM.
           </p>
           <span class="member-highlight">À consulter avant vos vols</span>
-          <div class="member-card-actions">
-            <a class="member-cta" href="#" target="_blank">
-              <span>Accéder à la documentation avions</span>
-            </a>
-          </div>
+          <a class="section-link" href="#" target="_blank">
+            Accéder à la documentation avions
+          </a>
         </article>
 
         <!-- Cours théoriques -->
@@ -734,11 +697,9 @@
             pilotes et les membres en formation.
           </p>
           <span class="member-highlight">Idéal pour préparer ses vols</span>
-          <div class="member-card-actions">
-            <a class="member-cta" href="#" target="_blank">
-              <span>Accéder aux cours théoriques</span>
-            </a>
-          </div>
+          <a class="section-link" href="#" target="_blank">
+            Accéder aux cours théoriques
+          </a>
         </article>
 
         <!-- Voyages & activités -->
@@ -754,17 +715,15 @@
             activités passées.
           </p>
           <span class="member-highlight">Pour suivre la vie du club</span>
-          <div class="member-card-actions">
-            <a class="member-cta" href="#" target="_blank">
-              <span>Accéder aux voyages & activités</span>
-            </a>
-          </div>
+          <a class="section-link" href="#" target="_blank">
+            Accéder aux voyages & activités
+          </a>
         </article>
       </div>
     </section>
 
     <!-- LIENS UTILES -->
-    <section class="section-card useful-links reveal">
+    <section class="section-card useful-links reveal reveal-delay-2">
       <h2>Liens utiles pour les pilotes</h2>
       <p class="useful-intro">
         Une sélection de ressources en ligne pour préparer vos vols en France : météo aéronautique,
@@ -854,10 +813,7 @@
     <div class="footer-content">
       <div class="footer-brand">
         <img src="apam-logo.png" alt="Logo APAM" class="footer-logo" />
-        <p>
-          Aéroclub APAM L’Aigle Saint-Michel – un cadre convivial pour découvrir, apprendre
-          et partager la passion du vol.
-        </p>
+        <p>Aéroclub APAM L’Aigle Saint-Michel.</p>
       </div>
 
       <div class="footer-column">
@@ -884,7 +840,7 @@
     </p>
   </footer>
 
-  <!-- ============ SCRIPT MENU + REVEAL ============ -->
+  <!-- ============ SCRIPT MENU MOBILE + ANIMATIONS ============ -->
   <script>
     const menuToggle = document.querySelector(".menu-toggle");
     const nav = document.querySelector(".main-nav");
@@ -893,19 +849,22 @@
       nav.classList.toggle("open");
     });
 
+    // Animations au scroll
+    const revealElements = document.querySelectorAll(".reveal");
+
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            entry.target.classList.add("reveal-visible");
+            entry.target.classList.add("visible");
             observer.unobserve(entry.target);
           }
         });
       },
-      { threshold: 0.1 }
+      { threshold: 0.15 }
     );
 
-    document.querySelectorAll(".reveal").forEach((el) => observer.observe(el));
+    revealElements.forEach((el) => observer.observe(el));
   </script>
 </body>
 </html>
