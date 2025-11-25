@@ -11,7 +11,7 @@
       --apam-blue-dark: #031023;
       --apam-blue: #062037;
       --apam-blue-soft: #1b3658;
-      --glass-bg: rgba(255, 255, 255, 0.85);
+      --glass-bg: rgba(255, 255, 255, 0.9);
       --glass-border: rgba(15, 35, 70, 0.08);
       --glass-shadow: 0 10px 28px rgba(0, 0, 0, 0.12);
       --text-main: #062037;
@@ -124,7 +124,7 @@
 
     .hero {
       width: 100%;
-      min-height: calc(100vh - 80px); /* occupe quasiment tout l'écran */
+      min-height: calc(100vh - 80px);
       background: url("Rallye-CDAO-01.jpg") center/cover no-repeat;
       position: relative;
       display: flex;
@@ -156,7 +156,7 @@
       gap: 28px;
       flex-wrap: wrap;
       z-index: 1;
-      margin-top: 40px; /* pour compenser le header fixé */
+      margin-top: 40px;
     }
 
     .hero-card {
@@ -310,16 +310,26 @@
       margin-top: 0;
     }
 
+    /* Bulle "Bienvenue" */
+
     .intro {
       max-width: 900px;
-      margin: 0 auto 28px;
+      margin: -40px auto 32px; /* remonte légèrement sous le hero */
+      padding: 0 16px;
+    }
+
+    .intro-card {
+      background: var(--glass-bg);
+      border-radius: 28px;
+      border: 1px solid var(--glass-border);
+      box-shadow: var(--glass-shadow);
+      padding: 24px 26px 26px;
       text-align: center;
-      color: var(--text-soft);
     }
 
     .intro-title {
       font-size: 1.8rem;
-      margin-bottom: 8px;
+      margin: 0 0 10px;
       color: var(--apam-blue);
     }
 
@@ -327,7 +337,10 @@
       margin: 0;
       line-height: 1.7;
       font-size: 0.98rem;
+      color: var(--text-soft);
     }
+
+    /* Section "capsules" */
 
     .pill-section {
       max-width: 1100px;
@@ -370,6 +383,8 @@
       font-weight: 600;
       margin-bottom: 2px;
     }
+
+    /* Cartes "Découvrir le club" */
 
     .cards-section {
       max-width: 1100px;
@@ -525,18 +540,18 @@
     .site-footer {
       background: #ffffff;
       color: var(--apam-blue);
-      padding: 40px 20px 20px;
+      padding: 36px 20px 20px;
       margin-top: 40px;
-      border-top: 1px solid rgba(6, 32, 55, 0.12);
+      border-top: 1px solid rgba(6, 32, 55, 0.08);
     }
 
     .footer-content {
       max-width: 1100px;
       margin: 0 auto;
-      display: flex;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 40px;
+      display: grid;
+      grid-template-columns: minmax(0, 2.2fr) repeat(2, minmax(0, 1fr));
+      gap: 32px;
+      align-items: flex-start;
     }
 
     .footer-brand {
@@ -552,13 +567,15 @@
     .footer-brand p {
       font-size: 0.9rem;
       opacity: 0.85;
+      line-height: 1.5;
     }
 
     .footer-column h4 {
       margin-bottom: 10px;
-      font-size: 1rem;
-      border-bottom: 1px solid rgba(6, 32, 55, 0.15);
-      padding-bottom: 5px;
+      font-size: 0.95rem;
+      text-transform: uppercase;
+      letter-spacing: 0.09em;
+      color: var(--text-soft);
     }
 
     .footer-column a {
@@ -577,7 +594,7 @@
 
     .copyright {
       text-align: center;
-      margin-top: 26px;
+      margin-top: 22px;
       opacity: 0.7;
       font-size: 0.82rem;
     }
@@ -599,6 +616,10 @@
       .hero-card,
       .hero-stats {
         width: 100%;
+      }
+
+      .footer-content {
+        grid-template-columns: 1fr;
       }
     }
 
@@ -641,7 +662,7 @@
       }
 
       .intro {
-        padding: 0 8px;
+        margin-top: -20px;
       }
 
       .social-floating {
@@ -649,8 +670,7 @@
       }
 
       .footer-content {
-        flex-direction: column;
-        align-items: flex-start;
+        grid-template-columns: 1fr;
       }
     }
   </style>
@@ -658,7 +678,7 @@
 <body>
   <!-- ============ HEADER ============ -->
   <header>
-    <img src="apam-logo.png" alt="Logo APAM" class="logo" />
+    <img src="apam-logo-blanc.png" alt="Logo APAM" class="logo" />
 
     <button class="menu-toggle" aria-label="Ouvrir le menu">
       <span></span>
@@ -730,15 +750,19 @@
 
   <!-- ============ CONTENU ============ -->
   <main>
+    <!-- Bulle de bienvenue -->
     <section class="intro">
-      <h2 class="intro-title">Bienvenue à l’APAM</h2>
-      <p>
-        L’APAM est un aéroclub dédié aux passionnés d’aviation légère. Que vous souhaitiez
-        découvrir le vol, apprendre à piloter ou simplement rejoindre une communauté de
-        pilotes, notre équipe vous accompagne dans un environnement convivial et sécurisé.
-      </p>
+      <div class="intro-card">
+        <h2 class="intro-title">Bienvenue à l’APAM</h2>
+        <p>
+          L’APAM est un aéroclub dédié aux passionnés d’aviation légère. Que vous souhaitiez
+          découvrir le vol, apprendre à piloter ou simplement rejoindre une communauté de
+          pilotes, notre équipe vous accompagne dans un environnement convivial et sécurisé.
+        </p>
+      </div>
     </section>
 
+    <!-- Capsules -->
     <section class="pill-section">
       <article class="pill-card">
         <div class="pill-icon">🎓</div>
@@ -774,6 +798,7 @@
       </article>
     </section>
 
+    <!-- Cartes découverte -->
     <section class="cards-section">
       <div class="cards-header">
         <h2>Découvrir le club</h2>
@@ -853,7 +878,7 @@
   <footer class="site-footer">
     <div class="footer-content">
       <div class="footer-brand">
-        <img src="apam-logo.png" alt="Logo APAM" class="footer-logo" />
+        <img src="apam-logo-blanc.png" alt="Logo APAM" class="footer-logo" />
         <p>
           Aéroclub APAM L’Aigle Saint-Michel – un cadre convivial pour découvrir, apprendre
           et partager la passion du vol.
@@ -872,10 +897,10 @@
       </div>
 
       <div class="footer-column">
-        <h4>Réseaux sociaux</h4>
-        <a href="https://www.instagram.com/_cauvin_" target="_blank">Instagram</a>
-        <a href="https://www.youtube.com/@DRONORD18" target="_blank">YouTube</a>
-        <a href="https://www.tiktok.com/@toncompte" target="_blank">TikTok</a>
+        <h4>Contact</h4>
+        <a href="mailto:contact@aeroclub-apam.fr">contact@aeroclub-apam.fr</a>
+        <a href="tel:+33000000000">+33 (0)0 00 00 00 00</a>
+        <a href="localisation.html">Accès & localisation</a>
       </div>
     </div>
 
