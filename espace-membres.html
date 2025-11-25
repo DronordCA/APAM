@@ -11,9 +11,9 @@
       --apam-blue-dark: #031023;
       --apam-blue: #062037;
       --apam-blue-soft: #1b3658;
-      --glass-bg: rgba(255, 255, 255, 0.85);
+      --glass-bg: rgba(255, 255, 255, 0.9);
       --glass-border: rgba(15, 35, 70, 0.08);
-      --glass-shadow: 0 10px 28px rgba(0, 0, 0, 0.12);
+      --glass-shadow: 0 10px 26px rgba(0, 0, 0, 0.12);
       --text-main: #062037;
       --text-soft: #5f6b85;
       --accent: #4aa3ff;
@@ -34,9 +34,10 @@
 
     a {
       color: inherit;
+      text-decoration: none;
     }
 
-    /* ================== HEADER (noir transparent) ================== */
+    /* ================== HEADER + MENU (clair) ================== */
 
     header {
       position: fixed;
@@ -50,8 +51,8 @@
       justify-content: space-between;
       backdrop-filter: blur(20px);
       -webkit-backdrop-filter: blur(20px);
-      background: rgba(0, 0, 0, 0.45);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+      background: rgba(255, 255, 255, 0.92);
+      border-bottom: 1px solid rgba(6, 32, 55, 0.12);
     }
 
     .logo {
@@ -66,7 +67,7 @@
 
     .main-nav a {
       text-decoration: none;
-      color: #ffffff;
+      color: var(--apam-blue);
       font-weight: 600;
       font-size: 0.92rem;
       padding: 7px 16px;
@@ -82,10 +83,10 @@
     }
 
     .main-nav a:hover {
-      color: #ffffff;
-      background: rgba(255, 255, 255, 0.08);
-      border-color: rgba(255, 255, 255, 0.3);
-      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.2);
+      color: var(--apam-blue);
+      background: rgba(6, 32, 55, 0.04);
+      border-color: rgba(6, 32, 55, 0.16);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
       transform: translateY(-1px);
     }
 
@@ -96,41 +97,60 @@
         rgba(70, 140, 255, 0.98)
       );
       border-color: rgba(74, 163, 255, 0.9);
-      box-shadow: 0 14px 30px rgba(74, 163, 255, 0.6);
+      box-shadow: 0 14px 30px rgba(74, 163, 255, 0.4);
       color: #02101f;
     }
 
     .menu-toggle {
       display: none;
-      background: rgba(0, 0, 0, 0.6);
+      background: rgba(255, 255, 255, 0.9);
       border-radius: 999px;
-      border: 1px solid rgba(255, 255, 255, 0.3);
+      border: 1px solid rgba(6, 32, 55, 0.25);
       cursor: pointer;
       padding: 7px 10px;
-      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3);
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
     }
 
     .menu-toggle span {
       display: block;
       width: 18px;
       height: 2px;
-      background: #ffffff;
+      background: var(--apam-blue);
       margin: 3px 0;
       border-radius: 999px;
       transition: transform 0.2s ease, opacity 0.2s ease;
     }
 
-    /* ================== REVEAL / ANIMATIONS ================== */
+    /* ================== CONTENU GLOBAL ================== */
+
+    main {
+      max-width: 1100px;
+      margin: 120px auto 50px;
+      padding: 0 20px;
+    }
+
+    .section-card {
+      background: var(--glass-bg);
+      border-radius: 22px;
+      border: 1px solid var(--glass-border);
+      box-shadow: var(--glass-shadow);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      padding: 22px 22px 24px;
+      margin-bottom: 26px;
+    }
+
+    /* ================== ANIMATIONS REVEAL ================== */
 
     .reveal {
       opacity: 0;
-      transform: translateY(18px);
+      transform: translateY(24px);
       transition:
-        opacity 0.6s ease,
-        transform 0.6s ease;
+        opacity 0.6s ease-out,
+        transform 0.6s ease-out;
     }
 
-    .reveal.visible {
+    .reveal-visible {
       opacity: 1;
       transform: translateY(0);
     }
@@ -139,34 +159,7 @@
       transition-delay: 0.1s;
     }
 
-    .reveal-delay-2 {
-      transition-delay: 0.2s;
-    }
-
-    .reveal-delay-3 {
-      transition-delay: 0.3s;
-    }
-
-    /* ================== CONTENU ================== */
-
-    main {
-      max-width: 1100px;
-      margin: 0 auto 50px;
-      padding: 110px 20px 60px;
-    }
-
-    .section-card {
-      background: var(--glass-bg);
-      border-radius: 26px;
-      border: 1px solid var(--glass-border);
-      box-shadow: var(--glass-shadow);
-      backdrop-filter: blur(18px);
-      -webkit-backdrop-filter: blur(18px);
-      padding: 22px 22px 24px;
-      margin-bottom: 24px;
-    }
-
-    /* HERO ESPACE MEMBRES (pas un vrai hero plein écran, juste intro) */
+    /* ================== HERO ESPACE MEMBRES ================== */
 
     .member-hero {
       margin-bottom: 18px;
@@ -179,8 +172,8 @@
       font-size: 0.75rem;
       text-transform: uppercase;
       letter-spacing: 0.12em;
-      background: rgba(228, 236, 255, 0.9);
-      color: #1f3b63;
+      background: rgba(74, 163, 255, 0.12);
+      color: var(--apam-blue);
       padding: 4px 10px;
       border-radius: 999px;
       margin-bottom: 10px;
@@ -190,7 +183,7 @@
       width: 6px;
       height: 6px;
       border-radius: 999px;
-      background: #1f3b63;
+      background: var(--apam-blue);
     }
 
     .member-hero h1 {
@@ -215,11 +208,11 @@
 
     .member-hint {
       font-size: 0.9rem;
-      color: #777;
+      color: #7b8498;
       margin: 0;
     }
 
-    /* BLOCS DOCUMENTS MEMBRES */
+    /* ================== BLOCS DOCUMENTS MEMBRES ================== */
 
     .member-docs-section h2 {
       display: flex;
@@ -258,15 +251,16 @@
     }
 
     .member-card {
-      background: rgba(255, 255, 255, 0.95);
-      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.9);
+      border-radius: 18px;
       border: 1px solid rgba(15, 35, 70, 0.08);
       padding: 16px 16px 14px;
       display: flex;
       flex-direction: column;
       gap: 6px;
-      box-shadow: 0 10px 22px rgba(0, 0, 0, 0.08);
-      min-height: 210px;
+      box-shadow: 0 8px 20px rgba(3, 10, 24, 0.04);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
     }
 
     .member-card-header {
@@ -280,7 +274,7 @@
       width: 32px;
       height: 32px;
       border-radius: 999px;
-      background: rgba(228, 236, 255, 0.95);
+      background: rgba(74, 163, 255, 0.13);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -307,7 +301,7 @@
     .member-highlight {
       font-size: 0.8rem;
       color: #1f3b63;
-      background: #e4ecff;
+      background: rgba(74, 163, 255, 0.12);
       border-radius: 999px;
       padding: 3px 9px;
       display: inline-block;
@@ -315,31 +309,31 @@
       align-self: flex-start;
     }
 
-    /* Bouton style "Découvrir le club" */
-
-    .member-card-footer {
-      margin-top: auto; /* pousse le bouton en bas */
+    .member-card-actions {
+      margin-top: auto;
       padding-top: 8px;
+      display: flex;
+      align-items: center;
     }
 
-    .member-button {
+    .member-cta {
       display: inline-flex;
       align-items: center;
       justify-content: center;
       gap: 6px;
-      padding: 8px 16px;
+      padding: 7px 16px;
       border-radius: 999px;
-      border: 1px solid rgba(255, 255, 255, 0.4);
+      border: 1px solid rgba(74, 163, 255, 0.6);
       background: linear-gradient(
         135deg,
-        rgba(139, 199, 255, 0.9),
-        rgba(70, 140, 255, 0.9)
+        rgba(139, 199, 255, 0.95),
+        rgba(70, 140, 255, 0.95)
       );
       color: #02101f;
       text-decoration: none;
       font-weight: 600;
-      font-size: 0.9rem;
-      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.28);
+      font-size: 0.88rem;
+      box-shadow: 0 10px 26px rgba(0, 0, 0, 0.18);
       cursor: pointer;
       transition:
         transform 0.18s ease,
@@ -347,13 +341,9 @@
         background 0.2s ease;
     }
 
-    .member-button span.icon {
-      font-size: 0.95rem;
-    }
-
-    .member-button:hover {
+    .member-cta:hover {
       transform: translateY(-1px);
-      box-shadow: 0 16px 38px rgba(0, 0, 0, 0.35);
+      box-shadow: 0 14px 32px rgba(0, 0, 0, 0.24);
       background: linear-gradient(
         135deg,
         rgba(165, 210, 255, 1),
@@ -361,7 +351,7 @@
       );
     }
 
-    /* LIENS UTILES */
+    /* ================== LIENS UTILES ================== */
 
     .useful-links h2 {
       font-size: 1.7rem;
@@ -371,12 +361,12 @@
 
     .useful-intro {
       color: var(--text-soft);
-      margin-bottom: 25px;
+      margin-bottom: 22px;
       line-height: 1.6;
     }
 
     .useful-category {
-      margin-bottom: 28px;
+      margin-bottom: 24px;
     }
 
     .useful-category h3 {
@@ -400,20 +390,26 @@
 
     .useful-card {
       display: block;
-      background: rgba(255, 255, 255, 0.95);
+      background: rgba(255, 255, 255, 0.9);
       padding: 14px 16px 16px;
-      border-radius: 16px;
+      border-radius: 14px;
       border: 1px solid rgba(15, 35, 70, 0.08);
       text-decoration: none;
       color: var(--apam-blue);
-      transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.2s ease;
+      transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease,
+        border-color 0.2s ease;
       font-size: 0.95rem;
-      box-shadow: 0 10px 22px rgba(0, 0, 0, 0.08);
+      box-shadow: 0 8px 20px rgba(3, 10, 24, 0.04);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
     }
 
     .useful-card h4 {
       margin: 0 0 4px;
       font-size: 1rem;
+      color: var(--apam-blue);
     }
 
     .useful-card p {
@@ -424,11 +420,11 @@
 
     .useful-card:hover {
       transform: translateY(-3px);
-      box-shadow: 0 14px 30px rgba(0, 0, 0, 0.14);
-      border-color: #a7b9d6;
+      box-shadow: 0 12px 26px rgba(0, 0, 0, 0.16);
+      border-color: rgba(74, 163, 255, 0.7);
     }
 
-    /* ICÔNES RÉSEAUX FLOTTANTES */
+    /* ================== ICÔNES RÉSEAUX FLOTTANTES ================== */
 
     .social-floating {
       position: fixed;
@@ -459,16 +455,16 @@
       transform: translateY(-2px);
     }
 
-    /* FOOTER (même style que index/activité) */
+    /* ================== FOOTER ================== */
 
     .site-footer {
-      background: rgba(255, 255, 255, 0.9);
+      background: rgba(255, 255, 255, 0.96);
       color: var(--apam-blue);
-      padding: 32px 20px 20px;
+      padding: 32px 20px 18px;
       margin-top: 40px;
       border-top: 1px solid rgba(6, 32, 55, 0.12);
-      backdrop-filter: blur(18px);
-      -webkit-backdrop-filter: blur(18px);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
     }
 
     .footer-content {
@@ -478,7 +474,7 @@
       justify-content: space-between;
       align-items: flex-start;
       flex-wrap: wrap;
-      gap: 32px;
+      gap: 26px;
     }
 
     .footer-brand {
@@ -495,6 +491,7 @@
     .footer-brand p {
       font-size: 0.9rem;
       opacity: 0.85;
+      color: var(--text-soft);
     }
 
     .footer-column {
@@ -507,6 +504,7 @@
       font-size: 1rem;
       border-bottom: 1px solid rgba(6, 32, 55, 0.15);
       padding-bottom: 5px;
+      color: var(--apam-blue);
     }
 
     .footer-column a {
@@ -525,27 +523,13 @@
 
     .copyright {
       text-align: center;
-      margin-top: 20px;
+      margin-top: 18px;
       opacity: 0.7;
       font-size: 0.82rem;
+      color: var(--text-soft);
     }
 
-    /* RESPONSIVE */
-
-    @media (max-width: 900px) {
-      main {
-        padding: 100px 16px 50px;
-      }
-
-      .social-floating {
-        right: 10px;
-      }
-
-      .footer-content {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-    }
+    /* ================== RESPONSIVE ================== */
 
     @media (max-width: 768px) {
       header {
@@ -580,6 +564,20 @@
       .menu-toggle {
         display: inline-flex;
       }
+
+      main {
+        padding: 0 16px;
+        margin-top: 110px;
+      }
+
+      .social-floating {
+        right: 10px;
+      }
+
+      .footer-content {
+        flex-direction: column;
+        align-items: flex-start;
+      }
     }
   </style>
 </head>
@@ -607,7 +605,7 @@
 
   <!-- ============ CONTENU ============ -->
   <main>
-    <!-- INTRO ESPACE MEMBRES -->
+    <!-- HERO ESPACE MEMBRES -->
     <section class="section-card member-hero reveal">
       <div class="member-tag">
         <span class="member-tag-dot"></span>
@@ -624,7 +622,7 @@
       </p>
     </section>
 
-    <!-- 4 BLOCS DOCUMENTS MEMBRES en liquid glass -->
+    <!-- DOCUMENTS MEMBRES -->
     <section class="section-card member-docs-section reveal reveal-delay-1">
       <h2>
         <span class="section-chip">Documents</span>
@@ -650,9 +648,8 @@
             tous les membres.
           </p>
           <span class="member-highlight">Pour tous les pilotes du club</span>
-          <div class="member-card-footer">
-            <a class="member-button" href="#" target="_blank">
-              <span class="icon">↗</span>
+          <div class="member-card-actions">
+            <a class="member-cta" href="#" target="_blank">
               <span>Accéder à la documentation générale</span>
             </a>
           </div>
@@ -671,9 +668,8 @@
             l’APAM.
           </p>
           <span class="member-highlight">À consulter avant vos vols</span>
-          <div class="member-card-footer">
-            <a class="member-button" href="#" target="_blank">
-              <span class="icon">↗</span>
+          <div class="member-card-actions">
+            <a class="member-cta" href="#" target="_blank">
               <span>Accéder à la documentation avions</span>
             </a>
           </div>
@@ -692,9 +688,8 @@
             pilotes et les membres en formation.
           </p>
           <span class="member-highlight">Idéal pour préparer ses vols</span>
-          <div class="member-card-footer">
-            <a class="member-button" href="#" target="_blank">
-              <span class="icon">↗</span>
+          <div class="member-card-actions">
+            <a class="member-cta" href="#" target="_blank">
               <span>Accéder aux cours théoriques</span>
             </a>
           </div>
@@ -713,9 +708,8 @@
             activités passées.
           </p>
           <span class="member-highlight">Pour suivre la vie du club</span>
-          <div class="member-card-footer">
-            <a class="member-button" href="#" target="_blank">
-              <span class="icon">↗</span>
+          <div class="member-card-actions">
+            <a class="member-cta" href="#" target="_blank">
               <span>Accéder aux voyages & activités</span>
             </a>
           </div>
@@ -723,8 +717,8 @@
       </div>
     </section>
 
-    <!-- LIENS UTILES en style cartes liq. glass -->
-    <section class="section-card useful-links reveal reveal-delay-2">
+    <!-- LIENS UTILES -->
+    <section class="section-card useful-links reveal">
       <h2>Liens utiles pour les pilotes</h2>
       <p class="useful-intro">
         Une sélection de ressources en ligne pour préparer vos vols en France : météo aéronautique,
@@ -796,7 +790,7 @@
     </section>
   </main>
 
-  <!-- Icônes réseaux sociaux flottantes -->
+  <!-- ============ RÉSEAUX FLOTTANTS ============ -->
   <div class="social-floating">
     <a href="https://www.instagram.com/_cauvin_" target="_blank" aria-label="Instagram">
       <img src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/instagram.svg" alt="Instagram" />
@@ -809,12 +803,15 @@
     </a>
   </div>
 
-  <!-- Footer -->
+  <!-- ============ FOOTER ============ -->
   <footer class="site-footer">
     <div class="footer-content">
-      <div class="footer-column footer-brand">
+      <div class="footer-brand">
         <img src="apam-logo.png" alt="Logo APAM" class="footer-logo" />
-        <p>Aéroclub APAM L’Aigle Saint-Michel.</p>
+        <p>
+          Aéroclub APAM L’Aigle Saint-Michel – un cadre convivial pour découvrir, apprendre
+          et partager la passion du vol.
+        </p>
       </div>
 
       <div class="footer-column">
@@ -841,31 +838,28 @@
     </p>
   </footer>
 
-  <!-- Script menu mobile + reveal -->
+  <!-- ============ SCRIPT MENU + REVEAL ============ -->
   <script>
-    const menuToggle2 = document.querySelector(".menu-toggle");
-    const nav2 = document.querySelector(".main-nav");
+    const menuToggle = document.querySelector(".menu-toggle");
+    const nav = document.querySelector(".main-nav");
 
-    menuToggle2.addEventListener("click", () => {
-      nav2.classList.toggle("open");
+    menuToggle.addEventListener("click", () => {
+      nav.classList.toggle("open");
     });
 
-    const revealEls2 = document.querySelectorAll(".reveal");
-    const observer2 = new IntersectionObserver(
+    const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            entry.target.classList.add("visible");
-            observer2.unobserve(entry.target);
+            entry.target.classList.add("reveal-visible");
+            observer.unobserve(entry.target);
           }
         });
       },
-      {
-        threshold: 0.12,
-      }
+      { threshold: 0.1 }
     );
 
-    revealEls2.forEach((el) => observer2.observe(el));
+    document.querySelectorAll(".reveal").forEach((el) => observer.observe(el));
   </script>
 </body>
 </html>
