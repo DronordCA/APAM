@@ -159,16 +159,18 @@
       margin-top: 40px;
     }
 
+    /* ===== Cartes glass du hero (ultra transparentes) ===== */
+
     .hero-card {
       flex: 1 1 320px;
-      /* noir transparent au lieu de bleu */
-      background: rgba(0, 0, 0, 0.8);
+      background: rgba(255, 255, 255, 0.10); /* ultra transparent */
       border-radius: 26px;
-      border: 1px solid rgba(255, 255, 255, 0.3);
-      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.65);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.55);
       backdrop-filter: blur(26px);
       -webkit-backdrop-filter: blur(26px);
       padding: 22px 24px 22px;
+      color: #ffffff;
     }
 
     .hero-eyebrow {
@@ -209,7 +211,7 @@
       font-size: 0.78rem;
       padding: 5px 12px;
       border-radius: 999px;
-      background: rgba(255, 255, 255, 0.12);
+      background: rgba(255, 255, 255, 0.08);
       border: 1px solid rgba(255, 255, 255, 0.3);
       color: #f5f8ff;
     }
@@ -277,11 +279,10 @@
     }
 
     .hero-stat-card {
-      /* idem : noir transparent */
-      background: rgba(0, 0, 0, 0.8);
+      background: rgba(255, 255, 255, 0.10); /* ultra transparent */
       border-radius: 20px;
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      box-shadow: 0 14px 34px rgba(0, 0, 0, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      box-shadow: 0 14px 34px rgba(0, 0, 0, 0.55);
       padding: 12px 16px 13px;
       backdrop-filter: blur(22px);
       -webkit-backdrop-filter: blur(22px);
@@ -312,6 +313,8 @@
       margin-top: 0;
     }
 
+    /* Intro en bulle glass */
+
     .intro {
       max-width: 960px;
       margin: 0 auto 32px;
@@ -341,6 +344,8 @@
       font-size: 0.98rem;
       color: var(--text-soft);
     }
+
+    /* Capsules */
 
     .pill-section {
       max-width: 1100px;
@@ -383,6 +388,8 @@
       font-weight: 600;
       margin-bottom: 2px;
     }
+
+    /* Cartes "Découvrir le club" */
 
     .cards-section {
       max-width: 1100px;
@@ -440,31 +447,6 @@
       border-color: rgba(74, 163, 255, 0.65);
     }
 
-    /* Barre bleue qui apparaît au survol (rappel du bleu des boutons) */
-    .card::after {
-      content: "";
-      position: absolute;
-      left: 16px;
-      right: 16px;
-      bottom: 10px;
-      height: 3px;
-      border-radius: 999px;
-      background: linear-gradient(
-        90deg,
-        rgba(139, 199, 255, 1),
-        rgba(70, 140, 255, 1)
-      );
-      opacity: 0;
-      transform: translateY(6px);
-      transition: opacity 0.24s ease, transform 0.24s ease;
-      pointer-events: none;
-    }
-
-    .card:hover::after {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
     .card-img-wrap {
       position: relative;
       height: 170px;
@@ -504,8 +486,7 @@
       gap: 8px;
       padding: 6px 12px;
       border-radius: 999px;
-      background: rgba(0, 0, 0, 0.7);
-      border: 1px solid rgba(139, 199, 255, 0.9); /* petit rappel bleu */
+      background: rgba(0, 0, 0, 0.55);
       color: #ffffff;
       font-size: 0.8rem;
       font-weight: 600;
@@ -516,7 +497,7 @@
     }
 
     .card-body {
-      padding: 12px 14px 16px;
+      padding: 12px 14px 13px;
       font-size: 0.9rem;
       color: var(--text-soft);
     }
@@ -541,6 +522,24 @@
       z-index: 50;
     }
 
+    .social-floating a {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 8px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.35);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+      transition:
+        transform 0.18s ease,
+        box-shadow 0.18s ease,
+        background 0.2s ease,
+        border-color 0.2s ease;
+    }
+
     .social-floating a img {
       width: 22px;
       height: 22px;
@@ -553,20 +552,25 @@
         transform 0.2s ease;
     }
 
-    .social-floating a img:hover {
-      opacity: 1;
-      filter: invert(1) brightness(140%);
+    .social-floating a:hover {
       transform: translateY(-2px);
+      box-shadow: 0 12px 26px rgba(0, 0, 0, 0.35);
+      background: rgba(255, 255, 255, 0.18);
+      border-color: rgba(255, 255, 255, 0.7);
     }
 
-    /* ================== FOOTER ================== */
+    .social-floating a:hover img {
+      opacity: 1;
+      filter: invert(1) brightness(140%);
+    }
+
+    /* ================== FOOTER (Liquid Glass) ================== */
 
     .site-footer {
-      background: #ffffff;
+      background: transparent;
       color: var(--apam-blue);
-      padding: 40px 20px 20px;
+      padding: 40px 20px 24px;
       margin-top: 40px;
-      border-top: 1px solid rgba(6, 32, 55, 0.12);
     }
 
     .footer-content {
@@ -577,6 +581,14 @@
       align-items: flex-start;
       flex-wrap: wrap;
       gap: 32px;
+
+      background: var(--glass-bg);
+      border-radius: 24px;
+      border: 1px solid var(--glass-border);
+      box-shadow: var(--glass-shadow);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      padding: 22px 24px 20px;
     }
 
     .footer-brand {
@@ -623,7 +635,7 @@
 
     .copyright {
       text-align: center;
-      margin-top: 26px;
+      margin-top: 18px;
       opacity: 0.7;
       font-size: 0.82rem;
     }
