@@ -8,9 +8,11 @@
     body {
       margin: 0;
       font-family: Arial, sans-serif;
+      background: #eef2f8;
+      color: #062037;
     }
 
-    /* HEADER + MENU (identique à index/activité) */
+    /* HEADER + MENU (identique aux autres pages) */
 
     header {
       background: white;
@@ -80,103 +82,197 @@
       transition: transform 0.2s ease, opacity 0.2s ease;
     }
 
-    /* CONTENU ESPACE MEMBRES */
+    /* WRAPPER GLOBAL */
 
-    .member-dashboard {
-      max-width: 1000px;
-      margin: 40px auto 40px;
-      padding: 0 30px;
-    }
-
-    .member-dashboard h1 {
-      font-size: 2rem;
-      color: #062037;
-      margin-bottom: 8px;
-    }
-
-    .member-dashboard p {
-      color: #555;
-      line-height: 1.6;
-      margin-bottom: 6px;
-    }
-
-    .hint {
-      font-size: 0.9rem;
-      color: #777;
-      margin-bottom: 26px;
-    }
-
-    .sections-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
-      gap: 20px;
-    }
-
-    .member-section {
-      border-radius: 14px;
-      border: 1px solid #d5dfec;
-      padding: 18px 20px 20px;
-      background: #f7f9fc;
-
-      display: flex;
-      flex-direction: column;
-      height: 100%;
-    }
-
-    .member-section h2 {
-      font-size: 1.2rem;
-      color: #062037;
-      margin-bottom: 6px;
-    }
-
-    .member-section p {
-      margin-bottom: 10px;
-      color: #555;
-      font-size: 0.95rem;
-    }
-
-    .member-section a.section-link {
-      display: inline-block;
-      margin-top: auto;
-      color: #062037;
-      font-weight: 600;
-      text-decoration: none;
-      border-bottom: 1px solid rgba(6, 32, 55, 0.5);
-      padding-bottom: 1px;
-      font-size: 0.95rem;
-    }
-
-    .member-section a.section-link:hover {
-      border-bottom-color: transparent;
-    }
-
-    /* LIENS UTILES – version plus moderne */
-
-    .useful-links {
+    main {
       max-width: 1100px;
-      margin: 70px auto 60px; /* plus d'espace au-dessus */
-      padding: 30px;
-      background: #f9fbff;
-      border-radius: 18px;
-      border: 1px solid #e0e6f2;
+      margin: 30px auto 50px;
+      padding: 0 20px;
     }
 
-    .useful-header-tag {
-      display: inline-block;
+    /* SECTION-CARD GÉNÉRIQUE (comme la page Activité) */
+
+    .section-card {
+      background: #ffffff;
+      border-radius: 18px;
+      border: 1px solid #d5dfec;
+      box-shadow: 0 12px 30px rgba(7, 31, 56, 0.07);
+      padding: 22px 22px 24px;
+      margin-bottom: 24px;
+    }
+
+    /* HERO ESPACE MEMBRES */
+
+    .member-hero {
+      margin-bottom: 18px;
+    }
+
+    .member-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
       font-size: 0.75rem;
       text-transform: uppercase;
       letter-spacing: 0.12em;
       background: #e4ecff;
       color: #1f3b63;
-      padding: 4px 9px;
+      padding: 4px 10px;
       border-radius: 999px;
       margin-bottom: 10px;
+    }
+
+    .member-tag-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      background: #1f3b63;
+    }
+
+    .member-hero h1 {
+      font-size: 2rem;
+      color: #062037;
+      margin: 0 0 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .member-hero h1 span.emoji {
+      font-size: 1.8rem;
+    }
+
+    .member-hero p {
+      color: #555;
+      line-height: 1.6;
+      margin: 0 0 6px;
+      max-width: 720px;
+    }
+
+    .member-hint {
+      font-size: 0.9rem;
+      color: #777;
+      margin: 0;
+    }
+
+    /* BLOCS DOCUMENTS MEMBRES (4 cartes) */
+
+    .member-docs-section h2 {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 1.6rem;
+      color: #062037;
+      margin-bottom: 10px;
+    }
+
+    .section-chip {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      background: #062037;
+      color: #fff;
+      padding: 3px 9px;
+      border-radius: 999px;
+    }
+
+    .section-emoji {
+      font-size: 1.4rem;
+    }
+
+    .member-docs-section p.section-intro {
+      color: #555;
+      margin-bottom: 18px;
+      line-height: 1.6;
+      max-width: 720px;
+    }
+
+    .member-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 18px;
+    }
+
+    .member-card {
+      background: #f7f9fc;
+      border-radius: 16px;
+      border: 1px solid #d5dfec;
+      padding: 16px 16px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .member-card-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 4px;
+    }
+
+    .member-card-emoji-wrap {
+      width: 32px;
+      height: 32px;
+      border-radius: 999px;
+      background: #e4ecff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .member-card-emoji {
+      font-size: 1.4rem;
+    }
+
+    .member-card-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: #062037;
+    }
+
+    .member-card p {
+      margin: 0;
+      color: #555;
+      font-size: 0.92rem;
+      line-height: 1.5;
+    }
+
+    .member-card a.section-link {
+      display: inline-block;
+      margin-top: 10px;
+      color: #062037;
+      font-weight: 600;
+      text-decoration: none;
+      border-bottom: 1px solid rgba(6, 32, 55, 0.5);
+      padding-bottom: 1px;
+      font-size: 0.9rem;
+    }
+
+    .member-card a.section-link:hover {
+      border-bottom-color: transparent;
+    }
+
+    .member-highlight {
+      font-size: 0.8rem;
+      color: #1f3b63;
+      background: #e4ecff;
+      border-radius: 999px;
+      padding: 3px 9px;
+      display: inline-block;
+      margin-top: 4px;
+      align-self: flex-start;
+    }
+
+    /* LIENS UTILES (on garde le principe, en le mettant dans une section-card) */
+
+    .useful-links {
+      margin-top: 32px;
     }
 
     .useful-links h2 {
       font-size: 1.7rem;
       color: #062037;
-      margin-bottom: 6px;
+      margin-bottom: 8px;
     }
 
     .useful-intro {
@@ -187,33 +283,19 @@
 
     .useful-category {
       margin-bottom: 28px;
-      padding-top: 12px;
-      border-top: 2px solid #d5dfec;
-    }
-
-    .useful-category--meteo {
-      border-top-color: #4c8dde;
-    }
-
-    .useful-category--reglementation {
-      border-top-color: #e29a3b;
-    }
-
-    .useful-category--nav {
-      border-top-color: #4bb89a;
     }
 
     .useful-category h3 {
-      font-size: 1.2rem;
+      font-size: 1.25rem;
       color: #062037;
       margin-bottom: 10px;
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 6px;
     }
 
     .useful-category h3 span.emoji {
-      font-size: 1.3rem;
+      font-size: 1.2rem;
     }
 
     .useful-grid {
@@ -224,14 +306,13 @@
 
     .useful-card {
       display: block;
-      background: #ffffff;
+      background: #f7f9fc;
       padding: 14px 16px 16px;
       border-radius: 12px;
       border: 1px solid #d5dfec;
       text-decoration: none;
       color: #062037;
-      transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.2s ease,
-        background 0.2s ease;
+      transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.2s ease;
       font-size: 0.95rem;
     }
 
@@ -250,7 +331,6 @@
       transform: translateY(-3px);
       box-shadow: 0 10px 22px rgba(0, 0, 0, 0.12);
       border-color: #a7b9d6;
-      background: #f5f7ff;
     }
 
     /* ICÔNES RÉSEAUX FLOTTANTES */
@@ -290,7 +370,7 @@
       background: #062037;
       color: #fff;
       padding: 40px 20px 20px;
-      margin-top: 60px;
+      margin-top: 40px;
     }
 
     .footer-content {
@@ -344,7 +424,7 @@
       font-size: 0.85rem;
     }
 
-    /* RESPONSIVE MOBILE */
+    /* RESPONSIVE */
 
     @media (max-width: 768px) {
       header {
@@ -385,9 +465,8 @@
         display: flex;
       }
 
-      .useful-links {
-        padding: 24px 20px;
-        margin: 60px 16px;
+      main {
+        padding: 0 16px;
       }
     }
   </style>
@@ -416,81 +495,121 @@
   </header>
 
   <main>
-    <!-- BLOC DOCUMENTS MEMBRES -->
-    <section class="member-dashboard">
-      <h1>Espace membres</h1>
+    <!-- HERO ESPACE MEMBRES -->
+    <section class="section-card member-hero">
+      <div class="member-tag">
+        <span class="member-tag-dot"></span>
+        <span>Espace interne</span>
+      </div>
+      <h1><span class="emoji">🔑</span><span>Espace membres</span></h1>
       <p>
-        Cet espace est réservé aux membres de l’APAM. Les liens ci-dessous renvoient vers des
-        documents hébergés sur des espaces sécurisés (Google Drive, etc.).
+        Cet espace regroupe les documents internes du club : procédures, documents avions, supports
+        de cours et informations sur les voyages & activités.
       </p>
-      <p class="hint">
-        L’accès aux documents dépend de vos droits. Si vous ne voyez pas un contenu, rapprochez-vous
-        du bureau du club.
+      <p class="member-hint">
+        Les liens ci-dessous pointent vers des espaces sécurisés (Google Drive, etc.). Si l’accès
+        vous est refusé, rapprochez-vous du bureau du club.
+      </p>
+    </section>
+
+    <!-- 4 BLOCS DOCUMENTS MEMBRES -->
+    <section class="section-card member-docs-section">
+      <h2>
+        <span class="section-chip">Documents</span>
+        <span class="section-emoji">📂</span>
+        <span>Ressources pour les membres</span>
+      </h2>
+      <p class="section-intro">
+        Tous les membres ne voient pas les mêmes documents en fonction de leurs droits. Les liens
+        ci-dessous sont fixes, mais l’accès est géré côté Drive (ou service équivalent).
       </p>
 
-      <div class="sections-grid">
+      <div class="member-grid">
         <!-- Documentation générale -->
-        <section class="member-section">
-          <h2>Documentation générale</h2>
+        <article class="member-card">
+          <div class="member-card-header">
+            <div class="member-card-emoji-wrap">
+              <span class="member-card-emoji">📁</span>
+            </div>
+            <div class="member-card-title">Documentation générale</div>
+          </div>
           <p>
-            Règlement intérieur, procédures club, consignes de sécurité, informations générales
-            pour tous les membres.
+            Règlement intérieur, procédures club, consignes de sécurité, informations générales pour
+            tous les membres.
           </p>
+          <span class="member-highlight">Pour tous les pilotes du club</span>
           <a class="section-link" href="#" target="_blank">
             Accéder à la documentation générale
           </a>
-        </section>
+        </article>
 
         <!-- Documentation avions -->
-        <section class="member-section">
-          <h2>Documentation avions</h2>
+        <article class="member-card">
+          <div class="member-card-header">
+            <div class="member-card-emoji-wrap">
+              <span class="member-card-emoji">✈️</span>
+            </div>
+            <div class="member-card-title">Documentation avions</div>
+          </div>
           <p>
-            POH, check-lists, bilans de masse et centrage, documentation technique propre à la
-            flotte de l’APAM.
+            POH, check-lists, bilans de masse et centrage et documents techniques pour la flotte de
+            l’APAM.
           </p>
+          <span class="member-highlight">À consulter avant vos vols</span>
           <a class="section-link" href="#" target="_blank">
             Accéder à la documentation avions
           </a>
-        </section>
+        </article>
 
         <!-- Cours théoriques -->
-        <section class="member-section">
-          <h2>Cours théoriques</h2>
+        <article class="member-card">
+          <div class="member-card-header">
+            <div class="member-card-emoji-wrap">
+              <span class="member-card-emoji">📚</span>
+            </div>
+            <div class="member-card-title">Cours théoriques</div>
+          </div>
           <p>
-            Supports de cours, ressources de préparation, documents pédagogiques pour les élèves
+            Supports de cours, ressources de préparation et documents pédagogiques pour les élèves
             pilotes et les membres en formation.
           </p>
+          <span class="member-highlight">Idéal pour préparer ses vols</span>
           <a class="section-link" href="#" target="_blank">
             Accéder aux cours théoriques
           </a>
-        </section>
+        </article>
 
         <!-- Voyages & activités -->
-        <section class="member-section">
-          <h2>Voyages & activités du club</h2>
+        <article class="member-card">
+          <div class="member-card-header">
+            <div class="member-card-emoji-wrap">
+              <span class="member-card-emoji">🧭</span>
+            </div>
+            <div class="member-card-title">Voyages & activités du club</div>
+          </div>
           <p>
             Projets de voyages, briefings, tarifs, organisation des sorties et comptes rendus des
             activités passées.
           </p>
+          <span class="member-highlight">Pour suivre la vie du club</span>
           <a class="section-link" href="#" target="_blank">
             Accéder aux voyages & activités
           </a>
-        </section>
+        </article>
       </div>
     </section>
 
-    <!-- SECTION LIENS UTILES -->
-    <section class="useful-links">
-      <div class="useful-header-tag">Ressources en ligne</div>
+    <!-- LIENS UTILES (on garde le contenu, juste dans une section-card) -->
+    <section class="section-card useful-links">
       <h2>Liens utiles pour les pilotes</h2>
       <p class="useful-intro">
-        Une sélection de ressources pour préparer vos vols en France : météo aéronautique,
-        réglementation, navigation, NOTAM et documentation officielle, pensée aussi pour les jeunes pilotes ✈️
+        Une sélection de ressources en ligne pour préparer vos vols en France : météo aéronautique,
+        réglementation, navigation, NOTAM et documentation officielle.
       </p>
 
       <!-- Préparation météo -->
-      <div class="useful-category useful-category--meteo">
-        <h3><span class="emoji">☁️</span><span>Préparation météo</span></h3>
+      <div class="useful-category">
+        <h3><span class="emoji">🌦️</span><span>Préparation météo</span></h3>
         <div class="useful-grid">
           <a href="https://aviation.meteo.fr/" target="_blank" class="useful-card">
             <h4>AeroWeb – Météo-France</h4>
@@ -510,8 +629,8 @@
       </div>
 
       <!-- Réglementation & fédération -->
-      <div class="useful-category useful-category--reglementation">
-        <h3><span class="emoji">📚</span><span>Réglementation & fédération</span></h3>
+      <div class="useful-category">
+        <h3><span class="emoji">📜</span><span>Réglementation & fédération</span></h3>
         <div class="useful-grid">
           <a href="https://www.ffa-aero.fr/" target="_blank" class="useful-card">
             <h4>FFA – Fédération Française Aéronautique</h4>
@@ -531,7 +650,7 @@
       </div>
 
       <!-- Navigation & documentation -->
-      <div class="useful-category useful-category--nav">
+      <div class="useful-category">
         <h3><span class="emoji">🗺️</span><span>Navigation & documentation</span></h3>
         <div class="useful-grid">
           <a href="https://www.sia.aviation-civile.gouv.fr/" target="_blank" class="useful-card">
