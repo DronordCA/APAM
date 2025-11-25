@@ -36,6 +36,33 @@
       color: inherit;
     }
 
+    /* ================== ANIMATIONS SCROLL ================== */
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition:
+        opacity 0.6s ease,
+        transform 0.6s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .reveal-delay-1 {
+      transition-delay: 0.1s;
+    }
+
+    .reveal-delay-2 {
+      transition-delay: 0.2s;
+    }
+
+    .reveal-delay-3 {
+      transition-delay: 0.3s;
+    }
+
     /* ================== HEADER + MENU ================== */
 
     header {
@@ -100,24 +127,24 @@
       color: #02101f;
     }
 
+    /* Bouton menu mobile - pill "Menu" */
+
     .menu-toggle {
       display: none;
       background: rgba(3, 16, 35, 0.8);
+      color: #ffffff;
+      font-weight: 600;
+      font-size: 0.9rem;
       border-radius: 999px;
       border: 1px solid rgba(255, 255, 255, 0.3);
       cursor: pointer;
-      padding: 7px 10px;
+      padding: 7px 14px;
       box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3);
     }
 
-    .menu-toggle span {
-      display: block;
-      width: 18px;
-      height: 2px;
-      background: #ffffff;
-      margin: 3px 0;
-      border-radius: 999px;
-      transition: transform 0.2s ease, opacity 0.2s ease;
+    .menu-toggle:hover {
+      background: rgba(3, 16, 35, 0.92);
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4);
     }
 
     /* ================== HERO ================== */
@@ -159,11 +186,11 @@
       margin-top: 40px;
     }
 
-    /* ===== Cartes glass du hero (ultra transparentes) ===== */
+    /* Cartes glass du hero (ultra transparentes) */
 
     .hero-card {
       flex: 1 1 320px;
-      background: rgba(255, 255, 255, 0.10); /* ultra transparent */
+      background: rgba(255, 255, 255, 0.10);
       border-radius: 26px;
       border: 1px solid rgba(255, 255, 255, 0.25);
       box-shadow: 0 16px 40px rgba(0, 0, 0, 0.55);
@@ -279,7 +306,7 @@
     }
 
     .hero-stat-card {
-      background: rgba(255, 255, 255, 0.10); /* ultra transparent */
+      background: rgba(255, 255, 255, 0.10);
       border-radius: 20px;
       border: 1px solid rgba(255, 255, 255, 0.25);
       box-shadow: 0 14px 34px rgba(0, 0, 0, 0.55);
@@ -692,6 +719,8 @@
 
       .menu-toggle {
         display: inline-flex;
+        align-items: center;
+        justify-content: center;
       }
 
       .hero-title {
@@ -709,6 +738,17 @@
       .footer-content {
         flex-direction: column;
         align-items: flex-start;
+        padding: 16px 18px 14px;
+        gap: 18px;
+      }
+
+      .site-footer {
+        padding: 24px 16px 18px;
+        margin-top: 24px;
+      }
+
+      .copyright {
+        margin-top: 12px;
       }
     }
   </style>
@@ -718,11 +758,7 @@
   <header>
     <img src="apam-logo.png" alt="Logo APAM" class="logo" />
 
-    <button class="menu-toggle" aria-label="Ouvrir le menu">
-      <span></span>
-      <span></span>
-      <span></span>
-    </button>
+    <button class="menu-toggle" aria-label="Ouvrir le menu">Menu</button>
 
     <nav class="main-nav">
       <a href="index.html" class="active">Accueil</a>
@@ -737,7 +773,7 @@
 
   <!-- ============ HERO ============ -->
   <section class="hero">
-    <div class="hero-inner">
+    <div class="hero-inner reveal visible">
       <div class="hero-card">
         <div class="hero-eyebrow">Aéroclub APAM</div>
         <h1 class="hero-title">
@@ -789,7 +825,7 @@
   <!-- ============ CONTENU ============ -->
   <main>
     <!-- Intro en bulle -->
-    <section class="intro">
+    <section class="intro reveal">
       <div class="intro-card">
         <h2 class="intro-title">Bienvenue à l’APAM</h2>
         <p>
@@ -802,7 +838,7 @@
 
     <!-- Petites "capsules" -->
     <section class="pill-section">
-      <article class="pill-card">
+      <article class="pill-card reveal reveal-delay-1">
         <div class="pill-icon">🎓</div>
         <div>
           <div class="pill-title">Formation & progression</div>
@@ -813,7 +849,7 @@
         </div>
       </article>
 
-      <article class="pill-card">
+      <article class="pill-card reveal reveal-delay-2">
         <div class="pill-icon">🌍</div>
         <div>
           <div class="pill-title">Voyages & esprit club</div>
@@ -824,7 +860,7 @@
         </div>
       </article>
 
-      <article class="pill-card">
+      <article class="pill-card reveal reveal-delay-3">
         <div class="pill-icon">🛩️</div>
         <div>
           <div class="pill-title">Flotte entretenue</div>
@@ -837,14 +873,14 @@
     </section>
 
     <!-- Cartes "Notre flotte / Où nous trouver / Nos installations" -->
-    <section class="cards-section">
+    <section class="cards-section reveal">
       <div class="cards-header">
         <h2>Découvrir le club</h2>
         <p>Un aperçu rapide de ce que vous trouverez à l’APAM.</p>
       </div>
 
       <div class="cards">
-        <a href="flotte.html" class="card">
+        <a href="flotte.html" class="card reveal reveal-delay-1">
           <div class="card-img-wrap">
             <img src="https://picsum.photos/800/500?random=11" alt="Notre flotte" />
             <div class="card-gradient"></div>
@@ -862,7 +898,7 @@
           </div>
         </a>
 
-        <a href="localisation.html" class="card">
+        <a href="localisation.html" class="card reveal reveal-delay-2">
           <div class="card-img-wrap">
             <img src="https://picsum.photos/800/500?random=12" alt="Où nous trouver" />
             <div class="card-gradient"></div>
@@ -879,7 +915,7 @@
           </div>
         </a>
 
-        <a href="installations.html" class="card">
+        <a href="installations.html" class="card reveal reveal-delay-3">
           <div class="card-img-wrap">
             <img src="https://picsum.photos/800/500?random=13" alt="Nos installations" />
             <div class="card-gradient"></div>
@@ -947,13 +983,35 @@
     </p>
   </footer>
 
-  <!-- ============ SCRIPT MENU MOBILE ============ -->
+  <!-- ============ SCRIPT MENU MOBILE + ANIMATIONS ============ -->
   <script>
     const menuToggle = document.querySelector(".menu-toggle");
     const nav = document.querySelector(".main-nav");
 
     menuToggle.addEventListener("click", () => {
       nav.classList.toggle("open");
+    });
+
+    // Animations au scroll
+    const revealedElements = document.querySelectorAll(".reveal");
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("visible");
+            // On peut arrêter d'observer une fois visible
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      {
+        threshold: 0.15,
+      }
+    );
+
+    revealedElements.forEach((el) => {
+      observer.observe(el);
     });
   </script>
 </body>
