@@ -234,6 +234,69 @@
       margin: 0;
     }
 
+    /* CTA "Créer mon espace membre" dans le hero */
+
+    .member-cta {
+      margin-top: 16px;
+      padding-top: 14px;
+      border-top: 1px solid rgba(6, 32, 55, 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .member-cta-text h2 {
+      margin: 0 0 4px;
+      font-size: 1.25rem;
+      color: var(--apam-blue);
+    }
+
+    .member-cta-text p {
+      margin: 0;
+      color: var(--text-soft);
+      font-size: 0.93rem;
+      max-width: 600px;
+      line-height: 1.6;
+    }
+
+    .primary-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 9px 20px;
+      border-radius: 999px;
+      border: 1px solid rgba(74, 163, 255, 0.9);
+      background: linear-gradient(
+        135deg,
+        rgba(139, 199, 255, 0.98),
+        rgba(70, 140, 255, 0.98)
+      );
+      color: #02101f;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.9rem;
+      box-shadow: 0 10px 24px rgba(74, 163, 255, 0.45);
+      white-space: nowrap;
+      cursor: pointer;
+      transition:
+        transform 0.18s ease,
+        box-shadow 0.18s ease,
+        background 0.2s ease;
+    }
+
+    .primary-button:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 14px 32px rgba(74, 163, 255, 0.6);
+      background: linear-gradient(
+        135deg,
+        rgba(165, 210, 255, 1),
+        rgba(100, 160, 255, 1)
+      );
+    }
+
     /* BLOCS DOCUMENTS MEMBRES */
 
     .member-docs-section h2 {
@@ -593,6 +656,16 @@
         flex-direction: column;
         align-items: flex-start;
       }
+
+      .member-cta {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .primary-button {
+        width: 100%;
+        justify-content: center;
+      }
     }
   </style>
 </head>
@@ -633,6 +706,25 @@
         Les liens ci-dessous pointent vers des espaces sécurisés (Google Drive, etc.). Si l’accès
         vous est refusé, rapprochez-vous du bureau du club.
       </p>
+
+      <!-- CTA créer mon espace -->
+      <div class="member-cta">
+        <div class="member-cta-text">
+          <h2>Créer mon espace membre</h2>
+          <p>
+            Vous êtes nouvel élève, nouveau pilote ou membre du bureau ? Remplissez ce formulaire
+            pour que le club puisse créer ou mettre à jour vos accès aux différents espaces
+            (général, avions, cours théoriques, voyages & activités).
+          </p>
+        </div>
+        <a
+          href="https://docs.google.com/forms/d/e/1FAIpQLSd_uIRaKMWW5sIzq8NnZYflQr9glMLzq4WEDJrw0gtDI_NHGA/viewform?usp=header"
+          target="_blank"
+          class="primary-button"
+        >
+          ✍️ Créer mon espace
+        </a>
+      </div>
     </section>
 
     <!-- 4 BLOCS DOCUMENTS MEMBRES -->
