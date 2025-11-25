@@ -120,7 +120,7 @@
 
       display: flex;
       flex-direction: column;
-      height: 100%; /* même hauteur pour tous les blocs */
+      height: 100%;
     }
 
     .member-section h2 {
@@ -137,7 +137,7 @@
 
     .member-section a.section-link {
       display: inline-block;
-      margin-top: auto; /* pousse le lien en bas du bloc */
+      margin-top: auto;
       color: #062037;
       font-weight: 600;
       text-decoration: none;
@@ -150,18 +150,33 @@
       border-bottom-color: transparent;
     }
 
-    /* LIENS UTILES */
+    /* LIENS UTILES – version plus moderne */
 
     .useful-links {
       max-width: 1100px;
-      margin: 40px auto 60px;
-      padding: 0 30px;
+      margin: 70px auto 60px; /* plus d'espace au-dessus */
+      padding: 30px;
+      background: #f9fbff;
+      border-radius: 18px;
+      border: 1px solid #e0e6f2;
+    }
+
+    .useful-header-tag {
+      display: inline-block;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      background: #e4ecff;
+      color: #1f3b63;
+      padding: 4px 9px;
+      border-radius: 999px;
+      margin-bottom: 10px;
     }
 
     .useful-links h2 {
       font-size: 1.7rem;
       color: #062037;
-      margin-bottom: 8px;
+      margin-bottom: 6px;
     }
 
     .useful-intro {
@@ -172,12 +187,33 @@
 
     .useful-category {
       margin-bottom: 28px;
+      padding-top: 12px;
+      border-top: 2px solid #d5dfec;
+    }
+
+    .useful-category--meteo {
+      border-top-color: #4c8dde;
+    }
+
+    .useful-category--reglementation {
+      border-top-color: #e29a3b;
+    }
+
+    .useful-category--nav {
+      border-top-color: #4bb89a;
     }
 
     .useful-category h3 {
-      font-size: 1.25rem;
+      font-size: 1.2rem;
       color: #062037;
       margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .useful-category h3 span.emoji {
+      font-size: 1.3rem;
     }
 
     .useful-grid {
@@ -188,13 +224,14 @@
 
     .useful-card {
       display: block;
-      background: #f7f9fc;
+      background: #ffffff;
       padding: 14px 16px 16px;
       border-radius: 12px;
       border: 1px solid #d5dfec;
       text-decoration: none;
       color: #062037;
-      transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.2s ease;
+      transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.2s ease,
+        background 0.2s ease;
       font-size: 0.95rem;
     }
 
@@ -213,6 +250,7 @@
       transform: translateY(-3px);
       box-shadow: 0 10px 22px rgba(0, 0, 0, 0.12);
       border-color: #a7b9d6;
+      background: #f5f7ff;
     }
 
     /* ICÔNES RÉSEAUX FLOTTANTES */
@@ -346,6 +384,11 @@
       .main-nav.open {
         display: flex;
       }
+
+      .useful-links {
+        padding: 24px 20px;
+        margin: 60px 16px;
+      }
     }
   </style>
 </head>
@@ -438,15 +481,16 @@
 
     <!-- SECTION LIENS UTILES -->
     <section class="useful-links">
+      <div class="useful-header-tag">Ressources en ligne</div>
       <h2>Liens utiles pour les pilotes</h2>
       <p class="useful-intro">
-        Une sélection de ressources en ligne pour préparer vos vols en France : météo aéronautique,
-        réglementation, navigation, NOTAM et documentation officielle.
+        Une sélection de ressources pour préparer vos vols en France : météo aéronautique,
+        réglementation, navigation, NOTAM et documentation officielle, pensée aussi pour les jeunes pilotes ✈️
       </p>
 
       <!-- Préparation météo -->
-      <div class="useful-category">
-        <h3>Préparation météo</h3>
+      <div class="useful-category useful-category--meteo">
+        <h3><span class="emoji">☁️</span><span>Préparation météo</span></h3>
         <div class="useful-grid">
           <a href="https://aviation.meteo.fr/" target="_blank" class="useful-card">
             <h4>AeroWeb – Météo-France</h4>
@@ -466,8 +510,8 @@
       </div>
 
       <!-- Réglementation & fédération -->
-      <div class="useful-category">
-        <h3>Réglementation & fédération</h3>
+      <div class="useful-category useful-category--reglementation">
+        <h3><span class="emoji">📚</span><span>Réglementation & fédération</span></h3>
         <div class="useful-grid">
           <a href="https://www.ffa-aero.fr/" target="_blank" class="useful-card">
             <h4>FFA – Fédération Française Aéronautique</h4>
@@ -487,8 +531,8 @@
       </div>
 
       <!-- Navigation & documentation -->
-      <div class="useful-category">
-        <h3>Navigation & documentation</h3>
+      <div class="useful-category useful-category--nav">
+        <h3><span class="emoji">🗺️</span><span>Navigation & documentation</span></h3>
         <div class="useful-grid">
           <a href="https://www.sia.aviation-civile.gouv.fr/" target="_blank" class="useful-card">
             <h4>SIA – Service de l’Information Aéronautique</h4>
