@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>APAM – Activités</title>
+  <title>APAM – Activités du club</title>
   <style>
     body {
       margin: 0;
       font-family: Arial, sans-serif;
     }
 
-    /* HEADER + MENU */
+    /* HEADER + MENU (identique aux autres pages) */
 
     header {
       background: white;
@@ -61,10 +61,10 @@
       width: 100%;
     }
 
-    /* Bouton menu mobile (hamburger) */
+    /* Bouton menu mobile */
 
     .menu-toggle {
-      display: none; /* caché sur desktop */
+      display: none;
       background: none;
       border: none;
       cursor: pointer;
@@ -80,23 +80,259 @@
       transition: transform 0.2s ease, opacity 0.2s ease;
     }
 
-    /* CONTENU PAGE ACTIVITÉ */
+    /* HERO / INTRO PAGE ACTIVITÉS */
 
-    .page-activity {
-      max-width: 1000px;
-      margin: 40px auto 60px;
+    .activity-hero {
+      max-width: 1100px;
+      margin: 30px auto 10px;
       padding: 0 30px;
     }
 
-    .page-activity h1 {
+    .activity-tag {
+      display: inline-block;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      background: #e4ecff;
+      color: #1f3b63;
+      padding: 4px 9px;
+      border-radius: 999px;
+      margin-bottom: 10px;
+    }
+
+    .activity-hero h1 {
       font-size: 2rem;
+      color: #062037;
+      margin: 0 0 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .activity-hero h1 span.emoji {
+      font-size: 1.6rem;
+    }
+
+    .activity-hero p {
+      color: #555;
+      line-height: 1.6;
+      margin: 0 0 16px;
+      max-width: 700px;
+    }
+
+    .activity-note {
+      font-size: 0.9rem;
+      color: #777;
+    }
+
+    /* GRILLE ACTIVITÉS */
+
+    .activity-section {
+      max-width: 1100px;
+      margin: 25px auto 40px;
+      padding: 0 30px;
+    }
+
+    .activity-section h2 {
+      font-size: 1.6rem;
       color: #062037;
       margin-bottom: 10px;
     }
 
-    .page-activity p {
+    .activity-section p.section-intro {
+      color: #555;
+      margin-bottom: 20px;
+      line-height: 1.6;
+      max-width: 720px;
+    }
+
+    .activity-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 20px;
+    }
+
+    .activity-card {
+      background: #f7f9fc;
+      border-radius: 16px;
+      border: 1px solid #d5dfec;
+      padding: 18px 18px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .activity-card-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 4px;
+    }
+
+    .activity-card-emoji {
+      font-size: 1.6rem;
+    }
+
+    .activity-card-title {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: #062037;
+    }
+
+    .activity-card p {
+      margin: 0;
+      color: #555;
+      font-size: 0.95rem;
+      line-height: 1.5;
+    }
+
+    .activity-card ul {
+      margin: 6px 0 0 16px;
+      padding: 0;
+      color: #555;
+      font-size: 0.9rem;
+      line-height: 1.5;
+    }
+
+    .activity-highlight {
+      font-size: 0.9rem;
+      color: #1f3b63;
+      background: #e4ecff;
+      border-radius: 999px;
+      padding: 4px 10px;
+      display: inline-block;
+      margin-top: 8px;
+    }
+
+    /* FLOTTE */
+
+    .fleet-section {
+      max-width: 1100px;
+      margin: 20px auto 50px;
+      padding: 0 30px 10px;
+    }
+
+    .fleet-section h2 {
+      font-size: 1.6rem;
+      color: #062037;
+      margin-bottom: 8px;
+    }
+
+    .fleet-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 18px;
+      margin-top: 16px;
+    }
+
+    .fleet-card {
+      border-radius: 14px;
+      border: 1px solid #d5dfec;
+      padding: 16px 16px 14px;
+      background: #ffffff;
+      font-size: 0.95rem;
+    }
+
+    .fleet-card h3 {
+      margin: 0 0 4px;
+      font-size: 1.1rem;
+      color: #062037;
+    }
+
+    .fleet-role {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #1f3b63;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 6px;
+    }
+
+    .fleet-card p {
+      margin: 0;
+      color: #555;
+      line-height: 1.5;
+    }
+
+    /* TARIFS / INSCRIPTION – TEASER */
+
+    .pricing-section {
+      max-width: 1100px;
+      margin: 0 auto 50px;
+      padding: 0 30px;
+      display: grid;
+      grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+      gap: 24px;
+      align-items: flex-start;
+    }
+
+    .pricing-block {
+      background: #f7f9fc;
+      border-radius: 16px;
+      border: 1px solid #d5dfec;
+      padding: 18px 20px 20px;
+      font-size: 0.95rem;
       color: #555;
       line-height: 1.6;
+    }
+
+    .pricing-block h2 {
+      font-size: 1.4rem;
+      color: #062037;
+      margin: 0 0 8px;
+    }
+
+    .pricing-block ul {
+      margin: 8px 0 0 18px;
+      padding: 0;
+    }
+
+    .pricing-block ul li {
+      margin-bottom: 4px;
+    }
+
+    .pricing-note {
+      font-size: 0.85rem;
+      color: #777;
+      margin-top: 8px;
+    }
+
+    .pricing-link {
+      display: inline-block;
+      margin-top: 10px;
+      font-weight: 600;
+      color: #062037;
+      text-decoration: none;
+      border-bottom: 1px solid rgba(6, 32, 55, 0.5);
+      padding-bottom: 1px;
+    }
+
+    .pricing-link:hover {
+      border-bottom-color: transparent;
+    }
+
+    .faq-block h3 {
+      margin: 0 0 8px;
+      font-size: 1.1rem;
+      color: #062037;
+    }
+
+    .faq-item {
+      margin-bottom: 10px;
+    }
+
+    .faq-question {
+      font-weight: 600;
+      font-size: 0.95rem;
+      color: #062037;
+      margin-bottom: 2px;
+    }
+
+    .faq-answer {
+      font-size: 0.9rem;
+      color: #555;
+      margin: 0;
+      line-height: 1.5;
     }
 
     /* ICÔNES RÉSEAUX FLOTTANTES */
@@ -116,7 +352,7 @@
       width: 22px;
       height: 22px;
       display: block;
-      filter: invert(1) brightness(200%); /* icônes blanches */
+      filter: invert(1) brightness(200%);
       opacity: 0.9;
       transition:
         opacity 0.2s ease,
@@ -130,7 +366,7 @@
       transform: translateY(-2px);
     }
 
-    /* FOOTER */
+    /* FOOTER (identique aux autres pages) */
 
     .site-footer {
       background: #062037;
@@ -190,7 +426,7 @@
       font-size: 0.85rem;
     }
 
-    /* RESPONSIVE MOBILE */
+    /* RESPONSIVE */
 
     @media (max-width: 768px) {
       header {
@@ -207,7 +443,7 @@
         padding: 12px 16px;
         flex-direction: column;
         align-items: flex-start;
-        display: none; /* masqué par défaut sur mobile */
+        display: none;
       }
 
       .main-nav a {
@@ -215,7 +451,7 @@
       }
 
       .menu-toggle {
-        display: block; /* bouton visible sur mobile */
+        display: block;
       }
 
       .social-floating {
@@ -227,9 +463,18 @@
         align-items: flex-start;
       }
 
-      /* Quand le menu est ouvert */
       .main-nav.open {
         display: flex;
+      }
+
+      .pricing-section {
+        grid-template-columns: 1fr;
+      }
+
+      .activity-hero,
+      .activity-section,
+      .fleet-section {
+        padding: 0 20px;
       }
     }
   </style>
@@ -257,13 +502,272 @@
     </nav>
   </header>
 
-  <main class="page-activity">
-    <h1>Nos activités</h1>
-    <p>
-      Sur cette page, vous pourrez présenter les différentes activités proposées par l’APAM :
-      école de pilotage, vols découverte, baptêmes de l’air, perfectionnement, voyages, etc.
-      (Texte provisoire que tu pourras remplacer.)
-    </p>
+  <main>
+    <!-- INTRO ACTIVITÉS -->
+    <section class="activity-hero">
+      <div class="activity-tag">La vie du club</div>
+      <h1><span class="emoji">✈️</span><span>Les activités du club</span></h1>
+      <p>
+        L’APAM propose une palette d’activités pour tous les profils : élèves pilotes, pilotes
+        brevetés, passionnés de voyage aérien ou curieux souhaitant découvrir le vol.
+      </p>
+      <p class="activity-note">
+        Les informations ci-dessous sont indicatives. Pour tout projet de formation ou d’activité,
+        n’hésitez pas à contacter le bureau du club.
+      </p>
+    </section>
+
+    <!-- FORMATION PILOTE PRIVÉ -->
+    <section class="activity-section">
+      <h2>Formation de pilote privé</h2>
+      <p class="section-intro">
+        Que vous souhaitiez voler pour le loisir ou préparer un projet plus ambitieux, l’APAM vous
+        accompagne vers les licences de pilote privé.
+      </p>
+
+      <div class="activity-grid">
+        <article class="activity-card">
+          <div class="activity-card-header">
+            <div class="activity-card-emoji">🎓</div>
+            <div class="activity-card-title">Licence LAPL (Light Aircraft Pilot Licence)</div>
+          </div>
+          <p>
+            Une licence de pilote d’avion léger, idéale pour découvrir le pilotage et pratiquer le
+            vol de loisir en Europe avec des avions de tourisme.
+          </p>
+          <ul>
+            <li>Accès progressif au pilotage solo</li>
+            <li>Vol local, navigation et perfectionnement</li>
+            <li>Encadrement par des instructeurs diplômés</li>
+          </ul>
+          <span class="activity-highlight">Parfait pour débuter sereinement</span>
+        </article>
+
+        <article class="activity-card">
+          <div class="activity-card-header">
+            <div class="activity-card-emoji">📘</div>
+            <div class="activity-card-title">Licence PPL (Private Pilot Licence)</div>
+          </div>
+          <p>
+            La licence de pilote privé avion permet d’emporter des passagers sur des vols de voyage
+            en France et à l’étranger, en conditions VFR.
+          </p>
+          <ul>
+            <li>Programme théorique et pratique complet</li>
+            <li>Navigation, gestion du vol, sécurité</li>
+            <li>Base solide pour d’éventuels projets professionnels</li>
+          </ul>
+          <span class="activity-highlight">La référence des licences de loisir</span>
+        </article>
+
+        <article class="activity-card">
+          <div class="activity-card-header">
+            <div class="activity-card-emoji">🌙</div>
+            <div class="activity-card-title">Qualification vol de nuit</div>
+          </div>
+          <p>
+            Pour les pilotes déjà titulaires d’une licence, la qualification vol de nuit permet
+            d’étendre ses compétences et son confort de navigation.
+          </p>
+          <ul>
+            <li>Préparation et gestion d’un vol de nuit</li>
+            <li>Utilisation des instruments de bord de nuit</li>
+            <li>Entraînement en double commande avec instructeur</li>
+          </ul>
+          <span class="activity-highlight">Une expérience inoubliable du ciel nocturne</span>
+        </article>
+      </div>
+    </section>
+
+    <!-- FORMATIONS COMPLÉMENTAIRES -->
+    <section class="activity-section">
+      <h2>Formations complémentaires</h2>
+      <p class="section-intro">
+        Une fois les bases acquises, le club propose des formations pour développer vos compétences
+        techniques et découvrir des machines plus performantes.
+      </p>
+
+      <div class="activity-grid">
+        <article class="activity-card">
+          <div class="activity-card-header">
+            <div class="activity-card-emoji">⚙️</div>
+            <div class="activity-card-title">Hélice à pas variable (VP) sur TB200</div>
+          </div>
+          <p>
+            Formation dédiée à l’utilisation de l’hélice à pas variable (VP) et de la gestion moteur
+            sur le SOCATA TB200.
+          </p>
+          <ul>
+            <li>Comprendre le fonctionnement de l’hélice VP</li>
+            <li>Gestion de la puissance et des régimes moteur</li>
+            <li>Application en vol local et en navigation</li>
+          </ul>
+        </article>
+
+        <article class="activity-card">
+          <div class="activity-card-header">
+            <div class="activity-card-emoji">🖥️</div>
+            <div class="activity-card-title">Nouvelles technologies sur Cirrus SR20</div>
+          </div>
+          <p>
+            Formation sur avion moderne équipé d’avionique avancée (Cirrus SR20) pour se familiariser
+            avec les cockpits “verre” (glass cockpit).
+          </p>
+          <ul>
+            <li>Découverte et utilisation de l’avionique intégrée</li>
+            <li>Gestion de la charge de travail et automatisation</li>
+            <li>Perfectionnement à la navigation sur long trajet</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <!-- DÉCOUVERTE & VIE DU CLUB -->
+    <section class="activity-section">
+      <h2>Découvrir l’aviation & vivre le club</h2>
+      <p class="section-intro">
+        L’APAM, ce n’est pas seulement de la formation : c’est aussi un lieu de rencontres, de
+        projets et de vols partagés entre passionnés.
+      </p>
+
+      <div class="activity-grid">
+        <article class="activity-card">
+          <div class="activity-card-header">
+            <div class="activity-card-emoji">👨‍✈️</div>
+            <div class="activity-card-title">Vols découverte & baptêmes de l’air</div>
+          </div>
+          <p>
+            Idéal pour une première expérience en avion léger : un vol accompagné d’un pilote du
+            club pour découvrir la région vue du ciel.
+          </p>
+          <ul>
+            <li>Briefing avant le vol</li>
+            <li>Explications pendant le vol</li>
+            <li>Idée cadeau pour proches et amis</li>
+          </ul>
+        </article>
+
+        <article class="activity-card">
+          <div class="activity-card-header">
+            <div class="activity-card-emoji">🧭</div>
+            <div class="activity-card-title">Voyages & sorties club</div>
+          </div>
+          <p>
+            Des navigations de groupe sont organisées régulièrement (journée, week-end, plus
+            long) pour découvrir de nouveaux terrains et partager les frais.
+          </p>
+          <ul>
+            <li>Voyages en France et à l’étranger</li>
+            <li>Ambiance conviviale et briefing collectif</li>
+            <li>Occasion de progresser en sécurité</li>
+          </ul>
+        </article>
+
+        <article class="activity-card">
+          <div class="activity-card-header">
+            <div class="activity-card-emoji">🤝</div>
+            <div class="activity-card-title">Vie associative & événements</div>
+          </div>
+          <p>
+            Réunions, soirées à thème, barbecues, visites de salons aéronautiques… Le club vit aussi
+            au sol !
+          </p>
+          <ul>
+            <li>Accueil des nouveaux membres</li>
+            <li>Moments d’échanges entre pilotes</li>
+            <li>Projets portés par les membres du club</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <!-- FLOTTE -->
+    <section class="fleet-section">
+      <h2>La flotte du club</h2>
+      <p class="section-intro">
+        L’aéroclub dispose de trois avions complémentaires, adaptés à la formation, au voyage et au
+        perfectionnement.
+      </p>
+
+      <div class="fleet-grid">
+        <article class="fleet-card">
+          <div class="fleet-role">Avion école biplace</div>
+          <h3>Cessna 152</h3>
+          <p>
+            Avion robuste et pédagogique, utilisé principalement pour l’instruction de base et les
+            premiers solos. Idéal pour apprendre les fondamentaux du pilotage.
+          </p>
+        </article>
+
+        <article class="fleet-card">
+          <div class="fleet-role">Voyage 4 places</div>
+          <h3>Cirrus SR20</h3>
+          <p>
+            Avion moderne équipé d’une avionique avancée, confortable pour les navigations de
+            distance et les vols club, notamment dans le cadre de formations nouvelles technologies.
+          </p>
+        </article>
+
+        <article class="fleet-card">
+          <div class="fleet-role">Voyage 4 places</div>
+          <h3>SOCATA TB200</h3>
+          <p>
+            Avion de voyage polyvalent, utilisé pour les navigations en groupe, les voyages
+            club et la formation à l’hélice à pas variable.
+          </p>
+        </article>
+      </div>
+    </section>
+
+    <!-- TARIFS & QUESTIONS FRÉQUENTES (TEASER VERS PAGE TARIFS) -->
+    <section class="pricing-section">
+      <div class="pricing-block">
+        <h2>Tarifs & inscription</h2>
+        <p>
+          Les tarifs de location des avions et les cotisations sont mis à jour régulièrement par le
+          club. Ils comprennent généralement :
+        </p>
+        <ul>
+          <li>Une cotisation annuelle au club</li>
+          <li>Une assurance/cotisation fédérale (FFA)</li>
+          <li>Une facturation au temps de vol (à l’heure)</li>
+          <li>Un supplément lorsque le vol se fait avec instructeur</li>
+        </ul>
+        <p class="pricing-note">
+          Les montants précis peuvent évoluer. Merci de consulter les informations les plus
+          récentes directement auprès du club.
+        </p>
+        <a href="#" class="pricing-link">Consulter la page Tarifs</a>
+      </div>
+
+      <div class="pricing-block faq-block">
+        <h3>Questions fréquentes</h3>
+
+        <div class="faq-item">
+          <div class="faq-question">Qui peut débuter une formation de pilote ?</div>
+          <p class="faq-answer">
+            Toute personne motivée, dès l’adolescence ou à l’âge adulte. Une visite médicale
+            aéronautique est requise pour voler seul à bord.
+          </p>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question">Faut-il déjà connaître l’aviation ?</div>
+          <p class="faq-answer">
+            Non, la formation intègre la théorie et la pratique. Les instructeurs s’adaptent à votre
+            niveau, que vous soyez novice ou déjà familiarisé avec l’aéronautique.
+          </p>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question">Comment se déroule une formation type PPL ?</div>
+          <p class="faq-answer">
+            Elle alterne cours théoriques, vols en double commande, puis vols solo supervisés. Le
+            rythme dépend de votre disponibilité et de la météo.
+          </p>
+        </div>
+      </div>
+    </section>
   </main>
 
   <!-- Icônes réseaux sociaux flottantes -->
@@ -311,7 +815,7 @@
     </p>
   </footer>
 
-  <!-- Petit script pour le menu mobile -->
+  <!-- Script menu mobile -->
   <script>
     const menuToggle = document.querySelector('.menu-toggle');
     const nav = document.querySelector('.main-nav');
