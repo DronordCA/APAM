@@ -11,7 +11,7 @@
       --apam-blue-dark: #031023;
       --apam-blue: #062037;
       --apam-blue-soft: #1b3658;
-      --glass-bg: rgba(255, 255, 255, 0.85);
+      --glass-bg: rgba(255, 255, 255, 0.9);
       --glass-border: rgba(15, 35, 70, 0.08);
       --glass-shadow: 0 10px 28px rgba(0, 0, 0, 0.12);
       --text-main: #062037;
@@ -39,10 +39,8 @@
     /* ================== HEADER + MENU ================== */
 
     header {
-      position: fixed;              /* flotte au-dessus du hero */
+      position: sticky;
       top: 0;
-      left: 0;
-      right: 0;
       z-index: 100;
       padding: 10px 26px;
       display: flex;
@@ -50,12 +48,15 @@
       justify-content: space-between;
       backdrop-filter: blur(18px);
       -webkit-backdrop-filter: blur(18px);
-      background: rgba(3, 16, 35, 0.8);  /* sombre + transparent */
-      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      /* ULTRA transparent, léger voile sombre */
+      background: rgba(3, 7, 18, 0.18);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.14);
     }
 
+    /* Logo supposé blanc sur fond transparent */
     .logo {
       height: 56px;
+      display: block;
     }
 
     .main-nav {
@@ -71,10 +72,8 @@
       font-size: 0.92rem;
       padding: 7px 16px;
       border-radius: 999px;
-
       background: transparent;
       border: 1px solid transparent;
-
       transition:
         color 0.18s ease,
         background 0.25s ease,
@@ -85,12 +84,13 @@
 
     .main-nav a:hover {
       color: #ffffff;
-      background: rgba(255, 255, 255, 0.08);
-      border-color: rgba(255, 255, 255, 0.35);
-      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.3);
+      background: rgba(148, 190, 255, 0.18);
+      border-color: rgba(148, 190, 255, 0.7);
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.2);
       transform: translateY(-1px);
     }
 
+    /* Accueil actif */
     .main-nav a.active {
       background: linear-gradient(
         135deg,
@@ -98,7 +98,7 @@
         rgba(70, 140, 255, 0.95)
       );
       border-color: rgba(74, 163, 255, 0.9);
-      box-shadow: 0 14px 30px rgba(74, 163, 255, 0.55);
+      box-shadow: 0 14px 30px rgba(74, 163, 255, 0.4);
       color: #02101f;
     }
 
@@ -106,12 +106,12 @@
 
     .menu-toggle {
       display: none;
-      background: rgba(3, 16, 35, 0.85);
+      background: rgba(3, 7, 18, 0.7);
       border-radius: 999px;
       border: 1px solid rgba(255, 255, 255, 0.35);
       cursor: pointer;
       padding: 7px 10px;
-      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4);
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
     }
 
     .menu-toggle span {
@@ -136,8 +136,6 @@
       justify-content: center;
       padding: 40px 20px;
       color: #fff;
-      /* on laisse l'image toucher le haut : le header flotte par-dessus */
-      margin-top: 0;
     }
 
     .hero::before {
@@ -167,7 +165,7 @@
 
     .hero-card {
       flex: 1 1 320px;
-      background: rgba(0, 0, 0, 0.72); /* plus noir / transparent */
+      background: rgba(5, 8, 20, 0.88);
       border-radius: 26px;
       border: 1px solid rgba(255, 255, 255, 0.25);
       box-shadow: 0 16px 40px rgba(0, 0, 0, 0.55);
@@ -270,11 +268,7 @@
       color: rgba(225, 233, 255, 0.9);
     }
 
-    .hero-secondary span {
-      opacity: 0.9;
-    }
-
-    /* Petit bloc “stats” à droite */
+    /* Blocs “stats” à droite */
 
     .hero-stats {
       flex: 0 1 270px;
@@ -284,7 +278,7 @@
     }
 
     .hero-stat-card {
-      background: rgba(0, 0, 0, 0.78); /* plus noir / transparent */
+      background: rgba(5, 8, 20, 0.92);
       border-radius: 20px;
       border: 1px solid rgba(255, 255, 255, 0.15);
       box-shadow: 0 14px 34px rgba(0, 0, 0, 0.55);
@@ -315,19 +309,28 @@
 
     main {
       padding: 40px 20px 60px;
-      background: #ffffff;
     }
 
     .intro {
       max-width: 900px;
-      margin: 0 auto 28px;
+      margin: 0 auto 32px;
       text-align: center;
       color: var(--text-soft);
     }
 
+    .intro-card {
+      background: var(--glass-bg);
+      border-radius: 24px;
+      border: 1px solid var(--glass-border);
+      box-shadow: var(--glass-shadow);
+      padding: 22px 24px 24px;
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+    }
+
     .intro-title {
       font-size: 1.8rem;
-      margin-bottom: 8px;
+      margin: 0 0 8px;
       color: var(--apam-blue);
     }
 
@@ -337,7 +340,7 @@
       font-size: 0.98rem;
     }
 
-    /* Section "capsules" de mise en avant */
+    /* Section "capsules" */
 
     .pill-section {
       max-width: 1100px;
@@ -421,15 +424,12 @@
       cursor: pointer;
       text-decoration: none;
       color: inherit;
-
       background: #ffffff;
       border: 1px solid rgba(10, 40, 80, 0.08);
       box-shadow: 0 10px 26px rgba(0, 0, 0, 0.1);
-
       display: flex;
       flex-direction: column;
       min-height: 220px;
-
       transition:
         transform 0.24s ease,
         box-shadow 0.24s ease,
@@ -602,7 +602,7 @@
     @media (max-width: 900px) {
       .hero {
         height: auto;
-        padding: 80px 18px 40px; /* un peu plus de marge, car header fixe */
+        padding: 32px 18px 40px;
       }
 
       .hero-inner {
@@ -629,15 +629,16 @@
         align-items: flex-start;
         padding: 10px 10px 12px;
         border-radius: 18px;
-        background: rgba(3, 16, 35, 0.97);
-        border: 1px solid rgba(255, 255, 255, 0.2);
-        box-shadow: 0 18px 40px rgba(0, 0, 0, 0.5);
+        background: #ffffff;
+        border: 1px solid rgba(6, 32, 55, 0.12);
+        box-shadow: 0 18px 40px rgba(0, 0, 0, 0.12);
         display: none;
       }
 
       .main-nav a {
         margin: 3px 4px;
         width: 100%;
+        color: var(--apam-blue);
       }
 
       .main-nav.open {
@@ -669,8 +670,9 @@
 </head>
 <body>
   <!-- ============ HEADER ============ -->
+  <!-- Pense à enregistrer ton logo blanc transparent en apam-logo-white.png -->
   <header>
-    <img src="apam-logo.png" alt="Logo APAM" class="logo" />
+    <img src="apam-logo-white.png" alt="Logo APAM" class="logo" />
 
     <!-- Bouton menu mobile -->
     <button class="menu-toggle" aria-label="Ouvrir le menu">
@@ -744,14 +746,16 @@
 
   <!-- ============ CONTENU ============ -->
   <main>
-    <!-- Intro -->
+    <!-- Intro dans une bulle -->
     <section class="intro">
-      <h2 class="intro-title">Bienvenue à l’APAM</h2>
-      <p>
-        L’APAM est un aéroclub dédié aux passionnés d’aviation légère. Que vous souhaitiez
-        découvrir le vol, apprendre à piloter ou simplement rejoindre une communauté de
-        pilotes, notre équipe vous accompagne dans un environnement convivial et sécurisé.
-      </p>
+      <div class="intro-card">
+        <h2 class="intro-title">Bienvenue à l’APAM</h2>
+        <p>
+          L’APAM est un aéroclub dédié aux passionnés d’aviation légère. Que vous souhaitiez
+          découvrir le vol, apprendre à piloter ou simplement rejoindre une communauté de
+          pilotes, notre équipe vous accompagne dans un environnement convivial et sécurisé.
+        </p>
+      </div>
     </section>
 
     <!-- Petites "capsules" de mise en avant -->
@@ -882,7 +886,7 @@
   <footer class="site-footer">
     <div class="footer-content">
       <div class="footer-brand">
-        <img src="apam-logo.png" alt="Logo APAM" class="footer-logo" />
+        <img src="apam-logo-white.png" alt="Logo APAM" class="footer-logo" />
         <p>
           Aéroclub APAM L’Aigle Saint-Michel – un cadre convivial pour découvrir, apprendre
           et partager la passion du vol.
