@@ -36,7 +36,7 @@
       color: inherit;
     }
 
-    /* ================== HEADER + MENU (liquid glass blanc) ================== */
+    /* ================== HEADER EN PILULE ================== */
 
     header {
       position: fixed;
@@ -44,32 +44,49 @@
       left: 0;
       right: 0;
       z-index: 100;
-      padding: 10px 26px;
+      padding: 10px 0;
+      display: flex;
+      justify-content: center;
+      pointer-events: none; /* pour que seule la pilule soit cliquable */
+      background: transparent;
+    }
+
+    .header-shell {
+      pointer-events: auto;
+      width: 100%;
+      max-width: 1100px;
+      margin: 0 16px;
+      padding: 8px 18px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.9);
+      border: 1px solid rgba(6, 32, 55, 0.12);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      box-shadow: var(--glass-shadow);
       display: flex;
       align-items: center;
       justify-content: space-between;
-      backdrop-filter: blur(18px);
-      -webkit-backdrop-filter: blur(18px);
-      background: rgba(255, 255, 255, 0.9);
-      border-bottom: 1px solid rgba(6, 32, 55, 0.08);
+      gap: 16px;
+      position: relative;
     }
 
     .logo {
-      height: 48px; /* ← légèrement réduit */
+      height: 44px; /* légèrement réduit pour mieux respirer dans la pilule */
+      flex-shrink: 0;
     }
 
     .main-nav {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 8px;
     }
 
     .main-nav a {
       text-decoration: none;
       color: var(--apam-blue);
       font-weight: 600;
-      font-size: 0.92rem;
-      padding: 7px 16px;
+      font-size: 0.9rem;
+      padding: 7px 14px;
       border-radius: 999px;
 
       background: transparent;
@@ -113,12 +130,13 @@
       border-radius: 999px;
       border: 1px solid rgba(6, 32, 55, 0.15);
       cursor: pointer;
-      padding: 6px 16px;
+      padding: 6px 14px;
       box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
       font-size: 0.78rem;
       text-transform: uppercase;
       letter-spacing: 0.12em;
       color: var(--apam-blue);
+      flex-shrink: 0;
     }
 
     .menu-toggle-icon {
@@ -177,7 +195,7 @@
 
     main {
       max-width: 1100px;
-      margin: 100px auto 50px; /* décalage pour le header fixe */
+      margin: 100px auto 50px; /* décalage pour le header fixe en pilule */
       padding: 0 20px;
     }
 
@@ -648,15 +666,16 @@
     }
 
     @media (max-width: 768px) {
-      header {
-        padding: 10px 16px;
+      .header-shell {
+        margin: 0 10px;
+        padding: 8px 12px;
       }
 
       .main-nav {
         position: absolute;
-        top: 64px;
-        right: 16px;
-        left: 16px;
+        top: 54px;
+        right: 10px;
+        left: 10px;
         flex-direction: column;
         align-items: flex-start;
         padding: 10px 10px 12px;
@@ -698,24 +717,26 @@
 <body>
   <!-- ============ HEADER ============ -->
   <header>
-    <img src="apam-logo.png" alt="Logo APAM" class="logo" />
+    <div class="header-shell">
+      <img src="apam-logo.png" alt="Logo APAM" class="logo" />
 
-    <!-- Bouton MENU mobile -->
-    <button class="menu-toggle" aria-label="Ouvrir le menu">
-      <span>MENU</span>
-      <span class="menu-toggle-icon"></span>
-    </button>
+      <!-- Bouton MENU mobile -->
+      <button class="menu-toggle" aria-label="Ouvrir le menu">
+        <span>MENU</span>
+        <span class="menu-toggle-icon"></span>
+      </button>
 
-    <!-- Menu principal -->
-    <nav class="main-nav">
-      <a href="index.html">Accueil</a>
-      <a href="#">À propos</a>
-      <a href="activite.html" class="active">Activité</a>
-      <a href="#">Tarif</a>
-      <a href="espace-membres.html">Membres</a>
-      <a href="#">Contact</a>
-      <a href="https://openflyers.com/apam/" target="_blank">OpenFlyer</a>
-    </nav>
+      <!-- Menu principal -->
+      <nav class="main-nav">
+        <a href="index.html">Accueil</a>
+        <a href="#">À propos</a>
+        <a href="activite.html" class="active">Activité</a>
+        <a href="#">Tarif</a>
+        <a href="espace-membres.html">Membres</a>
+        <a href="#">Contact</a>
+        <a href="https://openflyers.com/apam/" target="_blank">OpenFlyer</a>
+      </nav>
+    </div>
   </header>
 
   <!-- ============ CONTENU ============ -->
