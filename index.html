@@ -63,7 +63,7 @@
       transition-delay: 0.3s;
     }
 
-    /* ================== HEADER + MENU ================== */
+    /* ================== HEADER + MENU (PILULE LIQUID GLASS) ================== */
 
     header {
       position: fixed;
@@ -71,18 +71,33 @@
       left: 0;
       right: 0;
       z-index: 100;
-      padding: 10px 26px;
+      padding: 10px 16px;
+      display: flex;
+      justify-content: center;
+      background: transparent;
+      border-bottom: none;
+      pointer-events: none; /* la pilule seule est cliquable */
+    }
+
+    .header-inner {
+      max-width: 1100px;
+      width: 100%;
       display: flex;
       align-items: center;
       justify-content: space-between;
+      gap: 16px;
+      padding: 8px 18px;
+      border-radius: 999px;
+      background: rgba(3, 16, 35, 0.65); /* liquide glass sombre transparent */
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.45);
       backdrop-filter: blur(20px);
       -webkit-backdrop-filter: blur(20px);
-      background: rgba(3, 16, 35, 0.07); /* ultra transparent */
-      border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+      pointer-events: auto;
     }
 
     .logo {
-      height: 56px;
+      height: 48px;
     }
 
     .main-nav {
@@ -131,7 +146,7 @@
 
     .menu-toggle {
       display: none;
-      background: rgba(3, 16, 35, 0.4);
+      background: rgba(3, 16, 35, 0.8);
       color: #ffffff;
       font-weight: 600;
       font-size: 0.9rem;
@@ -689,7 +704,11 @@
 
     @media (max-width: 768px) {
       header {
-        padding: 10px 16px;
+        padding: 10px 12px;
+      }
+
+      .header-inner {
+        padding: 6px 10px;
       }
 
       .main-nav {
@@ -756,19 +775,21 @@
 <body>
   <!-- ============ HEADER ============ -->
   <header>
-    <img src="apam-logo.png" alt="Logo APAM" class="logo" />
+    <div class="header-inner">
+      <img src="apam-logo.png" alt="Logo APAM" class="logo" />
 
-    <button class="menu-toggle" aria-label="Ouvrir le menu">Menu</button>
+      <button class="menu-toggle" aria-label="Ouvrir le menu">Menu</button>
 
-    <nav class="main-nav">
-      <a href="index.html" class="active">Accueil</a>
-      <a href="#">À propos</a>
-      <a href="activite.html">Activité</a>
-      <a href="#">Tarif</a>
-      <a href="espace-membres.html">Membres</a>
-      <a href="#">Contact</a>
-      <a href="https://openflyers.com/apam/" target="_blank">OpenFlyer</a>
-    </nav>
+      <nav class="main-nav">
+        <a href="index.html" class="active">Accueil</a>
+        <a href="#">À propos</a>
+        <a href="activite.html">Activité</a>
+        <a href="#">Tarif</a>
+        <a href="espace-membres.html">Membres</a>
+        <a href="#">Contact</a>
+        <a href="https://openflyers.com/apam/" target="_blank">OpenFlyer</a>
+      </nav>
+    </div>
   </header>
 
   <!-- ============ HERO ============ -->
@@ -1000,7 +1021,6 @@
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             entry.target.classList.add("visible");
-            // On peut arrêter d'observer une fois visible
             observer.unobserve(entry.target);
           }
         });
