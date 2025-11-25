@@ -4,14 +4,19 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>APAM – Activités du club</title>
-
   <style>
-    /* ======================== BASE ======================== */
+    /* ================== BASE ================== */
+
     :root {
-      --glass-bg: rgba(255, 255, 255, 0.55);
-      --glass-border: rgba(255, 255, 255, 0.25);
-      --glass-shadow: 0 18px 40px rgba(0, 0, 0, 0.22);
-      --apam-blue-dark: #062037;
+      --apam-blue-dark: #031023;
+      --apam-blue: #062037;
+      --apam-blue-soft: #1b3658;
+      --glass-bg: rgba(255, 255, 255, 0.9);
+      --glass-border: rgba(15, 35, 70, 0.08);
+      --glass-shadow: 0 10px 28px rgba(0, 0, 0, 0.12);
+      --text-main: #062037;
+      --text-soft: #5f6b85;
+      --accent: #4aa3ff;
     }
 
     * {
@@ -20,120 +25,135 @@
 
     body {
       margin: 0;
-      font-family: system-ui, -apple-system, sans-serif;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+        sans-serif;
+      color: var(--text-main);
       background: #f5f7fb;
-      color: var(--apam-blue-dark);
+      min-height: 100vh;
     }
 
     a {
-      text-decoration: none;
       color: inherit;
     }
 
-    /* ======================== HEADER PILULE ======================== */
+    /* ================== HEADER + MENU (liquid glass blanc) ================== */
+
     header {
       position: fixed;
       top: 0;
       left: 0;
       right: 0;
-      padding: 8px 20px;
-      z-index: 200;
+      z-index: 100;
+      padding: 10px 26px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      background: transparent;
-    }
-
-    header::before {
-      content: "";
-      position: absolute;
-      inset: 6px 16px;
-      border-radius: 999px;
-      background: rgba(0, 0, 0, 0.15);
       backdrop-filter: blur(18px);
       -webkit-backdrop-filter: blur(18px);
-      border: 1px solid rgba(255, 255, 255, 0.25);
-      box-shadow: var(--glass-shadow);
-      z-index: -1;
+      background: rgba(255, 255, 255, 0.9);
+      border-bottom: 1px solid rgba(6, 32, 55, 0.08);
     }
 
     .logo {
-      height: 52px;
+      height: 48px; /* ← légèrement réduit */
     }
 
-    nav.main-nav {
+    .main-nav {
       display: flex;
       align-items: center;
-      gap: 14px;
+      gap: 10px;
     }
 
-    nav.main-nav a {
+    .main-nav a {
+      text-decoration: none;
+      color: var(--apam-blue);
+      font-weight: 600;
+      font-size: 0.92rem;
       padding: 7px 16px;
       border-radius: 999px;
-      font-weight: 600;
-      color: #ffffff;
-      transition: background 0.25s ease, transform 0.2s ease;
+
+      background: transparent;
+      border: 1px solid transparent;
+
+      transition:
+        color 0.18s ease,
+        background 0.25s ease,
+        box-shadow 0.25s ease,
+        border-color 0.2s ease,
+        transform 0.18s ease;
     }
 
-    nav.main-nav a:hover {
-      background: rgba(255, 255, 255, 0.25);
+    .main-nav a:hover {
+      color: var(--apam-blue);
+      background: rgba(6, 32, 55, 0.05);
+      border-color: rgba(6, 32, 55, 0.15);
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.08);
       transform: translateY(-1px);
     }
 
-    nav.main-nav a.active {
-      background: rgba(255, 255, 255, 0.45);
-      color: #062037;
+    .main-nav a.active {
+      background: linear-gradient(
+        135deg,
+        rgba(139, 199, 255, 0.98),
+        rgba(70, 140, 255, 0.98)
+      );
+      border-color: rgba(74, 163, 255, 0.9);
+      box-shadow: 0 14px 30px rgba(74, 163, 255, 0.45);
+      color: #02101f;
     }
 
-    /* ======================== MENU MOBILE ======================== */
+    /* Bouton MENU mobile (liquid glass) */
+
     .menu-toggle {
       display: none;
-      padding: 6px 16px;
-      background: rgba(255, 255, 255, 0.25);
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      background: rgba(255, 255, 255, 0.9);
       border-radius: 999px;
-      border: 1px solid var(--glass-border);
-      backdrop-filter: blur(18px);
-      -webkit-backdrop-filter: blur(18px);
-      color: white;
-      font-weight: 600;
+      border: 1px solid rgba(6, 32, 55, 0.15);
       cursor: pointer;
+      padding: 6px 16px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--apam-blue);
     }
 
-    @media (max-width: 768px) {
-      nav.main-nav {
-        position: absolute;
-        top: 72px;
-        left: 16px;
-        right: 16px;
-        background: rgba(0, 0, 0, 0.15);
-        backdrop-filter: blur(16px);
-        -webkit-backdrop-filter: blur(16px);
-        border-radius: 22px;
-        border: 1px solid rgba(255, 255, 255, 0.2);
-        padding: 14px 18px;
-        display: none;
-        flex-direction: column;
-        gap: 10px;
-      }
-
-      nav.main-nav.open {
-        display: flex;
-      }
-
-      .menu-toggle {
-        display: inline-flex;
-      }
-
-      header::before {
-        inset: 6px 8px;
-      }
+    .menu-toggle-icon {
+      width: 14px;
+      height: 2px;
+      border-radius: 999px;
+      background: var(--apam-blue);
+      position: relative;
     }
 
-    /* ======================== REVEAL ANIMATION ======================== */
+    .menu-toggle-icon::before,
+    .menu-toggle-icon::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      height: 2px;
+      border-radius: 999px;
+      background: var(--apam-blue);
+    }
+
+    .menu-toggle-icon::before {
+      top: -4px;
+    }
+
+    .menu-toggle-icon::after {
+      top: 4px;
+    }
+
+    /* ================== REVEAL ANIMATIONS ================== */
+
     .reveal {
       opacity: 0;
-      transform: translateY(40px);
-      transition: all 0.7s ease;
+      transform: translateY(18px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
     }
 
     .reveal.visible {
@@ -141,89 +161,552 @@
       transform: translateY(0);
     }
 
-    /* ======================== SECTION CARD (glass) ======================== */
+    .reveal-delay-1 {
+      transition-delay: 0.08s;
+    }
+
+    .reveal-delay-2 {
+      transition-delay: 0.16s;
+    }
+
+    .reveal-delay-3 {
+      transition-delay: 0.24s;
+    }
+
+    /* ================== CONTENU PRINCIPAL ================== */
+
+    main {
+      max-width: 1100px;
+      margin: 100px auto 50px; /* décalage pour le header fixe */
+      padding: 0 20px;
+    }
+
     .section-card {
       background: var(--glass-bg);
-      border-radius: 26px;
+      border-radius: 22px;
       border: 1px solid var(--glass-border);
       box-shadow: var(--glass-shadow);
       backdrop-filter: blur(16px);
       -webkit-backdrop-filter: blur(16px);
-      padding: 26px;
-      margin-bottom: 30px;
+      padding: 22px 22px 24px;
+      margin-bottom: 24px;
     }
 
-    /* ======================== TITRES ======================== */
-    h1, h2 {
-      margin-top: 0;
+    /* HERO / INTRO PAGE ACTIVITÉS */
+
+    .activity-hero {
+      margin-bottom: 18px;
     }
 
-    /* ======================== GRILLES ======================== */
+    .activity-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      background: rgba(6, 32, 55, 0.05);
+      color: var(--apam-blue-soft);
+      padding: 4px 10px;
+      border-radius: 999px;
+      margin-bottom: 10px;
+    }
+
+    .activity-tag-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      background: var(--apam-blue-soft);
+    }
+
+    .activity-hero h1 {
+      font-size: 2rem;
+      color: var(--apam-blue);
+      margin: 0 0 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .activity-hero h1 span.emoji {
+      font-size: 1.8rem;
+    }
+
+    .activity-hero p {
+      color: var(--text-soft);
+      line-height: 1.6;
+      margin: 0 0 10px;
+      max-width: 720px;
+    }
+
+    .activity-note {
+      font-size: 0.9rem;
+      color: #7a859c;
+      margin: 0;
+    }
+
+    /* SECTIONS D’ACTIVITÉS */
+
+    .activity-section h2 {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 1.6rem;
+      color: var(--apam-blue);
+      margin-bottom: 6px;
+    }
+
+    .section-chip {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      background: var(--apam-blue);
+      color: #fff;
+      padding: 3px 9px;
+      border-radius: 999px;
+    }
+
+    .section-emoji {
+      font-size: 1.4rem;
+    }
+
+    .activity-section p.section-intro {
+      color: var(--text-soft);
+      margin-bottom: 18px;
+      line-height: 1.6;
+      max-width: 720px;
+    }
+
     .activity-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 20px;
+      gap: 18px;
     }
 
     .activity-card {
-      background: rgba(255, 255, 255, 0.35);
-      border-radius: 20px;
-      border: 1px solid rgba(255, 255, 255, 0.25);
-      padding: 20px;
-      backdrop-filter: blur(14px);
-      -webkit-backdrop-filter: blur(14px);
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+      background: rgba(255, 255, 255, 0.96);
+      border-radius: 18px;
+      border: 1px solid rgba(15, 35, 70, 0.08);
+      padding: 16px 16px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      box-shadow: 0 12px 26px rgba(3, 16, 35, 0.08);
     }
 
-    .activity-card h3 {
-      margin-top: 0;
+    .activity-card-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 4px;
+    }
+
+    .activity-card-emoji-wrap {
+      width: 32px;
+      height: 32px;
+      border-radius: 999px;
+      background: rgba(74, 163, 255, 0.14);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .activity-card-emoji {
+      font-size: 1.4rem;
+    }
+
+    .activity-card-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--apam-blue);
+    }
+
+    .activity-card p {
+      margin: 0;
+      color: var(--text-soft);
+      font-size: 0.92rem;
+      line-height: 1.5;
+    }
+
+    .activity-card ul {
+      margin: 6px 0 0 16px;
+      padding: 0;
+      color: var(--text-soft);
+      font-size: 0.88rem;
+      line-height: 1.5;
     }
 
     .activity-highlight {
-      background: rgba(139, 199, 255, 0.5);
-      padding: 4px 12px;
+      font-size: 0.85rem;
+      color: var(--apam-blue-soft);
+      background: rgba(74, 163, 255, 0.12);
       border-radius: 999px;
+      padding: 3px 9px;
+      display: inline-block;
+      margin-top: 6px;
+      align-self: flex-start;
+    }
+
+    /* FLOTTE */
+
+    .fleet-section h2 {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 1.6rem;
+      margin-bottom: 10px;
+      color: var(--apam-blue);
+    }
+
+    .fleet-section p.section-intro {
+      color: var(--text-soft);
+      margin: 0 0 16px;
+      line-height: 1.6;
+      max-width: 720px;
+    }
+
+    .fleet-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 16px;
+      margin-top: 8px;
+    }
+
+    .fleet-card {
+      display: block;
+      border-radius: 18px;
+      border: 1px solid rgba(15, 35, 70, 0.08);
+      padding: 14px 14px 12px;
+      background: rgba(255, 255, 255, 0.96);
+      font-size: 0.95rem;
+      text-decoration: none;
+      color: inherit;
+      box-shadow: 0 12px 24px rgba(3, 16, 35, 0.08);
+      transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        border-color 0.2s ease;
+    }
+
+    .fleet-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 16px 34px rgba(3, 16, 35, 0.16);
+      border-color: rgba(74, 163, 255, 0.7);
+    }
+
+    .fleet-card h3 {
+      margin: 0 0 4px;
+      font-size: 1.1rem;
+      color: var(--apam-blue);
+    }
+
+    .fleet-role {
       font-size: 0.8rem;
       font-weight: 600;
+      color: var(--apam-blue-soft);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 4px;
     }
 
-    /* ======================== LIENS ======================== */
-    .pricing-link,
-    .activity-card a {
+    .fleet-card p {
+      margin: 0;
+      color: var(--text-soft);
+      line-height: 1.5;
+      font-size: 0.9rem;
+    }
+
+    /* TARIFS / FAQ */
+
+    .pricing-wrapper-title {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 10px;
+      color: var(--apam-blue);
+    }
+
+    .pricing-section {
+      display: grid;
+      grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+      gap: 18px;
+    }
+
+    .pricing-block {
+      background: rgba(255, 255, 255, 0.96);
+      border-radius: 18px;
+      border: 1px solid rgba(15, 35, 70, 0.08);
+      padding: 16px 18px 18px;
+      font-size: 0.93rem;
+      color: var(--text-soft);
+      line-height: 1.6;
+      box-shadow: 0 12px 26px rgba(3, 16, 35, 0.08);
+    }
+
+    .pricing-block h2 {
+      font-size: 1.35rem;
+      color: var(--apam-blue);
+      margin: 0 0 6px;
+    }
+
+    .pricing-block p {
+      margin: 0 0 8px;
+    }
+
+    .pricing-block ul {
+      margin: 6px 0 0 18px;
+      padding: 0;
+    }
+
+    .pricing-block ul li {
+      margin-bottom: 4px;
+    }
+
+    .pricing-note {
+      font-size: 0.85rem;
+      color: #7a859c;
+      margin-top: 4px;
+    }
+
+    .pricing-link {
       display: inline-block;
-      margin-top: 10px;
-      padding: 8px 16px;
-      border-radius: 999px;
-      background: linear-gradient(135deg, #8bc6ff, #468cff);
-      color: #02101f;
+      margin-top: 8px;
       font-weight: 600;
-      box-shadow: 0 14px 30px rgba(74,163,255,0.45);
-      transition: transform 0.2s ease;
+      color: var(--apam-blue);
+      text-decoration: none;
+      border-bottom: 1px solid rgba(6, 32, 55, 0.5);
+      padding-bottom: 1px;
     }
 
-    .pricing-link:hover,
-    .activity-card a:hover {
+    .pricing-link:hover {
+      border-bottom-color: transparent;
+    }
+
+    .faq-block h3 {
+      margin: 0 0 8px;
+      font-size: 1.1rem;
+      color: var(--apam-blue);
+    }
+
+    .faq-item {
+      margin-bottom: 10px;
+      padding-bottom: 8px;
+      border-bottom: 1px dashed rgba(6, 32, 55, 0.15);
+    }
+
+    .faq-item:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+      margin-bottom: 0;
+    }
+
+    .faq-question {
+      font-weight: 600;
+      font-size: 0.95rem;
+      color: var(--apam-blue);
+      margin-bottom: 2px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .faq-question span.q-badge {
+      font-size: 0.8rem;
+      background: rgba(74, 163, 255, 0.12);
+      color: var(--apam-blue-soft);
+      padding: 2px 6px;
+      border-radius: 999px;
+    }
+
+    .faq-answer {
+      font-size: 0.9rem;
+      color: var(--text-soft);
+      margin: 0;
+      line-height: 1.5;
+    }
+
+    /* ================== ICÔNES RÉSEAUX FLOTTANTES ================== */
+
+    .social-floating {
+      position: fixed;
+      top: 50%;
+      right: 20px;
+      transform: translateY(-50%);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      z-index: 50;
+    }
+
+    .social-pill {
+      width: 38px;
+      height: 38px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.9);
+      border: 1px solid rgba(6, 32, 55, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 10px 24px rgba(3, 16, 35, 0.18);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        border-color 0.2s ease;
+    }
+
+    .social-pill img {
+      width: 18px;
+      height: 18px;
+      display: block;
+      filter: invert(0.1) brightness(0.2);
+    }
+
+    .social-pill:hover {
       transform: translateY(-2px);
+      box-shadow: 0 14px 28px rgba(3, 16, 35, 0.28);
+      border-color: rgba(74, 163, 255, 0.8);
     }
 
-    /* ======================== FOOTER ======================== */
-    footer {
-      margin-top: 60px;
-      padding: 40px 20px;
+    /* ================== FOOTER ================== */
+
+    .site-footer {
+      background: #ffffff;
+      color: var(--apam-blue);
+      padding: 40px 20px 20px;
+      margin-top: 40px;
+      border-top: 1px solid rgba(6, 32, 55, 0.12);
+    }
+
+    .footer-content {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      gap: 32px;
+    }
+
+    .footer-brand {
+      max-width: 260px;
+      flex: 1 1 260px;
+    }
+
+    .footer-logo {
+      height: 40px;
+      display: block;
+      margin-bottom: 10px;
+    }
+
+    .footer-brand p {
+      font-size: 0.9rem;
+      opacity: 0.85;
+    }
+
+    .footer-column {
+      flex: 1 1 180px;
+      min-width: 180px;
+    }
+
+    .footer-column h4 {
+      margin-bottom: 10px;
+      font-size: 1rem;
+      border-bottom: 1px solid rgba(6, 32, 55, 0.15);
+      padding-bottom: 5px;
+    }
+
+    .footer-column a {
+      display: block;
+      color: var(--apam-blue);
+      opacity: 0.82;
+      margin-bottom: 6px;
+      font-size: 0.9rem;
+      text-decoration: none;
+      transition: opacity 0.2s ease;
+    }
+
+    .footer-column a:hover {
+      opacity: 1;
+    }
+
+    .copyright {
       text-align: center;
-      opacity: 0.8;
+      margin-top: 26px;
+      opacity: 0.7;
+      font-size: 0.82rem;
+    }
+
+    /* ================== RESPONSIVE ================== */
+
+    @media (max-width: 900px) {
+      main {
+        margin-top: 96px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      header {
+        padding: 10px 16px;
+      }
+
+      .main-nav {
+        position: absolute;
+        top: 64px;
+        right: 16px;
+        left: 16px;
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 10px 10px 12px;
+        border-radius: 18px;
+        background: #ffffff;
+        border: 1px solid rgba(6, 32, 55, 0.12);
+        box-shadow: 0 18px 40px rgba(0, 0, 0, 0.12);
+        display: none;
+      }
+
+      .main-nav a {
+        margin: 3px 4px;
+        width: 100%;
+      }
+
+      .main-nav.open {
+        display: flex;
+      }
+
+      .menu-toggle {
+        display: inline-flex;
+      }
+
+      .social-floating {
+        right: 10px;
+      }
+
+      .footer-content {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .pricing-section {
+        grid-template-columns: 1fr;
+      }
     }
   </style>
 </head>
-
 <body>
-
-  <!-- ================= HEADER ================= -->
+  <!-- ============ HEADER ============ -->
   <header>
-    <img src="apam-logo.png" class="logo" alt="Logo APAM" />
+    <img src="apam-logo.png" alt="Logo APAM" class="logo" />
 
-    <button class="menu-toggle">MENU</button>
+    <!-- Bouton MENU mobile -->
+    <button class="menu-toggle" aria-label="Ouvrir le menu">
+      <span>MENU</span>
+      <span class="menu-toggle-icon"></span>
+    </button>
 
+    <!-- Menu principal -->
     <nav class="main-nav">
       <a href="index.html">Accueil</a>
       <a href="#">À propos</a>
@@ -235,123 +718,414 @@
     </nav>
   </header>
 
-  <main style="padding:120px 20px 40px; max-width:1100px; margin:auto;">
-
-    <!-- ================= HERO INTRO ================= -->
-    <section class="section-card reveal">
-      <h1>✈️ Activités du club</h1>
-      <p>L’APAM propose des activités adaptées à tous les pilotes : élèves, brevetés, amateurs de voyage ou simples curieux.</p>
-      <p style="opacity:.7">Les informations ci-dessous sont indicatives : contactez le club pour toute précision.</p>
+  <!-- ============ CONTENU ============ -->
+  <main>
+    <!-- INTRO ACTIVITÉS -->
+    <section class="section-card activity-hero reveal">
+      <div class="activity-tag">
+        <span class="activity-tag-dot"></span>
+        <span>La vie du club</span>
+      </div>
+      <h1><span class="emoji">✈️</span><span>Les activités du club</span></h1>
+      <p>
+        L’APAM propose une palette d’activités pour tous les profils : élèves pilotes, pilotes
+        brevetés, passionnés de voyage aérien ou curieux souhaitant découvrir le vol.
+      </p>
+      <p class="activity-note">
+        Les informations ci-dessous sont indicatives. Pour tout projet de formation ou d’activité,
+        n’hésitez pas à contacter le bureau du club.
+      </p>
     </section>
 
-    <!-- ================= FORMATION ================= -->
-    <section class="section-card reveal">
-      <h2>🎓 Formation pilote privé</h2>
-      <p>Nos formations couvrent la LAPL, PPL et le vol de nuit.</p>
+    <!-- FORMATION PILOTE PRIVÉ -->
+    <section class="section-card activity-section reveal reveal-delay-1">
+      <h2>
+        <span class="section-chip">Formation</span>
+        <span class="section-emoji">🎓</span>
+        <span>Devenir pilote privé</span>
+      </h2>
+      <p class="section-intro">
+        Que vous souhaitiez voler pour le loisir ou préparer un projet plus ambitieux, l’APAM vous
+        accompagne vers les licences de pilote privé.
+      </p>
 
       <div class="activity-grid">
-        <div class="activity-card">
-          <h3>LAPL</h3>
-          <p>Idéal pour débuter le pilotage sur avions légers.</p>
-          <span class="activity-highlight">Débutants</span>
-        </div>
+        <article class="activity-card">
+          <div class="activity-card-header">
+            <div class="activity-card-emoji-wrap">
+              <span class="activity-card-emoji">🛩️</span>
+            </div>
+            <div class="activity-card-title">Licence LAPL (Light Aircraft Pilot Licence)</div>
+          </div>
+          <p>
+            Une licence d’avion léger, idéale pour débuter et pratiquer le vol de loisir en Europe
+            sur avions de tourisme.
+          </p>
+          <ul>
+            <li>Apprentissage progressif jusqu’au vol solo</li>
+            <li>Vol local, navigation, perfectionnement</li>
+            <li>Encadrement par des instructeurs diplômés</li>
+          </ul>
+          <span class="activity-highlight">Parfait pour commencer sereinement</span>
+        </article>
 
-        <div class="activity-card">
-          <h3>PPL</h3>
-          <p>Licence pilote privé permettant d’emporter des passagers.</p>
-          <span class="activity-highlight">La référence</span>
-        </div>
+        <article class="activity-card">
+          <div class="activity-card-header">
+            <div class="activity-card-emoji-wrap">
+              <span class="activity-card-emoji">📘</span>
+            </div>
+            <div class="activity-card-title">Licence PPL (Private Pilot Licence)</div>
+          </div>
+          <p>
+            La licence de pilote privé permet d’emporter des passagers en France et à l’étranger, en
+            conditions VFR.
+          </p>
+          <ul>
+            <li>Programme théorique et pratique complet</li>
+            <li>Navigation, gestion du vol, sécurité</li>
+            <li>Base solide pour tout projet futur</li>
+          </ul>
+          <span class="activity-highlight">La référence des licences de loisir</span>
+        </article>
 
-        <div class="activity-card">
-          <h3>Vol de nuit</h3>
-          <p>Formation additionnelle pour voler après le coucher du soleil.</p>
-          <span class="activity-highlight">Pilotes brevetés</span>
-        </div>
+        <article class="activity-card">
+          <div class="activity-card-header">
+            <div class="activity-card-emoji-wrap">
+              <span class="activity-card-emoji">🌙</span>
+            </div>
+            <div class="activity-card-title">Qualification vol de nuit</div>
+          </div>
+          <p>
+            Pour les pilotes déjà titulaires d’une licence, la qualification vol de nuit étend les
+            possibilités et renforce l’expérience.
+          </p>
+          <ul>
+            <li>Préparation et gestion d’un vol de nuit</li>
+            <li>Utilisation des instruments dans l’obscurité</li>
+            <li>Entraînement en double commande</li>
+          </ul>
+          <span class="activity-highlight">Une autre façon de voir le ciel</span>
+        </article>
       </div>
     </section>
 
-    <!-- ================= PERFECTIONNEMENT ================= -->
-    <section class="section-card reveal">
-      <h2>⚙️ Formations complémentaires</h2>
+    <!-- FORMATIONS COMPLÉMENTAIRES -->
+    <section class="section-card activity-section reveal reveal-delay-2">
+      <h2>
+        <span class="section-chip">Perfectionnement</span>
+        <span class="section-emoji">⚙️</span>
+        <span>Formations complémentaires</span>
+      </h2>
+      <p class="section-intro">
+        Une fois les bases acquises, le club propose des formations pour développer vos compétences
+        techniques et découvrir des machines plus performantes.
+      </p>
 
       <div class="activity-grid">
-        <div class="activity-card">
-          <h3>Hélice VP – TB200</h3>
-          <p>Utilisation de l’hélice à pas variable sur avion TB200.</p>
-        </div>
+        <article class="activity-card">
+          <div class="activity-card-header">
+            <div class="activity-card-emoji-wrap">
+              <span class="activity-card-emoji">🧰</span>
+            </div>
+            <div class="activity-card-title">Hélice à pas variable (VP) sur TB200</div>
+          </div>
+          <p>
+            Formation dédiée à l’utilisation de l’hélice à pas variable et à la gestion moteur sur
+            le SOCATA TB200.
+          </p>
+          <ul>
+            <li>Comprendre le fonctionnement de l’hélice VP</li>
+            <li>Gestion des régimes et de la puissance</li>
+            <li>Application en vol local et navigation</li>
+          </ul>
+        </article>
 
-        <div class="activity-card">
-          <h3>Technologies modernes – SR20</h3>
-          <p>Découverte du Cirrus SR20 et de son avionique avancée.</p>
-        </div>
+        <article class="activity-card">
+          <div class="activity-card-header">
+            <div class="activity-card-emoji-wrap">
+              <span class="activity-card-emoji">🖥️</span>
+            </div>
+            <div class="activity-card-title">Nouvelles technologies sur Cirrus SR20</div>
+          </div>
+          <p>
+            Formation sur avion moderne équipé d’avionique avancée (Cirrus SR20) pour se familiariser
+            avec les cockpits “verre”.
+          </p>
+          <ul>
+            <li>Découverte de l’avionique intégrée</li>
+            <li>Gestion de la charge de travail</li>
+            <li>Navigation sur trajets plus longs</li>
+          </ul>
+        </article>
       </div>
     </section>
 
-    <!-- ================= DÉCOUVERTE ================= -->
-    <section class="section-card reveal">
-      <h2>🤝 Découvrir et vivre le club</h2>
+    <!-- DÉCOUVERTE & VIE DU CLUB -->
+    <section class="section-card activity-section reveal reveal-delay-3">
+      <h2>
+        <span class="section-chip">Découverte</span>
+        <span class="section-emoji">🤝</span>
+        <span>Découvrir l’aviation & vivre le club</span>
+      </h2>
+      <p class="section-intro">
+        L’APAM, ce n’est pas seulement de la formation : c’est aussi un lieu de rencontres, de
+        projets et de vols partagés entre passionnés.
+      </p>
 
       <div class="activity-grid">
-        <div class="activity-card">
-          <h3>Vols découverte</h3>
-          <p>Idéal pour offrir ou débuter l’aviation.</p>
-        </div>
+        <article class="activity-card">
+          <div class="activity-card-header">
+            <div class="activity-card-emoji-wrap">
+              <span class="activity-card-emoji">👨‍✈️</span>
+            </div>
+            <div class="activity-card-title">Vols découverte & baptêmes de l’air</div>
+          </div>
+          <p>
+            Une première expérience en avion léger, accompagné d’un pilote du club pour découvrir
+            la région vue du ciel.
+          </p>
+          <ul>
+            <li>Briefing avant le vol</li>
+            <li>Explications en vol</li>
+            <li>Idée cadeau pour proches et amis</li>
+          </ul>
+        </article>
 
-        <div class="activity-card">
-          <h3>Voyages & sorties</h3>
-          <p>Journées, week-ends ou voyages plus longs.</p>
-        </div>
+        <article class="activity-card">
+          <div class="activity-card-header">
+            <div class="activity-card-emoji-wrap">
+              <span class="activity-card-emoji">🧭</span>
+            </div>
+            <div class="activity-card-title">Voyages & sorties club</div>
+          </div>
+          <p>
+            Navigations de groupe (journée, week-end, plus long) pour découvrir de nouveaux terrains
+            et partager les frais.
+          </p>
+          <ul>
+            <li>Voyages en France et à l’étranger</li>
+            <li>Briefing collectif et répartition des vols</li>
+            <li>Occasion de progresser en sécurité</li>
+          </ul>
+        </article>
 
-        <div class="activity-card">
-          <h3>Vie associative</h3>
-          <p>Événements, rencontres, projets entre pilotes.</p>
-        </div>
+        <article class="activity-card">
+          <div class="activity-card-header">
+            <div class="activity-card-emoji-wrap">
+              <span class="activity-card-emoji">🔥</span>
+            </div>
+            <div class="activity-card-title">Vie associative & événements</div>
+          </div>
+          <p>
+            Réunions, soirées, visites de salons aéronautiques… Le club vit aussi au sol, dans une
+            ambiance conviviale.
+          </p>
+          <ul>
+            <li>Accueil des nouveaux membres</li>
+            <li>Moments d’échanges entre pilotes</li>
+            <li>Projets portés par les membres</li>
+          </ul>
+        </article>
       </div>
     </section>
 
-    <!-- ================= FLOTTE ================= -->
-    <section class="section-card reveal">
-      <h2>🛫 Les avions du club</h2>
+    <!-- FLOTTE -->
+    <section class="section-card fleet-section reveal">
+      <h2>
+        <span class="section-chip">Flotte</span>
+        <span class="section-emoji">🛫</span>
+        <span>Les avions du club</span>
+      </h2>
+      <p class="section-intro">
+        L’aéroclub dispose de trois avions complémentaires, adaptés à la formation, au voyage et au
+        perfectionnement.
+      </p>
 
-      <div class="activity-grid">
-        <a class="activity-card" href="flotte.html">
+      <div class="fleet-grid">
+        <a href="flotte.html" class="fleet-card">
+          <div class="fleet-role">Avion école biplace</div>
           <h3>Cessna 152</h3>
-          <p>Avion biplace école idéal pour débuter.</p>
+          <p>
+            Avion robuste et pédagogique, utilisé principalement pour l’instruction de base et les
+            premiers solos. Parfait pour apprendre les fondamentaux du pilotage.
+          </p>
         </a>
 
-        <a class="activity-card" href="flotte.html">
+        <a href="flotte.html" class="fleet-card">
+          <div class="fleet-role">Voyage 4 places</div>
           <h3>Cirrus SR20</h3>
-          <p>Avion moderne parfait pour le voyage.</p>
+          <p>
+            Avion moderne, confortable et équipé d’une avionique avancée, idéal pour les
+            navigations de distance et les vols club.
+          </p>
         </a>
 
-        <a class="activity-card" href="flotte.html">
+        <a href="flotte.html" class="fleet-card">
+          <div class="fleet-role">Voyage 4 places</div>
           <h3>SOCATA TB200</h3>
-          <p>Performance et confort pour le voyage.</p>
+          <p>
+            Avion de voyage polyvalent, utilisé pour les navigations en groupe, les voyages club et
+            la formation à l’hélice à pas variable.
+          </p>
         </a>
       </div>
     </section>
 
+    <!-- TARIFS & QUESTIONS FRÉQUENTES -->
+    <section class="section-card reveal reveal-delay-1">
+      <div class="pricing-wrapper-title">
+        <span class="section-chip">Infos pratiques</span>
+        <span class="section-emoji">💶</span>
+        <span style="font-size:1.15rem; font-weight:700;">Tarifs & questions fréquentes</span>
+      </div>
+
+      <div class="pricing-section">
+        <div class="pricing-block">
+          <h2>Tarifs & inscription</h2>
+          <p>
+            Les tarifs de location des avions et les cotisations sont mis à jour régulièrement par
+            le club. Ils comprennent généralement :
+          </p>
+          <ul>
+            <li>Une cotisation annuelle au club</li>
+            <li>Une assurance/cotisation fédérale (FFA)</li>
+            <li>Une facturation au temps de vol (à l’heure)</li>
+            <li>Un supplément lorsque le vol se fait avec instructeur</li>
+          </ul>
+          <p class="pricing-note">
+            Les montants précis peuvent évoluer. Merci de consulter les informations les plus
+            récentes directement auprès du club.
+          </p>
+          <a href="#" class="pricing-link">Consulter la page Tarifs</a>
+        </div>
+
+        <div class="pricing-block faq-block">
+          <h3>Questions fréquentes</h3>
+
+          <div class="faq-item">
+            <div class="faq-question">
+              <span class="q-badge">Q</span>
+              <span>Qui peut débuter une formation de pilote ?</span>
+            </div>
+            <p class="faq-answer">
+              Toute personne motivée, dès l’adolescence ou à l’âge adulte. Une visite médicale
+              aéronautique est requise pour voler seul à bord.
+            </p>
+          </div>
+
+          <div class="faq-item">
+            <div class="faq-question">
+              <span class="q-badge">Q</span>
+              <span>Faut-il déjà connaître l’aviation ?</span>
+            </div>
+            <p class="faq-answer">
+              Non, la formation intègre théorie et pratique. Les instructeurs s’adaptent à votre
+              niveau, que vous soyez totalement novice ou déjà passionné.
+            </p>
+          </div>
+
+          <div class="faq-item">
+            <div class="faq-question">
+              <span class="q-badge">Q</span>
+              <span>Comment se déroule une formation type PPL ?</span>
+            </div>
+            <p class="faq-answer">
+              Elle alterne cours théoriques, vols en double commande puis vols solo supervisés. Le
+              rythme dépend de votre disponibilité et de la météo.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
   </main>
 
-  <footer>
-    © 2025 APAM – Tous droits réservés.
+  <!-- ============ RÉSEAUX FLOTTANTS ============ -->
+  <div class="social-floating">
+    <a href="https://www.instagram.com/_cauvin_" target="_blank" aria-label="Instagram">
+      <div class="social-pill">
+        <img
+          src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/instagram.svg"
+          alt="Instagram"
+        />
+      </div>
+    </a>
+    <a href="https://www.youtube.com/@DRONORD18" target="_blank" aria-label="YouTube">
+      <div class="social-pill">
+        <img
+          src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/youtube.svg"
+          alt="YouTube"
+        />
+      </div>
+    </a>
+    <a href="https://www.tiktok.com/@toncompte" target="_blank" aria-label="TikTok">
+      <div class="social-pill">
+        <img
+          src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/tiktok.svg"
+          alt="TikTok"
+        />
+      </div>
+    </a>
+  </div>
+
+  <!-- ============ FOOTER ============ -->
+  <footer class="site-footer">
+    <div class="footer-content">
+      <div class="footer-brand">
+        <img src="apam-logo.png" alt="Logo APAM" class="footer-logo" />
+        <p>
+          Aéroclub APAM L’Aigle Saint-Michel – un cadre convivial pour découvrir, apprendre
+          et partager la passion du vol.
+        </p>
+      </div>
+
+      <div class="footer-column">
+        <h4>Plan du site</h4>
+        <a href="index.html">Accueil</a>
+        <a href="#">À propos</a>
+        <a href="activite.html">Activité</a>
+        <a href="#">Tarif</a>
+        <a href="espace-membres.html">Membres</a>
+        <a href="#">Contact</a>
+        <a href="https://openflyers.com/apam/" target="_blank">OpenFlyer</a>
+      </div>
+
+      <div class="footer-column">
+        <h4>Réseaux sociaux</h4>
+        <a href="https://www.instagram.com/_cauvin_" target="_blank">Instagram</a>
+        <a href="https://www.youtube.com/@DRONORD18" target="_blank">YouTube</a>
+        <a href="https://www.tiktok.com/@toncompte" target="_blank">TikTok</a>
+      </div>
+    </div>
+
+    <p class="copyright">
+      © 2025 APAM – Tous droits réservés.
+    </p>
   </footer>
 
+  <!-- ============ SCRIPTS ============ -->
   <script>
-    // Menu mobile
-    document.querySelector(".menu-toggle").onclick = () => {
-      document.querySelector(".main-nav").classList.toggle("open");
-    };
+    const menuToggle = document.querySelector(".menu-toggle");
+    const nav = document.querySelector(".main-nav");
 
-    // Animation reveal
-    const reveals = document.querySelectorAll(".reveal");
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) entry.target.classList.add("visible");
-      });
-    }, { threshold: 0.15 });
+    menuToggle.addEventListener("click", () => {
+      nav.classList.toggle("open");
+    });
 
-    reveals.forEach(el => observer.observe(el));
+    // Reveal animations
+    const revealElements = document.querySelectorAll(".reveal");
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("visible");
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.15 }
+    );
+
+    revealElements.forEach((el) => observer.observe(el));
   </script>
 </body>
 </html>
