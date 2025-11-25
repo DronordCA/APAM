@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>APAM – Espace membres</title>
   <style>
-    /* ================== BASE / THEME ================== */
+    /* ================== BASE ================== */
 
     :root {
       --apam-blue-dark: #031023;
@@ -36,28 +36,23 @@
       color: inherit;
     }
 
-    /* ================== HEADER + MENU (identique style index) ================== */
+    /* ================== HEADER (noir transparent) ================== */
 
-   header {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 100;
-  padding: 10px 26px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-
-  /* ————————————————————————
-     Bandeau sombre transparent
-     ———————————————————————— */
-  background: rgba(0, 0, 0, 0.45);  /* Ajuste l’opacité si tu veux plus clair */
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-
-  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
-}
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      padding: 10px 26px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      background: rgba(0, 0, 0, 0.45);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+    }
 
     .logo {
       height: 56px;
@@ -70,7 +65,8 @@
     }
 
     .main-nav a {
-  color: #ffffff !important;
+      text-decoration: none;
+      color: #ffffff;
       font-weight: 600;
       font-size: 0.92rem;
       padding: 7px 16px;
@@ -104,50 +100,73 @@
       color: #02101f;
     }
 
-    /* Bouton menu mobile (style bulle glass) */
-
     .menu-toggle {
       display: none;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-      background: rgba(3, 16, 35, 0.55);
-      color: #ffffff;
+      background: rgba(0, 0, 0, 0.6);
       border-radius: 999px;
       border: 1px solid rgba(255, 255, 255, 0.3);
       cursor: pointer;
-      padding: 7px 14px;
-      font-size: 0.86rem;
+      padding: 7px 10px;
       box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3);
     }
 
-    .menu-toggle-label {
-      font-weight: 500;
-      letter-spacing: 0.03em;
+    .menu-toggle span {
+      display: block;
+      width: 18px;
+      height: 2px;
+      background: #ffffff;
+      margin: 3px 0;
+      border-radius: 999px;
+      transition: transform 0.2s ease, opacity 0.2s ease;
     }
 
-    /* ================== CONTENU PRINCIPAL ================== */
+    /* ================== REVEAL / ANIMATIONS ================== */
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(18px);
+      transition:
+        opacity 0.6s ease,
+        transform 0.6s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .reveal-delay-1 {
+      transition-delay: 0.1s;
+    }
+
+    .reveal-delay-2 {
+      transition-delay: 0.2s;
+    }
+
+    .reveal-delay-3 {
+      transition-delay: 0.3s;
+    }
+
+    /* ================== CONTENU ================== */
 
     main {
       max-width: 1100px;
-      margin: 110px auto 60px; /* marge top pour le header fixé */
-      padding: 0 20px 0 20px;
+      margin: 0 auto 50px;
+      padding: 110px 20px 60px;
     }
-
-    /* CARTES GLASS GÉNÉRIQUES */
 
     .section-card {
       background: var(--glass-bg);
       border-radius: 26px;
       border: 1px solid var(--glass-border);
       box-shadow: var(--glass-shadow);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
       padding: 22px 22px 24px;
       margin-bottom: 24px;
     }
 
-    /* HERO TEXTE (pas de grande image ici) */
+    /* HERO ESPACE MEMBRES (pas un vrai hero plein écran, juste intro) */
 
     .member-hero {
       margin-bottom: 18px;
@@ -160,8 +179,8 @@
       font-size: 0.75rem;
       text-transform: uppercase;
       letter-spacing: 0.12em;
-      background: rgba(74, 163, 255, 0.12);
-      color: var(--apam-blue-soft);
+      background: rgba(228, 236, 255, 0.9);
+      color: #1f3b63;
       padding: 4px 10px;
       border-radius: 999px;
       margin-bottom: 10px;
@@ -171,7 +190,7 @@
       width: 6px;
       height: 6px;
       border-radius: 999px;
-      background: var(--apam-blue-soft);
+      background: #1f3b63;
     }
 
     .member-hero h1 {
@@ -196,7 +215,7 @@
 
     .member-hint {
       font-size: 0.9rem;
-      color: #7a859e;
+      color: #777;
       margin: 0;
     }
 
@@ -239,17 +258,15 @@
     }
 
     .member-card {
-      background: rgba(255, 255, 255, 0.88);
+      background: rgba(255, 255, 255, 0.95);
       border-radius: 20px;
-      border: 1px solid var(--glass-border);
-      box-shadow: 0 14px 30px rgba(0, 0, 0, 0.10);
-      backdrop-filter: blur(18px);
-      -webkit-backdrop-filter: blur(18px);
+      border: 1px solid rgba(15, 35, 70, 0.08);
       padding: 16px 16px 14px;
       display: flex;
       flex-direction: column;
-      gap: 8px;
-      height: 100%; /* pour que les cartes aient la même hauteur */
+      gap: 6px;
+      box-shadow: 0 10px 22px rgba(0, 0, 0, 0.08);
+      min-height: 210px;
     }
 
     .member-card-header {
@@ -263,7 +280,7 @@
       width: 32px;
       height: 32px;
       border-radius: 999px;
-      background: rgba(74, 163, 255, 0.14);
+      background: rgba(228, 236, 255, 0.95);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -289,8 +306,8 @@
 
     .member-highlight {
       font-size: 0.8rem;
-      color: var(--apam-blue-soft);
-      background: rgba(74, 163, 255, 0.12);
+      color: #1f3b63;
+      background: #e4ecff;
       border-radius: 999px;
       padding: 3px 9px;
       display: inline-block;
@@ -298,25 +315,31 @@
       align-self: flex-start;
     }
 
-    .member-card a.section-link {
+    /* Bouton style "Découvrir le club" */
+
+    .member-card-footer {
+      margin-top: auto; /* pousse le bouton en bas */
+      padding-top: 8px;
+    }
+
+    .member-button {
       display: inline-flex;
       align-items: center;
       justify-content: center;
       gap: 6px;
-      margin-top: auto; /* aligne le bouton en bas de la carte */
       padding: 8px 16px;
       border-radius: 999px;
       border: 1px solid rgba(255, 255, 255, 0.4);
       background: linear-gradient(
         135deg,
-        rgba(139, 199, 255, 0.96),
-        rgba(70, 140, 255, 0.96)
+        rgba(139, 199, 255, 0.9),
+        rgba(70, 140, 255, 0.9)
       );
       color: #02101f;
+      text-decoration: none;
       font-weight: 600;
       font-size: 0.9rem;
-      text-decoration: none;
-      box-shadow: 0 14px 32px rgba(0, 0, 0, 0.35);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.28);
       cursor: pointer;
       transition:
         transform 0.18s ease,
@@ -324,15 +347,13 @@
         background 0.2s ease;
     }
 
-    .member-card a.section-link::after {
-      content: "↗";
-      font-size: 0.85rem;
-      opacity: 0.9;
+    .member-button span.icon {
+      font-size: 0.95rem;
     }
 
-    .member-card a.section-link:hover {
+    .member-button:hover {
       transform: translateY(-1px);
-      box-shadow: 0 18px 38px rgba(0, 0, 0, 0.45);
+      box-shadow: 0 16px 38px rgba(0, 0, 0, 0.35);
       background: linear-gradient(
         135deg,
         rgba(165, 210, 255, 1),
@@ -342,10 +363,6 @@
 
     /* LIENS UTILES */
 
-    .useful-links {
-      margin-top: 10px;
-    }
-
     .useful-links h2 {
       font-size: 1.7rem;
       color: var(--apam-blue);
@@ -354,12 +371,12 @@
 
     .useful-intro {
       color: var(--text-soft);
-      margin-bottom: 22px;
+      margin-bottom: 25px;
       line-height: 1.6;
     }
 
     .useful-category {
-      margin-bottom: 26px;
+      margin-bottom: 28px;
     }
 
     .useful-category h3 {
@@ -383,20 +400,15 @@
 
     .useful-card {
       display: block;
-      background: rgba(255, 255, 255, 0.9);
+      background: rgba(255, 255, 255, 0.95);
       padding: 14px 16px 16px;
-      border-radius: 14px;
-      border: 1px solid var(--glass-border);
+      border-radius: 16px;
+      border: 1px solid rgba(15, 35, 70, 0.08);
       text-decoration: none;
       color: var(--apam-blue);
+      transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.2s ease;
       font-size: 0.95rem;
-      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.08);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      transition:
-        transform 0.25s ease,
-        box-shadow 0.25s ease,
-        border-color 0.2s ease;
+      box-shadow: 0 10px 22px rgba(0, 0, 0, 0.08);
     }
 
     .useful-card h4 {
@@ -412,11 +424,11 @@
 
     .useful-card:hover {
       transform: translateY(-3px);
-      box-shadow: 0 14px 32px rgba(0, 0, 0, 0.18);
-      border-color: rgba(74, 163, 255, 0.65);
+      box-shadow: 0 14px 30px rgba(0, 0, 0, 0.14);
+      border-color: #a7b9d6;
     }
 
-    /* ================== RÉSEAUX FLOTTANTS GLASS ================== */
+    /* ICÔNES RÉSEAUX FLOTTANTES */
 
     .social-floating {
       position: fixed;
@@ -429,48 +441,34 @@
       z-index: 50;
     }
 
-    .social-floating a {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 40px;
-      height: 40px;
-      border-radius: 999px;
-      background: rgba(3, 16, 35, 0.55);
-      border: 1px solid rgba(255, 255, 255, 0.35);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      box-shadow: 0 10px 26px rgba(0, 0, 0, 0.35);
-      transition:
-        transform 0.2s ease,
-        box-shadow 0.2s ease,
-        background 0.2s ease;
-    }
-
     .social-floating a img {
-      width: 20px;
-      height: 20px;
+      width: 22px;
+      height: 22px;
       display: block;
-      filter: invert(1) brightness(110%);
+      filter: invert(1) brightness(100%);
+      opacity: 0.9;
+      transition:
+        opacity 0.2s ease,
+        filter 0.2s ease,
+        transform 0.2s ease;
     }
 
-    .social-floating a:hover {
+    .social-floating a img:hover {
+      opacity: 1;
+      filter: invert(1) brightness(140%);
       transform: translateY(-2px);
-      box-shadow: 0 14px 32px rgba(0, 0, 0, 0.5);
-      background: rgba(3, 16, 35, 0.8);
     }
 
-    /* ================== FOOTER LIQUID GLASS ================== */
+    /* FOOTER (même style que index/activité) */
 
     .site-footer {
-      background: rgba(255, 255, 255, 0.92);
+      background: rgba(255, 255, 255, 0.9);
       color: var(--apam-blue);
-      padding: 26px 20px 18px;
+      padding: 32px 20px 20px;
       margin-top: 40px;
       border-top: 1px solid rgba(6, 32, 55, 0.12);
       backdrop-filter: blur(18px);
       -webkit-backdrop-filter: blur(18px);
-      box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.05);
     }
 
     .footer-content {
@@ -480,7 +478,7 @@
       justify-content: space-between;
       align-items: flex-start;
       flex-wrap: wrap;
-      gap: 26px;
+      gap: 32px;
     }
 
     .footer-brand {
@@ -527,43 +525,25 @@
 
     .copyright {
       text-align: center;
-      margin-top: 18px;
+      margin-top: 20px;
       opacity: 0.7;
       font-size: 0.82rem;
     }
 
-    /* ================== ANIMATIONS SCROLL (comme index) ================== */
-
-    .reveal {
-      opacity: 0;
-      transform: translateY(24px);
-      transition:
-        opacity 0.6s ease,
-        transform 0.6s ease;
-    }
-
-    .reveal-visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    .reveal-delay-1 {
-      transition-delay: 0.12s;
-    }
-
-    .reveal-delay-2 {
-      transition-delay: 0.24s;
-    }
-
-    .reveal-delay-3 {
-      transition-delay: 0.36s;
-    }
-
-    /* ================== RESPONSIVE ================== */
+    /* RESPONSIVE */
 
     @media (max-width: 900px) {
+      main {
+        padding: 100px 16px 50px;
+      }
+
       .social-floating {
         right: 10px;
+      }
+
+      .footer-content {
+        flex-direction: column;
+        align-items: flex-start;
       }
     }
 
@@ -600,29 +580,6 @@
       .menu-toggle {
         display: inline-flex;
       }
-
-      main {
-        padding: 0 16px;
-        margin-top: 100px;
-      }
-
-      .footer-content {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-
-      .site-footer {
-        padding-top: 20px;
-        padding-bottom: 14px;
-      }
-
-      .social-floating {
-        top: auto;
-        bottom: 20px;
-        right: 16px;
-        transform: none;
-        flex-direction: row;
-      }
     }
   </style>
 </head>
@@ -631,12 +588,12 @@
   <header>
     <img src="apam-logo.png" alt="Logo APAM" class="logo" />
 
-    <!-- Bouton menu mobile -->
     <button class="menu-toggle" aria-label="Ouvrir le menu">
-      <span class="menu-toggle-label">Menu</span>
+      <span></span>
+      <span></span>
+      <span></span>
     </button>
 
-    <!-- Menu principal -->
     <nav class="main-nav">
       <a href="index.html">Accueil</a>
       <a href="#">À propos</a>
@@ -648,8 +605,9 @@
     </nav>
   </header>
 
+  <!-- ============ CONTENU ============ -->
   <main>
-    <!-- HERO TEXTE / INTRO -->
+    <!-- INTRO ESPACE MEMBRES -->
     <section class="section-card member-hero reveal">
       <div class="member-tag">
         <span class="member-tag-dot"></span>
@@ -657,8 +615,8 @@
       </div>
       <h1><span class="emoji">🔑</span><span>Espace membres</span></h1>
       <p>
-        Cet espace regroupe les documents internes du club : procédures, documents avions,
-        supports de cours et informations sur les voyages & activités.
+        Cet espace regroupe les documents internes du club : procédures, documents avions, supports
+        de cours et informations sur les voyages & activités.
       </p>
       <p class="member-hint">
         Les liens ci-dessous pointent vers des espaces sécurisés (Google Drive, etc.). Si l’accès
@@ -666,7 +624,7 @@
       </p>
     </section>
 
-    <!-- 4 BLOCS DOCUMENTS MEMBRES -->
+    <!-- 4 BLOCS DOCUMENTS MEMBRES en liquid glass -->
     <section class="section-card member-docs-section reveal reveal-delay-1">
       <h2>
         <span class="section-chip">Documents</span>
@@ -692,9 +650,12 @@
             tous les membres.
           </p>
           <span class="member-highlight">Pour tous les pilotes du club</span>
-          <a class="section-link" href="#" target="_blank">
-            Accéder à la documentation générale
-          </a>
+          <div class="member-card-footer">
+            <a class="member-button" href="#" target="_blank">
+              <span class="icon">↗</span>
+              <span>Accéder à la documentation générale</span>
+            </a>
+          </div>
         </article>
 
         <!-- Documentation avions -->
@@ -710,9 +671,12 @@
             l’APAM.
           </p>
           <span class="member-highlight">À consulter avant vos vols</span>
-          <a class="section-link" href="#" target="_blank">
-            Accéder à la documentation avions
-          </a>
+          <div class="member-card-footer">
+            <a class="member-button" href="#" target="_blank">
+              <span class="icon">↗</span>
+              <span>Accéder à la documentation avions</span>
+            </a>
+          </div>
         </article>
 
         <!-- Cours théoriques -->
@@ -728,9 +692,12 @@
             pilotes et les membres en formation.
           </p>
           <span class="member-highlight">Idéal pour préparer ses vols</span>
-          <a class="section-link" href="#" target="_blank">
-            Accéder aux cours théoriques
-          </a>
+          <div class="member-card-footer">
+            <a class="member-button" href="#" target="_blank">
+              <span class="icon">↗</span>
+              <span>Accéder aux cours théoriques</span>
+            </a>
+          </div>
         </article>
 
         <!-- Voyages & activités -->
@@ -746,14 +713,17 @@
             activités passées.
           </p>
           <span class="member-highlight">Pour suivre la vie du club</span>
-          <a class="section-link" href="#" target="_blank">
-            Accéder aux voyages & activités
-          </a>
+          <div class="member-card-footer">
+            <a class="member-button" href="#" target="_blank">
+              <span class="icon">↗</span>
+              <span>Accéder aux voyages & activités</span>
+            </a>
+          </div>
         </article>
       </div>
     </section>
 
-    <!-- LIENS UTILES -->
+    <!-- LIENS UTILES en style cartes liq. glass -->
     <section class="section-card useful-links reveal reveal-delay-2">
       <h2>Liens utiles pour les pilotes</h2>
       <p class="useful-intro">
@@ -826,37 +796,25 @@
     </section>
   </main>
 
-  <!-- ============ RÉSEAUX FLOTTANTS ============ -->
+  <!-- Icônes réseaux sociaux flottantes -->
   <div class="social-floating">
     <a href="https://www.instagram.com/_cauvin_" target="_blank" aria-label="Instagram">
-      <img
-        src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/instagram.svg"
-        alt="Instagram"
-      />
+      <img src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/instagram.svg" alt="Instagram" />
     </a>
     <a href="https://www.youtube.com/@DRONORD18" target="_blank" aria-label="YouTube">
-      <img
-        src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/youtube.svg"
-        alt="YouTube"
-      />
+      <img src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/youtube.svg" alt="YouTube" />
     </a>
     <a href="https://www.tiktok.com/@toncompte" target="_blank" aria-label="TikTok">
-      <img
-        src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/tiktok.svg"
-        alt="TikTok"
-      />
+      <img src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/tiktok.svg" alt="TikTok" />
     </a>
   </div>
 
-  <!-- ============ FOOTER ============ -->
+  <!-- Footer -->
   <footer class="site-footer">
     <div class="footer-content">
-      <div class="footer-brand">
+      <div class="footer-column footer-brand">
         <img src="apam-logo.png" alt="Logo APAM" class="footer-logo" />
-        <p>
-          Aéroclub APAM L’Aigle Saint-Michel – un cadre convivial pour découvrir, apprendre
-          et partager la passion du vol.
-        </p>
+        <p>Aéroclub APAM L’Aigle Saint-Michel.</p>
       </div>
 
       <div class="footer-column">
@@ -883,34 +841,31 @@
     </p>
   </footer>
 
-  <!-- ============ SCRIPTS ============ -->
+  <!-- Script menu mobile + reveal -->
   <script>
-    // Menu mobile
-    const menuToggle = document.querySelector('.menu-toggle');
-    const nav = document.querySelector('.main-nav');
+    const menuToggle2 = document.querySelector(".menu-toggle");
+    const nav2 = document.querySelector(".main-nav");
 
-    menuToggle.addEventListener('click', () => {
-      nav.classList.toggle('open');
+    menuToggle2.addEventListener("click", () => {
+      nav2.classList.toggle("open");
     });
 
-    // Animations scroll (reveal)
-    const reveals = document.querySelectorAll('.reveal');
-
-    const observer = new IntersectionObserver(
+    const revealEls2 = document.querySelectorAll(".reveal");
+    const observer2 = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            entry.target.classList.add('reveal-visible');
-            observer.unobserve(entry.target);
+            entry.target.classList.add("visible");
+            observer2.unobserve(entry.target);
           }
         });
       },
       {
-        threshold: 0.15,
+        threshold: 0.12,
       }
     );
 
-    reveals.forEach((el) => observer.observe(el));
+    revealEls2.forEach((el) => observer2.observe(el));
   </script>
 </body>
 </html>
