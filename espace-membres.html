@@ -5,103 +5,195 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>APAM – Espace membres</title>
   <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #eef2f8;
-      color: #062037;
+    /* ================== BASE ================== */
+
+    :root {
+      --apam-blue-dark: #031023;
+      --apam-blue: #062037;
+      --apam-blue-soft: #1b3658;
+      --glass-bg: rgba(255, 255, 255, 0.85);
+      --glass-border: rgba(15, 35, 70, 0.08);
+      --glass-shadow: 0 10px 28px rgba(0, 0, 0, 0.12);
+      --text-main: #062037;
+      --text-soft: #5f6b85;
+      --accent: #4aa3ff;
     }
 
-    /* HEADER + MENU (identique aux autres pages) */
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+        sans-serif;
+      color: var(--text-main);
+      background: #f5f7fb;
+      min-height: 100vh;
+    }
+
+    a {
+      color: inherit;
+    }
+
+    /* ================== HEADER + MENU (style index) ================== */
 
     header {
-      background: white;
-      padding: 10px 30px;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      padding: 10px 26px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      border-bottom: 1px solid #ddd;
-      position: relative;
-      z-index: 100;
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      background: rgba(3, 16, 35, 0.07); /* ultra transparent */
+      border-bottom: 1px solid rgba(255, 255, 255, 0.12);
     }
 
     .logo {
-      height: 60px;
+      height: 56px;
     }
 
     .main-nav {
       display: flex;
       align-items: center;
+      gap: 10px;
     }
 
     .main-nav a {
-      margin-left: 25px;
       text-decoration: none;
-      color: #062037;
-      font-weight: 700;
-      position: relative;
-      padding-bottom: 4px;
-      transition: color 0.2s ease;
-    }
+      color: #ffffff;
+      font-weight: 600;
+      font-size: 0.92rem;
+      padding: 7px 16px;
+      border-radius: 999px;
 
-    .main-nav a::after {
-      content: "";
-      position: absolute;
-      left: 0;
-      bottom: 0;
-      width: 0;
-      height: 2px;
-      background: #062037;
-      transition: width 0.2s ease;
+      background: transparent;
+      border: 1px solid transparent;
+
+      transition:
+        color 0.18s ease,
+        background 0.25s ease,
+        box-shadow 0.25s ease,
+        border-color 0.2s ease,
+        transform 0.18s ease;
     }
 
     .main-nav a:hover {
-      color: #000;
+      color: #ffffff;
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(255, 255, 255, 0.3);
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.2);
+      transform: translateY(-1px);
     }
 
-    .main-nav a:hover::after {
-      width: 100%;
+    .main-nav a.active {
+      background: linear-gradient(
+        135deg,
+        rgba(139, 199, 255, 0.98),
+        rgba(70, 140, 255, 0.98)
+      );
+      border-color: rgba(74, 163, 255, 0.9);
+      box-shadow: 0 14px 30px rgba(74, 163, 255, 0.6);
+      color: #02101f;
     }
-
-    /* Bouton menu mobile */
 
     .menu-toggle {
       display: none;
-      background: none;
-      border: none;
+      align-items: center;
+      gap: 6px;
+      background: rgba(3, 16, 35, 0.78);
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.35);
       cursor: pointer;
-      padding: 8px;
+      padding: 7px 12px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
+      color: #fff;
+      font-size: 0.86rem;
+      font-weight: 500;
     }
 
-    .menu-toggle span {
+    .menu-toggle span.bars {
       display: block;
-      width: 22px;
+      width: 18px;
       height: 2px;
-      background: #062037;
-      margin: 4px 0;
-      transition: transform 0.2s ease, opacity 0.2s ease;
+      background: #ffffff;
+      border-radius: 999px;
+      position: relative;
     }
 
-    /* WRAPPER GLOBAL */
+    .menu-toggle span.bars::before,
+    .menu-toggle span.bars::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      width: 18px;
+      height: 2px;
+      background: #ffffff;
+      border-radius: 999px;
+    }
+
+    .menu-toggle span.bars::before {
+      top: -5px;
+    }
+
+    .menu-toggle span.bars::after {
+      top: 5px;
+    }
+
+    /* ================== WRAPPER GLOBAL ================== */
 
     main {
       max-width: 1100px;
-      margin: 30px auto 50px;
+      margin: 110px auto 50px; /* décalage pour le header fixe */
       padding: 0 20px;
     }
 
-    /* SECTION-CARD GÉNÉRIQUE (comme la page Activité) */
+    /* ================== ANIMATIONS REVEAL ================== */
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(18px);
+      transition:
+        opacity 0.55s ease-out,
+        transform 0.55s ease-out;
+    }
+
+    .reveal-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .reveal-delay-1 {
+      transition-delay: 0.08s;
+    }
+
+    .reveal-delay-2 {
+      transition-delay: 0.16s;
+    }
+
+    .reveal-delay-3 {
+      transition-delay: 0.24s;
+    }
+
+    /* ================== SECTION-CARD EN LIQUID GLASS ================== */
 
     .section-card {
-      background: #ffffff;
-      border-radius: 18px;
-      border: 1px solid #d5dfec;
-      box-shadow: 0 12px 30px rgba(7, 31, 56, 0.07);
+      background: var(--glass-bg);
+      border-radius: 26px;
+      border: 1px solid var(--glass-border);
+      box-shadow: var(--glass-shadow);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
       padding: 22px 22px 24px;
       margin-bottom: 24px;
     }
 
-    /* HERO ESPACE MEMBRES */
+    /* HERO ESPACE MEMBRES (texte seulement, pas de gros hero image) */
 
     .member-hero {
       margin-bottom: 18px;
@@ -114,8 +206,8 @@
       font-size: 0.75rem;
       text-transform: uppercase;
       letter-spacing: 0.12em;
-      background: #e4ecff;
-      color: #1f3b63;
+      background: rgba(3, 16, 35, 0.07);
+      color: var(--apam-blue-soft);
       padding: 4px 10px;
       border-radius: 999px;
       margin-bottom: 10px;
@@ -125,12 +217,12 @@
       width: 6px;
       height: 6px;
       border-radius: 999px;
-      background: #1f3b63;
+      background: var(--apam-blue-soft);
     }
 
     .member-hero h1 {
       font-size: 2rem;
-      color: #062037;
+      color: var(--apam-blue);
       margin: 0 0 8px;
       display: flex;
       align-items: center;
@@ -142,7 +234,7 @@
     }
 
     .member-hero p {
-      color: #555;
+      color: var(--text-soft);
       line-height: 1.6;
       margin: 0 0 6px;
       max-width: 720px;
@@ -150,18 +242,18 @@
 
     .member-hint {
       font-size: 0.9rem;
-      color: #777;
+      color: #7b869e;
       margin: 0;
     }
 
-    /* BLOCS DOCUMENTS MEMBRES (4 cartes) */
+    /* ================== BLOCS DOCUMENTS MEMBRES ================== */
 
     .member-docs-section h2 {
       display: flex;
       align-items: center;
       gap: 8px;
       font-size: 1.6rem;
-      color: #062037;
+      color: var(--apam-blue);
       margin-bottom: 10px;
     }
 
@@ -169,7 +261,7 @@
       font-size: 0.75rem;
       text-transform: uppercase;
       letter-spacing: 0.1em;
-      background: #062037;
+      background: var(--apam-blue);
       color: #fff;
       padding: 3px 9px;
       border-radius: 999px;
@@ -180,7 +272,7 @@
     }
 
     .member-docs-section p.section-intro {
-      color: #555;
+      color: var(--text-soft);
       margin-bottom: 18px;
       line-height: 1.6;
       max-width: 720px;
@@ -193,13 +285,16 @@
     }
 
     .member-card {
-      background: #f7f9fc;
-      border-radius: 16px;
-      border: 1px solid #d5dfec;
+      background: rgba(255, 255, 255, 0.88);
+      border-radius: 20px;
+      border: 1px solid var(--glass-border);
+      box-shadow: 0 14px 30px rgba(0, 0, 0, 0.10);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
       padding: 16px 16px 14px;
       display: flex;
       flex-direction: column;
-      gap: 6px;
+      gap: 8px;
     }
 
     .member-card-header {
@@ -213,7 +308,7 @@
       width: 32px;
       height: 32px;
       border-radius: 999px;
-      background: #e4ecff;
+      background: rgba(74, 163, 255, 0.16);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -227,29 +322,14 @@
     .member-card-title {
       font-size: 1.05rem;
       font-weight: 700;
-      color: #062037;
+      color: var(--apam-blue);
     }
 
     .member-card p {
       margin: 0;
-      color: #555;
+      color: var(--text-soft);
       font-size: 0.92rem;
       line-height: 1.5;
-    }
-
-    .member-card a.section-link {
-      display: inline-block;
-      margin-top: 10px;
-      color: #062037;
-      font-weight: 600;
-      text-decoration: none;
-      border-bottom: 1px solid rgba(6, 32, 55, 0.5);
-      padding-bottom: 1px;
-      font-size: 0.9rem;
-    }
-
-    .member-card a.section-link:hover {
-      border-bottom-color: transparent;
     }
 
     .member-highlight {
@@ -263,7 +343,45 @@
       align-self: flex-start;
     }
 
-    /* LIENS UTILES (on garde le principe, en le mettant dans une section-card) */
+    /* Bouton bleu type "Découvrir le club" pour les liens Drive */
+
+    .member-card a.section-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      margin-top: 10px;
+      padding: 8px 16px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      background: linear-gradient(
+        135deg,
+        rgba(139, 199, 255, 0.96),
+        rgba(70, 140, 255, 0.96)
+      );
+      color: #02101f;
+      font-weight: 600;
+      font-size: 0.9rem;
+      text-decoration: none;
+      box-shadow: 0 14px 32px rgba(0, 0, 0, 0.35);
+      cursor: pointer;
+      transition:
+        transform 0.18s ease,
+        box-shadow 0.18s ease,
+        background 0.2s ease;
+    }
+
+    .member-card a.section-link:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.45);
+      background: linear-gradient(
+        135deg,
+        rgba(165, 210, 255, 1),
+        rgba(100, 160, 255, 1)
+      );
+    }
+
+    /* ================== LIENS UTILES EN LIQUID GLASS ================== */
 
     .useful-links {
       margin-top: 32px;
@@ -271,12 +389,12 @@
 
     .useful-links h2 {
       font-size: 1.7rem;
-      color: #062037;
+      color: var(--apam-blue);
       margin-bottom: 8px;
     }
 
     .useful-intro {
-      color: #555;
+      color: var(--text-soft);
       margin-bottom: 25px;
       line-height: 1.6;
     }
@@ -287,7 +405,7 @@
 
     .useful-category h3 {
       font-size: 1.25rem;
-      color: #062037;
+      color: var(--apam-blue);
       margin-bottom: 10px;
       display: flex;
       align-items: center;
@@ -306,14 +424,21 @@
 
     .useful-card {
       display: block;
-      background: #f7f9fc;
+      background: rgba(255, 255, 255, 0.9);
       padding: 14px 16px 16px;
-      border-radius: 12px;
-      border: 1px solid #d5dfec;
+      border-radius: 18px;
+      border: 1px solid var(--glass-border);
       text-decoration: none;
-      color: #062037;
-      transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.2s ease;
+      color: var(--apam-blue);
+      transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease,
+        border-color 0.2s ease,
+        background 0.2s ease;
       font-size: 0.95rem;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
     }
 
     .useful-card h4 {
@@ -323,17 +448,18 @@
 
     .useful-card p {
       margin: 0;
-      color: #555;
+      color: var(--text-soft);
       font-size: 0.9rem;
     }
 
     .useful-card:hover {
       transform: translateY(-3px);
-      box-shadow: 0 10px 22px rgba(0, 0, 0, 0.12);
-      border-color: #a7b9d6;
+      box-shadow: 0 16px 38px rgba(0, 0, 0, 0.16);
+      border-color: rgba(74, 163, 255, 0.6);
+      background: rgba(255, 255, 255, 0.98);
     }
 
-    /* ICÔNES RÉSEAUX FLOTTANTES */
+    /* ================== ICÔNES RÉSEAUX FLOTTANTES (glass) ================== */
 
     .social-floating {
       position: fixed;
@@ -346,31 +472,45 @@
       z-index: 50;
     }
 
-    .social-floating a img {
-      width: 22px;
-      height: 22px;
-      display: block;
-      filter: invert(1) brightness(200%);
-      opacity: 0.9;
+    .social-floating a {
+      width: 38px;
+      height: 38px;
+      border-radius: 999px;
+      background: rgba(3, 16, 35, 0.82);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 10px 26px rgba(0, 0, 0, 0.45);
       transition:
-        opacity 0.2s ease,
-        filter 0.2s ease,
-        transform 0.2s ease;
+        transform 0.18s ease,
+        box-shadow 0.18s ease,
+        background 0.2s ease;
     }
 
-    .social-floating a img:hover {
-      opacity: 1;
-      filter: invert(1) brightness(250%);
+    .social-floating a img {
+      width: 20px;
+      height: 20px;
+      display: block;
+      filter: invert(1) brightness(190%);
+    }
+
+    .social-floating a:hover {
       transform: translateY(-2px);
+      box-shadow: 0 14px 34px rgba(0, 0, 0, 0.55);
+      background: rgba(3, 16, 35, 0.96);
     }
 
-    /* FOOTER */
+    /* ================== FOOTER (propre & aligné index) ================== */
 
     .site-footer {
-      background: #062037;
-      color: #fff;
-      padding: 40px 20px 20px;
+      background: #ffffff;
+      color: var(--apam-blue);
+      padding: 32px 20px 18px;
       margin-top: 40px;
+      border-top: 1px solid rgba(6, 32, 55, 0.12);
     }
 
     .footer-content {
@@ -378,32 +518,14 @@
       margin: 0 auto;
       display: flex;
       justify-content: space-between;
+      align-items: flex-start;
       flex-wrap: wrap;
-      gap: 40px;
-    }
-
-    .footer-column h4 {
-      margin-bottom: 12px;
-      font-size: 1.1rem;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.3);
-      padding-bottom: 6px;
-    }
-
-    .footer-column a {
-      display: block;
-      color: #fff;
-      opacity: 0.85;
-      margin-bottom: 6px;
-      text-decoration: none;
-      transition: opacity 0.2s ease;
-    }
-
-    .footer-column a:hover {
-      opacity: 1;
+      gap: 28px;
     }
 
     .footer-brand {
-      max-width: 220px;
+      max-width: 260px;
+      flex: 1 1 260px;
     }
 
     .footer-logo {
@@ -417,14 +539,46 @@
       opacity: 0.85;
     }
 
-    .copyright {
-      text-align: center;
-      margin-top: 30px;
-      opacity: 0.7;
-      font-size: 0.85rem;
+    .footer-column {
+      flex: 1 1 180px;
+      min-width: 180px;
     }
 
-    /* RESPONSIVE */
+    .footer-column h4 {
+      margin-bottom: 10px;
+      font-size: 1rem;
+      border-bottom: 1px solid rgba(6, 32, 55, 0.15);
+      padding-bottom: 5px;
+    }
+
+    .footer-column a {
+      display: block;
+      color: var(--apam-blue);
+      opacity: 0.82;
+      margin-bottom: 6px;
+      font-size: 0.9rem;
+      text-decoration: none;
+      transition: opacity 0.2s ease;
+    }
+
+    .footer-column a:hover {
+      opacity: 1;
+    }
+
+    .copyright {
+      text-align: center;
+      margin-top: 22px;
+      opacity: 0.7;
+      font-size: 0.82rem;
+    }
+
+    /* ================== RESPONSIVE ================== */
+
+    @media (max-width: 900px) {
+      .social-floating {
+        right: 10px;
+      }
+    }
 
     @media (max-width: 768px) {
       header {
@@ -433,53 +587,59 @@
 
       .main-nav {
         position: absolute;
-        top: 70px;
+        top: 64px;
         right: 16px;
-        background: white;
-        border-radius: 8px;
-        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
-        padding: 12px 16px;
+        left: 16px;
         flex-direction: column;
         align-items: flex-start;
+        padding: 10px 10px 12px;
+        border-radius: 18px;
+        background: #ffffff;
+        border: 1px solid rgba(6, 32, 55, 0.12);
+        box-shadow: 0 18px 40px rgba(0, 0, 0, 0.18);
         display: none;
       }
 
       .main-nav a {
-        margin: 6px 0;
-      }
-
-      .menu-toggle {
-        display: block;
-      }
-
-      .social-floating {
-        right: 10px;
-      }
-
-      .footer-content {
-        flex-direction: column;
-        align-items: flex-start;
+        margin: 3px 4px;
+        width: 100%;
+        color: var(--apam-blue);
       }
 
       .main-nav.open {
         display: flex;
       }
 
+      .menu-toggle {
+        display: inline-flex;
+      }
+
       main {
-        padding: 0 16px;
+        margin-top: 96px;
+        padding: 0 16px 40px;
+      }
+
+      .footer-content {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 18px;
+      }
+
+      .site-footer {
+        padding-top: 24px;
       }
     }
   </style>
 </head>
 <body>
+  <!-- ============ HEADER ============ -->
   <header>
     <img src="apam-logo.png" alt="Logo APAM" class="logo" />
 
     <!-- Bouton menu mobile -->
     <button class="menu-toggle" aria-label="Ouvrir le menu">
-      <span></span>
-      <span></span>
-      <span></span>
+      <span class="bars"></span>
+      <span>Menu</span>
     </button>
 
     <!-- Menu principal -->
@@ -488,15 +648,16 @@
       <a href="#">À propos</a>
       <a href="activite.html">Activité</a>
       <a href="#">Tarif</a>
-      <a href="espace-membres.html">Membres</a>
+      <a href="espace-membres.html" class="active">Membres</a>
       <a href="#">Contact</a>
       <a href="https://openflyers.com/apam/" target="_blank">OpenFlyer</a>
     </nav>
   </header>
 
+  <!-- ============ CONTENU ============ -->
   <main>
-    <!-- HERO ESPACE MEMBRES -->
-    <section class="section-card member-hero">
+    <!-- HERO TEXTE ESPACE MEMBRES (en bulle glass) -->
+    <section class="section-card member-hero reveal">
       <div class="member-tag">
         <span class="member-tag-dot"></span>
         <span>Espace interne</span>
@@ -512,8 +673,8 @@
       </p>
     </section>
 
-    <!-- 4 BLOCS DOCUMENTS MEMBRES -->
-    <section class="section-card member-docs-section">
+    <!-- 4 BLOCS DOCUMENTS MEMBRES EN LIQUID GLASS -->
+    <section class="section-card member-docs-section reveal reveal-delay-1">
       <h2>
         <span class="section-chip">Documents</span>
         <span class="section-emoji">📂</span>
@@ -599,8 +760,8 @@
       </div>
     </section>
 
-    <!-- LIENS UTILES (on garde le contenu, juste dans une section-card) -->
-    <section class="section-card useful-links">
+    <!-- LIENS UTILES EN SECTION-CARD GLASS -->
+    <section class="section-card useful-links reveal reveal-delay-2">
       <h2>Liens utiles pour les pilotes</h2>
       <p class="useful-intro">
         Une sélection de ressources en ligne pour préparer vos vols en France : météo aéronautique,
@@ -672,7 +833,7 @@
     </section>
   </main>
 
-  <!-- Icônes réseaux sociaux flottantes -->
+  <!-- ============ RÉSEAUX FLOTTANTS ============ -->
   <div class="social-floating">
     <a href="https://www.instagram.com/_cauvin_" target="_blank" aria-label="Instagram">
       <img src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/instagram.svg" alt="Instagram" />
@@ -685,12 +846,15 @@
     </a>
   </div>
 
-  <!-- Footer -->
+  <!-- ============ FOOTER ============ -->
   <footer class="site-footer">
     <div class="footer-content">
-      <div class="footer-column footer-brand">
+      <div class="footer-brand">
         <img src="apam-logo.png" alt="Logo APAM" class="footer-logo" />
-        <p>Aéroclub APAM L’Aigle Saint-Michel.</p>
+        <p>
+          Aéroclub APAM L’Aigle Saint-Michel – un cadre convivial pour découvrir, apprendre
+          et partager la passion du vol.
+        </p>
       </div>
 
       <div class="footer-column">
@@ -717,14 +881,34 @@
     </p>
   </footer>
 
-  <!-- Script menu mobile -->
+  <!-- ============ SCRIPTS ============ -->
   <script>
+    // Menu mobile
     const menuToggle = document.querySelector('.menu-toggle');
     const nav = document.querySelector('.main-nav');
 
     menuToggle.addEventListener('click', () => {
       nav.classList.toggle('open');
     });
+
+    // Animations "reveal" au scroll (comme l'index / activité)
+    const revealElements = document.querySelectorAll('.reveal');
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('reveal-visible');
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      {
+        threshold: 0.18,
+      }
+    );
+
+    revealElements.forEach((el) => observer.observe(el));
   </script>
 </body>
 </html>
