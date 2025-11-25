@@ -36,64 +36,81 @@
       color: inherit;
     }
 
-    /* ================== HEADER EN PILULE ================== */
+    /* ================== ANIMATIONS SCROLL ================== */
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(18px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .reveal-delay-1 {
+      transition-delay: 0.08s;
+    }
+
+    .reveal-delay-2 {
+      transition-delay: 0.16s;
+    }
+
+    .reveal-delay-3 {
+      transition-delay: 0.24s;
+    }
+
+    /* ================== HEADER + PILULE ================== */
 
     header {
-  position: fixed;
-  top: 18px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 200;
-  padding: 10px 26px;
-  background: rgba(3, 16, 35, 0.03); /* ultra transparent */
-  backdrop-filter: blur(22px);
-  -webkit-backdrop-filter: blur(22px);
-  border-radius: 999px;
-  border: 1px solid rgba(255, 255, 255, 0.22);
-  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.45);
-  width: calc(100% - 60px);
-  max-width: 1250px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      padding: 16px 26px 0;
+      display: flex;
+      justify-content: center;
+      pointer-events: none; /* pour que seule la pilule capte les clics */
     }
 
     .header-shell {
-      pointer-events: auto;
-      width: 100%;
       max-width: 1100px;
-      margin: 0 16px;
-      padding: 8px 18px;
+      width: 100%;
+      padding: 8px 20px;
       border-radius: 999px;
-      background: rgba(255, 255, 255, 0.4);
-      border: 1px solid rgba(6, 32, 55, 0.12);
-      backdrop-filter: blur(18px);
-      -webkit-backdrop-filter: blur(18px);
-      box-shadow: var(--glass-shadow);
+
+      background: rgba(255, 255, 255, 0.9);
+      border: 1px solid rgba(15, 35, 70, 0.08);
+      box-shadow: 0 22px 60px rgba(0, 0, 0, 0.22);
+      backdrop-filter: blur(22px);
+      -webkit-backdrop-filter: blur(22px);
+
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      gap: 16px;
-      position: relative;
+      gap: 18px;
+      pointer-events: auto;
     }
 
     .logo {
-      height: 44px; /* légèrement réduit pour mieux respirer dans la pilule */
+      height: 52px;
       flex-shrink: 0;
     }
 
     .main-nav {
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 10px;
+      margin-left: auto;
     }
 
     .main-nav a {
       text-decoration: none;
       color: var(--apam-blue);
       font-weight: 600;
-      font-size: 0.92rem;
-      padding: 7px 14px;
+      font-size: 0.95rem;
+      padding: 7px 16px;
       border-radius: 999px;
 
       background: transparent;
@@ -126,83 +143,32 @@
       color: #02101f;
     }
 
-    /* Bouton MENU mobile (liquid glass) */
+    /* Bouton MENU mobile - pill "Menu" */
 
     .menu-toggle {
       display: none;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-      background: rgba(255, 255, 255, 0.9);
+      background: rgba(3, 16, 35, 0.9);
+      color: #ffffff;
+      font-weight: 600;
+      font-size: 0.86rem;
       border-radius: 999px;
-      border: 1px solid rgba(6, 32, 55, 0.15);
+      border: 1px solid rgba(255, 255, 255, 0.45);
       cursor: pointer;
-      padding: 6px 14px;
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
-      font-size: 0.78rem;
-      text-transform: uppercase;
-      letter-spacing: 0.12em;
-      color: var(--apam-blue);
-      flex-shrink: 0;
+      padding: 7px 14px;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+      margin-left: auto;
     }
 
-    .menu-toggle-icon {
-      width: 14px;
-      height: 2px;
-      border-radius: 999px;
-      background: var(--apam-blue);
-      position: relative;
-    }
-
-    .menu-toggle-icon::before,
-    .menu-toggle-icon::after {
-      content: "";
-      position: absolute;
-      left: 0;
-      right: 0;
-      height: 2px;
-      border-radius: 999px;
-      background: var(--apam-blue);
-    }
-
-    .menu-toggle-icon::before {
-      top: -4px;
-    }
-
-    .menu-toggle-icon::after {
-      top: 4px;
-    }
-
-    /* ================== REVEAL ANIMATIONS ================== */
-
-    .reveal {
-      opacity: 0;
-      transform: translateY(18px);
-      transition: opacity 0.6s ease, transform 0.6s ease;
-    }
-
-    .reveal.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    .reveal-delay-1 {
-      transition-delay: 0.08s;
-    }
-
-    .reveal-delay-2 {
-      transition-delay: 0.16s;
-    }
-
-    .reveal-delay-3 {
-      transition-delay: 0.24s;
+    .menu-toggle:hover {
+      background: rgba(3, 16, 35, 0.98);
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.45);
     }
 
     /* ================== CONTENU PRINCIPAL ================== */
 
     main {
       max-width: 1100px;
-      margin: 100px auto 50px; /* décalage pour le header fixe en pilule */
+      margin: 120px auto 50px; /* décalage pour le header pilule */
       padding: 0 20px;
     }
 
@@ -668,34 +634,39 @@
 
     @media (max-width: 900px) {
       main {
-        margin-top: 96px;
+        margin-top: 110px;
       }
     }
 
     @media (max-width: 768px) {
+      header {
+        padding: 12px 16px 0;
+      }
+
       .header-shell {
-        margin: 0 10px;
-        padding: 8px 12px;
+        padding: 8px 14px;
       }
 
       .main-nav {
         position: absolute;
-        top: 54px;
-        right: 10px;
-        left: 10px;
-        flex-direction: column;
-        align-items: flex-start;
-        padding: 10px 10px 12px;
+        top: 100%;
+        left: 0;
+        right: 0;
+        margin-left: 0;
+        margin-top: 10px;
+        padding: 10px 16px 12px;
         border-radius: 18px;
         background: #ffffff;
         border: 1px solid rgba(6, 32, 55, 0.12);
         box-shadow: 0 18px 40px rgba(0, 0, 0, 0.12);
+        flex-direction: column;
+        align-items: flex-start;
         display: none;
       }
 
       .main-nav a {
-        margin: 3px 4px;
         width: 100%;
+        margin: 2px 0;
       }
 
       .main-nav.open {
@@ -704,6 +675,17 @@
 
       .menu-toggle {
         display: inline-flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .logo {
+        height: 48px;
+      }
+
+      main {
+        padding: 0 16px;
+        margin-top: 110px;
       }
 
       .social-floating {
@@ -722,18 +704,13 @@
   </style>
 </head>
 <body>
-  <!-- ============ HEADER ============ -->
+  <!-- ============ HEADER PILULE ============ -->
   <header>
     <div class="header-shell">
       <img src="apam-logo.png" alt="Logo APAM" class="logo" />
 
-      <!-- Bouton MENU mobile -->
-      <button class="menu-toggle" aria-label="Ouvrir le menu">
-        <span>MENU</span>
-        <span class="menu-toggle-icon"></span>
-      </button>
+      <button class="menu-toggle" aria-label="Ouvrir le menu">Menu</button>
 
-      <!-- Menu principal -->
       <nav class="main-nav">
         <a href="index.html">Accueil</a>
         <a href="#">À propos</a>
