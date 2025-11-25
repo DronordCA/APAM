@@ -84,7 +84,7 @@
 
     .member-dashboard {
       max-width: 1000px;
-      margin: 40px auto 60px;
+      margin: 40px auto 40px;
       padding: 0 30px;
     }
 
@@ -148,6 +148,71 @@
 
     .member-section a.section-link:hover {
       border-bottom-color: transparent;
+    }
+
+    /* LIENS UTILES */
+
+    .useful-links {
+      max-width: 1100px;
+      margin: 40px auto 60px;
+      padding: 0 30px;
+    }
+
+    .useful-links h2 {
+      font-size: 1.7rem;
+      color: #062037;
+      margin-bottom: 8px;
+    }
+
+    .useful-intro {
+      color: #555;
+      margin-bottom: 25px;
+      line-height: 1.6;
+    }
+
+    .useful-category {
+      margin-bottom: 28px;
+    }
+
+    .useful-category h3 {
+      font-size: 1.25rem;
+      color: #062037;
+      margin-bottom: 10px;
+    }
+
+    .useful-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 16px;
+    }
+
+    .useful-card {
+      display: block;
+      background: #f7f9fc;
+      padding: 14px 16px 16px;
+      border-radius: 12px;
+      border: 1px solid #d5dfec;
+      text-decoration: none;
+      color: #062037;
+      transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.2s ease;
+      font-size: 0.95rem;
+    }
+
+    .useful-card h4 {
+      margin: 0 0 4px;
+      font-size: 1rem;
+    }
+
+    .useful-card p {
+      margin: 0;
+      color: #555;
+      font-size: 0.9rem;
+    }
+
+    .useful-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 22px rgba(0, 0, 0, 0.12);
+      border-color: #a7b9d6;
     }
 
     /* ICÔNES RÉSEAUX FLOTTANTES */
@@ -307,66 +372,141 @@
     </nav>
   </header>
 
-  <main class="member-dashboard">
-    <h1>Espace membres</h1>
-    <p>
-      Cet espace est réservé aux membres de l’APAM. Les liens ci-dessous renvoient vers des
-      documents hébergés sur des espaces sécurisés (Google Drive, etc.).
-    </p>
-    <p class="hint">
-      L’accès aux documents dépend de vos droits. Si vous ne voyez pas un contenu, rapprochez-vous
-      du bureau du club.
-    </p>
+  <main>
+    <!-- BLOC DOCUMENTS MEMBRES -->
+    <section class="member-dashboard">
+      <h1>Espace membres</h1>
+      <p>
+        Cet espace est réservé aux membres de l’APAM. Les liens ci-dessous renvoient vers des
+        documents hébergés sur des espaces sécurisés (Google Drive, etc.).
+      </p>
+      <p class="hint">
+        L’accès aux documents dépend de vos droits. Si vous ne voyez pas un contenu, rapprochez-vous
+        du bureau du club.
+      </p>
 
-    <div class="sections-grid">
-      <!-- Documentation générale -->
-      <section class="member-section">
-        <h2>Documentation générale</h2>
-        <p>
-          Règlement intérieur, procédures club, consignes de sécurité, informations générales
-          pour tous les membres.
-        </p>
-        <a class="section-link" href="#" target="_blank">
-          Accéder à la documentation générale
-        </a>
-      </section>
+      <div class="sections-grid">
+        <!-- Documentation générale -->
+        <section class="member-section">
+          <h2>Documentation générale</h2>
+          <p>
+            Règlement intérieur, procédures club, consignes de sécurité, informations générales
+            pour tous les membres.
+          </p>
+          <a class="section-link" href="#" target="_blank">
+            Accéder à la documentation générale
+          </a>
+        </section>
 
-      <!-- Documentation avions -->
-      <section class="member-section">
-        <h2>Documentation avions</h2>
-        <p>
-          POH, check-lists, bilans de masse et centrage, documentation technique propre à la
-          flotte de l’APAM.
-        </p>
-        <a class="section-link" href="#" target="_blank">
-          Accéder à la documentation avions
-        </a>
-      </section>
+        <!-- Documentation avions -->
+        <section class="member-section">
+          <h2>Documentation avions</h2>
+          <p>
+            POH, check-lists, bilans de masse et centrage, documentation technique propre à la
+            flotte de l’APAM.
+          </p>
+          <a class="section-link" href="#" target="_blank">
+            Accéder à la documentation avions
+          </a>
+        </section>
 
-      <!-- Cours théoriques -->
-      <section class="member-section">
-        <h2>Cours théoriques</h2>
-        <p>
-          Supports de cours, ressources de préparation, documents pédagogiques pour les élèves
-          pilotes et les membres en formation.
-        </p>
-        <a class="section-link" href="#" target="_blank">
-          Accéder aux cours théoriques
-        </a>
-      </section>
+        <!-- Cours théoriques -->
+        <section class="member-section">
+          <h2>Cours théoriques</h2>
+          <p>
+            Supports de cours, ressources de préparation, documents pédagogiques pour les élèves
+            pilotes et les membres en formation.
+          </p>
+          <a class="section-link" href="#" target="_blank">
+            Accéder aux cours théoriques
+          </a>
+        </section>
 
-      <!-- Voyages & activités -->
-      <section class="member-section">
-        <h2>Voyages & activités du club</h2>
-        <p>
-          Projets de voyages, briefings, tarifs, organisation des sorties et comptes rendus des
-          activités passées.
-        </p>
-        <a class="section-link" href="#" target="_blank">
-          Accéder aux voyages & activités
-        </a>
-      </section>
-    </div>
+        <!-- Voyages & activités -->
+        <section class="member-section">
+          <h2>Voyages & activités du club</h2>
+          <p>
+            Projets de voyages, briefings, tarifs, organisation des sorties et comptes rendus des
+            activités passées.
+          </p>
+          <a class="section-link" href="#" target="_blank">
+            Accéder aux voyages & activités
+          </a>
+        </section>
+      </div>
+    </section>
+
+    <!-- SECTION LIENS UTILES -->
+    <section class="useful-links">
+      <h2>Liens utiles pour les pilotes</h2>
+      <p class="useful-intro">
+        Une sélection de ressources en ligne pour préparer vos vols en France : météo aéronautique,
+        réglementation, navigation, NOTAM et documentation officielle.
+      </p>
+
+      <!-- Préparation météo -->
+      <div class="useful-category">
+        <h3>Préparation météo</h3>
+        <div class="useful-grid">
+          <a href="https://aviation.meteo.fr/" target="_blank" class="useful-card">
+            <h4>AeroWeb – Météo-France</h4>
+            <p>Portail météo aéronautique Météo-France : METAR, TAF, cartes TEMSI/WINTEM.</p>
+          </a>
+
+          <a href="https://www.meteofrance.com/meteo-aero" target="_blank" class="useful-card">
+            <h4>Météo-France – Météo Aéronautique</h4>
+            <p>Accès météo aviation via le site Météo-France.</p>
+          </a>
+
+          <a href="https://olivia.aviation-civile.gouv.fr/" target="_blank" class="useful-card">
+            <h4>OLIVIA – DGAC</h4>
+            <p>Météo, NOTAM et préparation de vol pour l’aviation générale en France.</p>
+          </a>
+        </div>
+      </div>
+
+      <!-- Réglementation & fédération -->
+      <div class="useful-category">
+        <h3>Réglementation & fédération</h3>
+        <div class="useful-grid">
+          <a href="https://www.ffa-aero.fr/" target="_blank" class="useful-card">
+            <h4>FFA – Fédération Française Aéronautique</h4>
+            <p>Infos licences, actualités, réglementation et vie des aéroclubs français.</p>
+          </a>
+
+          <a href="https://www.ecologie.gouv.fr/direction-generale-laviation-civile-dgac" target="_blank" class="useful-card">
+            <h4>DGAC</h4>
+            <p>Direction Générale de l’Aviation Civile : informations officielles et réglementaires.</p>
+          </a>
+
+          <a href="https://www.easa.europa.eu/en/document-library/easy-access-rules" target="_blank" class="useful-card">
+            <h4>EASA – Easy Access Rules</h4>
+            <p>Textes consolidés (Part-FCL, Part-NCO, etc.) pour l’aviation en Europe.</p>
+          </a>
+        </div>
+      </div>
+
+      <!-- Navigation & documentation -->
+      <div class="useful-category">
+        <h3>Navigation & documentation</h3>
+        <div class="useful-grid">
+          <a href="https://www.sia.aviation-civile.gouv.fr/" target="_blank" class="useful-card">
+            <h4>SIA – Service de l’Information Aéronautique</h4>
+            <p>Cartes VAC, AIP France, SUP AIP et documentation officielle de navigation.</p>
+          </a>
+
+          <a href="https://sofia-briefing.aviation-civile.gouv.fr/sofia/redirectToHomepage.jsf" target="_blank" class="useful-card">
+            <h4>SOFIA Briefing</h4>
+            <p>Préparation de vol officielle : dossier de vol, NOTAM, météo et cartes.</p>
+          </a>
+
+          <a href="https://www.skyvector.com/" target="_blank" class="useful-card">
+            <h4>SkyVector</h4>
+            <p>Cartes aéronautiques en ligne, planification VFR/IFR (France et international).</p>
+          </a>
+        </div>
+      </div>
+    </section>
   </main>
 
   <!-- Icônes réseaux sociaux flottantes -->
