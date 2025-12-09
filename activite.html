@@ -177,7 +177,7 @@
       margin-bottom: 24px;
     }
 
-    /* HERO VISITEURS (inspiration activity-hero) */
+    /* HERO VISITEURS AVEC IMAGE */
 
     .activity-hero {
       margin-bottom: 18px;
@@ -204,6 +204,13 @@
       background: var(--apam-blue-soft);
     }
 
+    .activity-hero-inner {
+      display: grid;
+      grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+      gap: 22px;
+      align-items: center;
+    }
+
     .activity-hero h1 {
       font-size: 2rem;
       color: var(--apam-blue);
@@ -228,6 +235,51 @@
       font-size: 0.9rem;
       color: #7a859c;
       margin: 0;
+    }
+
+    .activity-hero-media {
+      background: rgba(255, 255, 255, 0.96);
+      border-radius: 18px;
+      border: 1px solid rgba(15, 35, 70, 0.08);
+      padding: 10px 10px 12px;
+      box-shadow: 0 14px 30px rgba(3, 16, 35, 0.14);
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .hero-photo {
+      position: relative;
+      border-radius: 14px;
+      overflow: hidden;
+      background: radial-gradient(circle at top left, #8bc7ff 0, #062037 55%);
+    }
+
+    .hero-photo::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        145deg,
+        rgba(3, 16, 35, 0.08),
+        rgba(3, 16, 35, 0.35)
+      );
+      mix-blend-mode: soft-light;
+      pointer-events: none;
+    }
+
+    .hero-photo img {
+      display: block;
+      width: 100%;
+      height: 210px;
+      object-fit: cover;
+      transform: scale(1.02);
+    }
+
+    .hero-photo-caption {
+      margin: 4px 2px 0;
+      font-size: 0.8rem;
+      color: #7a859c;
     }
 
     /* SECTION VISITEURS */
@@ -272,11 +324,38 @@
       background: rgba(255, 255, 255, 0.96);
       border-radius: 18px;
       border: 1px solid rgba(15, 35, 70, 0.08);
-      padding: 16px 16px 14px;
+      padding: 14px 14px 14px;
       display: flex;
       flex-direction: column;
       gap: 8px;
       box-shadow: 0 12px 26px rgba(3, 16, 35, 0.08);
+    }
+
+    .activity-card-image {
+      border-radius: 12px;
+      overflow: hidden;
+      position: relative;
+      background: radial-gradient(circle at top, #8bc7ff 0, #062037 60%);
+    }
+
+    .activity-card-image::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        150deg,
+        rgba(3, 16, 35, 0.05),
+        rgba(3, 16, 35, 0.26)
+      );
+      mix-blend-mode: soft-light;
+      pointer-events: none;
+    }
+
+    .activity-card-image img {
+      display: block;
+      width: 100%;
+      height: 140px;
+      object-fit: cover;
     }
 
     .activity-card-header {
@@ -284,6 +363,7 @@
       align-items: center;
       gap: 10px;
       margin-bottom: 4px;
+      margin-top: 2px;
     }
 
     .activity-card-emoji-wrap {
@@ -466,6 +546,10 @@
       main {
         margin-top: 96px;
       }
+
+      .activity-hero-inner {
+        grid-template-columns: minmax(0, 1fr);
+      }
     }
 
     @media (max-width: 768px) {
@@ -541,25 +625,43 @@
 
   <!-- ============ CONTENU ============ -->
   <main>
-    <!-- HERO VISITEURS -->
+    <!-- HERO VISITEURS AVEC IMAGE -->
     <section class="section-card activity-hero reveal">
       <div class="activity-tag">
         <span class="activity-tag-dot"></span>
         <span>4 – Visiteurs</span>
       </div>
-      <h1><span class="emoji">👋</span><span>Vous découvrez l’APAM ?</span></h1>
-      <p>
-        Que vous soyez simple curieux, futur élève pilote ou accompagnant, cette page
-        rassemble les informations essentielles pour comprendre comment fonctionne
-        l’aéroclub et comment profiter de ses activités.
-      </p>
-      <p class="activity-note">
-        Choisissez la rubrique qui vous correspond le mieux : avions du club, organigramme,
-        baptêmes de l’air, parcours pour devenir pilote ou voyages en partage de frais.
-      </p>
+
+      <div class="activity-hero-inner">
+        <div>
+          <h1><span class="emoji">👋</span><span>Vous découvrez l’APAM ?</span></h1>
+          <p>
+            Que vous soyez simple curieux, futur élève pilote ou accompagnant, cette page
+            rassemble les informations essentielles pour comprendre comment fonctionne
+            l’aéroclub et comment profiter de ses activités.
+          </p>
+          <p class="activity-note">
+            Choisissez la rubrique qui vous correspond le mieux : avions du club, organigramme,
+            baptêmes de l’air, parcours pour devenir pilote ou voyages en partage de frais.
+          </p>
+        </div>
+
+        <div class="activity-hero-media">
+          <div class="hero-photo">
+            <!-- Mets ta vraie photo (par ex. "visiteurs-hero.jpg") -->
+            <img
+              src="visiteurs-hero.jpg"
+              alt="Vue des avions de l’APAM sur le parking de l’aérodrome"
+            />
+          </div>
+          <p class="hero-photo-caption">
+            Les avions du club sur le parking de l’aérodrome de L’Aigle Saint-Michel.
+          </p>
+        </div>
+      </div>
     </section>
 
-    <!-- VISITEURS – 5 BLOCS PRINCIPAUX -->
+    <!-- VISITEURS – 5 BLOCS PRINCIPAUX AVEC IMAGES -->
     <section class="section-card activity-section reveal reveal-delay-1">
       <h2>
         <span class="section-chip">Visiteurs</span>
@@ -575,6 +677,9 @@
       <div class="activity-grid">
         <!-- Les Avions -->
         <article class="activity-card">
+          <div class="activity-card-image">
+            <img src="visiteurs-avions.jpg" alt="Avion de tourisme du club prêt au départ" />
+          </div>
           <div class="activity-card-header">
             <div class="activity-card-emoji-wrap">
               <span class="activity-card-emoji">🛩️</span>
@@ -593,6 +698,9 @@
 
         <!-- Organigramme -->
         <article class="activity-card">
+          <div class="activity-card-image">
+            <img src="visiteurs-organigramme.jpg" alt="Membres du bureau et instructeurs en réunion" />
+          </div>
           <div class="activity-card-header">
             <div class="activity-card-emoji-wrap">
               <span class="activity-card-emoji">👥</span>
@@ -611,6 +719,9 @@
 
         <!-- Baptêmes -->
         <article class="activity-card">
+          <div class="activity-card-image">
+            <img src="visiteurs-baptemes.jpg" alt="Passagers à bord pour un vol découverte" />
+          </div>
           <div class="activity-card-header">
             <div class="activity-card-emoji-wrap">
               <span class="activity-card-emoji">🎁</span>
@@ -633,6 +744,9 @@
 
         <!-- Devenir pilote -->
         <article class="activity-card">
+          <div class="activity-card-image">
+            <img src="visiteurs-devenir-pilote.jpg" alt="Élève pilote en instruction avec un instructeur" />
+          </div>
           <div class="activity-card-header">
             <div class="activity-card-emoji-wrap">
               <span class="activity-card-emoji">🎓</span>
@@ -655,6 +769,9 @@
 
         <!-- Voyages en partage de frais -->
         <article class="activity-card">
+          <div class="activity-card-image">
+            <img src="visiteurs-voyages.jpg" alt="Avion du club en voyage sur un terrain extérieur" />
+          </div>
           <div class="activity-card-header">
             <div class="activity-card-emoji-wrap">
               <span class="activity-card-emoji">🧳</span>
