@@ -36,6 +36,25 @@
       color: inherit;
     }
 
+    /* Petites touches typographiques pour dynamiser */
+
+    .accent-text {
+      color: var(--apam-blue-soft);
+      font-weight: 600;
+    }
+
+    .accent-text-strong {
+      color: var(--accent);
+      font-weight: 700;
+    }
+
+    .soft-label {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: #7a859c;
+    }
+
     /* ================== ANIMATIONS SCROLL ================== */
 
     .reveal {
@@ -183,27 +202,6 @@
       margin-bottom: 18px;
     }
 
-    .activity-tag {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      font-size: 0.75rem;
-      text-transform: uppercase;
-      letter-spacing: 0.12em;
-      background: rgba(6, 32, 55, 0.05);
-      color: var(--apam-blue-soft);
-      padding: 4px 10px;
-      border-radius: 999px;
-      margin-bottom: 10px;
-    }
-
-    .activity-tag-dot {
-      width: 6px;
-      height: 6px;
-      border-radius: 999px;
-      background: var(--apam-blue-soft);
-    }
-
     .activity-hero-inner {
       display: grid;
       grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
@@ -340,7 +338,7 @@
       flex-direction: column;
       gap: 10px;
       box-shadow: 0 14px 30px rgba(3, 16, 35, 0.09);
-      min-height: 270px; /* plus rectangulaire, moins “marque-page” */
+      min-height: 270px; /* plus rectangulaire */
     }
 
     .activity-card-image {
@@ -407,7 +405,7 @@
     }
 
     .activity-card-link {
-      margin-top: auto; /* pousse le lien en bas, pour un rendu plus “bloc” */
+      margin-top: auto;
       font-size: 0.88rem;
       font-weight: 600;
       text-decoration: none;
@@ -637,24 +635,29 @@
 
   <!-- ============ CONTENU ============ -->
   <main>
-    <!-- HERO VISITEURS AVEC IMAGE -->
+    <!-- HERO VISITEURS AVEC IMAGE (sans 4 – Visiteurs) -->
     <section class="section-card activity-hero reveal">
-      <div class="activity-tag">
-        <span class="activity-tag-dot"></span>
-        <span>4 – Visiteurs</span>
-      </div>
-
       <div class="activity-hero-inner">
         <div>
-          <h1><span class="emoji">👋</span><span>Vous découvrez l’APAM ?</span></h1>
+          <p class="soft-label">Visiteurs • Première approche</p>
+          <h1>
+            <span class="emoji">👋</span>
+            <span>Vous découvrez <span class="accent-text-strong">l’APAM</span> ?</span>
+          </h1>
+          <p>
+            L’<span class="accent-text">Aéroclub APAM L’Aigle Saint-Michel</span> est un
+            aéroclub de proximité, où l’on vient autant pour
+            <strong>voler</strong> que pour <strong>partager la passion du ciel</strong>.
+          </p>
           <p>
             Que vous soyez simple curieux, futur élève pilote ou accompagnant, cette page
             rassemble les informations essentielles pour comprendre comment fonctionne
-            l’aéroclub et comment profiter de ses activités.
+            le club et comment profiter de ses activités.
           </p>
           <p class="activity-note">
-            Choisissez la rubrique qui vous correspond le mieux : avions du club, organigramme,
-            baptêmes de l’air, parcours pour devenir pilote ou voyages en partage de frais.
+            Commencez par la rubrique qui vous parle le plus&nbsp;: les avions du club,
+            <span class="accent-text">l’équipe bénévole</span>, les baptêmes de l’air,
+            le parcours pour <strong>devenir pilote</strong> ou encore les voyages en partage de frais.
           </p>
         </div>
 
@@ -667,7 +670,7 @@
             />
           </div>
           <p class="hero-photo-caption">
-            Les avions du club sur le parking de l’aérodrome de L’Aigle Saint-Michel.
+            Les avions du <span class="accent-text">club de L’Aigle</span> sur le parking de l’aérodrome Saint-Michel.
           </p>
         </div>
       </div>
@@ -681,9 +684,10 @@
         <span>Les rubriques à découvrir</span>
       </h2>
       <p class="section-intro">
-        L’APAM accueille à la fois des pilotes confirmés, des élèves en formation et des
-        visiteurs qui souhaitent tout simplement découvrir l’aviation de loisir. Voici les
-        principaux thèmes pour mieux comprendre le club et ses activités.
+        L’APAM accueille des <span class="accent-text">pilotes confirmés</span>, des
+        <span class="accent-text">élèves en formation</span> et des visiteurs qui souhaitent
+        simplement découvrir l’aviation de loisir. Ces cinq rubriques vous donnent une vision
+        claire de ce que propose le club.
       </p>
 
       <div class="activity-grid">
@@ -699,10 +703,11 @@
             <div class="activity-card-title">Les avions du club</div>
           </div>
           <p>
-            Découvrez la flotte utilisée pour la formation, les vols découverte et les voyages :
-            type d’avions, nombre de places, usages principaux et équipement à bord.
+            Découvrez la <span class="accent-text">flotte du club</span> utilisée pour la formation,
+            les vols découverte et les voyages&nbsp;: type d’avions, nombre de places, usages
+            principaux et équipement à bord.
           </p>
-          <span class="activity-highlight">Comprendre avec quels avions vous volerez</span>
+          <span class="activity-highlight">Savoir avec quels avions vous volerez</span>
           <a href="flotte.html" class="activity-card-link">
             En savoir plus sur la flotte <span class="arrow">↗</span>
           </a>
@@ -720,10 +725,11 @@
             <div class="activity-card-title">Organigramme du club</div>
           </div>
           <p>
-            Présentation du bureau, des responsables d’activité et des instructeurs. Qui fait quoi,
-            à qui s’adresser pour une question administrative, technique ou pédagogique.
+            Présentation du <span class="accent-text">bureau</span>, des responsables d’activité
+            et des instructeurs. Vous saurez rapidement à qui vous adresser pour une question
+            <strong>administrative</strong>, <strong>technique</strong> ou <strong>pédagogique</strong>.
           </p>
-          <span class="activity-highlight">Identifier vos interlocuteurs</span>
+          <span class="activity-highlight">Mettre des visages sur le club</span>
           <a href="#" class="activity-card-link">
             Voir l’organigramme <span class="arrow">↗</span>
           </a>
@@ -742,11 +748,12 @@
           </div>
           <p>
             Une première expérience en avion léger pour découvrir la région vue du ciel,
-            accompagné d’un pilote du club. Idéal comme cadeau ou simple moment à partager.
+            accompagné d’un pilote du club. Un <span class="accent-text">cadeau marquant</span>
+            ou un simple moment à partager.
           </p>
           <p>
             Fonctionnement, durée typique des vols, conditions, idées de circuits et
-            modalités de réservation.
+            modalités de réservation sont expliqués clairement.
           </p>
           <span class="activity-highlight">Le meilleur moyen de faire ses premiers pas</span>
           <a href="contact.html" class="activity-card-link">
@@ -766,14 +773,15 @@
             <div class="activity-card-title">Devenir pilote</div>
           </div>
           <p>
-            Parcours pour obtenir une licence de pilote privé (LAPL ou PPL) : prérequis,
-            visite médicale, déroulement de la formation, budget indicatif et rythme de progression.
+            Parcours pour obtenir une <span class="accent-text">licence de pilote privé</span>
+            (LAPL ou PPL)&nbsp;: prérequis, visite médicale, déroulement de la formation,
+            budget indicatif et rythme de progression.
           </p>
           <p>
-            L’APAM vous accompagne depuis la première prise de contact jusqu’au vol en solo
-            puis au brevet.
+            L’APAM vous accompagne depuis la première prise de contact jusqu’au vol en solo,
+            puis à l’obtention du brevet.
           </p>
-          <span class="activity-highlight">Un projet à construire avec l’équipe pédagogique</span>
+          <span class="activity-highlight">Construire un vrai projet aéronautique</span>
           <a href="#" class="activity-card-link">
             En savoir plus sur la formation <span class="arrow">↗</span>
           </a>
@@ -792,12 +800,13 @@
           </div>
           <p>
             Le club organise régulièrement des sorties et voyages où les passagers participent
-            aux frais du vol. L’occasion de vivre l’expérience du voyage aérien sans être pilote.
+            aux frais du vol. C’est l’occasion de vivre l’expérience du <span class="accent-text">
+            voyage aérien</span> sans être pilote.
           </p>
           <p>
-            Principes du partage de frais, types de destinations, rôle de chaque participant
-            et esprit “sortie club”. Que ce soit pour une journée, un week-end ou plus, ces
-            voyages permettent de découvrir d’autres régions par la voie des airs.
+            Vous découvrez le principe du <strong>partage de frais</strong>, les types de
+            destinations envisagées, le rôle de chaque participant et l’esprit “sortie club” qui
+            fait la réputation de <span class="accent-text">l’APAM L’Aigle</span>.
           </p>
           <span class="activity-highlight">Voyager en avion léger, à plusieurs</span>
           <a href="#" class="activity-card-link">
