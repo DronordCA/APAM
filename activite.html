@@ -472,7 +472,7 @@
 
     .contact-modal-dialog {
       position: relative;
-      max-width: 720px;
+      max-width: 820px;
       width: calc(100% - 32px);
       max-height: calc(100vh - 80px);
       background: rgba(255, 255, 255, 0.98);
@@ -611,6 +611,8 @@
       border-radius: 999px;
       padding: 4px 10px;
       color: var(--apam-blue-soft);
+      display: inline-block;
+      margin-bottom: 4px;
     }
 
     .contact-email {
@@ -622,6 +624,145 @@
 
     .contact-email:hover {
       border-bottom-color: transparent;
+    }
+
+    /* Tarifs baptêmes */
+
+    .price-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 10px;
+      margin: 10px 0 6px;
+    }
+
+    .price-card {
+      border-radius: 12px;
+      border: 1px solid rgba(15, 35, 70, 0.08);
+      padding: 10px 12px;
+      background: rgba(255, 255, 255, 0.96);
+      box-shadow: 0 6px 16px rgba(3, 16, 35, 0.06);
+      font-size: 0.9rem;
+    }
+
+    .price-card-title {
+      font-weight: 600;
+      color: var(--apam-blue);
+      margin-bottom: 2px;
+    }
+
+    .price-card-line {
+      font-size: 0.9rem;
+      color: var(--text-soft);
+    }
+
+    .price-card-tag {
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: #7a859c;
+      margin-bottom: 4px;
+    }
+
+    @media (min-width: 680px) {
+      .price-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    /* Formulaires */
+
+    .contact-form {
+      margin-top: 14px;
+      padding: 12px 12px 14px;
+      border-radius: 14px;
+      border: 1px solid rgba(15, 35, 70, 0.06);
+      background: rgba(3, 16, 35, 0.02);
+    }
+
+    .contact-form-title {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--apam-blue);
+      margin: 0 0 8px;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 10px;
+      margin-bottom: 8px;
+    }
+
+    @media (min-width: 600px) {
+      .form-row--two {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    .form-field {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      font-size: 0.86rem;
+      color: var(--text-soft);
+    }
+
+    .form-field label {
+      font-weight: 500;
+    }
+
+    .form-field input,
+    .form-field select,
+    .form-field textarea {
+      border-radius: 10px;
+      border: 1px solid rgba(15, 35, 70, 0.16);
+      padding: 7px 9px;
+      font-size: 0.9rem;
+      font-family: inherit;
+      color: var(--text-main);
+      background: #ffffff;
+    }
+
+    .form-field textarea {
+      min-height: 70px;
+      resize: vertical;
+    }
+
+    .form-hint {
+      font-size: 0.8rem;
+      color: #9aa3b8;
+    }
+
+    .form-submit {
+      margin-top: 10px;
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    .btn-primary {
+      border: none;
+      border-radius: 999px;
+      padding: 8px 18px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      background: linear-gradient(
+        135deg,
+        rgba(139, 199, 255, 1),
+        rgba(70, 140, 255, 1)
+      );
+      color: #02101f;
+      box-shadow: 0 10px 24px rgba(74, 163, 255, 0.5);
+    }
+
+    .btn-primary:hover {
+      box-shadow: 0 12px 28px rgba(74, 163, 255, 0.7);
+      transform: translateY(-1px);
+    }
+
+    .btn-primary:active {
+      transform: translateY(0);
+      box-shadow: 0 8px 20px rgba(74, 163, 255, 0.4);
     }
 
     @media (max-width: 600px) {
@@ -947,9 +1088,9 @@
             Pour offrir ou pour soi&nbsp;: un <span class="accent-text">premier vol</span> en avion léger au départ de L’Aigle.
           </p>
           <ul>
-            <li>Durée typique : <strong>20 à 30 minutes</strong>, selon le circuit.</li>
-            <li>Jusqu’à 3 passagers selon l’avion et la masse embarquée.</li>
-            <li>Possibilité de bon cadeau (anniversaire, événement, surprise).</li>
+            <li>Durée typique : <strong>30 minutes</strong> de vol.</li>
+            <li>Possibilité de vol découverte ou d’initiation au pilotage.</li>
+            <li>Tarifs clairs selon l’avion et le nombre de passagers.</li>
           </ul>
           <span class="activity-highlight">Le meilleur moyen de faire ses premiers pas</span>
           <a href="#" class="activity-card-link contact-trigger" data-contact="bapteme">
@@ -972,9 +1113,9 @@
             Les grandes lignes pour comprendre comment obtenir une <span class="accent-text">licence privée</span>.
           </p>
           <ul>
-            <li>Parcours LAPL / PPL : étapes, visite médicale, durée moyenne.</li>
-            <li>Alternance cours théoriques, vols en double commande puis vols solo.</li>
-            <li>Repères de budget et manière d’étaler la formation.</li>
+            <li>Deux grandes licences : LAPL et PPL, adaptables à votre projet.</li>
+            <li>Formation progressive, à votre rythme, encadrée par des instructeurs.</li>
+            <li>Projet modulable selon votre disponibilité et votre budget.</li>
           </ul>
           <span class="activity-highlight">Construire un projet de formation réaliste</span>
           <a href="#" class="activity-card-link contact-trigger" data-contact="formation">
@@ -1040,11 +1181,11 @@
           </p>
           <div class="contact-panel-row">
             <div>
-              <div class="contact-badge">Contact principal</div>
+              <span class="contact-badge">Contact principal</span>
               <p><strong>Bureau de l’APAM</strong></p>
             </div>
             <div>
-              <div class="contact-badge">E-mail</div>
+              <span class="contact-badge">E-mail</span>
               <p>
                 <a class="contact-email" href="mailto:contact@apam.fr">contact@apam.fr</a>
               </p>
@@ -1065,58 +1206,280 @@
         <div class="contact-panel" data-contact-panel="bapteme">
           <h3>Baptêmes & vols découverte</h3>
           <p>
-            Pour organiser un <span class="accent-text">vol découverte</span> ou offrir un baptême de l’air
-            au départ de L’Aigle Saint-Michel.
+            Pour organiser un <span class="accent-text">vol découverte</span> ou un
+            <span class="accent-text">vol d’initiation au pilotage</span>&nbsp;:
+            tout se passe ici, avec les tarifs et un formulaire de demande.
           </p>
+
           <div class="contact-panel-row">
             <div>
-              <div class="contact-badge">Contact principal</div>
+              <span class="contact-badge">Contact principal</span>
               <p><strong>Responsable baptêmes</strong></p>
             </div>
             <div>
-              <div class="contact-badge">E-mail</div>
+              <span class="contact-badge">E-mail</span>
               <p>
                 <a class="contact-email" href="mailto:baptemes@apam.fr">baptemes@apam.fr</a>
               </p>
             </div>
           </div>
-          <ul>
-            <li>Précisez le <strong>nombre de personnes</strong> et la période souhaitée.</li>
-            <li>Indiquez si c’est pour un <strong>cadeau</strong> (anniversaire, surprise…).</li>
-            <li>Possibilité de proposer une date ou de demander les disponibilités.</li>
-          </ul>
+
           <div class="contact-panel-highlight">
-            ✉️ <strong>Exemple d’objet :</strong> « Demande de vol découverte – [Nombre de personnes] »
+            ℹ️ <strong>Durée standard :</strong> vols d’environ 30 minutes, sous réserve de météo
+            et de disponibilité des avions.
           </div>
+
+          <h4 style="margin-top:12px; margin-bottom:4px; font-size:0.96rem; color:var(--apam-blue);">
+            Tarifs indicatifs (30 minutes de vol)
+          </h4>
+
+          <div class="price-grid">
+            <div class="price-card">
+              <div class="price-card-tag">Cessna 152</div>
+              <div class="price-card-title">Vol découverte</div>
+              <div class="price-card-line">
+                <strong>100&nbsp;€</strong> – 1 passager
+              </div>
+              <div class="price-card-line">
+                Survol de la région avec commentaires du pilote.
+              </div>
+            </div>
+
+            <div class="price-card">
+              <div class="price-card-tag">Cessna 152</div>
+              <div class="price-card-title">Vol d’initiation au pilotage</div>
+              <div class="price-card-line">
+                <strong>100&nbsp;€</strong> – 1 passager
+              </div>
+              <div class="price-card-line">
+                Briefing + prise de commandes en double commande avec instructeur.
+              </div>
+            </div>
+
+            <div class="price-card">
+              <div class="price-card-tag">Cirrus SR20</div>
+              <div class="price-card-title">Vol découverte – 1 passager</div>
+              <div class="price-card-line">
+                <strong>160&nbsp;€</strong> – 1 passager
+              </div>
+              <div class="price-card-line">
+                Confort supérieur, avion moderne, idéal pour un cadeau marquant.
+              </div>
+            </div>
+
+            <div class="price-card">
+              <div class="price-card-tag">Cirrus SR20</div>
+              <div class="price-card-title">Vol découverte – 2 passagers</div>
+              <div class="price-card-line">
+                <strong>200&nbsp;€</strong> – 2 passagers
+              </div>
+              <div class="price-card-line">
+                Partagez l’expérience à deux à bord du Cirrus.
+              </div>
+            </div>
+          </div>
+
+          <div class="contact-panel-highlight">
+            💬 Les tarifs restent indicatifs et peuvent évoluer. La confirmation définitive se fait
+            avec le responsable baptêmes lors de la prise de rendez-vous.
+          </div>
+
+          <!-- Formulaire baptêmes -->
+          <form
+            class="contact-form"
+            action="mailto:baptemes@apam.fr"
+            method="POST"
+            enctype="text/plain"
+          >
+            <p class="contact-form-title">Demande de vol découverte / baptême</p>
+            <div class="form-row form-row--two">
+              <div class="form-field">
+                <label for="bap-nom">Nom et prénom</label>
+                <input type="text" id="bap-nom" name="Nom" required />
+              </div>
+              <div class="form-field">
+                <label for="bap-email">Adresse e-mail</label>
+                <input type="email" id="bap-email" name="Email" required />
+              </div>
+            </div>
+
+            <div class="form-row form-row--two">
+              <div class="form-field">
+                <label for="bap-type">Type de vol souhaité</label>
+                <select id="bap-type" name="Type de vol">
+                  <option value="Vol découverte - Cessna 152 (100€)">
+                    Vol découverte – Cessna 152 – 100&nbsp;€
+                  </option>
+                  <option value="Vol initiation pilotage - Cessna 152 (100€)">
+                    Vol d’initiation – Cessna 152 – 100&nbsp;€
+                  </option>
+                  <option value="Vol découverte - Cirrus 1PAX (160€)">
+                    Vol découverte – Cirrus (1 passager) – 160&nbsp;€
+                  </option>
+                  <option value="Vol découverte - Cirrus 2PAX (200€)">
+                    Vol découverte – Cirrus (2 passagers) – 200&nbsp;€
+                  </option>
+                </select>
+              </div>
+              <div class="form-field">
+                <label for="bap-periode">Période souhaitée</label>
+                <input
+                  type="text"
+                  id="bap-periode"
+                  name="Période souhaitée"
+                  placeholder="Ex. : week-end de mai, vacances d’été…"
+                />
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-field">
+                <label for="bap-message">Message complémentaire</label>
+                <textarea
+                  id="bap-message"
+                  name="Message"
+                  placeholder="Ex. : occasion particulière, contraintes horaires, personnes à bord…"
+                ></textarea>
+                <span class="form-hint">
+                  Le mail s’ouvrira dans votre messagerie avant envoi, vous pourrez encore le relire.
+                </span>
+              </div>
+            </div>
+
+            <div class="form-submit">
+              <button type="submit" class="btn-primary">
+                Préparer ma demande par e-mail
+              </button>
+            </div>
+          </form>
         </div>
 
         <!-- Panel Formation -->
         <div class="contact-panel" data-contact-panel="formation">
-          <h3>Devenir pilote (LAPL / PPL)</h3>
+          <h3>Devenir pilote – LAPL / PPL</h3>
           <p>
-            Pour discuter de votre <span class="accent-text">projet de formation de pilote privé</span> :
-            étapes, durée, budget et organisation.
+            Vous envisagez une <span class="accent-text">formation de pilote privé</span> ?
+            Cette fiche vous donne les grandes lignes et vous permet d’envoyer une première demande
+            structurée au responsable instruction.
           </p>
+
           <div class="contact-panel-row">
             <div>
-              <div class="contact-badge">Contact principal</div>
+              <span class="contact-badge">Contact principal</span>
               <p><strong>Responsable instruction</strong></p>
             </div>
             <div>
-              <div class="contact-badge">E-mail</div>
+              <span class="contact-badge">E-mail</span>
               <p>
                 <a class="contact-email" href="mailto:formation@apam.fr">formation@apam.fr</a>
               </p>
             </div>
           </div>
+
+          <h4 style="margin-top:12px; margin-bottom:4px; font-size:0.96rem; color:var(--apam-blue);">
+            Comprendre rapidement les deux licences
+          </h4>
           <ul>
-            <li>Précisez votre âge et votre disponibilité (semaine, week-end).</li>
-            <li>Indiquez si vous avez déjà une expérience aéronautique ou non.</li>
-            <li>Vous pouvez demander un <strong>rendez-vous au club</strong> pour en parler.</li>
+            <li>
+              <strong>LAPL (Light Aircraft Pilot Licence)</strong> : licence européenne pour le
+              <span class="accent-text">vol de loisir</span>, idéale pour voler en local ou en
+              navigation sur avion léger.
+            </li>
+            <li>
+              <strong>PPL (Private Pilot Licence)</strong> : licence plus complète, reconnue à
+              l’international, bonne base pour aller vers des
+              <span class="accent-text">qualifications supplémentaires</span> par la suite.
+            </li>
+            <li>
+              Dans les deux cas&nbsp;: formation progressive, avec une partie
+              <strong>théorique</strong> et une partie <strong>pratique en vol</strong>.
+            </li>
           </ul>
+
           <div class="contact-panel-highlight">
-            📝 <strong>Astuce :</strong> décrivez en quelques lignes votre projet (loisir, pro, fréquence de vol souhaitée).
+            🧭 Le responsable instruction pourra vous aider à choisir entre LAPL et PPL
+            en fonction de votre projet (simple loisir, usage plus intensif, suite vers des
+            licences professionnelles, etc.).
           </div>
+
+          <!-- Formulaire formation -->
+          <form
+            class="contact-form"
+            action="mailto:formation@apam.fr"
+            method="POST"
+            enctype="text/plain"
+          >
+            <p class="contact-form-title">Parler de votre projet de formation</p>
+
+            <div class="form-row form-row--two">
+              <div class="form-field">
+                <label for="form-nom">Nom et prénom</label>
+                <input type="text" id="form-nom" name="Nom" required />
+              </div>
+              <div class="form-field">
+                <label for="form-email">Adresse e-mail</label>
+                <input type="email" id="form-email" name="Email" required />
+              </div>
+            </div>
+
+            <div class="form-row form-row--two">
+              <div class="form-field">
+                <label for="form-licence">Licence envisagée</label>
+                <select id="form-licence" name="Licence envisagée">
+                  <option value="Je ne sais pas encore">
+                    Je ne sais pas encore / à discuter
+                  </option>
+                  <option value="LAPL">LAPL</option>
+                  <option value="PPL">PPL</option>
+                </select>
+              </div>
+              <div class="form-field">
+                <label for="form-disponibilite">Disponibilités</label>
+                <input
+                  type="text"
+                  id="form-disponibilite"
+                  name="Disponibilités"
+                  placeholder="Ex. : week-end, soirs de semaine…"
+                />
+              </div>
+            </div>
+
+            <div class="form-row form-row--two">
+              <div class="form-field">
+                <label for="form-age">Âge</label>
+                <input type="number" id="form-age" name="Âge" min="15" />
+              </div>
+              <div class="form-field">
+                <label for="form-experience">Expérience aéronautique</label>
+                <input
+                  type="text"
+                  id="form-experience"
+                  name="Expérience"
+                  placeholder="Débutant, quelques vols, simulateur…"
+                />
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-field">
+                <label for="form-message">Votre projet en quelques lignes</label>
+                <textarea
+                  id="form-message"
+                  name="Projet"
+                  placeholder="Pourquoi souhaitez-vous devenir pilote ? À quelle fréquence pensez-vous pouvoir voler ?"
+                ></textarea>
+                <span class="form-hint">
+                  Plus votre message est précis, plus la réponse pourra être personnalisée.
+                </span>
+              </div>
+            </div>
+
+            <div class="form-submit">
+              <button type="submit" class="btn-primary">
+                Préparer ma demande formation
+              </button>
+            </div>
+          </form>
         </div>
 
         <!-- Panel Voyages -->
@@ -1128,11 +1491,11 @@
           </p>
           <div class="contact-panel-row">
             <div>
-              <div class="contact-badge">Contact principal</div>
+              <span class="contact-badge">Contact principal</span>
               <p><strong>Responsable voyages / sorties</strong></p>
             </div>
             <div>
-              <div class="contact-badge">E-mail</div>
+              <span class="contact-badge">E-mail</span>
               <p>
                 <a class="contact-email" href="mailto:sorties@apam.fr">sorties@apam.fr</a>
               </p>
@@ -1238,7 +1601,6 @@
       },
       { threshold: 0.15 }
     );
-
     revealElements.forEach((el) => observer.observe(el));
 
     // ===== MODAL CONTACT =====
@@ -1260,8 +1622,8 @@
       },
       bapteme: {
         kicker: "Contact • Baptêmes & découverte",
-        title: "Organiser un vol découverte",
-        subtitle: "Pour offrir un baptême de l’air ou réserver un premier vol."
+        title: "Organiser un vol découverte / baptême",
+        subtitle: "Tarifs et demande de vol en quelques clics."
       },
       formation: {
         kicker: "Contact • Formation pilote",
@@ -1278,13 +1640,11 @@
     function openContactModal(key) {
       if (!contactModal) return;
 
-      // Texte header en fonction de la clé
       const cfg = modalTexts[key] || modalTexts.organigramme;
       if (kickerEl) kickerEl.textContent = cfg.kicker;
       if (titleEl) titleEl.textContent = cfg.title;
       if (subtitleEl) subtitleEl.textContent = cfg.subtitle;
 
-      // Active le bon panel
       contactPanels.forEach((panel) => {
         if (panel.getAttribute("data-contact-panel") === key) {
           panel.classList.add("active");
