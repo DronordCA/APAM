@@ -19,7 +19,9 @@
       --bg-page: #f3f5fb;
     }
 
-    * { box-sizing: border-box; }
+    * {
+      box-sizing: border-box;
+    }
 
     body {
       margin: 0;
@@ -31,15 +33,26 @@
       line-height: 1.7;
     }
 
-    p, li {
+    p,
+    li {
       font-size: 0.95rem;
       line-height: 1.7;
     }
 
-    a { color: inherit; text-decoration: none; }
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
 
-    .accent-text { color: var(--apam-blue-soft); font-weight: 600; }
-    .accent-text-strong { color: var(--accent); font-weight: 700; }
+    .accent-text {
+      color: var(--apam-blue-soft);
+      font-weight: 600;
+    }
+
+    .accent-text-strong {
+      color: var(--accent);
+      font-weight: 700;
+    }
 
     .soft-label {
       font-size: 0.8rem;
@@ -55,17 +68,23 @@
       transform: translateY(16px);
       transition: opacity 0.6s ease, transform 0.6s ease;
     }
+
     .reveal.visible {
       opacity: 1;
       transform: translateY(0);
     }
-    .reveal-delay-1 { transition-delay: 0.08s; }
+
+    .reveal-delay-1 {
+      transition-delay: 0.08s;
+    }
 
     /* Header */
 
     header {
       position: fixed;
-      top: 0; left: 0; right: 0;
+      top: 0;
+      left: 0;
+      right: 0;
       z-index: 100;
       padding: 10px 16px;
       display: flex;
@@ -91,7 +110,9 @@
       pointer-events: auto;
     }
 
-    .logo { height: 48px; }
+    .logo {
+      height: 48px;
+    }
 
     .main-nav {
       display: flex;
@@ -183,7 +204,9 @@
       gap: 8px;
     }
 
-    .activity-hero h1 .emoji { font-size: 1.9rem; }
+    .activity-hero h1 .emoji {
+      font-size: 1.9rem;
+    }
 
     .activity-hero p {
       color: var(--text-soft);
@@ -248,7 +271,9 @@
       border-radius: 999px;
     }
 
-    .section-emoji { font-size: 1.3rem; }
+    .section-emoji {
+      font-size: 1.3rem;
+    }
 
     .activity-section p.section-intro {
       color: var(--text-soft);
@@ -266,7 +291,10 @@
       .activity-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
       }
-      .activity-card-wide { grid-column: 1 / -1; }
+
+      .activity-card-wide {
+        grid-column: 1 / -1;
+      }
     }
 
     .activity-card {
@@ -276,7 +304,7 @@
       padding: 18px 18px 20px;
       display: flex;
       flex-direction: column;
-      gap: 12px;
+      gap: 14px;
       box-shadow: 0 12px 26px rgba(3, 16, 35, 0.06);
     }
 
@@ -311,7 +339,9 @@
       flex-shrink: 0;
     }
 
-    .activity-card-emoji { font-size: 1.45rem; }
+    .activity-card-emoji {
+      font-size: 1.45rem;
+    }
 
     .activity-card-title {
       font-size: 1.08rem;
@@ -345,7 +375,7 @@
       margin-top: 4px;
       display: grid;
       grid-template-columns: minmax(0, 1fr);
-      gap: 6px;
+      gap: 10px;
     }
 
     .activity-card-body p {
@@ -358,13 +388,25 @@
       padding: 0;
       list-style: none;
       display: grid;
-      gap: 4px;
+      gap: 6px;
+    }
+
+    .activity-card-list li {
+      font-size: 0.9rem;
+      line-height: 1.6;
     }
 
     .activity-card-list li::before {
       content: "•";
       margin-right: 6px;
       color: var(--accent);
+    }
+
+    .activity-card-footer {
+      margin-top: auto; /* pousse le footer en bas */
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
     }
 
     .activity-highlight {
@@ -374,12 +416,10 @@
       border-radius: 999px;
       padding: 4px 9px;
       display: inline-block;
-      margin-top: 4px;
       align-self: flex-start;
     }
 
     .activity-card-link {
-      margin-top: 4px;
       font-size: 0.9rem;
       font-weight: 600;
       display: inline-flex;
@@ -395,7 +435,9 @@
       border-bottom-color: transparent;
     }
 
-    .activity-card-link .arrow { font-size: 0.9rem; }
+    .activity-card-link .arrow {
+      font-size: 0.9rem;
+    }
 
     /* Modal overlay */
 
@@ -408,7 +450,9 @@
       z-index: 200;
     }
 
-    .contact-modal.open { display: flex; }
+    .contact-modal.open {
+      display: flex;
+    }
 
     .contact-modal-backdrop {
       position: absolute;
@@ -492,7 +536,9 @@
       flex-shrink: 0;
     }
 
-    .contact-modal-close:hover { background: #e7e9f2; }
+    .contact-modal-close:hover {
+      background: #e7e9f2;
+    }
 
     .contact-modal-body {
       padding-top: 8px;
@@ -501,8 +547,13 @@
       scrollbar-width: thin;
     }
 
-    .contact-panel { display: none; }
-    .contact-panel.active { display: block; }
+    .contact-panel {
+      display: none;
+    }
+
+    .contact-panel.active {
+      display: block;
+    }
 
     .contact-panel h3 {
       font-size: 1rem;
@@ -542,7 +593,9 @@
       padding-bottom: 1px;
     }
 
-    .contact-email:hover { border-bottom-color: transparent; }
+    .contact-email:hover {
+      border-bottom-color: transparent;
+    }
 
     .contact-panel-highlight {
       margin-top: 6px;
@@ -583,12 +636,17 @@
       margin-bottom: 2px;
     }
 
-    .info-block p { margin: 0; font-size: 0.9rem; color: var(--text-soft); }
+    .info-block p {
+      margin: 0;
+      font-size: 0.9rem;
+      color: var(--text-soft);
+    }
 
     @media (min-width: 680px) {
       .info-block-grid--three {
         grid-template-columns: repeat(3, minmax(0, 1fr));
       }
+
       .info-block-grid--two {
         grid-template-columns: repeat(2, minmax(0, 1fr));
       }
@@ -632,7 +690,9 @@
       color: var(--text-soft);
     }
 
-    .form-field label { font-weight: 500; }
+    .form-field label {
+      font-weight: 500;
+    }
 
     .form-field input,
     .form-field select,
@@ -782,7 +842,9 @@
       font-size: 0.9rem;
     }
 
-    .footer-column a:hover { opacity: 1; }
+    .footer-column a:hover {
+      opacity: 1;
+    }
 
     .copyright {
       text-align: center;
@@ -794,15 +856,23 @@
     /* Responsive */
 
     @media (max-width: 900px) {
-      main { margin-top: 96px; }
+      main {
+        margin-top: 96px;
+      }
+
       .activity-hero-inner {
         grid-template-columns: minmax(0, 1fr);
       }
     }
 
     @media (max-width: 768px) {
-      header { padding: 10px 10px; }
-      .header-inner { padding: 6px 10px; }
+      header {
+        padding: 10px 10px;
+      }
+
+      .header-inner {
+        padding: 6px 10px;
+      }
 
       .main-nav {
         position: absolute;
@@ -825,7 +895,9 @@
         color: var(--apam-blue);
       }
 
-      .main-nav.open { display: flex; }
+      .main-nav.open {
+        display: flex;
+      }
 
       .menu-toggle {
         display: inline-flex;
@@ -833,7 +905,9 @@
         justify-content: center;
       }
 
-      .social-floating { right: 10px; }
+      .social-floating {
+        right: 10px;
+      }
 
       .footer-content {
         flex-direction: column;
@@ -845,11 +919,15 @@
       .section-card {
         padding: 20px 18px 22px;
       }
+
       .contact-modal-dialog {
         max-height: calc(100vh - 40px);
         padding: 16px 16px 14px;
       }
-      .contact-modal-title { font-size: 1.3rem; }
+
+      .contact-modal-title {
+        font-size: 1.3rem;
+      }
     }
   </style>
 </head>
@@ -937,17 +1015,22 @@
             <span class="card-meta-label">École & voyage</span>
           </div>
           <div class="activity-card-body">
-            <p>Découvrir les appareils utilisés pour la formation, les baptêmes et les voyages club.</p>
+            <p>
+              Découvrez les différents appareils utilisés pour les vols école, les baptêmes
+              et les voyages club.
+            </p>
             <ul class="activity-card-list">
-              <li>Nombre de places & type d’avion.</li>
-              <li>Usage principal : école ou voyage.</li>
-              <li>Avionique moderne ou plus classique.</li>
+              <li><strong>Cessna 152</strong> – avion école biplace.</li>
+              <li><strong>Cirrus SR20</strong> – avion moderne pour le voyage.</li>
+              <li><strong>TB200</strong> – 4 places pour les navigations club.</li>
             </ul>
           </div>
-          <span class="activity-highlight">Pour se projeter sur vos futurs vols</span>
-          <a href="flotte.html" class="activity-card-link">
-            Voir la page Flotte <span class="arrow">↗</span>
-          </a>
+          <div class="activity-card-footer">
+            <span class="activity-highlight">Idéal pour se projeter sur vos futurs vols</span>
+            <a href="flotte.html" class="activity-card-link">
+              Voir la page Flotte <span class="arrow">↗</span>
+            </a>
+          </div>
         </article>
 
         <!-- Organigramme -->
@@ -969,17 +1052,21 @@
             <span class="card-meta-label">Instructeurs</span>
           </div>
           <div class="activity-card-body">
-            <p>Mettre des noms sur les personnes clés du club.</p>
+            <p>
+              Mettre des visages et des rôles sur les personnes qui font vivre le club au quotidien.
+            </p>
             <ul class="activity-card-list">
-              <li>Composition du bureau et fonctions.</li>
-              <li>Référents formation et baptêmes.</li>
-              <li>Contacts à utiliser selon votre besoin.</li>
+              <li><strong>Bureau</strong> – gestion du club et des adhésions.</li>
+              <li><strong>Instructeurs</strong> – suivi des élèves pilotes.</li>
+              <li><strong>Référents</strong> – baptêmes, voyages, vie associative.</li>
             </ul>
           </div>
-          <span class="activity-highlight">Comprendre comment fonctionne le club</span>
-          <a href="#" class="activity-card-link contact-trigger" data-contact="organigramme">
-            Ouvrir la fiche “Vie du club” <span class="arrow">↗</span>
-          </a>
+          <div class="activity-card-footer">
+            <span class="activity-highlight">Pour savoir à qui s’adresser</span>
+            <a href="#" class="activity-card-link contact-trigger" data-contact="organigramme">
+              Ouvrir la fiche “Vie du club” <span class="arrow">↗</span>
+            </a>
+          </div>
         </article>
 
         <!-- Baptêmes -->
@@ -1001,17 +1088,22 @@
             <span class="card-meta-label">À partir de 100&nbsp;€</span>
           </div>
           <div class="activity-card-body">
-            <p>Une première expérience en avion léger au départ de L’Aigle.</p>
+            <p>
+              Une première expérience en avion léger au départ de L’Aigle, en simple découverte
+              ou en initiation au pilotage.
+            </p>
             <ul class="activity-card-list">
-              <li>Vol découverte ou initiation au pilotage.</li>
-              <li>Tarifs clairs selon l’avion et le nombre de passagers.</li>
-              <li>Idéal pour offrir ou s’offrir un premier vol.</li>
+              <li><strong>C152 – vol découverte</strong> · 30 min · 100&nbsp;€ (1 pax).</li>
+              <li><strong>C152 – initiation</strong> · prise de commandes · 100&nbsp;€.</li>
+              <li><strong>Cirrus SR20</strong> · 30 min · 160&nbsp;€ (1 pax) / 200&nbsp;€ (2 pax).</li>
             </ul>
           </div>
-          <span class="activity-highlight">Formulaire prêt à l’emploi</span>
-          <a href="#" class="activity-card-link contact-trigger" data-contact="bapteme">
-            Ouvrir la fiche Baptêmes <span class="arrow">↗</span>
-          </a>
+          <div class="activity-card-footer">
+            <span class="activity-highlight">Formulaire de demande prêt à l’emploi</span>
+            <a href="#" class="activity-card-link contact-trigger" data-contact="bapteme">
+              Ouvrir la fiche Baptêmes <span class="arrow">↗</span>
+            </a>
+          </div>
         </article>
 
         <!-- Devenir pilote -->
@@ -1033,17 +1125,22 @@
             <span class="card-meta-label">PPL</span>
           </div>
           <div class="activity-card-body">
-            <p>Les grandes lignes pour lancer un projet de formation réaliste.</p>
+            <p>
+              Les grandes lignes pour lancer un projet de formation réaliste, en fonction de
+              votre temps et de votre budget.
+            </p>
             <ul class="activity-card-list">
-              <li>Différences entre LAPL et PPL.</li>
-              <li>Organisation des vols et de la théorie.</li>
-              <li>Contact direct avec le responsable instruction.</li>
+              <li><strong>LAPL</strong> – licence loisir sur avions légers.</li>
+              <li><strong>PPL</strong> – licence plus complète, évolutive.</li>
+              <li><strong>Rythme</strong> – vols + théorie adaptés à vos disponibilités.</li>
             </ul>
           </div>
-          <span class="activity-highlight">Échanger sur votre projet</span>
-          <a href="#" class="activity-card-link contact-trigger" data-contact="formation">
-            Ouvrir la fiche Formation <span class="arrow">↗</span>
-          </a>
+          <div class="activity-card-footer">
+            <span class="activity-highlight">Échanger sur votre projet de formation</span>
+            <a href="#" class="activity-card-link contact-trigger" data-contact="formation">
+              Ouvrir la fiche Formation <span class="arrow">↗</span>
+            </a>
+          </div>
         </article>
 
         <!-- Voyages -->
@@ -1057,7 +1154,7 @@
             </div>
             <div>
               <div class="activity-card-title">Voyages en partage de frais</div>
-              <p class="card-subline">Sorties club à plusieurs, en France ou plus loin.</p>
+              <p class="card-subline">Sorties club en France et plus loin.</p>
             </div>
           </div>
           <div class="card-meta-row">
@@ -1065,23 +1162,28 @@
             <span class="card-meta-label">Ambiance club</span>
           </div>
           <div class="activity-card-body">
-            <p>Rejoindre des navigations organisées par des pilotes du club.</p>
+            <p>
+              Rejoindre des navigations organisées par des pilotes du club, avec partage des frais
+              dans le cadre associatif.
+            </p>
             <ul class="activity-card-list">
-              <li>Sorties en groupe avec partage des frais de vol.</li>
-              <li>Découverte de nouveaux terrains en sécurité.</li>
-              <li>Occasion de progresser et de rencontrer d’autres membres.</li>
+              <li><strong>Sorties journée</strong> – découverte de nouveaux terrains.</li>
+              <li><strong>Week-ends</strong> – voyages plus longs, en petits groupes.</li>
+              <li><strong>Partage de frais</strong> – approche conviviale et accessible.</li>
             </ul>
           </div>
-          <span class="activity-highlight">Pour préparer vos prochains voyages</span>
-          <a href="#" class="activity-card-link contact-trigger" data-contact="voyages">
-            Ouvrir la fiche Voyages <span class="arrow">↗</span>
-          </a>
+          <div class="activity-card-footer">
+            <span class="activity-highlight">Préparer vos prochains voyages avec le club</span>
+            <a href="#" class="activity-card-link contact-trigger" data-contact="voyages">
+              Ouvrir la fiche Voyages <span class="arrow">↗</span>
+            </a>
+          </div>
         </article>
       </div>
     </section>
   </main>
 
-  <!-- MODAL -->
+  <!-- MODAL CONTACT -->
   <div class="contact-modal" id="contact-modal" aria-hidden="true">
     <div class="contact-modal-backdrop"></div>
     <div class="contact-modal-dialog" role="dialog" aria-modal="true">
@@ -1439,6 +1541,7 @@
           et partager la passion du vol.
         </p>
       </div>
+
       <div class="footer-column">
         <h4>Plan du site</h4>
         <a href="index.html">Accueil</a>
@@ -1449,6 +1552,7 @@
         <a href="contact.html">Contact</a>
         <a href="https://openflyers.com/apam/" target="_blank">OpenFlyer</a>
       </div>
+
       <div class="footer-column">
         <h4>Réseaux sociaux</h4>
         <a href="https://www.instagram.com/_cauvin_" target="_blank">Instagram</a>
@@ -1456,7 +1560,10 @@
         <a href="https://www.tiktok.com/@toncompte" target="_blank">TikTok</a>
       </div>
     </div>
-    <p class="copyright">© 2025 APAM – Tous droits réservés.</p>
+
+    <p class="copyright">
+      © 2025 APAM – Tous droits réservés.
+    </p>
   </footer>
 
   <!-- SCRIPTS -->
