@@ -50,7 +50,7 @@
       left: 0;
       right: 0;
       z-index: 50;
-      padding: 14px 38px;
+      padding: 14px 24px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -65,12 +65,12 @@
     header.scrolled {
       background: rgba(3, 16, 35, 0.92);
       box-shadow: 0 10px 26px rgba(0, 0, 0, 0.4);
-      padding: 10px 32px;
+      padding: 10px 20px;
     }
 
     .header-inner {
       width: 100%;
-      max-width: 1400px;
+      max-width: none; /* plein écran */
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -190,7 +190,7 @@
     }
 
     .section-card-intro p {
-      text-align: center; /* pour mobile aussi */
+      text-align: center;
     }
 
     .section-card-intro .section-tag {
@@ -246,7 +246,7 @@
     .home-intro-lead {
       margin-top: 4px;
       margin-bottom: 8px;
-      color: var(--text-main);   /* plus foncé */
+      color: var(--text-main);   /* plus foncé, plus lisible */
       font-weight: 500;
     }
 
@@ -378,10 +378,8 @@
       filter: invert(0.1) brightness(0.2);
     }
 
-    .social-pill span.icon-text {
-      font-size: 0.8rem;
-      font-weight: 700;
-      color: #031023;
+    .social-pill img.no-filter {
+      filter: none; /* pour respecter les couleurs OpenFlyers */
     }
 
     .social-pill:hover {
@@ -446,7 +444,6 @@
       color: var(--apam-blue-soft);
     }
 
-    /* Plan du site en grille 2 colonnes / max 3 lignes */
     .footer-links-grid {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -571,6 +568,10 @@
 
       .home-intro-header h1 {
         font-size: 1.6rem;
+      }
+
+      .home-intro-header .emoji {
+        display: none; /* on enlève l’emoji avion sur mobile */
       }
 
       .social-floating {
@@ -722,10 +723,10 @@
         />
       </div>
     </a>
-    <!-- OpenFlyer -->
-    <a href="https://openflyers.com/apam/" target="_blank" aria-label="OpenFlyer APAM">
+    <!-- OpenFlyers : vrai logo à déposer en local -->
+    <a href="https://openflyers.com/apam/" target="_blank" aria-label="OpenFlyers APAM">
       <div class="social-pill">
-        <span class="icon-text">OF</span>
+        <img src="openflyers-logo.png" alt="OpenFlyers" class="no-filter" />
       </div>
     </a>
   </div>
