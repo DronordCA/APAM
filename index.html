@@ -50,7 +50,7 @@
       left: 0;
       right: 0;
       z-index: 50;
-      padding: 14px 38px; /* un chouïa plus grand */
+      padding: 14px 38px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -65,7 +65,7 @@
     header.scrolled {
       background: rgba(3, 16, 35, 0.92);
       box-shadow: 0 10px 26px rgba(0, 0, 0, 0.4);
-      padding: 10px 32px; /* un peu plus compact en scroll mais plus grand qu'avant */
+      padding: 10px 32px;
     }
 
     .header-inner {
@@ -77,7 +77,7 @@
     }
 
     .logo {
-      height: 48px; /* logo un peu plus grand */
+      height: 48px;
       display: block;
     }
 
@@ -163,13 +163,15 @@
       pointer-events: none;
     }
 
-    /* ============ CONTENU SOUS LE HERO ============ */
+    /* ============ CONTENU ============ */
 
     main {
       max-width: 1100px;
       margin: 40px auto 60px;
       padding: 0 20px 40px;
     }
+
+    /* Bloc intro APAM seul */
 
     .section-card {
       background: var(--glass-bg);
@@ -221,83 +223,75 @@
       margin: 0;
     }
 
-    /* ============ BLOC CTAS 3 CARTES LARGEUR ======== */
+    /* ===== 3 GRANDES CARTES SUR TOUTE LA LARGEUR ===== */
 
-    .home-cta-section {
-      margin-top: 26px;
+    .home-links-section {
+      margin-top: 28px;
     }
 
-    .home-cta-grid {
+    .home-links-grid {
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 18px;
+      gap: 20px;
     }
 
-    .home-cta-card {
-      position: relative;
+    .home-link-card {
+      display: flex;
+      flex-direction: column;
+      border-radius: 20px;
       overflow: hidden;
-      border-radius: 18px;
-      padding: 18px 18px 20px;
-      background: radial-gradient(circle at top left, #f7fbff 0, #e7eef8 45%, #dfe7f4 100%);
+      background: #ffffff;
       border: 1px solid rgba(15, 35, 70, 0.08);
-      box-shadow: 0 14px 30px rgba(3, 16, 35, 0.09);
+      box-shadow: 0 16px 34px rgba(3, 16, 35, 0.12);
+      cursor: pointer;
+      transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        border-color 0.2s ease;
+    }
+
+    .home-link-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 22px 46px rgba(3, 16, 35, 0.22);
+      border-color: rgba(74, 163, 255, 0.6);
+    }
+
+    .home-link-image {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      background-size: cover;
+      background-position: center center;
+    }
+
+    .home-link-body {
+      padding: 14px 16px 16px;
       display: flex;
       flex-direction: column;
       gap: 6px;
-      cursor: pointer;
-      transition:
-        transform 0.18s ease,
-        box-shadow 0.18s ease,
-        border-color 0.18s ease;
     }
 
-    .home-cta-card::before {
-      content: "";
-      position: absolute;
-      inset: -40%;
-      background: radial-gradient(
-        circle at top right,
-        rgba(74, 163, 255, 0.16),
-        transparent 60%
-      );
-      opacity: 0;
-      transition: opacity 0.25s ease;
-      pointer-events: none;
-    }
-
-    .home-cta-card:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 18px 40px rgba(3, 16, 35, 0.18);
-      border-color: rgba(74, 163, 255, 0.55);
-    }
-
-    .home-cta-card:hover::before {
-      opacity: 1;
-    }
-
-    .home-cta-label {
-      font-size: 0.75rem;
+    .home-link-label {
+      font-size: 0.78rem;
       text-transform: uppercase;
       letter-spacing: 0.14em;
       color: var(--apam-blue-soft);
       opacity: 0.9;
     }
 
-    .home-cta-title {
+    .home-link-title {
       font-size: 1.05rem;
       font-weight: 700;
       color: var(--apam-blue);
-      margin-top: 4px;
     }
 
-    .home-cta-text {
-      margin: 6px 0 0;
+    .home-link-text {
+      margin: 0;
       color: var(--text-soft);
       font-size: 0.9rem;
     }
 
-    .home-cta-link {
-      margin-top: 10px;
+    .home-link-cta {
+      margin-top: 8px;
       font-size: 0.9rem;
       font-weight: 600;
       color: var(--apam-blue-soft);
@@ -306,7 +300,7 @@
       gap: 4px;
     }
 
-    .home-cta-link span.arrow {
+    .home-link-cta span.arrow {
       font-size: 0.95rem;
     }
 
@@ -465,7 +459,7 @@
         justify-content: center;
       }
 
-      .home-cta-grid {
+      .home-links-grid {
         grid-template-columns: 1fr;
       }
     }
@@ -538,6 +532,7 @@
 
   <!-- ============ CONTENU PRINCIPAL ============ -->
   <main>
+    <!-- Bloc APAM SEUL -->
     <section class="section-card">
       <p class="section-tag">Bienvenue à l’aéroclub</p>
       <div class="home-intro-header">
@@ -553,53 +548,68 @@
         Que vous souhaitiez découvrir le vol, apprendre à piloter ou préparer des voyages
         en partage de frais, l’équipe de bénévoles vous accompagne dans vos projets.
       </p>
+    </section>
 
-      <!-- 3 grandes cartes CTA -->
-      <div class="home-cta-section">
-        <div class="home-cta-grid">
-          <!-- Carte 1 : Nous trouver / Nous contacter -->
-          <a href="contact.html" class="home-cta-card">
-            <div class="home-cta-label">Accès & contact</div>
-            <div class="home-cta-title">Nous trouver & nous contacter</div>
-            <p class="home-cta-text">
+    <!-- 3 GRANDES CARTES SUR TOUTE LA LARGEUR -->
+    <section class="home-links-section">
+      <div class="home-links-grid">
+        <!-- Carte 1 : Nous trouver / contacter -->
+        <a href="contact.html" class="home-link-card">
+          <div class="home-link-image" style="
+            background-image:url('https://images.pexels.com/photos/240040/pexels-photo-240040.jpeg?auto=compress&cs=tinysrgb&w=1600');
+          "></div>
+          <div class="home-link-body">
+            <div class="home-link-label">Accès & contact</div>
+            <div class="home-link-title">Nous trouver & nous contacter</div>
+            <p class="home-link-text">
               Coordonnées, plan d’accès à l’aérodrome de L’Aigle Saint-Michel
               et formulaire de contact pour joindre le bureau du club.
             </p>
-            <div class="home-cta-link">
+            <div class="home-link-cta">
               Accéder à la page Contact
               <span class="arrow">↗</span>
             </div>
-          </a>
+          </div>
+        </a>
 
-          <!-- Carte 2 : Installations / flotte -->
-          <a href="tarifs.html" class="home-cta-card">
-            <div class="home-cta-label">Installations & flotte</div>
-            <div class="home-cta-title">Nos installations & notre flotte</div>
-            <p class="home-cta-text">
-              Découvrez les avions du club, les tarifs horaires indicatifs,
-              ainsi que les principaux espaces dont disposent les membres sur la plateforme.
+        <!-- Carte 2 : Installations / flotte -->
+        <a href="tarifs.html" class="home-link-card">
+          <div class="home-link-image" style="
+            background-image:url('https://images.pexels.com/photos/46148/airplane-aircraft-take-off-sky-46148.jpeg?auto=compress&cs=tinysrgb&w=1600');
+          "></div>
+          <div class="home-link-body">
+            <div class="home-link-label">Installations & flotte</div>
+            <div class="home-link-title">Nos installations & notre flotte</div>
+            <p class="home-link-text">
+              Présentation des avions du club, des principaux espaces
+              sur la plateforme et des tarifs horaires indicatifs.
             </p>
-            <div class="home-cta-link">
+            <div class="home-link-cta">
               Voir flotte & tarifs
               <span class="arrow">↗</span>
             </div>
-          </a>
+          </div>
+        </a>
 
-          <!-- Carte 3 : Activités / formations -->
-          <a href="activite.html" class="home-cta-card">
-            <div class="home-cta-label">Activités & formation</div>
-            <div class="home-cta-title">Nos activités & nos formations</div>
-            <p class="home-cta-text">
+        <!-- Carte 3 : Activités / formations -->
+        <a href="activite.html" class="home-link-card">
+          <div class="home-link-image" style="
+            background-image:url('https://images.pexels.com/photos/912050/pexels-photo-912050.jpeg?auto=compress&cs=tinysrgb&w=1600');
+          "></div>
+          <div class="home-link-body">
+            <div class="home-link-label">Activités & formation</div>
+            <div class="home-link-title">Nos activités & nos formations</div>
+            <p class="home-link-text">
               Formations LAPL / PPL, qualification vol de nuit, vols découverte,
-              voyages club et vie associative&nbsp;: une palette d’activités adaptée
-              à tous les profils.
+              voyages club et vie associative&nbsp;: une palette d’activités
+              adaptée à tous les profils.
             </p>
-            <div class="home-cta-link">
+            <div class="home-link-cta">
               Découvrir les activités
               <span class="arrow">↗</span>
             </div>
-          </a>
-        </div>
+          </div>
+        </a>
       </div>
     </section>
   </main>
