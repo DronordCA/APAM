@@ -163,7 +163,7 @@
       pointer-events: none;
     }
 
-    /* ============ CONTENU ============ */
+    /* ============ CONTENU PRINCIPAL ============ */
 
     main {
       max-width: 1100px;
@@ -181,7 +181,8 @@
       backdrop-filter: blur(18px);
       -webkit-backdrop-filter: blur(18px);
       padding: 22px 24px 24px;
-      margin-top: -40px;
+      /* AVANT: margin-top: -40px;  -> on enlève le collage */
+      margin-top: 24px;
       position: relative;
       z-index: 1;
     }
@@ -223,13 +224,27 @@
       margin: 0;
     }
 
-    /* ===== 3 GRANDES CARTES SUR TOUTE LA LARGEUR ===== */
+    /* ===== 3 GRANDES CARTES PLEINE LARGEUR (desktop) ===== */
 
+    /* Section qui sort du container central pour aller bord à bord (avec marge) */
     .home-links-section {
-      margin-top: 28px;
+      margin-top: 32px;
+
+      /* on force plein écran horizontal */
+      width: 100vw;
+      position: relative;
+      left: 50%;
+      right: 50%;
+      margin-left: calc(50% - 50vw);
+      margin-right: calc(50% - 50vw);
+
+      padding: 0 40px; /* marges à gauche/droite de la fenêtre */
+      box-sizing: border-box;
     }
 
     .home-links-grid {
+      max-width: 1400px;      /* pour éviter que ça explose sur écran 4K */
+      margin: 0 auto;         /* centré dans le plein écran */
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 20px;
@@ -459,7 +474,16 @@
         justify-content: center;
       }
 
+      .home-links-section {
+        width: 100%;
+        left: 0;
+        margin-left: 0;
+        margin-right: 0;
+        padding: 0 20px;
+      }
+
       .home-links-grid {
+        max-width: 1100px;
         grid-template-columns: 1fr;
       }
     }
@@ -471,7 +495,7 @@
       }
 
       .section-card {
-        margin-top: -20px;
+        margin-top: 16px;
         padding: 20px 18px 22px;
       }
 
@@ -549,70 +573,70 @@
         en partage de frais, l’équipe de bénévoles vous accompagne dans vos projets.
       </p>
     </section>
-
-    <!-- 3 GRANDES CARTES SUR TOUTE LA LARGEUR -->
-    <section class="home-links-section">
-      <div class="home-links-grid">
-        <!-- Carte 1 : Nous trouver / contacter -->
-        <a href="contact.html" class="home-link-card">
-          <div class="home-link-image" style="
-            background-image:url('https://images.pexels.com/photos/240040/pexels-photo-240040.jpeg?auto=compress&cs=tinysrgb&w=1600');
-          "></div>
-          <div class="home-link-body">
-            <div class="home-link-label">Accès & contact</div>
-            <div class="home-link-title">Nous trouver & nous contacter</div>
-            <p class="home-link-text">
-              Coordonnées, plan d’accès à l’aérodrome de L’Aigle Saint-Michel
-              et formulaire de contact pour joindre le bureau du club.
-            </p>
-            <div class="home-link-cta">
-              Accéder à la page Contact
-              <span class="arrow">↗</span>
-            </div>
-          </div>
-        </a>
-
-        <!-- Carte 2 : Installations / flotte -->
-        <a href="tarifs.html" class="home-link-card">
-          <div class="home-link-image" style="
-            background-image:url('https://images.pexels.com/photos/46148/airplane-aircraft-take-off-sky-46148.jpeg?auto=compress&cs=tinysrgb&w=1600');
-          "></div>
-          <div class="home-link-body">
-            <div class="home-link-label">Installations & flotte</div>
-            <div class="home-link-title">Nos installations & notre flotte</div>
-            <p class="home-link-text">
-              Présentation des avions du club, des principaux espaces
-              sur la plateforme et des tarifs horaires indicatifs.
-            </p>
-            <div class="home-link-cta">
-              Voir flotte & tarifs
-              <span class="arrow">↗</span>
-            </div>
-          </div>
-        </a>
-
-        <!-- Carte 3 : Activités / formations -->
-        <a href="activite.html" class="home-link-card">
-          <div class="home-link-image" style="
-            background-image:url('https://images.pexels.com/photos/912050/pexels-photo-912050.jpeg?auto=compress&cs=tinysrgb&w=1600');
-          "></div>
-          <div class="home-link-body">
-            <div class="home-link-label">Activités & formation</div>
-            <div class="home-link-title">Nos activités & nos formations</div>
-            <p class="home-link-text">
-              Formations LAPL / PPL, qualification vol de nuit, vols découverte,
-              voyages club et vie associative&nbsp;: une palette d’activités
-              adaptée à tous les profils.
-            </p>
-            <div class="home-link-cta">
-              Découvrir les activités
-              <span class="arrow">↗</span>
-            </div>
-          </div>
-        </a>
-      </div>
-    </section>
   </main>
+
+  <!-- 3 GRANDES CARTES PLEINE LARGEUR -->
+  <section class="home-links-section">
+    <div class="home-links-grid">
+      <!-- Carte 1 : Nous trouver / contacter -->
+      <a href="contact.html" class="home-link-card">
+        <div class="home-link-image" style="
+          background-image:url('https://images.pexels.com/photos/240040/pexels-photo-240040.jpeg?auto=compress&cs=tinysrgb&w=1600');
+        "></div>
+        <div class="home-link-body">
+          <div class="home-link-label">Accès & contact</div>
+          <div class="home-link-title">Nous trouver & nous contacter</div>
+          <p class="home-link-text">
+            Coordonnées, plan d’accès à l’aérodrome de L’Aigle Saint-Michel
+            et formulaire de contact pour joindre le bureau du club.
+          </p>
+          <div class="home-link-cta">
+            Accéder à la page Contact
+            <span class="arrow">↗</span>
+          </div>
+        </div>
+      </a>
+
+      <!-- Carte 2 : Installations / flotte -->
+      <a href="tarifs.html" class="home-link-card">
+        <div class="home-link-image" style="
+          background-image:url('https://images.pexels.com/photos/46148/airplane-aircraft-take-off-sky-46148.jpeg?auto=compress&cs=tinysrgb&w=1600');
+        "></div>
+        <div class="home-link-body">
+          <div class="home-link-label">Installations & flotte</div>
+          <div class="home-link-title">Nos installations & notre flotte</div>
+          <p class="home-link-text">
+            Présentation des avions du club, des principaux espaces
+            sur la plateforme et des tarifs horaires indicatifs.
+          </p>
+          <div class="home-link-cta">
+            Voir flotte & tarifs
+            <span class="arrow">↗</span>
+          </div>
+        </div>
+      </a>
+
+      <!-- Carte 3 : Activités / formations -->
+      <a href="activite.html" class="home-link-card">
+        <div class="home-link-image" style="
+          background-image:url('https://images.pexels.com/photos/912050/pexels-photo-912050.jpeg?auto=compress&cs=tinysrgb&w=1600');
+        "></div>
+        <div class="home-link-body">
+          <div class="home-link-label">Activités & formation</div>
+          <div class="home-link-title">Nos activités & nos formations</div>
+          <p class="home-link-text">
+            Formations LAPL / PPL, qualification vol de nuit, vols découverte,
+            voyages club et vie associative&nbsp;: une palette d’activités
+            adaptée à tous les profils.
+          </p>
+          <div class="home-link-cta">
+            Découvrir les activités
+            <span class="arrow">↗</span>
+          </div>
+        </div>
+      </a>
+    </div>
+  </section>
 
   <!-- ============ RÉSEAUX FLOTTANTS ============ -->
   <div class="social-floating">
