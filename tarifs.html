@@ -1,0 +1,963 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>APAM – Tarifs</title>
+  <style>
+    :root {
+      --apam-blue-dark: #031023;
+      --apam-blue: #062037;
+      --apam-blue-soft: #1b3658;
+      --glass-bg: rgba(255, 255, 255, 0.96);
+      --glass-border: rgba(15, 35, 70, 0.06);
+      --glass-shadow: 0 12px 28px rgba(0, 0, 0, 0.12);
+      --text-main: #062037;
+      --text-soft: #5f6b85;
+      --accent: #4aa3ff;
+      --chip-bg: #eef3ff;
+      --bg-page: #f3f5fb;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+        sans-serif;
+      color: var(--text-main);
+      background: var(--bg-page);
+      min-height: 100vh;
+      line-height: 1.7;
+    }
+
+    p,
+    li {
+      font-size: 0.95rem;
+      line-height: 1.7;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .accent-text {
+      color: var(--apam-blue-soft);
+      font-weight: 600;
+    }
+
+    .accent-text-strong {
+      color: var(--accent);
+      font-weight: 700;
+    }
+
+    .soft-label {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: #7a859c;
+    }
+
+    /* Animations scroll */
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(16px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .reveal-delay-1 {
+      transition-delay: 0.08s;
+    }
+
+    /* Header */
+
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      padding: 10px 16px;
+      display: flex;
+      justify-content: center;
+      background: transparent;
+      pointer-events: none;
+    }
+
+    .header-inner {
+      max-width: 1100px;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 8px 18px;
+      border-radius: 999px;
+      background: rgba(3, 16, 35, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.45);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      pointer-events: auto;
+    }
+
+    .logo {
+      height: 48px;
+    }
+
+    .main-nav {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .main-nav a {
+      color: var(--apam-blue);
+      font-weight: 600;
+      font-size: 0.92rem;
+      padding: 7px 16px;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      background: transparent;
+      transition:
+        color 0.18s ease,
+        background 0.25s ease,
+        box-shadow 0.25s ease,
+        border-color 0.2s ease,
+        transform 0.18s ease;
+    }
+
+    .main-nav a:hover {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(255, 255, 255, 0.3);
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.2);
+      transform: translateY(-1px);
+    }
+
+    .main-nav a.active {
+      background: linear-gradient(
+        135deg,
+        rgba(139, 199, 255, 0.98),
+        rgba(70, 140, 255, 0.98)
+      );
+      border-color: rgba(74, 163, 255, 0.9);
+      box-shadow: 0 14px 30px rgba(74, 163, 255, 0.6);
+      color: #02101f;
+    }
+
+    .menu-toggle {
+      display: none;
+      background: rgba(3, 16, 35, 0.86);
+      color: #fff;
+      font-weight: 600;
+      font-size: 0.9rem;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      cursor: pointer;
+      padding: 7px 14px;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3);
+    }
+
+    /* Layout principal */
+
+    main {
+      max-width: 1100px;
+      margin: 100px auto 60px;
+      padding: 0 20px;
+    }
+
+    .section-card {
+      background: var(--glass-bg);
+      border-radius: 24px;
+      border: 1px solid var(--glass-border);
+      box-shadow: var(--glass-shadow);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      padding: 26px 26px 28px;
+      margin-bottom: 26px;
+    }
+
+    /* Hero tarifs */
+
+    .tarifs-hero-inner {
+      display: grid;
+      grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
+      gap: 26px;
+      align-items: center;
+    }
+
+    .tarifs-hero h1 {
+      font-size: 2rem;
+      color: var(--apam-blue);
+      margin: 6px 0 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .tarifs-hero h1 .emoji {
+      font-size: 1.9rem;
+    }
+
+    .tarifs-hero p {
+      color: var(--text-soft);
+      margin: 0 0 10px;
+      max-width: 720px;
+    }
+
+    .tarifs-badge-date {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.82rem;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: #f3f5ff;
+      color: var(--apam-blue-soft);
+      margin-top: 4px;
+    }
+
+    .tarifs-hero-note {
+      font-size: 0.88rem;
+      color: #7a859c;
+      margin-top: 8px;
+    }
+
+    .tarifs-hero-legend {
+      border-radius: 18px;
+      border: 1px solid rgba(15, 35, 70, 0.06);
+      padding: 12px 14px 10px;
+      background: #f7f8fd;
+      font-size: 0.9rem;
+      color: var(--text-soft);
+    }
+
+    .tarifs-hero-legend strong {
+      color: var(--apam-blue);
+    }
+
+    /* Carte avion + banderole */
+
+    .section-title-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .section-title-main {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .section-chip {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      background: var(--chip-bg);
+      color: var(--apam-blue-soft);
+      padding: 3px 9px;
+      border-radius: 999px;
+    }
+
+    .section-emoji {
+      font-size: 1.3rem;
+    }
+
+    .section-title-row h2 {
+      margin: 0;
+      font-size: 1.5rem;
+      color: var(--apam-blue);
+    }
+
+    .section-subline {
+      font-size: 0.9rem;
+      color: #7a859c;
+      margin: 0;
+    }
+
+    .aircraft-card {
+      margin-top: 10px;
+      border-radius: 22px;
+      border: 1px solid rgba(15, 35, 70, 0.06);
+      background: #ffffff;
+      box-shadow: 0 14px 30px rgba(3, 16, 35, 0.08);
+      padding: 18px 20px 20px;
+      display: grid;
+      grid-template-columns: minmax(0, 1.3fr) minmax(0, 1.5fr);
+      gap: 18px;
+      align-items: center;
+    }
+
+    @media (max-width: 820px) {
+      .aircraft-card {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    .aircraft-visual {
+      position: relative;
+      padding: 10px 4px 0;
+    }
+
+    .aircraft-img-wrap {
+      position: relative;
+      width: 100%;
+      max-width: 420px;
+      margin: 0 auto;
+      animation: float 4.2s ease-in-out infinite;
+    }
+
+    .aircraft-img-wrap img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .aircraft-shadow {
+      position: absolute;
+      left: 50%;
+      bottom: -8px;
+      width: 60%;
+      height: 12px;
+      transform: translateX(-50%);
+      background: radial-gradient(
+        ellipse at center,
+        rgba(0, 0, 0, 0.24),
+        transparent 70%
+      );
+      opacity: 0.4;
+      filter: blur(4px);
+    }
+
+    @keyframes float {
+      0% { transform: translateY(0); }
+      50% { transform: translateY(-6px); }
+      100% { transform: translateY(0); }
+    }
+
+    .aircraft-label {
+      margin-top: 8px;
+      font-size: 0.9rem;
+      color: #7a859c;
+      text-align: center;
+    }
+
+    .aircraft-label strong {
+      color: var(--apam-blue);
+    }
+
+    /* Banderole tarifs */
+
+    .aircraft-banner {
+      position: relative;
+      border-radius: 18px;
+      padding: 16px 18px 16px;
+      background: linear-gradient(
+        120deg,
+        rgba(255, 255, 255, 0.98),
+        rgba(240, 245, 255, 0.98)
+      );
+      border: 1px solid rgba(74, 163, 255, 0.25);
+      box-shadow: 0 12px 26px rgba(74, 163, 255, 0.18);
+      overflow: hidden;
+    }
+
+    .aircraft-banner::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at -10% 0, rgba(74, 163, 255, 0.18), transparent 60%);
+      opacity: 0.9;
+      pointer-events: none;
+    }
+
+    .aircraft-banner-inner {
+      position: relative;
+      z-index: 1;
+    }
+
+    .aircraft-banner-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .aircraft-banner-title {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .aircraft-name {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--apam-blue);
+    }
+
+    .aircraft-role {
+      font-size: 0.9rem;
+      color: #7a859c;
+    }
+
+    .aircraft-badge {
+      font-size: 0.8rem;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: rgba(3, 16, 35, 0.88);
+      color: #ffffff;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+    }
+
+    .tarif-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+      gap: 10px 16px;
+      align-items: center;
+      margin-top: 6px;
+    }
+
+    @media (max-width: 600px) {
+      .tarif-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    .tarif-label {
+      font-size: 0.92rem;
+      color: #7a859c;
+    }
+
+    .tarif-label strong {
+      color: var(--apam-blue);
+    }
+
+    .tarif-value {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--apam-blue);
+      text-align: right;
+    }
+
+    @media (max-width: 600px) {
+      .tarif-value {
+        text-align: left;
+      }
+    }
+
+    .tarif-note {
+      margin-top: 10px;
+      font-size: 0.85rem;
+      color: #7a859c;
+    }
+
+    .tarif-note strong {
+      color: var(--apam-blue-soft);
+    }
+
+    /* Cotisations & FFA */
+
+    .cotisation-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+      gap: 18px;
+    }
+
+    @media (max-width: 780px) {
+      .cotisation-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    .cot-card {
+      border-radius: 18px;
+      border: 1px solid rgba(15, 35, 70, 0.06);
+      background: #ffffff;
+      padding: 16px 18px 16px;
+      box-shadow: 0 10px 22px rgba(3, 16, 35, 0.06);
+    }
+
+    .cot-card h3 {
+      margin: 0 0 10px;
+      font-size: 1.1rem;
+      color: var(--apam-blue);
+    }
+
+    .cot-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.92rem;
+    }
+
+    .cot-table tr + tr {
+      border-top: 1px dashed rgba(15, 35, 70, 0.12);
+    }
+
+    .cot-table td {
+      padding: 6px 0;
+      vertical-align: middle;
+    }
+
+    .cot-label {
+      color: var(--text-soft);
+    }
+
+    .cot-value {
+      text-align: right;
+      font-weight: 600;
+      color: var(--apam-blue);
+      white-space: nowrap;
+    }
+
+    @media (max-width: 600px) {
+      .cot-value {
+        text-align: left;
+      }
+    }
+
+    .cot-note {
+      margin-top: 10px;
+      font-size: 0.82rem;
+      color: #7a859c;
+    }
+
+    /* Réseaux flottants */
+
+    .social-floating {
+      position: fixed;
+      top: 50%;
+      right: 20px;
+      transform: translateY(-50%);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      z-index: 50;
+    }
+
+    .social-pill {
+      width: 38px;
+      height: 38px;
+      border-radius: 999px;
+      background: #ffffff;
+      border: 1px solid rgba(6, 32, 55, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 10px 24px rgba(3, 16, 35, 0.18);
+    }
+
+    .social-pill img {
+      width: 18px;
+      height: 18px;
+      display: block;
+      filter: invert(0.1) brightness(0.2);
+    }
+
+    .social-pill:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 14px 28px rgba(3, 16, 35, 0.28);
+      border-color: rgba(74, 163, 255, 0.8);
+    }
+
+    /* Footer */
+
+    .site-footer {
+      background: #ffffff;
+      color: var(--apam-blue);
+      padding: 40px 20px 20px;
+      margin-top: 40px;
+      border-top: 1px solid rgba(6, 32, 55, 0.12);
+    }
+
+    .footer-content {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      gap: 32px;
+    }
+
+    .footer-brand {
+      max-width: 260px;
+      flex: 1 1 260px;
+    }
+
+    .footer-logo {
+      height: 40px;
+      display: block;
+      margin-bottom: 10px;
+    }
+
+    .footer-brand p {
+      font-size: 0.9rem;
+      opacity: 0.85;
+    }
+
+    .footer-column {
+      flex: 1 1 180px;
+      min-width: 180px;
+    }
+
+    .footer-column h4 {
+      margin-bottom: 10px;
+      font-size: 1rem;
+      border-bottom: 1px solid rgba(6, 32, 55, 0.15);
+      padding-bottom: 5px;
+    }
+
+    .footer-column a {
+      display: block;
+      color: var(--apam-blue);
+      opacity: 0.82;
+      margin-bottom: 6px;
+      font-size: 0.9rem;
+    }
+
+    .footer-column a:hover {
+      opacity: 1;
+    }
+
+    .copyright {
+      text-align: center;
+      margin-top: 26px;
+      opacity: 0.7;
+      font-size: 0.82rem;
+    }
+
+    /* Responsive */
+
+    @media (max-width: 900px) {
+      main {
+        margin-top: 96px;
+      }
+
+      .tarifs-hero-inner {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    @media (max-width: 768px) {
+      header {
+        padding: 10px 10px;
+      }
+
+      .header-inner {
+        padding: 6px 10px;
+      }
+
+      .main-nav {
+        position: absolute;
+        top: 64px;
+        right: 16px;
+        left: 16px;
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 10px 10px 12px;
+        border-radius: 18px;
+        background: #ffffff;
+        border: 1px solid rgba(6, 32, 55, 0.12);
+        box-shadow: 0 18px 40px rgba(0, 0, 0, 0.12);
+        display: none;
+      }
+
+      .main-nav a {
+        margin: 3px 4px;
+        width: 100%;
+        color: var(--apam-blue);
+      }
+
+      .main-nav.open {
+        display: flex;
+      }
+
+      .menu-toggle {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .social-floating {
+        right: 10px;
+      }
+
+      .footer-content {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .section-card {
+        padding: 20px 18px 22px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- HEADER -->
+  <header>
+    <div class="header-inner">
+      <img src="apam-logo.png" alt="Logo APAM" class="logo" />
+      <button class="menu-toggle" aria-label="Ouvrir le menu">Menu</button>
+      <nav class="main-nav">
+        <a href="index.html">Accueil</a>
+        <a href="#">À propos</a>
+        <a href="activite.html">Activité</a>
+        <a href="tarifs.html" class="active">Tarif</a>
+        <a href="espace-membres.html">Membres</a>
+        <a href="contact.html">Contact</a>
+        <a href="https://openflyers.com/apam/" target="_blank">OpenFlyer</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- CONTENU -->
+  <main>
+    <!-- HERO TARIFS -->
+    <section class="section-card tarifs-hero reveal">
+      <div class="tarifs-hero-inner">
+        <div>
+          <p class="soft-label">Informations pratiques</p>
+          <h1>
+            <span class="emoji">💶</span>
+            <span>Tarifs du club</span>
+          </h1>
+          <p>
+            Cette page vous donne une vue claire des <strong>tarifs de vol</strong> et des
+            <strong>cotisations</strong> au sein de l’<span class="accent-text">APAM L’Aigle
+            Saint-Michel</span>.
+          </p>
+          <p class="tarifs-hero-note">
+            Les montants sont donnés à titre indicatif et peuvent évoluer en cours d’année.
+            Ils sont mis à jour par le bureau du club.
+          </p>
+          <div class="tarifs-badge-date">
+            <span>Tarifs horaires au <strong>1<sup>er</sup> octobre 2025</strong></span>
+          </div>
+        </div>
+        <div class="tarifs-hero-legend">
+          <strong>Comment lire cette page&nbsp;?</strong><br />
+          Chaque avion dispose de sa <span class="accent-text">banderole tarifaire</span>
+          (brevetés / location avec instructeur). Les encadrés plus bas détaillent les
+          <strong>cotisations annuelles</strong>, la <strong>carte FFA</strong> et
+          l’<strong>heure d’instruction</strong>.
+        </div>
+      </div>
+    </section>
+
+    <!-- TARIFS AVION C152 -->
+    <section class="section-card reveal reveal-delay-1">
+      <div class="section-title-row">
+        <div class="section-title-main">
+          <span class="section-chip">Flotte</span>
+          <span class="section-emoji">🛩️</span>
+          <h2>Tarifs horaires par avion</h2>
+        </div>
+        <p class="section-subline">
+          Exemple avec le <span class="accent-text">Cessna 152</span> (autres avions à venir).
+        </p>
+      </div>
+
+      <article class="aircraft-card">
+        <!-- Visuel avion -->
+        <div class="aircraft-visual">
+          <div class="aircraft-img-wrap">
+            <!-- Mets ton PNG détouré ici -->
+            <img src="C152.png" alt="Cessna 152 F-GHKE de l’APAM" />
+            <div class="aircraft-shadow"></div>
+          </div>
+          <p class="aircraft-label">
+            <strong>Cessna 152 – F-GHKE</strong><br />
+            Avion école biplace, idéal pour la formation et le vol local.
+          </p>
+        </div>
+
+        <!-- Banderole tarifs -->
+        <div class="aircraft-banner">
+          <div class="aircraft-banner-inner">
+            <div class="aircraft-banner-header">
+              <div class="aircraft-banner-title">
+                <div class="aircraft-name">Cessna 152</div>
+                <div class="aircraft-role">Avion école biplace</div>
+              </div>
+              <div class="aircraft-badge">Tarifs horaires</div>
+            </div>
+
+            <div class="tarif-grid">
+              <div class="tarif-label">
+                <strong>Breveté</strong><br />
+                Vol solo en location club.
+              </div>
+              <div class="tarif-value">130&nbsp;€ / h</div>
+
+              <div class="tarif-label">
+                <strong>Location avec instructeur</strong><br />
+                Vol en double commande (instruction).
+              </div>
+              <div class="tarif-value">150&nbsp;€ / h</div>
+            </div>
+
+            <p class="tarif-note">
+              L’<strong>heure d’instruction</strong> est facturée en supplément (voir encadré
+              ci-dessous). Les temps de vol sont comptabilisés au <strong>temps bloc</strong>
+              (mise en route / coupure moteur).
+            </p>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <!-- COTISATIONS & FFA -->
+    <section class="section-card reveal">
+      <div class="section-title-row">
+        <div class="section-title-main">
+          <span class="section-chip">Adhésion</span>
+          <span class="section-emoji">📄</span>
+          <h2>Cotisations & carte FFA</h2>
+        </div>
+      </div>
+
+      <div class="cotisation-grid">
+        <!-- Cotisations club -->
+        <div class="cot-card">
+          <h3>Cotisation club annuelle</h3>
+          <table class="cot-table">
+            <tr>
+              <td class="cot-label">Cotisation club moins de 21 ans</td>
+              <td class="cot-value">105&nbsp;€</td>
+            </tr>
+            <tr>
+              <td class="cot-label">Cotisation club 21 ans et plus</td>
+              <td class="cot-value">210&nbsp;€</td>
+            </tr>
+          </table>
+          <p class="cot-note">
+            La cotisation club permet d’être membre de l’APAM, de participer à la vie associative
+            et aux activités du club.
+          </p>
+        </div>
+
+        <!-- Carte FFA & instruction -->
+        <div class="cot-card">
+          <h3>Carte FFA & instruction</h3>
+          <table class="cot-table">
+            <tr>
+              <td class="cot-label">Carte fédérale FFA avec Info-Pilote</td>
+              <td class="cot-value">145&nbsp;€</td>
+            </tr>
+            <tr>
+              <td class="cot-label">Carte fédérale FFA sans Info-Pilote</td>
+              <td class="cot-value">96&nbsp;€</td>
+            </tr>
+            <tr>
+              <td class="cot-label">Heure d’instruction (vol ou théorie)</td>
+              <td class="cot-value">20&nbsp;€</td>
+            </tr>
+          </table>
+          <p class="cot-note">
+            La carte FFA comprend l’<strong>adhésion fédérale</strong> et l’<strong>assurance</strong>.
+            L’heure d’instruction s’ajoute au tarif de l’avion lorsque le vol se fait avec instructeur.
+          </p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- RÉSEAUX -->
+  <div class="social-floating">
+    <a href="https://www.instagram.com/_cauvin_" target="_blank" aria-label="Instagram">
+      <div class="social-pill">
+        <img src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/instagram.svg" alt="Instagram" />
+      </div>
+    </a>
+    <a href="https://www.youtube.com/@DRONORD18" target="_blank" aria-label="YouTube">
+      <div class="social-pill">
+        <img src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/youtube.svg" alt="YouTube" />
+      </div>
+    </a>
+    <a href="https://www.tiktok.com/@toncompte" target="_blank" aria-label="TikTok">
+      <div class="social-pill">
+        <img src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/tiktok.svg" alt="TikTok" />
+      </div>
+    </a>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="footer-content">
+      <div class="footer-brand">
+        <img src="apam-logo.png" alt="Logo APAM" class="footer-logo" />
+        <p>
+          Aéroclub APAM L’Aigle Saint-Michel – un cadre convivial pour découvrir, apprendre
+          et partager la passion du vol.
+        </p>
+      </div>
+
+      <div class="footer-column">
+        <h4>Plan du site</h4>
+        <a href="index.html">Accueil</a>
+        <a href="#">À propos</a>
+        <a href="activite.html">Activité</a>
+        <a href="tarifs.html">Tarif</a>
+        <a href="espace-membres.html">Membres</a>
+        <a href="contact.html">Contact</a>
+        <a href="https://openflyers.com/apam/" target="_blank">OpenFlyer</a>
+      </div>
+
+      <div class="footer-column">
+        <h4>Réseaux sociaux</h4>
+        <a href="https://www.instagram.com/_cauvin_" target="_blank">Instagram</a>
+        <a href="https://www.youtube.com/@DRONORD18" target="_blank">YouTube</a>
+        <a href="https://www.tiktok.com/@toncompte" target="_blank">TikTok</a>
+      </div>
+    </div>
+
+    <p class="copyright">
+      © 2025 APAM – Tous droits réservés.
+    </p>
+  </footer>
+
+  <!-- SCRIPTS -->
+  <script>
+    // Menu mobile
+    const menuToggle = document.querySelector(".menu-toggle");
+    const nav = document.querySelector(".main-nav");
+    if (menuToggle && nav) {
+      menuToggle.addEventListener("click", () => {
+        nav.classList.toggle("open");
+      });
+    }
+
+    // Animations scroll
+    const revealElements = document.querySelectorAll(".reveal");
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("visible");
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.15 }
+    );
+    revealElements.forEach((el) => observer.observe(el));
+  </script>
+</body>
+</html>
