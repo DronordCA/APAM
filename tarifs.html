@@ -263,6 +263,7 @@
       display: flex;
       align-items: center;
       gap: 8px;
+      flex-wrap: wrap;
     }
 
     .section-chip {
@@ -289,6 +290,8 @@
       font-size: 0.9rem;
       color: #7a859c;
       margin: 0;
+      max-width: 340px;
+      text-align: right;
     }
 
     /* CARTES AVIONS */
@@ -329,6 +332,7 @@
       max-width: 420px;
       margin: 0 auto;
       animation: float 4.2s ease-in-out infinite;
+      cursor: pointer;
     }
 
     .aircraft-img-wrap img {
@@ -364,10 +368,14 @@
       font-size: 0.9rem;
       color: #7a859c;
       text-align: center;
+      cursor: pointer;
     }
 
     .aircraft-label strong {
       color: var(--apam-blue);
+      text-decoration: underline;
+      text-decoration-thickness: 1px;
+      text-underline-offset: 3px;
     }
 
     /* Placeholder Cirrus */
@@ -384,6 +392,7 @@
       justify-content: center;
       position: relative;
       overflow: hidden;
+      cursor: pointer;
     }
 
     .aircraft-placeholder-icon {
@@ -448,12 +457,16 @@
       display: flex;
       flex-direction: column;
       gap: 2px;
+      cursor: pointer;
     }
 
     .aircraft-name {
       font-size: 1.25rem;
       font-weight: 700;
       color: var(--apam-blue);
+      text-decoration: underline;
+      text-decoration-thickness: 1px;
+      text-underline-offset: 3px;
     }
 
     .aircraft-role {
@@ -580,6 +593,116 @@
     .cot-note {
       margin-top: 10px;
       font-size: 0.82rem;
+      color: #7a859c;
+    }
+
+    /* OVERLAY FICHE AVION */
+
+    .aircraft-overlay {
+      position: fixed;
+      inset: 0;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 200;
+    }
+
+    .aircraft-overlay.active {
+      display: flex;
+    }
+
+    .aircraft-overlay-backdrop {
+      position: absolute;
+      inset: 0;
+      background: rgba(3, 16, 35, 0.55);
+      backdrop-filter: blur(3px);
+      -webkit-backdrop-filter: blur(3px);
+    }
+
+    .aircraft-overlay-card {
+      position: relative;
+      max-width: 520px;
+      width: calc(100% - 32px);
+      padding: 20px 20px 18px;
+      border-radius: 20px;
+      background: #ffffff;
+      box-shadow: 0 22px 60px rgba(0, 0, 0, 0.45);
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      z-index: 1;
+    }
+
+    .aircraft-overlay-close {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      border: none;
+      background: rgba(3, 16, 35, 0.06);
+      border-radius: 999px;
+      width: 28px;
+      height: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 1.1rem;
+      color: var(--apam-blue-soft);
+    }
+
+    .aircraft-overlay-close:hover {
+      background: rgba(3, 16, 35, 0.12);
+    }
+
+    .aircraft-overlay-header {
+      margin-bottom: 10px;
+    }
+
+    .aircraft-overlay-header .soft-label {
+      margin-bottom: 4px;
+    }
+
+    .aircraft-overlay-title {
+      margin: 0;
+      font-size: 1.35rem;
+      color: var(--apam-blue);
+    }
+
+    .aircraft-overlay-subtitle {
+      margin: 2px 0 0;
+      font-size: 0.92rem;
+      color: #7a859c;
+    }
+
+    .aircraft-overlay-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      gap: 10px 18px;
+      margin-top: 12px;
+      font-size: 0.9rem;
+    }
+
+    @media (max-width: 480px) {
+      .aircraft-overlay-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    .aircraft-overlay-item-label {
+      font-size: 0.84rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: #7a859c;
+      margin-bottom: 2px;
+    }
+
+    .aircraft-overlay-item-value {
+      font-size: 0.96rem;
+      color: var(--apam-blue);
+      font-weight: 600;
+    }
+
+    .aircraft-overlay-note {
+      margin-top: 10px;
+      font-size: 0.85rem;
       color: #7a859c;
     }
 
@@ -748,6 +871,16 @@
         flex-direction: column;
         align-items: flex-start;
       }
+
+      .section-title-row {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .section-subline {
+        text-align: left;
+        max-width: 100%;
+      }
     }
 
     @media (max-width: 600px) {
@@ -826,11 +959,11 @@
         <!-- CESSNA 152 -->
         <article class="aircraft-card">
           <div class="aircraft-visual">
-            <div class="aircraft-img-wrap">
+            <div class="aircraft-img-wrap" data-aircraft="c152">
               <img src="C152.png" alt="Cessna 152 F-GHKE de l’APAM" />
               <div class="aircraft-shadow"></div>
             </div>
-            <p class="aircraft-label">
+            <p class="aircraft-label" data-aircraft="c152">
               <strong>Cessna 152 – F-GHKE</strong><br />
               Avion école biplace, idéal pour la formation et le vol local.
             </p>
@@ -839,7 +972,7 @@
           <div class="aircraft-banner">
             <div class="aircraft-banner-inner">
               <div class="aircraft-banner-header">
-                <div class="aircraft-banner-title">
+                <div class="aircraft-banner-title" data-aircraft="c152">
                   <div class="aircraft-name">Cessna 152</div>
                   <div class="aircraft-role">Avion école biplace</div>
                 </div>
@@ -872,11 +1005,11 @@
         <!-- TB200 -->
         <article class="aircraft-card">
           <div class="aircraft-visual">
-            <div class="aircraft-img-wrap">
+            <div class="aircraft-img-wrap" data-aircraft="tb200">
               <img src="TB200.png" alt="SOCATA TB200 F-GSZA de l’APAM" />
               <div class="aircraft-shadow"></div>
             </div>
-            <p class="aircraft-label">
+            <p class="aircraft-label" data-aircraft="tb200">
               <strong>SOCATA TB200 – F-GSZA</strong><br />
               Avion de voyage 4 places, utilisé pour les navigations club et le perfectionnement.
             </p>
@@ -885,7 +1018,7 @@
           <div class="aircraft-banner">
             <div class="aircraft-banner-inner">
               <div class="aircraft-banner-header">
-                <div class="aircraft-banner-title">
+                <div class="aircraft-banner-title" data-aircraft="tb200">
                   <div class="aircraft-name">SOCATA TB200</div>
                   <div class="aircraft-role">Voyage 4 places – hélice à pas variable</div>
                 </div>
@@ -919,12 +1052,12 @@
         <!-- CIRRUS SR20 -->
         <article class="aircraft-card">
           <div class="aircraft-visual">
-            <!-- Placeholder, tu pourras remplacer ce bloc par une image <img src="Cirrus.png"> plus tard -->
-            <div class="aircraft-placeholder">
+            <!-- Placeholder, tu pourras remplacer par <img src="Cirrus.png"> plus tard -->
+            <div class="aircraft-placeholder" data-aircraft="sr20">
               <div class="aircraft-placeholder-icon">🛫</div>
               <div class="aircraft-placeholder-chip">Photo à venir</div>
             </div>
-            <p class="aircraft-label">
+            <p class="aircraft-label" data-aircraft="sr20">
               <strong>Cirrus SR20</strong><br />
               Avion moderne 4 places, confortable et équipé d’une avionique avancée.
             </p>
@@ -933,7 +1066,7 @@
           <div class="aircraft-banner">
             <div class="aircraft-banner-inner">
               <div class="aircraft-banner-header">
-                <div class="aircraft-banner-title">
+                <div class="aircraft-banner-title" data-aircraft="sr20">
                   <div class="aircraft-name">Cirrus SR20</div>
                   <div class="aircraft-role">Voyage 4 places – avionique “verre”</div>
                 </div>
@@ -1021,6 +1154,53 @@
     </section>
   </main>
 
+  <!-- OVERLAY FICHE AVION -->
+  <div class="aircraft-overlay" id="aircraftOverlay">
+    <div class="aircraft-overlay-backdrop" id="aircraftOverlayBackdrop"></div>
+    <div class="aircraft-overlay-card">
+      <button class="aircraft-overlay-close" id="aircraftOverlayClose" aria-label="Fermer la fiche avion">
+        &times;
+      </button>
+      <div class="aircraft-overlay-header">
+        <p class="soft-label">Fiche avion</p>
+        <h2 class="aircraft-overlay-title" id="aircraftOverlayTitle">Titre avion</h2>
+        <p class="aircraft-overlay-subtitle" id="aircraftOverlaySubtitle">Sous-titre avion</p>
+      </div>
+
+      <div class="aircraft-overlay-grid">
+        <div>
+          <div class="aircraft-overlay-item-label">Moteur</div>
+          <div class="aircraft-overlay-item-value" id="aircraftOverlayEngine"></div>
+        </div>
+        <div>
+          <div class="aircraft-overlay-item-label">Puissance</div>
+          <div class="aircraft-overlay-item-value" id="aircraftOverlayPower"></div>
+        </div>
+        <div>
+          <div class="aircraft-overlay-item-label">Vitesse de croisière</div>
+          <div class="aircraft-overlay-item-value" id="aircraftOverlayCruise"></div>
+        </div>
+        <div>
+          <div class="aircraft-overlay-item-label">Autonomie</div>
+          <div class="aircraft-overlay-item-value" id="aircraftOverlayRange"></div>
+        </div>
+        <div>
+          <div class="aircraft-overlay-item-label">Places</div>
+          <div class="aircraft-overlay-item-value" id="aircraftOverlaySeats"></div>
+        </div>
+        <div>
+          <div class="aircraft-overlay-item-label">Utilisation</div>
+          <div class="aircraft-overlay-item-value" id="aircraftOverlayUse"></div>
+        </div>
+      </div>
+
+      <p class="aircraft-overlay-note" id="aircraftOverlayNote">
+        Les performances et valeurs indiquées sont données à titre indicatif et peuvent varier
+        selon la masse, la météo et la configuration de l’avion.
+      </p>
+    </div>
+  </div>
+
   <!-- RÉSEAUX -->
   <div class="social-floating">
     <a href="https://www.instagram.com/_cauvin_" target="_blank" aria-label="Instagram">
@@ -1100,6 +1280,99 @@
       { threshold: 0.15 }
     );
     revealElements.forEach((el) => observer.observe(el));
+
+    // Données fiches avions
+    const aircraftData = {
+      c152: {
+        title: "Cessna 152 – F-GHKE",
+        subtitle: "Avion école biplace – formation de base",
+        engine: "Lycoming O-235 (environ 110 ch)",
+        power: "110 ch",
+        cruise: "90–95 kt",
+        range: "Environ 4 h de vol",
+        seats: "2 places",
+        use: "École, vol local, premiers solos",
+        note: "Avion idéal pour débuter la formation, robuste et pédagogique. Utilisé pour la majorité de l’instruction de base au club."
+      },
+      tb200: {
+        title: "SOCATA TB200 – F-GSZA",
+        subtitle: "Avion de voyage 4 places – hélice à pas variable",
+        engine: "Lycoming O-360",
+        power: "Environ 200 ch",
+        cruise: "120–130 kt",
+        range: "Environ 4 h 30 de vol",
+        seats: "4 places",
+        use: "Voyage, navigations club, perfectionnement VP",
+        note: "Avion confortable et performant, permettant des navigations plus longues et la formation à la gestion de l’hélice à pas variable."
+      },
+      sr20: {
+        title: "Cirrus SR20",
+        subtitle: "Avion moderne 4 places – avionique “verre”",
+        engine: "Continental IO-360",
+        power: "Environ 200 ch",
+        cruise: "140–150 kt",
+        range: "Environ 4 h de vol",
+        seats: "4 places",
+        use: "Voyage, sorties club, navigation IFR possible selon équipement",
+        note: "Avion moderne équipé d’une avionique avancée. Idéal pour les voyages confortables et la découverte des cockpits « verre »."
+      }
+    };
+
+    // Overlay logique
+    const overlay = document.getElementById("aircraftOverlay");
+    const overlayBackdrop = document.getElementById("aircraftOverlayBackdrop");
+    const overlayClose = document.getElementById("aircraftOverlayClose");
+
+    const oTitle = document.getElementById("aircraftOverlayTitle");
+    const oSubtitle = document.getElementById("aircraftOverlaySubtitle");
+    const oEngine = document.getElementById("aircraftOverlayEngine");
+    const oPower = document.getElementById("aircraftOverlayPower");
+    const oCruise = document.getElementById("aircraftOverlayCruise");
+    const oRange = document.getElementById("aircraftOverlayRange");
+    const oSeats = document.getElementById("aircraftOverlaySeats");
+    const oUse = document.getElementById("aircraftOverlayUse");
+    const oNote = document.getElementById("aircraftOverlayNote");
+
+    function openAircraftOverlay(id) {
+      const data = aircraftData[id];
+      if (!data) return;
+
+      oTitle.textContent = data.title;
+      oSubtitle.textContent = data.subtitle;
+      oEngine.textContent = data.engine;
+      oPower.textContent = data.power;
+      oCruise.textContent = data.cruise;
+      oRange.textContent = data.range;
+      oSeats.textContent = data.seats;
+      oUse.textContent = data.use;
+      oNote.textContent = data.note;
+
+      overlay.classList.add("active");
+    }
+
+    function closeAircraftOverlay() {
+      overlay.classList.remove("active");
+    }
+
+    // Attache les triggers sur les éléments avec data-aircraft
+    document.querySelectorAll("[data-aircraft]").forEach((el) => {
+      el.addEventListener("click", () => {
+        const id = el.getAttribute("data-aircraft");
+        openAircraftOverlay(id);
+      });
+    });
+
+    if (overlayBackdrop) {
+      overlayBackdrop.addEventListener("click", closeAircraftOverlay);
+    }
+    if (overlayClose) {
+      overlayClose.addEventListener("click", closeAircraftOverlay);
+    }
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") {
+        closeAircraftOverlay();
+      }
+    });
   </script>
 </body>
 </html>
