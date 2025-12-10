@@ -36,8 +36,6 @@
       color: inherit;
     }
 
-    /* Petites touches typographiques pour dynamiser */
-
     .accent-text {
       color: var(--apam-blue-soft);
       font-weight: 600;
@@ -318,14 +316,13 @@
       grid-template-columns: minmax(0, 1fr);
     }
 
-    /* 2 colonnes sur desktop, avec possibilité d'avoir une carte large */
     @media (min-width: 880px) {
       .activity-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
       }
 
       .activity-card-wide {
-        grid-column: 1 / -1; /* prend les deux colonnes */
+        grid-column: 1 / -1;
       }
     }
 
@@ -338,7 +335,7 @@
       flex-direction: column;
       gap: 10px;
       box-shadow: 0 14px 30px rgba(3, 16, 35, 0.09);
-      min-height: 270px; /* plus rectangulaire */
+      min-height: 270px;
     }
 
     .activity-card-image {
@@ -428,6 +425,7 @@
       border-bottom: 1px solid rgba(6, 32, 55, 0.3);
       padding-bottom: 1px;
       align-self: flex-start;
+      cursor: pointer;
     }
 
     .activity-card-link:hover {
@@ -449,7 +447,195 @@
       align-self: flex-start;
     }
 
-    /* ================== ICÔNES RÉSEAUX FLOTTANTES ================== */
+    /* ================== MODAL DE CONTACT ================== */
+
+    .contact-modal {
+      position: fixed;
+      inset: 0;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 200;
+    }
+
+    .contact-modal.open {
+      display: flex;
+    }
+
+    .contact-modal-backdrop {
+      position: absolute;
+      inset: 0;
+      background: rgba(3, 16, 35, 0.45);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+    }
+
+    .contact-modal-dialog {
+      position: relative;
+      max-width: 720px;
+      width: calc(100% - 32px);
+      max-height: calc(100vh - 80px);
+      background: rgba(255, 255, 255, 0.98);
+      border-radius: 22px;
+      border: 1px solid rgba(255, 255, 255, 0.8);
+      box-shadow: 0 26px 60px rgba(0, 0, 0, 0.4);
+      padding: 20px 22px 18px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transform: translateY(16px) scale(0.98);
+      opacity: 0;
+      transition:
+        opacity 0.25s ease,
+        transform 0.25s ease;
+    }
+
+    .contact-modal.open .contact-modal-dialog {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+
+    .contact-modal-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 10px;
+    }
+
+    .contact-modal-title-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .contact-modal-kicker {
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: #7a859c;
+    }
+
+    .contact-modal-title {
+      font-size: 1.45rem;
+      font-weight: 700;
+      color: var(--apam-blue);
+      margin: 0;
+    }
+
+    .contact-modal-subtitle {
+      font-size: 0.9rem;
+      color: var(--text-soft);
+      margin: 0;
+    }
+
+    .contact-modal-close {
+      border: none;
+      background: rgba(3, 16, 35, 0.04);
+      border-radius: 999px;
+      width: 30px;
+      height: 30px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: var(--apam-blue-soft);
+      box-shadow: 0 6px 16px rgba(3, 16, 35, 0.18);
+      flex-shrink: 0;
+    }
+
+    .contact-modal-close:hover {
+      background: rgba(3, 16, 35, 0.08);
+    }
+
+    .contact-modal-body {
+      padding-top: 6px;
+      padding-right: 4px;
+      overflow-y: auto;
+      scrollbar-width: thin;
+    }
+
+    .contact-panel {
+      display: none;
+    }
+
+    .contact-panel.active {
+      display: block;
+    }
+
+    .contact-panel h3 {
+      font-size: 1.05rem;
+      margin: 0 0 6px;
+      color: var(--apam-blue);
+    }
+
+    .contact-panel p {
+      margin: 0 0 6px;
+      font-size: 0.92rem;
+      color: var(--text-soft);
+      line-height: 1.5;
+    }
+
+    .contact-panel ul {
+      margin: 8px 0 0 18px;
+      padding: 0;
+      font-size: 0.9rem;
+      color: var(--text-soft);
+      line-height: 1.5;
+    }
+
+    .contact-panel li {
+      margin-bottom: 4px;
+    }
+
+    .contact-panel-highlight {
+      margin-top: 10px;
+      padding: 8px 10px;
+      border-radius: 12px;
+      background: rgba(74, 163, 255, 0.08);
+      font-size: 0.86rem;
+      color: var(--apam-blue-soft);
+    }
+
+    .contact-panel-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px 24px;
+      margin-top: 10px;
+      font-size: 0.9rem;
+    }
+
+    .contact-badge {
+      font-size: 0.8rem;
+      background: rgba(3, 16, 35, 0.04);
+      border-radius: 999px;
+      padding: 4px 10px;
+      color: var(--apam-blue-soft);
+    }
+
+    .contact-email {
+      font-weight: 600;
+      text-decoration: none;
+      border-bottom: 1px solid rgba(6, 32, 55, 0.3);
+      padding-bottom: 1px;
+    }
+
+    .contact-email:hover {
+      border-bottom-color: transparent;
+    }
+
+    @media (max-width: 600px) {
+      .contact-modal-dialog {
+        max-height: calc(100vh - 40px);
+        padding: 16px 16px 14px;
+      }
+
+      .contact-modal-title {
+        font-size: 1.3rem;
+      }
+    }
+
+    /* ================== RÉSEAUX FLOTTANTS ================== */
 
     .social-floating {
       position: fixed;
@@ -647,7 +833,7 @@
 
   <!-- ============ CONTENU ============ -->
   <main>
-    <!-- HERO VISITEURS AVEC IMAGE (texte raccourci) -->
+    <!-- HERO VISITEURS AVEC IMAGE -->
     <section class="section-card activity-hero reveal">
       <div class="activity-hero-inner">
         <div>
@@ -669,7 +855,7 @@
 
         <div class="activity-hero-media">
           <div class="hero-photo">
-            <!-- Mets ta vraie photo (par ex. "visiteurs-hero.jpg") -->
+            <!-- Remplace par ta vraie photo -->
             <img
               src="visiteurs-hero.jpg"
               alt="Vue des avions de l’APAM sur le parking de l’aérodrome"
@@ -682,7 +868,7 @@
       </div>
     </section>
 
-    <!-- VISITEURS – 5 BLOCS PRINCIPAUX (2 / 2 / 1), TEXTES STRUCTURÉS -->
+    <!-- VISITEURS – 5 BLOCS PRINCIPAUX (2 / 2 / 1) -->
     <section class="section-card activity-section reveal reveal-delay-1">
       <h2>
         <span class="section-chip">Visiteurs</span>
@@ -737,11 +923,11 @@
           </p>
           <ul>
             <li>Bureau (président, trésorier, secrétaire…) et responsables d’activités.</li>
-            <li>Instructeurs, référents sécurité, interlocuteurs “formation” et “baptêmes”.</li>
-            <li>Contacts utiles pour adhérer, poser des questions ou lancer un projet.</li>
+            <li>Instructeurs, référents sécurité, interlocuteurs formation et baptêmes.</li>
+            <li>Contacts utiles pour adhérer ou poser vos questions.</li>
           </ul>
           <span class="activity-highlight">Mettre des visages sur le club</span>
-          <a href="#" class="activity-card-link">
+          <a href="#" class="activity-card-link contact-trigger" data-contact="organigramme">
             Voir l’organigramme <span class="arrow">↗</span>
           </a>
         </article>
@@ -761,12 +947,12 @@
             Pour offrir ou pour soi&nbsp;: un <span class="accent-text">premier vol</span> en avion léger au départ de L’Aigle.
           </p>
           <ul>
-            <li>Durée typique : <strong>20 à 30 minutes</strong>, selon le circuit choisi.</li>
+            <li>Durée typique : <strong>20 à 30 minutes</strong>, selon le circuit.</li>
             <li>Jusqu’à 3 passagers selon l’avion et la masse embarquée.</li>
-            <li>Possibilité de bon cadeau, idéal pour un anniversaire ou une surprise.</li>
+            <li>Possibilité de bon cadeau (anniversaire, événement, surprise).</li>
           </ul>
           <span class="activity-highlight">Le meilleur moyen de faire ses premiers pas</span>
-          <a href="contact.html" class="activity-card-link">
+          <a href="#" class="activity-card-link contact-trigger" data-contact="bapteme">
             Organiser un vol découverte <span class="arrow">↗</span>
           </a>
         </article>
@@ -788,10 +974,10 @@
           <ul>
             <li>Parcours LAPL / PPL : étapes, visite médicale, durée moyenne.</li>
             <li>Alternance cours théoriques, vols en double commande puis vols solo.</li>
-            <li>Repères de budget et manière d’étaler la formation dans le temps.</li>
+            <li>Repères de budget et manière d’étaler la formation.</li>
           </ul>
           <span class="activity-highlight">Construire un projet de formation réaliste</span>
-          <a href="#" class="activity-card-link">
+          <a href="#" class="activity-card-link contact-trigger" data-contact="formation">
             En savoir plus sur la formation <span class="arrow">↗</span>
           </a>
         </article>
@@ -812,18 +998,158 @@
             <span class="accent-text">convivial et encadré</span>.
           </p>
           <ul>
-            <li>Journées, week-ends ou voyages plus longs vers d’autres régions et pays.</li>
-            <li>Partage des frais de vol entre pilote et passagers dans le cadre réglementaire.</li>
-            <li>Briefings communs, découverte de nouveaux terrains et esprit “sortie de groupe”.</li>
+            <li>Journées, week-ends ou voyages plus longs vers d’autres régions.</li>
+            <li>Partage des frais de vol entre pilote et passagers.</li>
+            <li>Briefings communs, nouveaux terrains et esprit sortie de groupe.</li>
           </ul>
           <span class="activity-highlight">Voyager en avion léger, en équipe</span>
-          <a href="#" class="activity-card-link">
-            Découvrir les voyages club <span class="arrow">↗</span>
+          <a href="#" class="activity-card-link contact-trigger" data-contact="voyages">
+            Contacter pour un voyage club <span class="arrow">↗</span>
           </a>
         </article>
       </div>
     </section>
   </main>
+
+  <!-- ============ MODAL CONTACT (OVERLAY) ============ -->
+  <div class="contact-modal" id="contact-modal" aria-hidden="true">
+    <div class="contact-modal-backdrop"></div>
+    <div class="contact-modal-dialog" role="dialog" aria-modal="true" aria-labelledby="contact-modal-title">
+      <div class="contact-modal-header">
+        <div class="contact-modal-title-wrap">
+          <span class="contact-modal-kicker" id="contact-modal-kicker">Contact</span>
+          <h2 class="contact-modal-title" id="contact-modal-title">
+            Contacter l’équipe APAM
+          </h2>
+          <p class="contact-modal-subtitle" id="contact-modal-subtitle">
+            Choisissez le canal le plus simple pour vous.
+          </p>
+        </div>
+        <button class="contact-modal-close" type="button" aria-label="Fermer">
+          ✕
+        </button>
+      </div>
+
+      <div class="contact-modal-body">
+        <!-- Panel Organigramme -->
+        <div class="contact-panel" data-contact-panel="organigramme">
+          <h3>Organigramme & vie du club</h3>
+          <p>
+            Pour toute question sur le <span class="accent-text">fonctionnement de l’aéroclub</span>,
+            les rôles du bureau ou les activités proposées.
+          </p>
+          <div class="contact-panel-row">
+            <div>
+              <div class="contact-badge">Contact principal</div>
+              <p><strong>Bureau de l’APAM</strong></p>
+            </div>
+            <div>
+              <div class="contact-badge">E-mail</div>
+              <p>
+                <a class="contact-email" href="mailto:contact@apam.fr">contact@apam.fr</a>
+              </p>
+            </div>
+          </div>
+          <ul>
+            <li>Adhésion au club et renouvellement.</li>
+            <li>Questions générales sur l’organisation et la vie associative.</li>
+            <li>Projets ou idées d’événements à proposer au bureau.</li>
+          </ul>
+          <div class="contact-panel-highlight">
+            💡 <strong>Objet conseillé pour votre mail :</strong>  
+            « Organigramme / Info club – [Votre nom] »
+          </div>
+        </div>
+
+        <!-- Panel Baptêmes -->
+        <div class="contact-panel" data-contact-panel="bapteme">
+          <h3>Baptêmes & vols découverte</h3>
+          <p>
+            Pour organiser un <span class="accent-text">vol découverte</span> ou offrir un baptême de l’air
+            au départ de L’Aigle Saint-Michel.
+          </p>
+          <div class="contact-panel-row">
+            <div>
+              <div class="contact-badge">Contact principal</div>
+              <p><strong>Responsable baptêmes</strong></p>
+            </div>
+            <div>
+              <div class="contact-badge">E-mail</div>
+              <p>
+                <a class="contact-email" href="mailto:baptemes@apam.fr">baptemes@apam.fr</a>
+              </p>
+            </div>
+          </div>
+          <ul>
+            <li>Précisez le <strong>nombre de personnes</strong> et la période souhaitée.</li>
+            <li>Indiquez si c’est pour un <strong>cadeau</strong> (anniversaire, surprise…).</li>
+            <li>Possibilité de proposer une date ou de demander les disponibilités.</li>
+          </ul>
+          <div class="contact-panel-highlight">
+            ✉️ <strong>Exemple d’objet :</strong> « Demande de vol découverte – [Nombre de personnes] »
+          </div>
+        </div>
+
+        <!-- Panel Formation -->
+        <div class="contact-panel" data-contact-panel="formation">
+          <h3>Devenir pilote (LAPL / PPL)</h3>
+          <p>
+            Pour discuter de votre <span class="accent-text">projet de formation de pilote privé</span> :
+            étapes, durée, budget et organisation.
+          </p>
+          <div class="contact-panel-row">
+            <div>
+              <div class="contact-badge">Contact principal</div>
+              <p><strong>Responsable instruction</strong></p>
+            </div>
+            <div>
+              <div class="contact-badge">E-mail</div>
+              <p>
+                <a class="contact-email" href="mailto:formation@apam.fr">formation@apam.fr</a>
+              </p>
+            </div>
+          </div>
+          <ul>
+            <li>Précisez votre âge et votre disponibilité (semaine, week-end).</li>
+            <li>Indiquez si vous avez déjà une expérience aéronautique ou non.</li>
+            <li>Vous pouvez demander un <strong>rendez-vous au club</strong> pour en parler.</li>
+          </ul>
+          <div class="contact-panel-highlight">
+            📝 <strong>Astuce :</strong> décrivez en quelques lignes votre projet (loisir, pro, fréquence de vol souhaitée).
+          </div>
+        </div>
+
+        <!-- Panel Voyages -->
+        <div class="contact-panel" data-contact-panel="voyages">
+          <h3>Voyages en partage de frais</h3>
+          <p>
+            Pour vous renseigner sur les <span class="accent-text">sorties club</span> et les possibilités
+            de voler en partage de frais avec les pilotes de l’APAM.
+          </p>
+          <div class="contact-panel-row">
+            <div>
+              <div class="contact-badge">Contact principal</div>
+              <p><strong>Responsable voyages / sorties</strong></p>
+            </div>
+            <div>
+              <div class="contact-badge">E-mail</div>
+              <p>
+                <a class="contact-email" href="mailto:sorties@apam.fr">sorties@apam.fr</a>
+              </p>
+            </div>
+          </div>
+          <ul>
+            <li>Expliquez le type de sortie qui vous intéresse (journée, week-end, plus long).</li>
+            <li>Indiquez si vous êtes pilote, élève pilote ou simple passager.</li>
+            <li>Vous pouvez demander à être informé des prochains voyages prévus.</li>
+          </ul>
+          <div class="contact-panel-highlight">
+            🌍 <strong>Idée :</strong> mentionnez vos disponibilités et vos envies de destinations.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <!-- ============ RÉSEAUX FLOTTANTS ============ -->
   <div class="social-floating">
@@ -893,9 +1219,11 @@
     const menuToggle = document.querySelector(".menu-toggle");
     const nav = document.querySelector(".main-nav");
 
-    menuToggle.addEventListener("click", () => {
-      nav.classList.toggle("open");
-    });
+    if (menuToggle && nav) {
+      menuToggle.addEventListener("click", () => {
+        nav.classList.toggle("open");
+      });
+    }
 
     // Reveal animations
     const revealElements = document.querySelectorAll(".reveal");
@@ -912,6 +1240,97 @@
     );
 
     revealElements.forEach((el) => observer.observe(el));
+
+    // ===== MODAL CONTACT =====
+    const contactModal = document.getElementById("contact-modal");
+    const contactPanels = document.querySelectorAll(".contact-panel");
+    const contactTriggers = document.querySelectorAll(".contact-trigger");
+    const contactCloseBtn = document.querySelector(".contact-modal-close");
+    const contactBackdrop = document.querySelector(".contact-modal-backdrop");
+
+    const kickerEl = document.getElementById("contact-modal-kicker");
+    const titleEl = document.getElementById("contact-modal-title");
+    const subtitleEl = document.getElementById("contact-modal-subtitle");
+
+    const modalTexts = {
+      organigramme: {
+        kicker: "Contact • Vie du club",
+        title: "Contacter le bureau de l’APAM",
+        subtitle: "Pour des questions générales sur l’aéroclub et son organisation."
+      },
+      bapteme: {
+        kicker: "Contact • Baptêmes & découverte",
+        title: "Organiser un vol découverte",
+        subtitle: "Pour offrir un baptême de l’air ou réserver un premier vol."
+      },
+      formation: {
+        kicker: "Contact • Formation pilote",
+        title: "Parler de votre projet de formation",
+        subtitle: "Pour échanger sur le parcours LAPL / PPL et les prochaines étapes."
+      },
+      voyages: {
+        kicker: "Contact • Voyages club",
+        title: "Renseignements voyages en partage de frais",
+        subtitle: "Pour en savoir plus sur les sorties et voyages organisés."
+      }
+    };
+
+    function openContactModal(key) {
+      if (!contactModal) return;
+
+      // Texte header en fonction de la clé
+      const cfg = modalTexts[key] || modalTexts.organigramme;
+      if (kickerEl) kickerEl.textContent = cfg.kicker;
+      if (titleEl) titleEl.textContent = cfg.title;
+      if (subtitleEl) subtitleEl.textContent = cfg.subtitle;
+
+      // Active le bon panel
+      contactPanels.forEach((panel) => {
+        if (panel.getAttribute("data-contact-panel") === key) {
+          panel.classList.add("active");
+        } else {
+          panel.classList.remove("active");
+        }
+      });
+
+      contactModal.classList.add("open");
+      document.body.style.overflow = "hidden";
+      contactModal.setAttribute("aria-hidden", "false");
+    }
+
+    function closeContactModal() {
+      if (!contactModal) return;
+      contactModal.classList.remove("open");
+      document.body.style.overflow = "";
+      contactModal.setAttribute("aria-hidden", "true");
+    }
+
+    contactTriggers.forEach((trigger) => {
+      trigger.addEventListener("click", (e) => {
+        e.preventDefault();
+        const key = trigger.getAttribute("data-contact");
+        if (!key) return;
+        openContactModal(key);
+      });
+    });
+
+    if (contactCloseBtn) {
+      contactCloseBtn.addEventListener("click", () => {
+        closeContactModal();
+      });
+    }
+
+    if (contactBackdrop) {
+      contactBackdrop.addEventListener("click", () => {
+        closeContactModal();
+      });
+    }
+
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") {
+        closeContactModal();
+      }
+    });
   </script>
 </body>
 </html>
