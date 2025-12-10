@@ -14,7 +14,7 @@
       --glass-shadow: 0 12px 28px rgba(0, 0, 0, 0.12);
       --text-main: #062037;
       --text-soft: #5f6b85;
-      --accent: #4aa3ff;
+      --accent: #8ecbff;
       --bg-page: #f3f5fb;
     }
 
@@ -63,14 +63,14 @@
     }
 
     header.scrolled {
-      background: rgba(3, 16, 35, 0.92);
+      background: rgba(0, 0, 0, 0.96); /* noir en scroll */
       box-shadow: 0 10px 26px rgba(0, 0, 0, 0.4);
       padding: 10px 20px;
     }
 
     .header-inner {
       width: 100%;
-      max-width: none; /* plein écran */
+      max-width: none;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -89,7 +89,7 @@
 
     .main-nav a {
       font-size: 0.78rem;
-      font-weight: 500; /* plus fin */
+      font-weight: 500;
       letter-spacing: 0.07em;
       text-transform: uppercase;
       color: #ffffff;
@@ -99,17 +99,20 @@
       transition:
         opacity 0.2s ease,
         border-color 0.2s ease,
-        transform 0.15s ease;
+        transform 0.15s ease,
+        color 0.18s ease;
     }
 
     .main-nav a:hover {
       opacity: 1;
-      border-color: rgba(255, 255, 255, 0.5);
+      color: var(--accent);              /* code couleur au survol */
+      border-color: var(--accent);
       transform: translateY(-1px);
     }
 
     .main-nav a.active {
       opacity: 1;
+      color: #ffffff;
       border-color: #ffffff;
     }
 
@@ -184,7 +187,6 @@
       z-index: 1;
     }
 
-    /* Intro centrée */
     .section-card-intro {
       text-align: center;
     }
@@ -220,9 +222,6 @@
       align-items: center;
       gap: 10px;
       margin-bottom: 8px;
-    }
-
-    .section-card-intro .home-intro-header {
       justify-content: center;
     }
 
@@ -246,7 +245,7 @@
     .home-intro-lead {
       margin-top: 4px;
       margin-bottom: 8px;
-      color: var(--text-main);   /* plus foncé, plus lisible */
+      color: var(--text-main);
       font-weight: 500;
     }
 
@@ -379,7 +378,7 @@
     }
 
     .social-pill img.no-filter {
-      filter: none; /* pour respecter les couleurs OpenFlyers */
+      filter: none;
     }
 
     .social-pill:hover {
@@ -705,7 +704,6 @@
 
   <!-- ============ RÉSEAUX FLOTTANTS ============ -->
   <div class="social-floating">
-    <!-- Instagram -->
     <a href="https://www.instagram.com/_cauvin_" target="_blank" aria-label="Instagram">
       <div class="social-pill">
         <img
@@ -714,7 +712,6 @@
         />
       </div>
     </a>
-    <!-- Gmail / contact -->
     <a href="mailto:contact@apam.fr" aria-label="Envoyer un mail au club">
       <div class="social-pill">
         <img
@@ -723,7 +720,6 @@
         />
       </div>
     </a>
-    <!-- OpenFlyers : vrai logo à déposer en local -->
     <a href="https://openflyers.com/apam/" target="_blank" aria-label="OpenFlyers APAM">
       <div class="social-pill">
         <img src="openflyers-logo.png" alt="OpenFlyers" class="no-filter" />
