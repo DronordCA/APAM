@@ -1,31 +1,21 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-VYNBMK1WPC"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-VYNBMK1WPC');
-</script>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>APAM – Aéroclub L’Aigle Saint-Michel</title>
   <style>
-    /* ================== BASE ================== */
-
     :root {
       --apam-blue-dark: #031023;
       --apam-blue: #062037;
       --apam-blue-soft: #1b3658;
-      --glass-bg: rgba(255, 255, 255, 0.85);
-      --glass-border: rgba(15, 35, 70, 0.08);
-      --glass-shadow: 0 10px 28px rgba(0, 0, 0, 0.12);
+      --glass-bg: rgba(255, 255, 255, 0.96);
+      --glass-border: rgba(15, 35, 70, 0.06);
+      --glass-shadow: 0 12px 28px rgba(0, 0, 0, 0.12);
       --text-main: #062037;
       --text-soft: #5f6b85;
       --accent: #4aa3ff;
+      --bg-page: #f3f5fb;
     }
 
     * {
@@ -37,530 +27,269 @@
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
         sans-serif;
       color: var(--text-main);
-      background: #f5f7fb;
+      background: var(--bg-page);
       min-height: 100vh;
+      line-height: 1.6;
     }
 
     a {
       color: inherit;
+      text-decoration: none;
     }
 
-    /* ================== ANIMATIONS SCROLL ================== */
-
-    .reveal {
-      opacity: 0;
-      transform: translateY(24px);
-      transition:
-        opacity 0.6s ease,
-        transform 0.6s ease;
+    p {
+      font-size: 0.95rem;
+      line-height: 1.7;
     }
 
-    .reveal.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    .reveal-delay-1 {
-      transition-delay: 0.1s;
-    }
-
-    .reveal-delay-2 {
-      transition-delay: 0.2s;
-    }
-
-    .reveal-delay-3 {
-      transition-delay: 0.3s;
-    }
-
-    /* ================== HEADER + MENU (PILULE LIQUID GLASS) ================== */
+    /* ============ HEADER TYPE ASTONFLY ============ */
 
     header {
       position: fixed;
       top: 0;
       left: 0;
       right: 0;
-      z-index: 100;
-      padding: 10px 16px;
+      z-index: 50;
+      padding: 12px 28px;
       display: flex;
+      align-items: center;
       justify-content: center;
-      background: transparent;
-      border-bottom: none;
-      pointer-events: none; /* la pilule seule est cliquable */
+      background: linear-gradient(
+        to bottom,
+        rgba(0, 0, 0, 0.35),
+        rgba(0, 0, 0, 0)
+      );
+      transition: background 0.25s ease, box-shadow 0.25s ease,
+        padding 0.25s ease;
+    }
+
+    header.scrolled {
+      background: rgba(3, 16, 35, 0.96);
+      box-shadow: 0 10px 28px rgba(0, 0, 0, 0.4);
+      padding: 8px 24px;
     }
 
     .header-inner {
-      max-width: 1100px;
       width: 100%;
+      max-width: 1200px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 16px;
-      padding: 8px 18px;
-      border-radius: 999px;
-      background: rgba(3, 16, 35, 0.07); /* liquide glass sombre transparent */
-      border: 1px solid rgba(255, 255, 255, 0.18);
-      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.35);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      pointer-events: auto;
+      gap: 24px;
     }
 
     .logo {
-      height: 48px;
+      height: 44px;
+      display: block;
     }
 
     .main-nav {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 18px;
     }
 
     .main-nav a {
-      text-decoration: none;
-      color: #ffffff;
+      font-size: 0.9rem;
       font-weight: 600;
-      font-size: 0.92rem;
-      padding: 7px 16px;
-      border-radius: 999px;
-      background: transparent;
-      border: 1px solid transparent;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #ffffff;
+      opacity: 0.78;
+      padding-bottom: 2px;
+      border-bottom: 2px solid transparent;
       transition:
-        color 0.18s ease,
-        background 0.25s ease,
-        box-shadow 0.25s ease,
+        opacity 0.2s ease,
         border-color 0.2s ease,
-        transform 0.18s ease;
+        transform 0.15s ease;
     }
 
     .main-nav a:hover {
-      color: #ffffff;
-      background: rgba(255, 255, 255, 0.08);
-      border-color: rgba(255, 255, 255, 0.3);
-      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.2);
+      opacity: 1;
+      border-color: rgba(255, 255, 255, 0.6);
       transform: translateY(-1px);
     }
 
     .main-nav a.active {
-      background: linear-gradient(
-        135deg,
-        rgba(139, 199, 255, 0.98),
-        rgba(70, 140, 255, 0.98)
-      );
-      border-color: rgba(74, 163, 255, 0.9);
-      box-shadow: 0 14px 30px rgba(74, 163, 255, 0.6);
-      color: #02101f;
+      opacity: 1;
+      border-color: #ffffff;
     }
-
-    /* Bouton menu mobile - pill "Menu" */
 
     .menu-toggle {
       display: none;
-      background: rgba(3, 16, 35, 0.8);
+      border: none;
+      background: rgba(0, 0, 0, 0.6);
       color: #ffffff;
-      font-weight: 600;
       font-size: 0.9rem;
+      font-weight: 600;
+      padding: 6px 12px;
       border-radius: 999px;
-      border: 1px solid rgba(255, 255, 255, 0.3);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
       cursor: pointer;
-      padding: 7px 14px;
-      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3);
     }
 
-    .menu-toggle:hover {
-      background: rgba(3, 16, 35, 0.92);
-      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4);
-    }
+    /* ============ HERO SLIDER FULLSCREEN ============ */
 
-    /* ================== HERO ================== */
-
-    .hero {
-      width: 100%;
-      min-height: calc(100vh - 80px);
-      background: url("Rallye-CDAO-01.jpg") center/cover no-repeat;
+    .hero-slider {
       position: relative;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 40px 20px;
-      color: #fff;
-      margin-top: 0;
+      width: 100%;
+      height: 100vh;
+      overflow: hidden;
     }
 
-    .hero::before {
-      content: "";
+    .hero-slide {
       position: absolute;
       inset: 0;
-      background: linear-gradient(
-          to bottom,
-          rgba(0, 0, 0, 0.45),
-          rgba(0, 0, 0, 0.65)
+      background-size: cover;
+      background-position: center center;
+      background-repeat: no-repeat;
+      opacity: 0;
+      transform: scale(1.02);
+      transition: opacity 1.3s ease, transform 7s ease;
+    }
+
+    .hero-slide.active {
+      opacity: 1;
+      transform: scale(1.06);
+    }
+
+    /* léger voile sombre pour lisibilité du header */
+    .hero-overlay-gradient {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(
+          circle at 15% 0%,
+          rgba(0, 0, 0, 0.38),
+          transparent 55%
         ),
-        radial-gradient(circle at 20% 0%, rgba(0, 0, 0, 0.3), transparent 60%);
+        linear-gradient(to bottom, rgba(0, 0, 0, 0.4), transparent 45%);
+      pointer-events: none;
     }
 
-    .hero-inner {
-      position: relative;
-      max-width: 1000px;
-      width: 100%;
-      display: flex;
-      align-items: center;
-      gap: 28px;
-      flex-wrap: wrap;
-      z-index: 1;
-      margin-top: 40px;
-    }
-
-    /* Cartes glass du hero (ultra transparentes) */
-
-    .hero-card {
-      flex: 1 1 320px;
-      background: rgba(255, 255, 255, 0.10);
-      border-radius: 26px;
-      border: 1px solid rgba(255, 255, 255, 0.25);
-      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.55);
-      backdrop-filter: blur(26px);
-      -webkit-backdrop-filter: blur(26px);
-      padding: 22px 24px 22px;
-      color: #ffffff;
-    }
-
-    .hero-eyebrow {
-      font-size: 0.8rem;
-      text-transform: uppercase;
-      letter-spacing: 0.18em;
-      color: rgba(222, 232, 255, 0.9);
-      margin-bottom: 4px;
-    }
-
-    .hero-title {
-      font-size: 2.1rem;
-      line-height: 1.15;
-      margin: 0 0 8px;
-      color: #ffffff;
-    }
-
-    .hero-highlight {
-      color: #9fd0ff;
-      font-weight: 650;
-    }
-
-    .hero-subtitle {
-      margin: 0 0 16px;
-      font-size: 0.98rem;
-      color: rgba(226, 233, 255, 0.96);
-      line-height: 1.6;
-    }
-
-    .hero-tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-bottom: 18px;
-    }
-
-    .hero-tag {
-      font-size: 0.78rem;
-      padding: 5px 12px;
-      border-radius: 999px;
-      background: rgba(255, 255, 255, 0.08);
-      border: 1px solid rgba(255, 255, 255, 0.3);
-      color: #f5f8ff;
-    }
-
-    .hero-actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      align-items: center;
-    }
-
-    .hero-button {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      padding: 9px 20px;
-      border-radius: 999px;
-      border: 1px solid rgba(255, 255, 255, 0.4);
-      background: linear-gradient(
-        135deg,
-        rgba(139, 199, 255, 0.9),
-        rgba(70, 140, 255, 0.9)
-      );
-      color: #02101f;
-      text-decoration: none;
-      font-weight: 600;
-      font-size: 0.9rem;
-      box-shadow: 0 16px 38px rgba(0, 0, 0, 0.55);
-      cursor: pointer;
-      transition:
-        transform 0.18s ease,
-        box-shadow 0.18s ease,
-        background 0.2s ease;
-    }
-
-    .hero-button span.icon {
-      font-size: 1rem;
-    }
-
-    .hero-button:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 20px 45px rgba(0, 0, 0, 0.65);
-      background: linear-gradient(
-        135deg,
-        rgba(165, 210, 255, 1),
-        rgba(100, 160, 255, 1)
-      );
-    }
-
-    .hero-secondary {
-      font-size: 0.82rem;
-      color: rgba(225, 233, 255, 0.9);
-    }
-
-    .hero-secondary span {
-      opacity: 0.9;
-    }
-
-    .hero-stats {
-      flex: 0 1 270px;
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-    }
-
-    .hero-stat-card {
-      background: rgba(255, 255, 255, 0.10);
-      border-radius: 20px;
-      border: 1px solid rgba(255, 255, 255, 0.25);
-      box-shadow: 0 14px 34px rgba(0, 0, 0, 0.55);
-      padding: 12px 16px 13px;
-      backdrop-filter: blur(22px);
-      -webkit-backdrop-filter: blur(22px);
-      font-size: 0.86rem;
-      color: #f4f7ff;
-    }
-
-    .hero-stat-label {
-      color: rgba(221, 230, 255, 0.9);
-      font-size: 0.78rem;
-      margin-bottom: 4px;
-    }
-
-    .hero-stat-main {
-      font-weight: 600;
-      font-size: 0.95rem;
-    }
-
-    .hero-stat-sub {
-      font-size: 0.75rem;
-      color: #c0cfef;
-    }
-
-    /* ================== CONTENU PRINCIPAL ================== */
+    /* ============ CONTENU SOUS LE HERO ============ */
 
     main {
-      padding: 40px 20px 60px;
-      margin-top: 0;
-    }
-
-    /* Intro en bulle glass */
-
-    .intro {
-      max-width: 960px;
-      margin: 0 auto 32px;
-      padding: 0 10px;
-    }
-
-    .intro-card {
-      background: var(--glass-bg);
-      border-radius: 26px;
-      border: 1px solid var(--glass-border);
-      box-shadow: var(--glass-shadow);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      padding: 22px 26px 24px;
-      text-align: center;
-    }
-
-    .intro-title {
-      font-size: 1.8rem;
-      margin-bottom: 8px;
-      color: var(--apam-blue);
-    }
-
-    .intro p {
-      margin: 0;
-      line-height: 1.7;
-      font-size: 0.98rem;
-      color: var(--text-soft);
-    }
-
-    /* Capsules */
-
-    .pill-section {
       max-width: 1100px;
-      margin: 0 auto 32px;
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 16px;
+      margin: 40px auto 60px;
+      padding: 0 20px 40px;
     }
 
-    .pill-card {
+    .section-card {
       background: var(--glass-bg);
-      border-radius: 22px;
+      border-radius: 24px;
       border: 1px solid var(--glass-border);
       box-shadow: var(--glass-shadow);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      padding: 14px 16px 16px;
-      display: flex;
-      align-items: flex-start;
-      gap: 10px;
-      font-size: 0.9rem;
-      color: var(--text-soft);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      padding: 24px 26px 26px;
+      margin-top: -40px; /* remonte un peu sous le hero */
+      position: relative;
+      z-index: 1;
     }
 
-    .pill-icon {
-      width: 28px;
-      height: 28px;
-      border-radius: 999px;
-      background: rgba(74, 163, 255, 0.13);
-      color: var(--apam-blue);
+    .section-tag {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: #7a859c;
+      margin-bottom: 6px;
+    }
+
+    .home-intro-header {
       display: flex;
       align-items: center;
-      justify-content: center;
-      font-size: 1.1rem;
+      gap: 10px;
+      margin-bottom: 10px;
     }
 
-    .pill-title {
-      font-size: 0.95rem;
-      color: var(--apam-blue);
-      font-weight: 600;
-      margin-bottom: 2px;
-    }
-
-    /* Cartes "Découvrir le club" */
-
-    .cards-section {
-      max-width: 1100px;
-      margin: 0 auto 40px;
-    }
-
-    .cards-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: baseline;
-      gap: 16px;
-      margin-bottom: 14px;
-    }
-
-    .cards-header h2 {
+    .home-intro-header h1 {
       margin: 0;
-      font-size: 1.4rem;
+      font-size: 1.9rem;
       color: var(--apam-blue);
     }
 
-    .cards-header p {
-      margin: 0;
-      font-size: 0.9rem;
+    .home-intro-header span.emoji {
+      font-size: 1.7rem;
+    }
+
+    .home-intro-lead {
+      margin: 0 0 10px;
       color: var(--text-soft);
+      max-width: 720px;
     }
 
-    .cards {
+    .home-intro-note {
+      font-size: 0.9rem;
+      color: #7a859c;
+      margin: 0;
+    }
+
+    .home-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
       gap: 18px;
+      margin-top: 22px;
     }
 
-    .card {
-      position: relative;
-      border-radius: 22px;
-      overflow: hidden;
-      cursor: pointer;
-      text-decoration: none;
-      color: inherit;
+    .home-card {
       background: #ffffff;
-      border: 1px solid rgba(10, 40, 80, 0.08);
-      box-shadow: 0 10px 26px rgba(0, 0, 0, 0.1);
+      border-radius: 18px;
+      border: 1px solid rgba(15, 35, 70, 0.07);
+      padding: 14px 16px 16px;
+      box-shadow: 0 10px 22px rgba(3, 16, 35, 0.06);
       display: flex;
       flex-direction: column;
-      min-height: 220px;
-      transition:
-        transform 0.24s ease,
-        box-shadow 0.24s ease,
-        border-color 0.24s ease;
+      gap: 6px;
     }
 
-    .card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.16);
-      border-color: rgba(74, 163, 255, 0.65);
+    .home-card-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 4px;
     }
 
-    .card-img-wrap {
-      position: relative;
-      height: 170px;
-      overflow: hidden;
+    .home-card-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 999px;
+      background: rgba(74, 163, 255, 0.14);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      font-size: 1.3rem;
     }
 
-    .card img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-      filter: saturate(1.05);
-      transition: transform 0.45s ease, filter 0.3s ease;
+    .home-card-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--apam-blue);
     }
 
-    .card:hover img {
-      transform: scale(1.06);
-      filter: saturate(1.2);
+    .home-card p {
+      margin: 0;
+      color: var(--text-soft);
+      font-size: 0.92rem;
     }
 
-    .card-gradient {
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(
-        to top,
-        rgba(0, 0, 0, 0.55),
-        transparent 55%
-      );
-    }
-
-    .card-label {
-      position: absolute;
-      left: 12px;
-      bottom: 10px;
+    .home-card-link {
+      margin-top: 8px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--apam-blue-soft);
+      text-decoration: none;
       display: inline-flex;
       align-items: center;
-      gap: 8px;
-      padding: 6px 12px;
-      border-radius: 999px;
-      background: rgba(0, 0, 0, 0.55);
-      color: #ffffff;
-      font-size: 0.8rem;
-      font-weight: 600;
+      gap: 4px;
     }
 
-    .card-label-icon {
-      font-size: 1rem;
+    .home-card-link span.arrow {
+      font-size: 0.95rem;
     }
 
-    .card-body {
-      padding: 12px 14px 13px;
-      font-size: 0.9rem;
-      color: var(--text-soft);
-    }
-
-    .card-body-title {
-      font-size: 0.98rem;
-      color: var(--apam-blue);
-      margin-bottom: 4px;
-      font-weight: 600;
-    }
-
-    /* ================== ICÔNES RÉSEAUX FLOTTANTES ================== */
+    /* ============ RÉSEAUX FLOTTANTS ============ */
 
     .social-floating {
       position: fixed;
@@ -570,58 +299,47 @@
       display: flex;
       flex-direction: column;
       gap: 10px;
-      z-index: 50;
+      z-index: 40;
     }
 
-    .social-floating a {
-      display: inline-flex;
+    .social-pill {
+      width: 38px;
+      height: 38px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.94);
+      border: 1px solid rgba(6, 32, 55, 0.12);
+      display: flex;
       align-items: center;
       justify-content: center;
-      padding: 8px;
-      border-radius: 999px;
-      background: rgba(255, 255, 255, 0.12);
-      border: 1px solid rgba(255, 255, 255, 0.35);
-      backdrop-filter: blur(14px);
-      -webkit-backdrop-filter: blur(14px);
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+      box-shadow: 0 10px 24px rgba(3, 16, 35, 0.22);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
       transition:
-        transform 0.18s ease,
-        box-shadow 0.18s ease,
-        background 0.2s ease,
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
         border-color 0.2s ease;
     }
 
-    .social-floating a img {
-      width: 22px;
-      height: 22px;
+    .social-pill img {
+      width: 18px;
+      height: 18px;
       display: block;
-      filter: invert(1) brightness(100%);
-      opacity: 0.9;
-      transition:
-        opacity 0.2s ease,
-        filter 0.2s ease,
-        transform 0.2s ease;
+      filter: invert(0.1) brightness(0.2);
     }
 
-    .social-floating a:hover {
+    .social-pill:hover {
       transform: translateY(-2px);
-      box-shadow: 0 12px 26px rgba(0, 0, 0, 0.35);
-      background: rgba(255, 255, 255, 0.18);
-      border-color: rgba(255, 255, 255, 0.7);
+      box-shadow: 0 14px 28px rgba(3, 16, 35, 0.3);
+      border-color: rgba(74, 163, 255, 0.8);
     }
 
-    .social-floating a:hover img {
-      opacity: 1;
-      filter: invert(1) brightness(140%);
-    }
-
-    /* ================== FOOTER (Liquid Glass) ================== */
+    /* ============ FOOTER ============ */
 
     .site-footer {
-      background: transparent;
+      background: #ffffff;
       color: var(--apam-blue);
-      padding: 40px 20px 24px;
-      margin-top: 40px;
+      padding: 40px 20px 20px;
+      border-top: 1px solid rgba(6, 32, 55, 0.12);
     }
 
     .footer-content {
@@ -632,14 +350,6 @@
       align-items: flex-start;
       flex-wrap: wrap;
       gap: 32px;
-
-      background: var(--glass-bg);
-      border-radius: 24px;
-      border: 1px solid var(--glass-border);
-      box-shadow: var(--glass-shadow);
-      backdrop-filter: blur(18px);
-      -webkit-backdrop-filter: blur(18px);
-      padding: 22px 24px 20px;
     }
 
     .footer-brand {
@@ -676,8 +386,6 @@
       opacity: 0.82;
       margin-bottom: 6px;
       font-size: 0.9rem;
-      text-decoration: none;
-      transition: opacity 0.2s ease;
     }
 
     .footer-column a:hover {
@@ -686,59 +394,45 @@
 
     .copyright {
       text-align: center;
-      margin-top: 18px;
+      margin-top: 26px;
       opacity: 0.7;
       font-size: 0.82rem;
     }
 
-    /* ================== RESPONSIVE ================== */
+    /* ============ RESPONSIVE ============ */
 
     @media (max-width: 900px) {
-      .hero {
-        min-height: 0;
-        height: auto;
-        padding: 32px 18px 40px;
-      }
-
-      .hero-inner {
-        flex-direction: column;
-        margin-top: 60px;
-      }
-
-      .hero-card,
-      .hero-stats {
-        width: 100%;
-      }
-    }
-
-    @media (max-width: 768px) {
       header {
-        padding: 10px 12px;
+        padding: 10px 18px;
       }
 
-      .header-inner {
-        padding: 6px 10px;
+      header.scrolled {
+        padding: 8px 16px;
       }
 
       .main-nav {
         position: absolute;
-        top: 64px;
-        right: 16px;
-        left: 16px;
+        top: 100%;
+        right: 18px;
+        left: 18px;
+        margin-top: 10px;
         flex-direction: column;
         align-items: flex-start;
-        padding: 10px 10px 12px;
-        border-radius: 18px;
-        background: #ffffff;
-        border: 1px solid rgba(6, 32, 55, 0.12);
-        box-shadow: 0 18px 40px rgba(0, 0, 0, 0.12);
+        padding: 12px 14px;
+        border-radius: 14px;
+        background: rgba(3, 16, 35, 0.96);
+        box-shadow: 0 16px 40px rgba(0, 0, 0, 0.4);
         display: none;
       }
 
       .main-nav a {
-        margin: 3px 4px;
         width: 100%;
-        color: var(--apam-blue);
+        padding: 8px 4px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      }
+
+      .main-nav a:last-child {
+        border-bottom: none;
       }
 
       .main-nav.open {
@@ -750,13 +444,21 @@
         align-items: center;
         justify-content: center;
       }
+    }
 
-      .hero-title {
-        font-size: 1.7rem;
+    @media (max-width: 768px) {
+      main {
+        margin-top: 0;
+        padding-bottom: 30px;
       }
 
-      .intro {
-        padding: 0 8px;
+      .section-card {
+        margin-top: -20px;
+        padding: 20px 18px 22px;
+      }
+
+      .home-intro-header h1 {
+        font-size: 1.6rem;
       }
 
       .social-floating {
@@ -766,32 +468,23 @@
       .footer-content {
         flex-direction: column;
         align-items: flex-start;
-        padding: 16px 18px 14px;
-        gap: 18px;
-      }
-
-      .site-footer {
-        padding: 24px 16px 18px;
-        margin-top: 24px;
-      }
-
-      .copyright {
-        margin-top: 12px;
       }
     }
   </style>
 </head>
 <body>
   <!-- ============ HEADER ============ -->
-  <header>
+  <header id="siteHeader">
     <div class="header-inner">
-      <img src="apam-logo.png" alt="Logo APAM" class="logo" />
+      <a href="index.html" aria-label="Retour à l’accueil APAM">
+        <img src="apam-logo.png" alt="Logo APAM" class="logo" />
+      </a>
 
       <button class="menu-toggle" aria-label="Ouvrir le menu">Menu</button>
 
       <nav class="main-nav">
         <a href="index.html" class="active">Accueil</a>
-        <a href="apropos.html">À propos</a>
+        <a href="#">À propos</a>
         <a href="activite.html">Activité</a>
         <a href="tarifs.html">Tarif</a>
         <a href="espace-membres.html">Membres</a>
@@ -801,166 +494,90 @@
     </div>
   </header>
 
-  <!-- ============ HERO ============ -->
-  <section class="hero">
-    <div class="hero-inner reveal visible">
-      <div class="hero-card">
-        <div class="hero-eyebrow">Aéroclub APAM</div>
-        <h1 class="hero-title">
-          L’aéroclub de
-          <span class="hero-highlight">L’Aigle Saint-Michel</span>
-        </h1>
-        <p class="hero-subtitle">
-          Formations, vols découverte et voyages entre passionnés, dans un cadre convivial
-          et professionnel sur la plateforme de L’Aigle Saint-Michel.
-        </p>
+  <!-- ============ HERO SLIDER FULLSCREEN ============ -->
+  <section class="hero-slider" aria-label="Photos d’avions du club et de l’aviation légère">
+    <!-- 4 slides – tu pourras remplacer les URLs plus tard par tes propres photos -->
+    <div class="hero-slide active" style="
+      background-image:url('https://images.pexels.com/photos/210199/pexels-photo-210199.jpeg?auto=compress&cs=tinysrgb&w=1600');
+    "></div>
+    <div class="hero-slide" style="
+      background-image:url('https://images.pexels.com/photos/912050/pexels-photo-912050.jpeg?auto=compress&cs=tinysrgb&w=1600');
+    "></div>
+    <div class="hero-slide" style="
+      background-image:url('https://images.pexels.com/photos/3769/sky-clouds-blue-horizon.jpg?auto=compress&cs=tinysrgb&w=1600');
+    "></div>
+    <div class="hero-slide" style="
+      background-image:url('https://images.pexels.com/photos/46148/airplane-aircraft-take-off-sky-46148.jpeg?auto=compress&cs=tinysrgb&w=1600');
+    "></div>
 
-        <div class="hero-tags">
-          <span class="hero-tag">Vols découverte</span>
-          <span class="hero-tag">Formation PPL / LAPL</span>
-          <span class="hero-tag">Voyages club</span>
-        </div>
-
-        <div class="hero-actions">
-          <a href="activite.html" class="hero-button">
-            <span class="icon">✈️</span>
-            <span>Découvrir le club</span>
-          </a>
-          <div class="hero-secondary">
-            <span>Ou contactez le club pour en savoir plus.</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="hero-stats">
-        <div class="hero-stat-card">
-          <div class="hero-stat-label">Notre flotte</div>
-          <div class="hero-stat-main">Avions école & voyage</div>
-          <div class="hero-stat-sub">
-            Idéal pour l’instruction, le perfectionnement et les balades aériennes.
-          </div>
-        </div>
-        <div class="hero-stat-card">
-          <div class="hero-stat-label">Activités du club</div>
-          <div class="hero-stat-main">Voyages, rallyes & événements</div>
-          <div class="hero-stat-sub">
-            Une communauté de pilotes pour partager des projets de vols en France et à
-            l’étranger.
-          </div>
-        </div>
-      </div>
-    </div>
+    <div class="hero-overlay-gradient"></div>
   </section>
 
-  <!-- ============ CONTENU ============ -->
+  <!-- ============ CONTENU PRINCIPAL ============ -->
   <main>
-    <!-- Intro en bulle -->
-    <section class="intro reveal">
-      <div class="intro-card">
-        <h2 class="intro-title">Bienvenue à l’APAM</h2>
-        <p>
-          L’APAM est un aéroclub dédié aux passionnés d’aviation légère. Que vous souhaitiez
-          découvrir le vol, apprendre à piloter ou simplement rejoindre une communauté de
-          pilotes, notre équipe vous accompagne dans un environnement convivial et sécurisé.
-        </p>
+    <section class="section-card">
+      <p class="section-tag">Bienvenue à l’aéroclub</p>
+      <div class="home-intro-header">
+        <span class="emoji">✈️</span>
+        <h1>APAM L’Aigle Saint-Michel</h1>
       </div>
-    </section>
+      <p class="home-intro-lead">
+        L’APAM est un <strong>aéroclub associatif</strong> basé à L’Aigle Saint-Michel,
+        qui rassemble élèves pilotes, pilotes brevetés et passionnés d’aviation
+        autour d’une flotte d’avions école et de voyage.
+      </p>
+      <p class="home-intro-note">
+        Découvrez nos activités, la flotte du club, les modalités de formation et les
+        possibilités de vols découverte pour vous ou vos proches.
+      </p>
 
-    <!-- Petites "capsules" -->
-    <section class="pill-section">
-      <article class="pill-card reveal reveal-delay-1">
-        <div class="pill-icon">🎓</div>
-        <div>
-          <div class="pill-title">Formation & progression</div>
+      <div class="home-grid">
+        <article class="home-card">
+          <div class="home-card-header">
+            <div class="home-card-icon">🧭</div>
+            <div class="home-card-title">Découvrir l’APAM</div>
+          </div>
           <p>
-            Du premier vol aux navigations, les instructeurs vous guident pas à pas vers
-            l’autonomie.
+            Envie de faire vos premiers pas dans l’aviation légère&nbsp;? L’aéroclub vous
+            accueille pour visiter les installations, rencontrer les membres et découvrir
+            les avions du club.
           </p>
-        </div>
-      </article>
+          <a class="home-card-link" href="activite.html">
+            Voir les activités
+            <span class="arrow">↗</span>
+          </a>
+        </article>
 
-      <article class="pill-card reveal reveal-delay-2">
-        <div class="pill-icon">🌍</div>
-        <div>
-          <div class="pill-title">Voyages & esprit club</div>
+        <article class="home-card">
+          <div class="home-card-header">
+            <div class="home-card-icon">🎓</div>
+            <div class="home-card-title">Devenir pilote</div>
+          </div>
           <p>
-            Sorties à la journée, week-ends et voyages plus lointains organisés avec les
-            membres.
+            L’APAM propose la formation <strong>LAPL</strong> et <strong>PPL</strong>,
+            ainsi que le vol de nuit et des formations de perfectionnement sur Cirrus
+            et TB200.
           </p>
-        </div>
-      </article>
+          <a class="home-card-link" href="activite.html">
+            En savoir plus sur la formation
+            <span class="arrow">↗</span>
+          </a>
+        </article>
 
-      <article class="pill-card reveal reveal-delay-3">
-        <div class="pill-icon">🛩️</div>
-        <div>
-          <div class="pill-title">Flotte entretenue</div>
+        <article class="home-card">
+          <div class="home-card-header">
+            <div class="home-card-icon">🌤️</div>
+            <div class="home-card-title">Vols découverte</div>
+          </div>
           <p>
-            Des avions régulièrement suivis et équipés pour une pratique sereine du vol de
-            loisir.
+            Offrez ou offrez-vous un <strong>baptême de l’air</strong> au-dessus de la
+            région, accompagné d’un pilote du club, au départ de L’Aigle Saint-Michel.
           </p>
-        </div>
-      </article>
-    </section>
-
-    <!-- Cartes "Notre flotte / Où nous trouver / Nos installations" -->
-    <section class="cards-section reveal">
-      <div class="cards-header">
-        <h2>Découvrir le club</h2>
-        <p>Un aperçu rapide de ce que vous trouverez à l’APAM.</p>
-      </div>
-
-      <div class="cards">
-        <a href="flotte.html" class="card reveal reveal-delay-1">
-          <div class="card-img-wrap">
-            <img src="https://picsum.photos/800/500?random=11" alt="Notre flotte" />
-            <div class="card-gradient"></div>
-            <div class="card-label">
-              <span class="card-label-icon">✈️</span>
-              <span>Notre flotte</span>
-            </div>
-          </div>
-          <div class="card-body">
-            <div class="card-body-title">Avions école & voyage</div>
-            <p>
-              Découvrez les machines de l’aéroclub, leurs caractéristiques et leur
-              disponibilité.
-            </p>
-          </div>
-        </a>
-
-        <a href="localisation.html" class="card reveal reveal-delay-2">
-          <div class="card-img-wrap">
-            <img src="https://picsum.photos/800/500?random=12" alt="Où nous trouver" />
-            <div class="card-gradient"></div>
-            <div class="card-label">
-              <span class="card-label-icon">📍</span>
-              <span>Où nous trouver</span>
-            </div>
-          </div>
-          <div class="card-body">
-            <div class="card-body-title">Aérodrome de L’Aigle Saint-Michel</div>
-            <p>
-              Coordonnées, plan d’accès et informations pratiques pour venir au club.
-            </p>
-          </div>
-        </a>
-
-        <a href="installations.html" class="card reveal reveal-delay-3">
-          <div class="card-img-wrap">
-            <img src="https://picsum.photos/800/500?random=13" alt="Nos installations" />
-            <div class="card-gradient"></div>
-            <div class="card-label">
-              <span class="card-label-icon">🏠</span>
-              <span>Nos installations</span>
-            </div>
-          </div>
-          <div class="card-body">
-            <div class="card-body-title">Locaux & vie du club</div>
-            <p>
-              Briefing, salle de cours, club-house : découvrez le quotidien de l’APAM.
-            </p>
-          </div>
-        </a>
+          <a class="home-card-link" href="activite.html">
+            Infos vols découverte
+            <span class="arrow">↗</span>
+          </a>
+        </article>
       </div>
     </section>
   </main>
@@ -968,13 +585,19 @@
   <!-- ============ RÉSEAUX FLOTTANTS ============ -->
   <div class="social-floating">
     <a href="https://www.instagram.com/_cauvin_" target="_blank" aria-label="Instagram">
-      <img src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/instagram.svg" alt="Instagram" />
+      <div class="social-pill">
+        <img src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/instagram.svg" alt="Instagram" />
+      </div>
     </a>
     <a href="https://www.youtube.com/@DRONORD18" target="_blank" aria-label="YouTube">
-      <img src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/youtube.svg" alt="YouTube" />
+      <div class="social-pill">
+        <img src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/youtube.svg" alt="YouTube" />
+      </div>
     </a>
     <a href="https://www.tiktok.com/@toncompte" target="_blank" aria-label="TikTok">
-      <img src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/tiktok.svg" alt="TikTok" />
+      <div class="social-pill">
+        <img src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/tiktok.svg" alt="TikTok" />
+      </div>
     </a>
   </div>
 
@@ -994,9 +617,9 @@
         <a href="index.html">Accueil</a>
         <a href="#">À propos</a>
         <a href="activite.html">Activité</a>
-        <a href="#">Tarif</a>
+        <a href="tarifs.html">Tarif</a>
         <a href="espace-membres.html">Membres</a>
-        <a href="#">Contact</a>
+        <a href="contact.html">Contact</a>
         <a href="https://openflyers.com/apam/" target="_blank">OpenFlyer</a>
       </div>
 
@@ -1013,35 +636,40 @@
     </p>
   </footer>
 
-  <!-- ============ SCRIPT MENU MOBILE + ANIMATIONS ============ -->
+  <!-- ============ SCRIPTS ============ -->
   <script>
+    // Menu mobile
     const menuToggle = document.querySelector(".menu-toggle");
     const nav = document.querySelector(".main-nav");
 
-    menuToggle.addEventListener("click", () => {
-      nav.classList.toggle("open");
-    });
+    if (menuToggle && nav) {
+      menuToggle.addEventListener("click", () => {
+        nav.classList.toggle("open");
+      });
+    }
 
-    // Animations au scroll
-    const revealedElements = document.querySelectorAll(".reveal");
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("visible");
-            observer.unobserve(entry.target);
-          }
-        });
-      },
-      {
-        threshold: 0.15,
+    // Header transparent -> sombre au scroll
+    const header = document.getElementById("siteHeader");
+    window.addEventListener("scroll", () => {
+      if (window.scrollY > 40) {
+        header.classList.add("scrolled");
+      } else {
+        header.classList.remove("scrolled");
       }
-    );
-
-    revealedElements.forEach((el) => {
-      observer.observe(el);
     });
+
+    // Slider simple
+    const slides = document.querySelectorAll(".hero-slide");
+    let currentSlide = 0;
+
+    function showNextSlide() {
+      if (!slides.length) return;
+      slides[currentSlide].classList.remove("active");
+      currentSlide = (currentSlide + 1) % slides.length;
+      slides[currentSlide].classList.add("active");
+    }
+
+    setInterval(showNextSlide, 6000); // toutes les 6 secondes
   </script>
 </body>
 </html>
