@@ -61,6 +61,18 @@
       color: #7a859c;
     }
 
+    /* Surlignage "Stabilo" pour les chiffres */
+
+    .marker {
+      display: inline-block;
+      padding: 1px 6px;
+      border-radius: 6px;
+      background: rgba(74, 163, 255, 0.2);
+      box-shadow: 0 0 0 1px rgba(74, 163, 255, 0.35);
+      color: var(--apam-blue);
+      font-weight: 700;
+    }
+
     /* Animations scroll */
 
     .reveal {
@@ -1025,7 +1037,6 @@
                 <div class="aircraft-badge">Tarifs horaires</div>
               </div>
 
-              <!-- À TOI DE METTRE LES VRAIS MONTANTS -->
               <div class="tarif-grid">
                 <div class="tarif-label">
                   <strong>Breveté</strong><br />
@@ -1281,16 +1292,16 @@
     );
     revealElements.forEach((el) => observer.observe(el));
 
-    // Données fiches avions
+    // Données fiches avions avec surlignage
     const aircraftData = {
       c152: {
         title: "Cessna 152 – F-GHKE",
         subtitle: "Avion école biplace – formation de base",
-        engine: "Lycoming O-235 (environ 110 ch)",
-        power: "110 ch",
-        cruise: "90–95 kt",
-        range: "Environ 4 h de vol",
-        seats: "2 places",
+        engine: "Lycoming O-235",
+        power: "<span class=\"marker\">110&nbsp;ch</span>",
+        cruise: "Environ <span class=\"marker\">90–95&nbsp;kt</span>",
+        range: "≈ <span class=\"marker\">4&nbsp;h</span> de vol",
+        seats: "<span class=\"marker\">2</span> places",
         use: "École, vol local, premiers solos",
         note: "Avion idéal pour débuter la formation, robuste et pédagogique. Utilisé pour la majorité de l’instruction de base au club."
       },
@@ -1298,10 +1309,10 @@
         title: "SOCATA TB200 – F-GSZA",
         subtitle: "Avion de voyage 4 places – hélice à pas variable",
         engine: "Lycoming O-360",
-        power: "Environ 200 ch",
-        cruise: "120–130 kt",
-        range: "Environ 4 h 30 de vol",
-        seats: "4 places",
+        power: "Environ <span class=\"marker\">200&nbsp;ch</span>",
+        cruise: "Environ <span class=\"marker\">120–130&nbsp;kt</span>",
+        range: "≈ <span class=\"marker\">4&nbsp;h&nbsp;30</span> de vol",
+        seats: "<span class=\"marker\">4</span> places",
         use: "Voyage, navigations club, perfectionnement VP",
         note: "Avion confortable et performant, permettant des navigations plus longues et la formation à la gestion de l’hélice à pas variable."
       },
@@ -1309,10 +1320,10 @@
         title: "Cirrus SR20",
         subtitle: "Avion moderne 4 places – avionique “verre”",
         engine: "Continental IO-360",
-        power: "Environ 200 ch",
-        cruise: "140–150 kt",
-        range: "Environ 4 h de vol",
-        seats: "4 places",
+        power: "Environ <span class=\"marker\">200&nbsp;ch</span>",
+        cruise: "Environ <span class=\"marker\">140–150&nbsp;kt</span>",
+        range: "≈ <span class=\"marker\">4&nbsp;h</span> de vol",
+        seats: "<span class=\"marker\">4</span> places",
         use: "Voyage, sorties club, navigation IFR possible selon équipement",
         note: "Avion moderne équipé d’une avionique avancée. Idéal pour les voyages confortables et la découverte des cockpits « verre »."
       }
@@ -1340,12 +1351,12 @@
       oTitle.textContent = data.title;
       oSubtitle.textContent = data.subtitle;
       oEngine.textContent = data.engine;
-      oPower.textContent = data.power;
-      oCruise.textContent = data.cruise;
-      oRange.textContent = data.range;
-      oSeats.textContent = data.seats;
+      oPower.innerHTML = data.power;
+      oCruise.innerHTML = data.cruise;
+      oRange.innerHTML = data.range;
+      oSeats.innerHTML = data.seats;
       oUse.textContent = data.use;
-      oNote.textContent = data.note;
+      oNote.innerHTML = data.note;
 
       overlay.classList.add("active");
     }
