@@ -42,7 +42,7 @@
       line-height: 1.7;
     }
 
-    /* ===== HEADER PREMIUM STYLE ASTONFLY (agrandi) ===== */
+    /* ===== HEADER ===== */
 
     header {
       position: fixed;
@@ -163,15 +163,13 @@
       pointer-events: none;
     }
 
-    /* ============ CONTENU PRINCIPAL ============ */
+    /* ============ CONTENU PRINCIPAL (intro) ============ */
 
     main {
-      max-width: 1100px;
+      max-width: 1400px;          /* même largeur que les cartes du bas */
       margin: 40px auto 60px;
-      padding: 0 20px 40px;
+      padding: 0 24px 40px;       /* même padding horizontal que home-links */
     }
-
-    /* Bloc intro APAM seul */
 
     .section-card {
       background: var(--glass-bg);
@@ -181,10 +179,18 @@
       backdrop-filter: blur(18px);
       -webkit-backdrop-filter: blur(18px);
       padding: 22px 24px 24px;
-      /* AVANT: margin-top: -40px;  -> on enlève le collage */
       margin-top: 24px;
       position: relative;
       z-index: 1;
+    }
+
+    /* Intro centrée */
+    .section-card-intro {
+      text-align: center;
+    }
+
+    .section-card-intro .section-tag {
+      justify-content: center;
     }
 
     .section-tag {
@@ -193,6 +199,16 @@
       letter-spacing: 0.12em;
       color: #7a859c;
       margin-bottom: 6px;
+      display: flex;
+      gap: 6px;
+      align-items: center;
+    }
+
+    .section-tag-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      background: var(--apam-blue-soft);
     }
 
     .home-intro-header {
@@ -200,6 +216,10 @@
       align-items: center;
       gap: 10px;
       margin-bottom: 8px;
+    }
+
+    .section-card-intro .home-intro-header {
+      justify-content: center;
     }
 
     .home-intro-header h1 {
@@ -212,39 +232,35 @@
       font-size: 1.7rem;
     }
 
-    .home-intro-lead {
-      margin: 0 0 8px;
-      color: var(--text-soft);
+    .home-intro-lead,
+    .home-intro-note {
+      margin-left: auto;
+      margin-right: auto;
       max-width: 720px;
+    }
+
+    .home-intro-lead {
+      margin-top: 4px;
+      margin-bottom: 8px;
+      color: var(--text-soft);
     }
 
     .home-intro-note {
       font-size: 0.9rem;
       color: #7a859c;
-      margin: 0;
+      margin-top: 0;
     }
 
-    /* ===== 3 GRANDES CARTES PLEINE LARGEUR (desktop) ===== */
+    /* ===== 3 GRANDES CARTES ===== */
 
-    /* Section qui sort du container central pour aller bord à bord (avec marge) */
     .home-links-section {
       margin-top: 32px;
-
-      /* on force plein écran horizontal */
-      width: 100vw;
-      position: relative;
-      left: 50%;
-      right: 50%;
-      margin-left: calc(50% - 50vw);
-      margin-right: calc(50% - 50vw);
-
-      padding: 0 40px; /* marges à gauche/droite de la fenêtre */
-      box-sizing: border-box;
+      padding: 0 24px 40px;
     }
 
     .home-links-grid {
-      max-width: 1400px;      /* pour éviter que ça explose sur écran 4K */
-      margin: 0 auto;         /* centré dans le plein écran */
+      max-width: 1400px;
+      margin: 0 auto;
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 20px;
@@ -363,23 +379,23 @@
       border-color: rgba(74, 163, 255, 0.8);
     }
 
-    /* ============ FOOTER ============ */
+    /* ============ FOOTER COMPACT ============ */
 
     .site-footer {
       background: #ffffff;
       color: var(--apam-blue);
-      padding: 40px 20px 20px;
+      padding: 24px 24px 14px;
       border-top: 1px solid rgba(6, 32, 55, 0.12);
     }
 
     .footer-content {
-      max-width: 1100px;
+      max-width: 1400px;
       margin: 0 auto;
       display: flex;
       justify-content: space-between;
       align-items: flex-start;
       flex-wrap: wrap;
-      gap: 32px;
+      gap: 24px;
     }
 
     .footer-brand {
@@ -388,45 +404,81 @@
     }
 
     .footer-logo {
-      height: 40px;
+      height: 36px;
       display: block;
-      margin-bottom: 10px;
+      margin-bottom: 8px;
     }
 
     .footer-brand p {
-      font-size: 0.9rem;
+      font-size: 0.88rem;
       opacity: 0.85;
+      margin: 0;
+    }
+
+    .footer-columns {
+      display: flex;
+      flex: 2 1 320px;
+      gap: 32px;
+      justify-content: flex-end;
     }
 
     .footer-column {
-      flex: 1 1 180px;
-      min-width: 180px;
+      min-width: 170px;
     }
 
     .footer-column h4 {
-      margin-bottom: 10px;
-      font-size: 1rem;
-      border-bottom: 1px solid rgba(6, 32, 55, 0.15);
-      padding-bottom: 5px;
+      margin: 0 0 8px;
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 0.13em;
+      font-weight: 700;
+      color: var(--apam-blue-soft);
     }
 
+    /* Plan du site en grille 2 colonnes / max 3 lignes */
+    .footer-links-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 4px 18px;
+    }
+
+    .footer-links-grid a,
     .footer-column a {
       display: block;
       color: var(--apam-blue);
-      opacity: 0.82;
-      margin-bottom: 6px;
+      opacity: 0.8;
       font-size: 0.9rem;
+      margin: 0;
+      padding: 1px 0;
+      transition: opacity 0.2s ease;
     }
 
+    .footer-links-grid a:hover,
     .footer-column a:hover {
       opacity: 1;
     }
 
-    .copyright {
-      text-align: center;
-      margin-top: 26px;
-      opacity: 0.7;
+    .footer-bottom {
+      max-width: 1400px;
+      margin: 10px auto 0;
+      padding-top: 8px;
+      border-top: 1px solid rgba(6, 32, 55, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
       font-size: 0.82rem;
+      color: rgba(6, 32, 55, 0.75);
+    }
+
+    .footer-bottom a {
+      font-weight: 600;
+      text-decoration: none;
+      border-bottom: 1px solid transparent;
+    }
+
+    .footer-bottom a:hover {
+      border-bottom-color: rgba(6, 32, 55, 0.4);
     }
 
     /* ============ RESPONSIVE ============ */
@@ -475,16 +527,23 @@
       }
 
       .home-links-section {
-        width: 100%;
-        left: 0;
-        margin-left: 0;
-        margin-right: 0;
-        padding: 0 20px;
+        padding: 0 20px 30px;
       }
 
       .home-links-grid {
         max-width: 1100px;
         grid-template-columns: 1fr;
+      }
+
+      .footer-columns {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 18px;
+      }
+
+      .footer-bottom {
+        flex-direction: column;
+        align-items: flex-start;
       }
     }
 
@@ -505,11 +564,6 @@
 
       .social-floating {
         right: 10px;
-      }
-
-      .footer-content {
-        flex-direction: column;
-        align-items: flex-start;
       }
     }
   </style>
@@ -556,9 +610,11 @@
 
   <!-- ============ CONTENU PRINCIPAL ============ -->
   <main>
-    <!-- Bloc APAM SEUL -->
-    <section class="section-card">
-      <p class="section-tag">Bienvenue à l’aéroclub</p>
+    <section class="section-card section-card-intro">
+      <p class="section-tag">
+        <span class="section-tag-dot"></span>
+        <span>Bienvenue à l’aéroclub de L’Aigle Saint-Michel</span>
+      </p>
       <div class="home-intro-header">
         <span class="emoji">✈️</span>
         <h1>APAM L’Aigle Saint-Michel</h1>
@@ -575,10 +631,9 @@
     </section>
   </main>
 
-  <!-- 3 GRANDES CARTES PLEINE LARGEUR -->
+  <!-- 3 GRANDES CARTES -->
   <section class="home-links-section">
     <div class="home-links-grid">
-      <!-- Carte 1 : Nous trouver / contacter -->
       <a href="contact.html" class="home-link-card">
         <div class="home-link-image" style="
           background-image:url('https://images.pexels.com/photos/240040/pexels-photo-240040.jpeg?auto=compress&cs=tinysrgb&w=1600');
@@ -597,7 +652,6 @@
         </div>
       </a>
 
-      <!-- Carte 2 : Installations / flotte -->
       <a href="tarifs.html" class="home-link-card">
         <div class="home-link-image" style="
           background-image:url('https://images.pexels.com/photos/46148/airplane-aircraft-take-off-sky-46148.jpeg?auto=compress&cs=tinysrgb&w=1600');
@@ -616,7 +670,6 @@
         </div>
       </a>
 
-      <!-- Carte 3 : Activités / formations -->
       <a href="activite.html" class="home-link-card">
         <div class="home-link-image" style="
           background-image:url('https://images.pexels.com/photos/912050/pexels-photo-912050.jpeg?auto=compress&cs=tinysrgb&w=1600');
@@ -668,33 +721,36 @@
         </p>
       </div>
 
-      <div class="footer-column">
-        <h4>Plan du site</h4>
-        <a href="index.html">Accueil</a>
-        <a href="#">À propos</a>
-        <a href="activite.html">Activité</a>
-        <a href="tarifs.html">Tarif</a>
-        <a href="espace-membres.html">Membres</a>
-        <a href="contact.html">Contact</a>
-        <a href="https://openflyers.com/apam/" target="_blank">OpenFlyer</a>
-      </div>
+      <div class="footer-columns">
+        <div class="footer-column">
+          <h4>Plan du site</h4>
+          <div class="footer-links-grid">
+            <a href="index.html">Accueil</a>
+            <a href="activite.html">Activité</a>
+            <a href="tarifs.html">Tarif</a>
+            <a href="espace-membres.html">Membres</a>
+            <a href="contact.html">Contact</a>
+            <a href="https://openflyers.com/apam/" target="_blank">OpenFlyer</a>
+          </div>
+        </div>
 
-      <div class="footer-column">
-        <h4>Réseaux sociaux</h4>
-        <a href="https://www.instagram.com/_cauvin_" target="_blank">Instagram</a>
-        <a href="https://www.youtube.com/@DRONORD18" target="_blank">YouTube</a>
-        <a href="https://www.tiktok.com/@toncompte" target="_blank">TikTok</a>
+        <div class="footer-column">
+          <h4>Réseaux sociaux</h4>
+          <a href="https://www.instagram.com/_cauvin_" target="_blank">Instagram</a>
+          <a href="https://www.youtube.com/@DRONORD18" target="_blank">YouTube</a>
+          <a href="https://www.tiktok.com/@toncompte" target="_blank">TikTok</a>
+        </div>
       </div>
     </div>
 
-    <p class="copyright">
-      © 2025 APAM – Tous droits réservés.
-    </p>
+    <div class="footer-bottom">
+      <span>© 2025 APAM – Tous droits réservés.</span>
+      <span>Site réalisé par <a href="https://dronordca.github.io/" target="_blank">Dronord</a>.</span>
+    </div>
   </footer>
 
   <!-- ============ SCRIPTS ============ -->
   <script>
-    // Menu mobile
     const menuToggle = document.querySelector(".menu-toggle");
     const nav = document.querySelector(".main-nav");
 
@@ -704,7 +760,6 @@
       });
     }
 
-    // Header transparent -> sombre au scroll
     const header = document.getElementById("siteHeader");
     window.addEventListener("scroll", () => {
       if (window.scrollY > 40) {
@@ -714,7 +769,6 @@
       }
     });
 
-    // Slider simple
     const slides = document.querySelectorAll(".hero-slide");
     let currentSlide = 0;
 
@@ -725,7 +779,7 @@
       slides[currentSlide].classList.add("active");
     }
 
-    setInterval(showNextSlide, 6000); // toutes les 6 secondes
+    setInterval(showNextSlide, 6000);
   </script>
 </body>
 </html>
