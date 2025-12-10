@@ -304,15 +304,19 @@
       padding: 22px 22px 24px;
       display: flex;
       flex-direction: column;
-      gap: 20px; /* espace entre les blocs de la carte */
+      gap: 20px;
       box-shadow: 0 12px 26px rgba(3, 16, 35, 0.06);
     }
+
+    /* Image + overlay */
 
     .activity-card-image {
       border-radius: 14px;
       overflow: hidden;
       background: #000;
       margin-bottom: 4px;
+      position: relative;
+      cursor: pointer;
     }
 
     .activity-card-image img {
@@ -320,7 +324,55 @@
       width: 100%;
       height: 160px;
       object-fit: cover;
+      transition: transform 0.25s ease, filter 0.25s ease;
     }
+
+    .activity-card-image-overlay {
+      position: absolute;
+      inset: auto 0 0 0;
+      padding: 8px 12px;
+      background: linear-gradient(
+        to top,
+        rgba(3, 16, 35, 0.80),
+        rgba(3, 16, 35, 0.10)
+      );
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      opacity: 0;
+      transform: translateY(8px);
+      transition: opacity 0.25s ease, transform 0.25s ease;
+      font-size: 0.85rem;
+    }
+
+    .activity-card-image-overlay span.label {
+      font-weight: 600;
+    }
+
+    .activity-card-image-overlay span.icon {
+      font-size: 0.9rem;
+      opacity: 0.85;
+    }
+
+    .activity-card-image:hover img {
+      transform: scale(1.04);
+      filter: brightness(0.92);
+    }
+
+    .activity-card-image:hover .activity-card-image-overlay {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .activity-card-image-link {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+
+    /* Header de carte */
 
     .activity-card-header {
       display: flex;
@@ -352,6 +404,21 @@
       margin-bottom: 2px;
     }
 
+    .activity-card-title-link {
+      border: none;
+      background: none;
+      padding: 0;
+      margin: 0;
+      font: inherit;
+      color: inherit;
+      cursor: pointer;
+      text-align: left;
+    }
+
+    .activity-card-title-link:hover {
+      color: var(--accent);
+    }
+
     .card-subline {
       font-size: 0.9rem;
       color: #7a859c;
@@ -373,11 +440,13 @@
       background: #f3f5ff;
     }
 
+    /* Corps de carte */
+
     .activity-card-body {
       margin-top: 10px;
       display: grid;
       grid-template-columns: minmax(0, 1fr);
-      gap: 16px; /* gros gap entre texte & liste */
+      gap: 16px;
     }
 
     .activity-card-body p {
@@ -390,7 +459,7 @@
       padding: 0;
       list-style: none;
       display: grid;
-      gap: 10px; /* plus d’espace entre chaque puce */
+      gap: 10px;
     }
 
     .activity-card-list li {
@@ -403,6 +472,8 @@
       margin-right: 6px;
       color: var(--accent);
     }
+
+    /* Footer de carte */
 
     .activity-card-footer {
       margin-top: 20px;
@@ -429,7 +500,7 @@
       display: inline-flex;
       align-items: center;
       gap: 4px;
-      color: var(--accent); /* bien BLEU */
+      color: var(--accent);
       border-bottom: 1px solid rgba(74, 163, 255, 0.8);
       padding-bottom: 1px;
       cursor: pointer;
@@ -570,7 +641,7 @@
     }
 
     .contact-panel p {
-      margin: 0 0 14px; /* espace entre les paragraphes dans la fiche */
+      margin: 0 0 14px;
       font-size: 0.93rem;
       color: var(--text-soft);
     }
@@ -619,7 +690,7 @@
     .info-block-grid {
       display: grid;
       grid-template-columns: minmax(0, 1fr);
-      gap: 14px; /* plus d’air entre les petits blocs blancs */
+      gap: 14px;
       margin-top: 10px;
     }
 
@@ -1007,14 +1078,22 @@
         <!-- Avions -->
         <article class="activity-card">
           <div class="activity-card-image">
-            <img src="visiteurs-avions.jpg" alt="Avion de tourisme du club prêt au départ" />
+            <a href="flotte.html" class="activity-card-image-link">
+              <img src="visiteurs-avions.jpg" alt="Avion de tourisme du club prêt au départ" />
+              <div class="activity-card-image-overlay">
+                <span class="label">Voir la flotte du club</span>
+                <span class="icon">↗</span>
+              </div>
+            </a>
           </div>
           <div class="activity-card-header">
             <div class="activity-card-emoji-wrap">
               <span class="activity-card-emoji">🛩️</span>
             </div>
             <div>
-              <div class="activity-card-title">Les avions du club</div>
+              <div class="activity-card-title">
+                <a href="flotte.html">Les avions du club</a>
+              </div>
               <p class="card-subline">Un aperçu rapide de la flotte APAM.</p>
             </div>
           </div>
@@ -1043,15 +1122,29 @@
 
         <!-- Organigramme -->
         <article class="activity-card">
-          <div class="activity-card-image">
-            <img src="visiteurs-organigramme.jpg" alt="Membres du bureau et instructeurs" />
+          <div class="activity-card-image contact-trigger" data-contact="organigramme">
+            <div class="activity-card-image-link">
+              <img src="visiteurs-organigramme.jpg" alt="Membres du bureau et instructeurs" />
+              <div class="activity-card-image-overlay">
+                <span class="label">Ouvrir la fiche “Vie du club”</span>
+                <span class="icon">↗</span>
+              </div>
+            </div>
           </div>
           <div class="activity-card-header">
             <div class="activity-card-emoji-wrap">
               <span class="activity-card-emoji">👥</span>
             </div>
             <div>
-              <div class="activity-card-title">Organigramme du club</div>
+              <div class="activity-card-title">
+                <button
+                  class="activity-card-title-link contact-trigger"
+                  data-contact="organigramme"
+                  type="button"
+                >
+                  Organigramme du club
+                </button>
+              </div>
               <p class="card-subline">Qui fait quoi à l’APAM.</p>
             </div>
           </div>
@@ -1079,15 +1172,29 @@
 
         <!-- Baptêmes -->
         <article class="activity-card">
-          <div class="activity-card-image">
-            <img src="visiteurs-baptemes.jpg" alt="Passagers à bord pour un vol découverte" />
+          <div class="activity-card-image contact-trigger" data-contact="bapteme">
+            <div class="activity-card-image-link">
+              <img src="visiteurs-baptemes.jpg" alt="Passagers à bord pour un vol découverte" />
+              <div class="activity-card-image-overlay">
+                <span class="label">Voir les infos baptêmes</span>
+                <span class="icon">↗</span>
+              </div>
+            </div>
           </div>
           <div class="activity-card-header">
             <div class="activity-card-emoji-wrap">
               <span class="activity-card-emoji">🎁</span>
             </div>
             <div>
-              <div class="activity-card-title">Baptêmes & vols découverte</div>
+              <div class="activity-card-title">
+                <button
+                  class="activity-card-title-link contact-trigger"
+                  data-contact="bapteme"
+                  type="button"
+                >
+                  Baptêmes & vols découverte
+                </button>
+              </div>
               <p class="card-subline">Premiers vols & idées cadeau.</p>
             </div>
           </div>
@@ -1116,15 +1223,29 @@
 
         <!-- Devenir pilote -->
         <article class="activity-card">
-          <div class="activity-card-image">
-            <img src="visiteurs-devenir-pilote.jpg" alt="Élève pilote en instruction" />
+          <div class="activity-card-image contact-trigger" data-contact="formation">
+            <div class="activity-card-image-link">
+              <img src="visiteurs-devenir-pilote.jpg" alt="Élève pilote en instruction" />
+              <div class="activity-card-image-overlay">
+                <span class="label">En savoir plus sur la formation</span>
+                <span class="icon">↗</span>
+              </div>
+            </div>
           </div>
           <div class="activity-card-header">
             <div class="activity-card-emoji-wrap">
               <span class="activity-card-emoji">🎓</span>
             </div>
             <div>
-              <div class="activity-card-title">Devenir pilote</div>
+              <div class="activity-card-title">
+                <button
+                  class="activity-card-title-link contact-trigger"
+                  data-contact="formation"
+                  type="button"
+                >
+                  Devenir pilote
+                </button>
+              </div>
               <p class="card-subline">Comprendre le parcours LAPL / PPL.</p>
             </div>
           </div>
@@ -1153,15 +1274,29 @@
 
         <!-- Voyages -->
         <article class="activity-card activity-card-wide">
-          <div class="activity-card-image">
-            <img src="visiteurs-voyages.jpg" alt="Avion du club en voyage sur un autre terrain" />
+          <div class="activity-card-image contact-trigger" data-contact="voyages">
+            <div class="activity-card-image-link">
+              <img src="visiteurs-voyages.jpg" alt="Avion du club en voyage sur un autre terrain" />
+              <div class="activity-card-image-overlay">
+                <span class="label">Voir la fiche Voyages</span>
+                <span class="icon">↗</span>
+              </div>
+            </div>
           </div>
           <div class="activity-card-header">
             <div class="activity-card-emoji-wrap">
               <span class="activity-card-emoji">🧳</span>
             </div>
             <div>
-              <div class="activity-card-title">Voyages en partage de frais</div>
+              <div class="activity-card-title">
+                <button
+                  class="activity-card-title-link contact-trigger"
+                  data-contact="voyages"
+                  type="button"
+                >
+                  Voyages en partage de frais
+                </button>
+              </div>
               <p class="card-subline">Sorties club en France et plus loin.</p>
             </div>
           </div>
