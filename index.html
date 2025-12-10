@@ -42,7 +42,7 @@
       line-height: 1.7;
     }
 
-    /* ============ HEADER TYPE ASTONFLY ============ */
+    /* ===== HEADER PREMIUM STYLE ASTONFLY ===== */
 
     header {
       position: fixed;
@@ -50,54 +50,56 @@
       left: 0;
       right: 0;
       z-index: 50;
-      padding: 12px 28px;
+      padding: 10px 32px;
       display: flex;
       align-items: center;
       justify-content: center;
-      background: linear-gradient(
-        to bottom,
-        rgba(0, 0, 0, 0.35),
-        rgba(0, 0, 0, 0)
-      );
-      transition: background 0.25s ease, box-shadow 0.25s ease,
-        padding 0.25s ease;
+
+      /* légèrement sombre même tout en haut */
+      background: rgba(0, 0, 0, 0.25);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+
+      transition: background 0.22s ease, padding 0.22s ease, box-shadow 0.22s ease;
     }
 
     header.scrolled {
-      background: rgba(3, 16, 35, 0.96);
-      box-shadow: 0 10px 28px rgba(0, 0, 0, 0.4);
-      padding: 8px 24px;
+      background: rgba(3, 16, 35, 0.92);
+      box-shadow: 0 10px 26px rgba(0, 0, 0, 0.4);
+      padding: 8px 28px;
     }
 
     .header-inner {
       width: 100%;
-      max-width: 1200px;
+      max-width: 1400px; /* plus large pour bien étirer logo/menu */
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      gap: 24px;
+      justify-content: space-between; /* logo à gauche / menu à droite */
     }
 
     .logo {
-      height: 44px;
+      height: 40px;
       display: block;
     }
 
     .main-nav {
       display: flex;
       align-items: center;
-      gap: 18px;
+      gap: 26px;
     }
 
     .main-nav a {
-      font-size: 0.9rem;
+      font-size: 0.78rem; /* plus petit => plus pro */
       font-weight: 600;
-      letter-spacing: 0.08em;
+      letter-spacing: 0.07em;
       text-transform: uppercase;
+
       color: #ffffff;
-      opacity: 0.78;
+      opacity: 0.75;
+
       padding-bottom: 2px;
       border-bottom: 2px solid transparent;
+
       transition:
         opacity 0.2s ease,
         border-color 0.2s ease,
@@ -106,7 +108,7 @@
 
     .main-nav a:hover {
       opacity: 1;
-      border-color: rgba(255, 255, 255, 0.6);
+      border-color: rgba(255, 255, 255, 0.5);
       transform: translateY(-1px);
     }
 
@@ -118,14 +120,13 @@
     .menu-toggle {
       display: none;
       border: none;
-      background: rgba(0, 0, 0, 0.6);
+      background: rgba(0, 0, 0, 0.55);
       color: #ffffff;
-      font-size: 0.9rem;
+      font-size: 0.8rem;
       font-weight: 600;
+      letter-spacing: 0.08em;
       padding: 6px 12px;
       border-radius: 999px;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
       cursor: pointer;
     }
 
@@ -183,7 +184,7 @@
       backdrop-filter: blur(18px);
       -webkit-backdrop-filter: blur(18px);
       padding: 24px 26px 26px;
-      margin-top: -40px; /* remonte un peu sous le hero */
+      margin-top: -40px; /* remonte sous le hero pour effet "collé" */
       position: relative;
       z-index: 1;
     }
@@ -413,30 +414,29 @@
       .main-nav {
         position: absolute;
         top: 100%;
-        right: 18px;
-        left: 18px;
-        margin-top: 10px;
+        right: 20px;
+        left: 20px;
         flex-direction: column;
         align-items: flex-start;
-        padding: 12px 14px;
-        border-radius: 14px;
+        gap: 12px;
         background: rgba(3, 16, 35, 0.96);
-        box-shadow: 0 16px 40px rgba(0, 0, 0, 0.4);
+        padding: 14px 16px;
+        border-radius: 12px;
         display: none;
-      }
-
-      .main-nav a {
-        width: 100%;
-        padding: 8px 4px;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-      }
-
-      .main-nav a:last-child {
-        border-bottom: none;
       }
 
       .main-nav.open {
         display: flex;
+      }
+
+      .main-nav a {
+        width: 100%;
+        padding: 8px 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .main-nav a:last-child {
+        border-bottom: none;
       }
 
       .menu-toggle {
@@ -496,7 +496,7 @@
 
   <!-- ============ HERO SLIDER FULLSCREEN ============ -->
   <section class="hero-slider" aria-label="Photos d’avions du club et de l’aviation légère">
-    <!-- 4 slides – tu pourras remplacer les URLs plus tard par tes propres photos -->
+    <!-- 4 slides – tu pourras remplacer les URLs par tes propres photos -->
     <div class="hero-slide active" style="
       background-image:url('https://images.pexels.com/photos/210199/pexels-photo-210199.jpeg?auto=compress&cs=tinysrgb&w=1600');
     "></div>
