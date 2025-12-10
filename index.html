@@ -42,7 +42,7 @@
       line-height: 1.7;
     }
 
-    /* ===== HEADER PREMIUM STYLE ASTONFLY ===== */
+    /* ===== HEADER PREMIUM STYLE ASTONFLY (agrandi) ===== */
 
     header {
       position: fixed;
@@ -50,12 +50,11 @@
       left: 0;
       right: 0;
       z-index: 50;
-      padding: 10px 32px;
+      padding: 14px 38px; /* un chouïa plus grand */
       display: flex;
       align-items: center;
       justify-content: center;
 
-      /* légèrement sombre même tout en haut */
       background: rgba(0, 0, 0, 0.25);
       backdrop-filter: blur(6px);
       -webkit-backdrop-filter: blur(6px);
@@ -66,19 +65,19 @@
     header.scrolled {
       background: rgba(3, 16, 35, 0.92);
       box-shadow: 0 10px 26px rgba(0, 0, 0, 0.4);
-      padding: 8px 28px;
+      padding: 10px 32px; /* un peu plus compact en scroll mais plus grand qu'avant */
     }
 
     .header-inner {
       width: 100%;
-      max-width: 1400px; /* plus large pour bien étirer logo/menu */
+      max-width: 1400px;
       display: flex;
       align-items: center;
-      justify-content: space-between; /* logo à gauche / menu à droite */
+      justify-content: space-between;
     }
 
     .logo {
-      height: 40px;
+      height: 48px; /* logo un peu plus grand */
       display: block;
     }
 
@@ -89,17 +88,14 @@
     }
 
     .main-nav a {
-      font-size: 0.78rem; /* plus petit => plus pro */
+      font-size: 0.78rem;
       font-weight: 600;
       letter-spacing: 0.07em;
       text-transform: uppercase;
-
       color: #ffffff;
       opacity: 0.75;
-
       padding-bottom: 2px;
       border-bottom: 2px solid transparent;
-
       transition:
         opacity 0.2s ease,
         border-color 0.2s ease,
@@ -155,7 +151,6 @@
       transform: scale(1.06);
     }
 
-    /* léger voile sombre pour lisibilité du header */
     .hero-overlay-gradient {
       position: absolute;
       inset: 0;
@@ -183,8 +178,8 @@
       box-shadow: var(--glass-shadow);
       backdrop-filter: blur(18px);
       -webkit-backdrop-filter: blur(18px);
-      padding: 24px 26px 26px;
-      margin-top: -40px; /* remonte sous le hero pour effet "collé" */
+      padding: 22px 24px 24px;
+      margin-top: -40px;
       position: relative;
       z-index: 1;
     }
@@ -201,7 +196,7 @@
       display: flex;
       align-items: center;
       gap: 10px;
-      margin-bottom: 10px;
+      margin-bottom: 8px;
     }
 
     .home-intro-header h1 {
@@ -215,7 +210,7 @@
     }
 
     .home-intro-lead {
-      margin: 0 0 10px;
+      margin: 0 0 8px;
       color: var(--text-soft);
       max-width: 720px;
     }
@@ -226,67 +221,92 @@
       margin: 0;
     }
 
-    .home-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 18px;
-      margin-top: 22px;
+    /* ============ BLOC CTAS 3 CARTES LARGEUR ======== */
+
+    .home-cta-section {
+      margin-top: 26px;
     }
 
-    .home-card {
-      background: #ffffff;
+    .home-cta-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .home-cta-card {
+      position: relative;
+      overflow: hidden;
       border-radius: 18px;
-      border: 1px solid rgba(15, 35, 70, 0.07);
-      padding: 14px 16px 16px;
-      box-shadow: 0 10px 22px rgba(3, 16, 35, 0.06);
+      padding: 18px 18px 20px;
+      background: radial-gradient(circle at top left, #f7fbff 0, #e7eef8 45%, #dfe7f4 100%);
+      border: 1px solid rgba(15, 35, 70, 0.08);
+      box-shadow: 0 14px 30px rgba(3, 16, 35, 0.09);
       display: flex;
       flex-direction: column;
       gap: 6px;
+      cursor: pointer;
+      transition:
+        transform 0.18s ease,
+        box-shadow 0.18s ease,
+        border-color 0.18s ease;
     }
 
-    .home-card-header {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 4px;
+    .home-cta-card::before {
+      content: "";
+      position: absolute;
+      inset: -40%;
+      background: radial-gradient(
+        circle at top right,
+        rgba(74, 163, 255, 0.16),
+        transparent 60%
+      );
+      opacity: 0;
+      transition: opacity 0.25s ease;
+      pointer-events: none;
     }
 
-    .home-card-icon {
-      width: 32px;
-      height: 32px;
-      border-radius: 999px;
-      background: rgba(74, 163, 255, 0.14);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-      font-size: 1.3rem;
+    .home-cta-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 18px 40px rgba(3, 16, 35, 0.18);
+      border-color: rgba(74, 163, 255, 0.55);
     }
 
-    .home-card-title {
+    .home-cta-card:hover::before {
+      opacity: 1;
+    }
+
+    .home-cta-label {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: var(--apam-blue-soft);
+      opacity: 0.9;
+    }
+
+    .home-cta-title {
       font-size: 1.05rem;
       font-weight: 700;
       color: var(--apam-blue);
+      margin-top: 4px;
     }
 
-    .home-card p {
-      margin: 0;
+    .home-cta-text {
+      margin: 6px 0 0;
       color: var(--text-soft);
-      font-size: 0.92rem;
+      font-size: 0.9rem;
     }
 
-    .home-card-link {
-      margin-top: 8px;
+    .home-cta-link {
+      margin-top: 10px;
       font-size: 0.9rem;
       font-weight: 600;
       color: var(--apam-blue-soft);
-      text-decoration: none;
       display: inline-flex;
       align-items: center;
       gap: 4px;
     }
 
-    .home-card-link span.arrow {
+    .home-cta-link span.arrow {
       font-size: 0.95rem;
     }
 
@@ -404,11 +424,11 @@
 
     @media (max-width: 900px) {
       header {
-        padding: 10px 18px;
+        padding: 12px 18px;
       }
 
       header.scrolled {
-        padding: 8px 16px;
+        padding: 10px 16px;
       }
 
       .main-nav {
@@ -443,6 +463,10 @@
         display: inline-flex;
         align-items: center;
         justify-content: center;
+      }
+
+      .home-cta-grid {
+        grid-template-columns: 1fr;
       }
     }
 
@@ -496,7 +520,6 @@
 
   <!-- ============ HERO SLIDER FULLSCREEN ============ -->
   <section class="hero-slider" aria-label="Photos d’avions du club et de l’aviation légère">
-    <!-- 4 slides – tu pourras remplacer les URLs par tes propres photos -->
     <div class="hero-slide active" style="
       background-image:url('https://images.pexels.com/photos/210199/pexels-photo-210199.jpeg?auto=compress&cs=tinysrgb&w=1600');
     "></div>
@@ -522,62 +545,61 @@
         <h1>APAM L’Aigle Saint-Michel</h1>
       </div>
       <p class="home-intro-lead">
-        L’APAM est un <strong>aéroclub associatif</strong> basé à L’Aigle Saint-Michel,
-        qui rassemble élèves pilotes, pilotes brevetés et passionnés d’aviation
-        autour d’une flotte d’avions école et de voyage.
+        L’APAM est un <strong>aéroclub associatif</strong> basé sur l’aérodrome de L’Aigle
+        Saint-Michel. Le club rassemble élèves pilotes, pilotes brevetés et passionnés
+        d’aviation autour d’une flotte d’avions école et de voyage.
       </p>
       <p class="home-intro-note">
-        Découvrez nos activités, la flotte du club, les modalités de formation et les
-        possibilités de vols découverte pour vous ou vos proches.
+        Que vous souhaitiez découvrir le vol, apprendre à piloter ou préparer des voyages
+        en partage de frais, l’équipe de bénévoles vous accompagne dans vos projets.
       </p>
 
-      <div class="home-grid">
-        <article class="home-card">
-          <div class="home-card-header">
-            <div class="home-card-icon">🧭</div>
-            <div class="home-card-title">Découvrir l’APAM</div>
-          </div>
-          <p>
-            Envie de faire vos premiers pas dans l’aviation légère&nbsp;? L’aéroclub vous
-            accueille pour visiter les installations, rencontrer les membres et découvrir
-            les avions du club.
-          </p>
-          <a class="home-card-link" href="activite.html">
-            Voir les activités
-            <span class="arrow">↗</span>
+      <!-- 3 grandes cartes CTA -->
+      <div class="home-cta-section">
+        <div class="home-cta-grid">
+          <!-- Carte 1 : Nous trouver / Nous contacter -->
+          <a href="contact.html" class="home-cta-card">
+            <div class="home-cta-label">Accès & contact</div>
+            <div class="home-cta-title">Nous trouver & nous contacter</div>
+            <p class="home-cta-text">
+              Coordonnées, plan d’accès à l’aérodrome de L’Aigle Saint-Michel
+              et formulaire de contact pour joindre le bureau du club.
+            </p>
+            <div class="home-cta-link">
+              Accéder à la page Contact
+              <span class="arrow">↗</span>
+            </div>
           </a>
-        </article>
 
-        <article class="home-card">
-          <div class="home-card-header">
-            <div class="home-card-icon">🎓</div>
-            <div class="home-card-title">Devenir pilote</div>
-          </div>
-          <p>
-            L’APAM propose la formation <strong>LAPL</strong> et <strong>PPL</strong>,
-            ainsi que le vol de nuit et des formations de perfectionnement sur Cirrus
-            et TB200.
-          </p>
-          <a class="home-card-link" href="activite.html">
-            En savoir plus sur la formation
-            <span class="arrow">↗</span>
+          <!-- Carte 2 : Installations / flotte -->
+          <a href="tarifs.html" class="home-cta-card">
+            <div class="home-cta-label">Installations & flotte</div>
+            <div class="home-cta-title">Nos installations & notre flotte</div>
+            <p class="home-cta-text">
+              Découvrez les avions du club, les tarifs horaires indicatifs,
+              ainsi que les principaux espaces dont disposent les membres sur la plateforme.
+            </p>
+            <div class="home-cta-link">
+              Voir flotte & tarifs
+              <span class="arrow">↗</span>
+            </div>
           </a>
-        </article>
 
-        <article class="home-card">
-          <div class="home-card-header">
-            <div class="home-card-icon">🌤️</div>
-            <div class="home-card-title">Vols découverte</div>
-          </div>
-          <p>
-            Offrez ou offrez-vous un <strong>baptême de l’air</strong> au-dessus de la
-            région, accompagné d’un pilote du club, au départ de L’Aigle Saint-Michel.
-          </p>
-          <a class="home-card-link" href="activite.html">
-            Infos vols découverte
-            <span class="arrow">↗</span>
+          <!-- Carte 3 : Activités / formations -->
+          <a href="activite.html" class="home-cta-card">
+            <div class="home-cta-label">Activités & formation</div>
+            <div class="home-cta-title">Nos activités & nos formations</div>
+            <p class="home-cta-text">
+              Formations LAPL / PPL, qualification vol de nuit, vols découverte,
+              voyages club et vie associative&nbsp;: une palette d’activités adaptée
+              à tous les profils.
+            </p>
+            <div class="home-cta-link">
+              Découvrir les activités
+              <span class="arrow">↗</span>
+            </div>
           </a>
-        </article>
+        </div>
       </div>
     </section>
   </main>
