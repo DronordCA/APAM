@@ -89,7 +89,7 @@
 
     .main-nav a {
       font-size: 0.78rem;
-      font-weight: 600;
+      font-weight: 500; /* plus fin */
       letter-spacing: 0.07em;
       text-transform: uppercase;
       color: #ffffff;
@@ -166,9 +166,9 @@
     /* ============ CONTENU PRINCIPAL (intro) ============ */
 
     main {
-      max-width: 1400px;          /* même largeur que les cartes du bas */
+      max-width: 1400px;
       margin: 40px auto 60px;
-      padding: 0 24px 40px;       /* même padding horizontal que home-links */
+      padding: 0 24px 40px;
     }
 
     .section-card {
@@ -187,6 +187,10 @@
     /* Intro centrée */
     .section-card-intro {
       text-align: center;
+    }
+
+    .section-card-intro p {
+      text-align: center; /* pour mobile aussi */
     }
 
     .section-card-intro .section-tag {
@@ -242,7 +246,8 @@
     .home-intro-lead {
       margin-top: 4px;
       margin-bottom: 8px;
-      color: var(--text-soft);
+      color: var(--text-main);   /* plus foncé */
+      font-weight: 500;
     }
 
     .home-intro-note {
@@ -371,6 +376,12 @@
       height: 18px;
       display: block;
       filter: invert(0.1) brightness(0.2);
+    }
+
+    .social-pill span.icon-text {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: #031023;
     }
 
     .social-pill:hover {
@@ -693,19 +704,28 @@
 
   <!-- ============ RÉSEAUX FLOTTANTS ============ -->
   <div class="social-floating">
+    <!-- Instagram -->
     <a href="https://www.instagram.com/_cauvin_" target="_blank" aria-label="Instagram">
       <div class="social-pill">
-        <img src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/instagram.svg" alt="Instagram" />
+        <img
+          src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/instagram.svg"
+          alt="Instagram"
+        />
       </div>
     </a>
-    <a href="https://www.youtube.com/@DRONORD18" target="_blank" aria-label="YouTube">
+    <!-- Gmail / contact -->
+    <a href="mailto:contact@apam.fr" aria-label="Envoyer un mail au club">
       <div class="social-pill">
-        <img src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/youtube.svg" alt="YouTube" />
+        <img
+          src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/gmail.svg"
+          alt="Email"
+        />
       </div>
     </a>
-    <a href="https://www.tiktok.com/@toncompte" target="_blank" aria-label="TikTok">
+    <!-- OpenFlyer -->
+    <a href="https://openflyers.com/apam/" target="_blank" aria-label="OpenFlyer APAM">
       <div class="social-pill">
-        <img src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/tiktok.svg" alt="TikTok" />
+        <span class="icon-text">OF</span>
       </div>
     </a>
   </div>
@@ -738,7 +758,7 @@
           <h4>Réseaux sociaux</h4>
           <a href="https://www.instagram.com/_cauvin_" target="_blank">Instagram</a>
           <a href="https://www.youtube.com/@DRONORD18" target="_blank">YouTube</a>
-          <a href="https://www.tiktok.com/@toncompte" target="_blank">TikTok</a>
+          <a href="mailto:contact@apam.fr">Contact par e-mail</a>
         </div>
       </div>
     </div>
