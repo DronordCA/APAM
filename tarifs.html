@@ -78,6 +78,10 @@
       transition-delay: 0.08s;
     }
 
+    .reveal-delay-2 {
+      transition-delay: 0.16s;
+    }
+
     /* Header */
 
     header {
@@ -245,7 +249,7 @@
       color: var(--apam-blue);
     }
 
-    /* Carte avion + banderole */
+    /* TITRES SECTIONS */
 
     .section-title-row {
       display: flex;
@@ -287,8 +291,16 @@
       margin: 0;
     }
 
-    .aircraft-card {
+    /* CARTES AVIONS */
+
+    .aircraft-list {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
       margin-top: 10px;
+    }
+
+    .aircraft-card {
       border-radius: 22px;
       border: 1px solid rgba(15, 35, 70, 0.06);
       background: #ffffff;
@@ -356,6 +368,42 @@
 
     .aircraft-label strong {
       color: var(--apam-blue);
+    }
+
+    /* Placeholder Cirrus */
+
+    .aircraft-placeholder {
+      width: 100%;
+      max-width: 420px;
+      height: 190px;
+      margin: 0 auto;
+      border-radius: 999px;
+      background: radial-gradient(circle at 20% 0, #ffffff, #dbe7ff);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .aircraft-placeholder-icon {
+      font-size: 2.4rem;
+      opacity: 0.9;
+      color: var(--apam-blue-soft);
+    }
+
+    .aircraft-placeholder-chip {
+      position: absolute;
+      bottom: 12px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 0.78rem;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: rgba(3, 16, 35, 0.84);
+      color: #fff;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
     }
 
     /* Banderole tarifs */
@@ -761,7 +809,7 @@
       </div>
     </section>
 
-    <!-- TARIFS AVION C152 -->
+    <!-- TARIFS AVIONS -->
     <section class="section-card reveal reveal-delay-1">
       <div class="section-title-row">
         <div class="section-title-main">
@@ -770,61 +818,155 @@
           <h2>Tarifs horaires par avion</h2>
         </div>
         <p class="section-subline">
-          Exemple avec le <span class="accent-text">Cessna 152</span> (autres avions à venir).
+          Tarifs indicatifs pour les principaux avions du club.
         </p>
       </div>
 
-      <article class="aircraft-card">
-        <!-- Visuel avion -->
-        <div class="aircraft-visual">
-          <div class="aircraft-img-wrap">
-            <!-- Mets ton PNG détouré ici -->
-            <img src="C152.png" alt="Cessna 152 F-GHKE de l’APAM" />
-            <div class="aircraft-shadow"></div>
-          </div>
-          <p class="aircraft-label">
-            <strong>Cessna 152 – F-GHKE</strong><br />
-            Avion école biplace, idéal pour la formation et le vol local.
-          </p>
-        </div>
-
-        <!-- Banderole tarifs -->
-        <div class="aircraft-banner">
-          <div class="aircraft-banner-inner">
-            <div class="aircraft-banner-header">
-              <div class="aircraft-banner-title">
-                <div class="aircraft-name">Cessna 152</div>
-                <div class="aircraft-role">Avion école biplace</div>
-              </div>
-              <div class="aircraft-badge">Tarifs horaires</div>
+      <div class="aircraft-list">
+        <!-- CESSNA 152 -->
+        <article class="aircraft-card">
+          <div class="aircraft-visual">
+            <div class="aircraft-img-wrap">
+              <img src="C152.png" alt="Cessna 152 F-GHKE de l’APAM" />
+              <div class="aircraft-shadow"></div>
             </div>
-
-            <div class="tarif-grid">
-              <div class="tarif-label">
-                <strong>Breveté</strong><br />
-                Vol solo en location club.
-              </div>
-              <div class="tarif-value">130&nbsp;€ / h</div>
-
-              <div class="tarif-label">
-                <strong>Location avec instructeur</strong><br />
-                Vol en double commande (instruction).
-              </div>
-              <div class="tarif-value">150&nbsp;€ / h</div>
-            </div>
-
-            <p class="tarif-note">
-              L’<strong>heure d’instruction</strong> est facturée en supplément (voir encadré
-              ci-dessous). Les temps de vol sont comptabilisés au <strong>temps bloc</strong>
-              (mise en route / coupure moteur).
+            <p class="aircraft-label">
+              <strong>Cessna 152 – F-GHKE</strong><br />
+              Avion école biplace, idéal pour la formation et le vol local.
             </p>
           </div>
-        </div>
-      </article>
+
+          <div class="aircraft-banner">
+            <div class="aircraft-banner-inner">
+              <div class="aircraft-banner-header">
+                <div class="aircraft-banner-title">
+                  <div class="aircraft-name">Cessna 152</div>
+                  <div class="aircraft-role">Avion école biplace</div>
+                </div>
+                <div class="aircraft-badge">Tarifs horaires</div>
+              </div>
+
+              <div class="tarif-grid">
+                <div class="tarif-label">
+                  <strong>Breveté</strong><br />
+                  Vol solo en location club.
+                </div>
+                <div class="tarif-value">130&nbsp;€ / h</div>
+
+                <div class="tarif-label">
+                  <strong>Location avec instructeur</strong><br />
+                  Vol en double commande (instruction).
+                </div>
+                <div class="tarif-value">150&nbsp;€ / h</div>
+              </div>
+
+              <p class="tarif-note">
+                L’<strong>heure d’instruction</strong> est facturée en supplément (voir encadré
+                ci-dessous). Les temps de vol sont comptabilisés au <strong>temps bloc</strong>
+                (mise en route / coupure moteur).
+              </p>
+            </div>
+          </div>
+        </article>
+
+        <!-- TB200 -->
+        <article class="aircraft-card">
+          <div class="aircraft-visual">
+            <div class="aircraft-img-wrap">
+              <img src="TB200.png" alt="SOCATA TB200 F-GSZA de l’APAM" />
+              <div class="aircraft-shadow"></div>
+            </div>
+            <p class="aircraft-label">
+              <strong>SOCATA TB200 – F-GSZA</strong><br />
+              Avion de voyage 4 places, utilisé pour les navigations club et le perfectionnement.
+            </p>
+          </div>
+
+          <div class="aircraft-banner">
+            <div class="aircraft-banner-inner">
+              <div class="aircraft-banner-header">
+                <div class="aircraft-banner-title">
+                  <div class="aircraft-name">SOCATA TB200</div>
+                  <div class="aircraft-role">Voyage 4 places – hélice à pas variable</div>
+                </div>
+                <div class="aircraft-badge">Tarifs horaires</div>
+              </div>
+
+              <!-- À TOI DE METTRE LES VRAIS MONTANTS -->
+              <div class="tarif-grid">
+                <div class="tarif-label">
+                  <strong>Breveté</strong><br />
+                  Vol solo en location club.
+                </div>
+                <div class="tarif-value">— &nbsp;€ / h</div>
+
+                <div class="tarif-label">
+                  <strong>Location avec instructeur</strong><br />
+                  Vol en double commande (instruction).
+                </div>
+                <div class="tarif-value">— &nbsp;€ / h</div>
+              </div>
+
+              <p class="tarif-note">
+                Les tarifs du <strong>TB200</strong> sont en cours de mise à jour.
+                Pour toute demande de vol ou de formation sur cet appareil, merci de
+                contacter directement le bureau du club.
+              </p>
+            </div>
+          </div>
+        </article>
+
+        <!-- CIRRUS SR20 -->
+        <article class="aircraft-card">
+          <div class="aircraft-visual">
+            <!-- Placeholder, tu pourras remplacer ce bloc par une image <img src="Cirrus.png"> plus tard -->
+            <div class="aircraft-placeholder">
+              <div class="aircraft-placeholder-icon">🛫</div>
+              <div class="aircraft-placeholder-chip">Photo à venir</div>
+            </div>
+            <p class="aircraft-label">
+              <strong>Cirrus SR20</strong><br />
+              Avion moderne 4 places, confortable et équipé d’une avionique avancée.
+            </p>
+          </div>
+
+          <div class="aircraft-banner">
+            <div class="aircraft-banner-inner">
+              <div class="aircraft-banner-header">
+                <div class="aircraft-banner-title">
+                  <div class="aircraft-name">Cirrus SR20</div>
+                  <div class="aircraft-role">Voyage 4 places – avionique “verre”</div>
+                </div>
+                <div class="aircraft-badge">Tarifs horaires</div>
+              </div>
+
+              <div class="tarif-grid">
+                <div class="tarif-label">
+                  <strong>Breveté</strong><br />
+                  Vol solo en location club.
+                </div>
+                <div class="tarif-value">280&nbsp;€ / h</div>
+
+                <div class="tarif-label">
+                  <strong>Location avec instructeur</strong><br />
+                  Vol en double commande (instruction).
+                </div>
+                <div class="tarif-value">300&nbsp;€ / h</div>
+              </div>
+
+              <p class="tarif-note">
+                Le <strong>Cirrus SR20</strong> est particulièrement adapté aux navigations de
+                distance et aux vols en partage de frais, sous réserve de disponibilité et du
+                niveau d’expérience du pilote.
+              </p>
+            </div>
+          </div>
+        </article>
+      </div>
     </section>
 
     <!-- COTISATIONS & FFA -->
-    <section class="section-card reveal">
+    <section class="section-card reveal reveal-delay-2">
       <div class="section-title-row">
         <div class="section-title-main">
           <span class="section-chip">Adhésion</span>
