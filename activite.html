@@ -9,7 +9,7 @@
       --apam-blue-dark: #031023;
       --apam-blue: #062037;
       --apam-blue-soft: #1b3658;
-      --glass-bg: rgba(255, 255, 255, 0.95);
+      --glass-bg: rgba(255, 255, 255, 0.96);
       --glass-border: rgba(15, 35, 70, 0.05);
       --glass-shadow: 0 12px 28px rgba(0, 0, 0, 0.10);
       --text-main: #062037;
@@ -191,14 +191,14 @@
     .activity-hero-inner {
       display: grid;
       grid-template-columns: minmax(0, 1.45fr) minmax(0, 1fr);
-      gap: 28px;
+      gap: 30px;
       align-items: center;
     }
 
     .activity-hero h1 {
       font-size: 2rem;
       color: var(--apam-blue);
-      margin: 4px 0 10px;
+      margin: 6px 0 12px;
       display: flex;
       align-items: center;
       gap: 8px;
@@ -210,25 +210,25 @@
 
     .activity-hero p {
       color: var(--text-soft);
-      margin: 0 0 10px;
+      margin: 0 0 12px;
       max-width: 720px;
     }
 
     .activity-note {
       font-size: 0.9rem;
       color: #7a859c;
-      margin: 4px 0 0;
+      margin: 6px 0 0;
     }
 
     .activity-hero-media {
       background: #ffffff;
       border-radius: 20px;
       border: 1px solid rgba(15, 35, 70, 0.06);
-      padding: 12px 12px 14px;
+      padding: 14px 14px 16px;
       box-shadow: 0 16px 32px rgba(3, 16, 35, 0.14);
       display: flex;
       flex-direction: column;
-      gap: 8px;
+      gap: 10px;
     }
 
     .hero-photo {
@@ -245,7 +245,7 @@
     }
 
     .hero-photo-caption {
-      margin: 2px 2px 0;
+      margin: 4px 2px 0;
       font-size: 0.8rem;
       color: #7a859c;
     }
@@ -258,7 +258,7 @@
       gap: 8px;
       font-size: 1.6rem;
       color: var(--apam-blue);
-      margin: 0 0 8px;
+      margin: 0 0 10px;
     }
 
     .section-chip {
@@ -277,14 +277,14 @@
 
     .activity-section p.section-intro {
       color: var(--text-soft);
-      margin: 0 0 20px;
+      margin: 0 0 22px;
       max-width: 720px;
     }
 
     .activity-grid {
       display: grid;
       grid-template-columns: minmax(0, 1fr);
-      gap: 20px;
+      gap: 22px;
     }
 
     @media (min-width: 880px) {
@@ -301,10 +301,10 @@
       background: #ffffff;
       border-radius: 20px;
       border: 1px solid rgba(15, 35, 70, 0.06);
-      padding: 18px 18px 20px;
+      padding: 22px 22px 24px;
       display: flex;
       flex-direction: column;
-      gap: 14px;
+      gap: 20px; /* espace entre les blocs de la carte */
       box-shadow: 0 12px 26px rgba(3, 16, 35, 0.06);
     }
 
@@ -312,6 +312,7 @@
       border-radius: 14px;
       overflow: hidden;
       background: #000;
+      margin-bottom: 4px;
     }
 
     .activity-card-image img {
@@ -325,7 +326,8 @@
       display: flex;
       align-items: center;
       gap: 12px;
-      margin-top: 4px;
+      margin-top: 6px;
+      margin-bottom: 6px;
     }
 
     .activity-card-emoji-wrap {
@@ -359,10 +361,10 @@
     .card-meta-row {
       display: flex;
       flex-wrap: wrap;
-      gap: 10px 16px;
+      gap: 12px 18px;
       font-size: 0.86rem;
       color: #7a859c;
-      margin-top: -2px;
+      margin-top: 6px;
     }
 
     .card-meta-label {
@@ -372,14 +374,14 @@
     }
 
     .activity-card-body {
-      margin-top: 4px;
+      margin-top: 10px;
       display: grid;
       grid-template-columns: minmax(0, 1fr);
-      gap: 10px;
+      gap: 16px; /* gros gap entre texte & liste */
     }
 
     .activity-card-body p {
-      margin: 0;
+      margin: 0 0 4px;
       color: var(--text-soft);
     }
 
@@ -388,12 +390,12 @@
       padding: 0;
       list-style: none;
       display: grid;
-      gap: 6px;
+      gap: 10px; /* plus d’espace entre chaque puce */
     }
 
     .activity-card-list li {
       font-size: 0.9rem;
-      line-height: 1.6;
+      line-height: 1.7;
     }
 
     .activity-card-list li::before {
@@ -403,10 +405,12 @@
     }
 
     .activity-card-footer {
-      margin-top: auto; /* pousse le footer en bas */
+      margin-top: 20px;
+      padding-top: 14px;
+      border-top: 1px solid rgba(15, 35, 70, 0.08);
       display: flex;
       flex-direction: column;
-      gap: 4px;
+      gap: 8px;
     }
 
     .activity-highlight {
@@ -425,18 +429,19 @@
       display: inline-flex;
       align-items: center;
       gap: 4px;
-      color: var(--apam-blue-soft);
-      border-bottom: 1px solid rgba(6, 32, 55, 0.35);
+      color: var(--accent); /* bien BLEU */
+      border-bottom: 1px solid rgba(74, 163, 255, 0.8);
       padding-bottom: 1px;
       cursor: pointer;
     }
 
-    .activity-card-link:hover {
-      border-bottom-color: transparent;
-    }
-
     .activity-card-link .arrow {
       font-size: 0.9rem;
+    }
+
+    .activity-card-link:hover {
+      color: var(--apam-blue-soft);
+      border-bottom-color: transparent;
     }
 
     /* Modal overlay */
@@ -471,7 +476,7 @@
       border-radius: 22px;
       border: 1px solid rgba(255, 255, 255, 0.9);
       box-shadow: 0 26px 60px rgba(0, 0, 0, 0.45);
-      padding: 20px 22px 18px;
+      padding: 22px 24px 18px;
       overflow: hidden;
       display: flex;
       flex-direction: column;
@@ -492,13 +497,13 @@
       align-items: flex-start;
       justify-content: space-between;
       gap: 12px;
-      margin-bottom: 8px;
+      margin-bottom: 14px;
     }
 
     .contact-modal-title-wrap {
       display: flex;
       flex-direction: column;
-      gap: 4px;
+      gap: 6px;
     }
 
     .contact-modal-kicker {
@@ -541,8 +546,9 @@
     }
 
     .contact-modal-body {
-      padding-top: 8px;
+      padding-top: 6px;
       padding-right: 4px;
+      padding-bottom: 4px;
       overflow-y: auto;
       scrollbar-width: thin;
     }
@@ -557,14 +563,14 @@
 
     .contact-panel h3 {
       font-size: 1rem;
-      margin: 0 0 6px;
+      margin: 0 0 12px;
       color: var(--apam-blue);
       border-left: 3px solid var(--accent);
       padding-left: 8px;
     }
 
     .contact-panel p {
-      margin: 0 0 8px;
+      margin: 0 0 14px; /* espace entre les paragraphes dans la fiche */
       font-size: 0.93rem;
       color: var(--text-soft);
     }
@@ -572,8 +578,8 @@
     .contact-panel-row {
       display: flex;
       flex-wrap: wrap;
-      gap: 10px 24px;
-      margin: 10px 0 14px;
+      gap: 12px 28px;
+      margin: 18px 0 20px;
       font-size: 0.9rem;
     }
 
@@ -584,23 +590,25 @@
       padding: 4px 10px;
       color: var(--apam-blue-soft);
       display: inline-block;
-      margin-bottom: 2px;
+      margin-bottom: 4px;
     }
 
     .contact-email {
+      color: var(--accent);
       font-weight: 600;
-      border-bottom: 1px solid rgba(6, 32, 55, 0.3);
+      border-bottom: 1px solid rgba(74, 163, 255, 0.8);
       padding-bottom: 1px;
     }
 
     .contact-email:hover {
+      color: var(--apam-blue-soft);
       border-bottom-color: transparent;
     }
 
     .contact-panel-highlight {
-      margin-top: 6px;
-      padding: 8px 10px;
-      border-radius: 12px;
+      margin-top: 18px;
+      padding: 12px 12px;
+      border-radius: 14px;
       background: #f7f8fd;
       font-size: 0.86rem;
       color: var(--apam-blue-soft);
@@ -611,8 +619,8 @@
     .info-block-grid {
       display: grid;
       grid-template-columns: minmax(0, 1fr);
-      gap: 10px;
-      margin-top: 8px;
+      gap: 14px; /* plus d’air entre les petits blocs blancs */
+      margin-top: 10px;
     }
 
     .info-block {
@@ -627,7 +635,7 @@
     .info-block-title {
       font-weight: 600;
       color: var(--apam-blue);
-      margin-bottom: 2px;
+      margin-bottom: 3px;
     }
 
     .info-block-small {
@@ -655,8 +663,8 @@
     /* Formulaires */
 
     .contact-form {
-      margin-top: 12px;
-      padding: 12px 12px 14px;
+      margin-top: 16px;
+      padding: 14px 14px 16px;
       border-radius: 14px;
       border: 1px solid rgba(15, 35, 70, 0.06);
       background: #f7f8fd;
@@ -666,14 +674,14 @@
       font-size: 0.95rem;
       font-weight: 600;
       color: var(--apam-blue);
-      margin: 0 0 8px;
+      margin: 0 0 10px;
     }
 
     .form-row {
       display: grid;
       grid-template-columns: minmax(0, 1fr);
       gap: 10px;
-      margin-bottom: 8px;
+      margin-bottom: 10px;
     }
 
     @media (min-width: 600px) {
@@ -725,7 +733,7 @@
     .btn-primary {
       border: none;
       border-radius: 999px;
-      padding: 8px 18px;
+      padding: 9px 20px;
       font-size: 0.9rem;
       font-weight: 600;
       cursor: pointer;
@@ -922,11 +930,11 @@
 
       .contact-modal-dialog {
         max-height: calc(100vh - 40px);
-        padding: 16px 16px 14px;
+        padding: 18px 16px 14px;
       }
 
       .contact-modal-title {
-        font-size: 1.3rem;
+        font-size: 1.32rem;
       }
     }
   </style>
