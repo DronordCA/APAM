@@ -2,755 +2,346 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8" />
+  <title>APAM – Header style GP</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>APAM – Aéroclub L'Aigle Saint-Michel</title>
-
   <style>
     :root {
-      --bg-page: #f5f6fb;
-      --bg-card: #ffffff;
-      --border-soft: rgba(0, 0, 0, 0.06);
-      --text-main: #111111;
-      --text-soft: #5f6b85;
+      /* largeur VISUELLE du logo – ajuste si besoin */
+      --logo-width: 150px;
     }
 
+    /* =============== BASE =============== */
     * {
       box-sizing: border-box;
+      margin: 0;
+      padding: 0;
     }
 
     body {
-      margin: 0;
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
         sans-serif;
-      background: var(--bg-page);
-      color: var(--text-main);
+      background: #000;
+      color: #fff;
+      min-height: 100vh;
       overflow-x: hidden;
     }
 
     a {
-      color: inherit;
       text-decoration: none;
+      color: inherit;
     }
 
-    /* ===================== HEADER FLOTTANT STYLE GP EXPLORER ===================== */
+    /* =============== HERO D'EXEMPLE =============== */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      background: radial-gradient(circle at 20% 0%, #333 0, #000 55%);
+      padding: 160px 5vw 80px;
+    }
 
-    /* wrapper qui centre la barre et la décolle du haut */
-    .gp-header-outer {
+    .hero-content {
+      max-width: 680px;
+      color: #f5f5f5;
+    }
+
+    .hero-tag {
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      font-size: 0.72rem;
+      opacity: 0.8;
+      margin-bottom: 10px;
+    }
+
+    .hero-title {
+      font-size: 2.4rem;
+      font-weight: 700;
+      margin-bottom: 14px;
+    }
+
+    .hero-subtitle {
+      font-size: 0.95rem;
+      line-height: 1.6;
+      opacity: 0.8;
+    }
+
+    .hero-location {
+      position: absolute;
+      right: 5vw;
+      bottom: 40px;
+      text-align: right;
+      font-size: 0.8rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      opacity: 0.7;
+    }
+
+    /* =============== LOGO FLOTTANT =============== */
+
+    .site-logo {
       position: fixed;
-      top: 16px;
-      left: 0;
-      right: 0;
-      z-index: 999;
-      display: flex;
-      justify-content: center;
-      pointer-events: none; /* seule la barre intérieure est cliquable */
-    }
-
-    .gp-header {
-      background: #ffffff;
-      border: 1px solid rgba(0, 0, 0, 0.08);
-      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.18);
-      width: 100%;
-      max-width: 1440px;
-      margin: 0 24px;
+      top: 1.5cm;          /* 1,5 cm du haut */
+      left: 1.5cm;         /* 1,5 cm du bord gauche */
+      z-index: 40;
+      width: var(--logo-width);
+      height: auto;
+      object-fit: contain;
       pointer-events: auto;
     }
 
-    .gp-header-inner {
-      padding: 10px 26px;
+    /* =============== HEADER STRIP STYLE GP =============== */
+
+    .header-shell {
+      position: fixed;
+      top: 1.5cm;          /* même hauteur que le logo */
+      left: 0;
+      width: 100%;
+      z-index: 50;
+      pointer-events: none;
+    }
+
+    .header-strip {
+      pointer-events: auto;
+      background: #ffffff;
+      color: #000000;
+      height: 52px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 24px;
+      box-shadow: 0 10px 22px rgba(0, 0, 0, 0.35);
+    }
+
+    .header-inner {
+      width: 100%;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 20px;
-    }
-
-    /* LOGO */
-
-    .gp-logo img {
-      height: 46px;
-      display: block;
-    }
-
-    /* NAV CENTRE */
-
-    .gp-nav {
-      display: flex;
       gap: 32px;
-      justify-content: center;
-      flex: 1;
     }
 
-    .gp-nav a {
+    .main-nav {
+      display: flex;
+      align-items: center;
+      gap: 32px;
       font-size: 0.85rem;
-      font-weight: 600;
-      letter-spacing: 0.06em;
       text-transform: uppercase;
-      color: #000;
+      letter-spacing: 0.18em;
+      font-weight: 800; /* plus gras, plus proche GP */
+    }
+
+    .nav-link {
       position: relative;
       padding-bottom: 6px;
       white-space: nowrap;
     }
 
-    .gp-nav a::after {
+    .nav-link::after {
       content: "";
       position: absolute;
-      left: 0;
+      left: 50%;
       bottom: 0;
+      width: 0;
       height: 2px;
-      width: 0%;
       background: #000;
-      transition: width 0.25s ease;
+      transform: translateX(-50%);
+      transition: width 0.18s ease;
     }
 
-    .gp-nav a:hover::after,
-    .gp-nav a.active::after {
-      width: 100%;
+    .nav-link:hover::after,
+    .nav-link.active::after {
+      width: 60%;
     }
 
-    /* ICÔNES + BOUTON COMPTE */
-
-    .gp-icons {
+    .nav-right {
       display: flex;
       align-items: center;
-      gap: 16px;
+      gap: 18px;
+      font-size: 0.85rem;
     }
 
-    .gp-icons img {
-      width: 18px;
-      height: 18px;
-      filter: invert(0);
-      opacity: 0.75;
-      display: block;
-      transition: opacity 0.2s ease;
+    .nav-icon-btn {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      border: 1px solid #000;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.78rem;
     }
 
-    .gp-icons img:hover {
-      opacity: 1;
+    .nav-icon-btn span {
+      transform: translateY(-0.5px);
     }
 
-    .gp-account-btn {
+    .nav-account {
       border: 2px solid #000;
-      padding: 6px 14px;
-      font-size: 0.8rem;
-      font-weight: 700;
-      letter-spacing: 0.08em;
+      padding: 7px 16px;
+      font-size: 0.78rem;
       text-transform: uppercase;
-      color: #000;
-      transition: 0.2s ease;
-    }
-
-    .gp-account-btn:hover {
+      letter-spacing: 0.16em;
+      font-weight: 800;
       background: #000;
       color: #fff;
     }
 
-    /* MENU MOBILE */
-
-    .gp-menu-toggle {
-      display: none;
-      border-radius: 999px;
-      border: 1px solid rgba(0, 0, 0, 0.25);
-      background: #ffffff;
-      padding: 6px 12px;
-      font-size: 0.8rem;
-      text-transform: uppercase;
-      letter-spacing: 0.12em;
-      cursor: pointer;
-    }
-
-    .gp-menu-toggle span {
-      margin-left: 6px;
-      font-size: 0.95rem;
-    }
-
-    @media (max-width: 980px) {
-      .gp-header-outer {
-        top: 0;
-      }
-
-      .gp-header {
-        margin: 0;
-        border-radius: 0;
-        border-left: none;
-        border-right: none;
-      }
-
-      .gp-header-inner {
-        padding: 10px 16px;
-      }
-
-      .gp-menu-toggle {
-        display: inline-flex;
-        align-items: center;
-      }
-
-      .gp-nav {
-        position: absolute;
-        top: 56px;
-        left: 0;
-        right: 0;
-        background: #ffffff;
-        border-bottom: 1px solid rgba(0, 0, 0, 0.08);
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 8px;
-        padding: 10px 18px 12px;
-        display: none;
-      }
-
-      .gp-nav.open {
-        display: flex;
-      }
-
-      .gp-icons {
-        gap: 10px;
-      }
-
-      .gp-account-btn {
-        display: none;
-      }
-    }
-
-    @media (max-width: 640px) {
-      .gp-icons {
-        display: none;
-      }
-    }
-
-    /* ===================== HERO ===================== */
-
-    .hero {
-      position: relative;
-      height: 100vh;
-      min-height: 480px;
-      width: 100%;
-      overflow: hidden;
-      background: #000;
-      color: #ffffff;
-    }
-
-    .hero-slide {
-      position: absolute;
-      inset: 0;
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
-      opacity: 0;
-      transform: scale(1.03);
-      transition:
-        opacity 1.2s ease,
-        transform 16s linear;
-    }
-
-    .hero-slide.active {
-      opacity: 1;
-      transform: scale(1.08);
-    }
-
-    .hero-overlay {
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(
-        to top,
-        rgba(0, 0, 0, 0.75) 0%,
-        rgba(0, 0, 0, 0.1) 50%,
-        rgba(0, 0, 0, 0.3) 100%
-      );
-    }
-
-    .hero-content {
-      position: absolute;
-      left: 50%;
-      bottom: 40px;
-      transform: translateX(-50%);
-      width: 100%;
-      max-width: 1200px;
-      padding: 0 26px;
-      display: flex;
-      align-items: flex-end;
-      justify-content: space-between;
-      gap: 20px;
-    }
-
-    .hero-main {
-      max-width: 520px;
-    }
-
-    .hero-kicker {
-      font-size: 0.8rem;
-      letter-spacing: 0.25em;
-      text-transform: uppercase;
-      opacity: 0.9;
-      margin-bottom: 6px;
-    }
-
-    .hero-title {
-      font-size: 1.9rem;
-      font-weight: 600;
-      margin: 0 0 4px;
-    }
-
-    .hero-sub {
-      margin: 0;
-      font-size: 0.95rem;
-      opacity: 0.9;
-    }
-
-    .hero-location {
-      text-align: right;
-      font-size: 0.9rem;
-      opacity: 0.95;
-    }
-
-    .hero-location .code {
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      font-size: 0.78rem;
-    }
-
-    .hero-location .field {
-      margin-top: 4px;
-      font-weight: 500;
-    }
-
-    @media (max-width: 768px) {
-      .hero-content {
-        flex-direction: column;
-        align-items: flex-start;
-        bottom: 26px;
-      }
-
-      .hero-location {
-        text-align: left;
-      }
-    }
-
-    /* ===================== SECTION INTRO ===================== */
-
-    main {
-      padding: 40px 0 60px;
-      background: var(--bg-page);
-    }
-
-    .section-wrapper {
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 0 22px;
-    }
-
-    .intro-card {
-      background: var(--bg-card);
-      border-radius: 22px;
-      border: 1px solid var(--border-soft);
-      padding: 22px 22px 20px;
-      box-shadow: 0 18px 45px rgba(0, 0, 0, 0.06);
-      margin-top: -40px; /* remonte légèrement sous le hero */
-      position: relative;
-      z-index: 1;
-      margin-bottom: 28px;
-    }
-
-    .intro-kicker {
-      text-transform: uppercase;
-      letter-spacing: 0.2em;
-      font-size: 0.75rem;
-      color: var(--text-soft);
-      margin-bottom: 6px;
-      text-align: center;
-    }
-
-    .intro-title {
-      margin: 0;
-      font-size: 1.6rem;
-      text-align: center;
-    }
-
-    .intro-sub {
-      margin: 6px 0 14px;
-      text-align: center;
-      font-size: 0.95rem;
-      color: var(--text-soft);
-    }
-
-    .intro-text {
-      margin: 0;
-      text-align: center;
-      font-size: 0.95rem;
-      line-height: 1.7;
-      color: #333;
-    }
-
-    /* ===================== 3 GRANDES CARTES ===================== */
-
-    .quick-links-header {
-      margin-bottom: 12px;
-      display: flex;
-      justify-content: space-between;
-      align-items: baseline;
-      gap: 12px;
-    }
-
-    .quick-links-header h2 {
-      margin: 0;
-      font-size: 1.15rem;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      font-weight: 600;
-    }
-
-    .quick-links-header p {
-      margin: 0;
-      font-size: 0.85rem;
-      color: var(--text-soft);
-    }
-
-    .quick-links-grid {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 18px;
-    }
-
-    @media (max-width: 900px) {
-      .quick-links-grid {
-        grid-template-columns: minmax(0, 1fr);
-      }
-    }
-
-    .quick-card {
-      position: relative;
-      background: var(--bg-card);
-      border-radius: 18px;
-      border: 1px solid var(--border-soft);
-      padding: 18px 18px 16px;
-      box-shadow: 0 14px 34px rgba(0, 0, 0, 0.05);
-      cursor: pointer;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      min-height: 150px;
-      transition:
-        transform 0.2s ease,
-        box-shadow 0.2s ease,
-        border-color 0.2s ease;
-    }
-
-    .quick-card:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 20px 45px rgba(0, 0, 0, 0.1);
-      border-color: rgba(0, 0, 0, 0.16);
-    }
-
-    .quick-tag {
-      font-size: 0.75rem;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: var(--text-soft);
-      margin-bottom: 6px;
-    }
-
-    .quick-title {
-      font-size: 1.05rem;
-      font-weight: 600;
-      margin-bottom: 6px;
-    }
-
-    .quick-text {
-      font-size: 0.92rem;
-      color: var(--text-soft);
-      max-width: 260px;
-    }
-
-    .quick-meta {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-top: 12px;
-      font-size: 0.8rem;
-      color: var(--text-soft);
-    }
-
-    .quick-cta {
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-      font-weight: 500;
-    }
-
-    .quick-cta span.arrow {
-      transition: transform 0.18s ease;
-    }
-
-    .quick-card:hover .quick-cta span.arrow {
-      transform: translateX(2px);
-    }
-
-    .quick-num {
-      font-family: ui-monospace, Menlo, Monaco, Consolas, "Liberation Mono",
-        "Courier New", monospace;
-      letter-spacing: 0.16em;
-      text-transform: uppercase;
-    }
-
-    /* ===================== FOOTER ===================== */
-
-    .site-footer {
-      border-top: 1px solid rgba(0, 0, 0, 0.09);
-      background: #ffffff;
-      padding: 18px 22px 16px;
-      margin-top: 40px;
-    }
-
-    .footer-inner {
-      max-width: 1100px;
-      margin: 0 auto;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 12px;
-      font-size: 0.83rem;
-      color: var(--text-soft);
-    }
-
-    .footer-links a {
-      margin-right: 12px;
-    }
-
-    .footer-links a:last-child {
-      margin-right: 0;
-    }
-
-    .footer-credit span.brand {
-      font-weight: 600;
+    .nav-account:hover {
+      background: #fff;
       color: #000;
     }
 
-    @media (max-width: 720px) {
-      .footer-inner {
+    .burger {
+      display: none;
+      width: 20px;
+      height: 16px;
+      flex-direction: column;
+      justify-content: space-between;
+      cursor: pointer;
+    }
+
+    .burger span {
+      display: block;
+      height: 2px;
+      background: #000;
+    }
+
+    /* =============== LAYOUT EN CM SUR DESKTOP =============== */
+
+    @media (min-width: 901px) {
+      .header-strip {
+        /* 
+           Entre le logo et le bord gauche : 1,5 cm
+           Logo : var(--logo-width)
+           Entre logo et header : 0,4 cm
+        */
+        margin-left: calc(1.5cm + var(--logo-width) + 0.4cm);
+        margin-right: 1.5cm;  /* 1,5 cm au bord droit */
+      }
+    }
+
+    /* =============== MOBILE =============== */
+
+    @media (max-width: 900px) {
+      .site-logo {
+        top: 18px;
+        left: 18px;
+        width: 120px;
+      }
+
+      .header-shell {
+        top: 0;
+      }
+
+      .header-strip {
+        margin: 0;
+        border-radius: 0;
+        width: 100%;
+        height: 50px;
+        padding: 0 14px;
+      }
+
+      .header-inner {
+        justify-content: flex-end;
+      }
+
+      .main-nav {
+        position: fixed;
+        top: 60px;
+        right: 12px;
+        left: 12px;
+        background: #111;
+        color: #fff;
         flex-direction: column;
         align-items: flex-start;
+        padding: 14px 18px 16px;
+        gap: 14px;
+        transform: translateY(-12px);
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.2s ease, transform 0.2s ease;
+      }
+
+      .main-nav.open {
+        opacity: 1;
+        pointer-events: auto;
+        transform: translateY(0);
+      }
+
+      .nav-link::after {
+        background: #fff;
+      }
+
+      .nav-right {
+        display: none;
+      }
+
+      .burger {
+        display: flex;
       }
     }
   </style>
 </head>
 <body>
-  <!-- ===================== HEADER ===================== -->
-  <div class="gp-header-outer">
-    <header class="gp-header">
-      <div class="gp-header-inner">
-        <!-- LOGO -->
-        <a href="index.html" class="gp-logo">
-          <img src="apam-logo.png" alt="APAM – Aéroclub L'Aigle Saint-Michel" />
-        </a>
+  <!-- LOGO FLOTTANT -->
+  <a href="index.html">
+    <img src="apam-logo.png" alt="APAM – Aéroclub L'Aigle Saint-Michel" class="site-logo" />
+  </a>
 
-        <!-- BOUTON MOBILE -->
-        <button class="gp-menu-toggle" aria-label="Ouvrir le menu">
-          MENU <span>☰</span>
-        </button>
-
-        <!-- NAV -->
-        <nav class="gp-nav">
-          <a href="index.html" class="active">ACCUEIL</a>
-          <a href="#">À PROPOS</a>
-          <a href="activite.html">ACTIVITÉS</a>
-          <a href="tarifs.html">TARIFS</a>
-          <a href="espace-membres.html">MEMBRES</a>
-          <a href="contact.html">CONTACT</a>
-          <a href="https://openflyers.com/apam/" target="_blank">OPENFLYER</a>
+  <!-- HEADER STRIP -->
+  <div class="header-shell">
+    <div class="header-strip">
+      <div class="header-inner">
+        <nav class="main-nav" id="mainNav">
+          <a href="index.html" class="nav-link active">Accueil</a>
+          <a href="activite.html" class="nav-link">Activités</a>
+          <a href="tarif.html" class="nav-link">Tarifs</a>
+          <a href="espace-membres.html" class="nav-link">Membres</a>
+          <a href="contact.html" class="nav-link">Contact</a>
+          <a href="https://openflyers.com/apam/" target="_blank" class="nav-link">Openflyer</a>
         </nav>
 
-        <!-- ICÔNES -->
-        <div class="gp-icons">
-          <a
-            href="https://www.instagram.com/_cauvin_"
-            target="_blank"
-            aria-label="Instagram"
-          >
-            <img
-              src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/instagram.svg"
-              alt="Instagram"
-            />
+        <div class="nav-right">
+          <a href="https://www.instagram.com/_cauvin_" target="_blank" class="nav-icon-btn" aria-label="Instagram">
+            <span>IG</span>
           </a>
-          <a href="mailto:contact@apam.fr" aria-label="Envoyer un mail">
-            <img
-              src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/gmail.svg"
-              alt="Email"
-            />
+          <a href="mailto:contact@apam.fr" class="nav-icon-btn" aria-label="E-mail">
+            <span>@</span>
           </a>
-          <a href="espace-membres.html" class="gp-account-btn">
-            MON COMPTE
-          </a>
+          <a href="#" class="nav-account">Mon compte</a>
+
+          <button class="burger" id="burger" aria-label="Ouvrir le menu">
+            <span></span><span></span><span></span>
+          </button>
         </div>
       </div>
-    </header>
+    </div>
   </div>
 
-  <!-- ===================== HERO ===================== -->
-  <section class="hero">
-    <div
-      class="hero-slide active"
-      style="background-image:url('hero-apam-1.jpg');"
-    ></div>
-    <div
-      class="hero-slide"
-      style="background-image:url('hero-apam-2.jpg');"
-    ></div>
-    <div
-      class="hero-slide"
-      style="background-image:url('hero-apam-3.jpg');"
-    ></div>
-    <div
-      class="hero-slide"
-      style="background-image:url('hero-apam-4.jpg');"
-    ></div>
+  <!-- HERO D'EXEMPLE -->
+  <main class="hero">
+    <section class="hero-content">
+      <div class="hero-tag">Aéroclub associatif</div>
+      <h1 class="hero-title">APAM – Aéroclub L'Aigle Saint-Michel</h1>
+      <p class="hero-subtitle">
+        Découvrir le vol, apprendre à piloter ou organiser des voyages en partage
+        de frais : l’équipe de bénévoles de l’APAM vous accompagne dans vos projets.
+      </p>
+    </section>
 
-    <div class="hero-overlay"></div>
-
-    <div class="hero-content">
-      <div class="hero-main">
-        <div class="hero-kicker">AÉROCLUB ASSOCIATIF</div>
-        <h1 class="hero-title">APAM – Aéroclub L'Aigle Saint-Michel</h1>
-        <p class="hero-sub">
-          Découvrir le vol, apprendre à piloter ou organiser des voyages en partage de frais :
-          l'équipe de bénévoles de l'APAM vous accompagne dans vos projets.
-        </p>
-      </div>
-
-      <div class="hero-location">
-        <div class="code">AÉRODROME DE L'AIGLE SAINT-MICHEL</div>
-        <div class="field">LFAI · Normandie, France</div>
-      </div>
+    <div class="hero-location">
+      Aérodrome de L'Aigle Saint-Michel<br />
+      LFAI · Normandie, France
     </div>
-  </section>
-
-  <!-- ===================== CONTENU PRINCIPAL ===================== -->
-  <main>
-    <div class="section-wrapper">
-      <!-- INTRO APAM -->
-      <section class="intro-card">
-        <div class="intro-kicker">Bienvenue à l'aéroclub</div>
-        <h2 class="intro-title">APAM L'Aigle Saint-Michel</h2>
-        <p class="intro-sub">
-          Un aéroclub associatif, convivial et formateur, ouvert à tous les passionnés d’aviation.
-        </p>
-        <p class="intro-text">
-          Que vous souhaitiez réaliser un premier vol, préparer une licence de pilote privé
-          ou organiser des voyages en avion léger, l’APAM met à votre disposition une équipe
-          d’instructeurs et de bénévoles, ainsi qu’une flotte d’avions école et de voyage.
-        </p>
-      </section>
-
-      <!-- 3 GRANDES CARTES -->
-      <section aria-label="Accès rapide aux principales pages">
-        <div class="quick-links-header">
-          <h2>ACCÈS RAPIDE</h2>
-          <p>Retrouvez en quelques clics où nous trouver, nos avions et nos activités.</p>
-        </div>
-
-        <div class="quick-links-grid">
-          <!-- Carte 1 : Contact -->
-          <a href="contact.html" class="quick-card">
-            <div>
-              <div class="quick-tag">ACCÈS & CONTACT</div>
-              <div class="quick-title">Où nous trouver &amp; nous contacter</div>
-              <p class="quick-text">
-                Coordonnées, plan d’accès à l’aérodrome de L'Aigle Saint-Michel
-                et formulaire de contact pour joindre le bureau du club.
-              </p>
-            </div>
-            <div class="quick-meta">
-              <span class="quick-num">01 · CONTACT</span>
-              <span class="quick-cta">
-                Accéder à la page <span class="arrow">→</span>
-              </span>
-            </div>
-          </a>
-
-          <!-- Carte 2 : Tarifs & flotte -->
-          <a href="tarifs.html" class="quick-card">
-            <div>
-              <div class="quick-tag">FLOTTE & TARIFS</div>
-              <div class="quick-title">Nos avions &amp; informations pratiques</div>
-              <p class="quick-text">
-                Présentation des avions du club (Cessna 152, TB200, Cirrus),
-                tarifs horaires, cotisations et modalités d’inscription.
-              </p>
-            </div>
-            <div class="quick-meta">
-              <span class="quick-num">02 · TARIFS</span>
-              <span class="quick-cta">
-                Voir la page tarifs <span class="arrow">→</span>
-              </span>
-            </div>
-          </a>
-
-          <!-- Carte 3 : Activités -->
-          <a href="activite.html" class="quick-card">
-            <div>
-              <div class="quick-tag">ACTIVITÉS</div>
-              <div class="quick-title">Formations &amp; vie du club</div>
-              <p class="quick-text">
-                Vols découverte, baptêmes, formation LAPL/PPL, qualification de nuit,
-                perfectionnement et voyages en partage de frais entre membres.
-              </p>
-            </div>
-            <div class="quick-meta">
-              <span class="quick-num">03 · ACTIVITÉS</span>
-              <span class="quick-cta">
-                Découvrir les activités <span class="arrow">→</span>
-              </span>
-            </div>
-          </a>
-        </div>
-      </section>
-    </div>
-
-    <!-- ===================== FOOTER ===================== -->
-    <footer class="site-footer">
-      <div class="footer-inner">
-        <div>
-          © 2025 APAM L'Aigle Saint-Michel – Tous droits réservés.
-        </div>
-        <div class="footer-links">
-          <a href="index.html">Accueil</a>
-          <a href="activite.html">Activités</a>
-          <a href="tarifs.html">Tarifs</a>
-          <a href="contact.html">Contact</a>
-        </div>
-        <div class="footer-credit">
-          <span>Site conçu avec</span>
-          <span class="brand">Dronord</span>
-        </div>
-      </div>
-    </footer>
   </main>
 
-  <!-- ===================== SCRIPTS ===================== -->
   <script>
-    // Toggle menu mobile
-    const toggleBtn = document.querySelector(".gp-menu-toggle");
-    const nav = document.querySelector(".gp-nav");
+    // Burger menu mobile
+    const burger = document.getElementById("burger");
+    const mainNav = document.getElementById("mainNav");
 
-    toggleBtn.addEventListener("click", () => {
-      nav.classList.toggle("open");
+    burger.addEventListener("click", () => {
+      mainNav.classList.toggle("open");
     });
-
-    // Hero slider simple
-    const slides = document.querySelectorAll(".hero-slide");
-    let currentSlide = 0;
-
-    function showSlide(index) {
-      slides.forEach((slide, i) => {
-        slide.classList.toggle("active", i === index);
-      });
-    }
-
-    function nextSlide() {
-      currentSlide = (currentSlide + 1) % slides.length;
-      showSlide(currentSlide);
-    }
-
-    setInterval(nextSlide, 8000);
   </script>
 </body>
 </html>
