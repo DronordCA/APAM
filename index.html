@@ -68,7 +68,8 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 0 18px 0 28px; /* réduit à droite pour coller le bouton comme GP */
+      /* padding droit très petit pour coller le bouton au bord */
+      padding: 0 6px 0 28px;
     }
 
     .header-left,
@@ -111,10 +112,11 @@
       cursor: pointer;
     }
 
-    /* ---------- BOUTON MON COMPTE (STYLE GP EXACT) ----------- */
+    /* ---------- BOUTON MON COMPTE (style proche GP) ----------- */
     .btn-compte {
       font-family: "GPMenu", system-ui, sans-serif;
-      font-size: 13px;
+      /* plus grand en vertical */
+      font-size: 15px;
       text-transform: uppercase;
       border: 0;
       background: #000;
@@ -122,18 +124,24 @@
       cursor: pointer;
       white-space: nowrap;
 
-      /* Taille compacte → similaire à GP */
-      padding: 8px 20px;
+      /* taille compacte */
+      padding: 8px 18px;
 
-      /* Espacement resserré comme GP */
-      letter-spacing: 0.10em;
+      /* lettres bien serrées */
+      letter-spacing: 0.16em;
 
-      /* Compression horizontale → aspect vertical GP */
-      transform: scaleX(0.78);
+      /* compression horizontale → lettres plus verticales */
+      transform: scaleX(0.72);
       transform-origin: center;
 
-      /* Hauteur/épaisseur GP */
       line-height: 1;
+      transition: background-color 0.18s ease, color 0.18s ease;
+    }
+
+    /* hover jaune “aigle” */
+    .btn-compte:hover {
+      background-color: #ffd54a; /* jaune doux */
+      color: #000;
     }
 
     /* -------- HERO -------- */
