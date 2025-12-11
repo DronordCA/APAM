@@ -77,7 +77,7 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 0 12px 0 32px; /* droite très serrée comme GP, gauche un peu plus large */
+      padding: 0 6px 0 32px; /* padding droit serré pour coller le bouton */
     }
 
     .header-left,
@@ -92,7 +92,7 @@
 
     .header-right {
       margin-left: auto;
-      gap: 18px; /* espace entre icônes et bouton */
+      gap: 12px; /* un peu moins d'espace entre icônes et bouton */
     }
 
     .nav-menu {
@@ -132,22 +132,41 @@
     /* -------- BOUTON MON COMPTE -------- */
 
     .btn-compte {
+      position: relative;
+      overflow: hidden;
       font-family: "Swiss911", sans-serif;
-      font-size: 18px;              /* verticalité bien marquée */
-      letter-spacing: 0.02em;       /* léger espacement, pas étiré */
+      font-size: 20px;          /* plus grand = plus vertical */
+      letter-spacing: 0.01em;   /* très peu d'espacement, pas étiré */
       text-transform: uppercase;
-      padding: 6px 18px;            /* bouton compact, ~2 cm de large */
+      padding: 4px 16px;        /* compact, largeur proche des ~2 cm */
       border: 2px solid #000;
       background: #000;
       color: #fff;
       cursor: pointer;
       white-space: nowrap;
-      transition: background 0.2s ease, color 0.2s ease;
+      line-height: 1;
+      z-index: 0;
+      transition: color 0.25s ease;
+    }
+
+    .btn-compte::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 0;
+      height: 100%;
+      background: #f5d86e;      /* jaune de remplissage */
+      z-index: -1;
+      transition: width 0.25s ease;
     }
 
     .btn-compte:hover {
-      background: #f5d86e;          /* jaune “aigle” au survol */
       color: #000;
+    }
+
+    .btn-compte:hover::before {
+      width: 100%;              /* remplissage de gauche à droite */
     }
 
     /* -------- HERO TEXT -------- */
@@ -190,7 +209,7 @@
       color: #d0d0d0;
     }
 
-    /* -------- RESPONSIVE (simple, à affiner plus tard) ------- */
+    /* -------- RESPONSIVE ------- */
 
     @media (max-width: 900px) {
       :root {
