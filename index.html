@@ -2,12 +2,18 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8" />
-  <title>APAM – Header style GP</title>
+  <title>APAM – Aéroclub L'Aigle Saint-Michel</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Police type GP Explorer -->
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+  </style>
+
   <style>
     :root {
-      /* largeur VISUELLE du logo – ajuste si besoin */
-      --logo-width: 150px;
+      --header-height: 52px;   /* hauteur de la barre blanche */
+      --logo-height: 100px;    /* hauteur du logo APAM */
     }
 
     /* =============== BASE =============== */
@@ -31,12 +37,12 @@
       color: inherit;
     }
 
-    /* =============== HERO D'EXEMPLE =============== */
+    /* =============== HERO =============== */
     .hero {
       position: relative;
       min-height: 100vh;
       background: radial-gradient(circle at 20% 0%, #333 0, #000 55%);
-      padding: 160px 5vw 80px;
+      padding: 180px 5vw 80px; /* laisse la place au header + logo */
     }
 
     .hero-content {
@@ -79,11 +85,13 @@
 
     .site-logo {
       position: fixed;
-      top: 1.5cm;          /* 1,5 cm du haut */
-      left: 1.5cm;         /* 1,5 cm du bord gauche */
+      left: 1.5cm;             /* 1,5 cm du bord gauche */
+      height: var(--logo-height);
+      width: auto;
       z-index: 40;
-      width: var(--logo-width);
-      height: auto;
+
+      /* milieu du logo aligné sur milieu du header */
+      top: calc(1.5cm + (var(--header-height) / 2) - (var(--logo-height) / 2));
       object-fit: contain;
       pointer-events: auto;
     }
@@ -92,7 +100,7 @@
 
     .header-shell {
       position: fixed;
-      top: 1.5cm;          /* même hauteur que le logo */
+      top: 1.5cm;              /* 1,5 cm du haut pour la barre */
       left: 0;
       width: 100%;
       z-index: 50;
@@ -103,12 +111,20 @@
       pointer-events: auto;
       background: #ffffff;
       color: #000000;
-      height: 52px;
+      height: var(--header-height);
       display: flex;
       align-items: center;
       justify-content: center;
       padding: 0 24px;
       box-shadow: 0 10px 22px rgba(0, 0, 0, 0.35);
+    }
+
+    /* largeur de la barre, calculée avec les contraintes en cm */
+    @media (min-width: 901px) {
+      .header-strip {
+        margin-left: calc(1.5cm + 100px + 0.4cm); /* 1.5cm + largeur visuelle logo + 0.4cm */
+        margin-right: 1.5cm;                      /* 1.5cm du bord droit */
+      }
     }
 
     .header-inner {
@@ -122,11 +138,14 @@
     .main-nav {
       display: flex;
       align-items: center;
-      gap: 32px;
-      font-size: 0.85rem;
+      gap: 38px;
+
+      /* TYPO style GP Explorer */
+      font-family: "Bebas Neue", sans-serif;
+      font-size: 1.05rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
       text-transform: uppercase;
-      letter-spacing: 0.18em;
-      font-weight: 800; /* plus gras, plus proche GP */
     }
 
     .nav-link {
@@ -177,12 +196,14 @@
     .nav-account {
       border: 2px solid #000;
       padding: 7px 16px;
-      font-size: 0.78rem;
-      text-transform: uppercase;
-      letter-spacing: 0.16em;
-      font-weight: 800;
       background: #000;
       color: #fff;
+
+      font-family: "Bebas Neue", sans-serif;
+      font-size: 1.05rem;
+      letter-spacing: 0.06em;
+      font-weight: 700;
+      text-transform: uppercase;
     }
 
     .nav-account:hover {
@@ -205,27 +226,13 @@
       background: #000;
     }
 
-    /* =============== LAYOUT EN CM SUR DESKTOP =============== */
-
-    @media (min-width: 901px) {
-      .header-strip {
-        /* 
-           Entre le logo et le bord gauche : 1,5 cm
-           Logo : var(--logo-width)
-           Entre logo et header : 0,4 cm
-        */
-        margin-left: calc(1.5cm + var(--logo-width) + 0.4cm);
-        margin-right: 1.5cm;  /* 1,5 cm au bord droit */
-      }
-    }
-
     /* =============== MOBILE =============== */
 
     @media (max-width: 900px) {
       .site-logo {
         top: 18px;
         left: 18px;
-        width: 120px;
+        height: 70px;
       }
 
       .header-shell {
@@ -317,7 +324,7 @@
     </div>
   </div>
 
-  <!-- HERO D'EXEMPLE -->
+  <!-- HERO -->
   <main class="hero">
     <section class="hero-content">
       <div class="hero-tag">Aéroclub associatif</div>
