@@ -29,6 +29,7 @@
       --header-letter-spacing: -0.05em;
       --logo-height: 100px;
       --gap-logo-header: 62px;
+      --header-grey: #222222;
     }
 
     * {
@@ -71,7 +72,7 @@
     .header-bar {
       height: var(--header-height);
       background: #fff;
-      color: #000;
+      color: var(--header-grey);
       margin-left: var(--gap-logo-header);
       flex: 1;
       display: flex;
@@ -92,7 +93,7 @@
 
     .header-right {
       margin-left: auto;
-      gap: 12px; /* un peu moins d'espace entre icônes et bouton */
+      gap: 12px;
     }
 
     .nav-menu {
@@ -107,26 +108,33 @@
       letter-spacing: var(--header-letter-spacing);
       text-transform: uppercase;
       text-decoration: none;
-      color: #000;
+      color: var(--header-grey);
       white-space: nowrap;
     }
 
     .nav-link::after {
-      content: none; /* pas de trait sous les menus */
+      content: none;
     }
+
+    /* -------- ICÔNES CERCLES (IG / MAIL) -------- */
 
     .icon-circle {
       width: 30px;
       height: 30px;
       border-radius: 999px;
-      border: 2px solid #000;
+      border: 2px solid var(--header-grey);
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      font-size: 11px;
-      font-weight: 700;
       cursor: pointer;
-      font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+      background: transparent;
+      padding: 0;
+    }
+
+    .icon-circle svg {
+      width: 16px;
+      height: 16px;
+      fill: var(--header-grey);
     }
 
     /* -------- BOUTON MON COMPTE -------- */
@@ -135,18 +143,18 @@
       position: relative;
       overflow: hidden;
       font-family: "Swiss911", sans-serif;
-      font-size: 25px;          /* plus grand = plus vertical */
-      letter-spacing: -0,05em;   /* très peu d'espacement, pas étiré */
+      font-size: 25px;
+      letter-spacing: -0.05em;
       text-transform: uppercase;
-      padding: 8px 12px;        /* compact, largeur proche des ~2 cm */
-      border: 2px solid #000;
+      padding: 8px 12px;
+      border: 2px solid var(--header-grey);
       background: #000;
       color: #fff;
       cursor: pointer;
       white-space: nowrap;
       line-height: 1;
       z-index: 0;
-      transition: color 0.25s ease;
+      transition: color 0.25s ease, border-color 0.25s ease;
     }
 
     .btn-compte::before {
@@ -156,17 +164,18 @@
       top: 0;
       width: 0;
       height: 100%;
-      background: #f5d86e;      /* jaune de remplissage */
+      background: #f5d86e;  /* jaune de remplissage */
       z-index: -1;
       transition: width 0.25s ease;
     }
 
     .btn-compte:hover {
       color: #000;
+      border-color: #f5d86e;
     }
 
     .btn-compte:hover::before {
-      width: 100%;              /* remplissage de gauche à droite */
+      width: 100%;          /* remplissage de gauche à droite */
     }
 
     /* -------- HERO TEXT -------- */
@@ -270,8 +279,20 @@
           </div>
 
           <div class="header-right">
-            <span class="icon-circle">IG</span>
-            <span class="icon-circle">@</span>
+            <!-- Icône Instagram -->
+            <button class="icon-circle" aria-label="Instagram">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M12 7.3A4.7 4.7 0 1 0 16.7 12 4.71 4.71 0 0 0 12 7.3zm0 7.7A3 3 0 1 1 15 12a3 3 0 0 1-3 3zm4.9-7.9a1.1 1.1 0 1 1-1.1-1.1 1.11 1.11 0 0 1 1.1 1.1zM12 2C8.7 2 8.3 2 7.1 2.1A4.9 4.9 0 0 0 3.1 7.1C3 8.3 3 8.7 3 12s0 3.7.1 4.9a4.9 4.9 0 0 0 4 4A45.9 45.9 0 0 0 12 22a45.9 45.9 0 0 0 4.9-.1 4.9 4.9 0 0 0 4-4A45.9 45.9 0 0 0 22 12a45.9 45.9 0 0 0-.1-4.9 4.9 4.9 0 0 0-4-4C15.7 3 15.3 3 12 3zm0 1.7c3.2 0 3.5 0 4.7.1a3.2 3.2 0 0 1 2.4 2.4c.1 1.2.1 1.5.1 4.7s0 3.5-.1 4.7a3.2 3.2 0 0 1-2.4 2.4c-1.2.1-1.5.1-4.7.1s-3.5 0-4.7-.1a3.2 3.2 0 0 1-2.4-2.4C4.1 15.5 4.1 15.2 4.1 12s0-3.5.1-4.7a3.2 3.2 0 0 1 2.4-2.4C8 4.1 8.3 4.1 12 4.1z"/>
+              </svg>
+            </button>
+
+            <!-- Icône Mail -->
+            <button class="icon-circle" aria-label="Email">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M4 5h16a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2zm0 2v.25l8 4.75 8-4.75V7zm0 2.91V17h16V9.91l-7.55 4.47a1.5 1.5 0 0 1-1.5 0z"/>
+              </svg>
+            </button>
+
             <button class="btn-compte">MON COMPTE</button>
           </div>
 
