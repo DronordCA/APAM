@@ -2,92 +2,99 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8" />
-  <title>APAM – Header GP ajusté</title>
+  <title>APAM – Aéroclub L'Aigle Saint-Michel</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+  <!-- Police GP : Neue Helvetica Pro 93 Extended Black -->
   <style>
-    /* =============== POLICE EXTENDED =============== */
     @font-face {
       font-family: "NH-Extended";
       src: url("HelveticaNeueLTPro-93BlackExtended.otf") format("opentype");
       font-weight: 900;
       font-style: normal;
+      font-display: swap;
+    }
+
+    :root {
+      --bg-dark: #050505;
+      --text-main: #f5f5f5;
+      --accent: #000000;
+      --hero-radius: 72px;
     }
 
     * {
+      box-sizing: border-box;
       margin: 0;
       padding: 0;
-      box-sizing: border-box;
     }
 
-    html, body {
+    html,
+    body {
       height: 100%;
     }
 
     body {
-      background: #000;
-      color: #fff;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
-        sans-serif;
-      overflow-x: hidden;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text",
+        "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top left, #1c1c1c 0, #050505 55%);
+      color: var(--text-main);
+      -webkit-font-smoothing: antialiased;
     }
 
-    .hero {
-      position: relative;
+    /* ---------- HEADER GLOBAL ---------- */
+
+    .site-shell {
       min-height: 100vh;
-      background: radial-gradient(circle at top left, #444 0, #000 52%, #000 100%);
+      padding: 32px 64px 48px;
+      position: relative;
     }
 
-    /* =============== HEADER FLOTTANT STYLE GP =============== */
-
-    .gp-header {
-      position: absolute;
-      top: 30px;
-      left: 0;
-      right: 0;
-      z-index: 20;
+    .site-header {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+      margin-bottom: 40px;
     }
 
-    /* Logo fondu dans le hero, indépendant de la barre */
-    .apam-logo {
-      position: absolute;
-      left: 72px;
-      top: 73px;              /* centre aligné avec le centre de la barre */
-      transform: translateY(-50%);
-      height: 88px;           /* un peu plus petit qu’avant */
+    .logo-link {
+      display: block;
+      flex-shrink: 0;
     }
 
-    /* Barre blanche */
+    .logo-img {
+      display: block;
+      height: 92px; /* taille logo */
+      width: auto;
+    }
+
+    /* La barre blanche de navigation */
     .header-bar {
-      width: 74%;
+      flex: 1 1 auto;
       max-width: 1280px;
-      margin: 0 auto;
       background: #ffffff;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 11px 46px;      /* rend la barre plus fine */
+      padding: 8px 40px;        /* plus fin qu'avant */
       box-shadow: 0 6px 18px rgba(0, 0, 0, 0.28);
     }
-
-    /* =============== NAV =============== */
 
     .main-nav {
       display: flex;
       align-items: center;
-      gap: 40px;               /* espace entre les items */
+      gap: 32px;
     }
 
     .main-nav a {
       position: relative;
       font-family: "NH-Extended", Arial, sans-serif;
       font-weight: 900;
-      font-size: 18px;         /* un poil plus petit */
+      font-size: 14px;          /* taille menu réduite */
       text-transform: uppercase;
-      letter-spacing: 0.22em;  /* très large comme GP */
+      letter-spacing: 0.18em;   /* moins espacé */
       color: #000;
       text-decoration: none;
-      padding-bottom: 5px;
+      padding-bottom: 3px;
       white-space: nowrap;
     }
 
@@ -95,24 +102,24 @@
       content: "";
       position: absolute;
       left: 0;
+      right: 0;
       bottom: 0;
-      width: 0%;
-      height: 3px;
+      height: 2px;
       background: #000;
-      transition: width 0.2s ease;
+      transform-origin: center;
+      transform: scaleX(0);
+      transition: transform 0.22s ease-out;
     }
 
     .main-nav a:hover::after,
     .main-nav a.active::after {
-      width: 100%;
+      transform: scaleX(1);
     }
-
-    /* =============== ICONES + COMPTE =============== */
 
     .header-right {
       display: flex;
       align-items: center;
-      gap: 14px;
+      gap: 16px;
     }
 
     .circle-icon {
@@ -120,143 +127,173 @@
       height: 32px;
       border-radius: 50%;
       border: 2px solid #000;
-      display: flex;
+      display: inline-flex;
       align-items: center;
       justify-content: center;
-      font-size: 12px;
-      font-weight: 700;
-      font-family: "Helvetica Neue", system-ui, sans-serif;
-      background: transparent;
-      cursor: pointer;
+      font-family: "NH-Extended", Arial, sans-serif;
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #000;
+      text-decoration: none;
     }
 
     .btn-account {
-      border: 3px solid #000;
+      border: 2px solid #000;
       background: #000;
       color: #fff;
-      padding: 8px 28px;
+      padding: 6px 22px;
       font-family: "NH-Extended", Arial, sans-serif;
       font-weight: 900;
-      font-size: 16px;
+      font-size: 13px;
       text-transform: uppercase;
-      letter-spacing: 0.18em;
+      letter-spacing: 0.16em;
       cursor: pointer;
       white-space: nowrap;
+      transition: background 0.18s ease, color 0.18s ease;
     }
 
     .btn-account:hover {
-      background: #111;
+      background: #ffffff;
+      color: #000000;
     }
 
-    /* =============== HERO TEXTE (exemple) =============== */
+    /* ---------- HERO ---------- */
 
-    .hero-content {
-      position: absolute;
-      left: 72px;
-      bottom: 80px;
-      max-width: 620px;
+    .hero {
+      margin-top: 72px;
+      max-width: 720px;
     }
 
-    .hero-tag {
-      font-size: 0.75rem;
-      letter-spacing: 0.18em;
+    .hero-kicker {
+      font-size: 11px;
+      letter-spacing: 0.24em;
       text-transform: uppercase;
-      opacity: 0.7;
-      margin-bottom: 10px;
+      color: #b0b0b0;
+      margin-bottom: 18px;
     }
 
     .hero-title {
-      font-size: 2.4rem;
+      font-size: 40px;
       font-weight: 700;
-      margin-bottom: 10px;
+      letter-spacing: 0.01em;
+      margin-bottom: 18px;
     }
 
-    .hero-sub {
-      font-size: 0.95rem;
-      opacity: 0.82;
-      line-height: 1.5;
+    .hero-title span {
+      display: inline-block;
     }
 
-    /* =============== RESPONSIVE =============== */
+    .hero-copy {
+      max-width: 600px;
+      font-size: 15px;
+      line-height: 1.6;
+      color: #d3d3d3;
+    }
 
-    @media (max-width: 1100px) {
-      .header-bar {
-        width: 88%;
-        padding: 10px 26px;
+    /* ---------- FOOTER DE POSITION ---------- */
+
+    .location-tag {
+      position: fixed;
+      right: 56px;
+      bottom: 40px;
+      font-size: 11px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: #c0c0c0;
+      text-align: right;
+    }
+
+    /* ---------- RESPONSIVE ---------- */
+
+    @media (max-width: 1024px) {
+      .site-shell {
+        padding: 24px 20px 40px;
       }
 
-      .apam-logo {
-        left: 26px;
-        top: 70px;
-        height: 76px;
+      .site-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 20px;
+      }
+
+      .header-bar {
+        width: 100%;
+        padding-inline: 24px;
+      }
+
+      .hero {
+        margin-top: 48px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .site-header {
+        gap: 16px;
+      }
+
+      .header-bar {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
       }
 
       .main-nav {
-        gap: 26px;
-      }
-
-      .main-nav a {
-        font-size: 15px;
-        letter-spacing: 0.18em;
-      }
-
-      .btn-account {
-        padding: 8px 18px;
-        font-size: 14px;
-      }
-    }
-
-    @media (max-width: 780px) {
-      .header-bar {
         flex-wrap: wrap;
-        row-gap: 10px;
+        gap: 20px;
       }
 
-      .main-nav {
-        flex-wrap: wrap;
-        gap: 18px;
-      }
-
-      .hero-content {
-        left: 24px;
-        right: 24px;
-        bottom: 40px;
+      .location-tag {
+        position: static;
+        margin-top: 72px;
+        text-align: left;
       }
     }
   </style>
 </head>
 <body>
-  <div class="hero">
-    <!-- ========= HEADER ========= -->
-    <header class="gp-header">
-      <img src="apam-logo.png" alt="Logo APAM" class="apam-logo" />
+  <div class="site-shell">
+    <!-- HEADER -->
+    <header class="site-header">
+      <a href="index.html" class="logo-link">
+        <img src="apam-logo.png" alt="Logo APAM" class="logo-img" />
+      </a>
 
       <div class="header-bar">
         <nav class="main-nav">
           <a href="index.html" class="active">Accueil</a>
           <a href="activite.html">Activités</a>
-          <a href="tarifs.html">Tarifs</a>
+          <a href="tarif.html">Tarifs</a>
           <a href="membres.html">Membres</a>
           <a href="contact.html">Contact</a>
-          <a href="https://openflyers.com/apam/" target="_blank">Openflyer</a>
+          <a href="openflyer.html">OpenFlyer</a>
         </nav>
 
         <div class="header-right">
-          <button class="circle-icon" aria-label="Instagram">IG</button>
-          <button class="circle-icon" aria-label="Email">@</button>
-          <button class="btn-account">Mon compte</button>
+          <a href="https://instagram.com" target="_blank" class="circle-icon">IG</a>
+          <a href="mailto:contact@apam.fr" class="circle-icon">@</a>
+          <button class="btn-account" type="button">Mon compte</button>
         </div>
       </div>
     </header>
 
-    <!-- ========= HERO TEXTE ========= -->
-    <div class="hero-content">
-      <div class="hero-tag">Aéroclub associatif</div>
-      <h1 class="hero-title">APAM – Aéroclub L'Aigle Saint-Michel</h1>
-      <p class="hero-sub">
+    <!-- HERO INTRO -->
+    <main class="hero">
+      <div class="hero-kicker">Aéroclub associatif</div>
+      <h1 class="hero-title">
+        <span>APAM – Aéroclub L'Aigle</span><br />
+        <span>Saint-Michel</span>
+      </h1>
+      <p class="hero-copy">
         Découvrir le vol, apprendre à piloter ou organiser des voyages en partage de frais :
         l’équipe de bénévoles de l’APAM vous accompagne dans vos projets.
       </p>
+    </main>
+
+    <!-- LOCALISATION -->
+    <div class="location-tag">
+      AÉRODROME DE L'AIGLE SAINT-MICHEL<br />
+      LFAI · NORMANDIE, FRANCE
     </div>
   </div>
 </body>
