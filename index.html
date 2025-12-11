@@ -14,12 +14,12 @@
     }
 
     :root {
-      --page-side-margin: 60px;   /* marge gauche/droite globale */
+      --page-side-margin: 60px;   /* marge gauche/droite (tu avais 60px) */
       --header-height: 48px;      /* hauteur de la barre blanche */
       --header-font-size: 14px;
-      --header-letter-spacing: 0em;
-      --logo-height: 74px;
-      --gap-logo-header: 28px;    /* espace horizontal logo <-> barre */
+      --header-letter-spacing: -0.03em; /* resserre les lettres */
+      --logo-height: 92px;        /* logo plus grand */
+      --gap-logo-header: 32px;    /* espace horizontal logo <-> barre */
     }
 
     * {
@@ -64,17 +64,17 @@
       display: block;
     }
 
-    /* barre blanche plus courte, à droite du logo */
+    /* barre blanche plus courte à gauche, même fin à droite */
     .header-bar {
       height: var(--header-height);
       background: #fff;
       color: #000;
       margin-left: var(--gap-logo-header);
-      flex: 1;                      /* prend tout l'espace restant */
+      flex: 1;                      /* occupe tout l’espace restant */
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 0 28px 0 40px;
+      padding: 0 28px 0 32px;       /* padding interne léger */
     }
 
     .header-left,
@@ -104,10 +104,9 @@
 
     .nav-link span {
       display: inline-block;
-      transform: translateY(1px); /* légère correction visuelle */
     }
 
-    /* plus de trait sous le lien actif */
+    /* pas de trait sous le lien actif */
     .nav-link::after {
       content: none;
     }
@@ -190,8 +189,8 @@
     @media (max-width: 900px) {
       :root {
         --page-side-margin: 20px;
-        --logo-height: 60px;
-        --gap-logo-header: 18px;
+        --logo-height: 70px;
+        --gap-logo-header: 20px;
       }
 
       .header-bar {
