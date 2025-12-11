@@ -5,7 +5,6 @@
   <title>APAM – Aéroclub L'Aigle Saint-Michel</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <!-- Police menu GP (adapter le nom si ton fichier a un autre nom) -->
   <style>
     @font-face {
       font-family: "GPMenu";
@@ -15,13 +14,12 @@
     }
 
     :root {
-      /* valeurs faciles à ajuster si tu veux encore affiner */
-      --page-side-margin: 56px;   /* ≈ 1,5 cm sur écran standard */
-      --header-height: 48px;      /* hauteur de la barre blanche ≈ 1,1 cm */
+      --page-side-margin: 60px;   /* marge gauche/droite globale */
+      --header-height: 48px;      /* hauteur de la barre blanche */
       --header-font-size: 14px;
       --header-letter-spacing: 0em;
       --logo-height: 74px;
-      --gap-logo-header: 14px;    /* ≈ 0,4 cm */
+      --gap-logo-header: 28px;    /* espace horizontal logo <-> barre */
     }
 
     * {
@@ -38,7 +36,6 @@
         sans-serif;
     }
 
-    /* HERO de fond juste pour voir comme sur ta capture */
     .hero {
       min-height: 100vh;
       background: radial-gradient(circle at top left, #222 0, #000 55%);
@@ -47,32 +44,37 @@
     /* --- HEADER STYLE GP --- */
 
     .site-header {
-      position: relative;
-      padding-top: 32px; /* espace haut page -> logo */
+      padding-top: 32px; /* haut de page -> ligne logo+header */
     }
 
-    /* logo isolé, il NE touche PAS la barre blanche */
-    .header-logo-row {
-      padding-left: var(--page-side-margin);
-      margin-bottom: var(--gap-logo-header);
+    /* ligne logo + barre blanche alignés comme sur GP */
+    .header-row {
+      display: flex;
+      align-items: center;
+      margin: 0 var(--page-side-margin);
     }
 
-    .header-logo-row img {
+    .header-logo {
+      display: flex;
+      align-items: center;
+    }
+
+    .header-logo img {
       height: var(--logo-height);
       display: block;
     }
 
-    /* barre blanche */
+    /* barre blanche plus courte, à droite du logo */
     .header-bar {
       height: var(--header-height);
       background: #fff;
       color: #000;
-      margin: 0 var(--page-side-margin);
+      margin-left: var(--gap-logo-header);
+      flex: 1;                      /* prend tout l'espace restant */
       display: flex;
       align-items: center;
       justify-content: space-between;
       padding: 0 28px 0 40px;
-      border-radius: 0;
     }
 
     .header-left,
@@ -85,7 +87,7 @@
     .nav-menu {
       display: flex;
       align-items: center;
-      gap: 36px;
+      gap: 34px;
     }
 
     .nav-link {
@@ -102,31 +104,15 @@
 
     .nav-link span {
       display: inline-block;
-      transform: translateY(1px); /* effet légèrement tassé comme sur GP */
+      transform: translateY(1px); /* légère correction visuelle */
     }
 
-    .nav-link.active::after {
-      content: "";
-      position: absolute;
-      left: 0;
-      right: 0;
-      height: 3px;
-      background: #000;
-      bottom: -11px;
-    }
-
-    .nav-link:hover::after {
-      content: "";
-      position: absolute;
-      left: 0;
-      right: 0;
-      height: 3px;
-      background: #000;
-      bottom: -11px;
+    /* plus de trait sous le lien actif */
+    .nav-link::after {
+      content: none;
     }
 
     /* icônes rondes IG / mail */
-
     .icon-circle {
       width: 30px;
       height: 30px;
@@ -146,7 +132,6 @@
     }
 
     /* bouton MON COMPTE */
-
     .btn-compte {
       font-family: "GPMenu", system-ui, -apple-system, "Segoe UI", sans-serif;
       font-size: 13px;
@@ -205,12 +190,12 @@
     @media (max-width: 900px) {
       :root {
         --page-side-margin: 20px;
-        --header-height: 52px;
         --logo-height: 60px;
+        --gap-logo-header: 18px;
       }
 
       .header-bar {
-        padding: 0 18px 0 18px;
+        padding: 0 18px;
       }
 
       .nav-menu {
@@ -219,7 +204,6 @@
 
       .nav-link {
         font-size: 12px;
-        letter-spacing: 0.16em;
       }
 
       .hero-inner {
@@ -234,15 +218,16 @@
     }
 
     @media (max-width: 720px) {
-      /* pour l’instant : header simplifié, pas de burger
-         (tu pourras demander qu’on fasse une version mobile plus tard) */
-      .header-bar {
+      .header-row {
         flex-direction: column;
         align-items: flex-start;
-        height: auto;
-        padding-top: 10px;
-        padding-bottom: 10px;
-        gap: 10px;
+      }
+
+      .header-bar {
+        width: 100%;
+        margin-left: 0;
+        margin-top: 10px;
+        padding: 8px 14px;
       }
 
       .header-right {
@@ -263,30 +248,31 @@
 <body>
   <div class="hero">
     <header class="site-header">
-      <!-- LOGO -->
-      <div class="header-logo-row">
-        <img src="apam-logo.png" alt="Logo APAM – Aéroclub L'Aigle Saint-Michel" />
-      </div>
-
-      <!-- BARRE BLANCHE GP-STYLE -->
-      <div class="header-bar">
-        <div class="header-left">
-          <nav class="nav-menu">
-            <a href="#" class="nav-link active"><span>ACCUEIL</span></a>
-            <a href="#activites" class="nav-link"><span>ACTIVITÉS</span></a>
-            <a href="#tarifs" class="nav-link"><span>TARIFS</span></a>
-            <a href="#membres" class="nav-link"><span>MEMBRES</span></a>
-            <a href="#contact" class="nav-link"><span>CONTACT</span></a>
-            <a href="#openflyer" class="nav-link"><span>OPENFLYER</span></a>
-          </nav>
+      <!-- LOGO + BARRE BLANCHE SUR LA MÊME LIGNE -->
+      <div class="header-row">
+        <div class="header-logo">
+          <img src="apam-logo.png" alt="Logo APAM – Aéroclub L'Aigle Saint-Michel" />
         </div>
 
-        <div class="header-right">
-          <div>
-            <span class="icon-circle">IG</span>
-            <span class="icon-circle">@</span>
+        <div class="header-bar">
+          <div class="header-left">
+            <nav class="nav-menu">
+              <a href="#" class="nav-link"><span>ACCUEIL</span></a>
+              <a href="#activites" class="nav-link"><span>ACTIVITÉS</span></a>
+              <a href="#tarifs" class="nav-link"><span>TARIFS</span></a>
+              <a href="#membres" class="nav-link"><span>MEMBRES</span></a>
+              <a href="#contact" class="nav-link"><span>CONTACT</span></a>
+              <a href="#openflyer" class="nav-link"><span>OPENFLYER</span></a>
+            </nav>
           </div>
-          <button class="btn-compte">MON COMPTE</button>
+
+          <div class="header-right">
+            <div>
+              <span class="icon-circle">IG</span>
+              <span class="icon-circle">@</span>
+            </div>
+            <button class="btn-compte">MON COMPTE</button>
+          </div>
         </div>
       </div>
     </header>
