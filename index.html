@@ -2,11 +2,11 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8" />
-  <title>APAM – Header style GP</title>
+  <title>APAM – Header GP ajusté</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <style>
-    /* ================== POLICE EXTENDED ================== */
+    /* =============== POLICE EXTENDED =============== */
     @font-face {
       font-family: "NH-Extended";
       src: url("HelveticaNeueLTPro-93BlackExtended.otf") format("opentype");
@@ -15,9 +15,9 @@
     }
 
     * {
-      box-sizing: border-box;
       margin: 0;
       padding: 0;
+      box-sizing: border-box;
     }
 
     html, body {
@@ -32,64 +32,62 @@
       overflow-x: hidden;
     }
 
-    /* ================== HERO SIMPLE (juste pour voir le header) ================== */
-
     .hero {
       position: relative;
       min-height: 100vh;
-      background: radial-gradient(circle at top left, #444 0, #000 48%, #000 100%);
+      background: radial-gradient(circle at top left, #444 0, #000 52%, #000 100%);
     }
 
-    /* ================== HEADER FLOTTANT STYLE GP ================== */
+    /* =============== HEADER FLOTTANT STYLE GP =============== */
 
     .gp-header {
       position: absolute;
-      top: 32px;  /* distance par rapport au haut de la page */
+      top: 30px;
       left: 0;
       right: 0;
       z-index: 20;
     }
 
-    /* logo fondu dans le hero, indépendant de la barre blanche */
+    /* Logo fondu dans le hero, indépendant de la barre */
     .apam-logo {
       position: absolute;
-      left: 70px;           /* marge gauche */
-      top: 74px;            /* centre aligné avec la barre */
+      left: 72px;
+      top: 73px;              /* centre aligné avec le centre de la barre */
       transform: translateY(-50%);
-      height: 96px;         /* ajuste si besoin */
+      height: 88px;           /* un peu plus petit qu’avant */
     }
 
-    /* barre blanche au milieu du header */
+    /* Barre blanche */
     .header-bar {
-      width: 76%;
-      max-width: 1320px;
+      width: 74%;
+      max-width: 1280px;
       margin: 0 auto;
       background: #ffffff;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 18px 52px;
+      padding: 11px 46px;      /* rend la barre plus fine */
       box-shadow: 0 6px 18px rgba(0, 0, 0, 0.28);
     }
 
-    /* ================== NAVIGATION ================== */
+    /* =============== NAV =============== */
 
     .main-nav {
       display: flex;
       align-items: center;
-      gap: 52px; /* espace entre les items – très “large” comme GP */
+      gap: 40px;               /* espace entre les items */
     }
 
     .main-nav a {
       position: relative;
       font-family: "NH-Extended", Arial, sans-serif;
       font-weight: 900;
-      font-size: 20px;
+      font-size: 18px;         /* un poil plus petit */
       text-transform: uppercase;
-      letter-spacing: 0.19em; /* tracking bien large */
+      letter-spacing: 0.22em;  /* très large comme GP */
       color: #000;
       text-decoration: none;
-      padding-bottom: 6px;
+      padding-bottom: 5px;
       white-space: nowrap;
     }
 
@@ -101,7 +99,7 @@
       width: 0%;
       height: 3px;
       background: #000;
-      transition: width 0.22s ease;
+      transition: width 0.2s ease;
     }
 
     .main-nav a:hover::after,
@@ -109,23 +107,23 @@
       width: 100%;
     }
 
-    /* ================== ICONES + BOUTON COMPTE ================== */
+    /* =============== ICONES + COMPTE =============== */
 
     .header-right {
       display: flex;
       align-items: center;
-      gap: 18px;
+      gap: 14px;
     }
 
     .circle-icon {
-      width: 34px;
-      height: 34px;
+      width: 32px;
+      height: 32px;
       border-radius: 50%;
       border: 2px solid #000;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 13px;
+      font-size: 12px;
       font-weight: 700;
       font-family: "Helvetica Neue", system-ui, sans-serif;
       background: transparent;
@@ -136,26 +134,27 @@
       border: 3px solid #000;
       background: #000;
       color: #fff;
-      padding: 10px 32px;
+      padding: 8px 28px;
       font-family: "NH-Extended", Arial, sans-serif;
       font-weight: 900;
-      font-size: 18px;
+      font-size: 16px;
       text-transform: uppercase;
-      letter-spacing: 0.16em;
+      letter-spacing: 0.18em;
       cursor: pointer;
+      white-space: nowrap;
     }
 
     .btn-account:hover {
       background: #111;
     }
 
-    /* ================== CONTENU HERO (juste pour tester) ================== */
+    /* =============== HERO TEXTE (exemple) =============== */
 
     .hero-content {
       position: absolute;
       left: 72px;
       bottom: 80px;
-      max-width: 600px;
+      max-width: 620px;
     }
 
     .hero-tag {
@@ -163,13 +162,13 @@
       letter-spacing: 0.18em;
       text-transform: uppercase;
       opacity: 0.7;
-      margin-bottom: 12px;
+      margin-bottom: 10px;
     }
 
     .hero-title {
-      font-size: 2.7rem;
+      font-size: 2.4rem;
       font-weight: 700;
-      margin-bottom: 12px;
+      margin-bottom: 10px;
     }
 
     .hero-sub {
@@ -178,27 +177,27 @@
       line-height: 1.5;
     }
 
-    /* ================== RESPONSIVE DE BASE ================== */
+    /* =============== RESPONSIVE =============== */
 
-    @media (max-width: 960px) {
-      .apam-logo {
-        left: 20px;
-        top: 68px;
-        height: 78px;
+    @media (max-width: 1100px) {
+      .header-bar {
+        width: 88%;
+        padding: 10px 26px;
       }
 
-      .header-bar {
-        width: 90%;
-        padding: 14px 20px;
+      .apam-logo {
+        left: 26px;
+        top: 70px;
+        height: 76px;
       }
 
       .main-nav {
-        gap: 28px;
+        gap: 26px;
       }
 
       .main-nav a {
         font-size: 15px;
-        letter-spacing: 0.16em;
+        letter-spacing: 0.18em;
       }
 
       .btn-account {
@@ -207,8 +206,7 @@
       }
     }
 
-    @media (max-width: 720px) {
-      /* pour l’instant : on ne gère pas le burger, juste un wrap propre */
+    @media (max-width: 780px) {
       .header-bar {
         flex-wrap: wrap;
         row-gap: 10px;
@@ -229,7 +227,7 @@
 </head>
 <body>
   <div class="hero">
-    <!-- ========== HEADER ========== -->
+    <!-- ========= HEADER ========= -->
     <header class="gp-header">
       <img src="apam-logo.png" alt="Logo APAM" class="apam-logo" />
 
@@ -251,7 +249,7 @@
       </div>
     </header>
 
-    <!-- ========== HERO TEXTE D’EXEMPLE ========== -->
+    <!-- ========= HERO TEXTE ========= -->
     <div class="hero-content">
       <div class="hero-tag">Aéroclub associatif</div>
       <h1 class="hero-title">APAM – Aéroclub L'Aigle Saint-Michel</h1>
