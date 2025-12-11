@@ -32,8 +32,8 @@
       margin: 0;
       background: #000;
       color: #fff;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
-        sans-serif;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont,
+        "Segoe UI", sans-serif;
     }
 
     .hero {
@@ -68,14 +68,14 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 0 28px 0 32px;
+      padding: 0 18px 0 28px; /* réduit à droite pour coller le bouton comme GP */
     }
 
     .header-left,
     .header-right {
       display: flex;
       align-items: center;
-      gap: 32px;
+      gap: 24px;
     }
 
     .nav-menu {
@@ -95,7 +95,7 @@
     }
 
     .nav-link::after {
-      content: none; /* plus de trait sous les menus */
+      content: none;
     }
 
     .icon-circle {
@@ -111,20 +111,32 @@
       cursor: pointer;
     }
 
+    /* ---------- BOUTON MON COMPTE (STYLE GP EXACT) ----------- */
     .btn-compte {
       font-family: "GPMenu", system-ui, sans-serif;
       font-size: 13px;
-      letter-spacing: 0.19em;
       text-transform: uppercase;
-      padding: 10px 26px;
       border: 0;
       background: #000;
       color: #fff;
       cursor: pointer;
       white-space: nowrap;
+
+      /* Taille compacte → similaire à GP */
+      padding: 8px 20px;
+
+      /* Espacement resserré comme GP */
+      letter-spacing: 0.10em;
+
+      /* Compression horizontale → aspect vertical GP */
+      transform: scaleX(0.78);
+      transform-origin: center;
+
+      /* Hauteur/épaisseur GP */
+      line-height: 1;
     }
 
-    /* -------- HERO TEXT -------- */
+    /* -------- HERO -------- */
 
     .hero-inner {
       max-width: 760px;
@@ -183,12 +195,10 @@
     <header class="site-header">
       <div class="header-row">
 
-        <!-- LOGO FIXE -->
         <div class="header-logo">
-          <img src="apam-logo1.png" alt="Logo APAM" />
+          <img src="apam-logo1.png" alt="Logo APAM">
         </div>
 
-        <!-- BARRE BLANCHE -->
         <div class="header-bar">
 
           <div class="header-left">
@@ -212,13 +222,12 @@
       </div>
     </header>
 
-    <!-- HERO TEXT -->
+    <!-- HERO -->
     <main class="hero-inner">
       <div class="hero-kicker">AÉROCLUB ASSOCIATIF</div>
 
       <h1 class="hero-title">
-        APAM – Aéroclub L'Aigle<br>
-        Saint-Michel
+        APAM – Aéroclub L'Aigle<br>Saint-Michel
       </h1>
 
       <p class="hero-text">
@@ -227,7 +236,6 @@
       </p>
     </main>
 
-    <!-- LOCALISATION -->
     <div class="hero-location">
       AÉRODROME DE L'AIGLE SAINT-MICHEL<br>
       LFAI · NORMANDIE, FRANCE
