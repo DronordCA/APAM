@@ -14,12 +14,12 @@
     }
 
     :root {
-      --page-side-margin: 60px;   /* marge gauche/droite (tu avais 60px) */
+      --page-side-margin: 60px;   /* marge gauche/droite globale */
       --header-height: 48px;      /* hauteur de la barre blanche */
       --header-font-size: 14px;
       --header-letter-spacing: -0.03em; /* resserre les lettres */
-      --logo-height: 92px;        /* logo plus grand */
-      --gap-logo-header: 32px;    /* espace horizontal logo <-> barre */
+      --logo-height: 92px;        /* taille du logo */
+      --gap-logo-header: 56px;    /* <<< distance logo -> début barre blanche */
     }
 
     * {
@@ -64,17 +64,17 @@
       display: block;
     }
 
-    /* barre blanche plus courte à gauche, même fin à droite */
+    /* barre blanche : on joue sur margin-left pour "couper" le côté gauche */
     .header-bar {
       height: var(--header-height);
       background: #fff;
       color: #000;
       margin-left: var(--gap-logo-header);
-      flex: 1;                      /* occupe tout l’espace restant */
+      flex: 1;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 0 28px 0 32px;       /* padding interne léger */
+      padding: 0 28px 0 32px;
     }
 
     .header-left,
@@ -190,7 +190,7 @@
       :root {
         --page-side-margin: 20px;
         --logo-height: 70px;
-        --gap-logo-header: 20px;
+        --gap-logo-header: 24px;
       }
 
       .header-bar {
@@ -247,7 +247,6 @@
 <body>
   <div class="hero">
     <header class="site-header">
-      <!-- LOGO + BARRE BLANCHE SUR LA MÊME LIGNE -->
       <div class="header-row">
         <div class="header-logo">
           <img src="apam-logo.png" alt="Logo APAM – Aéroclub L'Aigle Saint-Michel" />
@@ -276,7 +275,6 @@
       </div>
     </header>
 
-    <!-- HERO TEXT -->
     <main class="hero-inner">
       <div class="hero-kicker">AÉROCLUB ASSOCIATIF</div>
       <h1 class="hero-title">
