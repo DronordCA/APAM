@@ -2,76 +2,94 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8" />
+  <title>APAM – Header style GP</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>APAM – Aéroclub L'Aigle Saint-Michel</title>
 
   <style>
-    /* ================== POLICE GP-STYLE ================== */
+    /* ================== POLICE EXTENDED ================== */
     @font-face {
       font-family: "NH-Extended";
-      src: url("Helvetica Neue LT Pro 93 Black Extended.otf") format("opentype");
+      src: url("HelveticaNeueLTPro-93BlackExtended.otf") format("opentype");
       font-weight: 900;
       font-style: normal;
     }
 
-    /* ================== BASE ================== */
     * {
       box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html, body {
+      height: 100%;
     }
 
     body {
-      margin: 0;
       background: #000;
       color: #fff;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text",
-        "Helvetica Neue", Arial, sans-serif;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+        sans-serif;
+      overflow-x: hidden;
     }
 
-    /* ================== HEADER GLOBAL ================== */
+    /* ================== HERO SIMPLE (juste pour voir le header) ================== */
 
-    header.apam-header {
+    .hero {
       position: relative;
-      padding-top: 36px; /* espace entre haut de page et barre */
+      min-height: 100vh;
+      background: radial-gradient(circle at top left, #444 0, #000 48%, #000 100%);
     }
 
-    /* LOGO détaché comme GP Explorer */
+    /* ================== HEADER FLOTTANT STYLE GP ================== */
+
+    .gp-header {
+      position: absolute;
+      top: 32px;  /* distance par rapport au haut de la page */
+      left: 0;
+      right: 0;
+      z-index: 20;
+    }
+
+    /* logo fondu dans le hero, indépendant de la barre blanche */
     .apam-logo {
       position: absolute;
-      left: 64px;
-      top: 86px;              /* milieu aligné au milieu de la barre */
+      left: 70px;           /* marge gauche */
+      top: 74px;            /* centre aligné avec la barre */
       transform: translateY(-50%);
-      height: 96px;
+      height: 96px;         /* ajuste si besoin */
     }
 
-    /* Barre blanche centrée, plus courte que la page */
+    /* barre blanche au milieu du header */
     .header-bar {
+      width: 76%;
+      max-width: 1320px;
       margin: 0 auto;
-      width: calc(100% - 320px);  /* laisse ~160px de chaque côté */
-      max-width: 1380px;
       background: #ffffff;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 14px 40px 16px;
+      padding: 18px 52px;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.28);
     }
 
-    /* ================== NAV ================== */
+    /* ================== NAVIGATION ================== */
 
     .main-nav {
       display: flex;
-      gap: 48px;
+      align-items: center;
+      gap: 52px; /* espace entre les items – très “large” comme GP */
     }
 
     .main-nav a {
       position: relative;
-      font-family: "NH-Extended", "Helvetica Neue", Arial, sans-serif;
+      font-family: "NH-Extended", Arial, sans-serif;
       font-weight: 900;
       font-size: 20px;
-      letter-spacing: 0.16em;
       text-transform: uppercase;
-      text-decoration: none;
+      letter-spacing: 0.19em; /* tracking bien large */
       color: #000;
-      padding-bottom: 4px;
+      text-decoration: none;
+      padding-bottom: 6px;
       white-space: nowrap;
     }
 
@@ -80,10 +98,10 @@
       position: absolute;
       left: 0;
       bottom: 0;
-      width: 0;
+      width: 0%;
       height: 3px;
       background: #000;
-      transition: width 0.18s ease;
+      transition: width 0.22s ease;
     }
 
     .main-nav a:hover::after,
@@ -91,7 +109,7 @@
       width: 100%;
     }
 
-    /* ================== ICÔNES + BOUTON ================== */
+    /* ================== ICONES + BOUTON COMPTE ================== */
 
     .header-right {
       display: flex;
@@ -100,86 +118,78 @@
     }
 
     .circle-icon {
-      width: 32px;
-      height: 32px;
+      width: 34px;
+      height: 34px;
       border-radius: 50%;
       border: 2px solid #000;
       display: flex;
       align-items: center;
       justify-content: center;
       font-size: 13px;
-      font-weight: 600;
-      font-family: "Helvetica Neue", Arial, sans-serif;
+      font-weight: 700;
+      font-family: "Helvetica Neue", system-ui, sans-serif;
       background: transparent;
       cursor: pointer;
     }
 
     .btn-account {
-      font-family: "NH-Extended", "Helvetica Neue", Arial, sans-serif;
-      font-weight: 900;
-      text-transform: uppercase;
-      letter-spacing: 0.16em;
-      font-size: 16px;
-      padding: 10px 26px;
       border: 3px solid #000;
       background: #000;
       color: #fff;
+      padding: 10px 32px;
+      font-family: "NH-Extended", Arial, sans-serif;
+      font-weight: 900;
+      font-size: 18px;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
       cursor: pointer;
-      white-space: nowrap;
     }
 
-    /* ================== HERO PLACEHOLDER ================== */
+    .btn-account:hover {
+      background: #111;
+    }
 
-    main {
-      min-height: 80vh;
-      padding: 80px 80px;
-      background: radial-gradient(circle at top left, #222 0, #000 55%);
+    /* ================== CONTENU HERO (juste pour tester) ================== */
+
+    .hero-content {
+      position: absolute;
+      left: 72px;
+      bottom: 80px;
+      max-width: 600px;
     }
 
     .hero-tag {
-      font-size: 11px;
-      letter-spacing: 0.26em;
+      font-size: 0.75rem;
+      letter-spacing: 0.18em;
       text-transform: uppercase;
-      opacity: 0.75;
-      margin-bottom: 10px;
+      opacity: 0.7;
+      margin-bottom: 12px;
     }
 
     .hero-title {
-      font-size: 40px;
+      font-size: 2.7rem;
       font-weight: 700;
-      margin: 0 0 14px;
+      margin-bottom: 12px;
     }
 
     .hero-sub {
-      max-width: 540px;
-      font-size: 14px;
+      font-size: 0.95rem;
+      opacity: 0.82;
       line-height: 1.5;
-      opacity: 0.8;
     }
 
-    .hero-location {
-      position: absolute;
-      right: 80px;
-      bottom: 36px;
-      font-size: 12px;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      opacity: 0.8;
-      text-align: right;
-    }
+    /* ================== RESPONSIVE DE BASE ================== */
 
-    /* ================== RESPONSIVE ================== */
-
-    @media (max-width: 1024px) {
+    @media (max-width: 960px) {
       .apam-logo {
-        left: 24px;
-        top: 82px;
+        left: 20px;
+        top: 68px;
         height: 78px;
       }
 
       .header-bar {
-        width: calc(100% - 80px);
-        padding-inline: 26px;
+        width: 90%;
+        padding: 14px 20px;
       }
 
       .main-nav {
@@ -187,105 +197,69 @@
       }
 
       .main-nav a {
-        font-size: 16px;
-        letter-spacing: 0.14em;
+        font-size: 15px;
+        letter-spacing: 0.16em;
       }
 
-      main {
-        padding: 70px 30px;
-      }
-
-      .hero-location {
-        right: 30px;
+      .btn-account {
+        padding: 8px 18px;
+        font-size: 14px;
       }
     }
 
-    @media (max-width: 768px) {
-      header.apam-header {
-        padding-top: 20px;
-      }
-
-      .apam-logo {
-        position: static;
-        transform: none;
-        margin: 0 auto 14px;
-        display: block;
-        height: 72px;
-      }
-
+    @media (max-width: 720px) {
+      /* pour l’instant : on ne gère pas le burger, juste un wrap propre */
       .header-bar {
-        width: 100%;
-        border-radius: 0;
-        padding-inline: 18px;
+        flex-wrap: wrap;
+        row-gap: 10px;
       }
 
       .main-nav {
-        display: none; /* pour l’instant, on cache le menu sur mobile */
+        flex-wrap: wrap;
+        gap: 18px;
       }
 
-      .header-right {
-        margin-left: auto;
-      }
-
-      main {
-        padding: 40px 20px 60px;
-      }
-
-      .hero-title {
-        font-size: 30px;
-      }
-
-      .hero-location {
-        position: static;
-        margin-top: 40px;
-        text-align: left;
+      .hero-content {
+        left: 24px;
+        right: 24px;
+        bottom: 40px;
       }
     }
   </style>
 </head>
 <body>
+  <div class="hero">
+    <!-- ========== HEADER ========== -->
+    <header class="gp-header">
+      <img src="apam-logo.png" alt="Logo APAM" class="apam-logo" />
 
-  <header class="apam-header">
-    <!-- LOGO détaché -->
-    <img src="apam-logo.png" alt="Logo APAM" class="apam-logo" />
+      <div class="header-bar">
+        <nav class="main-nav">
+          <a href="index.html" class="active">Accueil</a>
+          <a href="activite.html">Activités</a>
+          <a href="tarifs.html">Tarifs</a>
+          <a href="membres.html">Membres</a>
+          <a href="contact.html">Contact</a>
+          <a href="https://openflyers.com/apam/" target="_blank">Openflyer</a>
+        </nav>
 
-    <!-- BARRE BLANCHE -->
-    <div class="header-bar">
-      <nav class="main-nav">
-        <a href="index.html" class="active">Accueil</a>
-        <a href="activite.html">Activités</a>
-        <a href="tarifs.html">Tarifs</a>
-        <a href="espace-membres.html">Membres</a>
-        <a href="contact.html">Contact</a>
-        <a href="https://openflyers.com/apam/" target="_blank">OpenFlyer</a>
-      </nav>
-
-      <div class="header-right">
-        <button class="circle-icon" onclick="window.open('https://www.instagram.com/_cauvin_', '_blank')">
-          IG
-        </button>
-        <button class="circle-icon" onclick="window.location.href='mailto:contact@apam.fr'">
-          @
-        </button>
-        <button class="btn-account">MON COMPTE</button>
+        <div class="header-right">
+          <button class="circle-icon" aria-label="Instagram">IG</button>
+          <button class="circle-icon" aria-label="Email">@</button>
+          <button class="btn-account">Mon compte</button>
+        </div>
       </div>
+    </header>
+
+    <!-- ========== HERO TEXTE D’EXEMPLE ========== -->
+    <div class="hero-content">
+      <div class="hero-tag">Aéroclub associatif</div>
+      <h1 class="hero-title">APAM – Aéroclub L'Aigle Saint-Michel</h1>
+      <p class="hero-sub">
+        Découvrir le vol, apprendre à piloter ou organiser des voyages en partage de frais :
+        l’équipe de bénévoles de l’APAM vous accompagne dans vos projets.
+      </p>
     </div>
-  </header>
-
-  <!-- HERO TEMPORAIRE (fond noir dégradé) -->
-  <main>
-    <div class="hero-tag">Aéroclub associatif</div>
-    <h1 class="hero-title">APAM – Aéroclub L'Aigle Saint-Michel</h1>
-    <p class="hero-sub">
-      Découvrir le vol, apprendre à piloter ou organiser des voyages en partage
-      de frais : l’équipe de bénévoles de l’APAM vous accompagne dans vos projets.
-    </p>
-
-    <div class="hero-location">
-      Aérodrome de l'Aigle Saint-Michel<br />
-      LFAI · Normandie, France
-    </div>
-  </main>
-
+  </div>
 </body>
 </html>
