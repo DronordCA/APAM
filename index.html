@@ -5,166 +5,171 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>APAM – Aéroclub L'Aigle Saint-Michel</title>
 
-<style>
-    @font-face {
-        font-family: "GP-Menu";
-        src: url("Helvetica Neue LT Pro 93 Black Extended.otf") format("opentype");
-        font-weight: 900;
-    }
+    <style>
+        /* ————————————————————————
+           FONT MENU (ta Helvetica Neue 93)
+        ———————————————————————— */
+        @font-face {
+            font-family: "GP-Menu";
+            src: url("Helvetica Neue LT Pro 93 Black Extended.otf") format("opentype");
+            font-weight: 900;
+        }
 
-    body {
-        margin: 0;
-        background: #000;
-        color: #fff;
-        font-family: Arial, sans-serif;
-    }
+        body {
+            margin: 0;
+            background: #000;
+            color: #fff;
+            font-family: Arial, sans-serif;
+        }
 
-    /* ————————————————————————
-       LOGO EXACT GP
-    ———————————————————————— */
-    .header-logo {
-        position: absolute;
-        top: 97px; /* centre aligné */
-        left: 72px;
-        transform: translateY(-50%);
-        z-index: 20;
-    }
+        /* ————————————————————————
+           LOGO
+        ———————————————————————— */
+        .header-logo {
+            position: absolute;
+            top: 90px;      /* légèrement plus bas */
+            left: 64px;
+            transform: translateY(-50%);
+            z-index: 20;
+        }
 
-    .header-logo img {
-        height: 120px;
-        width: auto;
-    }
+        .header-logo img {
+            height: 105px;  /* un peu plus petit */
+            width: auto;
+        }
 
-    /* ————————————————————————
-       BARRE DU HEADER EXACTE
-    ———————————————————————— */
-    .main-header {
-        margin: 0 auto;
-        margin-top: 55px;
-        width: 86%;
-        height: 100px; /* EXACT GP EXPLORER */
-        background: #fff;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 0 40px;
-    }
+        /* ————————————————————————
+           BARRE DU HEADER (PLUS FINE)
+        ———————————————————————— */
+        .main-header {
+            margin: 0 auto;
+            margin-top: 55px;
+            width: 86%;
+            height: 80px;           /* AVANT 100px → plus fin */
+            background: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 32px;        /* moins large */
+        }
 
-    /* ————————————————————————
-       MENU GP
-    ———————————————————————— */
-    .main-nav {
-        display: flex;
-        align-items: center;
-        gap: 36px;
-    }
+        /* ————————————————————————
+           MENU (PLUS PETIT & COMPACT)
+        ———————————————————————— */
+        .main-nav {
+            display: flex;
+            align-items: center;
+            gap: 28px;              /* AVANT 36px */
+        }
 
-    .nav-link {
-        font-family: "GP-Menu";
-        font-size: 19.5px;       /* Taille exacte GP */
-        letter-spacing: -0.5px;  /* Compression horizontale GP */
-        text-transform: uppercase;
-        color: #000;
-        padding-bottom: 14px;
-        text-decoration: none;
-        position: relative;
-    }
+        .nav-link {
+            font-family: "GP-Menu";
+            font-size: 16px;        /* AVANT 19.5px */
+            letter-spacing: -0.7px; /* compresse les lettres */
+            text-transform: uppercase;
+            color: #000;
+            padding-bottom: 10px;   /* moins de hauteur visuelle */
+            text-decoration: none;
+            position: relative;
+        }
 
-    .nav-link.active::after,
-    .nav-link:hover::after {
-        content: "";
-        position: absolute;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        height: 3px;
-        background: #000;
-    }
+        .nav-link.active::after,
+        .nav-link:hover::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            height: 3px;
+            background: #000;
+        }
 
-    /* ————————————————————————
-       ICONES + BOUTON
-    ———————————————————————— */
-    .header-right {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-    }
+        /* ————————————————————————
+           ICONES + BOUTON (RÉDUITS)
+        ———————————————————————— */
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
 
-    .social-icon {
-        width: 30px;
-        height: 30px;
-        border: 2px solid #000;
-        border-radius: 50%;
-        color: #000;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        font-family: "GP-Menu";
-        font-size: 12px;
-    }
+        .social-icon {
+            width: 26px;
+            height: 26px;
+            border: 2px solid #000;
+            border-radius: 50%;
+            color: #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: "GP-Menu";
+            font-size: 11px;
+        }
 
-    .account-btn {
-        background: #000;
-        border: 2px solid #000;
-        padding: 9px 22px; /* Exact GP: bouton plus plat */
-        color: #fff;
-        font-family: "GP-Menu";
-        text-transform: uppercase;
-        font-size: 16px;
-        letter-spacing: 0.2px;
-        text-decoration: none;
-    }
+        .account-btn {
+            background: #000;
+            border: 2px solid #000;
+            padding: 7px 18px;      /* plus plat et plus compact */
+            color: #fff;
+            font-family: "GP-Menu";
+            text-transform: uppercase;
+            font-size: 14px;
+            letter-spacing: 0;
+            text-decoration: none;
+        }
 
-    /* ————————————————————————
-       HERO
-    ———————————————————————— */
-    .hero {
-        margin-top: 200px;
-        padding-left: 72px;
-        max-width: 650px;
-    }
+        /* ————————————————————————
+           HERO
+        ———————————————————————— */
+        .hero {
+            margin-top: 190px;
+            padding-left: 72px;
+            max-width: 650px;
+        }
 
-    .hero-sub {
-        font-size: 12px;
-        letter-spacing: 0.2em;
-        opacity: 0.6;
-        margin-bottom: 14px;
-    }
+        .hero-sub {
+            font-size: 12px;
+            letter-spacing: 0.2em;
+            opacity: 0.6;
+            margin-bottom: 14px;
+        }
 
-    .hero h1 {
-        font-size: 48px;
-        font-weight: 700;
-        line-height: 1.18;
-        margin-bottom: 18px;
-    }
+        .hero h1 {
+            font-size: 48px;
+            font-weight: 700;
+            line-height: 1.18;
+            margin-bottom: 18px;
+        }
 
-    .hero p {
-        font-size: 18px;
-        line-height: 1.45;
-        opacity: 0.9;
-    }
+        .hero p {
+            font-size: 18px;
+            line-height: 1.45;
+            opacity: 0.9;
+        }
 
-    /* ————————————————————————
-       FOOTER LOCALISATION
-    ———————————————————————— */
-    .footer-loc {
-        position: absolute;
-        bottom: 42px;
-        right: 42px;
-        opacity: 0.65;
-        font-size: 12px;
-        letter-spacing: 0.12em;
-        text-align: right;
-    }
-</style>
+        /* ————————————————————————
+           FOOTER LOCALISATION
+        ———————————————————————— */
+        .footer-loc {
+            position: absolute;
+            bottom: 42px;
+            right: 42px;
+            opacity: 0.65;
+            font-size: 12px;
+            letter-spacing: 0.12em;
+            text-align: right;
+        }
+    </style>
 </head>
 
 <body>
 
+    <!-- LOGO FLUO SUR LE HERO -->
     <div class="header-logo">
         <img src="apam-logo.png" alt="APAM Logo">
     </div>
 
+    <!-- HEADER TYPE GP EXPLORER MAIS PLUS FIN -->
     <header class="main-header">
         <nav class="main-nav">
             <a class="nav-link active" href="#">Accueil</a>
@@ -178,10 +183,11 @@
         <div class="header-right">
             <div class="social-icon">IG</div>
             <div class="social-icon">@</div>
-            <a class="account-btn" href="#">Mon Compte</a>
+            <a class="account-btn" href="#">Mon compte</a>
         </div>
     </header>
 
+    <!-- HERO TEXTE -->
     <section class="hero">
         <div class="hero-sub">AÉROCLUB ASSOCIATIF</div>
         <h1>APAM – Aéroclub L'Aigle<br>Saint-Michel</h1>
@@ -191,6 +197,7 @@
         </p>
     </section>
 
+    <!-- LOCALISATION -->
     <div class="footer-loc">
         AÉRODROME DE L'AIGLE SAINT-MICHEL<br>
         LFAI · NORMANDIE, FRANCE
