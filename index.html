@@ -38,6 +38,12 @@
       --fleet-gap: 12px;
 
       --yellow: #f5d86e;
+
+      /* ✅ Tag blanc bas-gauche */
+      --tag-left: 60px;      /* aligne avec la marge */
+      --tag-bottom: 120px;   /* “moitié basse” (ajuste si besoin) */
+      --tag-w: 420px;
+      --tag-h: 86px;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -230,9 +236,8 @@
       text-decoration: none;
       color: #fff;
 
-      /* ✅ LA CLÉ : layout stable (comme GP) */
       display: grid;
-      grid-template-columns: 120px 1fr 200px; /* Titre | sous-texte | image */
+      grid-template-columns: 120px 1fr 200px;
       align-items: center;
 
       padding: 12px 14px;
@@ -296,25 +301,23 @@
       padding-right: 10px;
     }
 
-    /* ✅ boîtier image fixe + alignement à droite */
     .plane-box {
       width: 200px;
       height: 64px;
       display: flex;
       align-items: center;
-      justify-content: flex-end;   /* colle à droite */
+      justify-content: flex-end;
       overflow: hidden;
     }
     .plane-box img {
       width: 100%;
       height: 100%;
       object-fit: contain;
-      object-position: right center; /* nez au même endroit */
+      object-position: right center;
       display: block;
       transform-origin: right center;
     }
 
-    /* ✅ Ajuste la “présence” visuelle sans toucher aux PNG */
     .fleet-card[data-plane="c152"] .plane-box img { transform: scale(1.80); }
     .fleet-card[data-plane="sr22"] .plane-box img { transform: scale(1.15); }
 
@@ -323,6 +326,8 @@
     .hero-inner {
       max-width: 760px;
       padding: 120px var(--page-side-margin) 80px;
+      position: relative;
+      z-index: 2;
     }
 
     .hero-title {
@@ -356,6 +361,32 @@
       text-transform: uppercase;
       text-align: right;
       color: #d0d0d0;
+      z-index: 2;
+    }
+
+    /* ✅ Rectangle blanc bas-gauche (style GP) */
+    .gp-tag {
+      position: absolute;
+      left: var(--tag-left);
+      bottom: var(--tag-bottom);
+      width: var(--tag-w);
+      height: var(--tag-h);
+      background: #fff;
+      border-radius: 2px;
+      display: flex;
+      align-items: center;
+      padding: 0 22px;
+      z-index: 2;
+      box-shadow: 0 18px 40px rgba(0,0,0,0.45);
+    }
+    .gp-tag span {
+      font-family: "Swiss911", sans-serif;
+      font-size: 44px;            /* gros comme GP */
+      letter-spacing: -0.03em;
+      text-transform: uppercase;
+      color: #111;
+      line-height: 1;
+      white-space: nowrap;
     }
 
     /* -------- RESPONSIVE -------- */
@@ -364,17 +395,22 @@
         --page-side-margin: 20px;
         --logo-height: 70px;
         --gap-logo-header: 24px;
+
+        --tag-left: 20px;
+        --tag-bottom: 110px;
+        --tag-w: 320px;
+        --tag-h: 76px;
       }
+
       .header-bar { padding: 0 10px 0 18px; }
       .nav-menu { gap: 20px; }
       .nav-link { font-size: 12px; }
 
-      .dropdown {
-        left: 0;
-        transform: none;
-      }
+      .dropdown { left: 0; transform: none; }
       .fleet-card { width: 330px; grid-template-columns: 110px 1fr 170px; }
       .plane-box { width: 170px; height: 58px; }
+
+      .gp-tag span { font-size: 38px; }
     }
   </style>
 </head>
@@ -492,6 +528,11 @@
         l’équipe de bénévoles de l’APAM vous accompagne dans vos projets.
       </p>
     </main>
+
+    <!-- ✅ Le rectangle blanc demandé -->
+    <div class="gp-tag" aria-label="Aérodrome L'Aigle Saint-Michel">
+      <span>L’AIGLE SAINT-MICHEL</span>
+    </div>
 
     <div class="hero-location">
       AÉRODROME DE L'AIGLE SAINT-MICHEL<br>
