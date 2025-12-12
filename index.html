@@ -14,7 +14,7 @@
       font-style: normal;
     }
 
-    /* Police Swiss911 */
+    /* Police bouton MON COMPTE + blocs */
     @font-face {
       font-family: "Swiss911";
       src: url("Swiss911-ExtraCompressed.otf") format("opentype");
@@ -31,7 +31,8 @@
       --gap-logo-header: 62px;
       --header-grey: #222;
 
-      --fleet-card-bg: #1e1e1e;
+      /* Dropdown flotte */
+      --fleet-card-bg: #1e1e1e; /* gris foncé */
       --fleet-card-border: rgba(255,255,255,0.08);
       --fleet-card-radius: 6px;
       --fleet-gap: 12px;
@@ -45,16 +46,19 @@
       background: #000;
       color: #fff;
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      overflow-x: hidden;
     }
 
     .hero {
       min-height: 100vh;
       background: radial-gradient(circle at top left, #222 0, #000 55%);
       position: relative;
-      overflow: hidden;
     }
 
-    /* -------- HEADER -------- */
+    /* ========================= */
+    /* HEADER                    */
+    /* ========================= */
+
     .site-header { padding-top: 20px; }
 
     .header-row {
@@ -88,7 +92,11 @@
 
     .nav-menu { display: flex; align-items: center; gap: 34px; }
 
-    .nav-item { position: relative; display: inline-flex; align-items: center; }
+    .nav-item {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+    }
 
     .nav-link {
       font-family: "GPMenu", system-ui, sans-serif;
@@ -104,7 +112,7 @@
       padding: 2px 0;
     }
 
-    /* hover remplissage */
+    /* Hover texte (accents ok via data-text) */
     .nav-link[data-text] { color: transparent; }
     .nav-link[data-text]::before {
       content: attr(data-text);
@@ -125,7 +133,7 @@
     }
     .nav-link[data-text]:hover::after { clip-path: inset(0 0 0 0); }
 
-    /* icônes */
+    /* Icons */
     .icon {
       width: 26px;
       height: 26px;
@@ -137,7 +145,7 @@
     }
     .icon svg { width: 100%; height: 100%; fill: var(--header-grey); }
 
-    /* bouton mon compte */
+    /* Bouton MON COMPTE */
     .btn-compte {
       position: relative;
       overflow: hidden;
@@ -168,8 +176,9 @@
     .btn-compte:hover::before { width: 100%; }
 
     /* =============================== */
-    /* DROPDOWN FLOTTE */
+    /* DROPDOWN FLOTTE — VERTICAL GP   */
     /* =============================== */
+
     .nav-item.has-dropdown::before {
       content: "";
       position: absolute;
@@ -210,7 +219,7 @@
       color: #fff;
 
       display: grid;
-      grid-template-columns: 120px 1fr 200px;
+      grid-template-columns: 120px 1fr 200px; /* Titre | sous-texte | image */
       align-items: center;
 
       padding: 12px 14px;
@@ -284,191 +293,3 @@
     }
 
     .fleet-card[data-plane="c152"] .plane-box img { transform: scale(1.80); }
-    .fleet-card[data-plane="sr22"] .plane-box img { transform: scale(1.15); }
-
-    /* =============================== */
-    /* ✅ NOUVEAU : 2 rectangles façon GP (titre + petit tag) */
-    /* =============================== */
-    .gp-stack {
-      position: absolute;
-      left: var(--page-side-margin);
-      top: 52%;                 /* plus haut que ta version précédente */
-      transform: translateY(-50%);
-      z-index: 2;
-      display: inline-flex;
-      flex-direction: column;
-      gap: 10px;                /* petit espace comme GP */
-    }
-
-    .gp-box {
-      display: inline-flex;
-      align-items: center;
-      justify-content: flex-start;
-      width: fit-content;       /* ✅ le rectangle "fit" le texte */
-      padding: 14px 18px 10px;  /* ✅ pas trop haut */
-      box-shadow: 0 18px 34px rgba(0,0,0,0.35);
-    }
-
-    .gp-box--white {
-      background: #fff;
-      color: #111;
-    }
-
-    .gp-box--black {
-      background: #000;
-      color: #fff;
-      border: 1px solid rgba(255,255,255,0.15);
-      box-shadow: 0 18px 34px rgba(0,0,0,0.45);
-      padding: 10px 14px 8px;   /* plus petit */
-      align-self: flex-start;   /* aligné à gauche sous le grand */
-    }
-
-    .gp-box .gp-big {
-      font-family: "Swiss911", sans-serif;
-      text-transform: uppercase;
-      letter-spacing: -0.02em;
-      line-height: 0.9;
-      font-size: clamp(44px, 5.8vw, 86px); /* gros, mais moins énorme */
-      white-space: nowrap;
-    }
-
-    .gp-box .gp-small {
-      font-family: "Swiss911", sans-serif;
-      text-transform: uppercase;
-      letter-spacing: -0.02em;
-      line-height: 1;
-      font-size: clamp(22px, 2.2vw, 34px);
-      white-space: nowrap;
-    }
-
-    /* -------- RESPONSIVE -------- */
-    @media (max-width: 980px) {
-      :root {
-        --page-side-margin: 20px;
-        --logo-height: 70px;
-        --gap-logo-header: 24px;
-      }
-      .header-bar { padding: 0 10px 0 18px; }
-      .nav-menu { gap: 20px; }
-      .nav-link { font-size: 12px; }
-
-      .dropdown { left: 0; transform: none; }
-      .fleet-card { width: 330px; grid-template-columns: 110px 1fr 170px; }
-      .plane-box { width: 170px; height: 58px; }
-
-      .gp-stack { top: 62%; }
-      .gp-box .gp-big { white-space: normal; }
-    }
-  </style>
-</head>
-
-<body>
-  <div class="hero">
-
-    <header class="site-header">
-      <div class="header-row">
-
-        <div class="header-logo">
-          <img src="apam-logo1.png" alt="Logo APAM">
-        </div>
-
-        <div class="header-bar">
-
-          <div class="header-left">
-            <nav class="nav-menu">
-
-              <span class="nav-item">
-                <a href="index.html" class="nav-link" data-text="ACCUEIL">ACCUEIL</a>
-              </span>
-
-              <span class="nav-item">
-                <a href="activite.html" class="nav-link" data-text="ACTIVITÉS">ACTIVITÉS</a>
-              </span>
-
-              <span class="nav-item has-dropdown">
-                <a href="tarifs.html" class="nav-link" data-text="FLOTTE">FLOTTE</a>
-
-                <div class="dropdown">
-
-                  <a class="fleet-card" data-plane="tb200" href="tarifs.html#tb200" aria-label="TB200">
-                    <div class="fleet-left">
-                      <span class="fleet-title">TB200 <span class="fleet-arrow"></span></span>
-                    </div>
-                    <div class="fleet-mid">VOYAGE · CLUB</div>
-                    <div class="plane-box">
-                      <img src="tb200-plane.png" alt="TB200">
-                    </div>
-                  </a>
-
-                  <a class="fleet-card" data-plane="c152" href="tarifs.html#c152" aria-label="C152">
-                    <div class="fleet-left">
-                      <span class="fleet-title">C152 <span class="fleet-arrow"></span></span>
-                    </div>
-                    <div class="fleet-mid">ÉCOLE · INITIATION</div>
-                    <div class="plane-box">
-                      <img src="c152-plane1.png" alt="Cessna 152">
-                    </div>
-                  </a>
-
-                  <a class="fleet-card" data-plane="sr22" href="tarifs.html#sr22" aria-label="SR22">
-                    <div class="fleet-left">
-                      <span class="fleet-title">SR22 <span class="fleet-arrow"></span></span>
-                    </div>
-                    <div class="fleet-mid">PREMIUM · PERFORMANCE</div>
-                    <div class="plane-box">
-                      <img src="sr22-plane.png" alt="Cirrus SR22">
-                    </div>
-                  </a>
-
-                </div>
-              </span>
-
-              <span class="nav-item">
-                <a href="espace-membres.html" class="nav-link" data-text="MEMBRES">MEMBRES</a>
-              </span>
-
-              <span class="nav-item">
-                <a href="contact.html" class="nav-link" data-text="CONTACT">CONTACT</a>
-              </span>
-
-              <span class="nav-item">
-                <a href="https://openflyers.com/apam/" target="_blank" rel="noopener noreferrer"
-                   class="nav-link" data-text="OPENFLYER">OPENFLYER</a>
-              </span>
-
-            </nav>
-          </div>
-
-          <div class="header-right">
-            <a class="icon" href="#" aria-label="Instagram">
-              <svg viewBox="0 0 24 24">
-                <path d="M7 2C4.2 2 2 4.2 2 7v10c0 2.8 2.2 5 5 5h10c2.8 0 5-2.2 5-5V7c0-2.8-2.2-5-5-5H7zm10 2c1.7 0 3 1.3 3 3v10c0 1.7-1.3 3-3 3H7c-1.7 0-3-1.3-3-3V7c0-1.7 1.3-3 3-3h10zm-5 3.5A4.5 4.5 0 1 0 16.5 12 4.51 4.51 0 0 0 12 7.5zm0 7A2.5 2.5 0 1 1 14.5 12 2.5 2.5 0 0 1 12 14.5zm4.8-8.9a1.1 1.1 0 1 1-1.1 1.1c0-.6.5-1.1 1.1-1.1z"/>
-              </svg>
-            </a>
-
-            <a class="icon" href="mailto:contact@apam.fr" aria-label="Email">
-              <svg viewBox="0 0 24 24">
-                <path d="M4 4h16a2 2 0 0 1 2 2v1l-10 6L2 7V6a2 2 0 0 1 2-2zm18 5v9a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V9l10 6 10-6z"/>
-              </svg>
-            </a>
-
-            <button class="btn-compte">MON COMPTE</button>
-          </div>
-
-        </div>
-      </div>
-    </header>
-
-    <!-- ✅ Nouveau bloc titre façon GP (remplace tout l'ancien texte) -->
-    <div class="gp-stack" aria-label="Titre">
-      <div class="gp-box gp-box--white">
-        <div class="gp-big">L'AIGLE SAINT-MICHEL</div>
-      </div>
-      <div class="gp-box gp-box--black">
-        <div class="gp-small">LFOL</div>
-      </div>
-    </div>
-
-  </div>
-</body>
-</html>
