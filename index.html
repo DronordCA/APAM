@@ -45,67 +45,38 @@
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     }
 
-    /* -------- HERO -------- */
-
     .hero {
-      position: relative;
       min-height: 100vh;
+      position: relative;
       overflow: hidden;
-      color: #fff;
+      background: #000;
     }
 
-    /* Slideshow plein écran derrière tout */
-    .hero-slideshow {
+    /* -------- HERO SLIDER (sans voile) -------- */
+
+    .hero-slider {
       position: absolute;
       inset: 0;
       z-index: 0;
     }
 
-    .hero-slide {
+    .hero-slider img {
+      width: 100%;
+      height: 100vh;
+      object-fit: cover;
+      object-position: center;
       position: absolute;
       inset: 0;
-      background-size: cover;
-      background-position: center center;
-      opacity: 0;
-      animation: heroFade 24s infinite;
-    }
-
-    /* 4 images avec décalage dans le temps */
-    .hero-slide:nth-child(1) { animation-delay: 0s; }
-    .hero-slide:nth-child(2) { animation-delay: 6s; }
-    .hero-slide:nth-child(3) { animation-delay: 12s; }
-    .hero-slide:nth-child(4) { animation-delay: 18s; }
-
-    @keyframes heroFade {
-      0%   { opacity: 0; }
-      5%   { opacity: 1; }
-      25%  { opacity: 1; }
-      30%  { opacity: 0; }
-      100% { opacity: 0; }
-    }
-
-    /* Voile dramatique façon GP (pour bien lire le texte) */
-    .hero-overlay {
-      position: absolute;
-      inset: 0;
-      z-index: 1;
-      background:
-        radial-gradient(circle at top left, rgba(0,0,0,0.2) 0, rgba(0,0,0,0.35) 55%) ,
-        linear-gradient(to bottom, rgba(0,0,0,0.7) 0, rgba(0,0,0,0.55) 100%);
-    }
-
-    /* Tout le contenu au-dessus de l’overlay */
-    .site-header,
-    .hero-inner,
-    .hero-location {
-      position: relative;
-      z-index: 2;
+      transition: opacity 0.8s ease;
+      opacity: 1;
     }
 
     /* -------- HEADER -------- */
 
     .site-header {
       padding-top: 20px;
+      position: relative;
+      z-index: 2;
     }
 
     .header-row {
@@ -129,7 +100,7 @@
       align-items: center;
       justify-content: space-between;
       padding: 0 6px 0 32px;
-      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.12); /* léger relief */
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.22); /* légère ombre comme GP */
     }
 
     .header-left {
@@ -151,35 +122,33 @@
       gap: 34px;
     }
 
-    /* -------- MENUS AVEC REMPLISSAGE JAUNE DANS LE TEXTE -------- */
-
     .nav-link {
       position: relative;
-      display: inline-block;
       font-family: "GPMenu", system-ui, sans-serif;
       font-size: var(--header-font-size);
       letter-spacing: var(--header-letter-spacing);
       text-transform: uppercase;
       text-decoration: none;
+      color: var(--header-grey);
       white-space: nowrap;
-      padding: 6px 8px;
-      line-height: 1;
-      background-image: linear-gradient(
-        90deg,
-        var(--apam-yellow) 0 50%,
-        var(--header-grey) 50% 100%
-      );
-      background-size: 200% 100%;
-      background-position: 100% 0;
-      -webkit-background-clip: text;
-      background-clip: text;
-      -webkit-text-fill-color: transparent;
-      color: transparent;
-      transition: background-position 0.35s ease;
+      overflow: hidden;
     }
 
-    .nav-link:hover {
-      background-position: 0 0; /* le jaune remplit les lettres de gauche à droite */
+    /* texte qui se remplit en jaune de gauche à droite */
+    .nav-link::before {
+      content: attr(data-text);
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 0;
+      color: var(--apam-yellow);
+      white-space: nowrap;
+      overflow: hidden;
+      transition: width 0.25s ease;
+    }
+
+    .nav-link:hover::before {
+      width: 100%;
     }
 
     /* -------- ICÔNES -------- */
@@ -197,6 +166,11 @@
       width: 100%;
       height: 100%;
       fill: var(--header-grey);
+      transition: fill 0.25s ease;
+    }
+
+    .icon:hover svg {
+      fill: var(--apam-yellow);
     }
 
     /* -------- BOUTON MON COMPTE -------- */
@@ -237,7 +211,7 @@
     }
 
     .btn-compte:hover::before {
-      width: 100%; /* remplissage jaune de gauche à droite */
+      width: 100%; /* remplissage de gauche à droite */
     }
 
     /* -------- HERO TEXT -------- */
@@ -245,6 +219,8 @@
     .hero-inner {
       max-width: 760px;
       padding: 120px var(--page-side-margin) 80px;
+      position: relative;
+      z-index: 1;
     }
 
     .hero-title {
@@ -278,25 +254,20 @@
       text-transform: uppercase;
       text-align: right;
       color: #d0d0d0;
-      z-index: 2;
+      z-index: 1;
     }
+
+    /* (tu pourras ajouter les media queries plus tard si besoin) */
   </style>
 </head>
 
 <body>
   <div class="hero">
 
-    <!-- SLIDESHOW DERRIÈRE -->
-    <div class="hero-slideshow">
-      <!-- Remplace ces URLs par tes propres images hébergées sur GitHub (ex: img/hero1.jpg, etc.) -->
-      <div class="hero-slide" style="background-image:url('https://images.pexels.com/photos/46148/aircraft-jet-landing-cloud-46148.jpeg');"></div>
-      <div class="hero-slide" style="background-image:url('https://images.pexels.com/photos/46160/aircraft-landing-gear-close-up-46160.jpeg');"></div>
-      <div class="hero-slide" style="background-image:url('https://images.pexels.com/photos/163771/flight-sky-earth-space-163771.jpeg');"></div>
-      <div class="hero-slide" style="background-image:url('https://images.pexels.com/photos/912050/pexels-photo-912050.jpeg');"></div>
+    <!-- SLIDER D’IMAGES SANS VOILE -->
+    <div class="hero-slider">
+      <img id="hero-image" src="" alt="Image Hero APAM">
     </div>
-
-    <!-- VOILE DRAMATIQUE -->
-    <div class="hero-overlay"></div>
 
     <!-- HEADER -->
     <header class="site-header">
@@ -310,20 +281,21 @@
 
           <div class="header-left">
             <nav class="nav-menu">
-              <a href="#" class="nav-link">ACCUEIL</a>
-              <a href="#activites" class="nav-link">ACTIVITÉS</a>
-              <a href="#tarifs" class="nav-link">TARIFS</a>
-              <a href="#membres" class="nav-link">MEMBRES</a>
-              <a href="#contact" class="nav-link">CONTACT</a>
-              <a href="#openflyer" class="nav-link">OPENFLYER</a>
+              <a href="#" class="nav-link" data-text="ACCUEIL">ACCUEIL</a>
+              <a href="#activites" class="nav-link" data-text="ACTIVITÉS">ACTIVITÉS</a>
+              <a href="#tarifs" class="nav-link" data-text="TARIFS">TARIFS</a>
+              <a href="#membres" class="nav-link" data-text="MEMBRES">MEMBRES</a>
+              <a href="#contact" class="nav-link" data-text="CONTACT">CONTACT</a>
+              <a href="#openflyer" class="nav-link" data-text="OPENFLYER">OPENFLYER</a>
             </nav>
           </div>
 
           <div class="header-right">
+
             <!-- Instagram -->
             <div class="icon">
               <svg viewBox="0 0 24 24">
-                <path d="M7 2C4.2 2 2 4.2 2 7v10c0 2.8 2.2 5 5 5h10c2.8 0 5-2.2 5-5V7c0-2.8-2.2-5-5-5H7zm10 2c1.7 0 3 1.3 3 3v10c0 1.7-1.3 3-3 3H7c-1.7 0-3-1.3-3-3V7c0-1.7 1.3-3 3-3h10zm-5 3.5A4.5 4.5 0 1 0 16.5 12 4.51 4.51 0 0 0 12 7.5zm0 7A2.5 2.5 0 1 1 14.5 12 2.5 2.5 0 0 1 12 14.5zm4.8-8.9a1.1 1.1 0 1 1-1.1 1.1c0-.6.5-1.1 1.1-1.1z"/>
+                <path d="M7 2C4.2 2 2 4.2 2 7v10c0 2.8 2.2 5 5 5h10c2.8 0 5-2.2 5-5V7c0-2.8-2.2-5-5-5H7zm10 2c1.7 0 3 1.3 3 3v10c0 1.7-1.3 3-3 3H7c-1.7 0-3-1.3-3-3V7c0-1.7 1.3-3 3-3h10zm-5 3.5A4.5 4.5 0 1 0 16.5 12 4.51 4.51 0 0 0 12 7.5z"/>
               </svg>
             </div>
 
@@ -335,12 +307,13 @@
             </div>
 
             <button class="btn-compte">MON COMPTE</button>
+
           </div>
         </div>
       </div>
     </header>
 
-    <!-- HERO TEXTE -->
+    <!-- HERO TEXT -->
     <main class="hero-inner">
       <div class="hero-kicker">AÉROCLUB ASSOCIATIF</div>
 
@@ -361,5 +334,31 @@
     </div>
 
   </div>
+
+  <!-- SLIDER JS -->
+  <script>
+    const images = [
+      "https://images.pexels.com/photos/3140204/pexels-photo-3140204.jpeg",
+      "https://images.pexels.com/photos/46148/aircraft-pilot-cockpit-landing-46148.jpeg",
+      "https://images.pexels.com/photos/358220/pexels-photo-358220.jpeg",
+      "https://images.pexels.com/photos/912050/pexels-photo-912050.jpeg"
+    ];
+
+    let index = 0;
+    const heroImg = document.getElementById("hero-image");
+
+    function changeHero() {
+      heroImg.style.opacity = 0;
+      setTimeout(() => {
+        index = (index + 1) % images.length;
+        heroImg.src = images[index];
+        heroImg.style.opacity = 1;
+      }, 600);
+    }
+
+    // init
+    heroImg.src = images[0];
+    setInterval(changeHero, 5000);
+  </script>
 </body>
 </html>
