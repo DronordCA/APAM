@@ -14,7 +14,7 @@
       font-style: normal;
     }
 
-    /* Police bouton MON COMPTE */
+    /* Police bouton MON COMPTE + bandeau Swiss 911 */
     @font-face {
       font-family: "Swiss911";
       src: url("Swiss911-ExtraCompressed.otf") format("opentype");
@@ -32,18 +32,12 @@
       --header-grey: #222;
 
       /* Dropdown flotte */
-      --fleet-card-bg: #1e1e1e; /* gris foncé */
+      --fleet-card-bg: #1e1e1e;
       --fleet-card-border: rgba(255,255,255,0.08);
       --fleet-card-radius: 6px;
       --fleet-gap: 12px;
 
       --yellow: #f5d86e;
-
-      /* ✅ Tag blanc bas-gauche */
-      --tag-left: 60px;      /* aligne avec la marge */
-      --tag-bottom: 120px;   /* “moitié basse” (ajuste si besoin) */
-      --tag-w: 420px;
-      --tag-h: 86px;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -58,10 +52,10 @@
       min-height: 100vh;
       background: radial-gradient(circle at top left, #222 0, #000 55%);
       position: relative;
+      overflow: hidden;
     }
 
     /* -------- HEADER -------- */
-
     .site-header { padding-top: 20px; }
 
     .header-row {
@@ -90,30 +84,12 @@
       box-shadow: 0 2px 0 rgba(0,0,0,0.08);
     }
 
-    .header-left {
-      display: flex;
-      align-items: center;
-      gap: 34px;
-    }
+    .header-left { display: flex; align-items: center; gap: 34px; }
+    .header-right { display: flex; align-items: center; gap: 18px; margin-left: auto; }
 
-    .header-right {
-      display: flex;
-      align-items: center;
-      gap: 18px;
-      margin-left: auto;
-    }
+    .nav-menu { display: flex; align-items: center; gap: 34px; }
 
-    .nav-menu {
-      display: flex;
-      align-items: center;
-      gap: 34px;
-    }
-
-    .nav-item {
-      position: relative;
-      display: inline-flex;
-      align-items: center;
-    }
+    .nav-item { position: relative; display: inline-flex; align-items: center; }
 
     .nav-link {
       font-family: "GPMenu", system-ui, sans-serif;
@@ -195,8 +171,6 @@
     /* =============================== */
     /* DROPDOWN FLOTTE — VERTICAL GP   */
     /* =============================== */
-
-    /* zone tampon invisible entre "FLOTTE" et les cartes (pour descendre la souris) */
     .nav-item.has-dropdown::before {
       content: "";
       position: absolute;
@@ -250,13 +224,6 @@
       box-shadow: 0 18px 34px rgba(0,0,0,0.42);
     }
 
-    .fleet-left {
-      display: inline-flex;
-      align-items: center;
-      gap: 12px;
-      min-width: 0;
-    }
-
     .fleet-title {
       font-family: "Swiss911", sans-serif;
       font-size: 22px;
@@ -269,7 +236,6 @@
       gap: 10px;
     }
 
-    /* flèche horizontale “grasse” */
     .fleet-arrow {
       display: inline-block;
       width: 28px;
@@ -322,7 +288,6 @@
     .fleet-card[data-plane="sr22"] .plane-box img { transform: scale(1.15); }
 
     /* -------- HERO TEXT -------- */
-
     .hero-inner {
       max-width: 760px;
       padding: 120px var(--page-side-margin) 80px;
@@ -364,29 +329,35 @@
       z-index: 2;
     }
 
-    /* ✅ Rectangle blanc bas-gauche (style GP) */
-    .gp-tag {
+    /* =============================== */
+    /* ✅ BANDEAU STYLE GP (blanc, gros, bas-gauche) */
+    /* =============================== */
+    .gp-white-banner {
       position: absolute;
-      left: var(--tag-left);
-      bottom: var(--tag-bottom);
-      width: var(--tag-w);
-      height: var(--tag-h);
+      left: var(--page-side-margin);
+      top: 64%;                 /* “moitié basse” comme GP */
+      transform: translateY(-50%);
       background: #fff;
-      border-radius: 2px;
-      display: flex;
-      align-items: center;
-      padding: 0 22px;
-      z-index: 2;
-      box-shadow: 0 18px 40px rgba(0,0,0,0.45);
-    }
-    .gp-tag span {
-      font-family: "Swiss911", sans-serif;
-      font-size: 44px;            /* gros comme GP */
-      letter-spacing: -0.03em;
-      text-transform: uppercase;
       color: #111;
-      line-height: 1;
-      white-space: nowrap;
+      z-index: 1;
+
+      /* taille/impact comme GP */
+      width: min(760px, calc(100vw - (var(--page-side-margin) * 2)));
+      padding: 22px 28px 18px;
+
+      box-shadow: 0 18px 34px rgba(0,0,0,0.35);
+    }
+
+    .gp-white-banner .gp-title {
+      font-family: "Swiss911", sans-serif;
+      text-transform: uppercase;
+      letter-spacing: -0.02em;
+      line-height: 0.9;
+
+      /* gros comme GP */
+      font-size: clamp(46px, 6.2vw, 92px);
+      color: #111;
+      white-space: nowrap; /* on garde en 1 ligne comme ton exemple GP */
     }
 
     /* -------- RESPONSIVE -------- */
@@ -395,13 +366,7 @@
         --page-side-margin: 20px;
         --logo-height: 70px;
         --gap-logo-header: 24px;
-
-        --tag-left: 20px;
-        --tag-bottom: 110px;
-        --tag-w: 320px;
-        --tag-h: 76px;
       }
-
       .header-bar { padding: 0 10px 0 18px; }
       .nav-menu { gap: 20px; }
       .nav-link { font-size: 12px; }
@@ -410,7 +375,13 @@
       .fleet-card { width: 330px; grid-template-columns: 110px 1fr 170px; }
       .plane-box { width: 170px; height: 58px; }
 
-      .gp-tag span { font-size: 38px; }
+      .gp-white-banner {
+        top: 70%;
+        padding: 18px 18px 14px;
+      }
+      .gp-white-banner .gp-title {
+        white-space: normal; /* sur mobile, on autorise le retour à la ligne */
+      }
     }
   </style>
 </head>
@@ -494,15 +465,12 @@
           </div>
 
           <div class="header-right">
-
-            <!-- Instagram -->
             <a class="icon" href="#" aria-label="Instagram">
               <svg viewBox="0 0 24 24">
                 <path d="M7 2C4.2 2 2 4.2 2 7v10c0 2.8 2.2 5 5 5h10c2.8 0 5-2.2 5-5V7c0-2.8-2.2-5-5-5H7zm10 2c1.7 0 3 1.3 3 3v10c0 1.7-1.3 3-3 3H7c-1.7 0-3-1.3-3-3V7c0-1.7 1.3-3 3-3h10zm-5 3.5A4.5 4.5 0 1 0 16.5 12 4.51 4.51 0 0 0 12 7.5zm0 7A2.5 2.5 0 1 1 14.5 12 2.5 2.5 0 0 1 12 14.5zm4.8-8.9a1.1 1.1 0 1 1-1.1 1.1c0-.6.5-1.1 1.1-1.1z"/>
               </svg>
             </a>
 
-            <!-- Email -->
             <a class="icon" href="mailto:contact@apam.fr" aria-label="Email">
               <svg viewBox="0 0 24 24">
                 <path d="M4 4h16a2 2 0 0 1 2 2v1l-10 6L2 7V6a2 2 0 0 1 2-2zm18 5v9a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V9l10 6 10-6z"/>
@@ -510,8 +478,8 @@
             </a>
 
             <button class="btn-compte">MON COMPTE</button>
-
           </div>
+
         </div>
       </div>
     </header>
@@ -529,9 +497,9 @@
       </p>
     </main>
 
-    <!-- ✅ Le rectangle blanc demandé -->
-    <div class="gp-tag" aria-label="Aérodrome L'Aigle Saint-Michel">
-      <span>L’AIGLE SAINT-MICHEL</span>
+    <!-- ✅ Bandeau blanc style GP -->
+    <div class="gp-white-banner" aria-label="Bandeau L'Aigle Saint-Michel">
+      <div class="gp-title">L'AIGLE SAINT-MICHEL</div>
     </div>
 
     <div class="hero-location">
