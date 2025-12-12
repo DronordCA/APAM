@@ -31,7 +31,9 @@
       --gap-logo-header: 62px;
       --header-grey: #222;
 
-      --yellow: #f5d86e;
+      /* ✅ Nouveau bleu (hover + bouton) */
+      --accent: #2F80ED;         /* bleu propre, moderne */
+      --accent-soft: rgba(47,128,237,0.35);
 
       /* Dropdown flotte */
       --fleet-card-bg: #1e1e1e;
@@ -50,15 +52,37 @@
 
     .hero {
       min-height: 100vh;
-      background: radial-gradient(circle at top left, #222 0, #000 55%);
       position: relative;
       overflow: hidden;
+      background: #000;
+    }
+
+    /* ✅ Image HERO (tu ajoutes image1.png) */
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(90deg, rgba(0,0,0,0.78) 0%, rgba(0,0,0,0.40) 42%, rgba(0,0,0,0.15) 100%),
+        radial-gradient(circle at top left, rgba(255,255,255,0.10) 0%, rgba(0,0,0,0.0) 42%),
+        url("image1.png");
+      background-size: cover;
+      background-position: center;
+      filter: saturate(0.95) contrast(1.05);
+      transform: scale(1.02);
+    }
+
+    /* petit voile global pour homogénéiser */
+    .hero-vignette {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at center, rgba(0,0,0,0.0) 45%, rgba(0,0,0,0.55) 100%);
+      pointer-events: none;
     }
 
     /* =========================
        HEADER
     ========================== */
-    .site-header { padding-top: 20px; }
+    .site-header { padding-top: 20px; position: relative; z-index: 10; }
 
     .header-row {
       display: flex;
@@ -66,14 +90,13 @@
       margin: 0 var(--page-side-margin);
     }
 
-    /* Logo link */
     .logo-link { display: inline-block; text-decoration: none; }
 
     .header-logo img {
       height: var(--logo-height);
       display: block;
 
-      /* ✅ animation logo plus impactante */
+      /* ✅ animation logo impactante */
       opacity: 0;
       transform: translate3d(0, -40px, -80px) scale(0.85) rotateX(18deg);
       filter: blur(14px);
@@ -95,7 +118,7 @@
     }
 
     .logo-link:hover img {
-      filter: drop-shadow(0 6px 12px rgba(245,216,110,0.35));
+      filter: drop-shadow(0 6px 14px var(--accent-soft));
     }
 
     .header-bar {
@@ -134,7 +157,7 @@
       padding: 2px 0;
     }
 
-    /* Hover “remplissage” */
+    /* ✅ Hover “remplissage texte” en BLEU */
     .nav-link[data-text] { color: transparent; }
     .nav-link[data-text]::before {
       content: attr(data-text);
@@ -147,7 +170,7 @@
       content: attr(data-text);
       position: absolute;
       inset: 0;
-      color: var(--yellow);
+      color: var(--accent);
       white-space: nowrap;
       clip-path: inset(0 100% 0 0);
       transition: clip-path .22s ease;
@@ -166,6 +189,7 @@
     }
     .icon svg { width: 100%; height: 100%; fill: var(--header-grey); }
 
+    /* ✅ Bouton MON COMPTE en BLEU */
     .btn-compte {
       position: relative;
       overflow: hidden;
@@ -188,15 +212,15 @@
       left: 0; top: 0;
       width: 0;
       height: 100%;
-      background: var(--yellow);
+      background: var(--accent);
       z-index: -1;
       transition: width 0.25s ease;
     }
-    .btn-compte:hover { color: #000; border-color: var(--yellow); }
+    .btn-compte:hover { color: #fff; border-color: var(--accent); }
     .btn-compte:hover::before { width: 100%; }
 
     /* ===============================
-       DROPDOWN FLOTTE (cards)
+       DROPDOWN FLOTTE
     =============================== */
     .nav-item.has-dropdown::before {
       content: "";
@@ -240,14 +264,13 @@
       display: grid;
       grid-template-columns: 120px 1fr 200px;
       align-items: center;
-
       padding: 12px 14px;
       transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease;
     }
 
     .fleet-card:hover {
       transform: translateX(6px);
-      border-color: rgba(245,216,110,0.35);
+      border-color: rgba(47,128,237,0.35);
       box-shadow: 0 18px 34px rgba(0,0,0,0.42);
     }
 
@@ -317,52 +340,51 @@
 
     /* =========================
        HERO BLOCKS (L'AIGLE + LFOL)
+       ✅ Taille restaurée (comme ta version précédente),
+       ✅ LFOL en dessous à droite (pas de chevauchement)
     ========================== */
     .hero-blocks {
       position: absolute;
       left: var(--page-side-margin);
       top: 52%;
       transform: translateY(-50%);
-      z-index: 5;
+      z-index: 6;
     }
 
     .label-wrap {
       position: relative;
       display: inline-block;
-      /* ✅ on remonte encore un chouille (~1.5cm) */
-      transform: translateY(-56px);
+      transform: translateY(-56px); /* comme tu voulais (remonté) */
     }
 
+    /* ⚠️ On remet la taille “grande” */
     .big-label {
       display: inline-block;
       background: #fff;
       color: #000;
       padding: 18px 22px 16px 22px;
-      border-radius: 0;
       box-shadow: 0 18px 38px rgba(0,0,0,0.45);
       border: 1px solid rgba(0,0,0,0.08);
 
       font-family: "Swiss911", sans-serif;
-      font-size: 64px;
+      font-size: 64px;          /* ✅ grande taille */
       line-height: 0.88;
       letter-spacing: -0.02em;
       text-transform: uppercase;
-      font-style: italic; /* ✅ italic demandé */
+      font-style: italic;
       white-space: nowrap;
 
-      /* ✅ animation plus visible */
       opacity: 0;
-      transform: translate3d(-90px, 24px, 0) scale(0.98);
-      filter: blur(10px);
+      transform: translate3d(-90px, 28px, 0);
+      filter: blur(12px);
       animation: blockSlide 1.05s cubic-bezier(.16, 1, .3, 1) .18s forwards;
     }
 
+    /* ✅ LFOL séparé: en dessous, aligné bord droit */
     .small-label {
       position: absolute;
       right: 0;
-      bottom: -18px; /* ✅ collé en dessous, côté droit */
-      transform: translateY(100%);
-
+      top: calc(100% + 10px);   /* ✅ sous le gros bloc, avec petit gap */
       background: #000;
       color: #fff;
       padding: 8px 12px 7px 12px;
@@ -371,18 +393,18 @@
 
       font-family: "Swiss911", sans-serif;
       font-size: 22px;
-      letter-spacing: 0.10em; /* ✅ espacer un chouille */
+      letter-spacing: 0.12em;   /* ✅ un chouille plus large */
       text-transform: uppercase;
       line-height: 1;
 
       opacity: 0;
-      transform: translate3d(-40px, 10px, 0);
-      filter: blur(8px);
+      transform: translate3d(-48px, 12px, 0);
+      filter: blur(10px);
       animation: blockSlide 1.05s cubic-bezier(.16, 1, .3, 1) .34s forwards;
     }
 
     @keyframes blockSlide {
-      60% {
+      65% {
         opacity: 1;
         transform: translate3d(10px, 0, 0);
         filter: blur(0);
@@ -395,13 +417,13 @@
     }
 
     /* =========================
-       BOTTOM RIGHT INFO (FREQ + COORDS)
+       BOTTOM RIGHT INFO (click -> Maps)
     ========================== */
     .info-stack {
       position: absolute;
       right: var(--page-side-margin);
       bottom: 40px;
-      z-index: 5;
+      z-index: 6;
       display: grid;
       gap: 8px;
       justify-items: end;
@@ -419,10 +441,9 @@
       text-transform: uppercase;
       line-height: 1;
       box-shadow: 0 14px 30px rgba(0,0,0,0.35);
-      border: 1px solid rgba(255,255,255,0.12);
       opacity: 0;
-      transform: translate3d(20px, 18px, 0);
-      filter: blur(8px);
+      transform: translate3d(24px, 18px, 0);
+      filter: blur(10px);
       animation: infoIn .95s cubic-bezier(.16, 1, .3, 1) .55s forwards;
     }
 
@@ -432,7 +453,7 @@
       padding: 10px 12px 9px 12px;
       font-size: 16px;
       letter-spacing: 0.10em;
-      border-color: rgba(255,255,255,0.18);
+      border: 1px solid rgba(255,255,255,0.18);
     }
 
     .info-bottom {
@@ -441,8 +462,8 @@
       padding: 12px 14px 11px 14px;
       font-size: 16px;
       letter-spacing: 0.10em;
-      border-color: rgba(0,0,0,0.10);
-      animation-delay: .62s; /* ✅ bloc du dessous arrive juste après */
+      border: 1px solid rgba(0,0,0,0.10);
+      animation-delay: .62s;
     }
 
     @keyframes infoIn {
@@ -460,8 +481,8 @@
 
     .info-link:hover .info-top,
     .info-link:hover .info-bottom {
-      transform: translate3d(0, -2px, 0);
       box-shadow: 0 18px 38px rgba(0,0,0,0.45);
+      outline: 1px solid rgba(47,128,237,0.22);
     }
 
     /* =========================
@@ -484,7 +505,7 @@
 
       .hero-blocks { top: 58%; }
       .big-label { font-size: 44px; padding: 14px 16px 12px 16px; }
-      .small-label { font-size: 18px; bottom: -14px; }
+      .small-label { font-size: 18px; top: calc(100% + 8px); }
 
       .info-stack { bottom: 18px; }
       .info-top, .info-bottom { font-size: 14px; }
@@ -494,6 +515,10 @@
 
 <body>
   <div class="hero">
+
+    <!-- HERO IMAGE -->
+    <div class="hero-bg" aria-hidden="true"></div>
+    <div class="hero-vignette" aria-hidden="true"></div>
 
     <!-- ========================= HEADER ========================= -->
     <header class="site-header">
@@ -509,7 +534,6 @@
           <div class="header-left">
             <nav class="nav-menu">
 
-              <!-- ✅ nouvel ordre + suppression ACCUEIL -->
               <span class="nav-item has-dropdown">
                 <a href="tarifs.html" class="nav-link" data-text="FLOTTE">FLOTTE</a>
 
@@ -578,26 +602,22 @@
     </header>
 
     <!-- ========================= HERO BLOCKS ========================= -->
-    <div class="hero-blocks">
-      <div class="label-wrap" aria-label="Terrain">
+    <div class="hero-blocks" aria-label="Terrain">
+      <div class="label-wrap">
         <div class="big-label">L'AIGLE SAINT-MICHEL</div>
         <div class="small-label">LFOL</div>
       </div>
     </div>
 
     <!-- ========================= BOTTOM RIGHT INFO (click -> Maps) ========================= -->
-    <!-- Coordonnées décimales: 48°45'32"N = 48.758889 ; 0°39'28"E = 0.657778 -->
+    <!-- 48°45'32"N = 48.758889 ; 0°39'28"E = 0.657778 -->
     <a class="info-link"
        href="https://www.google.com/maps?q=48.758889,0.657778"
        target="_blank"
        rel="noopener noreferrer"
        aria-label="Ouvrir dans Google Maps">
-
       <div class="info-stack">
-        <!-- ✅ bloc du haut (plus petit) : fréquence -->
         <div class="info-top">FRQ 126.855</div>
-
-        <!-- ✅ bloc du bas (plus grand) : coordonnées (inverse) -->
         <div class="info-bottom">48°45'32&quot; N · 0°39'28&quot; E</div>
       </div>
     </a>
