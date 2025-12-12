@@ -1,364 +1,47 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-  <meta charset="UTF-8" />
-  <title>APAM – Aéroclub L'Aigle Saint-Michel</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+<header class="site-header">
+  <div class="header-row">
 
-  <style>
-    /* Police menu type GP Explorer */
-    @font-face {
-      font-family: "GPMenu";
-      src: url("Helvetica Neue LT Pro 93 Black Extended.otf") format("opentype");
-      font-weight: 900;
-      font-style: normal;
-    }
-
-    /* Police bouton MON COMPTE */
-    @font-face {
-      font-family: "Swiss911";
-      src: url("Swiss911-ExtraCompressed.otf") format("opentype");
-      font-weight: normal;
-      font-style: normal;
-    }
-
-    :root {
-      --page-side-margin: 60px;
-      --header-height: 50px;
-      --header-font-size: 15px;
-      --header-letter-spacing: -0.05em;
-      --logo-height: 100px;
-      --gap-logo-header: 62px;
-      --header-grey: #222;
-      --apam-yellow: #f5d86e;
-    }
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    body {
-      background: #000;
-      color: #fff;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-    }
-
-    .hero {
-      min-height: 100vh;
-      position: relative;
-      overflow: hidden;
-      background: #000;
-    }
-
-    /* -------- HERO SLIDER (sans voile) -------- */
-
-    .hero-slider {
-      position: absolute;
-      inset: 0;
-      z-index: 0;
-    }
-
-    .hero-slider img {
-      width: 100%;
-      height: 100vh;
-      object-fit: cover;
-      object-position: center;
-      position: absolute;
-      inset: 0;
-      transition: opacity 0.8s ease;
-      opacity: 1;
-    }
-
-    /* -------- HEADER -------- */
-
-    .site-header {
-      padding-top: 20px;
-      position: relative;
-      z-index: 2;
-    }
-
-    .header-row {
-      display: flex;
-      align-items: center;
-      margin: 0 var(--page-side-margin);
-    }
-
-    .header-logo img {
-      height: var(--logo-height);
-      display: block;
-    }
-
-    .header-bar {
-      height: var(--header-height);
-      background: #fff;
-      color: var(--header-grey);
-      margin-left: var(--gap-logo-header);
-      flex: 1;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 6px 0 32px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.22); /* légère ombre comme GP */
-    }
-
-    .header-left {
-      display: flex;
-      align-items: center;
-      gap: 34px;
-    }
-
-    .header-right {
-      display: flex;
-      align-items: center;
-      gap: 18px;
-      margin-left: auto;
-    }
-
-    .nav-menu {
-      display: flex;
-      align-items: center;
-      gap: 34px;
-    }
-
-    .nav-link {
-      position: relative;
-      font-family: "GPMenu", system-ui, sans-serif;
-      font-size: var(--header-font-size);
-      letter-spacing: var(--header-letter-spacing);
-      text-transform: uppercase;
-      text-decoration: none;
-      color: var(--header-grey);
-      white-space: nowrap;
-      overflow: hidden;
-    }
-
-    /* texte qui se remplit en jaune de gauche à droite */
-    .nav-link::before {
-      content: attr(data-text);
-      position: absolute;
-      left: 0;
-      top: 0;
-      width: 0;
-      color: var(--apam-yellow);
-      white-space: nowrap;
-      overflow: hidden;
-      transition: width 0.25s ease;
-    }
-
-    .nav-link:hover::before {
-      width: 100%;
-    }
-
-    /* -------- ICÔNES -------- */
-
-    .icon {
-      width: 26px;
-      height: 26px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-    }
-
-    .icon svg {
-      width: 100%;
-      height: 100%;
-      fill: var(--header-grey);
-      transition: fill 0.25s ease;
-    }
-
-    .icon:hover svg {
-      fill: var(--apam-yellow);
-    }
-
-    /* -------- BOUTON MON COMPTE -------- */
-
-    .btn-compte {
-      position: relative;
-      overflow: hidden;
-      font-family: "Swiss911", sans-serif;
-      font-size: 25px;
-      letter-spacing: -0.04em;
-      text-transform: uppercase;
-      padding: 6px 12px;
-      border: 2px solid var(--header-grey);
-      background: #000;
-      color: #fff;
-      cursor: pointer;
-      white-space: nowrap;
-      line-height: 1;
-      transition: color 0.25s ease, border-color 0.25s ease;
-      z-index: 0;
-    }
-
-    .btn-compte::before {
-      content: "";
-      position: absolute;
-      left: 0;
-      top: 0;
-      width: 0;
-      height: 100%;
-      background: var(--apam-yellow);
-      z-index: -1;
-      transition: width 0.25s ease;
-    }
-
-    .btn-compte:hover {
-      color: #000;
-      border-color: var(--apam-yellow);
-    }
-
-    .btn-compte:hover::before {
-      width: 100%; /* remplissage de gauche à droite */
-    }
-
-    /* -------- HERO TEXT -------- */
-
-    .hero-inner {
-      max-width: 760px;
-      padding: 120px var(--page-side-margin) 80px;
-      position: relative;
-      z-index: 1;
-    }
-
-    .hero-title {
-      font-size: 40px;
-      font-weight: 700;
-      margin-bottom: 18px;
-      line-height: 1.1;
-    }
-
-    .hero-kicker {
-      font-size: 11px;
-      letter-spacing: 0.24em;
-      text-transform: uppercase;
-      color: #bbbbbb;
-      margin-bottom: 16px;
-    }
-
-    .hero-text {
-      font-size: 15px;
-      color: #d0d0d0;
-      line-height: 1.6;
-      max-width: 580px;
-    }
-
-    .hero-location {
-      position: absolute;
-      right: var(--page-side-margin);
-      bottom: 40px;
-      font-size: 11px;
-      letter-spacing: 0.24em;
-      text-transform: uppercase;
-      text-align: right;
-      color: #d0d0d0;
-      z-index: 1;
-    }
-
-    /* (tu pourras ajouter les media queries plus tard si besoin) */
-  </style>
-</head>
-
-<body>
-  <div class="hero">
-
-    <!-- SLIDER D’IMAGES SANS VOILE -->
-    <div class="hero-slider">
-      <img id="hero-image" src="" alt="Image Hero APAM">
+    <div class="header-logo">
+      <img src="apam-logo1.png" alt="Logo APAM">
     </div>
 
-    <!-- HEADER -->
-    <header class="site-header">
-      <div class="header-row">
+    <div class="header-bar">
 
-        <div class="header-logo">
-          <img src="apam-logo1.png" alt="Logo APAM">
-        </div>
+      <div class="header-left">
+        <nav class="nav-menu">
+          <a href="index.html" class="nav-link" data-text="ACCUEIL">ACCUEIL</a>
+          <a href="activites.html" class="nav-link" data-text="ACTIVITÉS">ACTIVITÉS</a>
+          <a href="tarifs.html" class="nav-link" data-text="FLOTTE">FLOTTE</a>
+          <a href="espace-membre.html" class="nav-link" data-text="MEMBRES">MEMBRES</a>
+          <a href="contact.html" class="nav-link" data-text="CONTACT">CONTACT</a>
 
-        <div class="header-bar">
-
-          <div class="header-left">
-            <nav class="nav-menu">
-              <a href="#" class="nav-link" data-text="ACCUEIL">ACCUEIL</a>
-              <a href="#activites" class="nav-link" data-text="ACTIVITÉS">ACTIVITÉS</a>
-              <a href="#tarifs" class="nav-link" data-text="TARIFS">TARIFS</a>
-              <a href="#membres" class="nav-link" data-text="MEMBRES">MEMBRES</a>
-              <a href="#contact" class="nav-link" data-text="CONTACT">CONTACT</a>
-              <a href="#openflyer" class="nav-link" data-text="OPENFLYER">OPENFLYER</a>
-            </nav>
-          </div>
-
-          <div class="header-right">
-
-            <!-- Instagram -->
-            <div class="icon">
-              <svg viewBox="0 0 24 24">
-                <path d="M7 2C4.2 2 2 4.2 2 7v10c0 2.8 2.2 5 5 5h10c2.8 0 5-2.2 5-5V7c0-2.8-2.2-5-5-5H7zm10 2c1.7 0 3 1.3 3 3v10c0 1.7-1.3 3-3 3H7c-1.7 0-3-1.3-3-3V7c0-1.7 1.3-3 3-3h10zm-5 3.5A4.5 4.5 0 1 0 16.5 12 4.51 4.51 0 0 0 12 7.5z"/>
-              </svg>
-            </div>
-
-            <!-- Email -->
-            <div class="icon">
-              <svg viewBox="0 0 24 24">
-                <path d="M4 4h16a2 2 0 0 1 2 2v1l-10 6L2 7V6a2 2 0 0 1 2-2zm18 5v9a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V9l10 6 10-6z"/>
-              </svg>
-            </div>
-
-            <button class="btn-compte">MON COMPTE</button>
-
-          </div>
-        </div>
+          <!-- 🔗 OPENFLYERS officiel APAM -->
+          <a href="https://openflyers.com/apam/" target="_blank" class="nav-link" data-text="OPENFLYER">
+            OPENFLYER
+          </a>
+        </nav>
       </div>
-    </header>
 
-    <!-- HERO TEXT -->
-    <main class="hero-inner">
-      <div class="hero-kicker">AÉROCLUB ASSOCIATIF</div>
+      <div class="header-right">
 
-      <h1 class="hero-title">
-        APAM – Aéroclub L'Aigle<br>Saint-Michel
-      </h1>
+        <!-- Instagram -->
+        <div class="icon">
+          <svg viewBox="0 0 24 24">
+            <path d="M7 2C4.2 2 2 4.2 2 7v10c0 2.8 2.2 5 5 5h10c2.8 0 5-2.2 5-5V7c0-2.8-2.2-5-5-5H7zm10 2c1.7 0 3 1.3 3 3v10c0 1.7-1.3 3-3 3H7c-1.7 0-3-1.3-3-3V7c0-1.7 1.3-3 3-3h10zm-5 3.5A4.5 4.5 0 1 0 16.5 12 4.51 4.51 0 0 0 12 7.5z"/>
+          </svg>
+        </div>
 
-      <p class="hero-text">
-        Découvrir le vol, apprendre à piloter ou organiser des voyages en partage de frais :
-        l’équipe de bénévoles de l’APAM vous accompagne dans vos projets.
-      </p>
-    </main>
+        <!-- Email -->
+        <div class="icon">
+          <svg viewBox="0 0 24 24">
+            <path d="M4 4h16a2 2 0 0 1 2 2v1l-10 6L2 7V6a2 2 0 0 1 2-2zm18 5v9a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V9l10 6 10-6z"/>
+          </svg>
+        </div>
 
-    <!-- LOCALISATION -->
-    <div class="hero-location">
-      AÉRODROME DE L'AIGLE SAINT-MICHEL<br>
-      LFAI · NORMANDIE, FRANCE
+        <button class="btn-compte">MON COMPTE</button>
+
+      </div>
+
     </div>
-
   </div>
-
-  <!-- SLIDER JS -->
-  <script>
-    const images = [
-      "https://images.pexels.com/photos/3140204/pexels-photo-3140204.jpeg",
-      "https://images.pexels.com/photos/46148/aircraft-pilot-cockpit-landing-46148.jpeg",
-      "https://images.pexels.com/photos/358220/pexels-photo-358220.jpeg",
-      "https://images.pexels.com/photos/912050/pexels-photo-912050.jpeg"
-    ];
-
-    let index = 0;
-    const heroImg = document.getElementById("hero-image");
-
-    function changeHero() {
-      heroImg.style.opacity = 0;
-      setTimeout(() => {
-        index = (index + 1) % images.length;
-        heroImg.src = images[index];
-        heroImg.style.opacity = 1;
-      }, 600);
-    }
-
-    // init
-    heroImg.src = images[0];
-    setInterval(changeHero, 5000);
-  </script>
-</body>
-</html>
+</header>
