@@ -6,9 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <style>
-    /* --- POLICES --- */
-
-    /* Police menu type GP Explorer */
+    /* Police menu type GP Explorer (Helvetica Neue 93 Extended) */
     @font-face {
       font-family: "GPMenu";
       src: url("Helvetica Neue LT Pro 93 Black Extended.otf") format("opentype");
@@ -20,11 +18,9 @@
     @font-face {
       font-family: "Swiss911";
       src: url("Swiss911-ExtraCompressed.otf") format("opentype");
-      font-weight: normal;
+      font-weight: 400;
       font-style: normal;
     }
-
-    /* --- VARIABLES GLOBALES --- */
 
     :root {
       --page-side-margin: 60px;
@@ -33,66 +29,63 @@
       --header-letter-spacing: -0.05em;
       --logo-height: 100px;
       --gap-logo-header: 62px;
-      --header-grey: #222;
-      --hover-yellow: #f5d86e;
+
+      --header-grey: #2a2a2a;     /* gris foncé (au lieu de noir pur) */
+      --yellow: #f5d86e;          /* jaune GP-like */
+      --dropdown-bg: rgba(0,0,0,0.82);
+      --card-bg: #121212;         /* gris foncé (Spotify/ChatGPT dark) */
     }
 
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
       background: #000;
       color: #fff;
-      font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
-      overflow-x: hidden;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     }
-
-    /* --- HERO (CARROUSEL IMAGES) --- */
 
     .hero {
+      min-height: 100vh;
       position: relative;
-      width: 100%;
-      height: 100vh;
       overflow: hidden;
+      background: #000;
     }
 
-    .hero-images {
+    /* ========== HERO SLIDER (sans voile) ========== */
+    .hero-slider {
       position: absolute;
       inset: 0;
-      z-index: -1;
+      z-index: 0;
     }
 
-    .hero-images img {
+    .hero-slide {
       position: absolute;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
+      inset: 0;
+      background-size: cover;
+      background-position: center;
       opacity: 0;
-      animation: fadeImages 24s infinite;
+      transform: scale(1.03);
+      transition: opacity 1.2s ease, transform 5s ease;
     }
 
-    .hero-images img:nth-child(1) { animation-delay: 0s; }
-    .hero-images img:nth-child(2) { animation-delay: 6s; }
-    .hero-images img:nth-child(3) { animation-delay: 12s; }
-    .hero-images img:nth-child(4) { animation-delay: 18s; }
-
-    @keyframes fadeImages {
-      0%   { opacity: 0; }
-      5%   { opacity: 1; }
-      25%  { opacity: 1; }
-      30%  { opacity: 0; }
-      100% { opacity: 0; }
+    .hero-slide.active {
+      opacity: 1;
+      transform: scale(1.0);
     }
 
-    /* --- HEADER STRUCTURE --- */
+    /* petit fallback si images pas chargées */
+    .hero-fallback {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      background: radial-gradient(circle at top left, #222 0, #000 55%);
+    }
 
+    /* ========== HEADER ========== */
     .site-header {
-      padding-top: 20px;
       position: relative;
-      z-index: 10;
+      z-index: 5;
+      padding-top: 20px;
     }
 
     .header-row {
@@ -107,7 +100,6 @@
     }
 
     .header-bar {
-      position: relative; /* pour positionner le mega-menu */
       height: var(--header-height);
       background: #fff;
       color: var(--header-grey);
@@ -116,80 +108,149 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 0 6px 0 32px;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+      padding: 0 6px 0 32px; /* padding droit serré */
+      box-shadow: 0 10px 22px rgba(0,0,0,0.16); /* léger relief */
+      position: relative;
     }
 
-    /* --- MENU GAUCHE --- */
-
-    .nav-menu {
+    .header-left {
       display: flex;
+      align-items: center;
       gap: 34px;
-      align-items: center;
       position: relative;
     }
-
-    .nav-item {
-      position: relative;
-      display: flex;
-      align-items: center;
-    }
-
-    .nav-link {
-      position: relative;
-      font-family: "GPMenu";
-      font-size: var(--header-font-size);
-      letter-spacing: var(--header-letter-spacing);
-      text-transform: uppercase;
-      text-decoration: none;
-      white-space: nowrap;
-      color: var(--header-grey);
-
-      background-image: linear-gradient(
-        to right,
-        var(--hover-yellow),
-        var(--hover-yellow)
-      );
-      background-repeat: no-repeat;
-      background-size: 0% 100%;
-      background-position: 0 0;
-      -webkit-background-clip: text;
-      background-clip: text;
-      transition: background-size 0.35s ease, color 0.35s ease;
-    }
-
-    .nav-link:hover {
-      color: transparent;
-      background-size: 100% 100%;
-    }
-
-    /* --- ICONES & BOUTON DROIT --- */
 
     .header-right {
       display: flex;
       align-items: center;
       gap: 18px;
+      margin-left: auto;
     }
 
+    .nav-menu {
+      display: flex;
+      align-items: center;
+      gap: 34px;
+      position: relative; /* pour dropdown */
+    }
+
+    /* ========== NAV LINK : texte qui “se remplit” en jaune ========== */
+    .nav-link {
+      font-family: "GPMenu", system-ui, sans-serif;
+      font-size: var(--header-font-size);
+      letter-spacing: var(--header-letter-spacing);
+      text-transform: uppercase;
+      text-decoration: none;
+      color: transparent;                 /* IMPORTANT */
+      -webkit-text-stroke: 0;             /* pas de stroke */
+      background: linear-gradient(90deg, var(--yellow) 0%, var(--yellow) 50%, var(--header-grey) 50%, var(--header-grey) 100%);
+      background-size: 200% 100%;
+      background-position: 100% 0;
+      -webkit-background-clip: text;
+      background-clip: text;
+      transition: background-position 0.35s ease;
+      white-space: nowrap;
+      line-height: 1;
+    }
+
+    .nav-link:hover {
+      background-position: 0 0; /* remplit de gauche à droite */
+    }
+
+    /* ========== MEGA MENU FLOTTE (style GP) ========== */
+    .nav-item {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+    }
+
+    .mega-flotte {
+      position: absolute;
+      left: 0;
+      top: calc(100% + 18px);
+      width: max-content;
+      min-width: 520px;
+      padding: 22px;
+      background: var(--dropdown-bg);
+      border: 1px solid rgba(255,255,255,0.10);
+      box-shadow: 0 22px 60px rgba(0,0,0,0.45);
+      display: none;
+      gap: 18px;
+      align-items: stretch;
+    }
+
+    /* petit “pont” invisible pour éviter que le menu se ferme quand on descend */
+    .nav-item::after {
+      content: "";
+      position: absolute;
+      left: -10px;
+      right: -10px;
+      top: 100%;
+      height: 22px;
+    }
+
+    .nav-item:hover .mega-flotte {
+      display: flex;
+      animation: megaIn 0.18s ease-out;
+    }
+
+    @keyframes megaIn {
+      from { opacity: 0; transform: translateY(-6px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .flotte-card {
+      width: 360px;
+      background: var(--card-bg);
+      border-radius: 12px;
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      text-decoration: none;
+      color: #fff;
+      border: 1px solid rgba(255,255,255,0.08);
+      transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
+    }
+
+    .flotte-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 18px 45px rgba(0,0,0,0.45);
+      border-color: rgba(245,216,110,0.45);
+    }
+
+    .flotte-img {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: 10px;
+    }
+
+    .flotte-title {
+      font-family: "Swiss911", system-ui, sans-serif;
+      font-size: 34px;
+      letter-spacing: -0.04em;
+      text-transform: uppercase;
+      line-height: 1;
+      color: #fff;
+    }
+
+    /* ========== ICONS (SVG monochrome) ========== */
     .icon {
       width: 26px;
       height: 26px;
       display: flex;
+      align-items: center;
+      justify-content: center;
       cursor: pointer;
     }
+    .icon svg { width: 100%; height: 100%; fill: var(--header-grey); }
 
-    .icon svg {
-      width: 100%;
-      height: 100%;
-      fill: var(--header-grey);
-    }
-
-    /* --- BOUTON MON COMPTE --- */
-
+    /* ========== BOUTON MON COMPTE (remplissage jaune gauche->droite) ========== */
     .btn-compte {
       position: relative;
       overflow: hidden;
-      font-family: "Swiss911", sans-serif;
+      font-family: "Swiss911", system-ui, sans-serif;
       font-size: 25px;
       letter-spacing: -0.04em;
       text-transform: uppercase;
@@ -201,7 +262,6 @@
       white-space: nowrap;
       line-height: 1;
       transition: color 0.25s ease, border-color 0.25s ease;
-      z-index: 0;
     }
 
     .btn-compte::before {
@@ -211,133 +271,31 @@
       top: 0;
       width: 0;
       height: 100%;
-      background: var(--hover-yellow);
+      background: var(--yellow);
       z-index: -1;
       transition: width 0.25s ease;
     }
 
     .btn-compte:hover {
       color: #000;
-      border-color: var(--hover-yellow);
+      border-color: var(--yellow);
     }
 
-    .btn-compte:hover::before {
-      width: 100%;
-    }
+    .btn-compte:hover::before { width: 100%; }
 
-    /* --- MEGA MENU FLOTTE --- */
-
-    .nav-item.has-mega:hover .mega-menu {
-      opacity: 1;
-      pointer-events: auto;
-      transform: translateY(16px);
-    }
-
-    .mega-menu {
-      position: absolute;
-      left: -32px;      /* aligné avec padding gauche de header-bar */
-      right: -6px;      /* aligné avec padding droit de header-bar */
-      top: 100%;
-      margin-top: 12px;
-      background: rgba(10, 10, 10, 0.96);
-      border: 1px solid rgba(255,255,255,0.12);
-      box-shadow: 0 18px 40px rgba(0,0,0,0.6);
-      padding: 18px 22px;
-      border-radius: 8px;
-      opacity: 0;
-      pointer-events: none;
-      transform: translateY(24px);
-      transition: opacity 0.25s ease, transform 0.25s ease;
-      z-index: 20;
-    }
-
-    .mega-title {
-      font-size: 11px;
-      letter-spacing: 0.24em;
-      text-transform: uppercase;
-      color: #bbbbbb;
-      margin-bottom: 10px;
-    }
-
-    .mega-grid {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 16px;
-    }
-
-    .plane-card {
-      background: #111;
-      border-radius: 10px;
-      border: 1px solid rgba(255,255,255,0.06);
-      padding: 10px 10px 12px;
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-      cursor: pointer;
-      transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
-      text-decoration: none;
-      color: inherit;
-    }
-
-    .plane-card:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 14px 26px rgba(0,0,0,0.7);
-      border-color: rgba(245,216,110,0.9);
-    }
-
-    .plane-card-image {
-      width: 100%;
-      aspect-ratio: 16/9;
-      border-radius: 8px;
-      overflow: hidden;
-      background: #222;
-    }
-
-    .plane-card-image img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-    }
-
-    .plane-card-name {
-      font-size: 0.9rem;
-      font-weight: 700;
-      margin-top: 4px;
-    }
-
-    .plane-card-meta {
-      font-size: 0.75rem;
-      text-transform: uppercase;
-      letter-spacing: 0.18em;
-      color: #888;
-    }
-
-    .plane-card-tag {
-      font-size: 0.75rem;
-      color: #111;
-      background: var(--hover-yellow);
-      border-radius: 999px;
-      padding: 2px 8px;
-      align-self: flex-start;
-      margin-top: 4px;
-      font-weight: 600;
-    }
-
-    /* --- HERO TEXT --- */
-
+    /* ========== HERO TEXT ========== */
     .hero-inner {
       position: relative;
+      z-index: 3;
       max-width: 760px;
-      padding: 160px var(--page-side-margin) 80px;
-      z-index: 2;
+      padding: 120px var(--page-side-margin) 80px;
     }
 
     .hero-kicker {
       font-size: 11px;
       letter-spacing: 0.24em;
       text-transform: uppercase;
-      color: #cccccc;
+      color: #d8d8d8;
       margin-bottom: 16px;
     }
 
@@ -346,39 +304,80 @@
       line-height: 1.1;
       font-weight: 700;
       margin-bottom: 18px;
+      text-shadow: 0 10px 35px rgba(0,0,0,0.45);
     }
 
     .hero-text {
-      font-size: 16px;
+      font-size: 15px;
       line-height: 1.6;
-      color: #e0e0e0;
+      color: #f0f0f0;
       max-width: 580px;
+      text-shadow: 0 10px 35px rgba(0,0,0,0.45);
     }
 
     .hero-location {
       position: absolute;
+      z-index: 3;
       right: var(--page-side-margin);
       bottom: 40px;
       font-size: 11px;
       letter-spacing: 0.24em;
       text-transform: uppercase;
       text-align: right;
-      color: #dddddd;
-      z-index: 2;
+      color: #e6e6e6;
+      text-shadow: 0 10px 35px rgba(0,0,0,0.45);
+    }
+
+    /* ========== RESPONSIVE ========== */
+    @media (max-width: 900px) {
+      :root {
+        --page-side-margin: 20px;
+        --logo-height: 70px;
+        --gap-logo-header: 24px;
+        --header-font-size: 12px;
+      }
+
+      .header-bar { padding: 0 10px 0 18px; }
+      .nav-menu { gap: 20px; }
+      .hero-inner { padding-top: 110px; }
+
+      .hero-location {
+        position: static;
+        margin: 40px var(--page-side-margin) 60px;
+        text-align: left;
+      }
+
+      .mega-flotte {
+        min-width: 0;
+        width: 92vw;
+        left: 50%;
+        transform: translateX(-50%);
+      }
+    }
+
+    @media (max-width: 720px) {
+      /* Pour l’instant: pas de burger, header compact */
+      .header-row { flex-direction: column; align-items: flex-start; gap: 10px; }
+      .header-bar { width: 100%; margin-left: 0; }
+      .nav-menu { flex-wrap: wrap; row-gap: 10px; }
+      .mega-flotte { position: static; display: none; width: 100%; transform: none; left: auto; }
+      .nav-item:hover .mega-flotte { display: block; }
+      .flotte-card { width: 100%; }
     }
   </style>
 </head>
 
 <body>
-
   <div class="hero">
 
-    <!-- FOND IMAGES AÉRO (remplace les noms par tes images) -->
-    <div class="hero-images">
-      <img src="avion1.jpg" alt="">
-      <img src="avion2.jpg" alt="">
-      <img src="avion3.jpg" alt="">
-      <img src="avion4.jpg" alt="">
+    <!-- HERO SLIDER -->
+    <div class="hero-fallback" aria-hidden="true"></div>
+    <div class="hero-slider" aria-hidden="true">
+      <!-- Tu peux remplacer ces URLs par tes propres images plus tard -->
+      <div class="hero-slide active" style="background-image:url('https://images.unsplash.com/photo-1527979809431-0e3e2b5a1b1b?auto=format&fit=crop&w=2200&q=80');"></div>
+      <div class="hero-slide" style="background-image:url('https://images.unsplash.com/photo-1521727857535-28d204e49432?auto=format&fit=crop&w=2200&q=80');"></div>
+      <div class="hero-slide" style="background-image:url('https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&w=2200&q=80');"></div>
+      <div class="hero-slide" style="background-image:url('https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=2200&q=80');"></div>
     </div>
 
     <!-- HEADER -->
@@ -386,102 +385,71 @@
       <div class="header-row">
 
         <div class="header-logo">
-          <img src="apam-logo1.png" alt="Logo APAM" />
+          <img src="apam-logo1.png" alt="Logo APAM">
         </div>
 
         <div class="header-bar">
-          <nav class="nav-menu">
-
-            <div class="nav-item">
+          <div class="header-left">
+            <nav class="nav-menu">
               <a href="index.html" class="nav-link">ACCUEIL</a>
-            </div>
-
-            <div class="nav-item">
               <a href="activites.html" class="nav-link">ACTIVITÉS</a>
-            </div>
 
-            <!-- FLOTTE AVEC MEGA-MENU -->
-            <div class="nav-item has-mega">
-              <a href="tarifs.html" class="nav-link">FLOTTE</a>
+              <!-- FLOTTE (Mega-menu au survol) -->
+              <div class="nav-item">
+                <a href="tarifs.html" class="nav-link">FLOTTE</a>
 
-              <!-- MEGA MENU AVIONS -->
-              <div class="mega-menu">
-                <div class="mega-title">LES AVIONS DU CLUB</div>
-                <div class="mega-grid">
-                  <!-- C152 -->
-                  <a href="tarifs.html#cessna152" class="plane-card">
-                    <div class="plane-card-image">
-                      <img src="c152-card.jpg" alt="Cessna 152" />
-                    </div>
-                    <div class="plane-card-name">Cessna 152</div>
-                    <div class="plane-card-meta">ÉCOLE · BIPLAÇE</div>
-                    <div class="plane-card-tag">Idéal pour débuter</div>
+                <div class="mega-flotte">
+                  <a class="flotte-card" href="tarifs.html" aria-label="Voir TB-200">
+                    <div class="flotte-title">TB-200</div>
+                    <img src="tb200-maquette.png" alt="TB-200" class="flotte-img">
                   </a>
 
-                  <!-- Cirrus -->
-                  <a href="tarifs.html#cirrus-sr20" class="plane-card">
-                    <div class="plane-card-image">
-                      <img src="cirrus-card.jpg" alt="Cirrus SR20" />
+                  <!-- placeholders futurs avions -->
+                  <a class="flotte-card" href="tarifs.html" aria-label="Avion à venir">
+                    <div class="flotte-title">AVION 2</div>
+                    <div style="border-radius:10px; background:#0b0b0b; height:190px; display:flex; align-items:center; justify-content:center; color:#9a9a9a; font-family:system-ui;">
+                      À venir
                     </div>
-                    <div class="plane-card-name">Cirrus SR20</div>
-                    <div class="plane-card-meta">VOYAGE · AVIONIQUE MODERNE</div>
-                    <div class="plane-card-tag">Confort & voyages</div>
-                  </a>
-
-                  <!-- TB200 -->
-                  <a href="tarifs.html#tb200" class="plane-card">
-                    <div class="plane-card-image">
-                      <img src="tb200-card.jpg" alt="SOCATA TB200" />
-                    </div>
-                    <div class="plane-card-name">SOCATA TB200</div>
-                    <div class="plane-card-meta">VOYAGE · HÉLICE VP</div>
-                    <div class="plane-card-tag">Perfectionnement</div>
                   </a>
                 </div>
               </div>
-            </div>
 
-            <div class="nav-item">
-              <a href="espace-membre.html" class="nav-link">MEMBRES</a>
-            </div>
-
-            <div class="nav-item">
+              <a href="espace-membres.html" class="nav-link">MEMBRES</a>
               <a href="contact.html" class="nav-link">CONTACT</a>
-            </div>
-
-            <div class="nav-item">
-              <a href="https://openflyers.com/apam/" target="_blank" class="nav-link">OPENFLYER</a>
-            </div>
-
-          </nav>
+              <a href="https://openflyers.com/apam/" class="nav-link" target="_blank" rel="noopener">OPENFLYER</a>
+            </nav>
+          </div>
 
           <div class="header-right">
-            <!-- Instagram -->
-            <div class="icon">
-              <svg viewBox="0 0 24 24">
-                <path d="M7 2C4.2 2 2 4.2 2 7v10c0 2.8 2.2 5 5 5h10c2.8 0 5-2.2 5-5V7c0-2.8-2.2-5-5-5H7zm10 2c1.7 0 3 1.3 3 3v10c0 1.7-1.3 3-3 3H7c-1.7 0-3-1.3-3-3V7c0-1.7 1.3-3 3-3h10zm-5 3.5A4.5 4.5 0 1 0 16.5 12 4.51 4.51 0 0 0 12 7.5z"/>
+            <!-- Instagram (monochrome, moderne) -->
+            <a class="icon" href="https://www.instagram.com/" target="_blank" rel="noopener" aria-label="Instagram">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M7 2C4.2 2 2 4.2 2 7v10c0 2.8 2.2 5 5 5h10c2.8 0 5-2.2 5-5V7c0-2.8-2.2-5-5-5H7zm10 2c1.7 0 3 1.3 3 3v10c0 1.7-1.3 3-3 3H7c-1.7 0-3-1.3-3-3V7c0-1.7 1.3-3 3-3h10zm-5 3.5A4.5 4.5 0 1 0 16.5 12 4.51 4.51 0 0 0 12 7.5zm0 7A2.5 2.5 0 1 1 14.5 12 2.5 2.5 0 0 1 12 14.5zm4.8-8.9a1.1 1.1 0 1 1-1.1 1.1c0-.6.5-1.1 1.1-1.1z"/>
               </svg>
-            </div>
+            </a>
 
-            <!-- Email -->
-            <div class="icon">
-              <svg viewBox="0 0 24 24">
+            <!-- Gmail (enveloppe moderne) -->
+            <a class="icon" href="mailto:contact@apam.fr" aria-label="Email">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
                 <path d="M4 4h16a2 2 0 0 1 2 2v1l-10 6L2 7V6a2 2 0 0 1 2-2zm18 5v9a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V9l10 6 10-6z"/>
               </svg>
-            </div>
+            </a>
 
-            <button class="btn-compte">MON COMPTE</button>
+            <button class="btn-compte" type="button">MON COMPTE</button>
           </div>
         </div>
+
       </div>
     </header>
 
-    <!-- HERO TEXTE -->
+    <!-- HERO TEXT -->
     <main class="hero-inner">
       <div class="hero-kicker">AÉROCLUB ASSOCIATIF</div>
+
       <h1 class="hero-title">
         APAM – Aéroclub L'Aigle<br>Saint-Michel
       </h1>
+
       <p class="hero-text">
         Découvrir le vol, apprendre à piloter ou organiser des voyages en partage de frais :
         l’équipe de bénévoles de l’APAM vous accompagne dans vos projets.
@@ -495,5 +463,18 @@
 
   </div>
 
+  <script>
+    // Simple slider hero (4 images)
+    const slides = Array.from(document.querySelectorAll(".hero-slide"));
+    let i = 0;
+
+    function nextSlide() {
+      slides[i].classList.remove("active");
+      i = (i + 1) % slides.length;
+      slides[i].classList.add("active");
+    }
+
+    setInterval(nextSlide, 5000);
+  </script>
 </body>
 </html>
