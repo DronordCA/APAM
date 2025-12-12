@@ -31,10 +31,10 @@
       --gap-logo-header: 62px;
 
       --header-grey: #222;
-      --apam-yellow: #f5d86e;
+      --yellow: #f5d86e;
 
-      --fleet-card-bg: #1f1f1f;   /* gris foncé style “Spotify/ChatGPT dark” */
-      --fleet-card-border: rgba(255,255,255,0.08);
+      --fleet-bg: #1f1f1f;
+      --fleet-border: rgba(255,255,255,0.10);
       --fleet-shadow: 0 18px 40px rgba(0,0,0,0.35);
     }
 
@@ -76,9 +76,8 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 0 6px 0 32px; /* padding droit serré */
-      /* léger relief comme GP */
-      box-shadow: 0 2px 0 rgba(0,0,0,0.10);
+      padding: 0 6px 0 32px;
+      box-shadow: 0 2px 0 rgba(0,0,0,0.10); /* léger relief */
     }
 
     .header-left {
@@ -100,7 +99,7 @@
       gap: 34px;
     }
 
-    /* Nav item base */
+    /* ----- MENU : remplissage du texte (noir -> jaune) ----- */
     .nav-item { position: relative; display: inline-flex; align-items: center; }
 
     .nav-link {
@@ -109,17 +108,17 @@
       letter-spacing: var(--header-letter-spacing);
       text-transform: uppercase;
       text-decoration: none;
-      color: var(--header-grey);
       white-space: nowrap;
-      position: relative;
-      display: inline-block;
       line-height: 1;
-    }
+      display: inline-block;
 
-    /* ---- Remplissage JAUNE du texte (noir -> jaune) ---- */
-    .nav-link.fill {
+      /* technique “remplissage dans les lettres” */
       color: var(--header-grey);
-      background-image: linear-gradient(90deg, var(--apam-yellow) 0%, var(--apam-yellow) 50%, var(--header-grey) 50%, var(--header-grey) 100%);
+      background-image: linear-gradient(90deg,
+        var(--yellow) 0%,
+        var(--yellow) 50%,
+        var(--header-grey) 50%,
+        var(--header-grey) 100%);
       background-size: 200% 100%;
       background-position: 100% 0;
       -webkit-background-clip: text;
@@ -127,19 +126,28 @@
       -webkit-text-fill-color: transparent;
       transition: background-position 220ms ease;
     }
-    .nav-item:hover .nav-link.fill { background-position: 0 0; }
 
-    /* -------- ICONS (SVG simples, sans rond) -------- */
+    .nav-item:hover .nav-link {
+      background-position: 0 0;
+    }
+
+    /* -------- ICÔNES (sans rond) -------- */
 
     .icon {
-      width: 22px;
-      height: 22px;
+      width: 26px;
+      height: 26px;
       display: inline-flex;
       align-items: center;
       justify-content: center;
       cursor: pointer;
+      text-decoration: none;
     }
-    .icon svg { width: 100%; height: 100%; fill: var(--header-grey); }
+
+    .icon svg {
+      width: 100%;
+      height: 100%;
+      fill: var(--header-grey);
+    }
 
     /* -------- BOUTON MON COMPTE -------- */
 
@@ -151,7 +159,7 @@
       letter-spacing: -0.04em;
       text-transform: uppercase;
 
-      /* ⚠️ pour étirer le "cadre" verticalement -> augmente padding Y */
+      /* 👉 pour étirer VERTICALEMENT le cadre : augmente padding-top/bottom */
       padding: 8px 12px;
 
       border: 2px solid var(--header-grey);
@@ -163,81 +171,85 @@
       transition: color 0.25s ease, border-color 0.25s ease;
     }
 
-    /* Remplissage jaune gauche -> droite */
     .btn-compte::before {
       content: "";
       position: absolute;
       left: 0; top: 0;
       width: 0;
       height: 100%;
-      background: var(--apam-yellow);
+      background: var(--yellow);
       z-index: 0;
       transition: width 0.25s ease;
     }
+
     .btn-compte span { position: relative; z-index: 1; }
-    .btn-compte:hover { color: #000; border-color: var(--apam-yellow); }
+
+    .btn-compte:hover {
+      color: #000;
+      border-color: var(--yellow);
+    }
+
     .btn-compte:hover::before { width: 100%; }
 
-    /* -------- DROPDOWN FLOTTE -------- */
+    /* -------- DROPDOWN FLOTTE (cartes verticales) -------- */
 
-    /* conteneur du dropdown (sous "FLOTTE") */
+    .nav-item.flotte { padding-bottom: 26px; } /* permet de descendre sur les cartes */
+
     .fleet-dropdown {
       position: absolute;
       top: calc(100% + 16px);
-      left: -6px;
+      left: -8px;              /* ajuste sous le mot FLOTTE */
       width: 360px;
-      padding: 14px;
-      border-radius: 0;
-      background: rgba(0,0,0,0); /* le container reste invisible */
       display: none;
       z-index: 50;
     }
 
-    /* la "pile" de cartes (colonne) */
-    .fleet-stack {
-      position: relative;
-      width: 100%;
-    }
+    .nav-item.flotte:hover .fleet-dropdown { display: block; }
 
-    /* effet pile légère (2 plaques derrière) */
-    .fleet-stack::before,
-    .fleet-stack::after {
-      content: "";
-      position: absolute;
-      left: 10px;
-      right: 10px;
-      height: 100%;
-      background: var(--fleet-card-bg);
-      border: 1px solid var(--fleet-card-border);
-      box-shadow: var(--fleet-shadow);
-      z-index: -2;
-    }
-    .fleet-stack::before { top: 10px; opacity: 0.55; }
-    .fleet-stack::after  { top: 18px; opacity: 0.35; }
-
-    .fleet-cards {
-      background: var(--fleet-card-bg);
-      border: 1px solid var(--fleet-card-border);
+    .fleet-panel {
+      background: var(--fleet-bg);
+      border: 1px solid var(--fleet-border);
       box-shadow: var(--fleet-shadow);
       padding: 14px;
+    }
+
+    .fleet-cards {
       display: flex;
       flex-direction: column;
       gap: 10px;
     }
 
     .fleet-card {
-      border: 1px solid rgba(255,255,255,0.08);
-      background: rgba(255,255,255,0.02);
-      padding: 12px 12px;
       display: grid;
-      grid-template-columns: 92px 1fr;
+      grid-template-columns: 96px 1fr;
       gap: 12px;
       align-items: center;
+      padding: 12px;
+      border: 1px solid rgba(255,255,255,0.10);
+      background: rgba(255,255,255,0.02);
       text-decoration: none;
       color: #fff;
     }
 
-    /* titre + flèche */
+    .fleet-card:hover {
+      border-color: rgba(245,216,110,0.55);
+      background: rgba(245,216,110,0.06);
+    }
+
+    .fleet-plane {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 66px;
+    }
+
+    .fleet-plane img {
+      max-height: 56px; /* ✅ taille avion (réduit ici) */
+      width: auto;
+      display: block;
+      filter: drop-shadow(0 10px 16px rgba(0,0,0,0.35));
+    }
+
     .fleet-title {
       font-family: "Swiss911", sans-serif;
       font-size: 24px;
@@ -245,15 +257,16 @@
       text-transform: uppercase;
       line-height: 1;
       display: inline-flex;
-      gap: 8px;
       align-items: center;
-      color: #fff;
+      gap: 10px;
       margin-bottom: 6px;
+      color: #fff;
     }
 
+    .fleet-card:hover .fleet-title { color: var(--yellow); }
+
     .fleet-arrow {
-      display: inline-block;
-      font-size: 22px;
+      font-size: 22px; /* flèche plus “grasse” visuellement */
       transform: translateY(-1px);
       opacity: 0.95;
     }
@@ -265,34 +278,7 @@
       color: rgba(255,255,255,0.65);
     }
 
-    .fleet-plane {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      height: 66px;
-      overflow: visible;
-    }
-
-    .fleet-plane img {
-      max-height: 58px; /* 👈 taille avion (global) */
-      width: auto;
-      display: block;
-      filter: drop-shadow(0 10px 16px rgba(0,0,0,0.35));
-    }
-
-    /* hover carte */
-    .fleet-card:hover {
-      border-color: rgba(245,216,110,0.55);
-      background: rgba(245,216,110,0.06);
-    }
-    .fleet-card:hover .fleet-title { color: var(--apam-yellow); }
     .fleet-card:hover .fleet-sub { color: rgba(245,216,110,0.85); }
-
-    /* afficher dropdown au hover */
-    .nav-item.flotte:hover .fleet-dropdown { display: block; }
-
-    /* Pour pouvoir descendre sur les cartes sans que ça ferme */
-    .nav-item.flotte { padding-bottom: 26px; }
 
     /* -------- HERO TEXT -------- */
 
@@ -334,16 +320,16 @@
       color: #d0d0d0;
     }
 
-    /* -------- RESPONSIVE (simple) -------- */
+    /* -------- RESPONSIVE (léger) -------- */
     @media (max-width: 900px) {
       :root {
         --page-side-margin: 20px;
         --logo-height: 70px;
         --gap-logo-header: 24px;
       }
-      .fleet-dropdown { left: 0; width: 320px; }
       .nav-menu { gap: 20px; }
       .nav-link { font-size: 12px; }
+      .fleet-dropdown { width: 320px; left: 0; }
     }
   </style>
 </head>
@@ -363,25 +349,19 @@
           <div class="header-left">
             <nav class="nav-menu">
 
-              <div class="nav-item">
-                <a class="nav-link fill" href="index.html">ACCUEIL</a>
-              </div>
+              <div class="nav-item"><a href="index.html" class="nav-link">ACCUEIL</a></div>
+              <div class="nav-item"><a href="activite.html" class="nav-link">ACTIVITÉS</a></div>
 
-              <div class="nav-item">
-                <a class="nav-link fill" href="activite.html">ACTIVITÉS</a>
-              </div>
-
-              <!-- FLOTTE (dropdown) -->
               <div class="nav-item flotte">
-                <a class="nav-link fill" href="tarifs.html">FLOTTE</a>
+                <a href="tarifs.html" class="nav-link">FLOTTE</a>
 
                 <div class="fleet-dropdown">
-                  <div class="fleet-stack">
+                  <div class="fleet-panel">
                     <div class="fleet-cards">
 
                       <a class="fleet-card" href="tarifs.html#tb200">
                         <div class="fleet-plane">
-                          <img src="assets/planes/tb200-plane.png" alt="TB200">
+                          <img src="tb200-plane.png" alt="TB200">
                         </div>
                         <div>
                           <div class="fleet-title">TB200 <span class="fleet-arrow">→</span></div>
@@ -391,7 +371,7 @@
 
                       <a class="fleet-card" href="tarifs.html#c152">
                         <div class="fleet-plane">
-                          <img src="assets/planes/c152-plane.png" alt="Cessna 152">
+                          <img src="c152-plane.png" alt="Cessna 152">
                         </div>
                         <div>
                           <div class="fleet-title">C152 <span class="fleet-arrow">→</span></div>
@@ -401,7 +381,7 @@
 
                       <a class="fleet-card" href="tarifs.html#sr22">
                         <div class="fleet-plane">
-                          <img src="assets/planes/sr22-plane.png" alt="Cirrus SR22">
+                          <img src="sr22-plane.png" alt="Cirrus SR22">
                         </div>
                         <div>
                           <div class="fleet-title">SR22 <span class="fleet-arrow">→</span></div>
@@ -414,31 +394,21 @@
                 </div>
               </div>
 
-              <div class="nav-item">
-                <a class="nav-link fill" href="espace-membres.html">MEMBRES</a>
-              </div>
-
-              <div class="nav-item">
-                <a class="nav-link fill" href="contact.html">CONTACT</a>
-              </div>
-
-              <div class="nav-item">
-                <a class="nav-link fill" href="https://openflyers.com/apam/" target="_blank" rel="noopener">OPENFLYER</a>
-              </div>
+              <div class="nav-item"><a href="espace-membres.html" class="nav-link">MEMBRES</a></div>
+              <div class="nav-item"><a href="contact.html" class="nav-link">CONTACT</a></div>
+              <div class="nav-item"><a href="https://openflyers.com/apam/" class="nav-link" target="_blank" rel="noopener">OPENFLYER</a></div>
 
             </nav>
           </div>
 
           <div class="header-right">
 
-            <!-- Instagram (simple, moderne) -->
             <a class="icon" href="#" aria-label="Instagram">
               <svg viewBox="0 0 24 24">
                 <path d="M7 2C4.2 2 2 4.2 2 7v10c0 2.8 2.2 5 5 5h10c2.8 0 5-2.2 5-5V7c0-2.8-2.2-5-5-5H7zm10 2c1.7 0 3 1.3 3 3v10c0 1.7-1.3 3-3 3H7c-1.7 0-3-1.3-3-3V7c0-1.7 1.3-3 3-3h10zm-5 3.5A4.5 4.5 0 1 0 16.5 12 4.51 4.51 0 0 0 12 7.5zm0 7A2.5 2.5 0 1 1 14.5 12 2.5 2.5 0 0 1 12 14.5zm4.8-8.9a1.1 1.1 0 1 1-1.1 1.1c0-.6.5-1.1 1.1-1.1z"/>
               </svg>
             </a>
 
-            <!-- Mail (simple) -->
             <a class="icon" href="mailto:contact@apam.fr" aria-label="Email">
               <svg viewBox="0 0 24 24">
                 <path d="M4 4h16a2 2 0 0 1 2 2v1l-10 6L2 7V6a2 2 0 0 1 2-2zm18 5v9a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V9l10 6 10-6z"/>
@@ -446,8 +416,8 @@
             </a>
 
             <button class="btn-compte"><span>MON COMPTE</span></button>
-          </div>
 
+          </div>
         </div>
       </div>
     </header>
