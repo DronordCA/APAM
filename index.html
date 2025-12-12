@@ -16,7 +16,7 @@
       font-style: normal;
     }
 
-    /* Police bouton MON COMPTE */
+    /* Police bouton MON COMPTE (Swiss 911 Extra Compressed) */
     @font-face {
       font-family: "Swiss911";
       src: url("Swiss911-ExtraCompressed.otf") format("opentype");
@@ -107,6 +107,7 @@
     }
 
     .header-bar {
+      position: relative; /* pour positionner le mega-menu */
       height: var(--header-height);
       background: #fff;
       color: var(--header-grey);
@@ -116,7 +117,7 @@
       align-items: center;
       justify-content: space-between;
       padding: 0 6px 0 32px;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.25); /* léger relief comme GP */
+      box-shadow: 0 8px 20px rgba(0,0,0,0.25);
     }
 
     /* --- MENU GAUCHE --- */
@@ -124,6 +125,13 @@
     .nav-menu {
       display: flex;
       gap: 34px;
+      align-items: center;
+      position: relative;
+    }
+
+    .nav-item {
+      position: relative;
+      display: flex;
       align-items: center;
     }
 
@@ -135,10 +143,8 @@
       text-transform: uppercase;
       text-decoration: none;
       white-space: nowrap;
-      /* on part sur du texte noir "classique" */
       color: var(--header-grey);
 
-      /* préparation pour le remplissage */
       background-image: linear-gradient(
         to right,
         var(--hover-yellow),
@@ -153,7 +159,6 @@
     }
 
     .nav-link:hover {
-      /* le fond jaune se dilate dans le texte */
       color: transparent;
       background-size: 100% 100%;
     }
@@ -217,7 +222,106 @@
     }
 
     .btn-compte:hover::before {
-      width: 100%; /* remplissage de gauche à droite */
+      width: 100%;
+    }
+
+    /* --- MEGA MENU FLOTTE --- */
+
+    .nav-item.has-mega:hover .mega-menu {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateY(16px);
+    }
+
+    .mega-menu {
+      position: absolute;
+      left: -32px;      /* aligné avec padding gauche de header-bar */
+      right: -6px;      /* aligné avec padding droit de header-bar */
+      top: 100%;
+      margin-top: 12px;
+      background: rgba(10, 10, 10, 0.96);
+      border: 1px solid rgba(255,255,255,0.12);
+      box-shadow: 0 18px 40px rgba(0,0,0,0.6);
+      padding: 18px 22px;
+      border-radius: 8px;
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(24px);
+      transition: opacity 0.25s ease, transform 0.25s ease;
+      z-index: 20;
+    }
+
+    .mega-title {
+      font-size: 11px;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      color: #bbbbbb;
+      margin-bottom: 10px;
+    }
+
+    .mega-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .plane-card {
+      background: #111;
+      border-radius: 10px;
+      border: 1px solid rgba(255,255,255,0.06);
+      padding: 10px 10px 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .plane-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 14px 26px rgba(0,0,0,0.7);
+      border-color: rgba(245,216,110,0.9);
+    }
+
+    .plane-card-image {
+      width: 100%;
+      aspect-ratio: 16/9;
+      border-radius: 8px;
+      overflow: hidden;
+      background: #222;
+    }
+
+    .plane-card-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .plane-card-name {
+      font-size: 0.9rem;
+      font-weight: 700;
+      margin-top: 4px;
+    }
+
+    .plane-card-meta {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      color: #888;
+    }
+
+    .plane-card-tag {
+      font-size: 0.75rem;
+      color: #111;
+      background: var(--hover-yellow);
+      border-radius: 999px;
+      padding: 2px 8px;
+      align-self: flex-start;
+      margin-top: 4px;
+      font-weight: 600;
     }
 
     /* --- HERO TEXT --- */
@@ -260,6 +364,7 @@
       text-transform: uppercase;
       text-align: right;
       color: #dddddd;
+      z-index: 2;
     }
   </style>
 </head>
@@ -268,9 +373,8 @@
 
   <div class="hero">
 
-    <!-- FOND IMAGES AÉRO -->
+    <!-- FOND IMAGES AÉRO (remplace les noms par tes images) -->
     <div class="hero-images">
-      <!-- Remplace ces noms par tes vrais fichiers -->
       <img src="avion1.jpg" alt="">
       <img src="avion2.jpg" alt="">
       <img src="avion3.jpg" alt="">
@@ -287,12 +391,68 @@
 
         <div class="header-bar">
           <nav class="nav-menu">
-            <a href="index.html" class="nav-link">ACCUEIL</a>
-            <a href="activite.html" class="nav-link">ACTIVITÉS</a>
-            <a href="tarifs.html" class="nav-link">FLOTTE</a>
-            <a href="espace-membres.html" class="nav-link">MEMBRES</a>
-            <a href="contact.html" class="nav-link">CONTACT</a>
-            <a href="https://openflyers.com/apam/" target="_blank" class="nav-link">OPENFLYER</a>
+
+            <div class="nav-item">
+              <a href="index.html" class="nav-link">ACCUEIL</a>
+            </div>
+
+            <div class="nav-item">
+              <a href="activites.html" class="nav-link">ACTIVITÉS</a>
+            </div>
+
+            <!-- FLOTTE AVEC MEGA-MENU -->
+            <div class="nav-item has-mega">
+              <a href="tarifs.html" class="nav-link">FLOTTE</a>
+
+              <!-- MEGA MENU AVIONS -->
+              <div class="mega-menu">
+                <div class="mega-title">LES AVIONS DU CLUB</div>
+                <div class="mega-grid">
+                  <!-- C152 -->
+                  <a href="tarifs.html#cessna152" class="plane-card">
+                    <div class="plane-card-image">
+                      <img src="c152-card.jpg" alt="Cessna 152" />
+                    </div>
+                    <div class="plane-card-name">Cessna 152</div>
+                    <div class="plane-card-meta">ÉCOLE · BIPLAÇE</div>
+                    <div class="plane-card-tag">Idéal pour débuter</div>
+                  </a>
+
+                  <!-- Cirrus -->
+                  <a href="tarifs.html#cirrus-sr20" class="plane-card">
+                    <div class="plane-card-image">
+                      <img src="cirrus-card.jpg" alt="Cirrus SR20" />
+                    </div>
+                    <div class="plane-card-name">Cirrus SR20</div>
+                    <div class="plane-card-meta">VOYAGE · AVIONIQUE MODERNE</div>
+                    <div class="plane-card-tag">Confort & voyages</div>
+                  </a>
+
+                  <!-- TB200 -->
+                  <a href="tarifs.html#tb200" class="plane-card">
+                    <div class="plane-card-image">
+                      <img src="tb200-card.jpg" alt="SOCATA TB200" />
+                    </div>
+                    <div class="plane-card-name">SOCATA TB200</div>
+                    <div class="plane-card-meta">VOYAGE · HÉLICE VP</div>
+                    <div class="plane-card-tag">Perfectionnement</div>
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="nav-item">
+              <a href="espace-membre.html" class="nav-link">MEMBRES</a>
+            </div>
+
+            <div class="nav-item">
+              <a href="contact.html" class="nav-link">CONTACT</a>
+            </div>
+
+            <div class="nav-item">
+              <a href="https://openflyers.com/apam/" target="_blank" class="nav-link">OPENFLYER</a>
+            </div>
+
           </nav>
 
           <div class="header-right">
