@@ -1,352 +1,274 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8" />
-  <title>APAM – Aéroclub L'Aigle Saint-Michel</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta charset="UTF-8" />
+<title>APAM – Aéroclub L'Aigle Saint-Michel</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <style>
-    /* ================= FONTS ================= */
-    @font-face {
-      font-family: "GPMenu";
-      src: url("Helvetica Neue LT Pro 93 Black Extended.otf") format("opentype");
-      font-weight: 900;
-    }
+<style>
+/* ================= POLICES ================= */
+@font-face {
+  font-family: "GPMenu";
+  src: url("Helvetica Neue LT Pro 93 Black Extended.otf") format("opentype");
+  font-weight: 900;
+}
+@font-face {
+  font-family: "Swiss911";
+  src: url("Swiss911-ExtraCompressed.otf") format("opentype");
+}
 
-    @font-face {
-      font-family: "Swiss911";
-      src: url("Swiss911-ExtraCompressed.otf") format("opentype");
-    }
+/* ================= VARIABLES ================= */
+:root {
+  --page-side-margin: 60px;
+  --header-height: 50px;
+  --header-grey: #222;
+  --yellow: #f5d86e;
+  --card-bg: #1e1e1e;
+  --card-border: rgba(255,255,255,0.08);
+}
 
-    /* ================= VARIABLES ================= */
-    :root {
-      --page-side-margin: 60px;
-      --header-height: 50px;
-      --header-font-size: 15px;
-      --header-letter-spacing: -0.05em;
-      --logo-height: 100px;
-      --gap-logo-header: 62px;
-      --header-grey: #222;
+/* ================= BASE ================= */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  background:#000;
+  color:#fff;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+.hero {
+  min-height:100vh;
+  background: radial-gradient(circle at top left, #222 0, #000 55%);
+}
 
-      --fleet-card-bg: #1e1e1e;
-      --fleet-card-border: rgba(255,255,255,0.08);
-      --yellow: #f5d86e;
-    }
+/* ================= HEADER ================= */
+.site-header { padding-top:20px; }
+.header-row {
+  display:flex;
+  align-items:center;
+  margin:0 var(--page-side-margin);
+}
+.header-logo img { height:100px; }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+.header-bar {
+  height:var(--header-height);
+  background:#fff;
+  margin-left:62px;
+  flex:1;
+  display:flex;
+  align-items:center;
+  padding:0 6px 0 32px;
+  position:relative;
+  z-index:20;
+}
 
-    body {
-      background: #000;
-      color: #fff;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-    }
+.nav-menu {
+  display:flex;
+  gap:34px;
+  align-items:center;
+}
 
-    .hero {
-      min-height: 100vh;
-      background: radial-gradient(circle at top left, #222 0, #000 55%);
-      position: relative;
-    }
+.nav-link {
+  font-family:"GPMenu";
+  font-size:15px;
+  text-transform:uppercase;
+  color:transparent;
+  position:relative;
+}
+.nav-link::before {
+  content:attr(data-text);
+  position:absolute;
+  color:var(--header-grey);
+}
+.nav-link::after {
+  content:attr(data-text);
+  position:absolute;
+  color:var(--yellow);
+  clip-path: inset(0 100% 0 0);
+  transition:.2s;
+}
+.nav-link:hover::after {
+  clip-path: inset(0 0 0 0);
+}
 
-    /* ================= HEADER ================= */
-    .site-header { padding-top: 20px; }
+/* ================= BOUTON ================= */
+.btn-compte {
+  margin-left:auto;
+  font-family:"Swiss911";
+  font-size:25px;
+  padding:6px 12px;
+  border:2px solid var(--header-grey);
+  background:#000;
+  color:#fff;
+  position:relative;
+  overflow:hidden;
+}
+.btn-compte::before {
+  content:"";
+  position:absolute;
+  inset:0;
+  width:0;
+  background:var(--yellow);
+  transition:.25s;
+  z-index:-1;
+}
+.btn-compte:hover::before { width:100%; }
+.btn-compte:hover { color:#000; border-color:var(--yellow); }
 
-    .header-row {
-      display: flex;
-      align-items: center;
-      margin: 0 var(--page-side-margin);
-    }
+/* ================= DROPDOWN FLOTTE ================= */
+.nav-item { position:relative; }
 
-    .header-logo img {
-      height: var(--logo-height);
-      display: block;
-    }
+.dropdown {
+  position:absolute;
+  top:calc(100% + 18px);
+  left:50%;
+  transform:translateX(-50%);
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+  opacity:0;
+  pointer-events:none;
+  transition:.2s;
+}
+.nav-item:hover .dropdown {
+  opacity:1;
+  pointer-events:auto;
+}
 
-    .header-bar {
-      height: var(--header-height);
-      background: #fff;
-      margin-left: var(--gap-logo-header);
-      flex: 1;
-      display: flex;
-      align-items: center;
-      padding: 0 6px 0 32px;
-      box-shadow: 0 2px 0 rgba(0,0,0,.08);
-      position: relative;
-      z-index: 10;
-    }
+/* ================= CARTES ================= */
+.fleet-card {
+  width:280px;
+  height:92px;
+  background:var(--card-bg);
+  border:1px solid var(--card-border);
+  display:flex;
+  align-items:center;
+  padding:12px 14px;
+  gap:14px;
+  box-shadow:0 18px 30px rgba(0,0,0,.35);
+}
 
-    .header-left { display: flex; align-items: center; }
-    .header-right {
-      display: flex;
-      align-items: center;
-      gap: 18px;
-      margin-left: auto;
-    }
+/* TITRE */
+.fleet-title {
+  font-family:"Swiss911";
+  font-size:22px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  min-width:72px;
+}
+.fleet-arrow {
+  width:26px;
+  height:2px;
+  background:#fff;
+  position:relative;
+}
+.fleet-arrow::after {
+  content:"";
+  position:absolute;
+  right:-2px;
+  top:50%;
+  transform:translateY(-50%);
+  border-left:7px solid #fff;
+  border-top:5px solid transparent;
+  border-bottom:5px solid transparent;
+}
 
-    .nav-menu {
-      display: flex;
-      align-items: center;
-      gap: 34px;
-    }
+/* ================= ZONE AVION NORMALISÉE ================= */
+.fleet-plane {
+  margin-left:auto;
+  width:150px;          /* ZONE FIXE */
+  height:64px;          /* ZONE FIXE */
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.fleet-plane img {
+  max-width:100%;
+  max-height:100%;
+  object-fit:contain;   /* 🔑 CLÉ DU PROBLÈME */
+}
 
-    /* ================= NAV LINKS ================= */
-    .nav-item { position: relative; }
-
-    .nav-link {
-      font-family: "GPMenu";
-      font-size: var(--header-font-size);
-      letter-spacing: var(--header-letter-spacing);
-      text-transform: uppercase;
-      text-decoration: none;
-      white-space: nowrap;
-      position: relative;
-      display: inline-block;
-      line-height: 1;
-      color: transparent;
-    }
-
-    .nav-link::before,
-    .nav-link::after {
-      content: attr(data-text);
-      position: absolute;
-      inset: 0;
-      white-space: nowrap;
-    }
-
-    .nav-link::before { color: var(--header-grey); }
-    .nav-link::after {
-      color: var(--yellow);
-      clip-path: inset(0 100% 0 0);
-      transition: clip-path .22s ease;
-    }
-
-    .nav-link:hover::after {
-      clip-path: inset(0 0 0 0);
-    }
-
-    /* ================= ICÔNES ================= */
-    .icon {
-      width: 26px;
-      height: 26px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .icon svg {
-      width: 100%;
-      height: 100%;
-      fill: var(--header-grey);
-    }
-
-    /* ================= MON COMPTE ================= */
-    .btn-compte {
-      position: relative;
-      overflow: hidden;
-      font-family: "Swiss911";
-      font-size: 25px;
-      letter-spacing: -0.04em;
-      padding: 6px 12px;
-      border: 2px solid var(--header-grey);
-      background: #000;
-      color: #fff;
-      cursor: pointer;
-    }
-
-    .btn-compte::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      width: 0;
-      background: var(--yellow);
-      z-index: -1;
-      transition: width .25s ease;
-    }
-
-    .btn-compte:hover::before { width: 100%; }
-    .btn-compte:hover { color: #000; border-color: var(--yellow); }
-
-    /* ================= FLOTTE DROPDOWN ================= */
-    .nav-item.has-dropdown::before {
-      content: "";
-      position: absolute;
-      top: 100%;
-      left: -20px;
-      right: -20px;
-      height: 18px;
-    }
-
-    .dropdown {
-      position: absolute;
-      top: calc(100% + 18px);
-      left: 50%;
-      transform: translateX(-50%);
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity .18s ease;
-    }
-
-    .nav-item.has-dropdown:hover .dropdown {
-      opacity: 1;
-      pointer-events: auto;
-    }
-
-    .fleet-card {
-      width: 280px;
-      height: 92px;
-      background: var(--fleet-card-bg);
-      border: 1px solid var(--fleet-card-border);
-      box-shadow: 0 16px 30px rgba(0,0,0,.35);
-      display: flex;
-      align-items: center;
-      padding: 12px 14px;
-      gap: 12px;
-    }
-
-    .fleet-title {
-      font-family: "Swiss911";
-      font-size: 22px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      min-width: 70px;
-    }
-
-    .fleet-arrow {
-      width: 26px;
-      height: 2px;
-      background: #fff;
-      position: relative;
-    }
-
-    .fleet-arrow::after {
-      content: "";
-      position: absolute;
-      right: -2px;
-      top: 50%;
-      transform: translateY(-50%);
-      border-left: 7px solid #fff;
-      border-top: 5px solid transparent;
-      border-bottom: 5px solid transparent;
-    }
-
-    /* ======== FIX TAILLE AVIONS (IMPORTANT) ======== */
-    .fleet-plane {
-      margin-left: auto;
-      width: 170px;
-      height: 62px;
-      display: flex;
-      align-items: center;
-      justify-content: flex-end;
-    }
-
-    .fleet-plane img {
-      height: 100%;
-      width: auto;
-      display: block;
-      object-fit: contain;
-    }
-
-    /* ================= HERO ================= */
-    .hero-inner {
-      max-width: 760px;
-      padding: 120px var(--page-side-margin) 80px;
-    }
-
-    .hero-title {
-      font-size: 40px;
-      margin-bottom: 18px;
-      line-height: 1.1;
-    }
-
-    .hero-kicker {
-      font-size: 11px;
-      letter-spacing: .24em;
-      color: #bbb;
-      margin-bottom: 16px;
-    }
-
-    .hero-text {
-      font-size: 15px;
-      color: #d0d0d0;
-      max-width: 580px;
-    }
-
-    .hero-location {
-      position: absolute;
-      right: var(--page-side-margin);
-      bottom: 40px;
-      font-size: 11px;
-      letter-spacing: .24em;
-      color: #d0d0d0;
-      text-align: right;
-    }
-  </style>
+/* ================= HERO ================= */
+.hero-inner {
+  max-width:760px;
+  padding:120px var(--page-side-margin);
+}
+.hero-title { font-size:40px; margin-bottom:18px; }
+.hero-kicker {
+  font-size:11px;
+  letter-spacing:.24em;
+  color:#bbb;
+  margin-bottom:16px;
+}
+.hero-text { color:#d0d0d0; max-width:580px; }
+.hero-location {
+  position:absolute;
+  right:60px;
+  bottom:40px;
+  font-size:11px;
+  letter-spacing:.24em;
+  color:#d0d0d0;
+}
+</style>
 </head>
 
 <body>
 <div class="hero">
 
 <header class="site-header">
-  <div class="header-row">
-
-    <div class="header-logo">
-      <img src="apam-logo1.png" alt="APAM">
-    </div>
-
-    <div class="header-bar">
-      <nav class="nav-menu">
-
-        <span class="nav-item">
-          <a class="nav-link" href="index.html" data-text="ACCUEIL">ACCUEIL</a>
-        </span>
-
-        <span class="nav-item">
-          <a class="nav-link" href="activite.html" data-text="ACTIVITÉS">ACTIVITÉS</a>
-        </span>
-
-        <span class="nav-item has-dropdown">
-          <a class="nav-link" href="tarifs.html" data-text="FLOTTE">FLOTTE</a>
-
-          <div class="dropdown">
-            <a class="fleet-card" href="#tb200">
-              <span class="fleet-title">TB200 <span class="fleet-arrow"></span></span>
-              <span class="fleet-plane"><img src="tb200-plane.png"></span>
-            </a>
-
-            <a class="fleet-card" href="#c152">
-              <span class="fleet-title">C152 <span class="fleet-arrow"></span></span>
-              <span class="fleet-plane"><img src="c152-plane.png"></span>
-            </a>
-
-            <a class="fleet-card" href="#sr22">
-              <span class="fleet-title">SR22 <span class="fleet-arrow"></span></span>
-              <span class="fleet-plane"><img src="sr22-plane.png"></span>
-            </a>
-          </div>
-        </span>
-
-        <span class="nav-item">
-          <a class="nav-link" href="espace-membres.html" data-text="MEMBRES">MEMBRES</a>
-        </span>
-
-        <span class="nav-item">
-          <a class="nav-link" href="contact.html" data-text="CONTACT">CONTACT</a>
-        </span>
-
-        <span class="nav-item">
-          <a class="nav-link" href="https://openflyers.com/apam/" target="_blank" data-text="OPENFLYER">OPENFLYER</a>
-        </span>
-
-      </nav>
-
-      <div class="header-right">
-        <button class="btn-compte">MON COMPTE</button>
-      </div>
-    </div>
+<div class="header-row">
+  <div class="header-logo">
+    <img src="apam-logo1.png" alt="APAM">
   </div>
+
+  <div class="header-bar">
+    <nav class="nav-menu">
+
+      <span class="nav-item">
+        <a class="nav-link" data-text="ACCUEIL">ACCUEIL</a>
+      </span>
+
+      <span class="nav-item">
+        <a class="nav-link" data-text="ACTIVITÉS">ACTIVITÉS</a>
+      </span>
+
+      <span class="nav-item">
+        <a class="nav-link" data-text="FLOTTE">FLOTTE</a>
+
+        <div class="dropdown">
+          <a class="fleet-card">
+            <span class="fleet-title">TB200 <span class="fleet-arrow"></span></span>
+            <span class="fleet-plane"><img src="tb200-plane.png"></span>
+          </a>
+
+          <a class="fleet-card">
+            <span class="fleet-title">C152 <span class="fleet-arrow"></span></span>
+            <span class="fleet-plane"><img src="c152-plane.png"></span>
+          </a>
+
+          <a class="fleet-card">
+            <span class="fleet-title">SR22 <span class="fleet-arrow"></span></span>
+            <span class="fleet-plane"><img src="sr22-plane.png"></span>
+          </a>
+        </div>
+      </span>
+
+      <span class="nav-item">
+        <a class="nav-link" data-text="MEMBRES">MEMBRES</a>
+      </span>
+
+      <span class="nav-item">
+        <a class="nav-link" data-text="CONTACT">CONTACT</a>
+      </span>
+
+      <span class="nav-item">
+        <a class="nav-link" data-text="OPENFLYER">OPENFLYER</a>
+      </span>
+
+    </nav>
+
+    <button class="btn-compte">MON COMPTE</button>
+  </div>
+</div>
 </header>
 
 <main class="hero-inner">
@@ -358,7 +280,7 @@
 </main>
 
 <div class="hero-location">
-  AÉRODROME DE L'AIGLE SAINT-MICHEL<br>LFAI · NORMANDIE, FRANCE
+  AÉRODROME DE L'AIGLE SAINT-MICHEL<br>LFAI · NORMANDIE
 </div>
 
 </div>
