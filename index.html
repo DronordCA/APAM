@@ -30,6 +30,7 @@
       --logo-height: 100px;
       --gap-logo-header: 62px;
       --header-grey: #222;
+      --apam-yellow: #f5d86e;
     }
 
     * {
@@ -98,7 +99,10 @@
       gap: 34px;
     }
 
+    /* -------- MENUS AVEC REMPLISSAGE JAUNE AU HOVER -------- */
+
     .nav-link {
+      position: relative;
       font-family: "GPMenu", system-ui, sans-serif;
       font-size: var(--header-font-size);
       letter-spacing: var(--header-letter-spacing);
@@ -106,9 +110,33 @@
       text-decoration: none;
       color: var(--header-grey);
       white-space: nowrap;
+      padding: 6px 8px;
+      line-height: 1;
+      z-index: 0;
+      transition: color 0.25s ease;
     }
 
-    /* -------- NOUVELLES ICÔNES -------- */
+    .nav-link::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 0;
+      height: 100%;
+      background: var(--apam-yellow);
+      z-index: -1;
+      transition: width 0.25s ease;
+    }
+
+    .nav-link:hover {
+      color: #000;
+    }
+
+    .nav-link:hover::before {
+      width: 100%; /* remplissage de gauche à droite */
+    }
+
+    /* -------- ICÔNES -------- */
 
     .icon {
       width: 26px;
@@ -142,6 +170,7 @@
       white-space: nowrap;
       line-height: 1;
       transition: color 0.25s ease, border-color 0.25s ease;
+      z-index: 0;
     }
 
     .btn-compte::before {
@@ -151,18 +180,18 @@
       top: 0;
       width: 0;
       height: 100%;
-      background: #f5d86e;
+      background: var(--apam-yellow);
       z-index: -1;
       transition: width 0.25s ease;
     }
 
     .btn-compte:hover {
       color: #000;
-      border-color: #f5d86e;
+      border-color: var(--apam-yellow);
     }
 
     .btn-compte:hover::before {
-      width: 100%;
+      width: 100%; /* remplissage de gauche à droite */
     }
 
     /* -------- HERO TEXT -------- */
@@ -210,6 +239,7 @@
 <body>
   <div class="hero">
 
+    <!-- HEADER -->
     <header class="site-header">
       <div class="header-row">
 
@@ -253,6 +283,7 @@
       </div>
     </header>
 
+    <!-- HERO TEXT -->
     <main class="hero-inner">
       <div class="hero-kicker">AÉROCLUB ASSOCIATIF</div>
 
@@ -266,6 +297,7 @@
       </p>
     </main>
 
+    <!-- LOCALISATION -->
     <div class="hero-location">
       AÉRODROME DE L'AIGLE SAINT-MICHEL<br>
       LFAI · NORMANDIE, FRANCE
