@@ -45,7 +45,7 @@
       background: #000;
       color: #fff;
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      overflow-x: hidden; /* pour l'anim slide */
+      overflow-x: hidden;
     }
 
     .hero {
@@ -63,9 +63,38 @@
       margin: 0 var(--page-side-margin);
     }
 
+    .header-logo { position: relative; }
     .header-logo img {
       height: var(--logo-height);
       display: block;
+
+      /* ✅ Animation logo (impact mais propre) */
+      opacity: 0;
+      transform: translate3d(0, -16px, 0) scale(0.92);
+      filter: blur(8px);
+      transform-origin: center;
+      animation: logoPop 1.05s cubic-bezier(.16, 1, .22, 1) forwards;
+    }
+    /* petit “shine” discret */
+    .header-logo::after{
+      content:"";
+      position:absolute;
+      inset:-10px -14px -10px -14px;
+      background: radial-gradient(circle at 30% 30%, rgba(245,216,110,0.22), transparent 55%);
+      opacity: 0;
+      filter: blur(10px);
+      pointer-events:none;
+      animation: logoGlow 1.2s ease forwards;
+      animation-delay: .25s;
+    }
+
+    @keyframes logoPop{
+      60% { opacity: 1; transform: translate3d(0, 2px, 0) scale(1.05); filter: blur(0px); }
+      100% { opacity: 1; transform: translate3d(0, 0, 0) scale(1); filter: blur(0px); }
+    }
+    @keyframes logoGlow{
+      40% { opacity: .45; }
+      100% { opacity: 0; }
     }
 
     .header-bar {
@@ -87,12 +116,7 @@
     .header-right { display: flex; align-items: center; gap: 18px; margin-left: auto; }
 
     .nav-menu { display: flex; align-items: center; gap: 34px; }
-
-    .nav-item {
-      position: relative;
-      display: inline-flex;
-      align-items: center;
-    }
+    .nav-item { position: relative; display: inline-flex; align-items: center; }
 
     .nav-link {
       font-family: "GPMenu", system-ui, sans-serif;
@@ -287,7 +311,6 @@
       transform-origin: right center;
     }
 
-    /* Ajuste visuel par avion */
     .fleet-card[data-plane="c152"] .plane-box img { transform: scale(1.80); }
     .fleet-card[data-plane="sr22"] .plane-box img { transform: scale(1.15); }
 
@@ -298,17 +321,14 @@
     .gp-stack {
       position: absolute;
       left: var(--page-side-margin);
-
-      /* ✅ remonte ~1,5 cm */
       top: calc(55% - 56px);
-
       transform: translateY(-50%);
       z-index: 2;
     }
 
     .gp-wrap {
       position: relative;
-      display: inline-block; /* important pour coller LFOL au bloc */
+      display: inline-block;
     }
 
     .gp-box {
@@ -332,18 +352,17 @@
       font-size: clamp(44px, 5.8vw, 86px);
       white-space: nowrap;
 
-      /* italic comme GP */
       font-style: italic;
       transform: skewX(-6deg);
       transform-origin: left center;
     }
 
-    /* ✅ LFOL : EN DEHORS du gros bloc, collé dessous à droite */
+    /* ✅ LFOL : espacement lettres un chouille + dehors */
     .gp-tag {
       position: absolute;
       right: 0;
       top: 100%;
-      transform: translateY(-1px); /* collé au bord (petit overlap de 1px) */
+      transform: translateY(-1px);
 
       background: #000;
       color: #fff;
@@ -355,13 +374,13 @@
     .gp-small {
       font-family: "Swiss911", sans-serif;
       text-transform: uppercase;
-      letter-spacing: -0.02em;
+      letter-spacing: 0.06em; /* ✅ un chouille plus large */
       font-size: clamp(22px, 2.2vw, 34px);
       line-height: 1;
       white-space: nowrap;
     }
 
-    /* ✅ Animation plus “impactante” : slide + fade + blur + léger overshoot */
+    /* Animation bloc titre */
     .anim-main {
       opacity: 0;
       transform: translate3d(-140px, 0, 0) skewX(-6deg) scale(0.98);
@@ -387,23 +406,66 @@
       100% { opacity: 1; transform: translate3d(0, 0, 0) scale(1); filter: blur(0px); }
     }
 
-    /* Bas droit localisation */
-    .hero-location {
+    /* =============================== */
+    /* BLOC INFOS BAS-DROITE (FRQ + COORD) */
+    /* =============================== */
+
+    .info-stack {
       position: absolute;
       right: var(--page-side-margin);
       bottom: 40px;
-      font-size: 11px;
-      letter-spacing: 0.24em;
-      text-transform: uppercase;
-      text-align: right;
-      color: #d0d0d0;
-      opacity: 0;
-      transform: translate3d(0, 14px, 0);
-      animation: riseFade .75s ease forwards;
-      animation-delay: .40s;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      align-items: flex-end;
     }
-    @keyframes riseFade {
-      to { opacity: 1; transform: translate3d(0,0,0); }
+
+    /* bloc du dessus = FRQ (petit, noir fond, texte blanc) */
+    .info-frq {
+      background: #000;
+      color: #fff;
+      border: 1px solid rgba(255,255,255,0.14);
+      box-shadow: 0 18px 34px rgba(0,0,0,0.45);
+      padding: 10px 12px 8px;
+      opacity: 0;
+      transform: translate3d(0, 20px, 0);
+      filter: blur(6px);
+      animation: infoIn .85s cubic-bezier(.16, 1, .22, 1) forwards;
+      animation-delay: .45s;
+    }
+
+    /* bloc du dessous = COORD (plus grand, blanc fond, texte noir) */
+    .info-coord {
+      background: #fff;
+      color: #000;
+      border: 1px solid rgba(0,0,0,0.12);
+      box-shadow: 0 18px 34px rgba(0,0,0,0.35);
+      padding: 12px 14px 10px;
+      opacity: 0;
+      transform: translate3d(0, 22px, 0);
+      filter: blur(7px);
+      animation: infoIn .95s cubic-bezier(.16, 1, .22, 1) forwards;
+      animation-delay: .58s;
+    }
+
+    .info-line {
+      font-family: "Swiss911", sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+      line-height: 1;
+      white-space: nowrap;
+      font-size: 22px; /* taille compacte comme l'ancien texte */
+    }
+
+    .info-line.small {
+      font-size: 20px;
+      letter-spacing: 0.04em;
+    }
+
+    @keyframes infoIn {
+      65% { opacity: 1; transform: translate3d(0, -3px, 0); filter: blur(0px); }
+      100% { opacity: 1; transform: translate3d(0, 0, 0); filter: blur(0px); }
     }
 
     /* -------- RESPONSIVE -------- */
@@ -417,9 +479,13 @@
       .fleet-card { width: 330px; grid-template-columns: 110px 1fr 170px; }
       .plane-box { width: 170px; height: 58px; }
 
-      .gp-stack { top: calc(62% - 44px); } /* remonte aussi sur mobile */
+      .gp-stack { top: calc(62% - 44px); }
       .gp-main { padding: 14px 18px 12px; }
       .gp-tag { padding: 8px 12px 6px; }
+
+      .info-stack { bottom: 26px; }
+      .info-line { font-size: 20px; }
+      .info-line.small { font-size: 18px; }
     }
   </style>
 </head>
@@ -451,7 +517,6 @@
                 <a href="tarifs.html" class="nav-link" data-text="FLOTTE">FLOTTE</a>
 
                 <div class="dropdown">
-
                   <a class="fleet-card" data-plane="tb200" href="tarifs.html#tb200" aria-label="TB200">
                     <div class="fleet-title">TB200 <span class="fleet-arrow"></span></div>
                     <div class="fleet-mid">VOYAGE · CLUB</div>
@@ -469,7 +534,6 @@
                     <div class="fleet-mid">PREMIUM · PERFORMANCE</div>
                     <div class="plane-box"><img src="sr22-plane.png" alt="Cirrus SR22"></div>
                   </a>
-
                 </div>
               </span>
 
@@ -508,7 +572,7 @@
       </div>
     </header>
 
-    <!-- ✅ Bloc titre GP-style (LFOL dehors + collé dessous à droite) -->
+    <!-- Bloc titre GP-style -->
     <div class="gp-stack" aria-label="Titre">
       <div class="gp-wrap">
         <div class="gp-box gp-main anim-main">
@@ -521,9 +585,15 @@
       </div>
     </div>
 
-    <div class="hero-location">
-      AÉRODROME DE L'AIGLE SAINT-MICHEL<br>
-      LFAI · NORMANDIE, FRANCE
+    <!-- ✅ Bas droite : FRQ (haut) + COORD (bas, plus grand) -->
+    <div class="info-stack" aria-label="Infos terrain">
+      <div class="info-frq">
+        <div class="info-line small">FRQ 126.855</div>
+      </div>
+
+      <div class="info-coord">
+        <div class="info-line">48°45'32" N · 39°28' E</div>
+      </div>
     </div>
 
   </div>
