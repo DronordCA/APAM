@@ -6,22 +6,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <style>
-    /* Police menu type GP Explorer */
+    /* ================= FONTS ================= */
     @font-face {
       font-family: "GPMenu";
       src: url("Helvetica Neue LT Pro 93 Black Extended.otf") format("opentype");
       font-weight: 900;
-      font-style: normal;
     }
 
-    /* Police bouton MON COMPTE */
     @font-face {
       font-family: "Swiss911";
       src: url("Swiss911-ExtraCompressed.otf") format("opentype");
-      font-weight: normal;
-      font-style: normal;
     }
 
+    /* ================= VARIABLES ================= */
     :root {
       --page-side-margin: 60px;
       --header-height: 50px;
@@ -31,9 +28,9 @@
       --gap-logo-header: 62px;
       --header-grey: #222;
 
-      /* Dropdown flotte */
-      --fleet-card-bg: #1e1e1e; /* gris foncé style Spotify */
+      --fleet-card-bg: #1e1e1e;
       --fleet-card-border: rgba(255,255,255,0.08);
+      --yellow: #f5d86e;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -50,8 +47,7 @@
       position: relative;
     }
 
-    /* -------- HEADER -------- */
-
+    /* ================= HEADER ================= */
     .site-header { padding-top: 20px; }
 
     .header-row {
@@ -68,24 +64,17 @@
     .header-bar {
       height: var(--header-height);
       background: #fff;
-      color: var(--header-grey);
       margin-left: var(--gap-logo-header);
       flex: 1;
       display: flex;
       align-items: center;
-      justify-content: space-between;
       padding: 0 6px 0 32px;
+      box-shadow: 0 2px 0 rgba(0,0,0,.08);
       position: relative;
       z-index: 10;
-      box-shadow: 0 2px 0 rgba(0,0,0,0.08); /* léger relief comme tu disais */
     }
 
-    .header-left {
-      display: flex;
-      align-items: center;
-      gap: 34px;
-    }
-
+    .header-left { display: flex; align-items: center; }
     .header-right {
       display: flex;
       align-items: center;
@@ -99,181 +88,139 @@
       gap: 34px;
     }
 
+    /* ================= NAV LINKS ================= */
+    .nav-item { position: relative; }
+
     .nav-link {
-      font-family: "GPMenu", system-ui, sans-serif;
+      font-family: "GPMenu";
       font-size: var(--header-font-size);
       letter-spacing: var(--header-letter-spacing);
       text-transform: uppercase;
       text-decoration: none;
-      color: var(--header-grey);
       white-space: nowrap;
       position: relative;
       display: inline-block;
       line-height: 1;
-      padding: 2px 0;
+      color: transparent;
     }
 
-    /* ====== HOVER "remplissage texte" (robuste, sans accent bugué) ======
-       Astuce: on duplique le texte via data-text => l'accent est inclus.
-    */
-    .nav-link[data-text] {
-      color: transparent;                 /* on masque le texte "base" */
-      -webkit-text-stroke: 0px transparent;
-    }
-    .nav-link[data-text]::before {
+    .nav-link::before,
+    .nav-link::after {
       content: attr(data-text);
       position: absolute;
       inset: 0;
-      color: var(--header-grey);          /* noir/gris par défaut */
       white-space: nowrap;
     }
-    .nav-link[data-text]::after {
-      content: attr(data-text);
-      position: absolute;
-      inset: 0;
-      color: #f5d86e;                     /* jaune */
-      white-space: nowrap;
 
-      /* masque progressif de gauche->droite */
+    .nav-link::before { color: var(--header-grey); }
+    .nav-link::after {
+      color: var(--yellow);
       clip-path: inset(0 100% 0 0);
       transition: clip-path .22s ease;
-      pointer-events: none;
     }
-    .nav-link[data-text]:hover::after {
+
+    .nav-link:hover::after {
       clip-path: inset(0 0 0 0);
     }
 
-    /* -------- ICÔNES -------- */
+    /* ================= ICÔNES ================= */
     .icon {
       width: 26px;
       height: 26px;
-      display: inline-flex;
+      display: flex;
       align-items: center;
       justify-content: center;
-      cursor: pointer;
     }
-    .icon svg { width: 100%; height: 100%; fill: var(--header-grey); }
 
-    /* -------- BOUTON MON COMPTE -------- */
+    .icon svg {
+      width: 100%;
+      height: 100%;
+      fill: var(--header-grey);
+    }
+
+    /* ================= MON COMPTE ================= */
     .btn-compte {
       position: relative;
       overflow: hidden;
-      font-family: "Swiss911", sans-serif;
+      font-family: "Swiss911";
       font-size: 25px;
       letter-spacing: -0.04em;
-      text-transform: uppercase;
       padding: 6px 12px;
-
       border: 2px solid var(--header-grey);
       background: #000;
       color: #fff;
       cursor: pointer;
-      white-space: nowrap;
-      line-height: 1;
-      transition: color 0.25s ease, border-color 0.25s ease;
     }
 
     .btn-compte::before {
       content: "";
       position: absolute;
-      left: 0; top: 0;
+      inset: 0;
       width: 0;
-      height: 100%;
-      background: #f5d86e;      /* jaune */
+      background: var(--yellow);
       z-index: -1;
-      transition: width 0.25s ease;
+      transition: width .25s ease;
     }
 
-    .btn-compte:hover { color: #000; border-color: #f5d86e; }
     .btn-compte:hover::before { width: 100%; }
+    .btn-compte:hover { color: #000; border-color: var(--yellow); }
 
-    /* =============================== */
-    /* DROPDOWN FLOTTE — VERTICAL GP   */
-    /* =============================== */
-
-    .nav-item {
-      position: relative;
-      display: inline-flex;
-      align-items: center;
-    }
-
-    /* zone tampon invisible entre "FLOTTE" et les cartes
-       pour pouvoir descendre la souris sans que ça ferme */
+    /* ================= FLOTTE DROPDOWN ================= */
     .nav-item.has-dropdown::before {
       content: "";
       position: absolute;
+      top: 100%;
       left: -20px;
       right: -20px;
-      top: 100%;
       height: 18px;
     }
 
     .dropdown {
       position: absolute;
-      top: calc(100% + 18px); /* pile après la zone tampon */
+      top: calc(100% + 18px);
       left: 50%;
       transform: translateX(-50%);
-
       display: flex;
       flex-direction: column;
       gap: 12px;
-
-      padding: 0; /* pas de fond global, comme GP */
       opacity: 0;
       pointer-events: none;
       transition: opacity .18s ease;
-      z-index: 50;
     }
 
-    /* ouvre au hover du parent */
     .nav-item.has-dropdown:hover .dropdown {
       opacity: 1;
       pointer-events: auto;
     }
 
     .fleet-card {
-      width: 280px;            /* taille proche GP */
+      width: 280px;
       height: 92px;
       background: var(--fleet-card-bg);
       border: 1px solid var(--fleet-card-border);
-      box-shadow: 0 16px 30px rgba(0,0,0,0.35);
-      border-radius: 4px;
-
+      box-shadow: 0 16px 30px rgba(0,0,0,.35);
       display: flex;
       align-items: center;
       padding: 12px 14px;
       gap: 12px;
-
-      transition: transform .18s ease, border-color .18s ease;
-    }
-
-    .fleet-card:hover {
-      transform: translateX(6px);
-      border-color: rgba(245,216,110,0.35);
     }
 
     .fleet-title {
-      font-family: "Swiss911", sans-serif;
+      font-family: "Swiss911";
       font-size: 22px;
-      letter-spacing: -0.03em;
-      text-transform: uppercase;
-      color: #fff;
-      line-height: 1;
-      display: inline-flex;
+      display: flex;
       align-items: center;
       gap: 10px;
       min-width: 70px;
     }
 
-    /* flèche horizontale un peu “grasse” */
     .fleet-arrow {
-      display: inline-block;
       width: 26px;
       height: 2px;
       background: #fff;
       position: relative;
-      opacity: 0.9;
     }
+
     .fleet-arrow::after {
       content: "";
       position: absolute;
@@ -285,23 +232,24 @@
       border-bottom: 5px solid transparent;
     }
 
+    /* ======== FIX TAILLE AVIONS (IMPORTANT) ======== */
     .fleet-plane {
       margin-left: auto;
+      width: 170px;
+      height: 62px;
       display: flex;
       align-items: center;
       justify-content: flex-end;
-      width: 170px;
     }
 
     .fleet-plane img {
-      max-height: 62px;
+      height: 100%;
       width: auto;
       display: block;
-      image-rendering: auto;
+      object-fit: contain;
     }
 
-    /* -------- HERO TEXT -------- */
-
+    /* ================= HERO ================= */
     .hero-inner {
       max-width: 760px;
       padding: 120px var(--page-side-margin) 80px;
@@ -309,23 +257,20 @@
 
     .hero-title {
       font-size: 40px;
-      font-weight: 700;
       margin-bottom: 18px;
       line-height: 1.1;
     }
 
     .hero-kicker {
       font-size: 11px;
-      letter-spacing: 0.24em;
-      text-transform: uppercase;
-      color: #bbbbbb;
+      letter-spacing: .24em;
+      color: #bbb;
       margin-bottom: 16px;
     }
 
     .hero-text {
       font-size: 15px;
       color: #d0d0d0;
-      line-height: 1.6;
       max-width: 580px;
     }
 
@@ -334,122 +279,88 @@
       right: var(--page-side-margin);
       bottom: 40px;
       font-size: 11px;
-      letter-spacing: 0.24em;
-      text-transform: uppercase;
-      text-align: right;
+      letter-spacing: .24em;
       color: #d0d0d0;
+      text-align: right;
     }
-
-    /* Responsive simple */
-    @media (max-width: 980px) {
-      :root { --page-side-margin: 20px; --logo-height: 70px; --gap-logo-header: 24px; }
-      .dropdown { left: 0; transform: none; }
-    }
-
   </style>
 </head>
 
 <body>
-  <div class="hero">
+<div class="hero">
 
-    <header class="site-header">
-      <div class="header-row">
+<header class="site-header">
+  <div class="header-row">
 
-        <div class="header-logo">
-          <img src="apam-logo1.png" alt="Logo APAM">
-        </div>
-
-        <div class="header-bar">
-
-          <div class="header-left">
-            <nav class="nav-menu">
-
-              <span class="nav-item">
-                <a href="index.html" class="nav-link" data-text="ACCUEIL">ACCUEIL</a>
-              </span>
-
-              <span class="nav-item">
-                <a href="activite.html" class="nav-link" data-text="ACTIVITÉS">ACTIVITÉS</a>
-              </span>
-
-              <!-- FLOTTE avec dropdown -->
-              <span class="nav-item has-dropdown">
-                <a href="tarifs.html" class="nav-link" data-text="FLOTTE">FLOTTE</a>
-
-                <div class="dropdown">
-                  <a class="fleet-card" href="tarifs.html#tb200" aria-label="TB200">
-                    <span class="fleet-title">TB200 <span class="fleet-arrow"></span></span>
-                    <span class="fleet-plane"><img src="tb200-plane.png" alt="TB200"></span>
-                  </a>
-
-                  <a class="fleet-card" href="tarifs.html#c152" aria-label="C152">
-                    <span class="fleet-title">C152 <span class="fleet-arrow"></span></span>
-                    <span class="fleet-plane"><img src="c152-plane.png" alt="Cessna 152"></span>
-                  </a>
-
-                  <a class="fleet-card" href="tarifs.html#sr22" aria-label="SR22">
-                    <span class="fleet-title">SR22 <span class="fleet-arrow"></span></span>
-                    <span class="fleet-plane"><img src="sr22-plane.png" alt="Cirrus SR22"></span>
-                  </a>
-                </div>
-              </span>
-
-              <span class="nav-item">
-                <a href="espace-membres.html" class="nav-link" data-text="MEMBRES">MEMBRES</a>
-              </span>
-
-              <span class="nav-item">
-                <a href="contact.html" class="nav-link" data-text="CONTACT">CONTACT</a>
-              </span>
-
-              <span class="nav-item">
-                <a href="https://openflyers.com/apam/" target="_blank" class="nav-link" data-text="OPENFLYER">OPENFLYER</a>
-              </span>
-
-            </nav>
-          </div>
-
-          <div class="header-right">
-
-            <!-- Instagram -->
-            <a class="icon" href="#" aria-label="Instagram">
-              <svg viewBox="0 0 24 24">
-                <path d="M7 2C4.2 2 2 4.2 2 7v10c0 2.8 2.2 5 5 5h10c2.8 0 5-2.2 5-5V7c0-2.8-2.2-5-5-5H7zm10 2c1.7 0 3 1.3 3 3v10c0 1.7-1.3 3-3 3H7c-1.7 0-3-1.3-3-3V7c0-1.7 1.3-3 3-3h10zm-5 3.5A4.5 4.5 0 1 0 16.5 12 4.51 4.51 0 0 0 12 7.5zm0 7A2.5 2.5 0 1 1 14.5 12 2.5 2.5 0 0 1 12 14.5zm4.8-8.9a1.1 1.1 0 1 1-1.1 1.1c0-.6.5-1.1 1.1-1.1z"/>
-              </svg>
-            </a>
-
-            <!-- Email -->
-            <a class="icon" href="mailto:contact@apam.fr" aria-label="Email">
-              <svg viewBox="0 0 24 24">
-                <path d="M4 4h16a2 2 0 0 1 2 2v1l-10 6L2 7V6a2 2 0 0 1 2-2zm18 5v9a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V9l10 6 10-6z"/>
-              </svg>
-            </a>
-
-            <button class="btn-compte">MON COMPTE</button>
-
-          </div>
-        </div>
-      </div>
-    </header>
-
-    <main class="hero-inner">
-      <div class="hero-kicker">AÉROCLUB ASSOCIATIF</div>
-
-      <h1 class="hero-title">
-        APAM – Aéroclub L'Aigle<br>Saint-Michel
-      </h1>
-
-      <p class="hero-text">
-        Découvrir le vol, apprendre à piloter ou organiser des voyages en partage de frais :
-        l’équipe de bénévoles de l’APAM vous accompagne dans vos projets.
-      </p>
-    </main>
-
-    <div class="hero-location">
-      AÉRODROME DE L'AIGLE SAINT-MICHEL<br>
-      LFAI · NORMANDIE, FRANCE
+    <div class="header-logo">
+      <img src="apam-logo1.png" alt="APAM">
     </div>
 
+    <div class="header-bar">
+      <nav class="nav-menu">
+
+        <span class="nav-item">
+          <a class="nav-link" href="index.html" data-text="ACCUEIL">ACCUEIL</a>
+        </span>
+
+        <span class="nav-item">
+          <a class="nav-link" href="activite.html" data-text="ACTIVITÉS">ACTIVITÉS</a>
+        </span>
+
+        <span class="nav-item has-dropdown">
+          <a class="nav-link" href="tarifs.html" data-text="FLOTTE">FLOTTE</a>
+
+          <div class="dropdown">
+            <a class="fleet-card" href="#tb200">
+              <span class="fleet-title">TB200 <span class="fleet-arrow"></span></span>
+              <span class="fleet-plane"><img src="tb200-plane.png"></span>
+            </a>
+
+            <a class="fleet-card" href="#c152">
+              <span class="fleet-title">C152 <span class="fleet-arrow"></span></span>
+              <span class="fleet-plane"><img src="c152-plane.png"></span>
+            </a>
+
+            <a class="fleet-card" href="#sr22">
+              <span class="fleet-title">SR22 <span class="fleet-arrow"></span></span>
+              <span class="fleet-plane"><img src="sr22-plane.png"></span>
+            </a>
+          </div>
+        </span>
+
+        <span class="nav-item">
+          <a class="nav-link" href="espace-membres.html" data-text="MEMBRES">MEMBRES</a>
+        </span>
+
+        <span class="nav-item">
+          <a class="nav-link" href="contact.html" data-text="CONTACT">CONTACT</a>
+        </span>
+
+        <span class="nav-item">
+          <a class="nav-link" href="https://openflyers.com/apam/" target="_blank" data-text="OPENFLYER">OPENFLYER</a>
+        </span>
+
+      </nav>
+
+      <div class="header-right">
+        <button class="btn-compte">MON COMPTE</button>
+      </div>
+    </div>
   </div>
+</header>
+
+<main class="hero-inner">
+  <div class="hero-kicker">AÉROCLUB ASSOCIATIF</div>
+  <h1 class="hero-title">APAM – Aéroclub L'Aigle<br>Saint-Michel</h1>
+  <p class="hero-text">
+    Découvrir le vol, apprendre à piloter ou organiser des voyages en partage de frais.
+  </p>
+</main>
+
+<div class="hero-location">
+  AÉRODROME DE L'AIGLE SAINT-MICHEL<br>LFAI · NORMANDIE, FRANCE
+</div>
+
+</div>
 </body>
 </html>
