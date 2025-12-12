@@ -14,7 +14,7 @@
       font-style: normal;
     }
 
-    /* Police bouton MON COMPTE + bandeau Swiss 911 */
+    /* Police Swiss911 */
     @font-face {
       font-family: "Swiss911";
       src: url("Swiss911-ExtraCompressed.otf") format("opentype");
@@ -31,7 +31,6 @@
       --gap-logo-header: 62px;
       --header-grey: #222;
 
-      /* Dropdown flotte */
       --fleet-card-bg: #1e1e1e;
       --fleet-card-border: rgba(255,255,255,0.08);
       --fleet-card-radius: 6px;
@@ -105,7 +104,7 @@
       padding: 2px 0;
     }
 
-    /* ====== HOVER "remplissage texte" robuste (accents inclus via data-text) ====== */
+    /* hover remplissage */
     .nav-link[data-text] { color: transparent; }
     .nav-link[data-text]::before {
       content: attr(data-text);
@@ -126,7 +125,7 @@
     }
     .nav-link[data-text]:hover::after { clip-path: inset(0 0 0 0); }
 
-    /* -------- ICÔNES -------- */
+    /* icônes */
     .icon {
       width: 26px;
       height: 26px;
@@ -138,7 +137,7 @@
     }
     .icon svg { width: 100%; height: 100%; fill: var(--header-grey); }
 
-    /* -------- BOUTON MON COMPTE -------- */
+    /* bouton mon compte */
     .btn-compte {
       position: relative;
       overflow: hidden;
@@ -169,7 +168,7 @@
     .btn-compte:hover::before { width: 100%; }
 
     /* =============================== */
-    /* DROPDOWN FLOTTE — VERTICAL GP   */
+    /* DROPDOWN FLOTTE */
     /* =============================== */
     .nav-item.has-dropdown::before {
       content: "";
@@ -287,77 +286,59 @@
     .fleet-card[data-plane="c152"] .plane-box img { transform: scale(1.80); }
     .fleet-card[data-plane="sr22"] .plane-box img { transform: scale(1.15); }
 
-    /* -------- HERO TEXT -------- */
-    .hero-inner {
-      max-width: 760px;
-      padding: 120px var(--page-side-margin) 80px;
-      position: relative;
-      z-index: 2;
-    }
-
-    .hero-title {
-      font-size: 40px;
-      font-weight: 700;
-      margin-bottom: 18px;
-      line-height: 1.1;
-    }
-
-    .hero-kicker {
-      font-size: 11px;
-      letter-spacing: 0.24em;
-      text-transform: uppercase;
-      color: #bbbbbb;
-      margin-bottom: 16px;
-    }
-
-    .hero-text {
-      font-size: 15px;
-      color: #d0d0d0;
-      line-height: 1.6;
-      max-width: 580px;
-    }
-
-    .hero-location {
-      position: absolute;
-      right: var(--page-side-margin);
-      bottom: 40px;
-      font-size: 11px;
-      letter-spacing: 0.24em;
-      text-transform: uppercase;
-      text-align: right;
-      color: #d0d0d0;
-      z-index: 2;
-    }
-
     /* =============================== */
-    /* ✅ BANDEAU STYLE GP (blanc, gros, bas-gauche) */
+    /* ✅ NOUVEAU : 2 rectangles façon GP (titre + petit tag) */
     /* =============================== */
-    .gp-white-banner {
+    .gp-stack {
       position: absolute;
       left: var(--page-side-margin);
-      top: 64%;                 /* “moitié basse” comme GP */
+      top: 52%;                 /* plus haut que ta version précédente */
       transform: translateY(-50%);
-      background: #fff;
-      color: #111;
-      z-index: 1;
+      z-index: 2;
+      display: inline-flex;
+      flex-direction: column;
+      gap: 10px;                /* petit espace comme GP */
+    }
 
-      /* taille/impact comme GP */
-      width: min(760px, calc(100vw - (var(--page-side-margin) * 2)));
-      padding: 22px 28px 18px;
-
+    .gp-box {
+      display: inline-flex;
+      align-items: center;
+      justify-content: flex-start;
+      width: fit-content;       /* ✅ le rectangle "fit" le texte */
+      padding: 14px 18px 10px;  /* ✅ pas trop haut */
       box-shadow: 0 18px 34px rgba(0,0,0,0.35);
     }
 
-    .gp-white-banner .gp-title {
+    .gp-box--white {
+      background: #fff;
+      color: #111;
+    }
+
+    .gp-box--black {
+      background: #000;
+      color: #fff;
+      border: 1px solid rgba(255,255,255,0.15);
+      box-shadow: 0 18px 34px rgba(0,0,0,0.45);
+      padding: 10px 14px 8px;   /* plus petit */
+      align-self: flex-start;   /* aligné à gauche sous le grand */
+    }
+
+    .gp-box .gp-big {
       font-family: "Swiss911", sans-serif;
       text-transform: uppercase;
       letter-spacing: -0.02em;
       line-height: 0.9;
+      font-size: clamp(44px, 5.8vw, 86px); /* gros, mais moins énorme */
+      white-space: nowrap;
+    }
 
-      /* gros comme GP */
-      font-size: clamp(46px, 6.2vw, 92px);
-      color: #111;
-      white-space: nowrap; /* on garde en 1 ligne comme ton exemple GP */
+    .gp-box .gp-small {
+      font-family: "Swiss911", sans-serif;
+      text-transform: uppercase;
+      letter-spacing: -0.02em;
+      line-height: 1;
+      font-size: clamp(22px, 2.2vw, 34px);
+      white-space: nowrap;
     }
 
     /* -------- RESPONSIVE -------- */
@@ -375,13 +356,8 @@
       .fleet-card { width: 330px; grid-template-columns: 110px 1fr 170px; }
       .plane-box { width: 170px; height: 58px; }
 
-      .gp-white-banner {
-        top: 70%;
-        padding: 18px 18px 14px;
-      }
-      .gp-white-banner .gp-title {
-        white-space: normal; /* sur mobile, on autorise le retour à la ligne */
-      }
+      .gp-stack { top: 62%; }
+      .gp-box .gp-big { white-space: normal; }
     }
   </style>
 </head>
@@ -409,7 +385,6 @@
                 <a href="activite.html" class="nav-link" data-text="ACTIVITÉS">ACTIVITÉS</a>
               </span>
 
-              <!-- FLOTTE avec dropdown -->
               <span class="nav-item has-dropdown">
                 <a href="tarifs.html" class="nav-link" data-text="FLOTTE">FLOTTE</a>
 
@@ -484,27 +459,14 @@
       </div>
     </header>
 
-    <main class="hero-inner">
-      <div class="hero-kicker">AÉROCLUB ASSOCIATIF</div>
-
-      <h1 class="hero-title">
-        APAM – Aéroclub L'Aigle<br>Saint-Michel
-      </h1>
-
-      <p class="hero-text">
-        Découvrir le vol, apprendre à piloter ou organiser des voyages en partage de frais :
-        l’équipe de bénévoles de l’APAM vous accompagne dans vos projets.
-      </p>
-    </main>
-
-    <!-- ✅ Bandeau blanc style GP -->
-    <div class="gp-white-banner" aria-label="Bandeau L'Aigle Saint-Michel">
-      <div class="gp-title">L'AIGLE SAINT-MICHEL</div>
-    </div>
-
-    <div class="hero-location">
-      AÉRODROME DE L'AIGLE SAINT-MICHEL<br>
-      LFAI · NORMANDIE, FRANCE
+    <!-- ✅ Nouveau bloc titre façon GP (remplace tout l'ancien texte) -->
+    <div class="gp-stack" aria-label="Titre">
+      <div class="gp-box gp-box--white">
+        <div class="gp-big">L'AIGLE SAINT-MICHEL</div>
+      </div>
+      <div class="gp-box gp-box--black">
+        <div class="gp-small">LFOL</div>
+      </div>
     </div>
 
   </div>
