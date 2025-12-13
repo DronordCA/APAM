@@ -74,10 +74,19 @@
       background-position: center;
       filter: saturate(1.02) contrast(1.04);
       transform: scale(1.02);
+      z-index: 0; /* ✅ */
     }
 
     /* -------- HEADER (DESKTOP) -------- */
-    .site-header { padding-top: 20px; position: relative; z-index: 10; }
+    /* ✅ FIX: header en overlay en haut sur desktop (ne décale plus la page) */
+    .site-header{
+      position: absolute;
+      top: 20px;
+      left: 0;
+      right: 0;
+      z-index: 30;
+      padding-top: 0;
+    }
 
     .header-row {
       display: flex;
@@ -622,7 +631,7 @@
         border-left: 1px solid rgba(255,255,255,0.10);
         z-index: 50;
 
-        /* ✅ slide from top + right */
+        /* slide from top + right */
         transform: translate3d(26px, -26px, 0);
         opacity: 0;
         pointer-events: none;
@@ -849,7 +858,6 @@
 
                   <a class="fleet-card" href="tarifs.html" aria-label="Cessna 152">
                     <div class="fleet-name">CESSNA 152</div>
-                    <!-- ✅ Mets tes vrais noms de fichiers ici -->
                     <img class="fleet-plane" src="FGHKE1.png.jpeg" alt="Cessna 152">
                     <span class="fleet-chev" aria-hidden="true"></span>
                   </a>
