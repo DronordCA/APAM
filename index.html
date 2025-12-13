@@ -6,7 +6,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <style>
-    /* Police menu type GP Explorer */
+    /* =============================== */
+    /* FONTS */
+    /* =============================== */
     @font-face {
       font-family: "GPMenu";
       src: url("Helvetica Neue LT Pro 93 Black Extended.otf") format("opentype");
@@ -14,7 +16,6 @@
       font-style: normal;
     }
 
-    /* Police Swiss911 */
     @font-face {
       font-family: "Swiss911";
       src: url("Swiss911-ExtraCompressed.otf") format("opentype");
@@ -22,6 +23,9 @@
       font-style: normal;
     }
 
+    /* =============================== */
+    /* VARIABLES */
+    /* =============================== */
     :root {
       --page-side-margin: 60px;
       --header-height: 50px;
@@ -35,7 +39,7 @@
       --accent: #2f6bff;
       --accent-glow: rgba(47,107,255,0.28);
 
-      /* Dropdown flotte – panel GP */
+      /* Dropdown flotte – panel GP (desktop) */
       --panel-w: 200px;
       --card-h: 100px;
       --panel-radius: 6px;
@@ -43,25 +47,45 @@
       --panel-border: rgba(255,255,255,0.10);
       --card-bg: #2a2a2a;
       --card-border: rgba(255,255,255,0.10);
+
+      /* Mobile */
+      --m-side: 18px;
     }
 
+    /* =============================== */
+    /* RESET + FIX SCROLL */
+    /* =============================== */
     * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      height: 100%;
+    }
 
     body {
       background: #000;
       color: #fff;
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+
+      /* ✅ index plein écran -> pas de scroll vertical parasite */
       overflow-x: hidden;
+      overflow-y: hidden;
     }
 
-    .hero { height: 100%; }
-      height: 100vh;
-      min-height: 0;
+    /* =============================== */
+    /* HERO (plein écran) */
+    /* =============================== */
+    .hero {
+      position: relative;
+
+      /* ✅ le plus robuste (mobile + desktop) */
+      height: 100svh;
+      min-height: 100vh;
+
       background: #000;
       overflow: hidden;
     }
 
-    /* Hero image unique */
+    /* ✅ Hero image unique */
     .hero::before{
       content:"";
       position:absolute;
@@ -72,21 +96,17 @@
         url("image1.png");
       background-size: cover;
       background-position: center;
-      filter: saturate(1.02) contrast(1.04);
+      background-repeat: no-repeat;
+
+      /* ✅ évite les effets qui peuvent provoquer un “dépassement” selon navigateurs */
       transform: none;
-      z-index: 0; /* ✅ */
+      filter: saturate(1.02) contrast(1.04);
     }
 
-    /* -------- HEADER (DESKTOP) -------- */
-    /* ✅ FIX: header en overlay en haut sur desktop (ne décale plus la page) */
-    .site-header{
-      position: absolute;
-      top: 20px;
-      left: 0;
-      right: 0;
-      z-index: 30;
-      padding-top: 0;
-    }
+    /* =============================== */
+    /* HEADER DESKTOP */
+    /* =============================== */
+    .site-header { padding-top: 20px; position: relative; z-index: 10; }
 
     .header-row {
       display: flex;
@@ -94,7 +114,6 @@
       margin: 0 var(--page-side-margin);
     }
 
-    /* logo cliquable */
     .header-logo {
       position: relative;
       display: inline-block;
@@ -105,7 +124,6 @@
       height: var(--logo-height);
       display: block;
 
-      /* animation logo impact */
       opacity: 0;
       transform: translate3d(0, -16px, 0) scale(0.92);
       filter: blur(8px);
@@ -140,9 +158,11 @@
       color: var(--header-grey);
       margin-left: var(--gap-logo-header);
       flex: 1;
+
       display: flex;
       align-items: center;
       justify-content: space-between;
+
       padding: 0 6px 0 32px;
       position: relative;
       z-index: 10;
@@ -169,7 +189,7 @@
       padding: 2px 0;
     }
 
-    /* Hover remplissage BLEU */
+    /* Hover remplissage BLEU (accents OK via data-text) */
     .nav-link[data-text] { color: transparent; }
     .nav-link[data-text]::before {
       content: attr(data-text);
@@ -235,8 +255,6 @@
     /* =============================== */
     /* DROPDOWN FLOTTE — PANEL GP (DESKTOP) */
     /* =============================== */
-
-    /* zone tampon invisible entre "FLOTTE" et panel */
     .nav-item.has-dropdown::before {
       content: "";
       position: absolute;
@@ -257,6 +275,7 @@
       border-radius: var(--panel-radius);
       box-shadow: 0 22px 40px rgba(0,0,0,0.45);
       padding: 10px;
+
       display: flex;
       flex-direction: column;
       gap: 10px;
@@ -374,7 +393,6 @@
     /* =============================== */
     /* BLOC TITRE STYLE GP + ANIMATION */
     /* =============================== */
-
     .gp-stack {
       position: absolute;
       left: var(--page-side-margin);
@@ -459,7 +477,6 @@
     /* =============================== */
     /* INFOS BAS-DROITE (cliquable Maps) */
     /* =============================== */
-
     .info-stack {
       position: absolute;
       right: var(--page-side-margin);
@@ -526,13 +543,20 @@
     /* =============================== */
     /* MOBILE : header GP + drawer full screen */
     /* =============================== */
-
     .m-header { display: none; }
+    .m-overlay{ display: none; }
+    .m-drawer{ display: none; }
 
     @media (max-width: 980px) {
       :root {
-        --page-side-margin: 18px;
+        --page-side-margin: var(--m-side);
         --logo-height: 64px;
+        --gap-logo-header: 24px;
+      }
+
+      /* IMPORTANT : on remet le scroll normal sur mobile si tu veux */
+      body{
+        overflow-y: hidden; /* ✅ index toujours full screen */
       }
 
       /* cacher header desktop */
@@ -614,6 +638,7 @@
 
       /* overlay */
       .m-overlay{
+        display:block;
         position: fixed;
         inset: 0;
         background: rgba(0,0,0,0.55);
@@ -625,13 +650,12 @@
 
       /* drawer fullscreen */
       .m-drawer{
+        display:block;
         position: fixed;
         inset: 0;
         background: rgba(0,0,0,0.90);
-        border-left: 1px solid rgba(255,255,255,0.10);
         z-index: 50;
 
-        /* slide from top + right */
         transform: translate3d(26px, -26px, 0);
         opacity: 0;
         pointer-events: none;
@@ -713,7 +737,6 @@
         opacity: 0.92;
       }
 
-      .m-link:active{ opacity: 1; }
       .m-link:hover{ color: var(--accent); }
 
       .m-divider{
@@ -771,7 +794,6 @@
         transform: translate3d(0, 0, 0);
       }
 
-      /* drawer appear animation */
       body.m-open .m-drawer-inner{
         animation: drawerIn .45s cubic-bezier(.16,1,.22,1) both;
       }
@@ -780,12 +802,15 @@
         to{ opacity: 1; transform: translate3d(0, 0, 0); filter: blur(0px); }
       }
 
-      /* Ajuster gros bloc titre / infos sur mobile si besoin */
+      /* Ajuster gros bloc titre / infos sur mobile */
       .gp-stack{
         left: var(--page-side-margin);
         top: 54%;
       }
-      .info-stack{ right: var(--page-side-margin); bottom: 26px; }
+      .info-stack{
+        right: var(--page-side-margin);
+        bottom: 26px;
+      }
       .info-line{ font-size: 20px; }
       .info-line.small{ font-size: 18px; }
     }
@@ -793,7 +818,6 @@
 </head>
 
 <body>
-
   <div class="hero">
 
     <!-- ✅ HEADER MOBILE -->
@@ -822,7 +846,6 @@
         <div class="m-sub">NAVIGATION</div>
         <div class="m-divider"></div>
 
-        <!-- ✅ pas de cartes flotte sur mobile -->
         <nav class="m-nav" aria-label="Liens principaux">
           <a class="m-link" href="tarifs.html">FLOTTE</a>
           <a class="m-link" href="activite.html">ACTIVITÉS</a>
@@ -902,7 +925,7 @@
 
               <span class="nav-item">
                 <a href="https://openflyers.com/apam/" target="_blank" rel="noopener noreferrer"
-                  class="nav-link" data-text="OPENFLYER">OPENFLYER</a>
+                   class="nav-link" data-text="OPENFLYER">OPENFLYER</a>
               </span>
 
             </nav>
@@ -921,33 +944,33 @@
               </svg>
             </a>
 
-            <button class="btn-compte">MON COMPTE</button>
+            <button class="btn-compte" type="button">MON COMPTE</button>
           </div>
 
         </div>
       </div>
     </header>
 
-    <!-- Bloc titre GP-style -->
+    <!-- ✅ Bloc titre GP-style -->
     <div class="gp-stack" aria-label="Titre">
       <div class="gp-wrap">
         <div class="gp-box gp-main anim-main">
           <div class="gp-big">L'AIGLE SAINT-MICHEL</div>
         </div>
-
         <div class="gp-box gp-tag anim-tag">
           <div class="gp-small">LFOL</div>
         </div>
       </div>
     </div>
 
-    <!-- Bas droite : FRQ + COORD (cliquable Maps) -->
-    <a class="info-link" href="https://www.google.com/maps?q=48.7588889,39.4666667" target="_blank" rel="noopener noreferrer" aria-label="Ouvrir la position sur Google Maps">
+    <!-- ✅ Bas droite : FRQ + COORD (cliquable Maps) -->
+    <a class="info-link" href="https://www.google.com/maps?q=48.7588889,39.4666667"
+       target="_blank" rel="noopener noreferrer"
+       aria-label="Ouvrir la position sur Google Maps">
       <div class="info-stack" aria-label="Infos terrain">
         <div class="info-frq">
           <div class="info-line small">FRQ 126.855</div>
         </div>
-
         <div class="info-coord">
           <div class="info-line">48°45'32&quot; N · 39°28' E</div>
         </div>
@@ -985,25 +1008,26 @@
 
       function openDrawer(){
         document.body.classList.add('m-open');
-        openBtn?.setAttribute('aria-expanded', 'true');
-        drawer?.setAttribute('aria-hidden', 'false');
+        if(openBtn) openBtn.setAttribute('aria-expanded', 'true');
+        if(drawer) drawer.setAttribute('aria-hidden', 'false');
         lockScroll();
       }
 
       function closeDrawer(){
         document.body.classList.remove('m-open');
-        openBtn?.setAttribute('aria-expanded', 'false');
-        drawer?.setAttribute('aria-hidden', 'true');
+        if(openBtn) openBtn.setAttribute('aria-expanded', 'false');
+        if(drawer) drawer.setAttribute('aria-hidden', 'true');
         unlockScroll();
       }
 
-      openBtn?.addEventListener('click', () => {
-        if(document.body.classList.contains('m-open')) closeDrawer();
-        else openDrawer();
-      });
-
-      closeBtn?.addEventListener('click', closeDrawer);
-      overlay?.addEventListener('click', closeDrawer);
+      if(openBtn){
+        openBtn.addEventListener('click', () => {
+          if(document.body.classList.contains('m-open')) closeDrawer();
+          else openDrawer();
+        });
+      }
+      if(closeBtn) closeBtn.addEventListener('click', closeDrawer);
+      if(overlay) overlay.addEventListener('click', closeDrawer);
       drawerLinks.forEach(a => a.addEventListener('click', closeDrawer));
 
       document.addEventListener('keydown', (e) => {
