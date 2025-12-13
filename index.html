@@ -31,13 +31,13 @@
       --gap-logo-header: 62px;
       --header-grey: #222;
 
-      /* ✅ Accent bleu APAM (remplace le jaune) */
-      --accent: #2f6bff;              /* bleu propre / moderne */
+      /* ✅ Accent bleu APAM */
+      --accent: #2f6bff;
       --accent-glow: rgba(47,107,255,0.28);
 
       /* Dropdown flotte – panel GP */
-      --panel-w: 200px;               /* ✅ étroit (ajuste 280–320) */
-      --card-h: 100px;                 /* ✅ tu voulais 64px */
+      --panel-w: 200px;     /* largeur panel */
+      --card-h: 100px;      /* hauteur cartes */
       --panel-radius: 6px;
       --panel-bg: #222;
       --panel-border: rgba(255,255,255,0.10);
@@ -76,7 +76,7 @@
       transform: scale(1.02);
     }
 
-    /* -------- HEADER -------- */
+    /* -------- HEADER DESKTOP -------- */
     .site-header { padding-top: 20px; position: relative; z-index: 10; }
 
     .header-row {
@@ -160,7 +160,7 @@
       padding: 2px 0;
     }
 
-    /* ✅ Hover remplissage BLEU (accents OK via data-text) */
+    /* ✅ Hover remplissage BLEU */
     .nav-link[data-text] { color: transparent; }
     .nav-link[data-text]::before {
       content: attr(data-text);
@@ -227,7 +227,6 @@
     /* DROPDOWN FLOTTE — PANEL GP      */
     /* =============================== */
 
-    /* zone tampon invisible entre "FLOTTE" et panel */
     .nav-item.has-dropdown::before {
       content: "";
       position: absolute;
@@ -272,8 +271,6 @@
       text-decoration: none;
       color: #fff;
       overflow: hidden;
-
-      /* hover feel */
       transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease;
     }
 
@@ -283,7 +280,6 @@
       box-shadow: 0 0 0 1px rgba(47,107,255,0.25), 0 18px 30px rgba(0,0,0,0.35);
     }
 
-    /* nom en haut-centre */
     .fleet-name {
       position: absolute;
       top: 6px;
@@ -299,13 +295,12 @@
       pointer-events: none;
     }
 
-    /* avion centré */
     .fleet-plane {
       position: absolute;
       left: 50%;
       top: 52%;
       transform: translate(-50%, -50%);
-      height: 80px;       /* ✅ remplit une carte de 64px */
+      height: 80px;
       max-width: 88%;
       width: auto;
       object-fit: contain;
@@ -313,12 +308,10 @@
       filter: drop-shadow(0 10px 14px rgba(0,0,0,0.35));
     }
 
-    /* chevron à droite + animation */
     .fleet-chev {
       position: absolute;
       right: 14px;
       top: 50%;
-      transform: translateY(-50%);
       width: 10px;
       height: 10px;
       border-right: 2px solid rgba(255,255,255,0.7);
@@ -333,7 +326,6 @@
       transform: translate(4px, -50%) rotate(45deg);
     }
 
-    /* CTA bas */
     .fleet-cta {
       margin-top: 2px;
       padding-top: 10px;
@@ -355,9 +347,7 @@
       font-style: italic;
     }
 
-    .fleet-cta a span {
-      opacity: 0.95;
-    }
+    .fleet-cta a span { opacity: 0.95; }
 
     .fleet-cta a .cta-chev {
       width: 10px;
@@ -380,7 +370,7 @@
     .gp-stack {
       position: absolute;
       left: var(--page-side-margin);
-      top: calc(55% - 72px);     /* ✅ un chouille plus haut */
+      top: calc(55% - 72px);
       transform: translateY(-50%);
       z-index: 2;
     }
@@ -412,12 +402,11 @@
       transform-origin: left center;
     }
 
-    /* LFOL dehors, collé sous le bord droit */
     .gp-tag {
       position: absolute;
       right: 0;
       top: 100%;
-      transform: translateY(8px); /* ✅ espace propre (plus collé au bloc) */
+      transform: translateY(8px);
       background: #000;
       color: #fff;
       border: 1px solid rgba(255,255,255,0.15);
@@ -428,13 +417,12 @@
     .gp-small {
       font-family: "Swiss911", sans-serif;
       text-transform: uppercase;
-      letter-spacing: 0.09em; /* ✅ un chouille + large */
+      letter-spacing: 0.09em;
       font-size: clamp(22px, 2.2vw, 34px);
       line-height: 1;
       white-space: nowrap;
     }
 
-    /* Animations impact (plus visibles) */
     .anim-main {
       opacity: 0;
       transform: translate3d(-180px, 0, 0) skewX(-6deg) scale(0.98);
@@ -478,6 +466,8 @@
     .info-link {
       display: inline-block;
       text-decoration: none;
+      position: relative;
+      z-index: 3;
     }
 
     .info-frq {
@@ -530,7 +520,13 @@
       100% { opacity: 1; transform: translate3d(0, 0, 0); filter: blur(0px); }
     }
 
-    /* -------- RESPONSIVE -------- */
+    /* ==========================================
+       MOBILE: version "plus GP" (drawer + blur)
+       ========================================== */
+
+    /* caché par défaut */
+    .m-header, .m-overlay, .m-drawer, .m-backdrop { display: none; }
+
     @media (max-width: 980px) {
       :root {
         --page-side-margin: 20px;
@@ -538,19 +534,307 @@
         --gap-logo-header: 24px;
         --panel-w: 280px;
       }
-      .header-bar { padding: 0 10px 0 18px; }
-      .nav-menu { gap: 20px; }
-      .nav-link { font-size: 12px; }
 
+      /* On cache le header desktop */
+      .site-header { display: none; }
+
+      /* Header mobile */
+      .m-header{
+        display:flex;
+        align-items:center;
+        justify-content:space-between;
+        padding: 18px 18px 0;
+        position: relative;
+        z-index: 60;
+      }
+
+      .m-logo img{
+        height: 54px;
+        display:block;
+        opacity: 0;
+        transform: translateY(-10px) scale(.96);
+        filter: blur(7px);
+        animation: mLogoIn .85s cubic-bezier(.16,1,.22,1) forwards;
+      }
+      @keyframes mLogoIn{
+        70%{opacity:1; transform: translateY(2px) scale(1.03); filter: blur(0);}
+        100%{opacity:1; transform: translateY(0) scale(1); filter: blur(0);}
+      }
+
+      /* Burger carré blanc */
+      .m-burger{
+        width: 56px;
+        height: 56px;
+        background:#fff;
+        border: 0;
+        box-shadow: 0 18px 34px rgba(0,0,0,.35);
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        cursor:pointer;
+        -webkit-tap-highlight-color: transparent;
+      }
+
+      .m-burger-lines{
+        width: 22px;
+        height: 16px;
+        position: relative;
+        display:block;
+      }
+      .m-burger-lines span{
+        position:absolute;
+        left:0;
+        width: 22px;
+        height: 2px;
+        background:#111;
+        transform-origin: center;
+        transition: transform .28s cubic-bezier(.16,1,.22,1), opacity .22s ease, top .28s cubic-bezier(.16,1,.22,1);
+      }
+      .m-burger-lines span:nth-child(1){ top: 0; }
+      .m-burger-lines span:nth-child(2){ top: 7px; }
+      .m-burger-lines span:nth-child(3){ top: 14px; }
+
+      /* X state */
+      body.m-open .m-burger-lines span:nth-child(1){ top: 7px; transform: rotate(45deg); }
+      body.m-open .m-burger-lines span:nth-child(2){ opacity: 0; }
+      body.m-open .m-burger-lines span:nth-child(3){ top: 7px; transform: rotate(-45deg); }
+
+      /* Backdrop blur (super GP) */
+      .m-backdrop{
+        display:block;
+        position: fixed;
+        inset: 0;
+        z-index: 50;
+        pointer-events: none;
+        opacity: 0;
+        transition: opacity .22s ease;
+        backdrop-filter: blur(0px);
+        -webkit-backdrop-filter: blur(0px);
+      }
+
+      body.m-open .m-backdrop{
+        opacity: 1;
+        pointer-events: none;
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+      }
+
+      /* Overlay */
+      .m-overlay{
+        display:block;
+        position: fixed;
+        inset: 0;
+        background: rgba(0,0,0,.55);
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity .22s ease;
+        z-index: 55;
+      }
+      body.m-open .m-overlay{
+        opacity: 1;
+        pointer-events: auto;
+      }
+
+      /* Drawer */
+      .m-drawer{
+        display:block;
+        position: fixed;
+        top: 0;
+        right: 0;
+        height: 100vh;
+        width: min(86vw, 380px);
+        background: #0f0f10;
+        border-left: 1px solid rgba(255,255,255,.10);
+        box-shadow: -30px 0 60px rgba(0,0,0,.60);
+        transform: translateX(110%);
+        transition: transform .32s cubic-bezier(.16,1,.22,1);
+        z-index: 70;
+        padding: 16px 16px 18px;
+        overflow: auto;
+      }
+      body.m-open .m-drawer{ transform: translateX(0); }
+
+      .m-drawer-top{
+        display:flex;
+        align-items:center;
+        justify-content:space-between;
+        gap: 12px;
+        padding-bottom: 14px;
+        border-bottom: 1px solid rgba(255,255,255,.10);
+        margin-bottom: 14px;
+      }
+      .m-drawer-logo img{ height: 44px; display:block; }
+
+      /* Liens – avec stagger */
+      .m-nav{
+        display:flex;
+        flex-direction:column;
+        gap: 10px;
+        margin-bottom: 18px;
+      }
+      .m-link{
+        font-family: "GPMenu", system-ui, sans-serif;
+        text-transform: uppercase;
+        letter-spacing: -0.04em;
+        font-size: 16px;
+        color: #fff;
+        text-decoration:none;
+        padding: 12px 10px;
+        background: rgba(255,255,255,.06);
+        border: 1px solid rgba(255,255,255,.10);
+        position: relative;
+        overflow: hidden;
+
+        opacity: 0;
+        transform: translateX(14px);
+      }
+
+      /* “accent sweep” à l’ouverture (très GP) */
+      .m-link::before{
+        content:"";
+        position:absolute;
+        inset:0;
+        background: linear-gradient(90deg, transparent 0%, rgba(47,107,255,.18) 45%, transparent 100%);
+        transform: translateX(-120%);
+        opacity: .9;
+        transition: transform .55s cubic-bezier(.16,1,.22,1);
+        pointer-events:none;
+      }
+
+      body.m-open .m-link{
+        animation: mItemIn .42s cubic-bezier(.16,1,.22,1) forwards;
+      }
+      body.m-open .m-link:nth-child(1){ animation-delay: .06s; }
+      body.m-open .m-link:nth-child(2){ animation-delay: .09s; }
+      body.m-open .m-link:nth-child(3){ animation-delay: .12s; }
+      body.m-open .m-link:nth-child(4){ animation-delay: .15s; }
+      body.m-open .m-link:nth-child(5){ animation-delay: .18s; }
+      body.m-open .m-link:nth-child(6){ animation-delay: .21s; }
+
+      body.m-open .m-link::before{
+        transform: translateX(120%);
+      }
+
+      @keyframes mItemIn{
+        to{ opacity: 1; transform: translateX(0); }
+      }
+
+      .m-link:active{
+        border-color: rgba(47,107,255,.55);
+        box-shadow: 0 0 0 1px rgba(47,107,255,.20);
+      }
+
+      /* Mini flotte mobile */
+      .m-fleet-title{
+        font-family: "Swiss911", sans-serif;
+        font-size: 20px;
+        letter-spacing: .02em;
+        text-transform: uppercase;
+        color: rgba(255,255,255,.85);
+        margin: 6px 0 10px;
+      }
+
+      .m-fleet-card{
+        position: relative;
+        height: 92px;
+        border-radius: 8px;
+        background: #1c1c1c;
+        border: 1px solid rgba(255,255,255,.10);
+        text-decoration: none;
+        color:#fff;
+        overflow:hidden;
+        margin-bottom: 10px;
+
+        opacity: 0;
+        transform: translateX(14px);
+      }
+
+      body.m-open .m-fleet-card{
+        animation: mItemIn .42s cubic-bezier(.16,1,.22,1) forwards;
+      }
+      body.m-open .m-fleet-card:nth-of-type(1){ animation-delay: .26s; }
+      body.m-open .m-fleet-card:nth-of-type(2){ animation-delay: .29s; }
+      body.m-open .m-fleet-card:nth-of-type(3){ animation-delay: .32s; }
+
+      .m-fleet-name{
+        position:absolute;
+        top: 8px;
+        left: 50%;
+        transform: translateX(-50%);
+        font-family:"Swiss911", sans-serif;
+        font-size: 18px;
+        text-transform: uppercase;
+        opacity: .95;
+        white-space: nowrap;
+      }
+
+      .m-fleet-plane{
+        position:absolute;
+        left: 50%;
+        top: 56%;
+        transform: translate(-50%,-50%);
+        height: 72px;
+        width: auto;
+        max-width: 88%;
+        object-fit: contain;
+        filter: drop-shadow(0 10px 14px rgba(0,0,0,.35));
+      }
+
+      .m-chev{
+        position:absolute;
+        right: 14px;
+        top: 50%;
+        width: 10px;
+        height: 10px;
+        border-right: 2px solid rgba(255,255,255,0.7);
+        border-top: 2px solid rgba(255,255,255,0.7);
+        transform: translateY(-50%) rotate(45deg);
+        opacity: .9;
+      }
+
+      .m-cta{
+        display:flex;
+        align-items:center;
+        justify-content:space-between;
+        gap: 10px;
+        text-decoration:none;
+        color: rgba(255,255,255,.9);
+        font-family:"Swiss911", sans-serif;
+        text-transform: uppercase;
+        font-size: 20px;
+        font-style: italic;
+        padding: 10px 4px 0;
+        border-top: 1px solid rgba(255,255,255,.10);
+        margin-top: 8px;
+
+        opacity: 0;
+        transform: translateX(14px);
+      }
+
+      body.m-open .m-cta{
+        animation: mItemIn .42s cubic-bezier(.16,1,.22,1) forwards;
+        animation-delay: .36s;
+      }
+
+      .m-cta-chev{
+        width: 10px;
+        height: 10px;
+        border-right: 2px solid rgba(255,255,255,0.65);
+        border-top: 2px solid rgba(255,255,255,0.65);
+        transform: rotate(45deg);
+      }
+
+      .m-bottom{ margin-top: 18px; }
+      .m-btn{ width: 100%; }
+
+      /* Ajustements contenu hero sur mobile */
+      .gp-stack{ left: 18px; top: 54%; }
+      .info-stack{ right: 18px; bottom: 22px; }
+    }
+
+    /* -------- RESPONSIVE DESKTOP->TABLET -------- */
+    @media (max-width: 980px) {
       .fleet-panel { left: 0; transform: none; }
-
-      .gp-stack { top: calc(60% - 60px); }
-      .gp-main { padding: 14px 18px 12px; }
-      .gp-tag { padding: 8px 12px 6px; }
-
-      .info-stack { bottom: 26px; }
-      .info-line { font-size: 20px; }
-      .info-line.small { font-size: 18px; }
     }
   </style>
 </head>
@@ -558,10 +842,72 @@
 <body>
   <div class="hero">
 
+    <!-- ===== Mobile Header (GP style) ===== -->
+    <div class="m-header" aria-label="Header mobile">
+      <a class="m-logo" href="index.html" aria-label="Accueil (logo)">
+        <img src="apam-logo1.png" alt="Logo APAM">
+      </a>
+
+      <button class="m-burger" type="button" aria-label="Ouvrir le menu" aria-controls="m-drawer" aria-expanded="false">
+        <span class="m-burger-lines" aria-hidden="true">
+          <span></span><span></span><span></span>
+        </span>
+      </button>
+    </div>
+
+    <!-- Backdrop blur + overlay -->
+    <div class="m-backdrop" aria-hidden="true"></div>
+    <div class="m-overlay" data-close-drawer aria-hidden="true"></div>
+
+    <aside id="m-drawer" class="m-drawer" aria-label="Menu mobile" aria-hidden="true">
+      <div class="m-drawer-top">
+        <a class="m-drawer-logo" href="index.html" aria-label="Accueil (logo)">
+          <img src="apam-logo1.png" alt="Logo APAM">
+        </a>
+      </div>
+
+      <nav class="m-nav" aria-label="Navigation mobile">
+        <a href="tarifs.html" class="m-link">FLOTTE</a>
+        <a href="activite.html" class="m-link">ACTIVITÉS</a>
+        <a href="ressources.html" class="m-link">RESSOURCES</a>
+        <a href="contact.html" class="m-link">CONTACT</a>
+        <a href="espace-membres.html" class="m-link">MEMBRES</a>
+        <a href="https://openflyers.com/apam/" target="_blank" rel="noopener noreferrer" class="m-link">OPENFLYER</a>
+      </nav>
+
+      <div class="m-fleet">
+        <div class="m-fleet-title">FLOTTE</div>
+
+        <a class="m-fleet-card" href="tarifs.html" aria-label="Cessna 152">
+          <div class="m-fleet-name">CESSNA 152</div>
+          <img class="m-fleet-plane" src="FGHKE1.png.tiff" alt="Cessna 152">
+          <span class="m-chev" aria-hidden="true"></span>
+        </a>
+
+        <a class="m-fleet-card" href="tarifs.html" aria-label="TB200">
+          <div class="m-fleet-name">TB200</div>
+          <img class="m-fleet-plane" src="TB200M.png.tiff" alt="TB200">
+          <span class="m-chev" aria-hidden="true"></span>
+        </a>
+
+        <a class="m-fleet-card" href="tarifs.html" aria-label="Cirrus SR22">
+          <div class="m-fleet-name">CIRRUS SR22</div>
+          <img class="m-fleet-plane" src="SR1.png.tiff" alt="Cirrus SR22">
+          <span class="m-chev" aria-hidden="true"></span>
+        </a>
+
+        <a class="m-cta" href="tarifs.html">VOIR TOUTE LA FLOTTE <i class="m-cta-chev" aria-hidden="true"></i></a>
+      </div>
+
+      <div class="m-bottom">
+        <button class="btn-compte m-btn">MON COMPTE</button>
+      </div>
+    </aside>
+
+    <!-- ===== Desktop Header ===== -->
     <header class="site-header">
       <div class="header-row">
 
-        <!-- ✅ logo cliquable -->
         <a class="header-logo" href="index.html" aria-label="Retour accueil (logo)">
           <img src="apam-logo1.png" alt="Logo APAM">
         </a>
@@ -571,28 +917,23 @@
           <div class="header-left">
             <nav class="nav-menu">
 
-              <!-- ✅ Ordre demandé -->
               <span class="nav-item has-dropdown">
                 <a href="tarifs.html" class="nav-link" data-text="FLOTTE">FLOTTE</a>
 
-                <!-- ✅ Panel GP étroit -->
                 <div class="fleet-panel" role="menu" aria-label="Menu flotte">
 
-                  <!-- 1) C152 -->
                   <a class="fleet-card" href="tarifs.html" aria-label="Cessna 152">
                     <div class="fleet-name">CESSNA 152</div>
                     <img class="fleet-plane" src="FGHKE1.png.tiff" alt="Cessna 152">
                     <span class="fleet-chev" aria-hidden="true"></span>
                   </a>
 
-                  <!-- 2) TB200 -->
                   <a class="fleet-card" href="tarifs.html" aria-label="TB200">
                     <div class="fleet-name">TB200</div>
                     <img class="fleet-plane" src="TB200M.png.tiff" alt="TB200">
                     <span class="fleet-chev" aria-hidden="true"></span>
                   </a>
 
-                  <!-- 3) SR22 -->
                   <a class="fleet-card" href="tarifs.html" aria-label="Cirrus SR22">
                     <div class="fleet-name">CIRRUS SR22</div>
                     <img class="fleet-plane" src="SR1.png.tiff" alt="Cirrus SR22">
@@ -605,7 +946,6 @@
                       <i class="cta-chev" aria-hidden="true"></i>
                     </a>
                   </div>
-
                 </div>
               </span>
 
@@ -671,7 +1011,7 @@
     <a class="info-link" href="https://www.google.com/maps?q=48.7588889,39.4666667" target="_blank" rel="noopener noreferrer" aria-label="Ouvrir la position sur Google Maps">
       <div class="info-stack" aria-label="Infos terrain">
         <div class="info-frq">
-          <div class="info-line small">FRQ 126.855 A/A</div>
+          <div class="info-line small">FRQ 126.855</div>
         </div>
 
         <div class="info-coord">
@@ -681,5 +1021,35 @@
     </a>
 
   </div>
+
+  <script>
+    (function(){
+      const openBtn = document.querySelector('.m-burger');
+      const drawer  = document.getElementById('m-drawer');
+      const overlay = document.querySelector('.m-overlay');
+
+      function openDrawer(){
+        document.body.classList.add('m-open');
+        openBtn?.setAttribute('aria-expanded', 'true');
+        drawer?.setAttribute('aria-hidden', 'false');
+      }
+      function closeDrawer(){
+        document.body.classList.remove('m-open');
+        openBtn?.setAttribute('aria-expanded', 'false');
+        drawer?.setAttribute('aria-hidden', 'true');
+      }
+
+      openBtn?.addEventListener('click', () => {
+        if(document.body.classList.contains('m-open')) closeDrawer();
+        else openDrawer();
+      });
+
+      overlay?.addEventListener('click', closeDrawer);
+
+      document.addEventListener('keydown', (e) => {
+        if(e.key === 'Escape') closeDrawer();
+      });
+    })();
+  </script>
 </body>
 </html>
