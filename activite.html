@@ -2,1811 +2,459 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>APAM – Visiteurs & activités</title>
+  <title>APAM – Header</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
   <style>
-    :root {
-      --apam-blue-dark: #031023;
-      --apam-blue: #062037;
-      --apam-blue-soft: #1b3658;
-      --glass-bg: rgba(255, 255, 255, 0.96);
-      --glass-border: rgba(15, 35, 70, 0.05);
-      --glass-shadow: 0 12px 28px rgba(0, 0, 0, 0.10);
-      --text-main: #062037;
-      --text-soft: #5f6b85;
-      --accent: #4aa3ff;
-      --chip-bg: #eef3ff;
-      --bg-page: #f3f5fb;
+    /* Police menu type GP Explorer */
+    @font-face {
+      font-family: "GPMenu";
+      src: url("Helvetica Neue LT Pro 93 Black Extended.otf") format("opentype");
+      font-weight: 900;
+      font-style: normal;
     }
 
-    * {
-      box-sizing: border-box;
+    /* Police Swiss911 */
+    @font-face {
+      font-family: "Swiss911";
+      src: url("Swiss911-ExtraCompressed.otf") format("opentype");
+      font-weight: normal;
+      font-style: normal;
     }
+
+    :root {
+      --page-side-margin: 60px;
+      --header-height: 50px;
+      --header-font-size: 15px;
+      --header-letter-spacing: -0.05em;
+      --logo-height: 100px;
+      --gap-logo-header: 62px;
+      --header-grey: #222;
+
+      /* Accent bleu APAM */
+      --accent: #2f6bff;
+      --accent-glow: rgba(47,107,255,0.28);
+
+      /* Dropdown flotte – panel GP */
+      --panel-w: 200px;
+      --card-h: 100px;
+      --panel-radius: 6px;
+      --panel-bg: #222;
+      --panel-border: rgba(255,255,255,0.10);
+      --card-bg: #2a2a2a;
+      --card-border: rgba(255,255,255,0.10);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
-      margin: 0;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
-        sans-serif;
-      color: var(--text-main);
-      background: var(--bg-page);
-      min-height: 100vh;
-      line-height: 1.7;
+      background: #000; /* tu peux changer page par page */
+      color: #fff;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      overflow-x: hidden;
     }
 
-    p,
-    li {
-      font-size: 0.95rem;
-      line-height: 1.7;
+    /* -------- HEADER -------- */
+    .site-header { padding-top: 20px; position: relative; z-index: 10; }
+
+    .header-row {
+      display: flex;
+      align-items: center;
+      margin: 0 var(--page-side-margin);
     }
 
-    a {
-      color: inherit;
+    /* logo cliquable */
+    .header-logo {
+      position: relative;
+      display: inline-block;
       text-decoration: none;
     }
 
-    .accent-text {
-      color: var(--apam-blue-soft);
-      font-weight: 600;
-    }
+    .header-logo img {
+      height: var(--logo-height);
+      display: block;
 
-    .accent-text-strong {
-      color: var(--accent);
-      font-weight: 700;
-    }
-
-    .soft-label {
-      font-size: 0.8rem;
-      text-transform: uppercase;
-      letter-spacing: 0.12em;
-      color: #7a859c;
-    }
-
-    /* Animations scroll */
-
-    .reveal {
+      /* animation logo impact */
       opacity: 0;
-      transform: translateY(16px);
-      transition: opacity 0.6s ease, transform 0.6s ease;
+      transform: translate3d(0, -16px, 0) scale(0.92);
+      filter: blur(8px);
+      transform-origin: center;
+      animation: logoPop 1.05s cubic-bezier(.16, 1, .22, 1) forwards;
     }
 
-    .reveal.visible {
-      opacity: 1;
-      transform: translateY(0);
+    .header-logo::after{
+      content:"";
+      position:absolute;
+      inset:-10px -14px -10px -14px;
+      background: radial-gradient(circle at 30% 30%, rgba(47,107,255,0.28), transparent 55%);
+      opacity: 0;
+      filter: blur(10px);
+      pointer-events:none;
+      animation: logoGlow 1.2s ease forwards;
+      animation-delay: .25s;
     }
 
-    .reveal-delay-1 {
-      transition-delay: 0.08s;
+    @keyframes logoPop{
+      60% { opacity: 1; transform: translate3d(0, 2px, 0) scale(1.05); filter: blur(0px); }
+      100% { opacity: 1; transform: translate3d(0, 0, 0) scale(1); filter: blur(0px); }
+    }
+    @keyframes logoGlow{
+      40% { opacity: .55; }
+      100% { opacity: 0; }
     }
 
-    /* Header */
-
-    header {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      z-index: 100;
-      padding: 10px 16px;
+    .header-bar {
+      height: var(--header-height);
+      background: #fff;
+      color: var(--header-grey);
+      margin-left: var(--gap-logo-header);
+      flex: 1;
       display: flex;
-      justify-content: center;
-      background: transparent;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 6px 0 32px;
+      position: relative;
+      z-index: 10;
+      box-shadow: 0 2px 0 rgba(0,0,0,0.08);
+    }
+
+    .header-left { display: flex; align-items: center; gap: 34px; }
+    .header-right { display: flex; align-items: center; gap: 18px; margin-left: auto; }
+
+    .nav-menu { display: flex; align-items: center; gap: 34px; }
+    .nav-item { position: relative; display: inline-flex; align-items: center; }
+
+    .nav-link {
+      font-family: "GPMenu", system-ui, sans-serif;
+      font-size: var(--header-font-size);
+      letter-spacing: var(--header-letter-spacing);
+      text-transform: uppercase;
+      text-decoration: none;
+      color: var(--header-grey);
+      white-space: nowrap;
+      position: relative;
+      display: inline-block;
+      line-height: 1;
+      padding: 2px 0;
+    }
+
+    /* Hover remplissage BLEU */
+    .nav-link[data-text] { color: transparent; }
+    .nav-link[data-text]::before {
+      content: attr(data-text);
+      position: absolute;
+      inset: 0;
+      color: var(--header-grey);
+      white-space: nowrap;
+    }
+    .nav-link[data-text]::after {
+      content: attr(data-text);
+      position: absolute;
+      inset: 0;
+      color: var(--accent);
+      white-space: nowrap;
+      clip-path: inset(0 100% 0 0);
+      transition: clip-path .22s ease;
       pointer-events: none;
     }
+    .nav-link[data-text]:hover::after { clip-path: inset(0 0 0 0); }
 
-    .header-inner {
-      max-width: 1100px;
-      width: 100%;
-      display: flex;
+    /* Icônes */
+    .icon {
+      width: 26px;
+      height: 26px;
+      display: inline-flex;
       align-items: center;
-      justify-content: space-between;
-      gap: 16px;
-      padding: 8px 18px;
-      border-radius: 999px;
-      background: rgba(3, 16, 35, 0.06);
-      border: 1px solid rgba(255, 255, 255, 0.22);
-      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.45);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      pointer-events: auto;
-    }
-
-    .logo {
-      height: 48px;
-    }
-
-    .main-nav {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .main-nav a {
-      color: var(--apam-blue);
-      font-weight: 600;
-      font-size: 0.92rem;
-      padding: 7px 16px;
-      border-radius: 999px;
-      border: 1px solid transparent;
-      background: transparent;
-      transition:
-        color 0.18s ease,
-        background 0.25s ease,
-        box-shadow 0.25s ease,
-        border-color 0.2s ease,
-        transform 0.18s ease;
-    }
-
-    .main-nav a:hover {
-      background: rgba(255, 255, 255, 0.08);
-      border-color: rgba(255, 255, 255, 0.3);
-      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.2);
-      transform: translateY(-1px);
-    }
-
-    .main-nav a.active {
-      background: linear-gradient(
-        135deg,
-        rgba(139, 199, 255, 0.98),
-        rgba(70, 140, 255, 0.98)
-      );
-      border-color: rgba(74, 163, 255, 0.9);
-      box-shadow: 0 14px 30px rgba(74, 163, 255, 0.6);
-      color: #02101f;
-    }
-
-    .menu-toggle {
-      display: none;
-      background: rgba(3, 16, 35, 0.86);
-      color: #fff;
-      font-weight: 600;
-      font-size: 0.9rem;
-      border-radius: 999px;
-      border: 1px solid rgba(255, 255, 255, 0.3);
+      justify-content: center;
       cursor: pointer;
-      padding: 7px 14px;
-      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3);
+      text-decoration: none;
     }
+    .icon svg { width: 100%; height: 100%; fill: var(--header-grey); }
 
-    /* Layout principal */
-
-    main {
-      max-width: 1100px;
-      margin: 100px auto 60px;
-      padding: 0 20px;
-    }
-
-    .section-card {
-      background: var(--glass-bg);
-      border-radius: 24px;
-      border: 1px solid var(--glass-border);
-      box-shadow: var(--glass-shadow);
-      backdrop-filter: blur(18px);
-      -webkit-backdrop-filter: blur(18px);
-      padding: 26px 26px 28px;
-      margin-bottom: 26px;
-    }
-
-    /* Hero */
-
-    .activity-hero-inner {
-      display: grid;
-      grid-template-columns: minmax(0, 1.45fr) minmax(0, 1fr);
-      gap: 30px;
-      align-items: center;
-    }
-
-    .activity-hero h1 {
-      font-size: 2rem;
-      color: var(--apam-blue);
-      margin: 6px 0 12px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .activity-hero h1 .emoji {
-      font-size: 1.9rem;
-    }
-
-    .activity-hero p {
-      color: var(--text-soft);
-      margin: 0 0 12px;
-      max-width: 720px;
-    }
-
-    .activity-note {
-      font-size: 0.9rem;
-      color: #7a859c;
-      margin: 6px 0 0;
-    }
-
-    .activity-hero-media {
-      background: #ffffff;
-      border-radius: 20px;
-      border: 1px solid rgba(15, 35, 70, 0.06);
-      padding: 14px 14px 16px;
-      box-shadow: 0 16px 32px rgba(3, 16, 35, 0.14);
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-
-    .hero-photo {
-      border-radius: 16px;
-      overflow: hidden;
-      background: #000;
-    }
-
-    .hero-photo img {
-      display: block;
-      width: 100%;
-      height: 220px;
-      object-fit: cover;
-    }
-
-    .hero-photo-caption {
-      margin: 4px 2px 0;
-      font-size: 0.8rem;
-      color: #7a859c;
-    }
-
-    /* Section visiteurs */
-
-    .activity-section h2 {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 1.6rem;
-      color: var(--apam-blue);
-      margin: 0 0 10px;
-    }
-
-    .section-chip {
-      font-size: 0.75rem;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      background: var(--chip-bg);
-      color: var(--apam-blue-soft);
-      padding: 3px 9px;
-      border-radius: 999px;
-    }
-
-    .section-emoji {
-      font-size: 1.3rem;
-    }
-
-    .activity-section p.section-intro {
-      color: var(--text-soft);
-      margin: 0 0 22px;
-      max-width: 720px;
-    }
-
-    .activity-grid {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr);
-      gap: 22px;
-    }
-
-    @media (min-width: 880px) {
-      .activity-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-      }
-
-      .activity-card-wide {
-        grid-column: 1 / -1;
-      }
-    }
-
-    .activity-card {
-      background: #ffffff;
-      border-radius: 20px;
-      border: 1px solid rgba(15, 35, 70, 0.06);
-      padding: 22px 22px 24px;
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-      box-shadow: 0 12px 26px rgba(3, 16, 35, 0.06);
-    }
-
-    /* Image + overlay */
-
-    .activity-card-image {
-      border-radius: 14px;
-      overflow: hidden;
-      background: #000;
-      margin-bottom: 4px;
+    /* Bouton MON COMPTE */
+    .btn-compte {
       position: relative;
-      cursor: pointer;
-    }
-
-    .activity-card-image img {
-      display: block;
-      width: 100%;
-      height: 160px;
-      object-fit: cover;
-      transition: transform 0.25s ease, filter 0.25s ease;
-    }
-
-    .activity-card-image-overlay {
-      position: absolute;
-      inset: auto 0 0 0;
-      padding: 8px 12px;
-      background: linear-gradient(
-        to top,
-        rgba(3, 16, 35, 0.80),
-        rgba(3, 16, 35, 0.10)
-      );
+      overflow: hidden;
+      font-family: "Swiss911", sans-serif;
+      font-size: 25px;
+      letter-spacing: -0.04em;
+      text-transform: uppercase;
+      padding: 6px 12px;
+      border: 2px solid var(--header-grey);
+      background: #000;
       color: #fff;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 8px;
-      opacity: 0;
-      transform: translateY(8px);
-      transition: opacity 0.25s ease, transform 0.25s ease;
-      font-size: 0.85rem;
+      cursor: pointer;
+      white-space: nowrap;
+      line-height: 1;
+      transition: color 0.25s ease, border-color 0.25s ease;
     }
-
-    .activity-card-image-overlay span.label {
-      font-weight: 600;
-    }
-
-    .activity-card-image-overlay span.icon {
-      font-size: 0.9rem;
-      opacity: 0.85;
-    }
-
-    .activity-card-image:hover img {
-      transform: scale(1.04);
-      filter: brightness(0.92);
-    }
-
-    .activity-card-image:hover .activity-card-image-overlay {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    .activity-card-image-link {
-      display: block;
-      width: 100%;
+    .btn-compte::before {
+      content: "";
+      position: absolute;
+      left: 0; top: 0;
+      width: 0;
       height: 100%;
+      background: var(--accent);
+      z-index: -1;
+      transition: width 0.25s ease;
     }
+    .btn-compte:hover { color: #000; border-color: var(--accent); }
+    .btn-compte:hover::before { width: 100%; }
 
-    /* Header de carte */
+    /* =============================== */
+    /* DROPDOWN FLOTTE — PANEL GP      */
+    /* =============================== */
 
-    .activity-card-header {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      margin-top: 6px;
-      margin-bottom: 6px;
-    }
-
-    .activity-card-emoji-wrap {
-      width: 34px;
-      height: 34px;
-      border-radius: 999px;
-      background: #eef3ff;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-    }
-
-    .activity-card-emoji {
-      font-size: 1.45rem;
-    }
-
-    .activity-card-title {
-      font-size: 1.08rem;
-      font-weight: 700;
-      color: var(--apam-blue);
-      margin-bottom: 2px;
-    }
-
-    .activity-card-title-link {
-      border: none;
-      background: none;
-      padding: 0;
-      margin: 0;
-      font: inherit;
-      color: inherit;
-      cursor: pointer;
-      text-align: left;
-    }
-
-    .activity-card-title-link:hover {
-      color: var(--accent);
-    }
-
-    .card-subline {
-      font-size: 0.9rem;
-      color: #7a859c;
-      margin: 0;
-    }
-
-    .card-meta-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px 18px;
-      font-size: 0.86rem;
-      color: #7a859c;
-      margin-top: 6px;
-    }
-
-    .card-meta-label {
-      padding: 3px 9px;
-      border-radius: 999px;
-      background: #f3f5ff;
-    }
-
-    /* Corps de carte */
-
-    .activity-card-body {
-      margin-top: 10px;
-      display: grid;
-      grid-template-columns: minmax(0, 1fr);
-      gap: 16px;
-    }
-
-    .activity-card-body p {
-      margin: 0 0 4px;
-      color: var(--text-soft);
-    }
-
-    .activity-card-list {
-      margin: 0;
-      padding: 0;
-      list-style: none;
-      display: grid;
-      gap: 10px;
-    }
-
-    .activity-card-list li {
-      font-size: 0.9rem;
-      line-height: 1.7;
-    }
-
-    .activity-card-list li::before {
-      content: "•";
-      margin-right: 6px;
-      color: var(--accent);
-    }
-
-    /* Footer de carte */
-
-    .activity-card-footer {
-      margin-top: 20px;
-      padding-top: 14px;
-      border-top: 1px solid rgba(15, 35, 70, 0.08);
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-
-    .activity-highlight {
-      font-size: 0.82rem;
-      color: var(--apam-blue-soft);
-      background: #eef3ff;
-      border-radius: 999px;
-      padding: 4px 9px;
-      display: inline-block;
-      align-self: flex-start;
-    }
-
-    .activity-card-link {
-      font-size: 0.9rem;
-      font-weight: 600;
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-      color: var(--accent);
-      border-bottom: 1px solid rgba(74, 163, 255, 0.8);
-      padding-bottom: 1px;
-      cursor: pointer;
-    }
-
-    .activity-card-link .arrow {
-      font-size: 0.9rem;
-    }
-
-    .activity-card-link:hover {
-      color: var(--apam-blue-soft);
-      border-bottom-color: transparent;
-    }
-
-    /* Modal overlay */
-
-    .contact-modal {
-      position: fixed;
-      inset: 0;
-      display: none;
-      align-items: center;
-      justify-content: center;
-      z-index: 200;
-    }
-
-    .contact-modal.open {
-      display: flex;
-    }
-
-    .contact-modal-backdrop {
+    /* zone tampon invisible entre "FLOTTE" et panel */
+    .nav-item.has-dropdown::before {
+      content: "";
       position: absolute;
-      inset: 0;
-      background: rgba(3, 16, 35, 0.55);
-      backdrop-filter: blur(7px);
-      -webkit-backdrop-filter: blur(7px);
+      left: -22px;
+      right: -22px;
+      top: 100%;
+      height: 18px;
     }
 
-    .contact-modal-dialog {
-      position: relative;
-      max-width: 780px;
-      width: calc(100% - 32px);
-      max-height: calc(100vh - 80px);
-      background: #ffffff;
-      border-radius: 22px;
-      border: 1px solid rgba(255, 255, 255, 0.9);
-      box-shadow: 0 26px 60px rgba(0, 0, 0, 0.45);
-      padding: 22px 24px 18px;
-      overflow: hidden;
+    .fleet-panel {
+      position: absolute;
+      top: calc(100% + 18px);
+      left: 50%;
+      transform: translateX(-50%);
+      width: var(--panel-w);
+      background: var(--panel-bg);
+      border: 1px solid var(--panel-border);
+      border-radius: var(--panel-radius);
+      box-shadow: 0 22px 40px rgba(0,0,0,0.45);
+      padding: 10px;
       display: flex;
       flex-direction: column;
-      transform: translateY(14px) scale(0.97);
+      gap: 10px;
+
       opacity: 0;
-      transition:
-        opacity 0.22s ease,
-        transform 0.22s ease;
-    }
-
-    .contact-modal.open .contact-modal-dialog {
-      opacity: 1;
-      transform: translateY(0) scale(1);
-    }
-
-    .contact-modal-header {
-      display: flex;
-      align-items: flex-start;
-      justify-content: space-between;
-      gap: 12px;
-      margin-bottom: 14px;
-    }
-
-    .contact-modal-title-wrap {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-    }
-
-    .contact-modal-kicker {
-      font-size: 0.78rem;
-      text-transform: uppercase;
-      letter-spacing: 0.16em;
-      color: #7a859c;
-    }
-
-    .contact-modal-title {
-      font-size: 1.4rem;
-      font-weight: 700;
-      color: var(--apam-blue);
-      margin: 0;
-    }
-
-    .contact-modal-subtitle {
-      font-size: 0.9rem;
-      color: var(--text-soft);
-      margin: 0;
-    }
-
-    .contact-modal-close {
-      border: none;
-      background: #f3f4f8;
-      border-radius: 999px;
-      width: 30px;
-      height: 30px;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      color: var(--apam-blue-soft);
-      box-shadow: 0 6px 16px rgba(3, 16, 35, 0.18);
-      flex-shrink: 0;
-    }
-
-    .contact-modal-close:hover {
-      background: #e7e9f2;
-    }
-
-    .contact-modal-body {
-      padding-top: 6px;
-      padding-right: 4px;
-      padding-bottom: 4px;
-      overflow-y: auto;
-      scrollbar-width: thin;
-    }
-
-    .contact-panel {
-      display: none;
-    }
-
-    .contact-panel.active {
-      display: block;
-    }
-
-    .contact-panel h3 {
-      font-size: 1rem;
-      margin: 0 0 12px;
-      color: var(--apam-blue);
-      border-left: 3px solid var(--accent);
-      padding-left: 8px;
-    }
-
-    .contact-panel p {
-      margin: 0 0 14px;
-      font-size: 0.93rem;
-      color: var(--text-soft);
-    }
-
-    .contact-panel-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px 28px;
-      margin: 18px 0 20px;
-      font-size: 0.9rem;
-    }
-
-    .contact-badge {
-      font-size: 0.8rem;
-      background: #f3f5fc;
-      border-radius: 999px;
-      padding: 4px 10px;
-      color: var(--apam-blue-soft);
-      display: inline-block;
-      margin-bottom: 4px;
-    }
-
-    .contact-email {
-      color: var(--accent);
-      font-weight: 600;
-      border-bottom: 1px solid rgba(74, 163, 255, 0.8);
-      padding-bottom: 1px;
-    }
-
-    .contact-email:hover {
-      color: var(--apam-blue-soft);
-      border-bottom-color: transparent;
-    }
-
-    .contact-panel-highlight {
-      margin-top: 18px;
-      padding: 12px 12px;
-      border-radius: 14px;
-      background: #f7f8fd;
-      font-size: 0.86rem;
-      color: var(--apam-blue-soft);
-    }
-
-    /* Blocs info */
-
-    .info-block-grid {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr);
-      gap: 14px;
-      margin-top: 10px;
-    }
-
-    .info-block {
-      border-radius: 12px;
-      border: 1px solid rgba(15, 35, 70, 0.06);
-      background: #ffffff;
-      padding: 10px 12px;
-      font-size: 0.9rem;
-      box-shadow: 0 6px 14px rgba(3, 16, 35, 0.04);
-    }
-
-    .info-block-title {
-      font-weight: 600;
-      color: var(--apam-blue);
-      margin-bottom: 3px;
-    }
-
-    .info-block-small {
-      font-size: 0.8rem;
-      color: #7a859c;
-      margin-bottom: 2px;
-    }
-
-    .info-block p {
-      margin: 0;
-      font-size: 0.9rem;
-      color: var(--text-soft);
-    }
-
-    @media (min-width: 680px) {
-      .info-block-grid--three {
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-      }
-
-      .info-block-grid--two {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-      }
-    }
-
-    /* Formulaires */
-
-    .contact-form {
-      margin-top: 16px;
-      padding: 14px 14px 16px;
-      border-radius: 14px;
-      border: 1px solid rgba(15, 35, 70, 0.06);
-      background: #f7f8fd;
-    }
-
-    .contact-form-title {
-      font-size: 0.95rem;
-      font-weight: 600;
-      color: var(--apam-blue);
-      margin: 0 0 10px;
-    }
-
-    .form-row {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr);
-      gap: 10px;
-      margin-bottom: 10px;
-    }
-
-    @media (min-width: 600px) {
-      .form-row--two {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-      }
-    }
-
-    .form-field {
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-      font-size: 0.86rem;
-      color: var(--text-soft);
-    }
-
-    .form-field label {
-      font-weight: 500;
-    }
-
-    .form-field input,
-    .form-field select,
-    .form-field textarea {
-      border-radius: 10px;
-      border: 1px solid rgba(15, 35, 70, 0.16);
-      padding: 7px 9px;
-      font-size: 0.9rem;
-      font-family: inherit;
-      color: var(--text-main);
-      background: #ffffff;
-    }
-
-    .form-field textarea {
-      min-height: 70px;
-      resize: vertical;
-    }
-
-    .form-hint {
-      font-size: 0.8rem;
-      color: #9aa3b8;
-    }
-
-    .form-submit {
-      margin-top: 8px;
-      display: flex;
-      justify-content: flex-end;
-    }
-
-    .btn-primary {
-      border: none;
-      border-radius: 999px;
-      padding: 9px 20px;
-      font-size: 0.9rem;
-      font-weight: 600;
-      cursor: pointer;
-      background: linear-gradient(
-        135deg,
-        rgba(139, 199, 255, 1),
-        rgba(70, 140, 255, 1)
-      );
-      color: #02101f;
-      box-shadow: 0 10px 24px rgba(74, 163, 255, 0.5);
-    }
-
-    .btn-primary:hover {
-      box-shadow: 0 12px 28px rgba(74, 163, 255, 0.7);
-      transform: translateY(-1px);
-    }
-
-    .btn-primary:active {
-      transform: translateY(0);
-      box-shadow: 0 8px 20px rgba(74, 163, 255, 0.4);
-    }
-
-    /* Réseaux flottants */
-
-    .social-floating {
-      position: fixed;
-      top: 50%;
-      right: 20px;
-      transform: translateY(-50%);
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
+      pointer-events: none;
+      transition: opacity .18s ease;
       z-index: 50;
     }
 
-    .social-pill {
-      width: 38px;
-      height: 38px;
-      border-radius: 999px;
-      background: #ffffff;
-      border: 1px solid rgba(6, 32, 55, 0.1);
+    .nav-item.has-dropdown:hover .fleet-panel {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .fleet-card {
+      position: relative;
+      height: var(--card-h);
+      border-radius: 6px;
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      text-decoration: none;
+      color: #fff;
+      overflow: hidden;
+      transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease;
+    }
+
+    .fleet-card:hover {
+      transform: translateX(6px);
+      border-color: rgba(47,107,255,0.55);
+      box-shadow: 0 0 0 1px rgba(47,107,255,0.25), 0 18px 30px rgba(0,0,0,0.35);
+    }
+
+    /* nom en haut-centre */
+    .fleet-name {
+      position: absolute;
+      top: 6px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-family: "Swiss911", sans-serif;
+      text-transform: uppercase;
+      font-size: 18px;
+      letter-spacing: -0.02em;
+      line-height: 1;
+      opacity: 0.95;
+      white-space: nowrap;
+      pointer-events: none;
+    }
+
+    /* avion centré */
+    .fleet-plane {
+      position: absolute;
+      left: 50%;
+      top: 52%;
+      transform: translate(-50%, -50%);
+      height: 80px;
+      max-width: 88%;
+      width: auto;
+      object-fit: contain;
+      pointer-events: none;
+      filter: drop-shadow(0 10px 14px rgba(0,0,0,0.35));
+    }
+
+    /* chevron à droite + animation */
+    .fleet-chev {
+      position: absolute;
+      right: 14px;
+      top: 50%;
+      width: 10px;
+      height: 10px;
+      border-right: 2px solid rgba(255,255,255,0.7);
+      border-top: 2px solid rgba(255,255,255,0.7);
+      transform: translateY(-50%) rotate(45deg);
+      transition: transform .18s ease, border-color .18s ease;
+      opacity: 0.9;
+    }
+
+    .fleet-card:hover .fleet-chev {
+      border-color: var(--accent);
+      transform: translate(4px, -50%) rotate(45deg);
+    }
+
+    /* CTA bas */
+    .fleet-cta {
+      margin-top: 2px;
+      padding-top: 10px;
+      border-top: 1px solid rgba(255,255,255,0.10);
+    }
+
+    .fleet-cta a {
       display: flex;
       align-items: center;
-      justify-content: center;
-      box-shadow: 0 10px 24px rgba(3, 16, 35, 0.18);
-    }
-
-    .social-pill img {
-      width: 18px;
-      height: 18px;
-      display: block;
-      filter: invert(0.1) brightness(0.2);
-    }
-
-    .social-pill:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 14px 28px rgba(3, 16, 35, 0.28);
-      border-color: rgba(74, 163, 255, 0.8);
-    }
-
-    /* Footer */
-
-    .site-footer {
-      background: #ffffff;
-      color: var(--apam-blue);
-      padding: 40px 20px 20px;
-      margin-top: 40px;
-      border-top: 1px solid rgba(6, 32, 55, 0.12);
-    }
-
-    .footer-content {
-      max-width: 1100px;
-      margin: 0 auto;
-      display: flex;
       justify-content: space-between;
-      align-items: flex-start;
-      flex-wrap: wrap;
-      gap: 32px;
+      gap: 10px;
+      padding: 10px 4px 2px;
+      text-decoration: none;
+      color: rgba(255,255,255,0.88);
+      font-family: "Swiss911", sans-serif;
+      text-transform: uppercase;
+      font-size: 20px;
+      letter-spacing: -0.02em;
+      font-style: italic;
     }
 
-    .footer-brand {
-      max-width: 260px;
-      flex: 1 1 260px;
+    .fleet-cta a span { opacity: 0.95; }
+
+    .fleet-cta a .cta-chev {
+      width: 10px;
+      height: 10px;
+      border-right: 2px solid rgba(255,255,255,0.65);
+      border-top: 2px solid rgba(255,255,255,0.65);
+      transform: rotate(45deg);
+      transition: transform .18s ease, border-color .18s ease;
     }
 
-    .footer-logo {
-      height: 40px;
-      display: block;
-      margin-bottom: 10px;
+    .fleet-cta a:hover .cta-chev {
+      transform: translateX(4px) rotate(45deg);
+      border-color: var(--accent);
     }
 
-    .footer-brand p {
-      font-size: 0.9rem;
-      opacity: 0.85;
-    }
-
-    .footer-column {
-      flex: 1 1 180px;
-      min-width: 180px;
-    }
-
-    .footer-column h4 {
-      margin-bottom: 10px;
-      font-size: 1rem;
-      border-bottom: 1px solid rgba(6, 32, 55, 0.15);
-      padding-bottom: 5px;
-    }
-
-    .footer-column a {
-      display: block;
-      color: var(--apam-blue);
-      opacity: 0.82;
-      margin-bottom: 6px;
-      font-size: 0.9rem;
-    }
-
-    .footer-column a:hover {
-      opacity: 1;
-    }
-
-    .copyright {
-      text-align: center;
-      margin-top: 26px;
-      opacity: 0.7;
-      font-size: 0.82rem;
-    }
-
-    /* Responsive */
-
-    @media (max-width: 900px) {
-      main {
-        margin-top: 96px;
+    /* -------- RESPONSIVE -------- */
+    @media (max-width: 980px) {
+      :root {
+        --page-side-margin: 20px;
+        --logo-height: 70px;
+        --gap-logo-header: 24px;
+        --panel-w: 280px;
       }
-
-      .activity-hero-inner {
-        grid-template-columns: minmax(0, 1fr);
-      }
-    }
-
-    @media (max-width: 768px) {
-      header {
-        padding: 10px 10px;
-      }
-
-      .header-inner {
-        padding: 6px 10px;
-      }
-
-      .main-nav {
-        position: absolute;
-        top: 64px;
-        right: 16px;
-        left: 16px;
-        flex-direction: column;
-        align-items: flex-start;
-        padding: 10px 10px 12px;
-        border-radius: 18px;
-        background: #ffffff;
-        border: 1px solid rgba(6, 32, 55, 0.12);
-        box-shadow: 0 18px 40px rgba(0, 0, 0, 0.12);
-        display: none;
-      }
-
-      .main-nav a {
-        margin: 3px 4px;
-        width: 100%;
-        color: var(--apam-blue);
-      }
-
-      .main-nav.open {
-        display: flex;
-      }
-
-      .menu-toggle {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-      }
-
-      .social-floating {
-        right: 10px;
-      }
-
-      .footer-content {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-    }
-
-    @media (max-width: 600px) {
-      .section-card {
-        padding: 20px 18px 22px;
-      }
-
-      .contact-modal-dialog {
-        max-height: calc(100vh - 40px);
-        padding: 18px 16px 14px;
-      }
-
-      .contact-modal-title {
-        font-size: 1.32rem;
-      }
+      .header-bar { padding: 0 10px 0 18px; }
+      .nav-menu { gap: 20px; }
+      .nav-link { font-size: 12px; }
+      .fleet-panel { left: 0; transform: none; }
     }
   </style>
 </head>
+
 <body>
-  <!-- HEADER -->
-  <header>
-    <div class="header-inner">
-      <img src="apam-logo.png" alt="Logo APAM" class="logo" />
-      <button class="menu-toggle" aria-label="Ouvrir le menu">Menu</button>
-      <nav class="main-nav">
-        <a href="index.html">Accueil</a>
-        <a href="#">À propos</a>
-        <a href="activite.html" class="active">Activité</a>
-        <a href="#">Tarif</a>
-        <a href="espace-membres.html">Membres</a>
-        <a href="contact.html">Contact</a>
-        <a href="https://openflyers.com/apam/" target="_blank">OpenFlyer</a>
-      </nav>
+
+  <header class="site-header">
+    <div class="header-row">
+
+      <!-- Logo cliquable -->
+      <a class="header-logo" href="index.html" aria-label="Retour accueil (logo)">
+        <img src="apam-logo1.png" alt="Logo APAM">
+      </a>
+
+      <div class="header-bar">
+
+        <div class="header-left">
+          <nav class="nav-menu">
+
+            <!-- Ordre demandé -->
+            <span class="nav-item has-dropdown">
+              <a href="tarifs.html" class="nav-link" data-text="FLOTTE">FLOTTE</a>
+
+              <div class="fleet-panel" role="menu" aria-label="Menu flotte">
+
+                <a class="fleet-card" href="tarifs.html" aria-label="Cessna 152">
+                  <div class="fleet-name">CESSNA 152</div>
+                  <img class="fleet-plane" src="FGHKE1.png.tiff" alt="Cessna 152">
+                  <span class="fleet-chev" aria-hidden="true"></span>
+                </a>
+
+                <a class="fleet-card" href="tarifs.html" aria-label="TB200">
+                  <div class="fleet-name">TB200</div>
+                  <img class="fleet-plane" src="TB200M.png.tiff" alt="TB200">
+                  <span class="fleet-chev" aria-hidden="true"></span>
+                </a>
+
+                <a class="fleet-card" href="tarifs.html" aria-label="Cirrus SR22">
+                  <div class="fleet-name">CIRRUS SR22</div>
+                  <img class="fleet-plane" src="SR1.png.tiff" alt="Cirrus SR22">
+                  <span class="fleet-chev" aria-hidden="true"></span>
+                </a>
+
+                <div class="fleet-cta">
+                  <a href="tarifs.html" aria-label="Voir toute la flotte">
+                    <span>VOIR TOUTE LA FLOTTE</span>
+                    <i class="cta-chev" aria-hidden="true"></i>
+                  </a>
+                </div>
+
+              </div>
+            </span>
+
+            <span class="nav-item">
+              <a href="activite.html" class="nav-link" data-text="ACTIVITÉS">ACTIVITÉS</a>
+            </span>
+
+            <span class="nav-item">
+              <a href="ressources.html" class="nav-link" data-text="RESSOURCES">RESSOURCES</a>
+            </span>
+
+            <span class="nav-item">
+              <a href="contact.html" class="nav-link" data-text="CONTACT">CONTACT</a>
+            </span>
+
+            <span class="nav-item">
+              <a href="espace-membres.html" class="nav-link" data-text="MEMBRES">MEMBRES</a>
+            </span>
+
+            <span class="nav-item">
+              <a href="https://openflyers.com/apam/" target="_blank" rel="noopener noreferrer"
+                 class="nav-link" data-text="OPENFLYER">OPENFLYER</a>
+            </span>
+
+          </nav>
+        </div>
+
+        <div class="header-right">
+
+          <a class="icon" href="#" aria-label="Instagram">
+            <svg viewBox="0 0 24 24">
+              <path d="M7 2C4.2 2 2 4.2 2 7v10c0 2.8 2.2 5 5 5h10c2.8 0 5-2.2 5-5V7c0-2.8-2.2-5-5-5H7zm10 2c1.7 0 3 1.3 3 3v10c0 1.7-1.3 3-3 3H7c-1.7 0-3-1.3-3-3V7c0-1.7 1.3-3 3-3h10zm-5 3.5A4.5 4.5 0 1 0 16.5 12 4.51 4.51 0 0 0 12 7.5zm0 7A2.5 2.5 0 1 1 14.5 12 2.5 2.5 0 0 1 12 14.5zm4.8-8.9a1.1 1.1 0 1 1-1.1 1.1c0-.6.5-1.1 1.1-1.1z"/>
+            </svg>
+          </a>
+
+          <a class="icon" href="mailto:contact@apam.fr" aria-label="Email">
+            <svg viewBox="0 0 24 24">
+              <path d="M4 4h16a2 2 0 0 1 2 2v1l-10 6L2 7V6a2 2 0 0 1 2-2zm18 5v9a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V9l10 6 10-6z"/>
+            </svg>
+          </a>
+
+          <button class="btn-compte">MON COMPTE</button>
+
+        </div>
+      </div>
     </div>
   </header>
 
-  <!-- CONTENU -->
-  <main>
-    <!-- HERO -->
-    <section class="section-card activity-hero reveal">
-      <div class="activity-hero-inner">
-        <div>
-          <p class="soft-label">Visiteurs • Première approche</p>
-          <h1>
-            <span class="emoji">👋</span>
-            <span>Vous découvrez <span class="accent-text-strong">l’APAM</span> ?</span>
-          </h1>
-          <p>
-            L’<span class="accent-text">Aéroclub APAM L’Aigle Saint-Michel</span> est un club de
-            passionnés où l’on vient pour <strong>apprendre</strong>, <strong>voler</strong> et
-            <strong>partager</strong> la même envie de ciel bleu.
-          </p>
-          <p class="activity-note">
-            Ci-dessous, les cinq rubriques clés : les avions, l’équipe, les baptêmes de l’air,
-            le parcours pour devenir pilote et les voyages en partage de frais.
-          </p>
-        </div>
-        <div class="activity-hero-media">
-          <div class="hero-photo">
-            <!-- Mets ta vraie photo de club ici -->
-            <img src="visiteurs-hero.jpg" alt="Avions de l’APAM sur le parking" />
-          </div>
-          <p class="hero-photo-caption">
-            Une partie de la flotte de <span class="accent-text">l’aéroclub de L’Aigle</span> sur le
-            parking de l’aérodrome Saint-Michel.
-          </p>
-        </div>
-      </div>
-    </section>
-
-    <!-- VISITEURS -->
-    <section class="section-card activity-section reveal reveal-delay-1">
-      <h2>
-        <span class="section-chip">Visiteurs</span>
-        <span class="section-emoji">🧭</span>
-        <span>Les rubriques à explorer</span>
-      </h2>
-      <p class="section-intro">
-        Chaque carte résume l’essentiel en quelques lignes. En cliquant, vous accédez à une fiche
-        plus détaillée avec les bons contacts pour passer à l’action.
-      </p>
-
-      <div class="activity-grid">
-        <!-- Avions -->
-        <article class="activity-card">
-          <div class="activity-card-image">
-            <a href="flotte.html" class="activity-card-image-link">
-              <img src="visiteurs-avions.jpg" alt="Avion de tourisme du club prêt au départ" />
-              <div class="activity-card-image-overlay">
-                <span class="label">Voir la flotte du club</span>
-                <span class="icon">↗</span>
-              </div>
-            </a>
-          </div>
-          <div class="activity-card-header">
-            <div class="activity-card-emoji-wrap">
-              <span class="activity-card-emoji">🛩️</span>
-            </div>
-            <div>
-              <div class="activity-card-title">
-                <a href="flotte.html">Les avions du club</a>
-              </div>
-              <p class="card-subline">Un aperçu rapide de la flotte APAM.</p>
-            </div>
-          </div>
-          <div class="card-meta-row">
-            <span class="card-meta-label">3 avions</span>
-            <span class="card-meta-label">École & voyage</span>
-          </div>
-          <div class="activity-card-body">
-            <p>
-              Découvrez les différents appareils utilisés pour les vols école, les baptêmes
-              et les voyages club.
-            </p>
-            <ul class="activity-card-list">
-              <li><strong>Cessna 152</strong> – avion école biplace.</li>
-              <li><strong>Cirrus SR20</strong> – avion moderne pour le voyage.</li>
-              <li><strong>TB200</strong> – 4 places pour les navigations club.</li>
-            </ul>
-          </div>
-          <div class="activity-card-footer">
-            <span class="activity-highlight">Idéal pour se projeter sur vos futurs vols</span>
-            <a href="flotte.html" class="activity-card-link">
-              Voir la page Flotte <span class="arrow">↗</span>
-            </a>
-          </div>
-        </article>
-
-        <!-- Organigramme -->
-        <article class="activity-card">
-          <div class="activity-card-image contact-trigger" data-contact="organigramme">
-            <div class="activity-card-image-link">
-              <img src="visiteurs-organigramme.jpg" alt="Membres du bureau et instructeurs" />
-              <div class="activity-card-image-overlay">
-                <span class="label">Ouvrir la fiche “Vie du club”</span>
-                <span class="icon">↗</span>
-              </div>
-            </div>
-          </div>
-          <div class="activity-card-header">
-            <div class="activity-card-emoji-wrap">
-              <span class="activity-card-emoji">👥</span>
-            </div>
-            <div>
-              <div class="activity-card-title">
-                <button
-                  class="activity-card-title-link contact-trigger"
-                  data-contact="organigramme"
-                  type="button"
-                >
-                  Organigramme du club
-                </button>
-              </div>
-              <p class="card-subline">Qui fait quoi à l’APAM.</p>
-            </div>
-          </div>
-          <div class="card-meta-row">
-            <span class="card-meta-label">Bureau</span>
-            <span class="card-meta-label">Instructeurs</span>
-          </div>
-          <div class="activity-card-body">
-            <p>
-              Mettre des visages et des rôles sur les personnes qui font vivre le club au quotidien.
-            </p>
-            <ul class="activity-card-list">
-              <li><strong>Bureau</strong> – gestion du club et des adhésions.</li>
-              <li><strong>Instructeurs</strong> – suivi des élèves pilotes.</li>
-              <li><strong>Référents</strong> – baptêmes, voyages, vie associative.</li>
-            </ul>
-          </div>
-          <div class="activity-card-footer">
-            <span class="activity-highlight">Pour savoir à qui s’adresser</span>
-            <a href="#" class="activity-card-link contact-trigger" data-contact="organigramme">
-              Ouvrir la fiche “Vie du club” <span class="arrow">↗</span>
-            </a>
-          </div>
-        </article>
-
-        <!-- Baptêmes -->
-        <article class="activity-card">
-          <div class="activity-card-image contact-trigger" data-contact="bapteme">
-            <div class="activity-card-image-link">
-              <img src="visiteurs-baptemes.jpg" alt="Passagers à bord pour un vol découverte" />
-              <div class="activity-card-image-overlay">
-                <span class="label">Voir les infos baptêmes</span>
-                <span class="icon">↗</span>
-              </div>
-            </div>
-          </div>
-          <div class="activity-card-header">
-            <div class="activity-card-emoji-wrap">
-              <span class="activity-card-emoji">🎁</span>
-            </div>
-            <div>
-              <div class="activity-card-title">
-                <button
-                  class="activity-card-title-link contact-trigger"
-                  data-contact="bapteme"
-                  type="button"
-                >
-                  Baptêmes & vols découverte
-                </button>
-              </div>
-              <p class="card-subline">Premiers vols & idées cadeau.</p>
-            </div>
-          </div>
-          <div class="card-meta-row">
-            <span class="card-meta-label">≈ 30 minutes</span>
-            <span class="card-meta-label">À partir de 100&nbsp;€</span>
-          </div>
-          <div class="activity-card-body">
-            <p>
-              Une première expérience en avion léger au départ de L’Aigle, en simple découverte
-              ou en initiation au pilotage.
-            </p>
-            <ul class="activity-card-list">
-              <li><strong>C152 – vol découverte</strong> · 30 min · 100&nbsp;€ (1 pax).</li>
-              <li><strong>C152 – initiation</strong> · prise de commandes · 100&nbsp;€.</li>
-              <li><strong>Cirrus SR20</strong> · 30 min · 160&nbsp;€ (1 pax) / 200&nbsp;€ (2 pax).</li>
-            </ul>
-          </div>
-          <div class="activity-card-footer">
-            <span class="activity-highlight">Formulaire de demande prêt à l’emploi</span>
-            <a href="#" class="activity-card-link contact-trigger" data-contact="bapteme">
-              Ouvrir la fiche Baptêmes <span class="arrow">↗</span>
-            </a>
-          </div>
-        </article>
-
-        <!-- Devenir pilote -->
-        <article class="activity-card">
-          <div class="activity-card-image contact-trigger" data-contact="formation">
-            <div class="activity-card-image-link">
-              <img src="visiteurs-devenir-pilote.jpg" alt="Élève pilote en instruction" />
-              <div class="activity-card-image-overlay">
-                <span class="label">En savoir plus sur la formation</span>
-                <span class="icon">↗</span>
-              </div>
-            </div>
-          </div>
-          <div class="activity-card-header">
-            <div class="activity-card-emoji-wrap">
-              <span class="activity-card-emoji">🎓</span>
-            </div>
-            <div>
-              <div class="activity-card-title">
-                <button
-                  class="activity-card-title-link contact-trigger"
-                  data-contact="formation"
-                  type="button"
-                >
-                  Devenir pilote
-                </button>
-              </div>
-              <p class="card-subline">Comprendre le parcours LAPL / PPL.</p>
-            </div>
-          </div>
-          <div class="card-meta-row">
-            <span class="card-meta-label">LAPL</span>
-            <span class="card-meta-label">PPL</span>
-          </div>
-          <div class="activity-card-body">
-            <p>
-              Les grandes lignes pour lancer un projet de formation réaliste, en fonction de
-              votre temps et de votre budget.
-            </p>
-            <ul class="activity-card-list">
-              <li><strong>LAPL</strong> – licence loisir sur avions légers.</li>
-              <li><strong>PPL</strong> – licence plus complète, évolutive.</li>
-              <li><strong>Rythme</strong> – vols + théorie adaptés à vos disponibilités.</li>
-            </ul>
-          </div>
-          <div class="activity-card-footer">
-            <span class="activity-highlight">Échanger sur votre projet de formation</span>
-            <a href="#" class="activity-card-link contact-trigger" data-contact="formation">
-              Ouvrir la fiche Formation <span class="arrow">↗</span>
-            </a>
-          </div>
-        </article>
-
-        <!-- Voyages -->
-        <article class="activity-card activity-card-wide">
-          <div class="activity-card-image contact-trigger" data-contact="voyages">
-            <div class="activity-card-image-link">
-              <img src="visiteurs-voyages.jpg" alt="Avion du club en voyage sur un autre terrain" />
-              <div class="activity-card-image-overlay">
-                <span class="label">Voir la fiche Voyages</span>
-                <span class="icon">↗</span>
-              </div>
-            </div>
-          </div>
-          <div class="activity-card-header">
-            <div class="activity-card-emoji-wrap">
-              <span class="activity-card-emoji">🧳</span>
-            </div>
-            <div>
-              <div class="activity-card-title">
-                <button
-                  class="activity-card-title-link contact-trigger"
-                  data-contact="voyages"
-                  type="button"
-                >
-                  Voyages en partage de frais
-                </button>
-              </div>
-              <p class="card-subline">Sorties club en France et plus loin.</p>
-            </div>
-          </div>
-          <div class="card-meta-row">
-            <span class="card-meta-label">Journées & week-ends</span>
-            <span class="card-meta-label">Ambiance club</span>
-          </div>
-          <div class="activity-card-body">
-            <p>
-              Rejoindre des navigations organisées par des pilotes du club, avec partage des frais
-              dans le cadre associatif.
-            </p>
-            <ul class="activity-card-list">
-              <li><strong>Sorties journée</strong> – découverte de nouveaux terrains.</li>
-              <li><strong>Week-ends</strong> – voyages plus longs, en petits groupes.</li>
-              <li><strong>Partage de frais</strong> – approche conviviale et accessible.</li>
-            </ul>
-          </div>
-          <div class="activity-card-footer">
-            <span class="activity-highlight">Préparer vos prochains voyages avec le club</span>
-            <a href="#" class="activity-card-link contact-trigger" data-contact="voyages">
-              Ouvrir la fiche Voyages <span class="arrow">↗</span>
-            </a>
-          </div>
-        </article>
-      </div>
-    </section>
-  </main>
-
-  <!-- MODAL CONTACT -->
-  <div class="contact-modal" id="contact-modal" aria-hidden="true">
-    <div class="contact-modal-backdrop"></div>
-    <div class="contact-modal-dialog" role="dialog" aria-modal="true">
-      <div class="contact-modal-header">
-        <div class="contact-modal-title-wrap">
-          <span class="contact-modal-kicker" id="contact-modal-kicker">Contact</span>
-          <h2 class="contact-modal-title" id="contact-modal-title">
-            Contacter l’équipe APAM
-          </h2>
-          <p class="contact-modal-subtitle" id="contact-modal-subtitle">
-            Choisissez le canal le plus simple pour vous.
-          </p>
-        </div>
-        <button class="contact-modal-close" type="button" aria-label="Fermer">✕</button>
-      </div>
-
-      <div class="contact-modal-body">
-        <!-- Organigramme -->
-        <div class="contact-panel" data-contact-panel="organigramme">
-          <h3>Vie du club & organigramme</h3>
-          <p>
-            Pour toute question sur le <span class="accent-text">fonctionnement de l’aéroclub</span>,
-            la composition du bureau ou la vie associative.
-          </p>
-          <div class="contact-panel-row">
-            <div>
-              <span class="contact-badge">Contact principal</span>
-              <p><strong>Bureau de l’APAM</strong></p>
-            </div>
-            <div>
-              <span class="contact-badge">E-mail</span>
-              <p><a class="contact-email" href="mailto:contact@apam.fr">contact@apam.fr</a></p>
-            </div>
-          </div>
-          <div class="info-block-grid info-block-grid--two">
-            <div class="info-block">
-              <div class="info-block-title">Adhésion & cotisations</div>
-              <p>Questions sur la première adhésion, les renouvellements et la FFA.</p>
-            </div>
-            <div class="info-block">
-              <div class="info-block-title">Vie associative</div>
-              <p>Idées d’événements, participation aux projets club, ambiance au quotidien.</p>
-            </div>
-          </div>
-          <div class="contact-panel-highlight">
-            💡 Objet conseillé : <strong>« Info club / Organigramme – [Votre nom] »</strong>
-          </div>
-        </div>
-
-        <!-- Baptêmes -->
-        <div class="contact-panel" data-contact-panel="bapteme">
-          <h3>Baptêmes & vols découverte</h3>
-          <p>
-            Cette fiche vous donne les <span class="accent-text">tarifs indicatifs</span> et vous
-            permet d’envoyer une demande au responsable baptêmes.
-          </p>
-
-          <div class="contact-panel-row">
-            <div>
-              <span class="contact-badge">Contact principal</span>
-              <p><strong>Responsable baptêmes</strong></p>
-            </div>
-            <div>
-              <span class="contact-badge">E-mail</span>
-              <p><a class="contact-email" href="mailto:baptemes@apam.fr">baptemes@apam.fr</a></p>
-            </div>
-          </div>
-
-          <div class="info-block-grid info-block-grid--two">
-            <div class="info-block">
-              <div class="info-block-title">Ce qui est compris</div>
-              <p>
-                Briefing au sol, vol d’environ <strong>30 minutes</strong>, commentaires du pilote
-                et retour au parking pour quelques photos.
-              </p>
-            </div>
-            <div class="info-block">
-              <div class="info-block-title">Conditions</div>
-              <p>
-                Vols réalisables sous réserve de météo, de disponibilité des avions et des limitations de masse.
-              </p>
-            </div>
-          </div>
-
-          <div class="contact-panel-highlight">
-            ℹ️ Les montants ci-dessous sont donnés à titre indicatif. La confirmation se fait avec le responsable
-            baptêmes lors de la prise de rendez-vous.
-          </div>
-
-          <div class="info-block-grid info-block-grid--two" style="margin-top:10px;">
-            <div class="info-block">
-              <div class="info-block-small">Cessna 152</div>
-              <div class="info-block-title">Vol découverte</div>
-              <p><strong>100&nbsp;€</strong> – 1 passager · 30 min de survol de la région.</p>
-            </div>
-            <div class="info-block">
-              <div class="info-block-small">Cessna 152</div>
-              <div class="info-block-title">Vol d’initiation</div>
-              <p><strong>100&nbsp;€</strong> – 1 passager · Briefing + prise de commandes.</p>
-            </div>
-            <div class="info-block">
-              <div class="info-block-small">Cirrus SR20</div>
-              <div class="info-block-title">Découverte 1 passager</div>
-              <p><strong>160&nbsp;€</strong> – 1 passager · Avion moderne et confortable.</p>
-            </div>
-            <div class="info-block">
-              <div class="info-block-small">Cirrus SR20</div>
-              <div class="info-block-title">Découverte 2 passagers</div>
-              <p><strong>200&nbsp;€</strong> – 2 passagers · Partager l’expérience à deux.</p>
-            </div>
-          </div>
-
-          <!-- Formulaire baptêmes -->
-          <form
-            class="contact-form"
-            action="mailto:baptemes@apam.fr"
-            method="POST"
-            enctype="text/plain"
-          >
-            <p class="contact-form-title">Demande de vol découverte / baptême</p>
-            <div class="form-row form-row--two">
-              <div class="form-field">
-                <label for="bap-nom">Nom et prénom</label>
-                <input type="text" id="bap-nom" name="Nom" required />
-              </div>
-              <div class="form-field">
-                <label for="bap-email">Adresse e-mail</label>
-                <input type="email" id="bap-email" name="Email" required />
-              </div>
-            </div>
-            <div class="form-row form-row--two">
-              <div class="form-field">
-                <label for="bap-type">Type de vol souhaité</label>
-                <select id="bap-type" name="Type de vol">
-                  <option value="Vol découverte - Cessna 152 (100€)">Vol découverte – C152 – 100&nbsp;€</option>
-                  <option value="Vol initiation pilotage - Cessna 152 (100€)">Vol initiation – C152 – 100&nbsp;€</option>
-                  <option value="Vol découverte - Cirrus 1PAX (160€)">Découverte – Cirrus (1 pax) – 160&nbsp;€</option>
-                  <option value="Vol découverte - Cirrus 2PAX (200€)">Découverte – Cirrus (2 pax) – 200&nbsp;€</option>
-                </select>
-              </div>
-              <div class="form-field">
-                <label for="bap-periode">Période souhaitée</label>
-                <input
-                  type="text"
-                  id="bap-periode"
-                  name="Période souhaitée"
-                  placeholder="Ex. : week-end, vacances d’été…"
-                />
-              </div>
-            </div>
-            <div class="form-row">
-              <div class="form-field">
-                <label for="bap-message">Message complémentaire</label>
-                <textarea
-                  id="bap-message"
-                  name="Message"
-                  placeholder="Occasion, nombre de personnes, contraintes horaires…"
-                ></textarea>
-                <span class="form-hint">
-                  Votre messagerie s’ouvrira avec ces informations pré-remplies, vous pourrez les relire avant envoi.
-                </span>
-              </div>
-            </div>
-            <div class="form-submit">
-              <button type="submit" class="btn-primary">Préparer ma demande par e-mail</button>
-            </div>
-          </form>
-        </div>
-
-        <!-- Formation -->
-        <div class="contact-panel" data-contact-panel="formation">
-          <h3>Devenir pilote – LAPL / PPL</h3>
-          <p>
-            Cette fiche présente les grandes lignes des licences
-            <span class="accent-text">LAPL</span> et <span class="accent-text">PPL</span>
-            et vous permet d’expliquer votre projet au responsable instruction.
-          </p>
-
-          <div class="contact-panel-row">
-            <div>
-              <span class="contact-badge">Contact principal</span>
-              <p><strong>Responsable instruction</strong></p>
-            </div>
-            <div>
-              <span class="contact-badge">E-mail</span>
-              <p><a class="contact-email" href="mailto:formation@apam.fr">formation@apam.fr</a></p>
-            </div>
-          </div>
-
-          <div class="info-block-grid info-block-grid--three">
-            <div class="info-block">
-              <div class="info-block-small">Licence loisir</div>
-              <div class="info-block-title">LAPL</div>
-              <p>
-                Licence orientée <strong>vol de loisir</strong> sur avion léger, idéale pour voler
-                en local et en navigation en Europe.
-              </p>
-            </div>
-            <div class="info-block">
-              <div class="info-block-small">Licence plus complète</div>
-              <div class="info-block-title">PPL</div>
-              <p>
-                Licence de <strong>pilote privé</strong>, reconnue à l’international, base solide
-                pour ajouter des qualifications ensuite.
-              </p>
-            </div>
-            <div class="info-block">
-              <div class="info-block-small">Organisation</div>
-              <div class="info-block-title">Déroulement</div>
-              <p>
-                Alternance de théorie, vols en double commande puis vols solo supervisés,
-                à un rythme adapté à votre emploi du temps.
-              </p>
-            </div>
-          </div>
-
-          <div class="contact-panel-highlight">
-            🧭 Le responsable instruction vous aidera à choisir la licence la plus adaptée (loisir, ambition,
-            disponibilité, budget…).
-          </div>
-
-          <!-- Formulaire formation -->
-          <form
-            class="contact-form"
-            action="mailto:formation@apam.fr"
-            method="POST"
-            enctype="text/plain"
-          >
-            <p class="contact-form-title">Présenter votre projet de formation</p>
-            <div class="form-row form-row--two">
-              <div class="form-field">
-                <label for="form-nom">Nom et prénom</label>
-                <input type="text" id="form-nom" name="Nom" required />
-              </div>
-              <div class="form-field">
-                <label for="form-email">Adresse e-mail</label>
-                <input type="email" id="form-email" name="Email" required />
-              </div>
-            </div>
-            <div class="form-row form-row--two">
-              <div class="form-field">
-                <label for="form-licence">Licence envisagée</label>
-                <select id="form-licence" name="Licence envisagée">
-                  <option value="Je ne sais pas encore">Je ne sais pas encore / à discuter</option>
-                  <option value="LAPL">LAPL</option>
-                  <option value="PPL">PPL</option>
-                </select>
-              </div>
-              <div class="form-field">
-                <label for="form-disponibilite">Disponibilités</label>
-                <input
-                  type="text"
-                  id="form-disponibilite"
-                  name="Disponibilités"
-                  placeholder="Week-end, soirs de semaine…"
-                />
-              </div>
-            </div>
-            <div class="form-row form-row--two">
-              <div class="form-field">
-                <label for="form-age">Âge</label>
-                <input type="number" id="form-age" name="Âge" min="15" />
-              </div>
-              <div class="form-field">
-                <label for="form-experience">Expérience aéronautique</label>
-                <input
-                  type="text"
-                  id="form-experience"
-                  name="Expérience"
-                  placeholder="Débutant, quelques vols, simulateur…"
-                />
-              </div>
-            </div>
-            <div class="form-row">
-              <div class="form-field">
-                <label for="form-message">Votre projet en quelques lignes</label>
-                <textarea
-                  id="form-message"
-                  name="Projet"
-                  placeholder="Pourquoi souhaitez-vous devenir pilote ? À quelle fréquence pensez-vous pouvoir voler ?"
-                ></textarea>
-                <span class="form-hint">
-                  Un ou deux paragraphes suffisent pour que le responsable instruction comprenne votre situation.
-                </span>
-              </div>
-            </div>
-            <div class="form-submit">
-              <button type="submit" class="btn-primary">Préparer ma demande formation</button>
-            </div>
-          </form>
-        </div>
-
-        <!-- Voyages -->
-        <div class="contact-panel" data-contact-panel="voyages">
-          <h3>Voyages en partage de frais</h3>
-          <p>
-            Pour en savoir plus sur les <span class="accent-text">sorties club</span>
-            (journée, week-end, voyages plus longs) et les possibilités de partage de frais.
-          </p>
-          <div class="contact-panel-row">
-            <div>
-              <span class="contact-badge">Contact principal</span>
-              <p><strong>Responsable voyages / sorties</strong></p>
-            </div>
-            <div>
-              <span class="contact-badge">E-mail</span>
-              <p><a class="contact-email" href="mailto:sorties@apam.fr">sorties@apam.fr</a></p>
-            </div>
-          </div>
-          <div class="info-block-grid info-block-grid--two">
-            <div class="info-block">
-              <div class="info-block-title">Type de sorties</div>
-              <p>Sorties à la journée, week-ends, ou voyages plus longs selon l’envie des pilotes.</p>
-            </div>
-            <div class="info-block">
-              <div class="info-block-title">Qui peut participer ?</div>
-              <p>Pilotes, élèves pilotes ou passagers, dans le cadre associatif du club.</p>
-            </div>
-          </div>
-          <div class="contact-panel-highlight">
-            🌍 Dans votre message, indiquez votre profil (pilote / élève / passager), vos disponibilités
-            et le type de sorties qui vous intéresse.
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- RÉSEAUX -->
-  <div class="social-floating">
-    <a href="https://www.instagram.com/_cauvin_" target="_blank" aria-label="Instagram">
-      <div class="social-pill">
-        <img src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/instagram.svg" alt="Instagram" />
-      </div>
-    </a>
-    <a href="https://www.youtube.com/@DRONORD18" target="_blank" aria-label="YouTube">
-      <div class="social-pill">
-        <img src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/youtube.svg" alt="YouTube" />
-      </div>
-    </a>
-    <a href="https://www.tiktok.com/@toncompte" target="_blank" aria-label="TikTok">
-      <div class="social-pill">
-        <img src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/tiktok.svg" alt="TikTok" />
-      </div>
-    </a>
-  </div>
-
-  <!-- FOOTER -->
-  <footer class="site-footer">
-    <div class="footer-content">
-      <div class="footer-brand">
-        <img src="apam-logo.png" alt="Logo APAM" class="footer-logo" />
-        <p>
-          Aéroclub APAM L’Aigle Saint-Michel – un cadre convivial pour découvrir, apprendre
-          et partager la passion du vol.
-        </p>
-      </div>
-
-      <div class="footer-column">
-        <h4>Plan du site</h4>
-        <a href="index.html">Accueil</a>
-        <a href="#">À propos</a>
-        <a href="activite.html">Activité</a>
-        <a href="#">Tarif</a>
-        <a href="espace-membres.html">Membres</a>
-        <a href="contact.html">Contact</a>
-        <a href="https://openflyers.com/apam/" target="_blank">OpenFlyer</a>
-      </div>
-
-      <div class="footer-column">
-        <h4>Réseaux sociaux</h4>
-        <a href="https://www.instagram.com/_cauvin_" target="_blank">Instagram</a>
-        <a href="https://www.youtube.com/@DRONORD18" target="_blank">YouTube</a>
-        <a href="https://www.tiktok.com/@toncompte" target="_blank">TikTok</a>
-      </div>
-    </div>
-
-    <p class="copyright">
-      © 2025 APAM – Tous droits réservés.
-    </p>
-  </footer>
-
-  <!-- SCRIPTS -->
-  <script>
-    const menuToggle = document.querySelector(".menu-toggle");
-    const nav = document.querySelector(".main-nav");
-    if (menuToggle && nav) {
-      menuToggle.addEventListener("click", () => {
-        nav.classList.toggle("open");
-      });
-    }
-
-    const revealElements = document.querySelectorAll(".reveal");
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("visible");
-            observer.unobserve(entry.target);
-          }
-        });
-      },
-      { threshold: 0.15 }
-    );
-    revealElements.forEach((el) => observer.observe(el));
-
-    const contactModal = document.getElementById("contact-modal");
-    const contactPanels = document.querySelectorAll(".contact-panel");
-    const contactTriggers = document.querySelectorAll(".contact-trigger");
-    const contactCloseBtn = document.querySelector(".contact-modal-close");
-    const contactBackdrop = document.querySelector(".contact-modal-backdrop");
-    const kickerEl = document.getElementById("contact-modal-kicker");
-    const titleEl = document.getElementById("contact-modal-title");
-    const subtitleEl = document.getElementById("contact-modal-subtitle");
-
-    const modalTexts = {
-      organigramme: {
-        kicker: "Contact • Vie du club",
-        title: "Contacter le bureau de l’APAM",
-        subtitle: "Pour des questions générales sur l’aéroclub et l’organisation."
-      },
-      bapteme: {
-        kicker: "Contact • Baptêmes",
-        title: "Organiser un vol découverte / baptême",
-        subtitle: "Tarifs indicatifs et demande en quelques clics."
-      },
-      formation: {
-        kicker: "Contact • Formation pilote",
-        title: "Parler de votre projet de formation",
-        subtitle: "Pour échanger sur le parcours LAPL / PPL et les prochaines étapes."
-      },
-      voyages: {
-        kicker: "Contact • Voyages club",
-        title: "Renseignements voyages en partage de frais",
-        subtitle: "Pour rejoindre ou proposer des sorties club."
-      }
-    };
-
-    function openContactModal(key) {
-      if (!contactModal) return;
-      const cfg = modalTexts[key] || modalTexts.organigramme;
-      kickerEl.textContent = cfg.kicker;
-      titleEl.textContent = cfg.title;
-      subtitleEl.textContent = cfg.subtitle;
-
-      contactPanels.forEach((panel) => {
-        panel.classList.toggle(
-          "active",
-          panel.getAttribute("data-contact-panel") === key
-        );
-      });
-
-      contactModal.classList.add("open");
-      document.body.style.overflow = "hidden";
-      contactModal.setAttribute("aria-hidden", "false");
-    }
-
-    function closeContactModal() {
-      if (!contactModal) return;
-      contactModal.classList.remove("open");
-      document.body.style.overflow = "";
-      contactModal.setAttribute("aria-hidden", "true");
-    }
-
-    contactTriggers.forEach((trigger) => {
-      trigger.addEventListener("click", (e) => {
-        e.preventDefault();
-        openContactModal(trigger.getAttribute("data-contact"));
-      });
-    });
-
-    if (contactCloseBtn) {
-      contactCloseBtn.addEventListener("click", closeContactModal);
-    }
-    if (contactBackdrop) {
-      contactBackdrop.addEventListener("click", closeContactModal);
-    }
-    document.addEventListener("keydown", (e) => {
-      if (e.key === "Escape") closeContactModal();
-    });
-  </script>
 </body>
 </html>
