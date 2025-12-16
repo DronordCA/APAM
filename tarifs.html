@@ -7,19 +7,19 @@
 
   <style>
     /* =============================== */
-    /* FONTS (vos fichiers) */
+    /* FONTS */
     /* =============================== */
-    @font-face{
-      font-family:"GPMenu";
-      src:url("Helvetica Neue LT Pro 93 Black Extended.otf") format("opentype");
-      font-weight:900;
-      font-style:normal;
+    @font-face {
+      font-family: "GPMenu";
+      src: url("Helvetica Neue LT Pro 93 Black Extended.otf") format("opentype");
+      font-weight: 900;
+      font-style: normal;
     }
-    @font-face{
-      font-family:"Swiss911";
-      src:url("Swiss911-ExtraCompressed.otf") format("opentype");
-      font-weight:normal;
-      font-style:normal;
+    @font-face {
+      font-family: "Swiss911";
+      src: url("Swiss911-ExtraCompressed.otf") format("opentype");
+      font-weight: normal;
+      font-style: normal;
     }
 
     /* =============================== */
@@ -27,9 +27,6 @@
     /* =============================== */
     :root{
       --page-side-margin: 60px;
-      --accent: #2f6bff;
-      --accent-glow: rgba(47,107,255,0.28);
-
       --header-height: 50px;
       --header-font-size: 15px;
       --header-letter-spacing: -0.05em;
@@ -37,25 +34,31 @@
       --gap-logo-header: 62px;
       --header-grey: #222;
 
-      /* Dropdown flotte – panel GP (desktop) */
+      --accent: #2f6bff;
+      --accent-glow: rgba(47,107,255,0.28);
+      --ifr-red: #ff3b30;
+
       --panel-w: 200px;
-      --card-h: 100px;
+      --drop-card-h: 100px;
       --panel-radius: 6px;
       --panel-bg: #222;
       --panel-border: rgba(255,255,255,0.10);
       --drop-card-bg: #2a2a2a;
       --drop-card-border: rgba(255,255,255,0.10);
 
-      /* Page flotte */
-      --grid-gap: 26px;
-      --card-radius: 10px;
-      --card-bg: rgba(24,24,24,0.72);
+      --m-side: 18px;
+
+      /* flotte cards */
+      --grid-max: 1180px;
+      --grid-gap: 22px;
+
+      --card-radius: 14px;
+      --card-bg: rgba(20,20,20,0.78);
       --card-border: rgba(255,255,255,0.10);
+      --card-shadow: 0 26px 60px rgba(0,0,0,0.35);
 
       --blue-top: #2f6bff;
-      --blue-bot: #1f4fe0;
-
-      --m-side: 18px;
+      --blue-bot: #1f53ea;
     }
 
     /* =============================== */
@@ -64,54 +67,59 @@
     *{ box-sizing:border-box; margin:0; padding:0; }
     html, body{ height:100%; }
     body{
-      background:#000;
-      color:#fff;
+      background:#f7f7f7;
+      color:#111;
       font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
       overflow-x:hidden;
     }
 
     /* =============================== */
-    /* PAGE BG (même vibe que l’index) */
+    /* PAGE BACKGROUND (blanc + lignes) */
     /* =============================== */
     .page{
       min-height: 100svh;
       position: relative;
       overflow: hidden;
-      background:#000;
+      background: #f7f7f7;
     }
     .page::before{
       content:"";
       position:absolute;
       inset:0;
       background:
-        linear-gradient(90deg, rgba(0,0,0,0.84) 0%, rgba(0,0,0,0.62) 45%, rgba(0,0,0,0.40) 100%),
-        radial-gradient(circle at 10% 10%, rgba(255,255,255,0.10) 0, rgba(0,0,0,0) 52%),
-        url("image1.png");
-      background-size:cover;
-      background-position:center;
-      background-repeat:no-repeat;
-      filter:saturate(1.02) contrast(1.04);
+        radial-gradient(circle at 12% 10%, rgba(0,0,0,0.06) 0%, rgba(0,0,0,0) 55%),
+        radial-gradient(circle at 82% 25%, rgba(47,107,255,0.08) 0%, rgba(47,107,255,0) 58%),
+        repeating-linear-gradient(
+          0deg,
+          rgba(0,0,0,0.05) 0px,
+          rgba(0,0,0,0.05) 1px,
+          rgba(255,255,255,0) 1px,
+          rgba(255,255,255,0) 14px
+        ),
+        linear-gradient(180deg, #ffffff 0%, #f2f2f2 100%);
       z-index:0;
     }
-
-    /* léger grain */
     .page::after{
       content:"";
       position:absolute;
       inset:0;
       pointer-events:none;
-      opacity:.08;
+      opacity:.05;
       background-image:
         url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='.6'/%3E%3C/svg%3E");
-      mix-blend-mode: overlay;
+      mix-blend-mode:multiply;
       z-index:0;
     }
 
-    /* =============================== */
-    /* HEADER DESKTOP (copié de ton index) */
-    /* =============================== */
-    .site-header{ padding-top:20px; position:relative; z-index:10; }
+    .content{
+      position: relative;
+      z-index: 2;
+    }
 
+    /* =============================== */
+    /* HEADER DESKTOP (identique) */
+    /* =============================== */
+    .site-header { padding-top: 20px; position: relative; z-index: 10; }
     .header-row{
       display:flex;
       align-items:center;
@@ -123,17 +131,15 @@
       display:inline-block;
       text-decoration:none;
     }
-
     .header-logo img{
       height: var(--logo-height);
       display:block;
       opacity:0;
-      transform: translate3d(0,-16px,0) scale(0.92);
+      transform: translate3d(0, -16px, 0) scale(0.92);
       filter: blur(8px);
       transform-origin:center;
-      animation: logoPop 1.05s cubic-bezier(.16,1,.22,1) forwards;
+      animation: logoPop 1.05s cubic-bezier(.16, 1, .22, 1) forwards;
     }
-
     .header-logo::after{
       content:"";
       position:absolute;
@@ -147,12 +153,12 @@
     }
 
     @keyframes logoPop{
-      60%{ opacity:1; transform: translate3d(0,2px,0) scale(1.05); filter: blur(0px); }
-      100%{ opacity:1; transform: translate3d(0,0,0) scale(1); filter: blur(0px); }
+      60%{ opacity: 1; transform: translate3d(0, 2px, 0) scale(1.05); filter: blur(0px); }
+      100%{ opacity: 1; transform: translate3d(0, 0, 0) scale(1); filter: blur(0px); }
     }
     @keyframes logoGlow{
-      40%{ opacity:.55; }
-      100%{ opacity:0; }
+      40% { opacity: .55; }
+      100% { opacity: 0; }
     }
 
     .header-bar{
@@ -168,6 +174,7 @@
       position:relative;
       z-index:10;
       box-shadow: 0 2px 0 rgba(0,0,0,0.08);
+      border: 1px solid rgba(0,0,0,0.06);
     }
 
     .header-left{ display:flex; align-items:center; gap:34px; }
@@ -177,10 +184,10 @@
     .nav-item{ position:relative; display:inline-flex; align-items:center; }
 
     .nav-link{
-      font-family:"GPMenu",system-ui,sans-serif;
+      font-family:"GPMenu", system-ui, sans-serif;
       font-size: var(--header-font-size);
       letter-spacing: var(--header-letter-spacing);
-      text-transform:uppercase;
+      text-transform: uppercase;
       text-decoration:none;
       color: var(--header-grey);
       white-space:nowrap;
@@ -189,9 +196,7 @@
       line-height:1;
       padding:2px 0;
     }
-
-    /* Hover remplissage bleu */
-    .nav-link[data-text]{ color:transparent; }
+    .nav-link[data-text]{ color: transparent; }
     .nav-link[data-text]::before{
       content: attr(data-text);
       position:absolute; inset:0;
@@ -210,21 +215,25 @@
     .nav-link[data-text]:hover::after{ clip-path: inset(0 0 0 0); }
 
     .icon{
-      width:26px; height:26px;
-      display:inline-flex; align-items:center; justify-content:center;
-      cursor:pointer; text-decoration:none;
+      width: 26px;
+      height: 26px;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      cursor:pointer;
+      text-decoration:none;
     }
     .icon svg{ width:100%; height:100%; fill: var(--header-grey); }
 
     .btn-compte{
       position:relative;
       overflow:hidden;
-      font-family:"Swiss911",sans-serif;
-      font-size:25px;
-      letter-spacing:-0.04em;
-      text-transform:uppercase;
-      padding:6px 12px;
-      border:2px solid var(--header-grey);
+      font-family:"Swiss911", sans-serif;
+      font-size: 25px;
+      letter-spacing: -0.04em;
+      text-transform: uppercase;
+      padding: 6px 12px;
+      border: 2px solid var(--header-grey);
       background:#000;
       color:#fff;
       cursor:pointer;
@@ -234,8 +243,10 @@
     }
     .btn-compte::before{
       content:"";
-      position:absolute; left:0; top:0;
-      width:0; height:100%;
+      position:absolute;
+      left:0; top:0;
+      width:0;
+      height:100%;
       background: var(--accent);
       z-index:-1;
       transition: width .25s ease;
@@ -244,12 +255,13 @@
     .btn-compte:hover::before{ width:100%; }
 
     /* =============================== */
-    /* DROPDOWN FLOTTE — PANEL GP (DESKTOP) */
+    /* DROPDOWN FLOTTE (desktop) */
     /* =============================== */
     .nav-item.has-dropdown::before{
       content:"";
       position:absolute;
-      left:-22px; right:-22px;
+      left:-22px;
+      right:-22px;
       top:100%;
       height:18px;
     }
@@ -261,7 +273,7 @@
       transform: translateX(-50%);
       width: var(--panel-w);
       background: var(--panel-bg);
-      border:1px solid var(--panel-border);
+      border: 1px solid var(--panel-border);
       border-radius: var(--panel-radius);
       box-shadow: 0 22px 40px rgba(0,0,0,0.45);
       padding:10px;
@@ -273,7 +285,6 @@
       transition: opacity .18s ease;
       z-index:50;
     }
-
     .nav-item.has-dropdown:hover .fleet-panel{
       opacity:1;
       pointer-events:auto;
@@ -281,10 +292,10 @@
 
     .fleet-card{
       position:relative;
-      height: var(--card-h);
+      height: var(--drop-card-h);
       border-radius:6px;
       background: var(--drop-card-bg);
-      border:1px solid var(--drop-card-border);
+      border: 1px solid var(--drop-card-border);
       text-decoration:none;
       color:#fff;
       overflow:hidden;
@@ -295,11 +306,12 @@
       border-color: rgba(47,107,255,0.55);
       box-shadow: 0 0 0 1px rgba(47,107,255,0.25), 0 18px 30px rgba(0,0,0,0.35);
     }
-
     .fleet-name{
-      position:absolute; top:6px; left:50%;
+      position:absolute;
+      top:6px;
+      left:50%;
       transform: translateX(-50%);
-      font-family:"Swiss911",sans-serif;
+      font-family:"Swiss911", sans-serif;
       text-transform:uppercase;
       font-size:18px;
       letter-spacing:-0.02em;
@@ -308,12 +320,11 @@
       white-space:nowrap;
       pointer-events:none;
     }
-
     .fleet-plane{
       position:absolute;
       left:50%;
       top:52%;
-      transform: translate(-50%,-50%);
+      transform: translate(-50%, -50%);
       height:80px;
       max-width:88%;
       width:auto;
@@ -321,12 +332,12 @@
       pointer-events:none;
       filter: drop-shadow(0 10px 14px rgba(0,0,0,0.35));
     }
-
     .fleet-chev{
       position:absolute;
       right:14px;
       top:50%;
-      width:10px; height:10px;
+      width:10px;
+      height:10px;
       border-right:2px solid rgba(255,255,255,0.7);
       border-top:2px solid rgba(255,255,255,0.7);
       transform: translateY(-50%) rotate(45deg);
@@ -335,30 +346,29 @@
     }
     .fleet-card:hover .fleet-chev{
       border-color: var(--accent);
-      transform: translate(4px,-50%) rotate(45deg);
+      transform: translate(4px, -50%) rotate(45deg);
     }
-
     .fleet-cta{
       margin-top:2px;
       padding-top:10px;
-      border-top:1px solid rgba(255,255,255,0.10);
+      border-top: 1px solid rgba(255,255,255,0.10);
     }
     .fleet-cta a{
       display:flex;
       align-items:center;
       justify-content:space-between;
       gap:10px;
-      padding:10px 4px 2px;
+      padding: 10px 4px 2px;
       text-decoration:none;
       color: rgba(255,255,255,0.88);
-      font-family:"Swiss911",sans-serif;
+      font-family:"Swiss911", sans-serif;
       text-transform:uppercase;
       font-size:20px;
       letter-spacing:-0.02em;
-      font-style:italic;
+      font-style: italic;
     }
     .fleet-cta a .cta-chev{
-      width:10px; height:10px;
+      width:10px;height:10px;
       border-right:2px solid rgba(255,255,255,0.65);
       border-top:2px solid rgba(255,255,255,0.65);
       transform: rotate(45deg);
@@ -370,7 +380,7 @@
     }
 
     /* =============================== */
-    /* MOBILE : header GP + drawer full screen */
+    /* MOBILE HEADER + DRAWER (identique index) */
     /* =============================== */
     .m-header{ display:none; }
     .m-overlay{ display:none; }
@@ -404,9 +414,9 @@
         height:54px;
         display:block;
         opacity:0;
-        transform: translate3d(0,-14px,0) scale(0.94);
+        transform: translate3d(0, -14px, 0) scale(0.94);
         filter: blur(8px);
-        animation: logoPop 1.05s cubic-bezier(.16,1,.22,1) forwards;
+        animation: logoPop 1.05s cubic-bezier(.16, 1, .22, 1) forwards;
       }
       .m-logo::after{
         content:"";
@@ -421,7 +431,7 @@
       }
 
       .m-burger{
-        width:56px; height:56px;
+        width:56px;height:56px;
         background:#fff;
         border:0;
         border-radius:8px;
@@ -429,23 +439,14 @@
         align-items:center;
         justify-content:center;
         cursor:pointer;
-        box-shadow: 0 10px 18px rgba(0,0,0,0.35);
-        position:relative;
-        overflow:hidden;
+        box-shadow: 0 10px 18px rgba(0,0,0,0.25);
       }
       .m-burger span{
-        width:22px; height:2px;
-        background:#111;
-        position:relative;
-        display:block;
+        width:22px;height:2px;background:#111;position:relative;display:block;
       }
       .m-burger span::before,
       .m-burger span::after{
-        content:"";
-        position:absolute;
-        left:0;
-        width:22px; height:2px;
-        background:#111;
+        content:""; position:absolute; left:0; width:22px; height:2px; background:#111;
       }
       .m-burger span::before{ top:-7px; }
       .m-burger span::after{ top:7px; }
@@ -465,7 +466,7 @@
         position:fixed; inset:0;
         background: rgba(0,0,0,0.90);
         z-index:50;
-        transform: translate3d(26px,-26px,0);
+        transform: translate3d(26px, -26px, 0);
         opacity:0;
         pointer-events:none;
         transition: transform .42s cubic-bezier(.16,1,.22,1), opacity .28s ease;
@@ -491,7 +492,7 @@
       }
 
       .m-close{
-        width:56px; height:56px;
+        width:56px;height:56px;
         background:#fff;
         border:0;
         border-radius:8px;
@@ -505,7 +506,7 @@
       .m-close::before,
       .m-close::after{
         content:"";
-        width:24px; height:2px;
+        width:24px;height:2px;
         background:#111;
         position:absolute;
       }
@@ -519,13 +520,12 @@
       }
 
       .m-sub{
-        font-family:"GPMenu",system-ui,sans-serif;
+        font-family:"GPMenu", system-ui, sans-serif;
         text-transform:uppercase;
         letter-spacing:0.18em;
         font-size:11px;
         color: rgba(255,255,255,0.65);
       }
-
       .m-divider{
         margin:8px 0 6px;
         height:1px;
@@ -538,19 +538,18 @@
         gap:14px;
         padding-top:8px;
       }
-
       .m-link{
         text-decoration:none;
         color:#fff;
-        font-family:"Swiss911",sans-serif;
+        font-family:"Swiss911", sans-serif;
         text-transform:uppercase;
         font-size:44px;
         letter-spacing:-0.03em;
         line-height:0.92;
-        font-style:italic;
+        font-style: italic;
         transform: skewX(-6deg);
         transform-origin:left center;
-        opacity:.92;
+        opacity:0.92;
       }
       .m-link:hover{ color: var(--accent); }
 
@@ -561,15 +560,15 @@
         gap:12px;
         text-decoration:none;
         color:#fff;
-        font-family:"Swiss911",sans-serif;
+        font-family:"Swiss911", sans-serif;
         text-transform:uppercase;
         font-size:28px;
         letter-spacing:-0.02em;
-        font-style:italic;
-        opacity:.95;
+        font-style: italic;
+        opacity:0.95;
       }
       .m-cta i{
-        width:10px; height:10px;
+        width:10px;height:10px;
         border-right:2px solid rgba(255,255,255,0.70);
         border-top:2px solid rgba(255,255,255,0.70);
         transform: rotate(45deg);
@@ -581,6 +580,7 @@
         border-color: var(--accent);
       }
 
+      /* open state */
       body.m-open .m-overlay{ opacity:1; pointer-events:auto; }
       body.m-open .m-drawer{
         opacity:1; pointer-events:auto;
@@ -596,540 +596,580 @@
     }
 
     /* =============================== */
-    /* CONTENU PAGE FLOTT E */
+    /* TITLE "FLOTTE" (style GP) */
     /* =============================== */
-    main{
-      position:relative;
-      z-index:5;
-      padding: 30px var(--page-side-margin) 64px;
-    }
-
     .page-title{
-      margin-top: 26px;
-      display:inline-block;
+      margin: 26px var(--page-side-margin) 12px;
+      display:flex;
+      align-items:center;
+      gap: 14px;
+    }
+    .title-box{
       background:#fff;
       color:#000;
-      border:1px solid rgba(0,0,0,0.12);
-      box-shadow: 0 18px 34px rgba(0,0,0,0.35);
-      padding: 14px 18px 12px;
+      border: 1px solid rgba(0,0,0,0.12);
+      box-shadow: 0 18px 34px rgba(0,0,0,0.18);
+      padding: 18px 22px 14px;
+      display:inline-block;
     }
-    .page-title h1{
-      font-family:"Swiss911",sans-serif;
-      text-transform:uppercase;
-      font-style:italic;
-      letter-spacing:-0.03em;
-      line-height:0.9;
-      font-size: clamp(40px, 4.5vw, 70px);
+    .title-box span{
+      font-family:"Swiss911", sans-serif;
+      text-transform: uppercase;
+      letter-spacing: -0.02em;
+      font-size: 76px;
+      line-height: .9;
+      font-style: italic;
       transform: skewX(-6deg);
-      transform-origin:left center;
-      white-space:nowrap;
+      display:block;
+      white-space: nowrap;
     }
 
-    .grid{
-      margin-top: 28px;
+    /* =============================== */
+    /* GRID CARDS (centré + plus horizontal) */
+    /* =============================== */
+    .fleet-wrap{
+      max-width: var(--grid-max);
+      margin: 10px auto 46px;
+      padding: 0 var(--page-side-margin);
+    }
+
+    .fleet-grid{
       display:grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: var(--grid-gap);
-      max-width: 1080px;
+      align-items: stretch;
+      justify-items: stretch;
     }
 
-    @media (max-width: 980px){
-      main{ padding: 18px var(--page-side-margin) 42px; }
-      .page-title{ margin-top: 12px; }
-      .grid{ grid-template-columns: 1fr; gap: 18px; }
+    /* 3ème carte centrée en bas */
+    .fleet-card-big{
+      grid-column: 1 / -1;
+      max-width: calc((var(--grid-max) - (var(--page-side-margin) * 2) - var(--grid-gap)) / 2);
+      justify-self: center;
+      width: 100%;
     }
 
     /* =============================== */
-    /* CARD GP (2 par ligne) */
+    /* CARD STYLE (plus propre) */
     /* =============================== */
-    .gp-card{
-      position:relative;
+    .plane-card{
+      position: relative;
       border-radius: var(--card-radius);
       background: var(--card-bg);
       border: 1px solid var(--card-border);
-      overflow:hidden;
-      text-decoration:none;
+      box-shadow: var(--card-shadow);
+      overflow: hidden;
+      text-decoration: none;
       color:#fff;
-      box-shadow: 0 18px 38px rgba(0,0,0,0.38);
-      backdrop-filter: blur(6px);
-      -webkit-backdrop-filter: blur(6px);
-      transition: transform .20s ease, border-color .20s ease, box-shadow .20s ease;
+
+      /* plus horizontal */
+      height: 330px;
+
+      transform: translateZ(0);
+      transition: transform .22s cubic-bezier(.16,1,.22,1), box-shadow .22s ease, border-color .22s ease;
     }
 
-    .gp-card:hover{
-      transform: translateY(-3px);
-      border-color: rgba(47,107,255,0.45);
-      box-shadow: 0 0 0 1px rgba(47,107,255,0.14), 0 22px 44px rgba(0,0,0,0.46);
+    .plane-card:hover{
+      transform: translateY(-6px);
+      border-color: rgba(47,107,255,0.35);
+      box-shadow: 0 26px 70px rgba(0,0,0,0.40), 0 0 0 1px rgba(47,107,255,0.18);
     }
 
-    .gp-card__top{
-      padding: 14px 16px 0;
+    /* fond interne léger (dégradé) */
+    .plane-card::before{
+      content:"";
+      position:absolute; inset:0;
+      background:
+        radial-gradient(circle at 30% 10%, rgba(255,255,255,0.06) 0%, rgba(255,255,255,0) 55%),
+        linear-gradient(180deg, rgba(255,255,255,0.02) 0%, rgba(0,0,0,0.30) 100%);
+      pointer-events:none;
+    }
+
+    /* flèche en carré blanc */
+    .card-arrow{
+      position:absolute;
+      top: 14px;
+      right: 14px;
+      width: 42px;
+      height: 42px;
+      border-radius: 10px;
+      background:#fff;
+      box-shadow: 0 14px 26px rgba(0,0,0,0.30);
       display:flex;
-      align-items:flex-start;
-      justify-content:space-between;
-      gap: 12px;
+      align-items:center;
+      justify-content:center;
+      z-index: 3;
+    }
+    .card-arrow i{
+      width: 14px;
+      height: 14px;
+      border-right: 3px solid #000;
+      border-top: 3px solid #000;
+      transform: rotate(45deg);
+      margin-left: -2px;
     }
 
-    .gp-card__title{
-      font-family:"Swiss911",sans-serif;
-      text-transform:uppercase;
-      font-style:italic;
-      letter-spacing:-0.03em;
-      font-size: 30px;
+    /* header texte */
+    .card-top{
+      position: relative;
+      z-index: 2;
+      padding: 18px 18px 0;
+    }
+    .card-name{
+      display:flex;
+      align-items: baseline;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .card-name h3{
+      font-family:"Swiss911", sans-serif;
+      text-transform: uppercase;
+      font-style: italic;
+      letter-spacing: -0.02em;
+      font-size: 34px;
       line-height: 1;
       transform: skewX(-6deg);
-      transform-origin:left center;
-      margin-bottom: 6px;
+      margin-right: 2px;
     }
 
-    .gp-card__subtitle{
-      font-family:"GPMenu",system-ui,sans-serif;
-      text-transform:uppercase;
-      letter-spacing: 0.16em;
-      font-size: 11px;
-      color: rgba(255,255,255,0.78);
-    }
-
-    /* chevron style GP */
-    .gp-card__chev{
-      margin-top: 8px;
-      width: 10px; height: 10px;
-      border-right: 2px solid rgba(255,255,255,0.70);
-      border-top: 2px solid rgba(255,255,255,0.70);
-      transform: rotate(45deg);
-      transition: transform .18s ease, border-color .18s ease;
-      opacity:.9;
-      flex: 0 0 auto;
-    }
-    .gp-card:hover .gp-card__chev{
-      border-color: var(--accent);
-      transform: translateX(4px) rotate(45deg);
-    }
-
-    .gp-card__visual{
-      position:relative;
-      height: 245px; /* ✅ avion + grand */
-      padding: 6px 12px 8px;
-    }
-
-    .gp-card__img{
-      width:100%;
-      height:100%;
-      object-fit:contain;
-      transform: translateY(6px) scale(1.10);
-      transition: transform .22s ease;
-      filter: drop-shadow(0 14px 18px rgba(0,0,0,0.40));
-      pointer-events:none;
-      user-select:none;
-    }
-    .gp-card:hover .gp-card__img{
-      transform: translateY(4px) scale(1.13);
-    }
-
-    /* Badges */
-    .gp-badges{
-      position:absolute;
-      top: 10px;
-      left: 10px;
+    /* badges VFR/IFR (propres, placés à droite ou dessous) */
+    .badges{
       display:flex;
       gap: 8px;
-      z-index: 2;
+      align-items:center;
+      margin-top: 10px;
     }
-
-    .gp-badge{
-      padding: 7px 10px 6px;
-      border-radius: 6px;
-      background: rgba(0,0,0,0.75);
-      border: 1px solid rgba(255,255,255,0.18);
-      box-shadow: 0 10px 18px rgba(0,0,0,0.35);
-      font-family:"GPMenu",system-ui,sans-serif;
-      text-transform:uppercase;
-      letter-spacing:0.18em;
-      font-size:11px;
+    .badge{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      height: 26px;
+      padding: 0 10px;
+      border-radius: 8px;
+      font-family:"GPMenu", system-ui, sans-serif;
+      font-size: 12px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
       color:#fff;
-      line-height:1;
-      user-select:none;
-      white-space:nowrap;
+      background: rgba(0,0,0,0.35);
+      border: 1px solid rgba(47,107,255,0.55);
+      box-shadow: 0 0 0 1px rgba(0,0,0,0.18) inset;
+    }
+    .badge.ifr{
+      border-color: rgba(255,59,48,0.95);
+      box-shadow: 0 0 0 1px rgba(255,59,48,0.25) inset;
     }
 
-    .gp-badge--vfr{
-      border-color: rgba(47,107,255,0.65);
-      box-shadow: 0 0 0 1px rgba(47,107,255,0.18), 0 10px 18px rgba(0,0,0,0.35);
+    /* zone avion (animation hover) */
+    .card-plane{
+      position:absolute;
+      left: 50%;
+      top: 48%;
+      transform: translate(-50%, -50%);
+      width: min(520px, 86%);
+      height: 150px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      z-index: 2;
+      pointer-events:none;
     }
-    .gp-badge--ifr{
-      border-color: rgba(255,255,255,0.45);
-      box-shadow: 0 0 0 1px rgba(255,255,255,0.12), 0 10px 18px rgba(0,0,0,0.35);
+    .card-plane img{
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      filter: drop-shadow(0 14px 18px rgba(0,0,0,0.35));
+      transform: translateX(0) rotate(0deg) scale(1.06);
+      transition: transform .28s cubic-bezier(.16,1,.22,1);
+    }
+    .plane-card:hover .card-plane img{
+      transform: translateX(14px) rotate(-1.2deg) scale(1.10);
     }
 
-    /* Bande bleue (opaque) */
-    .gp-card__blue{
+    /* bloc bleu (opaque, vrai bleu) */
+    .card-bottom{
+      position:absolute;
+      left:0; right:0; bottom:0;
+      height: 122px;
       background: linear-gradient(180deg, var(--blue-top) 0%, var(--blue-bot) 100%);
       border-top: 1px solid rgba(255,255,255,0.18);
-      box-shadow: inset 0 1px 0 rgba(255,255,255,0.14);
-      padding: 12px 12px 10px;
-    }
-
-    .gp-card__blueGrid{
+      z-index: 2;
+      padding: 12px 16px 10px;
       display:grid;
       grid-template-columns: 1fr 1fr;
-      gap: 10px 12px;
-      align-items:start;
+      gap: 14px;
     }
 
-    .gp-card__label{
-      font-family:"GPMenu",system-ui,sans-serif;
-      text-transform:uppercase;
-      letter-spacing:0.16em;
-      font-size:11px;
-      color: rgba(255,255,255,0.85);
+    .bottom-col h4{
+      font-family:"GPMenu", system-ui, sans-serif;
+      font-size: 12px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      opacity: 0.95;
       margin-bottom: 6px;
     }
-
-    .gp-card__list{
+    .bottom-col ul{
       list-style:none;
       display:flex;
       flex-direction:column;
-      gap: 6px;
-      font-family:"GPMenu",system-ui,sans-serif;
-      letter-spacing:-0.02em;
-      font-size:12px;
-      color: rgba(255,255,255,0.95);
+      gap: 4px;
+      font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+      font-size: 14px;
+      line-height: 1.15;
+      opacity: 0.98;
     }
-    .gp-card__list li{
-      position:relative;
-      padding-left: 10px;
+    .bottom-col li{
+      display:flex;
+      gap: 8px;
+      align-items: baseline;
+      white-space: nowrap;
     }
-    .gp-card__list li::before{
-      content:"";
-      position:absolute;
-      left:0;
-      top: 6px;
-      width:4px; height:4px;
-      border-radius: 1px;
+    .dot{
+      width: 6px; height: 6px;
+      border-radius: 999px;
       background: rgba(255,255,255,0.95);
-      opacity:.95;
+      margin-top: 6px;
+      flex: 0 0 auto;
+      opacity: 0.95;
     }
 
-    /* petit footer ligne + CTA */
-    .gp-card__footer{
-      margin-top: 10px;
-      padding-top: 10px;
-      border-top: 1px solid rgba(255,255,255,0.18);
+    /* footer ligne "à partir de" + petit tag VFR/IFR */
+    .bottom-foot{
+      position:absolute;
+      left: 16px;
+      right: 16px;
+      bottom: 10px;
       display:flex;
       align-items:center;
       justify-content:space-between;
       gap: 10px;
+      z-index: 3;
+      pointer-events:none;
     }
-    .gp-card__price{
-      font-family:"Swiss911",sans-serif;
-      text-transform:uppercase;
-      font-style:italic;
-      letter-spacing:-0.02em;
-      font-size: 22px;
-      line-height: 1;
-      opacity:.98;
+    .from{
+      font-family:"Swiss911", sans-serif;
+      text-transform: uppercase;
+      font-style: italic;
+      letter-spacing: -0.02em;
+      transform: skewX(-6deg);
+      font-size: 18px;
+      color: rgba(255,255,255,0.98);
     }
-    .gp-card__cta{
+    .mini-tag{
+      font-family:"Swiss911", sans-serif;
+      text-transform: uppercase;
+      font-style: italic;
+      letter-spacing: -0.02em;
+      transform: skewX(-6deg);
+      font-size: 16px;
+      color: rgba(255,255,255,0.95);
       display:inline-flex;
       align-items:center;
-      gap: 10px;
-      font-family:"Swiss911",sans-serif;
-      text-transform:uppercase;
-      font-style:italic;
-      letter-spacing:-0.02em;
-      font-size: 20px;
-      color: rgba(255,255,255,0.95);
-      white-space:nowrap;
+      gap: 8px;
     }
-    .gp-card__cta i{
-      width:10px; height:10px;
-      border-right:2px solid rgba(255,255,255,0.75);
-      border-top:2px solid rgba(255,255,255,0.75);
+    .mini-tag .chev{
+      width:10px;height:10px;
+      border-right:2px solid rgba(255,255,255,0.95);
+      border-top:2px solid rgba(255,255,255,0.95);
       transform: rotate(45deg);
-      transition: transform .18s ease, border-color .18s ease;
-    }
-    .gp-card:hover .gp-card__cta{ color:#fff; }
-    .gp-card:hover .gp-card__cta i{
-      transform: translateX(4px) rotate(45deg);
-      border-color:#fff;
     }
 
-    /* accessibilité focus */
-    .gp-card:focus-visible{
-      outline: 2px solid rgba(47,107,255,0.85);
-      outline-offset: 3px;
+    /* =============================== */
+    /* RESPONSIVE (cards) */
+    /* =============================== */
+    @media (max-width: 980px){
+      .page-title{ margin: 18px var(--page-side-margin) 10px; }
+      .title-box span{ font-size: 56px; }
+
+      .fleet-wrap{ padding: 0 var(--page-side-margin); }
+      .fleet-grid{ grid-template-columns: 1fr; }
+      .fleet-card-big{
+        grid-column: auto;
+        max-width: none;
+        justify-self: stretch;
+      }
+      .plane-card{ height: 330px; }
+
+      .card-plane{ top: 50%; width: 92%; height: 140px; }
     }
   </style>
 </head>
 
 <body>
   <div class="page">
+    <div class="content">
 
-    <!-- ✅ HEADER MOBILE -->
-    <div class="m-header" aria-label="Header mobile">
-      <a class="m-logo" href="index.html" aria-label="Retour accueil (logo)">
-        <img src="apam-logo1.png" alt="Logo APAM">
-      </a>
-      <button class="m-burger" type="button" aria-label="Ouvrir le menu" aria-expanded="false">
-        <span aria-hidden="true"></span>
-      </button>
-    </div>
-
-    <div class="m-overlay" aria-hidden="true"></div>
-
-    <!-- ✅ DRAWER FULLSCREEN -->
-    <aside class="m-drawer" id="m-drawer" aria-hidden="true" aria-label="Menu">
-      <div class="m-drawer-top">
+      <!-- ✅ HEADER MOBILE -->
+      <div class="m-header" aria-label="Header mobile">
         <a class="m-logo" href="index.html" aria-label="Retour accueil (logo)">
           <img src="apam-logo1.png" alt="Logo APAM">
         </a>
-        <button class="m-close" type="button" aria-label="Fermer le menu"></button>
+        <button class="m-burger" type="button" aria-label="Ouvrir le menu" aria-expanded="false">
+          <span aria-hidden="true"></span>
+        </button>
       </div>
 
-      <div class="m-drawer-inner">
-        <div class="m-sub">NAVIGATION</div>
-        <div class="m-divider"></div>
+      <div class="m-overlay" aria-hidden="true"></div>
 
-        <nav class="m-nav" aria-label="Liens principaux">
-          <a class="m-link" href="tarifs.html">FLOTTE</a>
-          <a class="m-link" href="activite.html">ACTIVITÉS</a>
-          <a class="m-link" href="ressources.html">RESSOURCES</a>
-          <a class="m-link" href="contact.html">CONTACT</a>
-          <a class="m-link" href="espace-membres.html">MEMBRES</a>
-          <a class="m-link" href="https://openflyers.com/apam/" target="_blank" rel="noopener noreferrer">OPENFLYER</a>
-        </nav>
+      <!-- ✅ DRAWER FULLSCREEN -->
+      <aside class="m-drawer" id="m-drawer" aria-hidden="true" aria-label="Menu">
+        <div class="m-drawer-top">
+          <a class="m-logo" href="index.html" aria-label="Retour accueil (logo)">
+            <img src="apam-logo1.png" alt="Logo APAM">
+          </a>
+          <button class="m-close" type="button" aria-label="Fermer le menu"></button>
+        </div>
 
-        <a class="m-cta" href="espace-membres.html" aria-label="Mon compte">
-          MON COMPTE <i aria-hidden="true"></i>
-        </a>
-      </div>
-    </aside>
+        <div class="m-drawer-inner">
+          <div class="m-sub">NAVIGATION</div>
+          <div class="m-divider"></div>
 
-    <!-- ✅ HEADER DESKTOP -->
-    <header class="site-header">
-      <div class="header-row">
-        <a class="header-logo" href="index.html" aria-label="Retour accueil (logo)">
-          <img src="apam-logo1.png" alt="Logo APAM">
-        </a>
+          <nav class="m-nav" aria-label="Liens principaux">
+            <a class="m-link" href="tarifs.html">FLOTTE</a>
+            <a class="m-link" href="activite.html">ACTIVITÉS</a>
+            <a class="m-link" href="ressources.html">RESSOURCES</a>
+            <a class="m-link" href="contact.html">CONTACT</a>
+            <a class="m-link" href="espace-membres.html">MEMBRES</a>
+            <a class="m-link" href="https://openflyers.com/apam/" target="_blank" rel="noopener noreferrer">OPENFLYER</a>
+          </nav>
 
-        <div class="header-bar">
-          <div class="header-left">
-            <nav class="nav-menu">
-              <span class="nav-item has-dropdown">
-                <a href="tarifs.html" class="nav-link" data-text="FLOTTE">FLOTTE</a>
+          <a class="m-cta" href="espace-membres.html" aria-label="Mon compte">
+            MON COMPTE <i aria-hidden="true"></i>
+          </a>
+        </div>
+      </aside>
 
-                <div class="fleet-panel" role="menu" aria-label="Menu flotte">
-                  <a class="fleet-card" href="tarifs.html" aria-label="Cessna 152">
-                    <div class="fleet-name">CESSNA 152</div>
-                    <img class="fleet-plane" src="FGHKE1.png.tiff" alt="Cessna 152">
-                    <span class="fleet-chev" aria-hidden="true"></span>
-                  </a>
+      <!-- ✅ HEADER DESKTOP -->
+      <header class="site-header">
+        <div class="header-row">
 
-                  <a class="fleet-card" href="tarifs.html" aria-label="TB200">
-                    <div class="fleet-name">TB200</div>
-                    <img class="fleet-plane" src="TB200M.png.tiff" alt="TB200">
-                    <span class="fleet-chev" aria-hidden="true"></span>
-                  </a>
+          <a class="header-logo" href="index.html" aria-label="Retour accueil (logo)">
+            <img src="apam-logo1.png" alt="Logo APAM">
+          </a>
 
-                  <a class="fleet-card" href="tarifs.html" aria-label="Cirrus SR22">
-                    <div class="fleet-name">CIRRUS SR22</div>
-                    <img class="fleet-plane" src="SR1.png.tiff" alt="Cirrus SR22">
-                    <span class="fleet-chev" aria-hidden="true"></span>
-                  </a>
+          <div class="header-bar">
 
-                  <div class="fleet-cta">
-                    <a href="tarifs.html" aria-label="Voir toute la flotte">
-                      <span>VOIR TOUTE LA FLOTTE</span>
-                      <i class="cta-chev" aria-hidden="true"></i>
+            <div class="header-left">
+              <nav class="nav-menu">
+
+                <span class="nav-item has-dropdown">
+                  <a href="tarifs.html" class="nav-link" data-text="FLOTTE">FLOTTE</a>
+
+                  <div class="fleet-panel" role="menu" aria-label="Menu flotte">
+                    <a class="fleet-card" href="tarifs.html" aria-label="Cessna 152">
+                      <div class="fleet-name">CESSNA 152</div>
+                      <img class="fleet-plane" src="FGHKE1.png.tiff" alt="Cessna 152">
+                      <span class="fleet-chev" aria-hidden="true"></span>
                     </a>
+
+                    <a class="fleet-card" href="tarifs.html" aria-label="TB200">
+                      <div class="fleet-name">TB200</div>
+                      <img class="fleet-plane" src="TB200M.png.tiff" alt="TB200">
+                      <span class="fleet-chev" aria-hidden="true"></span>
+                    </a>
+
+                    <a class="fleet-card" href="tarifs.html" aria-label="Cirrus SR22">
+                      <div class="fleet-name">CIRRUS SR22</div>
+                      <img class="fleet-plane" src="SR1.png.tiff" alt="Cirrus SR22">
+                      <span class="fleet-chev" aria-hidden="true"></span>
+                    </a>
+
+                    <div class="fleet-cta">
+                      <a href="tarifs.html" aria-label="Voir toute la flotte">
+                        <span>VOIR TOUTE LA FLOTTE</span>
+                        <i class="cta-chev" aria-hidden="true"></i>
+                      </a>
+                    </div>
                   </div>
-                </div>
-              </span>
+                </span>
 
-              <span class="nav-item">
-                <a href="activite.html" class="nav-link" data-text="ACTIVITÉS">ACTIVITÉS</a>
-              </span>
-              <span class="nav-item">
-                <a href="ressources.html" class="nav-link" data-text="RESSOURCES">RESSOURCES</a>
-              </span>
-              <span class="nav-item">
-                <a href="contact.html" class="nav-link" data-text="CONTACT">CONTACT</a>
-              </span>
-              <span class="nav-item">
-                <a href="espace-membres.html" class="nav-link" data-text="MEMBRES">MEMBRES</a>
-              </span>
-              <span class="nav-item">
-                <a href="https://openflyers.com/apam/" target="_blank" rel="noopener noreferrer" class="nav-link" data-text="OPENFLYER">OPENFLYER</a>
-              </span>
-            </nav>
-          </div>
+                <span class="nav-item">
+                  <a href="activite.html" class="nav-link" data-text="ACTIVITÉS">ACTIVITÉS</a>
+                </span>
+                <span class="nav-item">
+                  <a href="ressources.html" class="nav-link" data-text="RESSOURCES">RESSOURCES</a>
+                </span>
+                <span class="nav-item">
+                  <a href="contact.html" class="nav-link" data-text="CONTACT">CONTACT</a>
+                </span>
+                <span class="nav-item">
+                  <a href="espace-membres.html" class="nav-link" data-text="MEMBRES">MEMBRES</a>
+                </span>
+                <span class="nav-item">
+                  <a href="https://openflyers.com/apam/" target="_blank" rel="noopener noreferrer"
+                    class="nav-link" data-text="OPENFLYER">OPENFLYER</a>
+                </span>
 
-          <div class="header-right">
-            <a class="icon" href="#" aria-label="Instagram">
-              <svg viewBox="0 0 24 24">
-                <path d="M7 2C4.2 2 2 4.2 2 7v10c0 2.8 2.2 5 5 5h10c2.8 0 5-2.2 5-5V7c0-2.8-2.2-5-5-5H7zm10 2c1.7 0 3 1.3 3 3v10c0 1.7-1.3 3-3 3H7c-1.7 0-3-1.3-3-3V7c0-1.7 1.3-3 3-3h10zm-5 3.5A4.5 4.5 0 1 0 16.5 12 4.51 4.51 0 0 0 12 7.5zm0 7A2.5 2.5 0 1 1 14.5 12 2.5 2.5 0 0 1 12 14.5zm4.8-8.9a1.1 1.1 0 1 1-1.1 1.1c0-.6.5-1.1 1.1-1.1z"/>
-              </svg>
-            </a>
+              </nav>
+            </div>
 
-            <a class="icon" href="mailto:contact@apam.fr" aria-label="Email">
-              <svg viewBox="0 0 24 24">
-                <path d="M4 4h16a2 2 0 0 1 2 2v1l-10 6L2 7V6a2 2 0 0 1 2-2zm18 5v9a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V9l10 6 10-6z"/>
-              </svg>
-            </a>
+            <div class="header-right">
+              <a class="icon" href="#" aria-label="Instagram">
+                <svg viewBox="0 0 24 24">
+                  <path d="M7 2C4.2 2 2 4.2 2 7v10c0 2.8 2.2 5 5 5h10c2.8 0 5-2.2 5-5V7c0-2.8-2.2-5-5-5H7zm10 2c1.7 0 3 1.3 3 3v10c0 1.7-1.3 3-3 3H7c-1.7 0-3-1.3-3-3V7c0-1.7 1.3-3 3-3h10zm-5 3.5A4.5 4.5 0 1 0 16.5 12 4.51 4.51 0 0 0 12 7.5zm0 7A2.5 2.5 0 1 1 14.5 12 2.5 2.5 0 0 1 12 14.5zm4.8-8.9a1.1 1.1 0 1 1-1.1 1.1c0-.6.5-1.1 1.1-1.1z"/>
+                </svg>
+              </a>
 
-            <button class="btn-compte" type="button">MON COMPTE</button>
+              <a class="icon" href="mailto:contact@apam.fr" aria-label="Email">
+                <svg viewBox="0 0 24 24">
+                  <path d="M4 4h16a2 2 0 0 1 2 2v1l-10 6L2 7V6a2 2 0 0 1 2-2zm18 5v9a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V9l10 6 10-6z"/>
+                </svg>
+              </a>
+
+              <button class="btn-compte" type="button">MON COMPTE</button>
+            </div>
+
           </div>
         </div>
-      </div>
-    </header>
+      </header>
 
-    <!-- =============================== -->
-    <!-- MAIN -->
-    <!-- =============================== -->
-    <main>
+      <!-- TITLE -->
       <div class="page-title" aria-label="Titre page">
-        <h1>FLOTTE</h1>
+        <div class="title-box"><span>FLOTTE</span></div>
       </div>
 
-      <section class="grid" aria-label="Cartes avions">
-        <!-- ================= CARD 1: C152 ================= -->
-        <a class="gp-card" href="tarifs.html" aria-label="Cessna 152 – détails">
-          <div class="gp-card__top">
-            <div>
-              <div class="gp-card__title">CESSNA 152</div>
-              <div class="gp-card__subtitle">ÉCOLE • INITIATION • VFR</div>
-            </div>
-            <span class="gp-card__chev" aria-hidden="true"></span>
-          </div>
+      <!-- GRID -->
+      <main class="fleet-wrap" aria-label="Cartes flotte">
+        <section class="fleet-grid">
 
-          <div class="gp-card__visual">
-            <div class="gp-badges">
-              <div class="gp-badge gp-badge--vfr">VFR</div>
-            </div>
-            <img class="gp-card__img" src="FGHKE1.png.tiff" alt="Cessna 152">
-          </div>
+          <!-- C152 -->
+          <a class="plane-card" href="cessna152.html" aria-label="Cessna 152">
+            <div class="card-arrow" aria-hidden="true"><i></i></div>
 
-          <div class="gp-card__blue" aria-label="Specs et tarifs">
-            <div class="gp-card__blueGrid">
-              <div>
-                <div class="gp-card__label">SPECS</div>
-                <ul class="gp-card__list">
-                  <li>2 places</li>
-                  <li>Vitesse croisière : —</li>
-                  <li>Autonomie : —</li>
-                </ul>
+            <div class="card-top">
+              <div class="card-name">
+                <h3>CESSNA 152</h3>
               </div>
 
-              <div>
-                <div class="gp-card__label">TARIFS</div>
-                <ul class="gp-card__list">
-                  <li>Dry : — €/h</li>
-                  <li>Wet : — €/h</li>
-                  <li>Instruction : — €/h</li>
-                </ul>
+              <!-- ✅ plus de ligne “initiation” : juste badge -->
+              <div class="badges">
+                <span class="badge">VFR</span>
               </div>
             </div>
 
-            <div class="gp-card__footer">
-              <div class="gp-card__price">À PARTIR DE — €/H</div>
-              <div class="gp-card__cta">VOIR <i aria-hidden="true"></i></div>
+            <div class="card-plane">
+              <img src="FGHKE1.png.tiff" alt="Cessna 152">
             </div>
-          </div>
-        </a>
 
-        <!-- ================= CARD 2: TB200 (VFR) ================= -->
-        <a class="gp-card" href="tarifs.html" aria-label="TB200 – détails">
-          <div class="gp-card__top">
-            <div>
-              <div class="gp-card__title">TB200</div>
-              <div class="gp-card__subtitle">VOYAGE • PERFORMANCE • VFR</div>
-            </div>
-            <span class="gp-card__chev" aria-hidden="true"></span>
-          </div>
-
-          <div class="gp-card__visual">
-            <div class="gp-badges">
-              <div class="gp-badge gp-badge--vfr">VFR</div>
-            </div>
-            <img class="gp-card__img" src="TB200M.png.tiff" alt="TB200">
-          </div>
-
-          <div class="gp-card__blue" aria-label="Specs et tarifs">
-            <div class="gp-card__blueGrid">
-              <div>
-                <div class="gp-card__label">SPECS</div>
-                <ul class="gp-card__list">
-                  <li>— places</li>
-                  <li>Vitesse croisière : —</li>
-                  <li>Autonomie : —</li>
+            <div class="card-bottom">
+              <div class="bottom-col">
+                <h4>SPECS</h4>
+                <ul>
+                  <li><span class="dot"></span><span>2 places</span></li>
+                  <li><span class="dot"></span><span>Vitesse croisière : —</span></li>
+                  <li><span class="dot"></span><span>Autonomie : —</span></li>
                 </ul>
               </div>
 
-              <div>
-                <div class="gp-card__label">TARIFS</div>
-                <ul class="gp-card__list">
-                  <li>Dry : — €/h</li>
-                  <li>Wet : — €/h</li>
-                  <li>Instruction : — €/h</li>
-                </ul>
-              </div>
-            </div>
-
-            <div class="gp-card__footer">
-              <div class="gp-card__price">À PARTIR DE — €/H</div>
-              <div class="gp-card__cta">VOIR <i aria-hidden="true"></i></div>
-            </div>
-          </div>
-        </a>
-
-        <!-- ================= CARD 3: SR22 (VFR + IFR) ================= -->
-        <a class="gp-card" href="tarifs.html" aria-label="Cirrus SR22 – détails">
-          <div class="gp-card__top">
-            <div>
-              <div class="gp-card__title">CIRRUS SR22</div>
-              <div class="gp-card__subtitle">VOYAGE • AVIONIQUE • VFR/IFR</div>
-            </div>
-            <span class="gp-card__chev" aria-hidden="true"></span>
-          </div>
-
-          <div class="gp-card__visual">
-            <div class="gp-badges">
-              <div class="gp-badge gp-badge--vfr">VFR</div>
-              <div class="gp-badge gp-badge--ifr">IFR</div>
-            </div>
-            <img class="gp-card__img" src="SR1.png.tiff" alt="Cirrus SR22">
-          </div>
-
-          <div class="gp-card__blue" aria-label="Specs et tarifs">
-            <div class="gp-card__blueGrid">
-              <div>
-                <div class="gp-card__label">SPECS</div>
-                <ul class="gp-card__list">
-                  <li>— places</li>
-                  <li>Vitesse croisière : —</li>
-                  <li>Autonomie : —</li>
+              <div class="bottom-col">
+                <h4>TARIFS</h4>
+                <ul>
+                  <li><span class="dot"></span><span>Dry : — €/h</span></li>
+                  <li><span class="dot"></span><span>Wet : — €/h</span></li>
+                  <li><span class="dot"></span><span>Instruction : — €/h</span></li>
                 </ul>
               </div>
 
-              <div>
-                <div class="gp-card__label">TARIFS</div>
-                <ul class="gp-card__list">
-                  <li>Dry : — €/h</li>
-                  <li>Wet : — €/h</li>
-                  <li>Instruction : — €/h</li>
-                </ul>
+              <div class="bottom-foot">
+                <div class="from">À PARTIR DE — €/H</div>
+                <div class="mini-tag">VFR <span class="chev"></span></div>
+              </div>
+            </div>
+          </a>
+
+          <!-- TB200 -->
+          <a class="plane-card" href="tb200.html" aria-label="TB200">
+            <div class="card-arrow" aria-hidden="true"><i></i></div>
+
+            <div class="card-top">
+              <div class="card-name">
+                <h3>TB200</h3>
+              </div>
+
+              <div class="badges">
+                <span class="badge">VFR</span>
               </div>
             </div>
 
-            <div class="gp-card__footer">
-              <div class="gp-card__price">À PARTIR DE — €/H</div>
-              <div class="gp-card__cta">VOIR <i aria-hidden="true"></i></div>
+            <div class="card-plane">
+              <img src="TB200M.png.tiff" alt="TB200">
             </div>
-          </div>
-        </a>
-      </section>
-    </main>
 
+            <div class="card-bottom">
+              <div class="bottom-col">
+                <h4>SPECS</h4>
+                <ul>
+                  <li><span class="dot"></span><span>— places</span></li>
+                  <li><span class="dot"></span><span>Vitesse croisière : —</span></li>
+                  <li><span class="dot"></span><span>Autonomie : —</span></li>
+                </ul>
+              </div>
+
+              <div class="bottom-col">
+                <h4>TARIFS</h4>
+                <ul>
+                  <li><span class="dot"></span><span>Dry : — €/h</span></li>
+                  <li><span class="dot"></span><span>Wet : — €/h</span></li>
+                  <li><span class="dot"></span><span>Instruction : — €/h</span></li>
+                </ul>
+              </div>
+
+              <div class="bottom-foot">
+                <div class="from">À PARTIR DE — €/H</div>
+                <div class="mini-tag">VFR <span class="chev"></span></div>
+              </div>
+            </div>
+          </a>
+
+          <!-- SR22 (centrée en bas) -->
+          <a class="plane-card fleet-card-big" href="sr22.html" aria-label="Cirrus SR22">
+            <div class="card-arrow" aria-hidden="true"><i></i></div>
+
+            <div class="card-top">
+              <div class="card-name">
+                <h3>CIRRUS SR22</h3>
+              </div>
+
+              <div class="badges">
+                <span class="badge">VFR</span>
+                <span class="badge ifr">IFR</span>
+              </div>
+            </div>
+
+            <div class="card-plane">
+              <img src="SR1.png.tiff" alt="Cirrus SR22">
+            </div>
+
+            <div class="card-bottom">
+              <div class="bottom-col">
+                <h4>SPECS</h4>
+                <ul>
+                  <li><span class="dot"></span><span>— places</span></li>
+                  <li><span class="dot"></span><span>Vitesse croisière : —</span></li>
+                  <li><span class="dot"></span><span>Avionique : —</span></li>
+                </ul>
+              </div>
+
+              <div class="bottom-col">
+                <h4>TARIFS</h4>
+                <ul>
+                  <li><span class="dot"></span><span>Dry : — €/h</span></li>
+                  <li><span class="dot"></span><span>Wet : — €/h</span></li>
+                  <li><span class="dot"></span><span>Instruction : — €/h</span></li>
+                </ul>
+              </div>
+
+              <div class="bottom-foot">
+                <div class="from">À PARTIR DE — €/H</div>
+                <div class="mini-tag">VFR/IFR <span class="chev"></span></div>
+              </div>
+            </div>
+          </a>
+
+        </section>
+      </main>
+
+    </div>
   </div>
 
   <script>
@@ -1160,14 +1200,14 @@
 
       function openDrawer(){
         document.body.classList.add('m-open');
-        if(openBtn) openBtn.setAttribute('aria-expanded','true');
-        if(drawer) drawer.setAttribute('aria-hidden','false');
+        if(openBtn) openBtn.setAttribute('aria-expanded', 'true');
+        if(drawer) drawer.setAttribute('aria-hidden', 'false');
         lockScroll();
       }
       function closeDrawer(){
         document.body.classList.remove('m-open');
-        if(openBtn) openBtn.setAttribute('aria-expanded','false');
-        if(drawer) drawer.setAttribute('aria-hidden','true');
+        if(openBtn) openBtn.setAttribute('aria-expanded', 'false');
+        if(drawer) drawer.setAttribute('aria-hidden', 'true');
         unlockScroll();
       }
 
