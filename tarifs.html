@@ -40,7 +40,7 @@
 
       --panel-w: 200px;
       --drop-card-h: 100px;
-      --panel-radius: 6px;
+      --panel-radius: 0px;
       --panel-bg: #222;
       --panel-border: rgba(255,255,255,0.10);
       --drop-card-bg: #2a2a2a;
@@ -48,17 +48,24 @@
 
       --m-side: 18px;
 
-      /* flotte cards */
-      --grid-max: 1180px;
-      --grid-gap: 22px;
+      /* ===== Layout flotte (px “réels”) =====
+         ~1cm = 38px (approx), ~1.5cm = 56px
+         ~0.5cm = 19px (approx)
+      */
+      --outer-x: 48px; /* gauche/droite */
+      --gap-x: 20px;   /* entre cartes en haut */
+      --gap-y: 20px;   /* entre rangées */
+      --grid-max: 1280px;
 
-      --card-radius: 14px;
-      --card-bg: rgba(20,20,20,0.78);
-      --card-border: rgba(255,255,255,0.10);
-      --card-shadow: 0 26px 60px rgba(0,0,0,0.35);
+      /* Cards */
+      --card-radius: 0px; /* ✅ angles droits */
+      --card-bg: rgba(15,15,15,0.82);
+      --card-border: rgba(0,0,0,0.55);
+      --card-shadow: 0 26px 60px rgba(0,0,0,0.28);
 
+      /* bleu “vrai” bien dense */
       --blue-top: #2f6bff;
-      --blue-bot: #1f53ea;
+      --blue-bot: #1b45e8;
     }
 
     /* =============================== */
@@ -67,57 +74,56 @@
     *{ box-sizing:border-box; margin:0; padding:0; }
     html, body{ height:100%; }
     body{
-      background:#f7f7f7;
       color:#111;
       font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
       overflow-x:hidden;
+      background: #efe9df; /* fallback */
     }
 
     /* =============================== */
-    /* PAGE BACKGROUND (blanc + lignes) */
+    /* PAGE BACKGROUND (ivoire chaud + lignes) */
     /* =============================== */
     .page{
       min-height: 100svh;
       position: relative;
       overflow: hidden;
-      background: #f7f7f7;
+
+      /* ✅ fond “joli” chaud qui match bien noir+bleu */
+      background: linear-gradient(180deg, #f4efe6 0%, #efe6d8 100%);
     }
     .page::before{
       content:"";
       position:absolute;
       inset:0;
       background:
-        radial-gradient(circle at 12% 10%, rgba(0,0,0,0.06) 0%, rgba(0,0,0,0) 55%),
-        radial-gradient(circle at 82% 25%, rgba(47,107,255,0.08) 0%, rgba(47,107,255,0) 58%),
+        radial-gradient(circle at 18% 14%, rgba(0,0,0,0.05) 0%, rgba(0,0,0,0) 60%),
+        radial-gradient(circle at 80% 22%, rgba(47,107,255,0.08) 0%, rgba(47,107,255,0) 58%),
         repeating-linear-gradient(
           0deg,
           rgba(0,0,0,0.05) 0px,
           rgba(0,0,0,0.05) 1px,
           rgba(255,255,255,0) 1px,
-          rgba(255,255,255,0) 14px
-        ),
-        linear-gradient(180deg, #ffffff 0%, #f2f2f2 100%);
+          rgba(255,255,255,0) 16px
+        );
       z-index:0;
+      opacity: .55;
     }
     .page::after{
       content:"";
       position:absolute;
       inset:0;
       pointer-events:none;
-      opacity:.05;
+      opacity:.04;
       background-image:
         url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='.6'/%3E%3C/svg%3E");
       mix-blend-mode:multiply;
       z-index:0;
     }
 
-    .content{
-      position: relative;
-      z-index: 2;
-    }
+    .content{ position: relative; z-index: 2; }
 
     /* =============================== */
-    /* HEADER DESKTOP (identique) */
+    /* HEADER DESKTOP */
     /* =============================== */
     .site-header { padding-top: 20px; position: relative; z-index: 10; }
     .header-row{
@@ -175,6 +181,7 @@
       z-index:10;
       box-shadow: 0 2px 0 rgba(0,0,0,0.08);
       border: 1px solid rgba(0,0,0,0.06);
+      border-radius: 0;
     }
 
     .header-left{ display:flex; align-items:center; gap:34px; }
@@ -240,6 +247,7 @@
       white-space:nowrap;
       line-height:1;
       transition: color .25s ease, border-color .25s ease;
+      border-radius: 0;
     }
     .btn-compte::before{
       content:"";
@@ -274,7 +282,7 @@
       width: var(--panel-w);
       background: var(--panel-bg);
       border: 1px solid var(--panel-border);
-      border-radius: var(--panel-radius);
+      border-radius: 0;
       box-shadow: 0 22px 40px rgba(0,0,0,0.45);
       padding:10px;
       display:flex;
@@ -293,7 +301,7 @@
     .fleet-card{
       position:relative;
       height: var(--drop-card-h);
-      border-radius:6px;
+      border-radius: 0;
       background: var(--drop-card-bg);
       border: 1px solid var(--drop-card-border);
       text-decoration:none;
@@ -380,7 +388,7 @@
     }
 
     /* =============================== */
-    /* MOBILE HEADER + DRAWER (identique index) */
+    /* MOBILE HEADER + DRAWER */
     /* =============================== */
     .m-header{ display:none; }
     .m-overlay{ display:none; }
@@ -391,6 +399,11 @@
         --page-side-margin: var(--m-side);
         --logo-height: 64px;
         --gap-logo-header: 24px;
+
+        /* sur mobile, on resserre un peu */
+        --outer-x: 18px;
+        --gap-x: 14px;
+        --gap-y: 14px;
       }
 
       .site-header{ display:none; }
@@ -418,23 +431,12 @@
         filter: blur(8px);
         animation: logoPop 1.05s cubic-bezier(.16, 1, .22, 1) forwards;
       }
-      .m-logo::after{
-        content:"";
-        position:absolute;
-        inset:-10px -12px -10px -12px;
-        background: radial-gradient(circle at 30% 30%, rgba(47,107,255,0.30), transparent 55%);
-        opacity:0;
-        filter: blur(10px);
-        pointer-events:none;
-        animation: logoGlow 1.2s ease forwards;
-        animation-delay: .25s;
-      }
 
       .m-burger{
         width:56px;height:56px;
         background:#fff;
         border:0;
-        border-radius:8px;
+        border-radius: 0;
         display:inline-flex;
         align-items:center;
         justify-content:center;
@@ -464,7 +466,7 @@
       .m-drawer{
         display:block;
         position:fixed; inset:0;
-        background: rgba(0,0,0,0.90);
+        background: rgba(0,0,0,0.92);
         z-index:50;
         transform: translate3d(26px, -26px, 0);
         opacity:0;
@@ -495,7 +497,7 @@
         width:56px;height:56px;
         background:#fff;
         border:0;
-        border-radius:8px;
+        border-radius: 0;
         cursor:pointer;
         display:inline-flex;
         align-items:center;
@@ -580,7 +582,6 @@
         border-color: var(--accent);
       }
 
-      /* open state */
       body.m-open .m-overlay{ opacity:1; pointer-events:auto; }
       body.m-open .m-drawer{
         opacity:1; pointer-events:auto;
@@ -596,10 +597,10 @@
     }
 
     /* =============================== */
-    /* TITLE "FLOTTE" (style GP) */
+    /* TITLE */
     /* =============================== */
     .page-title{
-      margin: 26px var(--page-side-margin) 12px;
+      margin: 26px var(--page-side-margin) 10px;
       display:flex;
       align-items:center;
       gap: 14px;
@@ -608,9 +609,9 @@
       background:#fff;
       color:#000;
       border: 1px solid rgba(0,0,0,0.12);
-      box-shadow: 0 18px 34px rgba(0,0,0,0.18);
+      box-shadow: 0 18px 34px rgba(0,0,0,0.16);
       padding: 18px 22px 14px;
-      display:inline-block;
+      border-radius: 0;
     }
     .title-box span{
       font-family:"Swiss911", sans-serif;
@@ -625,18 +626,19 @@
     }
 
     /* =============================== */
-    /* GRID CARDS (centré + plus horizontal) */
+    /* GRID CARDS (marges demandées) */
     /* =============================== */
     .fleet-wrap{
       max-width: var(--grid-max);
-      margin: 10px auto 46px;
-      padding: 0 var(--page-side-margin);
+      margin: 10px auto 44px;
+      padding: 0 var(--outer-x);
     }
 
     .fleet-grid{
       display:grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: var(--grid-gap);
+      column-gap: var(--gap-x);
+      row-gap: var(--gap-y);
       align-items: stretch;
       justify-items: stretch;
     }
@@ -644,61 +646,59 @@
     /* 3ème carte centrée en bas */
     .fleet-card-big{
       grid-column: 1 / -1;
-      max-width: calc((var(--grid-max) - (var(--page-side-margin) * 2) - var(--grid-gap)) / 2);
+      max-width: calc((var(--grid-max) - (var(--outer-x) * 2) - var(--gap-x)) / 2);
       justify-self: center;
       width: 100%;
     }
 
     /* =============================== */
-    /* CARD STYLE (plus propre) */
+    /* CARD STYLE (angles droits + plus grande) */
     /* =============================== */
     .plane-card{
       position: relative;
       border-radius: var(--card-radius);
       background: var(--card-bg);
-      border: 1px solid var(--card-border);
+      border: 1px solid rgba(0,0,0,0.55);
       box-shadow: var(--card-shadow);
       overflow: hidden;
       text-decoration: none;
       color:#fff;
 
-      /* plus horizontal */
-      height: 330px;
+      /* ✅ plus grand (≈ “+1cm”) */
+      height: 360px;
 
       transform: translateZ(0);
       transition: transform .22s cubic-bezier(.16,1,.22,1), box-shadow .22s ease, border-color .22s ease;
     }
-
     .plane-card:hover{
       transform: translateY(-6px);
       border-color: rgba(47,107,255,0.35);
-      box-shadow: 0 26px 70px rgba(0,0,0,0.40), 0 0 0 1px rgba(47,107,255,0.18);
+      box-shadow: 0 28px 78px rgba(0,0,0,0.34), 0 0 0 1px rgba(47,107,255,0.16);
     }
 
-    /* fond interne léger (dégradé) */
     .plane-card::before{
       content:"";
       position:absolute; inset:0;
       background:
-        radial-gradient(circle at 30% 10%, rgba(255,255,255,0.06) 0%, rgba(255,255,255,0) 55%),
-        linear-gradient(180deg, rgba(255,255,255,0.02) 0%, rgba(0,0,0,0.30) 100%);
+        radial-gradient(circle at 30% 10%, rgba(255,255,255,0.07) 0%, rgba(255,255,255,0) 55%),
+        linear-gradient(180deg, rgba(255,255,255,0.02) 0%, rgba(0,0,0,0.34) 100%);
       pointer-events:none;
     }
 
-    /* flèche en carré blanc */
+    /* flèche en carré blanc (angles droits) */
     .card-arrow{
       position:absolute;
       top: 14px;
       right: 14px;
-      width: 42px;
-      height: 42px;
-      border-radius: 10px;
+      width: 44px;
+      height: 44px;
       background:#fff;
       box-shadow: 0 14px 26px rgba(0,0,0,0.30);
       display:flex;
       align-items:center;
       justify-content:center;
       z-index: 3;
+      border-radius: 0;
     }
     .card-arrow i{
       width: 14px;
@@ -715,24 +715,17 @@
       z-index: 2;
       padding: 18px 18px 0;
     }
-    .card-name{
-      display:flex;
-      align-items: baseline;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
     .card-name h3{
       font-family:"Swiss911", sans-serif;
       text-transform: uppercase;
       font-style: italic;
       letter-spacing: -0.02em;
-      font-size: 34px;
+      font-size: 36px;
       line-height: 1;
       transform: skewX(-6deg);
-      margin-right: 2px;
     }
 
-    /* badges VFR/IFR (propres, placés à droite ou dessous) */
+    /* badges */
     .badges{
       display:flex;
       gap: 8px;
@@ -744,30 +737,30 @@
       align-items:center;
       justify-content:center;
       height: 26px;
-      padding: 0 10px;
-      border-radius: 8px;
+      padding: 0 12px;
       font-family:"GPMenu", system-ui, sans-serif;
       font-size: 12px;
       letter-spacing: 0.12em;
       text-transform: uppercase;
       color:#fff;
       background: rgba(0,0,0,0.35);
-      border: 1px solid rgba(47,107,255,0.55);
+      border: 2px solid rgba(47,107,255,0.65);
       box-shadow: 0 0 0 1px rgba(0,0,0,0.18) inset;
+      border-radius: 0; /* ✅ */
     }
     .badge.ifr{
-      border-color: rgba(255,59,48,0.95);
+      border-color: rgba(255,59,48,1);
       box-shadow: 0 0 0 1px rgba(255,59,48,0.25) inset;
     }
 
-    /* zone avion (animation hover) */
+    /* avion (plus grand) */
     .card-plane{
       position:absolute;
       left: 50%;
-      top: 48%;
+      top: 50%;
       transform: translate(-50%, -50%);
-      width: min(520px, 86%);
-      height: 150px;
+      width: min(660px, 92%);
+      height: 190px;
       display:flex;
       align-items:center;
       justify-content:center;
@@ -778,26 +771,27 @@
       max-width: 100%;
       max-height: 100%;
       object-fit: contain;
-      filter: drop-shadow(0 14px 18px rgba(0,0,0,0.35));
-      transform: translateX(0) rotate(0deg) scale(1.06);
+      filter: drop-shadow(0 16px 18px rgba(0,0,0,0.38));
+      transform: translateX(0) rotate(0deg) scale(1.12);
       transition: transform .28s cubic-bezier(.16,1,.22,1);
     }
     .plane-card:hover .card-plane img{
-      transform: translateX(14px) rotate(-1.2deg) scale(1.10);
+      transform: translateX(16px) rotate(-1.2deg) scale(1.18);
     }
 
-    /* bloc bleu (opaque, vrai bleu) */
+    /* bloc bleu (opaque, angles droits) */
     .card-bottom{
       position:absolute;
       left:0; right:0; bottom:0;
-      height: 122px;
+      height: 132px;
       background: linear-gradient(180deg, var(--blue-top) 0%, var(--blue-bot) 100%);
       border-top: 1px solid rgba(255,255,255,0.18);
       z-index: 2;
-      padding: 12px 16px 10px;
+      padding: 12px 16px 12px;
       display:grid;
       grid-template-columns: 1fr 1fr;
       gap: 14px;
+      border-radius: 0;
     }
 
     .bottom-col h4{
@@ -813,7 +807,6 @@
       display:flex;
       flex-direction:column;
       gap: 4px;
-      font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
       font-size: 14px;
       line-height: 1.15;
       opacity: 0.98;
@@ -826,14 +819,13 @@
     }
     .dot{
       width: 6px; height: 6px;
-      border-radius: 999px;
       background: rgba(255,255,255,0.95);
       margin-top: 6px;
       flex: 0 0 auto;
       opacity: 0.95;
+      border-radius: 0; /* ✅ angles */
     }
 
-    /* footer ligne "à partir de" + petit tag VFR/IFR */
     .bottom-foot{
       position:absolute;
       left: 16px;
@@ -875,22 +867,21 @@
     }
 
     /* =============================== */
-    /* RESPONSIVE (cards) */
+    /* RESPONSIVE CARDS */
     /* =============================== */
     @media (max-width: 980px){
       .page-title{ margin: 18px var(--page-side-margin) 10px; }
       .title-box span{ font-size: 56px; }
 
-      .fleet-wrap{ padding: 0 var(--page-side-margin); }
+      .fleet-wrap{ padding: 0 var(--outer-x); }
       .fleet-grid{ grid-template-columns: 1fr; }
       .fleet-card-big{
         grid-column: auto;
         max-width: none;
         justify-self: stretch;
       }
-      .plane-card{ height: 330px; }
-
-      .card-plane{ top: 50%; width: 92%; height: 140px; }
+      .plane-card{ height: 360px; }
+      .card-plane{ width: 96%; height: 180px; }
     }
   </style>
 </head>
@@ -1037,11 +1028,7 @@
             <div class="card-arrow" aria-hidden="true"><i></i></div>
 
             <div class="card-top">
-              <div class="card-name">
-                <h3>CESSNA 152</h3>
-              </div>
-
-              <!-- ✅ plus de ligne “initiation” : juste badge -->
+              <div class="card-name"><h3>CESSNA 152</h3></div>
               <div class="badges">
                 <span class="badge">VFR</span>
               </div>
@@ -1082,10 +1069,7 @@
             <div class="card-arrow" aria-hidden="true"><i></i></div>
 
             <div class="card-top">
-              <div class="card-name">
-                <h3>TB200</h3>
-              </div>
-
+              <div class="card-name"><h3>TB200</h3></div>
               <div class="badges">
                 <span class="badge">VFR</span>
               </div>
@@ -1126,10 +1110,7 @@
             <div class="card-arrow" aria-hidden="true"><i></i></div>
 
             <div class="card-top">
-              <div class="card-name">
-                <h3>CIRRUS SR22</h3>
-              </div>
-
+              <div class="card-name"><h3>CIRRUS SR22</h3></div>
               <div class="badges">
                 <span class="badge">VFR</span>
                 <span class="badge ifr">IFR</span>
