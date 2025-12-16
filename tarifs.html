@@ -762,7 +762,7 @@
     .card-bottom{
       position:absolute;
       left:0; right:0; bottom:0;
-      height: 158px; /* un poil plus haut pour “remplir” */
+      height: 158px;
       background: linear-gradient(180deg, var(--blue-top) 0%, var(--blue-bot) 100%);
       border-top: 1px solid rgba(255,255,255,0.18);
       z-index: 2;
@@ -775,18 +775,18 @@
 
     .bottom-col h4{
       font-family:"GPMenu", system-ui, sans-serif;
-      font-size: 13px;            /* ✅ un peu plus grand */
+      font-size: 13px;
       letter-spacing: 0.20em;
       text-transform: uppercase;
       opacity: 0.95;
-      margin-bottom: 9px;         /* ✅ plus d’air */
+      margin-bottom: 9px;
     }
     .bottom-col ul{
       list-style:none;
       display:flex;
       flex-direction:column;
-      gap: 7px;                   /* ✅ plus lisible */
-      font-size: 16px;            /* ✅ plus grand */
+      gap: 7px;
+      font-size: 16px;
       line-height: 1.15;
       opacity: 0.99;
     }
@@ -819,15 +819,15 @@
 
       /* ✅ MOBILE : l’avion ne doit plus dépasser à gauche/droite */
       .card-plane{
-        width: 92%;        /* moins large */
+        width: 92%;
         height: 230px;
         top: 45%;
       }
       .card-plane img{
-        transform: translateX(0) rotate(0deg) scale(1.02); /* ↓ scale uniquement mobile */
+        transform: translateX(0) rotate(0deg) scale(1.02);
       }
       .plane-card:hover .card-plane img{
-        transform: translateX(14px) rotate(-1.0deg) scale(1.07); /* hover mobile */
+        transform: translateX(14px) rotate(-1.0deg) scale(1.07);
       }
 
       .title-row{ padding-right: 56px; }
@@ -835,7 +835,7 @@
       .badge{ height: 26px; font-size: 11px; }
 
       .card-bottom{
-        height: 164px; /* un peu plus confortable sur mobile */
+        height: 164px;
         padding: 16px 16px 18px;
         gap: 16px;
       }
@@ -844,6 +844,78 @@
         gap: 8px;
       }
     }
+
+    /* =============================== */
+    /* ENTRANCE ANIMATIONS (TITLE + CARDS + BLUE BAND) */
+    /* =============================== */
+    @media (prefers-reduced-motion: reduce){
+      .reveal, .reveal-title, .reveal-band{
+        opacity: 1 !important;
+        transform: none !important;
+        filter: none !important;
+        transition: none !important;
+        animation: none !important;
+      }
+    }
+
+    .reveal-title{
+      opacity: 0;
+      transform: translate3d(-140px, 0, 0);
+      filter: blur(10px);
+      transition: opacity .85s cubic-bezier(.16,1,.22,1),
+                  transform .85s cubic-bezier(.16,1,.22,1),
+                  filter .85s cubic-bezier(.16,1,.22,1);
+      will-change: opacity, transform, filter;
+    }
+    .reveal-title.is-in{
+      opacity: 1;
+      transform: translate3d(0,0,0);
+      filter: blur(0);
+    }
+
+    .reveal{
+      opacity: 0;
+      transform: translate3d(0, 22px, 0) scale(0.985);
+      filter: blur(10px);
+      transition: opacity .70s cubic-bezier(.16,1,.22,1),
+                  transform .70s cubic-bezier(.16,1,.22,1),
+                  filter .70s cubic-bezier(.16,1,.22,1);
+      will-change: opacity, transform, filter;
+    }
+    .reveal.is-in{
+      opacity: 1;
+      transform: translate3d(0,0,0) scale(1);
+      filter: blur(0);
+    }
+
+    /* Bandeau bleu “monte” pendant l’entrée */
+    .reveal-band{
+      transform: translate3d(0, 36px, 0);
+      filter: blur(6px);
+      opacity: 0;
+      transition: transform .70s cubic-bezier(.16,1,.22,1),
+                  opacity .70s cubic-bezier(.16,1,.22,1),
+                  filter .70s cubic-bezier(.16,1,.22,1);
+      will-change: transform, opacity, filter;
+    }
+    .reveal.is-in .reveal-band{
+      transform: translate3d(0,0,0);
+      opacity: 1;
+      filter: blur(0);
+      transition-delay: 70ms;
+    }
+
+    /* petit “settle” sur l’avion à l’entrée */
+    .reveal.is-in .card-plane img{
+      animation: planeSettle .65s cubic-bezier(.16,1,.22,1) both;
+    }
+    @keyframes planeSettle{
+      from{ transform: translateX(-10px) rotate(0deg) scale(1.18); }
+      to{ transform: translateX(0) rotate(0deg) scale(1.22); }
+    }
+
+    /* ne pas casser le hover existant */
+    .plane-card:hover .card-plane img{ animation: none; }
   </style>
 </head>
 
@@ -985,13 +1057,13 @@
               <img src="FGHKE1.png.tiff" alt="Cessna 152">
             </div>
 
-            <div class="card-bottom">
+            <div class="card-bottom reveal-band">
               <div class="bottom-col">
                 <h4>SPECS</h4>
                 <ul>
                   <li><span class="dot"></span><span>Places : 2</span></li>
-                  <li><span class="dot"></span><span>Vitesse croisière : 90KTS/span></li>
-                  <li><span class="dot"></span><span>Autonomie : 4h/span></li>
+                  <li><span class="dot"></span><span>Vitesse croisière : 90 KTS</span></li>
+                  <li><span class="dot"></span><span>Autonomie : 4 h</span></li>
                 </ul>
               </div>
 
@@ -1023,11 +1095,11 @@
               <img src="TB200M.png.tiff" alt="TB200">
             </div>
 
-            <div class="card-bottom">
+            <div class="card-bottom reveal-band">
               <div class="bottom-col">
                 <h4>SPECS</h4>
                 <ul>
-                  <li><span class="dot"></span><span>— places</span></li>
+                  <li><span class="dot"></span><span>Places : —</span></li>
                   <li><span class="dot"></span><span>Vitesse croisière : —</span></li>
                   <li><span class="dot"></span><span>Autonomie : —</span></li>
                 </ul>
@@ -1062,11 +1134,11 @@
               <img src="SR1.png.tiff" alt="Cirrus SR22">
             </div>
 
-            <div class="card-bottom">
+            <div class="card-bottom reveal-band">
               <div class="bottom-col">
                 <h4>SPECS</h4>
                 <ul>
-                  <li><span class="dot"></span><span>— places</span></li>
+                  <li><span class="dot"></span><span>Places : —</span></li>
                   <li><span class="dot"></span><span>Vitesse croisière : —</span></li>
                   <li><span class="dot"></span><span>Autonomie : —</span></li>
                 </ul>
@@ -1140,6 +1212,28 @@
 
       document.addEventListener('keydown', (e) => {
         if(e.key === 'Escape') closeDrawer();
+      });
+
+      /* =============================== */
+      /* Entrance reveal (title + cards + blue band) */
+      /* =============================== */
+      const titleBox = document.querySelector('.title-box');
+      const cards = document.querySelectorAll('.plane-card');
+
+      if(titleBox) titleBox.classList.add('reveal-title');
+      cards.forEach((c) => c.classList.add('reveal'));
+
+      function revealNow(){
+        if(titleBox){
+          requestAnimationFrame(() => titleBox.classList.add('is-in'));
+        }
+        cards.forEach((card, i) => {
+          setTimeout(() => card.classList.add('is-in'), 140 + (i * 110));
+        });
+      }
+
+      window.addEventListener('load', () => {
+        setTimeout(revealNow, 120);
       });
     })();
   </script>
