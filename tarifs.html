@@ -736,7 +736,7 @@
     .card-plane{
       position:absolute;
       left: 50%;
-      top: 41%;
+      top: 39.5%; /* ✅ légèrement remonté (desktop) */
       transform: translate(-50%, -50%);
       width: min(760px, 96%);
       height: 240px;
@@ -753,6 +753,7 @@
       filter: drop-shadow(0 18px 22px rgba(0,0,0,0.42));
       transform: translateX(0) rotate(0deg) scale(1.22);
       transition: transform .28s cubic-bezier(.16,1,.22,1);
+      will-change: transform;
     }
     .plane-card:hover .card-plane img{
       transform: translateX(18px) rotate(-1.2deg) scale(1.28);
@@ -771,6 +772,7 @@
       grid-template-columns: 1fr 1fr;
       gap: 18px;
       border-radius: 0;
+      will-change: transform, opacity;
     }
 
     .bottom-col h4{
@@ -821,7 +823,7 @@
       .card-plane{
         width: 92%;
         height: 230px;
-        top: 45%;
+        top: 43.8%; /* ✅ un poil remonté en mobile aussi */
       }
       .card-plane img{
         transform: translateX(0) rotate(0deg) scale(1.02);
@@ -846,76 +848,74 @@
     }
 
     /* =============================== */
-    /* ENTRANCE ANIMATIONS (TITLE + CARDS + BLUE BAND) */
+    /* ✅ ANIMATIONS D’ENTRÉE (titre + cartes + bandeau bleu) */
     /* =============================== */
+    body:not(.is-loaded) .page-title{
+      opacity: 0;
+      transform: translate3d(-24px, 0, 0);
+      filter: blur(10px);
+    }
+    body.is-loaded .page-title{
+      animation: titleIn .82s cubic-bezier(.16,1,.22,1) both;
+      animation-delay: .12s;
+    }
+    @keyframes titleIn{
+      60%{ opacity:1; transform: translate3d(10px,0,0); filter: blur(0px); }
+      100%{ opacity:1; transform: translate3d(0,0,0); filter: blur(0px); }
+    }
+
+    /* cartes (stagger via --d) */
+    body:not(.is-loaded) .plane-card{
+      opacity: 0;
+      transform: translate3d(0, 18px, 0);
+      filter: blur(10px);
+    }
+    body.is-loaded .plane-card{
+      animation: cardIn .78s cubic-bezier(.16,1,.22,1) both;
+      animation-delay: calc(.18s + var(--d, 0s));
+    }
+    @keyframes cardIn{
+      65%{ opacity:1; transform: translate3d(0,-4px,0); filter: blur(0px); }
+      100%{ opacity:1; transform: translate3d(0,0,0); filter: blur(0px); }
+    }
+
+    /* bandeau bleu qui “monte” en même temps que la carte */
+    body:not(.is-loaded) .plane-card .card-bottom{
+      transform: translate3d(0, 110%, 0);
+      opacity: 0.98;
+    }
+    body.is-loaded .plane-card .card-bottom{
+      animation: bandUp .78s cubic-bezier(.16,1,.22,1) both;
+      animation-delay: calc(.18s + var(--d, 0s));
+    }
+    @keyframes bandUp{
+      70%{ transform: translate3d(0, -6px, 0); opacity: 1; }
+      100%{ transform: translate3d(0, 0, 0); opacity: 1; }
+    }
+
+    /* légère entrée de l’avion (sans casser le hover) */
+    body:not(.is-loaded) .plane-card .card-plane img{
+      opacity: 0;
+      transform: translate3d(0, 8px, 0) scale(1.16);
+      filter: blur(6px) drop-shadow(0 18px 22px rgba(0,0,0,0.42));
+    }
+    body.is-loaded .plane-card .card-plane img{
+      animation: planeIn .78s cubic-bezier(.16,1,.22,1) both;
+      animation-delay: calc(.22s + var(--d, 0s));
+    }
+    @keyframes planeIn{
+      70%{ opacity:1; transform: translate3d(0, -2px, 0) scale(1.24); filter: blur(0px) drop-shadow(0 18px 22px rgba(0,0,0,0.42)); }
+      100%{ opacity:1; transform: translate3d(0, 0, 0) scale(1.22); filter: blur(0px) drop-shadow(0 18px 22px rgba(0,0,0,0.42)); }
+    }
+
+    /* accessibilité */
     @media (prefers-reduced-motion: reduce){
-      .reveal, .reveal-title, .reveal-band{
-        opacity: 1 !important;
-        transform: none !important;
-        filter: none !important;
-        transition: none !important;
-        animation: none !important;
-      }
+      *{ animation: none !important; transition: none !important; }
+      body:not(.is-loaded) .plane-card,
+      body:not(.is-loaded) .page-title{ opacity: 1 !important; transform:none !important; filter:none !important; }
+      body:not(.is-loaded) .plane-card .card-bottom{ transform:none !important; }
+      body:not(.is-loaded) .plane-card .card-plane img{ opacity:1 !important; transform:none !important; filter:none !important; }
     }
-
-    .reveal-title{
-      opacity: 0;
-      transform: translate3d(-140px, 0, 0);
-      filter: blur(10px);
-      transition: opacity .85s cubic-bezier(.16,1,.22,1),
-                  transform .85s cubic-bezier(.16,1,.22,1),
-                  filter .85s cubic-bezier(.16,1,.22,1);
-      will-change: opacity, transform, filter;
-    }
-    .reveal-title.is-in{
-      opacity: 1;
-      transform: translate3d(0,0,0);
-      filter: blur(0);
-    }
-
-    .reveal{
-      opacity: 0;
-      transform: translate3d(0, 22px, 0) scale(0.985);
-      filter: blur(10px);
-      transition: opacity .70s cubic-bezier(.16,1,.22,1),
-                  transform .70s cubic-bezier(.16,1,.22,1),
-                  filter .70s cubic-bezier(.16,1,.22,1);
-      will-change: opacity, transform, filter;
-    }
-    .reveal.is-in{
-      opacity: 1;
-      transform: translate3d(0,0,0) scale(1);
-      filter: blur(0);
-    }
-
-    /* Bandeau bleu “monte” pendant l’entrée */
-    .reveal-band{
-      transform: translate3d(0, 36px, 0);
-      filter: blur(6px);
-      opacity: 0;
-      transition: transform .70s cubic-bezier(.16,1,.22,1),
-                  opacity .70s cubic-bezier(.16,1,.22,1),
-                  filter .70s cubic-bezier(.16,1,.22,1);
-      will-change: transform, opacity, filter;
-    }
-    .reveal.is-in .reveal-band{
-      transform: translate3d(0,0,0);
-      opacity: 1;
-      filter: blur(0);
-      transition-delay: 70ms;
-    }
-
-    /* petit “settle” sur l’avion à l’entrée */
-    .reveal.is-in .card-plane img{
-      animation: planeSettle .65s cubic-bezier(.16,1,.22,1) both;
-    }
-    @keyframes planeSettle{
-      from{ transform: translateX(-10px) rotate(0deg) scale(1.18); }
-      to{ transform: translateX(0) rotate(0deg) scale(1.22); }
-    }
-
-    /* ne pas casser le hover existant */
-    .plane-card:hover .card-plane img{ animation: none; }
   </style>
 </head>
 
@@ -1041,7 +1041,7 @@
         <section class="fleet-grid">
 
           <!-- C152 -->
-          <a class="plane-card" href="cessna152.html" aria-label="Cessna 152">
+          <a class="plane-card" style="--d:0s" href="cessna152.html" aria-label="Cessna 152">
             <div class="card-arrow" aria-hidden="true"><i></i></div>
 
             <div class="card-top">
@@ -1057,7 +1057,7 @@
               <img src="FGHKE1.png.tiff" alt="Cessna 152">
             </div>
 
-            <div class="card-bottom reveal-band">
+            <div class="card-bottom">
               <div class="bottom-col">
                 <h4>SPECS</h4>
                 <ul>
@@ -1079,7 +1079,7 @@
           </a>
 
           <!-- TB200 -->
-          <a class="plane-card" href="tb200.html" aria-label="TB200">
+          <a class="plane-card" style="--d:.08s" href="tb200.html" aria-label="TB200">
             <div class="card-arrow" aria-hidden="true"><i></i></div>
 
             <div class="card-top">
@@ -1095,7 +1095,7 @@
               <img src="TB200M.png.tiff" alt="TB200">
             </div>
 
-            <div class="card-bottom reveal-band">
+            <div class="card-bottom">
               <div class="bottom-col">
                 <h4>SPECS</h4>
                 <ul>
@@ -1117,7 +1117,7 @@
           </a>
 
           <!-- SR22 (centrée en bas) -->
-          <a class="plane-card fleet-card-big" href="sr22.html" aria-label="Cirrus SR22">
+          <a class="plane-card fleet-card-big" style="--d:.16s" href="sr22.html" aria-label="Cirrus SR22">
             <div class="card-arrow" aria-hidden="true"><i></i></div>
 
             <div class="card-top">
@@ -1134,7 +1134,7 @@
               <img src="SR1.png.tiff" alt="Cirrus SR22">
             </div>
 
-            <div class="card-bottom reveal-band">
+            <div class="card-bottom">
               <div class="bottom-col">
                 <h4>SPECS</h4>
                 <ul>
@@ -1163,6 +1163,15 @@
 
   <script>
     (function(){
+      // ✅ trigger animations once DOM is ready
+      window.addEventListener('DOMContentLoaded', () => {
+        // petit raf pour éviter le flash sur certains navigateurs
+        requestAnimationFrame(() => {
+          document.body.classList.add('is-loaded');
+        });
+      });
+
+      // ✅ drawer mobile
       const openBtn = document.querySelector('.m-burger');
       const closeBtn = document.querySelector('.m-close');
       const drawer  = document.getElementById('m-drawer');
@@ -1212,28 +1221,6 @@
 
       document.addEventListener('keydown', (e) => {
         if(e.key === 'Escape') closeDrawer();
-      });
-
-      /* =============================== */
-      /* Entrance reveal (title + cards + blue band) */
-      /* =============================== */
-      const titleBox = document.querySelector('.title-box');
-      const cards = document.querySelectorAll('.plane-card');
-
-      if(titleBox) titleBox.classList.add('reveal-title');
-      cards.forEach((c) => c.classList.add('reveal'));
-
-      function revealNow(){
-        if(titleBox){
-          requestAnimationFrame(() => titleBox.classList.add('is-in'));
-        }
-        cards.forEach((card, i) => {
-          setTimeout(() => card.classList.add('is-in'), 140 + (i * 110));
-        });
-      }
-
-      window.addEventListener('load', () => {
-        setTimeout(revealNow, 120);
       });
     })();
   </script>
