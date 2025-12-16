@@ -736,7 +736,7 @@
     .card-plane{
       position:absolute;
       left: 50%;
-      top: 39.5%; /* ✅ légèrement remonté (desktop) */
+      top: 41%;
       transform: translate(-50%, -50%);
       width: min(760px, 96%);
       height: 240px;
@@ -753,7 +753,6 @@
       filter: drop-shadow(0 18px 22px rgba(0,0,0,0.42));
       transform: translateX(0) rotate(0deg) scale(1.22);
       transition: transform .28s cubic-bezier(.16,1,.22,1);
-      will-change: transform;
     }
     .plane-card:hover .card-plane img{
       transform: translateX(18px) rotate(-1.2deg) scale(1.28);
@@ -763,7 +762,7 @@
     .card-bottom{
       position:absolute;
       left:0; right:0; bottom:0;
-      height: 158px;
+      height: 158px; /* un poil plus haut pour “remplir” */
       background: linear-gradient(180deg, var(--blue-top) 0%, var(--blue-bot) 100%);
       border-top: 1px solid rgba(255,255,255,0.18);
       z-index: 2;
@@ -772,23 +771,22 @@
       grid-template-columns: 1fr 1fr;
       gap: 18px;
       border-radius: 0;
-      will-change: transform, opacity;
     }
 
     .bottom-col h4{
       font-family:"GPMenu", system-ui, sans-serif;
-      font-size: 13px;
+      font-size: 13px;            /* ✅ un peu plus grand */
       letter-spacing: 0.20em;
       text-transform: uppercase;
       opacity: 0.95;
-      margin-bottom: 9px;
+      margin-bottom: 9px;         /* ✅ plus d’air */
     }
     .bottom-col ul{
       list-style:none;
       display:flex;
       flex-direction:column;
-      gap: 7px;
-      font-size: 16px;
+      gap: 7px;                   /* ✅ plus lisible */
+      font-size: 16px;            /* ✅ plus grand */
       line-height: 1.15;
       opacity: 0.99;
     }
@@ -821,15 +819,15 @@
 
       /* ✅ MOBILE : l’avion ne doit plus dépasser à gauche/droite */
       .card-plane{
-        width: 92%;
+        width: 92%;        /* moins large */
         height: 230px;
-        top: 43.8%; /* ✅ un poil remonté en mobile aussi */
+        top: 45%;
       }
       .card-plane img{
-        transform: translateX(0) rotate(0deg) scale(1.02);
+        transform: translateX(0) rotate(0deg) scale(1.02); /* ↓ scale uniquement mobile */
       }
       .plane-card:hover .card-plane img{
-        transform: translateX(14px) rotate(-1.0deg) scale(1.07);
+        transform: translateX(14px) rotate(-1.0deg) scale(1.07); /* hover mobile */
       }
 
       .title-row{ padding-right: 56px; }
@@ -837,7 +835,7 @@
       .badge{ height: 26px; font-size: 11px; }
 
       .card-bottom{
-        height: 164px;
+        height: 164px; /* un peu plus confortable sur mobile */
         padding: 16px 16px 18px;
         gap: 16px;
       }
@@ -845,76 +843,6 @@
         font-size: 16px;
         gap: 8px;
       }
-    }
-
-    /* =============================== */
-    /* ✅ ANIMATIONS D’ENTRÉE (titre + cartes + bandeau bleu) */
-    /* =============================== */
-    body:not(.is-loaded) .page-title{
-      opacity: 0;
-      transform: translate3d(-24px, 0, 0);
-      filter: blur(10px);
-    }
-    body.is-loaded .page-title{
-      animation: titleIn .82s cubic-bezier(.16,1,.22,1) both;
-      animation-delay: .12s;
-    }
-    @keyframes titleIn{
-      60%{ opacity:1; transform: translate3d(10px,0,0); filter: blur(0px); }
-      100%{ opacity:1; transform: translate3d(0,0,0); filter: blur(0px); }
-    }
-
-    /* cartes (stagger via --d) */
-    body:not(.is-loaded) .plane-card{
-      opacity: 0;
-      transform: translate3d(0, 18px, 0);
-      filter: blur(10px);
-    }
-    body.is-loaded .plane-card{
-      animation: cardIn .78s cubic-bezier(.16,1,.22,1) both;
-      animation-delay: calc(.18s + var(--d, 0s));
-    }
-    @keyframes cardIn{
-      65%{ opacity:1; transform: translate3d(0,-4px,0); filter: blur(0px); }
-      100%{ opacity:1; transform: translate3d(0,0,0); filter: blur(0px); }
-    }
-
-    /* bandeau bleu qui “monte” en même temps que la carte */
-    body:not(.is-loaded) .plane-card .card-bottom{
-      transform: translate3d(0, 110%, 0);
-      opacity: 0.98;
-    }
-    body.is-loaded .plane-card .card-bottom{
-      animation: bandUp .78s cubic-bezier(.16,1,.22,1) both;
-      animation-delay: calc(.18s + var(--d, 0s));
-    }
-    @keyframes bandUp{
-      70%{ transform: translate3d(0, -6px, 0); opacity: 1; }
-      100%{ transform: translate3d(0, 0, 0); opacity: 1; }
-    }
-
-    /* légère entrée de l’avion (sans casser le hover) */
-    body:not(.is-loaded) .plane-card .card-plane img{
-      opacity: 0;
-      transform: translate3d(0, 8px, 0) scale(1.16);
-      filter: blur(6px) drop-shadow(0 18px 22px rgba(0,0,0,0.42));
-    }
-    body.is-loaded .plane-card .card-plane img{
-      animation: planeIn .78s cubic-bezier(.16,1,.22,1) both;
-      animation-delay: calc(.22s + var(--d, 0s));
-    }
-    @keyframes planeIn{
-      70%{ opacity:1; transform: translate3d(0, -2px, 0) scale(1.24); filter: blur(0px) drop-shadow(0 18px 22px rgba(0,0,0,0.42)); }
-      100%{ opacity:1; transform: translate3d(0, 0, 0) scale(1.22); filter: blur(0px) drop-shadow(0 18px 22px rgba(0,0,0,0.42)); }
-    }
-
-    /* accessibilité */
-    @media (prefers-reduced-motion: reduce){
-      *{ animation: none !important; transition: none !important; }
-      body:not(.is-loaded) .plane-card,
-      body:not(.is-loaded) .page-title{ opacity: 1 !important; transform:none !important; filter:none !important; }
-      body:not(.is-loaded) .plane-card .card-bottom{ transform:none !important; }
-      body:not(.is-loaded) .plane-card .card-plane img{ opacity:1 !important; transform:none !important; filter:none !important; }
     }
   </style>
 </head>
@@ -1041,7 +969,7 @@
         <section class="fleet-grid">
 
           <!-- C152 -->
-          <a class="plane-card" style="--d:0s" href="cessna152.html" aria-label="Cessna 152">
+          <a class="plane-card" href="cessna152.html" aria-label="Cessna 152">
             <div class="card-arrow" aria-hidden="true"><i></i></div>
 
             <div class="card-top">
@@ -1062,8 +990,8 @@
                 <h4>SPECS</h4>
                 <ul>
                   <li><span class="dot"></span><span>Places : 2</span></li>
-                  <li><span class="dot"></span><span>Vitesse croisière : 90 KTS</span></li>
-                  <li><span class="dot"></span><span>Autonomie : 4 h</span></li>
+                  <li><span class="dot"></span><span>Vitesse croisière : 90KTS/span></li>
+                  <li><span class="dot"></span><span>Autonomie : 4h/span></li>
                 </ul>
               </div>
 
@@ -1079,7 +1007,7 @@
           </a>
 
           <!-- TB200 -->
-          <a class="plane-card" style="--d:.08s" href="tb200.html" aria-label="TB200">
+          <a class="plane-card" href="tb200.html" aria-label="TB200">
             <div class="card-arrow" aria-hidden="true"><i></i></div>
 
             <div class="card-top">
@@ -1099,7 +1027,7 @@
               <div class="bottom-col">
                 <h4>SPECS</h4>
                 <ul>
-                  <li><span class="dot"></span><span>Places : —</span></li>
+                  <li><span class="dot"></span><span>— places</span></li>
                   <li><span class="dot"></span><span>Vitesse croisière : —</span></li>
                   <li><span class="dot"></span><span>Autonomie : —</span></li>
                 </ul>
@@ -1117,7 +1045,7 @@
           </a>
 
           <!-- SR22 (centrée en bas) -->
-          <a class="plane-card fleet-card-big" style="--d:.16s" href="sr22.html" aria-label="Cirrus SR22">
+          <a class="plane-card fleet-card-big" href="sr22.html" aria-label="Cirrus SR22">
             <div class="card-arrow" aria-hidden="true"><i></i></div>
 
             <div class="card-top">
@@ -1138,7 +1066,7 @@
               <div class="bottom-col">
                 <h4>SPECS</h4>
                 <ul>
-                  <li><span class="dot"></span><span>Places : —</span></li>
+                  <li><span class="dot"></span><span>— places</span></li>
                   <li><span class="dot"></span><span>Vitesse croisière : —</span></li>
                   <li><span class="dot"></span><span>Autonomie : —</span></li>
                 </ul>
@@ -1163,15 +1091,6 @@
 
   <script>
     (function(){
-      // ✅ trigger animations once DOM is ready
-      window.addEventListener('DOMContentLoaded', () => {
-        // petit raf pour éviter le flash sur certains navigateurs
-        requestAnimationFrame(() => {
-          document.body.classList.add('is-loaded');
-        });
-      });
-
-      // ✅ drawer mobile
       const openBtn = document.querySelector('.m-burger');
       const closeBtn = document.querySelector('.m-close');
       const drawer  = document.getElementById('m-drawer');
@@ -1182,7 +1101,7 @@
       function lockScroll(){
         scrollY = window.scrollY || document.documentElement.scrollTop || 0;
         document.body.style.position = 'fixed';
-        document.body.style.top = `-${scrollY}px`;
+        document.body.style.top = -${scrollY}px;
         document.body.style.left = '0';
         document.body.style.right = '0';
         document.body.style.width = '100%';
@@ -1225,4 +1144,3 @@
     })();
   </script>
 </body>
-</html>
