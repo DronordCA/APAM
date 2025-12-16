@@ -63,6 +63,12 @@
       /* Blue band */
       --blue-top: #2f6bff;
       --blue-bot: #1b45e8;
+
+      /* ✅ Avion (DESKTOP) via variables */
+      --plane-scale: 1.22;
+      --plane-hover-scale: 1.28;
+      --plane-hover-x: 18px;
+      --plane-hover-rot: -1.2deg;
     }
 
     /* =============================== */
@@ -379,6 +385,12 @@
         --gap-x: 14px;
         --gap-y: 14px;
         --grid-max: 980px;
+
+        /* ✅ Avion (MOBILE) */
+        --plane-scale: 1.02;
+        --plane-hover-scale: 1.07;
+        --plane-hover-x: 14px;
+        --plane-hover-rot: -1.0deg;
       }
 
       .site-header{ display:none; }
@@ -751,19 +763,20 @@
       max-height: 100%;
       object-fit: contain;
       filter: drop-shadow(0 18px 22px rgba(0,0,0,0.42));
-      transform: translateX(0) rotate(0deg) scale(1.22);
+      transform: translateX(0) rotate(0deg) scale(var(--plane-scale));
       transition: transform .28s cubic-bezier(.16,1,.22,1);
       will-change: transform;
     }
+    /* ✅ ANIMATION HOVER AVION (remise) */
     .plane-card:hover .card-plane img{
-      transform: translateX(18px) rotate(-1.2deg) scale(1.28);
+      transform: translateX(var(--plane-hover-x)) rotate(var(--plane-hover-rot)) scale(var(--plane-hover-scale));
     }
 
-    /* Bandeau bleu (contenu mis à jour) */
+    /* Bandeau bleu */
     .card-bottom{
       position:absolute;
       left:0; right:0; bottom:0;
-      height: 158px; /* un poil plus haut pour “remplir” */
+      height: 158px;
       background: linear-gradient(180deg, var(--blue-top) 0%, var(--blue-bot) 100%);
       border-top: 1px solid rgba(255,255,255,0.18);
       z-index: 2;
@@ -772,23 +785,22 @@
       grid-template-columns: 1fr 1fr;
       gap: 18px;
       border-radius: 0;
-      will-change: transform, opacity; /* ✅ AJOUT */
     }
 
     .bottom-col h4{
       font-family:"GPMenu", system-ui, sans-serif;
-      font-size: 13px;            /* ✅ un peu plus grand */
+      font-size: 13px;
       letter-spacing: 0.20em;
       text-transform: uppercase;
       opacity: 0.95;
-      margin-bottom: 9px;         /* ✅ plus d’air */
+      margin-bottom: 9px;
     }
     .bottom-col ul{
       list-style:none;
       display:flex;
       flex-direction:column;
-      gap: 7px;                   /* ✅ plus lisible */
-      font-size: 16px;            /* ✅ plus grand */
+      gap: 7px;
+      font-size: 16px;
       line-height: 1.15;
       opacity: 0.99;
     }
@@ -821,15 +833,9 @@
 
       /* ✅ MOBILE : l’avion ne doit plus dépasser à gauche/droite */
       .card-plane{
-        width: 92%;        /* moins large */
+        width: 92%;
         height: 230px;
         top: 45%;
-      }
-      .card-plane img{
-        transform: translateX(0) rotate(0deg) scale(1.02); /* ↓ scale uniquement mobile */
-      }
-      .plane-card:hover .card-plane img{
-        transform: translateX(14px) rotate(-1.0deg) scale(1.07); /* hover mobile */
       }
 
       .title-row{ padding-right: 56px; }
@@ -837,7 +843,7 @@
       .badge{ height: 26px; font-size: 11px; }
 
       .card-bottom{
-        height: 164px; /* un peu plus confortable sur mobile */
+        height: 164px;
         padding: 16px 16px 18px;
         gap: 16px;
       }
@@ -848,64 +854,69 @@
     }
 
     /* =============================== */
-    /* ✅ AJOUT : ANIMATIONS D’ENTRÉE */
+    /* ✅ ANIMATIONS D’ENTRÉE */
     /* =============================== */
     body:not(.is-loaded) .page-title{
       opacity:0;
-      transform: translate3d(-24px, 0, 0);
-      filter: blur(10px);
+      transform: translate3d(-40px, 0, 0);
+      filter: blur(14px);
     }
     body.is-loaded .page-title{
-      animation: titleIn .82s cubic-bezier(.16,1,.22,1) both;
-      animation-delay: .10s;
+      animation: titleIn .90s cubic-bezier(.16,1,.22,1) both;
+      animation-delay: .08s;
     }
     @keyframes titleIn{
       60%{ opacity:1; transform: translate3d(10px,0,0); filter: blur(0px); }
       100%{ opacity:1; transform: translate3d(0,0,0); filter: blur(0px); }
     }
 
-    /* cartes (stagger via --d) */
     body:not(.is-loaded) .plane-card{
       opacity:0;
-      transform: translate3d(0, 18px, 0);
-      filter: blur(10px);
+      transform: translate3d(0, 26px, 0);
+      filter: blur(14px);
     }
     body.is-loaded .plane-card{
-      animation: cardIn .78s cubic-bezier(.16,1,.22,1) both;
+      animation: cardIn .85s cubic-bezier(.16,1,.22,1) both;
       animation-delay: calc(.18s + var(--d, 0s));
     }
     @keyframes cardIn{
-      65%{ opacity:1; transform: translate3d(0,-4px,0); filter: blur(0px); }
+      65%{ opacity:1; transform: translate3d(0,-6px,0); filter: blur(0px); }
       100%{ opacity:1; transform: translate3d(0,0,0); filter: blur(0px); }
     }
 
-    /* bandeau bleu qui monte avec la carte */
     body:not(.is-loaded) .plane-card .card-bottom{
-      transform: translate3d(0, 110%, 0);
-      opacity: 0.98;
+      transform: translate3d(0, 120%, 0);
     }
     body.is-loaded .plane-card .card-bottom{
-      animation: bandUp .78s cubic-bezier(.16,1,.22,1) both;
+      animation: bandUp .85s cubic-bezier(.16,1,.22,1) both;
       animation-delay: calc(.18s + var(--d, 0s));
     }
     @keyframes bandUp{
-      70%{ transform: translate3d(0, -6px, 0); opacity: 1; }
-      100%{ transform: translate3d(0, 0, 0); opacity: 1; }
+      70%{ transform: translate3d(0, -8px, 0); }
+      100%{ transform: translate3d(0, 0, 0); }
     }
 
-    /* petite entrée de l’avion (sans casser ton hover) */
+    /* Avion : entrée, sans casser desktop/mobile (variables) */
     body:not(.is-loaded) .plane-card .card-plane img{
       opacity:0;
-      transform: translate3d(0, 8px, 0) scale(1.16);
-      filter: blur(6px) drop-shadow(0 18px 22px rgba(0,0,0,0.42));
+      transform: translate3d(0, 10px, 0) scale(calc(var(--plane-scale) - 0.08));
+      filter: blur(10px) drop-shadow(0 18px 22px rgba(0,0,0,0.42));
     }
     body.is-loaded .plane-card .card-plane img{
-      animation: planeIn .78s cubic-bezier(.16,1,.22,1) both;
+      animation: planeIn .85s cubic-bezier(.16,1,.22,1) both;
       animation-delay: calc(.22s + var(--d, 0s));
     }
     @keyframes planeIn{
-      70%{ opacity:1; transform: translate3d(0, -2px, 0) scale(1.24); filter: blur(0px) drop-shadow(0 18px 22px rgba(0,0,0,0.42)); }
-      100%{ opacity:1; transform: translate3d(0, 0, 0) scale(1.22); filter: blur(0px) drop-shadow(0 18px 22px rgba(0,0,0,0.42)); }
+      70%{
+        opacity:1;
+        transform: translate3d(0, -2px, 0) scale(calc(var(--plane-scale) + 0.02));
+        filter: blur(0px) drop-shadow(0 18px 22px rgba(0,0,0,0.42));
+      }
+      100%{
+        opacity:1;
+        transform: translate3d(0, 0, 0) scale(var(--plane-scale));
+        filter: blur(0px) drop-shadow(0 18px 22px rgba(0,0,0,0.42));
+      }
     }
 
     @media (prefers-reduced-motion: reduce){
@@ -1061,8 +1072,8 @@
                 <h4>SPECS</h4>
                 <ul>
                   <li><span class="dot"></span><span>Places : 2</span></li>
-                  <li><span class="dot"></span><span>Vitesse croisière : 90KTS</span></li>
-                  <li><span class="dot"></span><span>Autonomie : 4h</span></li>
+                  <li><span class="dot"></span><span>Vitesse croisière : 90 KTS</span></li>
+                  <li><span class="dot"></span><span>Autonomie : 4 h</span></li>
                 </ul>
               </div>
 
@@ -1098,7 +1109,7 @@
               <div class="bottom-col">
                 <h4>SPECS</h4>
                 <ul>
-                  <li><span class="dot"></span><span>— places</span></li>
+                  <li><span class="dot"></span><span>Places : —</span></li>
                   <li><span class="dot"></span><span>Vitesse croisière : —</span></li>
                   <li><span class="dot"></span><span>Autonomie : —</span></li>
                 </ul>
@@ -1137,7 +1148,7 @@
               <div class="bottom-col">
                 <h4>SPECS</h4>
                 <ul>
-                  <li><span class="dot"></span><span>— places</span></li>
+                  <li><span class="dot"></span><span>Places : —</span></li>
                   <li><span class="dot"></span><span>Vitesse croisière : —</span></li>
                   <li><span class="dot"></span><span>Autonomie : —</span></li>
                 </ul>
@@ -1161,14 +1172,12 @@
   </div>
 
   <script>
-    (function(){
-      /* ✅ AJOUT : déclenchement animations d’entrée */
-      window.addEventListener('DOMContentLoaded', () => {
-        requestAnimationFrame(() => {
-          document.body.classList.add('is-loaded');
-        });
-      });
+    // ✅ Déclenche les animations d’entrée
+    window.addEventListener('DOMContentLoaded', () => {
+      requestAnimationFrame(() => document.body.classList.add('is-loaded'));
+    });
 
+    (function(){
       const openBtn = document.querySelector('.m-burger');
       const closeBtn = document.querySelector('.m-close');
       const drawer  = document.getElementById('m-drawer');
@@ -1179,7 +1188,7 @@
       function lockScroll(){
         scrollY = window.scrollY || document.documentElement.scrollTop || 0;
         document.body.style.position = 'fixed';
-        document.body.style.top = `-${scrollY}px`; /* ✅ FIX */
+        document.body.style.top = `-${scrollY}px`;
         document.body.style.left = '0';
         document.body.style.right = '0';
         document.body.style.width = '100%';
