@@ -55,11 +55,12 @@
       --grid-max: 1460px;
 
       /* Cards */
-      --card-radius: 0px; /* ✅ angles droits */
+      --card-radius: 0px;
       --card-bg: rgba(18,18,18,0.92);
       --card-border: rgba(255,255,255,0.08);
       --card-shadow: 0 26px 60px rgba(0,0,0,0.34);
 
+      /* Blue band */
       --blue-top: #2f6bff;
       --blue-bot: #1b45e8;
     }
@@ -592,11 +593,7 @@
       letter-spacing: -0.02em;
       font-size: 76px;
       line-height: .9;
-
-      /* ✅ demandé : FLOTTE pas en italique */
       font-style: normal;
-
-      /* on garde l’ADN GP */
       transform: skewX(-6deg);
       display:block;
       white-space: nowrap;
@@ -633,9 +630,9 @@
     .plane-card{
       position: relative;
       border-radius: 0;
-      background: var(--card-bg);
-      border: 1px solid var(--card-border);
-      box-shadow: var(--card-shadow);
+      background: rgba(18,18,18,0.92);
+      border: 1px solid rgba(255,255,255,0.08);
+      box-shadow: 0 26px 60px rgba(0,0,0,0.34);
       overflow: hidden;
       text-decoration: none;
       color:#fff;
@@ -660,7 +657,7 @@
       pointer-events:none;
     }
 
-    /* flèche en carré blanc */
+    /* flèche en carré blanc (haut droite) */
     .card-arrow{
       position:absolute;
       top: 16px;
@@ -690,13 +687,13 @@
       padding: 20px 20px 0;
     }
 
-    /* ✅ Nom + badges sur la même ligne (badges à droite du nom) */
+    /* ✅ Nom + badges sur une ligne */
     .title-row{
       display:flex;
       align-items:flex-end;
       justify-content:space-between;
       gap: 14px;
-      padding-right: 64px; /* laisse respirer la flèche */
+      padding-right: 64px;
     }
 
     .card-name h3{
@@ -705,8 +702,6 @@
       letter-spacing: -0.02em;
       font-size: 38px;
       line-height: 1;
-
-      /* ✅ on garde le style avion (italique OK ici) */
       font-style: italic;
       transform: skewX(-6deg);
       white-space: nowrap;
@@ -716,7 +711,6 @@
       display:flex;
       gap: 10px;
       align-items:center;
-      margin-top: 0; /* ✅ plus besoin en dessous */
       flex: 0 0 auto;
     }
 
@@ -738,11 +732,11 @@
     }
     .badge.ifr{ border-color: rgba(255,59,48,1); }
 
-    /* ✅ avion remonté + recentré (évite le bandeau bleu) */
+    /* avion (DESKTOP parfait -> on ne touche pas) */
     .card-plane{
       position:absolute;
       left: 50%;
-      top: 46%; /* ← remonte l’avion */
+      top: 46%;
       transform: translate(-50%, -50%);
       width: min(760px, 96%);
       height: 240px;
@@ -764,89 +758,51 @@
       transform: translateX(18px) rotate(-1.2deg) scale(1.28);
     }
 
+    /* Bandeau bleu (contenu mis à jour) */
     .card-bottom{
       position:absolute;
       left:0; right:0; bottom:0;
-      height: 148px;
+      height: 158px; /* un poil plus haut pour “remplir” */
       background: linear-gradient(180deg, var(--blue-top) 0%, var(--blue-bot) 100%);
       border-top: 1px solid rgba(255,255,255,0.18);
       z-index: 2;
-      padding: 14px 18px 14px;
+      padding: 16px 18px 18px;
       display:grid;
       grid-template-columns: 1fr 1fr;
-      gap: 16px;
+      gap: 18px;
       border-radius: 0;
     }
 
     .bottom-col h4{
       font-family:"GPMenu", system-ui, sans-serif;
-      font-size: 12px;
-      letter-spacing: 0.18em;
+      font-size: 13px;            /* ✅ un peu plus grand */
+      letter-spacing: 0.20em;
       text-transform: uppercase;
       opacity: 0.95;
-      margin-bottom: 7px;
+      margin-bottom: 9px;         /* ✅ plus d’air */
     }
     .bottom-col ul{
       list-style:none;
       display:flex;
       flex-direction:column;
-      gap: 4px;
-      font-size: 14px;
+      gap: 7px;                   /* ✅ plus lisible */
+      font-size: 16px;            /* ✅ plus grand */
       line-height: 1.15;
-      opacity: 0.98;
+      opacity: 0.99;
     }
     .bottom-col li{
       display:flex;
-      gap: 8px;
+      gap: 10px;
       align-items: baseline;
       white-space: nowrap;
     }
     .dot{
-      width: 6px; height: 6px;
+      width: 7px;
+      height: 7px;
       background: rgba(255,255,255,0.95);
       margin-top: 6px;
       flex: 0 0 auto;
       border-radius: 0;
-    }
-
-    .bottom-foot{
-      position:absolute;
-      left: 18px;
-      right: 18px;
-      bottom: 12px;
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap: 10px;
-      z-index: 3;
-      pointer-events:none;
-    }
-    .from{
-      font-family:"Swiss911", sans-serif;
-      text-transform: uppercase;
-      font-style: italic;
-      letter-spacing: -0.02em;
-      transform: skewX(-6deg);
-      font-size: 20px;
-      color: rgba(255,255,255,0.98);
-    }
-    .mini-tag{
-      font-family:"Swiss911", sans-serif;
-      text-transform: uppercase;
-      font-style: italic;
-      letter-spacing: -0.02em;
-      transform: skewX(-6deg);
-      font-size: 17px;
-      color: rgba(255,255,255,0.95);
-      display:inline-flex;
-      align-items:center;
-      gap: 8px;
-    }
-    .mini-tag .chev{
-      width:10px;height:10px;
-      border-right:2px solid rgba(255,255,255,0.95);
-      border-top:2px solid rgba(255,255,255,0.95);
-      transform: rotate(45deg);
     }
 
     /* =============================== */
@@ -861,12 +817,32 @@
 
       .plane-card{ height: 410px; }
 
-      /* ✅ sur mobile aussi, avion remonté un peu */
-      .card-plane{ width: 98%; height: 230px; top: 45%; }
+      /* ✅ MOBILE : l’avion ne doit plus dépasser à gauche/droite */
+      .card-plane{
+        width: 92%;        /* moins large */
+        height: 230px;
+        top: 45%;
+      }
+      .card-plane img{
+        transform: translateX(0) rotate(0deg) scale(1.02); /* ↓ scale uniquement mobile */
+      }
+      .plane-card:hover .card-plane img{
+        transform: translateX(14px) rotate(-1.0deg) scale(1.07); /* hover mobile */
+      }
 
       .title-row{ padding-right: 56px; }
       .card-name h3{ font-size: 34px; }
       .badge{ height: 26px; font-size: 11px; }
+
+      .card-bottom{
+        height: 164px; /* un peu plus confortable sur mobile */
+        padding: 16px 16px 18px;
+        gap: 16px;
+      }
+      .bottom-col ul{
+        font-size: 16px;
+        gap: 8px;
+      }
     }
   </style>
 </head>
@@ -1022,15 +998,10 @@
               <div class="bottom-col">
                 <h4>TARIFS</h4>
                 <ul>
-                  <li><span class="dot"></span><span>Dry : — €/h</span></li>
-                  <li><span class="dot"></span><span>Wet : — €/h</span></li>
+                  <li><span class="dot"></span><span>Brevetés : — €/h</span></li>
+                  <li><span class="dot"></span><span>Non-brevetés : — €/h</span></li>
                   <li><span class="dot"></span><span>Instruction : — €/h</span></li>
                 </ul>
-              </div>
-
-              <div class="bottom-foot">
-                <div class="from">À PARTIR DE — €/H</div>
-                <div class="mini-tag">VFR <span class="chev"></span></div>
               </div>
             </div>
           </a>
@@ -1065,15 +1036,10 @@
               <div class="bottom-col">
                 <h4>TARIFS</h4>
                 <ul>
-                  <li><span class="dot"></span><span>Dry : — €/h</span></li>
-                  <li><span class="dot"></span><span>Wet : — €/h</span></li>
+                  <li><span class="dot"></span><span>Brevetés : — €/h</span></li>
+                  <li><span class="dot"></span><span>Non-brevetés : — €/h</span></li>
                   <li><span class="dot"></span><span>Instruction : — €/h</span></li>
                 </ul>
-              </div>
-
-              <div class="bottom-foot">
-                <div class="from">À PARTIR DE — €/H</div>
-                <div class="mini-tag">VFR <span class="chev"></span></div>
               </div>
             </div>
           </a>
@@ -1102,22 +1068,17 @@
                 <ul>
                   <li><span class="dot"></span><span>— places</span></li>
                   <li><span class="dot"></span><span>Vitesse croisière : —</span></li>
-                  <li><span class="dot"></span><span>Avionique : —</span></li>
+                  <li><span class="dot"></span><span>Autonomie : —</span></li>
                 </ul>
               </div>
 
               <div class="bottom-col">
                 <h4>TARIFS</h4>
                 <ul>
-                  <li><span class="dot"></span><span>Dry : — €/h</span></li>
-                  <li><span class="dot"></span><span>Wet : — €/h</span></li>
+                  <li><span class="dot"></span><span>Brevetés : — €/h</span></li>
+                  <li><span class="dot"></span><span>Non-brevetés : — €/h</span></li>
                   <li><span class="dot"></span><span>Instruction : — €/h</span></li>
                 </ul>
-              </div>
-
-              <div class="bottom-foot">
-                <div class="from">À PARTIR DE — €/H</div>
-                <div class="mini-tag">VFR/IFR <span class="chev"></span></div>
               </div>
             </div>
           </a>
