@@ -2,12 +2,12 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8" />
-  <title>APAM – Flotte (Démo Fiche Overlay)</title>
+  <title>APAM – Aéroclub L'Aigle Saint-Michel</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <style>
     /* =============================== */
-    /* FONTS (tes fichiers) */
+    /* FONTS */
     /* =============================== */
     @font-face {
       font-family: "GPMenu";
@@ -15,6 +15,7 @@
       font-weight: 900;
       font-style: normal;
     }
+
     @font-face {
       font-family: "Swiss911";
       src: url("Swiss911-ExtraCompressed.otf") format("opentype");
@@ -22,1068 +23,1015 @@
       font-style: normal;
     }
 
-    :root{
+    /* =============================== */
+    /* VARIABLES */
+    /* =============================== */
+    :root {
+      --page-side-margin: 60px;
+      --header-height: 50px;
+      --header-font-size: 15px;
+      --header-letter-spacing: -0.05em;
+      --logo-height: 100px;
+      --gap-logo-header: 62px;
+      --header-grey: #222;
+
+      /* Accent bleu APAM */
       --accent: #2f6bff;
-      --accent2:#1b45e8;
-      --bg: #141417;
-      --card: rgba(18,18,18,0.92);
-      --cardBorder: rgba(255,255,255,0.08);
-      --shadow: 0 26px 60px rgba(0,0,0,0.34);
-      --ifr: #ff3b30;
+      --accent-glow: rgba(47,107,255,0.28);
 
-      --gridMax: 1460px;
-      --outerX: 26px;
-      --gapX: 16px;
-      --gapY: 16px;
-    }
+      /* Dropdown flotte – panel GP (desktop) */
+      --panel-w: 200px;
+      --card-h: 100px;
+      --panel-radius: 6px;
+      --panel-bg: #222;
+      --panel-border: rgba(255,255,255,0.10);
+      --card-bg: #2a2a2a;
+      --card-border: rgba(255,255,255,0.10);
 
-    *{ box-sizing:border-box; margin:0; padding:0; }
-    html,body{ height:100%; }
-    body{
-      background:#101012;
-      color:#fff;
-      font-family: system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
-      overflow-x:hidden;
+      /* Mobile */
+      --m-side: 18px;
     }
 
     /* =============================== */
-    /* PAGE BG */
+    /* RESET + FIX SCROLL */
     /* =============================== */
-    .page{
-      min-height:100svh;
-      background: var(--bg);
-      position:relative;
-      overflow:hidden;
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      height: 100%;
     }
-    .page::before{
+
+    body {
+      background: #000;
+      color: #fff;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+
+      /* ✅ index plein écran -> pas de scroll vertical parasite */
+      overflow-x: hidden;
+      overflow-y: hidden;
+    }
+
+    /* =============================== */
+    /* HERO (plein écran) */
+    /* =============================== */
+    .hero {
+      position: relative;
+
+      /* ✅ le plus robuste (mobile + desktop) */
+      height: 100svh;
+      min-height: 100vh;
+
+      background: #000;
+      overflow: hidden;
+    }
+
+    /* ✅ Hero image unique */
+    .hero::before{
       content:"";
-      position:absolute; inset:0;
+      position:absolute;
+      inset:0;
       background:
-        radial-gradient(circle at 20% 18%, rgba(255,255,255,0.06) 0%, rgba(255,255,255,0) 55%),
-        radial-gradient(circle at 80% 30%, rgba(47,107,255,0.10) 0%, rgba(47,107,255,0) 52%);
-      opacity:.6;
-      pointer-events:none;
+        linear-gradient(90deg, rgba(0,0,0,0.82) 0%, rgba(0,0,0,0.55) 42%, rgba(0,0,0,0.25) 100%),
+        radial-gradient(circle at top left, rgba(255,255,255,0.10) 0, rgba(0,0,0,0) 55%),
+        url("image1.png");
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+
+      /* ✅ évite les effets qui peuvent provoquer un “dépassement” selon navigateurs */
+      transform: none;
+      filter: saturate(1.02) contrast(1.04);
     }
 
     /* =============================== */
-    /* TITLE (entrée ciné) */
+    /* HEADER DESKTOP */
     /* =============================== */
-    .page-title{
-      position:relative;
-      z-index:2;
-      max-width: var(--gridMax);
-      margin: 28px auto 10px;
-      padding: 0 var(--outerX);
-      display:flex;
-      align-items:center;
-      gap:14px;
-    }
-    .title-box{
-      background:#fff;
-      color:#000;
-      border:1px solid rgba(0,0,0,0.12);
-      box-shadow: 0 18px 34px rgba(0,0,0,0.22);
-      padding: 18px 22px 14px;
-      border-radius:0;
-      overflow:hidden;
-    }
-    .title-box span{
-      font-family:"Swiss911", sans-serif;
-      text-transform:uppercase;
-      letter-spacing:-0.02em;
-      font-size:76px;
-      line-height:.9;
-      transform: skewX(-6deg);
-      display:block;
-      white-space:nowrap;
+    .site-header { padding-top: 20px; position: relative; z-index: 10; }
+
+    .header-row {
+      display: flex;
+      align-items: center;
+      margin: 0 var(--page-side-margin);
     }
 
-    /* Anim entrée page */
-    .enter-title{
-      opacity:0;
-      transform: translate3d(0,18px,0);
+    .header-logo {
+      position: relative;
+      display: inline-block;
+      text-decoration: none;
+    }
+
+    .header-logo img {
+      height: var(--logo-height);
+      display: block;
+
+      opacity: 0;
+      transform: translate3d(0, -16px, 0) scale(0.92);
       filter: blur(8px);
-      animation: inTitle .75s cubic-bezier(.16,1,.22,1) forwards;
-    }
-    @keyframes inTitle{
-      to{ opacity:1; transform: translate3d(0,0,0); filter: blur(0); }
+      transform-origin: center;
+      animation: logoPop 1.05s cubic-bezier(.16, 1, .22, 1) forwards;
     }
 
-    /* =============================== */
-    /* GRID */
-    /* =============================== */
-    .fleet-wrap{
-      position:relative;
-      z-index:2;
-      max-width: var(--gridMax);
-      margin: 12px auto 38px;
-      padding: 0 var(--outerX);
-    }
-    .fleet-grid{
-      display:grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      column-gap: var(--gapX);
-      row-gap: var(--gapY);
-    }
-    .fleet-card-big{
-      grid-column: 1 / -1;
-      max-width: calc((var(--gridMax) - (var(--outerX) * 2) - var(--gapX)) / 2);
-      justify-self:center;
-      width:100%;
-    }
-
-    /* =============================== */
-    /* CARD */
-    /* =============================== */
-    .plane-card{
-      position:relative;
-      height: 410px;
-      background: var(--card);
-      border: 1px solid var(--cardBorder);
-      box-shadow: var(--shadow);
-      border-radius:0;
-      overflow:hidden;
-      text-decoration:none;
-      color:#fff;
-      transform: translateZ(0);
-      transition: transform .22s cubic-bezier(.16,1,.22,1), box-shadow .22s ease, border-color .22s ease;
-      opacity:0;
-      transform: translate3d(0,18px,0);
-      filter: blur(10px);
-    }
-    .plane-card.is-in{
-      opacity:1;
-      transform: translate3d(0,0,0);
-      filter: blur(0);
-      transition:
-        transform .55s cubic-bezier(.16,1,.22,1),
-        opacity .55s ease,
-        filter .55s ease,
-        box-shadow .22s ease,
-        border-color .22s ease;
-    }
-    .plane-card:hover{
-      transform: translate3d(0,-6px,0);
-      border-color: rgba(47,107,255,0.35);
-      box-shadow: 0 30px 92px rgba(0,0,0,0.48), 0 0 0 1px rgba(47,107,255,0.16);
-    }
-    .plane-card::before{
+    .header-logo::after{
       content:"";
-      position:absolute; inset:0;
-      background:
-        radial-gradient(circle at 30% 10%, rgba(255,255,255,0.07) 0%, rgba(255,255,255,0) 55%),
-        linear-gradient(180deg, rgba(255,255,255,0.02) 0%, rgba(0,0,0,0.34) 100%);
+      position:absolute;
+      inset:-10px -14px -10px -14px;
+      background: radial-gradient(circle at 30% 30%, rgba(47,107,255,0.28), transparent 55%);
+      opacity: 0;
+      filter: blur(10px);
       pointer-events:none;
+      animation: logoGlow 1.2s ease forwards;
+      animation-delay: .25s;
     }
 
-    /* flèche dans carré blanc */
-    .card-arrow{
-      position:absolute;
-      top:16px; right:16px;
-      width:48px; height:48px;
-      background:#fff;
-      box-shadow: 0 16px 30px rgba(0,0,0,0.35);
-      display:flex; align-items:center; justify-content:center;
-      border-radius:0;
-      z-index:4;
-      cursor:pointer;
+    @keyframes logoPop{
+      60% { opacity: 1; transform: translate3d(0, 2px, 0) scale(1.05); filter: blur(0px); }
+      100% { opacity: 1; transform: translate3d(0, 0, 0) scale(1); filter: blur(0px); }
     }
-    .card-arrow i{
-      width:16px;height:16px;
-      border-right: 4px solid #000;
-      border-top: 4px solid #000;
-      transform: rotate(45deg);
-      margin-left:-2px;
+    @keyframes logoGlow{
+      40% { opacity: .55; }
+      100% { opacity: 0; }
     }
 
-    .card-top{ position:relative; z-index:3; padding: 20px 20px 0; }
-    .title-row{
-      display:flex;
-      align-items:flex-end;
-      justify-content:space-between;
-      gap:14px;
-      padding-right:64px;
-    }
-    .card-name h3{
-      font-family:"Swiss911", sans-serif;
-      text-transform:uppercase;
-      letter-spacing:-0.02em;
-      font-size:38px;
-      line-height:1;
-      font-style: italic;
-      transform: skewX(-6deg);
-      white-space:nowrap;
-    }
-    .badges{ display:flex; gap:10px; align-items:center; }
-    .badge{
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      height:28px;
-      padding:0 12px;
-      font-family:"GPMenu", system-ui, sans-serif;
-      font-size:12px;
-      letter-spacing:0.12em;
-      text-transform:uppercase;
-      color:#fff;
-      background: rgba(0,0,0,0.35);
-      border:2px solid rgba(47,107,255,0.75);
-      border-radius:0;
-      white-space:nowrap;
-    }
-    .badge.ifr{ border-color: var(--ifr); }
+    .header-bar {
+      height: var(--header-height);
+      background: #fff;
+      color: var(--header-grey);
+      margin-left: var(--gap-logo-header);
+      flex: 1;
 
-    /* avion dans la carte (desktop ok) */
-    .card-plane{
-      position:absolute;
-      left:50%;
-      top: 38%; /* un poil plus haut pour ne pas toucher le bandeau */
-      transform: translate(-50%,-50%);
-      width: min(760px, 96%);
-      height: 250px;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      pointer-events:none;
-      z-index:2;
-    }
-    .card-plane img{
-      max-width:100%;
-      max-height:100%;
-      object-fit:contain;
-      filter: drop-shadow(0 18px 22px rgba(0,0,0,0.42));
-      transform: translateX(0) rotate(0deg) scale(1.22);
-      transition: transform .28s cubic-bezier(.16,1,.22,1);
-    }
-    /* ✅ animation hover avion (le petit départ vers la droite + rotation) */
-    .plane-card:hover .card-plane img{
-      transform: translateX(18px) rotate(-1.2deg) scale(1.28);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      padding: 0 6px 0 32px;
+      position: relative;
+      z-index: 10;
+      box-shadow: 0 2px 0 rgba(0,0,0,0.08);
     }
 
-    /* Bandeau bleu */
-    .card-bottom{
-      position:absolute;
-      left:0; right:0; bottom:0;
-      height:158px;
-      background: linear-gradient(180deg, var(--accent) 0%, var(--accent2) 100%);
-      border-top: 1px solid rgba(255,255,255,0.18);
-      z-index:3;
-      padding: 16px 18px 18px;
-      display:grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 18px;
-      border-radius:0;
+    .header-left { display: flex; align-items: center; gap: 34px; }
+    .header-right { display: flex; align-items: center; gap: 18px; margin-left: auto; }
 
-      /* animation bandeau qui "monte" à l’apparition */
-      transform: translate3d(0, 26px, 0);
-      opacity:0;
-    }
-    .plane-card.is-in .card-bottom{
-      animation: bandUp .65s cubic-bezier(.16,1,.22,1) forwards;
-      animation-delay: .12s;
-    }
-    @keyframes bandUp{
-      to{ transform: translate3d(0,0,0); opacity:1; }
+    .nav-menu { display: flex; align-items: center; gap: 34px; }
+    .nav-item { position: relative; display: inline-flex; align-items: center; }
+
+    .nav-link {
+      font-family: "GPMenu", system-ui, sans-serif;
+      font-size: var(--header-font-size);
+      letter-spacing: var(--header-letter-spacing);
+      text-transform: uppercase;
+      text-decoration: none;
+      color: var(--header-grey);
+      white-space: nowrap;
+      position: relative;
+      display: inline-block;
+      line-height: 1;
+      padding: 2px 0;
     }
 
-    .bottom-col h4{
-      font-family:"GPMenu", system-ui, sans-serif;
-      font-size:13px;
-      letter-spacing:0.20em;
-      text-transform:uppercase;
-      opacity:.95;
-      margin-bottom:9px;
-    }
-    .bottom-col ul{
-      list-style:none;
-      display:flex;
-      flex-direction:column;
-      gap:7px;
-      font-size:16px;
-      line-height:1.15;
-      opacity:.99;
-    }
-    .bottom-col li{
-      display:flex;
-      gap:10px;
-      align-items: baseline;
+    /* Hover remplissage BLEU (accents OK via data-text) */
+    .nav-link[data-text] { color: transparent; }
+    .nav-link[data-text]::before {
+      content: attr(data-text);
+      position: absolute;
+      inset: 0;
+      color: var(--header-grey);
       white-space: nowrap;
     }
-    .dot{ width:7px; height:7px; background: rgba(255,255,255,0.95); margin-top:6px; flex:0 0 auto; }
+    .nav-link[data-text]::after {
+      content: attr(data-text);
+      position: absolute;
+      inset: 0;
+      color: var(--accent);
+      white-space: nowrap;
+      clip-path: inset(0 100% 0 0);
+      transition: clip-path .22s ease;
+      pointer-events: none;
+    }
+    .nav-link[data-text]:hover::after { clip-path: inset(0 0 0 0); }
 
-    /* =============================== */
-    /* RESPONSIVE */
-    /* =============================== */
-    @media (max-width: 980px){
-      :root{
-        --outerX: 18px;
-        --gapX: 14px;
-        --gapY: 14px;
-      }
-      .title-box span{ font-size:56px; }
-      .fleet-grid{ grid-template-columns: 1fr; }
-      .fleet-card-big{ max-width:none; justify-self:stretch; }
-      .title-row{ padding-right:56px; }
-      .card-name h3{ font-size:34px; }
-      .badge{ height:26px; font-size:11px; }
+    /* Icônes */
+    .icon {
+      width: 26px;
+      height: 26px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      text-decoration: none;
+    }
+    .icon svg { width: 100%; height: 100%; fill: var(--header-grey); }
 
-      /* ✅ MOBILE : avion moins large (évite dépassements) */
-      .card-plane{
-        width: 92%;
-        height: 230px;
-        top: 42%;
-      }
-      .card-plane img{
-        transform: translateX(0) rotate(0deg) scale(1.02);
-      }
-      .plane-card:hover .card-plane img{
-        transform: translateX(14px) rotate(-1.0deg) scale(1.07);
-      }
-
-      .card-bottom{ height:164px; padding:16px 16px 18px; gap:16px; }
-      .bottom-col ul{ font-size:16px; gap:8px; }
-    }
-
-    /* =============================== */
-    /* OVERLAY + PANEL (FICHE) */
-    /* =============================== */
-    .overlay{
-      position:fixed; inset:0;
-      z-index:999;
-      pointer-events:none;
-      opacity:0;
-      transition: opacity .25s ease;
-    }
-    .overlay.is-open{
-      pointer-events:auto;
-      opacity:1;
-    }
-
-    .overlay-backdrop{
-      position:absolute; inset:0;
-      background: rgba(0,0,0,0.62);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-    }
-
-    .panel{
-      position:absolute;
-      top:0; right:0;
-      height:100%;
-      width: min(860px, 92vw);
-      background: rgba(12,12,14,0.92);
-      border-left: 1px solid rgba(255,255,255,0.10);
-      box-shadow: -24px 0 70px rgba(0,0,0,0.55);
-      transform: translate3d(26px,0,0);
-      opacity:0;
-      transition: transform .55s cubic-bezier(.16,1,.22,1), opacity .28s ease;
-      overflow:hidden;
-    }
-    .overlay.is-open .panel{
-      transform: translate3d(0,0,0);
-      opacity:1;
-    }
-
-    /* décor "ingénieur" : grille + scanlines */
-    .panel::before{
-      content:"";
-      position:absolute; inset:0;
-      background:
-        linear-gradient(rgba(255,255,255,0.06), rgba(255,255,255,0.00)),
-        repeating-linear-gradient(90deg, rgba(255,255,255,0.045) 0, rgba(255,255,255,0.045) 1px, transparent 1px, transparent 44px),
-        repeating-linear-gradient(0deg,  rgba(255,255,255,0.045) 0, rgba(255,255,255,0.045) 1px, transparent 1px, transparent 44px);
-      opacity:.23;
-      pointer-events:none;
-    }
-    .panel::after{
-      content:"";
-      position:absolute; inset:-40px -40px -40px -40px;
-      background: radial-gradient(circle at 30% 22%, rgba(47,107,255,0.22), transparent 55%),
-                  radial-gradient(circle at 84% 30%, rgba(47,107,255,0.14), transparent 55%);
-      opacity:.7;
-      pointer-events:none;
-      filter: blur(2px);
-    }
-
-    .panel-inner{
-      position:relative;
-      z-index:2;
-      height:100%;
-      display:flex;
-      flex-direction:column;
-    }
-
-    .panel-topbar{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      padding: 18px 18px;
-      border-bottom: 1px solid rgba(255,255,255,0.10);
-      background: rgba(0,0,0,0.25);
-    }
-    .panel-kicker{
-      font-family:"GPMenu", system-ui, sans-serif;
-      font-size:12px;
-      letter-spacing:0.22em;
-      text-transform:uppercase;
-      color: rgba(255,255,255,0.72);
-    }
-
-    .panel-close{
-      width:56px; height:56px;
-      background:#fff;
-      border:0;
-      border-radius:0;
-      cursor:pointer;
-      box-shadow: 0 10px 18px rgba(0,0,0,0.35);
-      position:relative;
-    }
-    .panel-close::before,
-    .panel-close::after{
-      content:"";
-      width:24px;height:3px;
-      background:#000;
-      position:absolute;
-      top:50%; left:50%;
-      transform-origin:center;
-    }
-    .panel-close::before{ transform: translate(-50%,-50%) rotate(45deg); }
-    .panel-close::after{ transform: translate(-50%,-50%) rotate(-45deg); }
-
-    .panel-body{
-      flex:1;
-      overflow:auto;
-      padding: 18px 18px 22px;
-    }
-
-    /* HERO */
-    .hero{
-      position:relative;
-      border: 1px solid rgba(255,255,255,0.10);
-      background: rgba(0,0,0,0.22);
-      box-shadow: 0 26px 70px rgba(0,0,0,0.38);
-      padding: 18px;
-      overflow:hidden;
-    }
-    .hero-head{
-      display:flex;
-      align-items:flex-end;
-      justify-content:space-between;
-      gap:14px;
-      padding-right: 6px;
-    }
-    .hero-title{
-      font-family:"Swiss911", sans-serif;
-      text-transform:uppercase;
-      font-size: 66px;
-      letter-spacing:-0.02em;
-      line-height: .88;
-      font-style: italic;
-      transform: skewX(-6deg);
-      white-space:nowrap;
-    }
-    .hero-badges{ display:flex; gap:10px; align-items:center; }
-    .hero-badges .badge{ height:28px; }
-
-    .hero-plane{
-      position:relative;
-      margin-top: 10px;
-      height: 280px;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      pointer-events:none;
-    }
-    .hero-plane img{
-      max-width:100%;
-      max-height:100%;
-      object-fit:contain;
-      filter: drop-shadow(0 22px 28px rgba(0,0,0,0.50));
-      transform: translate3d(-14px, 10px, 0) scale(1.06);
-      opacity:0;
-      animation: heroPlaneIn .75s cubic-bezier(.16,1,.22,1) forwards;
-      animation-delay: .12s;
-    }
-    @keyframes heroPlaneIn{
-      to{ opacity:1; transform: translate3d(0,0,0) scale(1.10); }
-    }
-
-    /* HUD callouts (ludiques) */
-    .hud{
-      position:absolute;
-      inset: 88px 18px 18px 18px;
-      pointer-events:none;
-    }
-    .callout{
-      position:absolute;
-      width: 210px;
-      border: 1px solid rgba(47,107,255,0.40);
-      background: rgba(0,0,0,0.25);
-      box-shadow: 0 0 0 1px rgba(47,107,255,0.12), 0 18px 38px rgba(0,0,0,0.35);
-      padding: 10px 10px 10px;
-      opacity:0;
-      transform: translate3d(0,10px,0);
-      filter: blur(8px);
-      animation: callIn .55s cubic-bezier(.16,1,.22,1) forwards;
-    }
-    .callout:nth-child(1){ animation-delay: .18s; }
-    .callout:nth-child(2){ animation-delay: .26s; }
-    .callout:nth-child(3){ animation-delay: .34s; }
-
-    @keyframes callIn{
-      to{ opacity:1; transform: translate3d(0,0,0); filter: blur(0); }
-    }
-
-    .callout .lab{
-      font-family:"GPMenu", system-ui, sans-serif;
-      font-size: 11px;
-      letter-spacing: 0.22em;
+    /* Bouton MON COMPTE */
+    .btn-compte {
+      position: relative;
+      overflow: hidden;
+      font-family: "Swiss911", sans-serif;
+      font-size: 25px;
+      letter-spacing: -0.04em;
       text-transform: uppercase;
-      color: rgba(255,255,255,0.75);
-      margin-bottom:6px;
-    }
-    .callout .val{
-      font-family:"Swiss911", sans-serif;
-      font-size: 34px;
-      letter-spacing:-0.02em;
-      font-style: italic;
-      transform: skewX(-6deg);
+      padding: 6px 12px;
+      border: 2px solid var(--header-grey);
+      background: #000;
+      color: #fff;
+      cursor: pointer;
+      white-space: nowrap;
       line-height: 1;
-      white-space:nowrap;
+      transition: color 0.25s ease, border-color 0.25s ease;
     }
-    .callout .sub{
-      margin-top:4px;
-      font-size: 12px;
-      color: rgba(255,255,255,0.75);
-      letter-spacing: 0.02em;
+    .btn-compte::before {
+      content: "";
+      position: absolute;
+      left: 0; top: 0;
+      width: 0;
+      height: 100%;
+      background: var(--accent);
+      z-index: -1;
+      transition: width 0.25s ease;
+    }
+    .btn-compte:hover { color: #000; border-color: var(--accent); }
+    .btn-compte:hover::before { width: 100%; }
+
+    /* =============================== */
+    /* DROPDOWN FLOTTE — PANEL GP (DESKTOP) */
+    /* =============================== */
+    .nav-item.has-dropdown::before {
+      content: "";
+      position: absolute;
+      left: -22px;
+      right: -22px;
+      top: 100%;
+      height: 18px;
     }
 
-    .callout::after{
-      content:"";
-      position:absolute;
-      left: 14px; top: 100%;
-      width: 1px; height: 26px;
-      background: rgba(47,107,255,0.55);
-      box-shadow: 0 0 18px rgba(47,107,255,0.25);
-    }
-    .callout::before{
-      content:"";
-      position:absolute;
-      left: 10px; top: calc(100% + 26px);
-      width: 8px; height: 8px;
-      border: 2px solid rgba(47,107,255,0.75);
-      background: rgba(0,0,0,0.25);
-    }
+    .fleet-panel {
+      position: absolute;
+      top: calc(100% + 18px);
+      left: 50%;
+      transform: translateX(-50%);
+      width: var(--panel-w);
+      background: var(--panel-bg);
+      border: 1px solid var(--panel-border);
+      border-radius: var(--panel-radius);
+      box-shadow: 0 22px 40px rgba(0,0,0,0.45);
+      padding: 10px;
 
-    /* Positions callouts */
-    .callout.c1{ left: 16px; top: 34px; }
-    .callout.c2{ right: 16px; top: 74px; }
-    .callout.c3{ left: 36px; bottom: 22px; }
-
-    /* Sections specs/tarifs (ingénieur) */
-    .grid-sections{
-      margin-top: 14px;
-      display:grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-    }
-
-    .sec{
-      border: 1px solid rgba(255,255,255,0.10);
-      background: rgba(0,0,0,0.22);
-      box-shadow: 0 22px 50px rgba(0,0,0,0.30);
-      padding: 14px 14px 14px;
-      opacity:0;
-      transform: translate3d(0,12px,0);
-      filter: blur(10px);
-      animation: secIn .55s cubic-bezier(.16,1,.22,1) forwards;
-    }
-    .sec:nth-child(1){ animation-delay: .18s; }
-    .sec:nth-child(2){ animation-delay: .24s; }
-    @keyframes secIn{
-      to{ opacity:1; transform: translate3d(0,0,0); filter: blur(0); }
-    }
-
-    .sec h4{
-      font-family:"GPMenu", system-ui, sans-serif;
-      font-size: 12px;
-      letter-spacing: 0.22em;
-      text-transform: uppercase;
-      color: rgba(255,255,255,0.82);
-      margin-bottom: 10px;
-    }
-    .rows{
-      display:flex;
-      flex-direction:column;
-      gap: 9px;
-    }
-    .row{
-      display:flex;
-      align-items:baseline;
-      justify-content:space-between;
+      display: flex;
+      flex-direction: column;
       gap: 10px;
-      border-bottom: 1px dashed rgba(255,255,255,0.10);
-      padding-bottom: 8px;
-    }
-    .k{
-      color: rgba(255,255,255,0.78);
-      font-size: 13px;
-      letter-spacing: 0.02em;
-      white-space:nowrap;
-    }
-    .v{
-      font-family:"Swiss911", sans-serif;
-      font-size: 24px;
-      letter-spacing:-0.02em;
-      font-style: italic;
-      transform: skewX(-6deg);
-      white-space:nowrap;
+
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .18s ease;
+      z-index: 50;
     }
 
-    /* CTA bas */
-    .cta{
-      margin-top: 12px;
-      display:flex;
-      gap: 12px;
-      flex-wrap:wrap;
+    .nav-item.has-dropdown:hover .fleet-panel {
+      opacity: 1;
+      pointer-events: auto;
     }
-    .btn{
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      padding: 12px 14px;
-      border-radius:0;
-      border: 1px solid rgba(255,255,255,0.12);
-      background: rgba(0,0,0,0.35);
-      color:#fff;
-      text-decoration:none;
-      font-family:"GPMenu", system-ui, sans-serif;
-      font-size: 12px;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
+
+    .fleet-card {
+      position: relative;
+      height: var(--card-h);
+      border-radius: 6px;
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      text-decoration: none;
+      color: #fff;
+      overflow: hidden;
       transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease;
     }
-    .btn:hover{
-      transform: translateY(-2px);
+
+    .fleet-card:hover {
+      transform: translateX(6px);
       border-color: rgba(47,107,255,0.55);
-      box-shadow: 0 0 0 1px rgba(47,107,255,0.18), 0 18px 30px rgba(0,0,0,0.35);
-    }
-    .btn.primary{
-      background: linear-gradient(180deg, var(--accent) 0%, var(--accent2) 100%);
-      border-color: rgba(255,255,255,0.18);
+      box-shadow: 0 0 0 1px rgba(47,107,255,0.25), 0 18px 30px rgba(0,0,0,0.35);
     }
 
-    /* Mobile panel full width + HUD light */
-    @media (max-width: 980px){
-      .panel{ width: 100vw; }
-      .hero-title{ font-size: 52px; }
-      .hero-plane{ height: 240px; }
-      .hud{ display:none; } /* on garde premium mais on allège le HUD sur mobile */
-      .grid-sections{ grid-template-columns: 1fr; }
+    .fleet-name {
+      position: absolute;
+      top: 6px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-family: "Swiss911", sans-serif;
+      text-transform: uppercase;
+      font-size: 18px;
+      letter-spacing: -0.02em;
+      line-height: 1;
+      opacity: 0.95;
+      white-space: nowrap;
+      pointer-events: none;
+    }
+
+    .fleet-plane {
+      position: absolute;
+      left: 50%;
+      top: 52%;
+      transform: translate(-50%, -50%);
+      height: 80px;
+      max-width: 88%;
+      width: auto;
+      object-fit: contain;
+      pointer-events: none;
+      filter: drop-shadow(0 10px 14px rgba(0,0,0,0.35));
+    }
+
+    .fleet-chev {
+      position: absolute;
+      right: 14px;
+      top: 50%;
+      width: 10px;
+      height: 10px;
+      border-right: 2px solid rgba(255,255,255,0.7);
+      border-top: 2px solid rgba(255,255,255,0.7);
+      transform: translateY(-50%) rotate(45deg);
+      transition: transform .18s ease, border-color .18s ease;
+      opacity: 0.9;
+    }
+
+    .fleet-card:hover .fleet-chev {
+      border-color: var(--accent);
+      transform: translate(4px, -50%) rotate(45deg);
+    }
+
+    .fleet-cta {
+      margin-top: 2px;
+      padding-top: 10px;
+      border-top: 1px solid rgba(255,255,255,0.10);
+    }
+
+    .fleet-cta a {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 10px 4px 2px;
+      text-decoration: none;
+      color: rgba(255,255,255,0.88);
+      font-family: "Swiss911", sans-serif;
+      text-transform: uppercase;
+      font-size: 20px;
+      letter-spacing: -0.02em;
+      font-style: italic;
+    }
+
+    .fleet-cta a .cta-chev {
+      width: 10px;
+      height: 10px;
+      border-right: 2px solid rgba(255,255,255,0.65);
+      border-top: 2px solid rgba(255,255,255,0.65);
+      transform: rotate(45deg);
+      transition: transform .18s ease, border-color .18s ease;
+    }
+
+    .fleet-cta a:hover .cta-chev {
+      transform: translateX(4px) rotate(45deg);
+      border-color: var(--accent);
+    }
+
+    /* =============================== */
+    /* BLOC TITRE STYLE GP + ANIMATION */
+    /* =============================== */
+    .gp-stack {
+      position: absolute;
+      left: var(--page-side-margin);
+      top: calc(55% - 72px);
+      transform: translateY(-50%);
+      z-index: 2;
+    }
+
+    .gp-wrap { position: relative; display: inline-block; }
+
+    .gp-box {
+      background: #fff;
+      color: #000;
+      border: 1px solid rgba(0,0,0,0.12);
+      box-shadow: 0 18px 34px rgba(0,0,0,0.35);
+    }
+
+    .gp-main {
+      padding: 16px 22px 14px;
+      display: inline-block;
+      max-width: calc(100vw - (var(--page-side-margin) * 2));
+    }
+
+    .gp-big {
+      font-family: "Swiss911", sans-serif;
+      text-transform: uppercase;
+      letter-spacing: -0.02em;
+      line-height: 0.9;
+      font-size: clamp(44px, 5.8vw, 86px);
+      white-space: nowrap;
+      font-style: italic;
+      transform: skewX(-6deg);
+      transform-origin: left center;
+    }
+
+    .gp-tag {
+      position: absolute;
+      right: 0;
+      top: 100%;
+      transform: translateY(8px);
+      background: #000;
+      color: #fff;
+      border: 1px solid rgba(255,255,255,0.15);
+      box-shadow: 0 18px 34px rgba(0,0,0,0.45);
+      padding: 10px 16px 8px;
+    }
+
+    .gp-small {
+      font-family: "Swiss911", sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 0.09em;
+      font-size: clamp(22px, 2.2vw, 34px);
+      line-height: 1;
+      white-space: nowrap;
+    }
+
+    .anim-main {
+      opacity: 0;
+      transform: translate3d(-180px, 0, 0) skewX(-6deg) scale(0.98);
+      filter: blur(10px);
+      animation: impactIn 0.95s cubic-bezier(.16, 1, .22, 1) forwards;
+    }
+
+    .anim-tag {
+      opacity: 0;
+      transform: translate3d(-140px, 22px, 0) scale(0.96);
+      filter: blur(9px);
+      animation: tagIn 0.92s cubic-bezier(.16, 1, .22, 1) forwards;
+      animation-delay: 0.22s;
+    }
+
+    @keyframes impactIn {
+      55% { opacity: 1; transform: translate3d(18px, 0, 0) skewX(-6deg) scale(1.03); filter: blur(0px); }
+      100% { opacity: 1; transform: translate3d(0, 0, 0) skewX(-6deg) scale(1); filter: blur(0px); }
+    }
+
+    @keyframes tagIn {
+      55% { opacity: 1; transform: translate3d(14px, 0, 0) scale(1.03); filter: blur(0px); }
+      100% { opacity: 1; transform: translate3d(0, 0, 0) scale(1); filter: blur(0px); }
+    }
+
+    /* =============================== */
+    /* INFOS BAS-DROITE (cliquable Maps) */
+    /* =============================== */
+    .info-stack {
+      position: absolute;
+      right: var(--page-side-margin);
+      bottom: 40px;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      align-items: flex-end;
+    }
+
+    .info-link { display: inline-block; text-decoration: none; }
+
+    .info-frq {
+      background: #000;
+      color: #fff;
+      border: 1px solid rgba(255,255,255,0.14);
+      box-shadow: 0 18px 34px rgba(0,0,0,0.45);
+      padding: 10px 12px 8px;
+
+      opacity: 0;
+      transform: translate3d(0, 22px, 0);
+      filter: blur(7px);
+      animation: infoIn .85s cubic-bezier(.16, 1, .22, 1) forwards;
+      animation-delay: .45s;
+    }
+
+    .info-coord {
+      background: #fff;
+      color: #000;
+      border: 1px solid rgba(0,0,0,0.12);
+      box-shadow: 0 18px 34px rgba(0,0,0,0.35);
+      padding: 12px 14px 10px;
+
+      opacity: 0;
+      transform: translate3d(0, 24px, 0);
+      filter: blur(8px);
+      animation: infoIn .95s cubic-bezier(.16, 1, .22, 1) forwards;
+      animation-delay: .58s;
+    }
+
+    .info-link:hover .info-frq,
+    .info-link:hover .info-coord{
+      box-shadow: 0 0 0 1px rgba(47,107,255,0.25), 0 18px 34px rgba(0,0,0,0.40);
+      border-color: rgba(47,107,255,0.35);
+    }
+
+    .info-line {
+      font-family: "Swiss911", sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+      line-height: 1;
+      white-space: nowrap;
+      font-size: 22px;
+    }
+
+    .info-line.small { font-size: 20px; letter-spacing: 0.04em; }
+
+    @keyframes infoIn {
+      65% { opacity: 1; transform: translate3d(0, -4px, 0); filter: blur(0px); }
+      100% { opacity: 1; transform: translate3d(0, 0, 0); filter: blur(0px); }
+    }
+
+    /* =============================== */
+    /* MOBILE : header GP + drawer full screen */
+    /* =============================== */
+    .m-header { display: none; }
+    .m-overlay{ display: none; }
+    .m-drawer{ display: none; }
+
+    @media (max-width: 980px) {
+      :root {
+        --page-side-margin: var(--m-side);
+        --logo-height: 64px;
+        --gap-logo-header: 24px;
+      }
+
+      /* IMPORTANT : on remet le scroll normal sur mobile si tu veux */
+      body{
+        overflow-y: hidden; /* ✅ index toujours full screen */
+      }
+
+      /* cacher header desktop */
+      .site-header { display: none; }
+
+      /* montrer header mobile */
+      .m-header {
+        display: flex;
+        position: relative;
+        z-index: 30;
+        padding: 16px var(--page-side-margin) 0;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      .m-logo {
+        display: inline-flex;
+        align-items: center;
+        text-decoration: none;
+        position: relative;
+      }
+
+      .m-logo img{
+        height: 54px;
+        display:block;
+
+        opacity: 0;
+        transform: translate3d(0, -14px, 0) scale(0.94);
+        filter: blur(8px);
+        animation: logoPop 1.05s cubic-bezier(.16, 1, .22, 1) forwards;
+      }
+
+      .m-logo::after{
+        content:"";
+        position:absolute;
+        inset:-10px -12px -10px -12px;
+        background: radial-gradient(circle at 30% 30%, rgba(47,107,255,0.30), transparent 55%);
+        opacity: 0;
+        filter: blur(10px);
+        pointer-events:none;
+        animation: logoGlow 1.2s ease forwards;
+        animation-delay: .25s;
+      }
+
+      /* burger (carré blanc) */
+      .m-burger{
+        width: 56px;
+        height: 56px;
+        background: #fff;
+        border: 0;
+        border-radius: 8px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        box-shadow: 0 10px 18px rgba(0,0,0,0.35);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .m-burger span{
+        width: 22px;
+        height: 2px;
+        background: #111;
+        position: relative;
+        display: block;
+      }
+      .m-burger span::before,
+      .m-burger span::after{
+        content:"";
+        position:absolute;
+        left:0;
+        width: 22px;
+        height: 2px;
+        background: #111;
+      }
+      .m-burger span::before{ top: -7px; }
+      .m-burger span::after{ top: 7px; }
+
+      /* overlay */
+      .m-overlay{
+        display:block;
+        position: fixed;
+        inset: 0;
+        background: rgba(0,0,0,0.55);
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity .22s ease;
+        z-index: 40;
+      }
+
+      /* drawer fullscreen */
+      .m-drawer{
+        display:block;
+        position: fixed;
+        inset: 0;
+        background: rgba(0,0,0,0.90);
+        z-index: 50;
+
+        transform: translate3d(26px, -26px, 0);
+        opacity: 0;
+        pointer-events: none;
+        transition: transform .42s cubic-bezier(.16,1,.22,1), opacity .28s ease;
+      }
+
+      /* grain/noise */
+      .m-drawer::after{
+        content:"";
+        position:absolute;
+        inset:0;
+        pointer-events:none;
+        opacity:.09;
+        background-image:
+          url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='.6'/%3E%3C/svg%3E");
+        mix-blend-mode: overlay;
+      }
+
+      /* header drawer (logo + close) */
+      .m-drawer-top{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 18px var(--page-side-margin);
+        position: relative;
+        z-index: 2;
+      }
+
+      .m-close{
+        width: 56px;
+        height: 56px;
+        background: #fff;
+        border: 0;
+        border-radius: 8px;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 10px 18px rgba(0,0,0,0.35);
+        position: relative;
+      }
+
+      .m-close::before,
+      .m-close::after{
+        content:"";
+        width: 24px;
+        height: 2px;
+        background: #111;
+        position: absolute;
+      }
+      .m-close::before{ transform: rotate(45deg); }
+      .m-close::after{ transform: rotate(-45deg); }
+
+      /* content */
+      .m-drawer-inner{
+        position: relative;
+        z-index: 2;
+        padding: 8px var(--page-side-margin) 24px;
+      }
+
+      .m-nav{
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+        padding-top: 8px;
+      }
+
+      .m-link{
+        text-decoration: none;
+        color: #fff;
+        font-family: "Swiss911", sans-serif;
+        text-transform: uppercase;
+        font-size: 44px;
+        letter-spacing: -0.03em;
+        line-height: 0.92;
+        font-style: italic;
+        transform: skewX(-6deg);
+        transform-origin: left center;
+        opacity: 0.92;
+      }
+
+      .m-link:hover{ color: var(--accent); }
+
+      .m-divider{
+        margin: 8px 0 6px;
+        height: 1px;
+        background: rgba(255,255,255,0.10);
+      }
+
+      .m-sub{
+        font-family: "GPMenu", system-ui, sans-serif;
+        text-transform: uppercase;
+        letter-spacing: 0.18em;
+        font-size: 11px;
+        color: rgba(255,255,255,0.65);
+      }
+
+      .m-cta{
+        margin-top: 18px;
+        display: inline-flex;
+        align-items: center;
+        gap: 12px;
+        text-decoration: none;
+        color: #fff;
+        font-family: "Swiss911", sans-serif;
+        text-transform: uppercase;
+        font-size: 28px;
+        letter-spacing: -0.02em;
+        font-style: italic;
+        opacity: 0.95;
+      }
+
+      .m-cta i{
+        width: 10px;
+        height: 10px;
+        border-right: 2px solid rgba(255,255,255,0.70);
+        border-top: 2px solid rgba(255,255,255,0.70);
+        transform: rotate(45deg);
+        transition: transform .18s ease, border-color .18s ease;
+      }
+
+      .m-cta:hover{ color: var(--accent); }
+      .m-cta:hover i{
+        transform: translateX(4px) rotate(45deg);
+        border-color: var(--accent);
+      }
+
+      /* open state */
+      body.m-open .m-overlay{
+        opacity: 1;
+        pointer-events: auto;
+      }
+      body.m-open .m-drawer{
+        opacity: 1;
+        pointer-events: auto;
+        transform: translate3d(0, 0, 0);
+      }
+
+      body.m-open .m-drawer-inner{
+        animation: drawerIn .45s cubic-bezier(.16,1,.22,1) both;
+      }
+      @keyframes drawerIn{
+        from{ opacity: 0; transform: translate3d(0, -10px, 0); filter: blur(6px); }
+        to{ opacity: 1; transform: translate3d(0, 0, 0); filter: blur(0px); }
+      }
+
+      /* Ajuster gros bloc titre / infos sur mobile */
+      .gp-stack{
+        left: var(--page-side-margin);
+        top: 54%;
+      }
+      .info-stack{
+        right: var(--page-side-margin);
+        bottom: 26px;
+      }
+      .info-line{ font-size: 20px; }
+      .info-line.small{ font-size: 18px; }
     }
   </style>
 </head>
 
 <body>
-  <div class="page">
-    <div class="page-title">
-      <div class="title-box enter-title"><span>FLOTTE</span></div>
+  <div class="hero">
+
+    <!-- ✅ HEADER MOBILE -->
+    <div class="m-header" aria-label="Header mobile">
+      <a class="m-logo" href="index.html" aria-label="Retour accueil (logo)">
+        <img src="apam-logo1.png" alt="Logo APAM">
+      </a>
+
+      <button class="m-burger" type="button" aria-label="Ouvrir le menu" aria-expanded="false">
+        <span aria-hidden="true"></span>
+      </button>
     </div>
 
-    <main class="fleet-wrap">
-      <section class="fleet-grid" id="fleetGrid">
+    <div class="m-overlay" aria-hidden="true"></div>
 
-        <!-- CARD 1 -->
-        <a class="plane-card"
-           href="#"
-           data-plane="CESSNA 152"
-           data-img="FGHKE1.png"
-           data-badges="VFR"
-           data-places="2"
-           data-cruise="90"
-           data-autonomy="4"
-           data-s1k="Places"
-           data-s1v="2"
-           data-s2k="Vitesse croisière"
-           data-s2v="90 KTS"
-           data-s3k="Autonomie"
-           data-s3v="4 h"
-           data-t1k="Brevetés"
-           data-t1v="— €/h"
-           data-t2k="Non-brevetés"
-           data-t2v="— €/h"
-           data-t3k="Instruction"
-           data-t3v="— €/h"
-           aria-label="Cessna 152">
-          <div class="card-arrow" data-open="1" aria-hidden="true"><i></i></div>
-
-          <div class="card-top">
-            <div class="title-row">
-              <div class="card-name"><h3>CESSNA 152</h3></div>
-              <div class="badges"><span class="badge">VFR</span></div>
-            </div>
-          </div>
-
-          <div class="card-plane"><img src="FGHKE1.png" alt="Cessna 152"></div>
-
-          <div class="card-bottom">
-            <div class="bottom-col">
-              <h4>SPECS</h4>
-              <ul>
-                <li><span class="dot"></span><span>Places : 2</span></li>
-                <li><span class="dot"></span><span>Vitesse croisière : 90 KTS</span></li>
-                <li><span class="dot"></span><span>Autonomie : 4 h</span></li>
-              </ul>
-            </div>
-            <div class="bottom-col">
-              <h4>TARIFS</h4>
-              <ul>
-                <li><span class="dot"></span><span>Brevetés : — €/h</span></li>
-                <li><span class="dot"></span><span>Non-brevetés : — €/h</span></li>
-                <li><span class="dot"></span><span>Instruction : — €/h</span></li>
-              </ul>
-            </div>
-          </div>
+    <!-- ✅ DRAWER FULLSCREEN -->
+    <aside class="m-drawer" id="m-drawer" aria-hidden="true" aria-label="Menu">
+      <div class="m-drawer-top">
+        <a class="m-logo" href="index.html" aria-label="Retour accueil (logo)">
+          <img src="apam-logo1.png" alt="Logo APAM">
         </a>
+        <button class="m-close" type="button" aria-label="Fermer le menu"></button>
+      </div>
 
-        <!-- CARD 2 -->
-        <a class="plane-card"
-           href="#"
-           data-plane="TB200"
-           data-img="TB200M.png"
-           data-badges="VFR"
-           data-places="4"
-           data-cruise="135"
-           data-autonomy="5"
-           data-s1k="Places"
-           data-s1v="4"
-           data-s2k="Vitesse croisière"
-           data-s2v="135 KTS"
-           data-s3k="Autonomie"
-           data-s3v="5 h"
-           data-t1k="Brevetés"
-           data-t1v="— €/h"
-           data-t2k="Non-brevetés"
-           data-t2v="— €/h"
-           data-t3k="Instruction"
-           data-t3v="— €/h"
-           aria-label="TB200">
-          <div class="card-arrow" data-open="1" aria-hidden="true"><i></i></div>
+      <div class="m-drawer-inner">
+        <div class="m-sub">NAVIGATION</div>
+        <div class="m-divider"></div>
 
-          <div class="card-top">
-            <div class="title-row">
-              <div class="card-name"><h3>TB200</h3></div>
-              <div class="badges"><span class="badge">VFR</span></div>
-            </div>
-          </div>
+        <nav class="m-nav" aria-label="Liens principaux">
+          <a class="m-link" href="tarifs.html">FLOTTE</a>
+          <a class="m-link" href="activite.html">ACTIVITÉS</a>
+          <a class="m-link" href="ressources.html">RESSOURCES</a>
+          <a class="m-link" href="contact.html">CONTACT</a>
+          <a class="m-link" href="espace-membres.html">MEMBRES</a>
+          <a class="m-link" href="https://openflyers.com/apam/" target="_blank" rel="noopener noreferrer">OPENFLYER</a>
+        </nav>
 
-          <div class="card-plane"><img src="TB200M.png" alt="TB200"></div>
-
-          <div class="card-bottom">
-            <div class="bottom-col">
-              <h4>SPECS</h4>
-              <ul>
-                <li><span class="dot"></span><span>Places : 4</span></li>
-                <li><span class="dot"></span><span>Vitesse croisière : 135 KTS</span></li>
-                <li><span class="dot"></span><span>Autonomie : 5 h</span></li>
-              </ul>
-            </div>
-            <div class="bottom-col">
-              <h4>TARIFS</h4>
-              <ul>
-                <li><span class="dot"></span><span>Brevetés : — €/h</span></li>
-                <li><span class="dot"></span><span>Non-brevetés : — €/h</span></li>
-                <li><span class="dot"></span><span>Instruction : — €/h</span></li>
-              </ul>
-            </div>
-          </div>
+        <a class="m-cta" href="espace-membres.html" aria-label="Mon compte">
+          MON COMPTE <i aria-hidden="true"></i>
         </a>
-
-        <!-- CARD 3 (center) -->
-        <a class="plane-card fleet-card-big"
-           href="#"
-           data-plane="CIRRUS SR22"
-           data-img="SR1.png"
-           data-badges="VFR,IFR"
-           data-places="4"
-           data-cruise="170"
-           data-autonomy="5"
-           data-s1k="Places"
-           data-s1v="4"
-           data-s2k="Vitesse croisière"
-           data-s2v="170 KTS"
-           data-s3k="Autonomie"
-           data-s3v="5 h"
-           data-t1k="Brevetés"
-           data-t1v="— €/h"
-           data-t2k="Non-brevetés"
-           data-t2v="— €/h"
-           data-t3k="Instruction"
-           data-t3v="— €/h"
-           aria-label="Cirrus SR22">
-          <div class="card-arrow" data-open="1" aria-hidden="true"><i></i></div>
-
-          <div class="card-top">
-            <div class="title-row">
-              <div class="card-name"><h3>CIRRUS SR22</h3></div>
-              <div class="badges">
-                <span class="badge">VFR</span>
-                <span class="badge ifr">IFR</span>
-              </div>
-            </div>
-          </div>
-
-          <div class="card-plane"><img src="SR1.png" alt="Cirrus SR22"></div>
-
-          <div class="card-bottom">
-            <div class="bottom-col">
-              <h4>SPECS</h4>
-              <ul>
-                <li><span class="dot"></span><span>Places : 4</span></li>
-                <li><span class="dot"></span><span>Vitesse croisière : 170 KTS</span></li>
-                <li><span class="dot"></span><span>Autonomie : 5 h</span></li>
-              </ul>
-            </div>
-            <div class="bottom-col">
-              <h4>TARIFS</h4>
-              <ul>
-                <li><span class="dot"></span><span>Brevetés : — €/h</span></li>
-                <li><span class="dot"></span><span>Non-brevetés : — €/h</span></li>
-                <li><span class="dot"></span><span>Instruction : — €/h</span></li>
-              </ul>
-            </div>
-          </div>
-        </a>
-
-      </section>
-    </main>
-  </div>
-
-  <!-- =============================== -->
-  <!-- OVERLAY (fiche) -->
-  <!-- =============================== -->
-  <div class="overlay" id="overlay" aria-hidden="true">
-    <div class="overlay-backdrop" data-close="1"></div>
-
-    <aside class="panel" role="dialog" aria-modal="true" aria-label="Fiche avion">
-      <div class="panel-inner">
-        <div class="panel-topbar">
-          <div class="panel-kicker">FICHE TECHNIQUE</div>
-          <button class="panel-close" type="button" aria-label="Fermer" data-close="1"></button>
-        </div>
-
-        <div class="panel-body">
-          <div class="hero" id="hero">
-            <div class="hero-head">
-              <div class="hero-title" id="oTitle">—</div>
-              <div class="hero-badges" id="oBadges"></div>
-            </div>
-
-            <div class="hero-plane">
-              <img id="oImg" src="" alt="Avion">
-            </div>
-
-            <!-- HUD callouts -->
-            <div class="hud">
-              <div class="callout c1">
-                <div class="lab">PLACES</div>
-                <div class="val"><span class="count" id="cPlaces">0</span></div>
-                <div class="sub">Configuration cabine</div>
-              </div>
-
-              <div class="callout c2">
-                <div class="lab">CRUISE</div>
-                <div class="val"><span class="count" id="cCruise">0</span> <span style="font-size:18px;opacity:.85;">KTS</span></div>
-                <div class="sub">Vitesse de croisière</div>
-              </div>
-
-              <div class="callout c3">
-                <div class="lab">AUTONOMIE</div>
-                <div class="val"><span class="count" id="cAuto">0</span> <span style="font-size:18px;opacity:.85;">H</span></div>
-                <div class="sub">En conditions normales</div>
-              </div>
-            </div>
-          </div>
-
-          <div class="grid-sections">
-            <section class="sec">
-              <h4>SPECS</h4>
-              <div class="rows" id="oSpecs"></div>
-            </section>
-
-            <section class="sec">
-              <h4>TARIFS</h4>
-              <div class="rows" id="oTarifs"></div>
-            </section>
-          </div>
-
-          <div class="cta">
-            <a class="btn primary" href="contact.html">CONTACT</a>
-            <a class="btn" href="tarifs.html">VOIR LES TARIFS</a>
-            <a class="btn" href="espace-membres.html">ESPACE MEMBRES</a>
-          </div>
-        </div>
       </div>
     </aside>
+
+    <!-- ✅ HEADER DESKTOP -->
+    <header class="site-header">
+      <div class="header-row">
+
+        <a class="header-logo" href="index.html" aria-label="Retour accueil (logo)">
+          <img src="apam-logo1.png" alt="Logo APAM">
+        </a>
+
+        <div class="header-bar">
+
+          <div class="header-left">
+            <nav class="nav-menu">
+
+              <span class="nav-item has-dropdown">
+                <a href="tarifs.html" class="nav-link" data-text="FLOTTE">FLOTTE</a>
+
+                <div class="fleet-panel" role="menu" aria-label="Menu flotte">
+
+                  <a class="fleet-card" href="tarifs.html" aria-label="Cessna 152">
+                    <div class="fleet-name">CESSNA 152</div>
+                    <img class="fleet-plane" src="FGHKE1.png" alt="Cessna 152">
+                    <span class="fleet-chev" aria-hidden="true"></span>
+                  </a>
+
+                  <a class="fleet-card" href="tarifs.html" aria-label="TB200">
+                    <div class="fleet-name">TB200</div>
+                    <img class="fleet-plane" src="TB200M.png" alt="TB200">
+                    <span class="fleet-chev" aria-hidden="true"></span>
+                  </a>
+
+                  <a class="fleet-card" href="tarifs.tiff" aria-label="Cirrus SR22">
+                    <div class="fleet-name">CIRRUS SR22</div>
+                    <img class="fleet-plane" src="SR1.png" alt="Cirrus SR22">
+                    <span class="fleet-chev" aria-hidden="true"></span>
+                  </a>
+
+                  <div class="fleet-cta">
+                    <a href="tarifs.html" aria-label="Voir toute la flotte">
+                      <span>VOIR TOUTE LA FLOTTE </span>
+                      <i class="cta-chev" aria-hidden="true"></i>
+                    </a>
+                  </div>
+
+                </div>
+              </span>
+
+              <span class="nav-item">
+                <a href="activite.html" class="nav-link" data-text="ACTIVITÉS">ACTIVITÉS</a>
+              </span>
+
+              <span class="nav-item">
+                <a href="ressources.html" class="nav-link" data-text="RESSOURCES">RESSOURCES</a>
+              </span>
+
+              <span class="nav-item">
+                <a href="contact.html" class="nav-link" data-text="CONTACT">CONTACT</a>
+              </span>
+
+              <span class="nav-item">
+                <a href="espace-membres.html" class="nav-link" data-text="MEMBRES">MEMBRES</a>
+              </span>
+
+              <span class="nav-item">
+                <a href="https://openflyers.com/apam/" target="_blank" rel="noopener noreferrer"
+                   class="nav-link" data-text="OPENFLYER">OPENFLYER</a>
+              </span>
+
+            </nav>
+          </div>
+
+          <div class="header-right">
+            <a class="icon" href="#" aria-label="Instagram">
+              <svg viewBox="0 0 24 24">
+                <path d="M7 2C4.2 2 2 4.2 2 7v10c0 2.8 2.2 5 5 5h10c2.8 0 5-2.2 5-5V7c0-2.8-2.2-5-5-5H7zm10 2c1.7 0 3 1.3 3 3v10c0 1.7-1.3 3-3 3H7c-1.7 0-3-1.3-3-3V7c0-1.7 1.3-3 3-3h10zm-5 3.5A4.5 4.5 0 1 0 16.5 12 4.51 4.51 0 0 0 12 7.5zm0 7A2.5 2.5 0 1 1 14.5 12 2.5 2.5 0 0 1 12 14.5zm4.8-8.9a1.1 1.1 0 1 1-1.1 1.1c0-.6.5-1.1 1.1-1.1z"/>
+              </svg>
+            </a>
+
+            <a class="icon" href="mailto:contact@apam.fr" aria-label="Email">
+              <svg viewBox="0 0 24 24">
+                <path d="M4 4h16a2 2 0 0 1 2 2v1l-10 6L2 7V6a2 2 0 0 1 2-2zm18 5v9a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V9l10 6 10-6z"/>
+              </svg>
+            </a>
+
+            <button class="btn-compte" type="button">MON COMPTE</button>
+          </div>
+
+        </div>
+      </div>
+    </header>
+
+    <!-- ✅ Bloc titre GP-style -->
+    <div class="gp-stack" aria-label="Titre">
+      <div class="gp-wrap">
+        <div class="gp-box gp-main anim-main">
+          <div class="gp-big">L'AIGLE SAINT-MICHEL</div>
+        </div>
+        <div class="gp-box gp-tag anim-tag">
+          <div class="gp-small">LFOL</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ✅ Bas droite : FRQ + COORD (cliquable Maps) -->
+    <a class="info-link" href="https://www.google.com/maps?q=48.7588889,39.4666667"
+       target="_blank" rel="noopener noreferrer"
+       aria-label="Ouvrir la position sur Google Maps">
+      <div class="info-stack" aria-label="Infos terrain">
+        <div class="info-frq">
+          <div class="info-line small">FRQ 126.855</div>
+        </div>
+        <div class="info-coord">
+          <div class="info-line">48°45'32&quot; N · 39°28' E</div>
+        </div>
+      </div>
+    </a>
+
   </div>
 
   <script>
-    // ===============================
-    // 1) Apparition des cartes (cascade)
-    // ===============================
     (function(){
-      const cards = Array.from(document.querySelectorAll('.plane-card'));
-      const io = new IntersectionObserver((entries) => {
-        entries.forEach(e => {
-          if(e.isIntersecting){
-            const idx = cards.indexOf(e.target);
-            setTimeout(() => e.target.classList.add('is-in'), 80 + idx*90);
-            io.unobserve(e.target);
-          }
-        });
-      }, { threshold: 0.12 });
+      const openBtn = document.querySelector('.m-burger');
+      const closeBtn = document.querySelector('.m-close');
+      const drawer  = document.getElementById('m-drawer');
+      const overlay = document.querySelector('.m-overlay');
+      const drawerLinks = drawer ? drawer.querySelectorAll('a') : [];
 
-      cards.forEach(c => io.observe(c));
-    })();
-
-    // ===============================
-    // 2) Overlay fiche avion
-    // ===============================
-    (function(){
-      const overlay = document.getElementById('overlay');
-      const titleEl = document.getElementById('oTitle');
-      const imgEl   = document.getElementById('oImg');
-      const badgesEl= document.getElementById('oBadges');
-      const specsEl = document.getElementById('oSpecs');
-      const tarifsEl= document.getElementById('oTarifs');
-
-      const cPlaces = document.getElementById('cPlaces');
-      const cCruise = document.getElementById('cCruise');
-      const cAuto   = document.getElementById('cAuto');
-
-      let lastFocus = null;
-
+      // lock scroll (iOS friendly)
+      let scrollY = 0;
       function lockScroll(){
-        document.documentElement.style.overflow = 'hidden';
-        document.body.style.overflow = 'hidden';
+        scrollY = window.scrollY || document.documentElement.scrollTop || 0;
+        document.body.style.position = 'fixed';
+        document.body.style.top = `-${scrollY}px`;
+        document.body.style.left = '0';
+        document.body.style.right = '0';
+        document.body.style.width = '100%';
       }
       function unlockScroll(){
-        document.documentElement.style.overflow = '';
-        document.body.style.overflow = '';
+        document.body.style.position = '';
+        document.body.style.top = '';
+        document.body.style.left = '';
+        document.body.style.right = '';
+        document.body.style.width = '';
+        window.scrollTo(0, scrollY);
       }
 
-      function makeBadge(txt){
-        const s = document.createElement('span');
-        s.className = 'badge' + (txt.trim().toUpperCase()==='IFR' ? ' ifr' : '');
-        s.textContent = txt.trim();
-        return s;
-      }
-
-      function row(k,v){
-        const d = document.createElement('div');
-        d.className = 'row';
-        d.innerHTML = '<div class="k"></div><div class="v"></div>';
-        d.querySelector('.k').textContent = k;
-        d.querySelector('.v').textContent = v;
-        return d;
-      }
-
-      function animateCount(el, to, duration=650){
-        const start = performance.now();
-        const from = 0;
-        const ease = t => 1 - Math.pow(1-t, 3); // easeOutCubic
-        function tick(now){
-          const p = Math.min(1, (now - start)/duration);
-          const val = Math.round(from + (to-from)*ease(p));
-          el.textContent = val;
-          if(p < 1) requestAnimationFrame(tick);
-        }
-        requestAnimationFrame(tick);
-      }
-
-      function openFromCard(card){
-        lastFocus = document.activeElement;
-
-        // reset content
-        badgesEl.innerHTML = '';
-        specsEl.innerHTML = '';
-        tarifsEl.innerHTML = '';
-
-        const name = card.dataset.plane || '—';
-        const img  = card.dataset.img || '';
-        const badges = (card.dataset.badges || '').split(',').map(s => s.trim()).filter(Boolean);
-
-        titleEl.textContent = name;
-        imgEl.src = img;
-        imgEl.alt = name;
-
-        badges.forEach(b => badgesEl.appendChild(makeBadge(b)));
-
-        // specs rows
-        specsEl.appendChild(row(card.dataset.s1k || '—', card.dataset.s1v || '—'));
-        specsEl.appendChild(row(card.dataset.s2k || '—', card.dataset.s2v || '—'));
-        specsEl.appendChild(row(card.dataset.s3k || '—', card.dataset.s3v || '—'));
-
-        // tarifs rows
-        tarifsEl.appendChild(row(card.dataset.t1k || '—', card.dataset.t1v || '—'));
-        tarifsEl.appendChild(row(card.dataset.t2k || '—', card.dataset.t2v || '—'));
-        tarifsEl.appendChild(row(card.dataset.t3k || '—', card.dataset.t3v || '—'));
-
-        // counts
-        const places = parseInt(card.dataset.places || '0', 10);
-        const cruise = parseInt(card.dataset.cruise || '0', 10);
-        const autoH  = parseInt(card.dataset.autonomy || '0', 10);
-
-        cPlaces.textContent = '0';
-        cCruise.textContent = '0';
-        cAuto.textContent   = '0';
-
-        // open
-        overlay.classList.add('is-open');
-        overlay.setAttribute('aria-hidden','false');
+      function openDrawer(){
+        document.body.classList.add('m-open');
+        if(openBtn) openBtn.setAttribute('aria-expanded', 'true');
+        if(drawer) drawer.setAttribute('aria-hidden', 'false');
         lockScroll();
-
-        // start counts (petit délai pour synchro avec animation hero)
-        setTimeout(() => {
-          animateCount(cPlaces, places);
-          animateCount(cCruise, cruise);
-          animateCount(cAuto, autoH);
-        }, 180);
       }
 
-      function close(){
-        overlay.classList.remove('is-open');
-        overlay.setAttribute('aria-hidden','true');
+      function closeDrawer(){
+        document.body.classList.remove('m-open');
+        if(openBtn) openBtn.setAttribute('aria-expanded', 'false');
+        if(drawer) drawer.setAttribute('aria-hidden', 'true');
         unlockScroll();
-        if(lastFocus && typeof lastFocus.focus === 'function') lastFocus.focus();
       }
 
-      // click on card or arrow
-      document.addEventListener('click', (e) => {
-        const closeBtn = e.target.closest('[data-close="1"]');
-        if(closeBtn){
-          e.preventDefault();
-          close();
-          return;
-        }
-
-        const arrow = e.target.closest('.card-arrow');
-        if(arrow){
-          e.preventDefault();
-          const card = arrow.closest('.plane-card');
-          if(card) openFromCard(card);
-          return;
-        }
-
-        const card = e.target.closest('.plane-card');
-        if(card && !e.target.closest('a[href]:not(.plane-card)')){
-          e.preventDefault();
-          openFromCard(card);
-        }
-      });
+      if(openBtn){
+        openBtn.addEventListener('click', () => {
+          if(document.body.classList.contains('m-open')) closeDrawer();
+          else openDrawer();
+        });
+      }
+      if(closeBtn) closeBtn.addEventListener('click', closeDrawer);
+      if(overlay) overlay.addEventListener('click', closeDrawer);
+      drawerLinks.forEach(a => a.addEventListener('click', closeDrawer));
 
       document.addEventListener('keydown', (e) => {
-        if(e.key === 'Escape' && overlay.classList.contains('is-open')) close();
+        if(e.key === 'Escape') closeDrawer();
       });
     })();
   </script>
