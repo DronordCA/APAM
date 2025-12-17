@@ -56,19 +56,16 @@
 
       /* Cards */
       --card-radius: 0px;
-      --card-bg: rgba(18,18,18,0.92);
-      --card-border: rgba(255,255,255,0.08);
-      --card-shadow: 0 26px 60px rgba(0,0,0,0.34);
 
       /* Blue band */
       --blue-top: #2f6bff;
       --blue-bot: #1b45e8;
 
-      /* ✅ Avion (DESKTOP) via variables */
+      /* Avion (desktop) */
       --plane-scale: 1.22;
-      --plane-hover-scale: 1.28;
       --plane-hover-x: 18px;
       --plane-hover-rot: -1.2deg;
+      --plane-hover-scale: 1.28;
     }
 
     /* =============================== */
@@ -386,11 +383,11 @@
         --gap-y: 14px;
         --grid-max: 980px;
 
-        /* ✅ Avion (MOBILE) */
+        /* Avion (mobile) -> plus petit, pas de dépassement */
         --plane-scale: 1.02;
-        --plane-hover-scale: 1.07;
         --plane-hover-x: 14px;
         --plane-hover-rot: -1.0deg;
+        --plane-hover-scale: 1.07;
       }
 
       .site-header{ display:none; }
@@ -598,6 +595,10 @@
       box-shadow: 0 18px 34px rgba(0,0,0,0.22);
       padding: 18px 22px 14px;
       border-radius: 0;
+
+      opacity: 0;
+      transform: translate3d(-120px, 0, 0) skewX(-6deg) scale(0.98);
+      filter: blur(10px);
     }
     .title-box span{
       font-family:"Swiss911", sans-serif;
@@ -609,6 +610,15 @@
       transform: skewX(-6deg);
       display:block;
       white-space: nowrap;
+    }
+
+    body.is-loaded .title-box{
+      animation: titleIn .95s cubic-bezier(.16,1,.22,1) both;
+      animation-delay: .10s;
+    }
+    @keyframes titleIn{
+      55%{ opacity:1; transform: translate3d(16px,0,0) skewX(-6deg) scale(1.03); filter: blur(0px); }
+      100%{ opacity:1; transform: translate3d(0,0,0) skewX(-6deg) scale(1); filter: blur(0px); }
     }
 
     /* =============================== */
@@ -699,7 +709,7 @@
       padding: 20px 20px 0;
     }
 
-    /* ✅ Nom + badges sur une ligne */
+    /* Nom + badges sur une ligne */
     .title-row{
       display:flex;
       align-items:flex-end;
@@ -744,7 +754,7 @@
     }
     .badge.ifr{ border-color: rgba(255,59,48,1); }
 
-    /* avion (DESKTOP parfait -> on ne touche pas) */
+    /* avion */
     .card-plane{
       position:absolute;
       left: 50%;
@@ -758,16 +768,19 @@
       z-index: 2;
       pointer-events:none;
     }
+
+    /* ✅ IMPORTANT: l'entrée n'anime PAS le transform -> hover toujours visible */
     .card-plane img{
       max-width: 100%;
       max-height: 100%;
       object-fit: contain;
       filter: drop-shadow(0 18px 22px rgba(0,0,0,0.42));
-      transform: translateX(0) rotate(0deg) scale(var(--plane-scale));
+      transform: translate3d(0,0,0) scale(var(--plane-scale));
       transition: transform .28s cubic-bezier(.16,1,.22,1);
-      will-change: transform;
+      will-change: transform, opacity, filter;
     }
-    /* ✅ ANIMATION HOVER AVION (remise) */
+
+    /* hover avion (retour complet de l'animation) */
     .plane-card:hover .card-plane img{
       transform: translateX(var(--plane-hover-x)) rotate(var(--plane-hover-rot)) scale(var(--plane-hover-scale));
     }
@@ -820,6 +833,53 @@
     }
 
     /* =============================== */
+    /* ENTRY ANIMATIONS (cards + blue band + plane fade) */
+    /* =============================== */
+    body:not(.is-loaded) .fleet-grid .plane-card{
+      opacity: 0;
+      transform: translate3d(0, 18px, 0);
+      filter: blur(10px);
+    }
+    body.is-loaded .fleet-grid .plane-card{
+      animation: cardIn .85s cubic-bezier(.16,1,.22,1) both;
+      animation-delay: var(--d, 0s);
+      filter: none;
+    }
+    @keyframes cardIn{
+      55%{ opacity:1; transform: translate3d(0,-4px,0); filter: blur(0px); }
+      100%{ opacity:1; transform: translate3d(0,0,0); filter: blur(0px); }
+    }
+
+    /* Blue band rises with the card */
+    body:not(.is-loaded) .plane-card .card-bottom{
+      transform: translate3d(0, 26px, 0);
+      opacity: 0;
+      filter: blur(8px);
+    }
+    body.is-loaded .plane-card .card-bottom{
+      animation: bandUp .85s cubic-bezier(.16,1,.22,1) both;
+      animation-delay: calc(var(--d, 0s) + .06s);
+    }
+    @keyframes bandUp{
+      55%{ opacity:1; transform: translate3d(0,-4px,0); filter: blur(0px); }
+      100%{ opacity:1; transform: translate3d(0,0,0); filter: blur(0px); }
+    }
+
+    /* Plane fade-in (NO transform) */
+    body:not(.is-loaded) .plane-card .card-plane img{
+      opacity:0;
+      filter: blur(10px) drop-shadow(0 18px 22px rgba(0,0,0,0.42));
+    }
+    body.is-loaded .plane-card .card-plane img{
+      animation: planeFade .85s cubic-bezier(.16,1,.22,1) both;
+      animation-delay: calc(.22s + var(--d, 0s));
+    }
+    @keyframes planeFade{
+      from{ opacity:0; filter: blur(10px) drop-shadow(0 18px 22px rgba(0,0,0,0.42)); }
+      to{ opacity:1; filter: blur(0px) drop-shadow(0 18px 22px rgba(0,0,0,0.42)); }
+    }
+
+    /* =============================== */
     /* RESPONSIVE */
     /* =============================== */
     @media (max-width: 980px){
@@ -851,80 +911,6 @@
         font-size: 16px;
         gap: 8px;
       }
-    }
-
-    /* =============================== */
-    /* ✅ ANIMATIONS D’ENTRÉE */
-    /* =============================== */
-    body:not(.is-loaded) .page-title{
-      opacity:0;
-      transform: translate3d(-40px, 0, 0);
-      filter: blur(14px);
-    }
-    body.is-loaded .page-title{
-      animation: titleIn .90s cubic-bezier(.16,1,.22,1) both;
-      animation-delay: .08s;
-    }
-    @keyframes titleIn{
-      60%{ opacity:1; transform: translate3d(10px,0,0); filter: blur(0px); }
-      100%{ opacity:1; transform: translate3d(0,0,0); filter: blur(0px); }
-    }
-
-    body:not(.is-loaded) .plane-card{
-      opacity:0;
-      transform: translate3d(0, 26px, 0);
-      filter: blur(14px);
-    }
-    body.is-loaded .plane-card{
-      animation: cardIn .85s cubic-bezier(.16,1,.22,1) both;
-      animation-delay: calc(.18s + var(--d, 0s));
-    }
-    @keyframes cardIn{
-      65%{ opacity:1; transform: translate3d(0,-6px,0); filter: blur(0px); }
-      100%{ opacity:1; transform: translate3d(0,0,0); filter: blur(0px); }
-    }
-
-    body:not(.is-loaded) .plane-card .card-bottom{
-      transform: translate3d(0, 120%, 0);
-    }
-    body.is-loaded .plane-card .card-bottom{
-      animation: bandUp .85s cubic-bezier(.16,1,.22,1) both;
-      animation-delay: calc(.18s + var(--d, 0s));
-    }
-    @keyframes bandUp{
-      70%{ transform: translate3d(0, -8px, 0); }
-      100%{ transform: translate3d(0, 0, 0); }
-    }
-
-    /* Avion : entrée, sans casser desktop/mobile (variables) */
-    body:not(.is-loaded) .plane-card .card-plane img{
-      opacity:0;
-      transform: translate3d(0, 10px, 0) scale(calc(var(--plane-scale) - 0.08));
-      filter: blur(10px) drop-shadow(0 18px 22px rgba(0,0,0,0.42));
-    }
-    body.is-loaded .plane-card .card-plane img{
-      animation: planeIn .85s cubic-bezier(.16,1,.22,1) both;
-      animation-delay: calc(.22s + var(--d, 0s));
-    }
-    @keyframes planeIn{
-      70%{
-        opacity:1;
-        transform: translate3d(0, -2px, 0) scale(calc(var(--plane-scale) + 0.02));
-        filter: blur(0px) drop-shadow(0 18px 22px rgba(0,0,0,0.42));
-      }
-      100%{
-        opacity:1;
-        transform: translate3d(0, 0, 0) scale(var(--plane-scale));
-        filter: blur(0px) drop-shadow(0 18px 22px rgba(0,0,0,0.42));
-      }
-    }
-
-    @media (prefers-reduced-motion: reduce){
-      *{ animation:none !important; transition:none !important; }
-      body:not(.is-loaded) .page-title,
-      body:not(.is-loaded) .plane-card{ opacity:1 !important; transform:none !important; filter:none !important; }
-      body:not(.is-loaded) .plane-card .card-bottom{ transform:none !important; }
-      body:not(.is-loaded) .plane-card .card-plane img{ opacity:1 !important; transform:none !important; filter:none !important; }
     }
   </style>
 </head>
@@ -1051,7 +1037,7 @@
         <section class="fleet-grid">
 
           <!-- C152 -->
-          <a class="plane-card" style="--d:0s" href="cessna152.html" aria-label="Cessna 152">
+          <a class="plane-card" href="cessna152.html" aria-label="Cessna 152" style="--d: .18s;">
             <div class="card-arrow" aria-hidden="true"><i></i></div>
 
             <div class="card-top">
@@ -1073,7 +1059,7 @@
                 <ul>
                   <li><span class="dot"></span><span>Places : 2</span></li>
                   <li><span class="dot"></span><span>Vitesse croisière : 90 KTS</span></li>
-                  <li><span class="dot"></span><span>Autonomie : 4 h</span></li>
+                  <li><span class="dot"></span><span>Autonomie : 4h</span></li>
                 </ul>
               </div>
 
@@ -1089,7 +1075,7 @@
           </a>
 
           <!-- TB200 -->
-          <a class="plane-card" style="--d:.08s" href="tb200.html" aria-label="TB200">
+          <a class="plane-card" href="tb200.html" aria-label="TB200" style="--d: .26s;">
             <div class="card-arrow" aria-hidden="true"><i></i></div>
 
             <div class="card-top">
@@ -1109,7 +1095,7 @@
               <div class="bottom-col">
                 <h4>SPECS</h4>
                 <ul>
-                  <li><span class="dot"></span><span>Places : —</span></li>
+                  <li><span class="dot"></span><span>— places</span></li>
                   <li><span class="dot"></span><span>Vitesse croisière : —</span></li>
                   <li><span class="dot"></span><span>Autonomie : —</span></li>
                 </ul>
@@ -1127,7 +1113,7 @@
           </a>
 
           <!-- SR22 (centrée en bas) -->
-          <a class="plane-card fleet-card-big" style="--d:.16s" href="sr22.html" aria-label="Cirrus SR22">
+          <a class="plane-card fleet-card-big" href="sr22.html" aria-label="Cirrus SR22" style="--d: .34s;">
             <div class="card-arrow" aria-hidden="true"><i></i></div>
 
             <div class="card-top">
@@ -1148,7 +1134,7 @@
               <div class="bottom-col">
                 <h4>SPECS</h4>
                 <ul>
-                  <li><span class="dot"></span><span>Places : —</span></li>
+                  <li><span class="dot"></span><span>— places</span></li>
                   <li><span class="dot"></span><span>Vitesse croisière : —</span></li>
                   <li><span class="dot"></span><span>Autonomie : —</span></li>
                 </ul>
@@ -1172,12 +1158,12 @@
   </div>
 
   <script>
-    // ✅ Déclenche les animations d’entrée
-    window.addEventListener('DOMContentLoaded', () => {
-      requestAnimationFrame(() => document.body.classList.add('is-loaded'));
-    });
-
     (function(){
+      // ✅ trigger animations after first paint
+      window.addEventListener('load', () => {
+        requestAnimationFrame(() => document.body.classList.add('is-loaded'));
+      });
+
       const openBtn = document.querySelector('.m-burger');
       const closeBtn = document.querySelector('.m-close');
       const drawer  = document.getElementById('m-drawer');
