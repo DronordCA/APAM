@@ -24,25 +24,17 @@
 
     :root{
       --page-side-margin: 60px;
-      --header-height: 50px;
-      --header-font-size: 15px;
-      --header-letter-spacing: -0.05em;
       --logo-height: 100px;
-      --gap-logo-header: 62px;
-      --header-grey: #222;
+      --header-height: 50px;
 
       --accent: #2f6bff;
-      --accent-glow: rgba(47,107,255,0.28);
       --ifr-red: #ff3b30;
-
-      --m-side: 18px;
 
       --outer-x: 26px;
       --gap-x: 16px;
       --gap-y: 16px;
       --grid-max: 1460px;
 
-      --card-radius: 0px;
       --card-bg: rgba(18,18,18,0.92);
       --card-border: rgba(255,255,255,0.08);
       --card-shadow: 0 26px 60px rgba(0,0,0,0.34);
@@ -50,24 +42,24 @@
       --blue-top: #2f6bff;
       --blue-bot: #1b45e8;
 
-      /* Overlay */
-      --overlay-bg: rgba(0,0,0,0.55);
-      --sheet-w: min(980px, 92vw);
-      --sheet-h: min(690px, 92vh);
-      --sheet-bg: rgba(10,10,12,0.92);
+      /* Overlay darker */
+      --overlay-bg: rgba(0,0,0,0.82);  /* ✅ plus sombre */
+      --sheet-bg: rgba(7,7,9,0.98);     /* ✅ quasi opaque */
       --sheet-border: rgba(255,255,255,0.10);
 
-      --gridline: rgba(255,255,255,0.06);
+      --gridline: rgba(255,255,255,0.05);
       --gridline-strong: rgba(47,107,255,0.10);
+
+      --m-side: 18px;
     }
 
     *{ box-sizing:border-box; margin:0; padding:0; }
     html, body{ height:100%; }
     body{
-      color:#111;
       font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
       overflow-x:hidden;
       background:#101012;
+      color:#fff;
     }
 
     /* =============================== */
@@ -91,50 +83,46 @@
     .content{ position: relative; z-index: 2; }
 
     /* =============================== */
-    /* HEADER DESKTOP (simple stub) */
+    /* HEADER (simple) */
     /* =============================== */
     .site-header { padding-top: 20px; position: relative; z-index: 10; }
     .header-row{
       display:flex;
       align-items:center;
       margin: 0 var(--page-side-margin);
+      gap: 26px;
     }
-    .header-logo{ display:inline-block; text-decoration:none; }
     .header-logo img{ height: var(--logo-height); display:block; }
-
     .header-bar{
       height: var(--header-height);
       background:#fff;
-      color: var(--header-grey);
-      margin-left: var(--gap-logo-header);
+      color:#111;
       flex:1;
       display:flex;
       align-items:center;
       justify-content:space-between;
-      padding: 0 6px 0 32px;
+      padding: 0 18px 0 26px;
       border: 1px solid rgba(0,0,0,0.06);
-      border-radius: 0;
       box-shadow: 0 2px 0 rgba(0,0,0,0.08);
     }
     .nav-menu{ display:flex; align-items:center; gap:34px; }
     .nav-link{
       font-family:"GPMenu", system-ui, sans-serif;
-      font-size: var(--header-font-size);
-      letter-spacing: var(--header-letter-spacing);
+      font-size: 15px;
+      letter-spacing: -0.05em;
       text-transform: uppercase;
       text-decoration:none;
-      color: var(--header-grey);
+      color:#111;
       white-space:nowrap;
       line-height:1;
     }
-    .header-right{ display:flex; align-items:center; gap:16px; }
     .btn-compte{
       font-family:"Swiss911", sans-serif;
       font-size: 25px;
       letter-spacing: -0.04em;
       text-transform: uppercase;
       padding: 6px 12px;
-      border: 2px solid var(--header-grey);
+      border: 2px solid #111;
       background:#000;
       color:#fff;
       cursor:pointer;
@@ -142,7 +130,7 @@
     }
 
     /* =============================== */
-    /* TITLE + ENTRY ANIM */
+    /* TITLE */
     /* =============================== */
     .page-title{
       margin: 22px var(--page-side-margin) 10px;
@@ -155,9 +143,8 @@
       animation: inTitle .8s cubic-bezier(.16,1,.22,1) forwards;
       animation-delay: .06s;
     }
-    @keyframes inTitle{
-      to{ opacity:1; transform: translateY(0); filter: blur(0); }
-    }
+    @keyframes inTitle{ to{ opacity:1; transform: translateY(0); filter: blur(0); } }
+
     .title-box{
       background:#fff;
       color:#000;
@@ -172,14 +159,13 @@
       letter-spacing: -0.02em;
       font-size: 76px;
       line-height: .9;
-      font-style: normal;
       transform: skewX(-6deg);
       display:block;
       white-space: nowrap;
     }
 
     /* =============================== */
-    /* GRID CARDS + ENTRY ANIM */
+    /* GRID CARDS */
     /* =============================== */
     .fleet-wrap{
       max-width: var(--grid-max);
@@ -191,8 +177,6 @@
       grid-template-columns: repeat(2, minmax(0, 1fr));
       column-gap: var(--gap-x);
       row-gap: var(--gap-y);
-      align-items: stretch;
-      justify-items: stretch;
     }
     .fleet-card-big{
       grid-column: 1 / -1;
@@ -204,9 +188,9 @@
     .plane-card{
       position: relative;
       border-radius: 0;
-      background: rgba(18,18,18,0.92);
-      border: 1px solid rgba(255,255,255,0.08);
-      box-shadow: 0 26px 60px rgba(0,0,0,0.34);
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      box-shadow: var(--card-shadow);
       overflow: hidden;
       text-decoration: none;
       color:#fff;
@@ -220,10 +204,7 @@
     .plane-card:nth-child(1){ animation-delay: .10s; }
     .plane-card:nth-child(2){ animation-delay: .16s; }
     .plane-card:nth-child(3){ animation-delay: .22s; }
-
-    @keyframes inCard{
-      to{ transform: translateY(0); opacity:1; filter: blur(0); }
-    }
+    @keyframes inCard{ to{ transform: translateY(0); opacity:1; filter: blur(0); } }
 
     .plane-card:hover{
       transform: translateY(-6px);
@@ -231,16 +212,6 @@
       box-shadow: 0 30px 92px rgba(0,0,0,0.48), 0 0 0 1px rgba(47,107,255,0.16);
     }
 
-    .plane-card::before{
-      content:"";
-      position:absolute; inset:0;
-      background:
-        radial-gradient(circle at 30% 10%, rgba(255,255,255,0.07) 0%, rgba(255,255,255,0) 55%),
-        linear-gradient(180deg, rgba(255,255,255,0.02) 0%, rgba(0,0,0,0.34) 100%);
-      pointer-events:none;
-    }
-
-    /* flèche en carré blanc (haut droite) */
     .card-arrow{
       position:absolute;
       top: 16px;
@@ -253,7 +224,6 @@
       align-items:center;
       justify-content:center;
       z-index: 3;
-      border-radius: 0;
     }
     .card-arrow i{
       width: 16px;
@@ -282,7 +252,7 @@
       transform: skewX(-6deg);
       white-space: nowrap;
     }
-    .badges{ display:flex; gap: 10px; align-items:center; flex: 0 0 auto; }
+    .badges{ display:flex; gap: 10px; align-items:center; }
     .badge{
       display:inline-flex;
       align-items:center;
@@ -296,12 +266,11 @@
       color:#fff;
       background: rgba(0,0,0,0.35);
       border: 2px solid rgba(47,107,255,0.75);
-      border-radius: 0;
       white-space: nowrap;
     }
     .badge.ifr{ border-color: rgba(255,59,48,1); }
 
-    /* avion carte (hover = petit drift à droite + scale) */
+    /* Avion carte + hover (✅ conservé) */
     .card-plane{
       position:absolute;
       left: 50%;
@@ -327,7 +296,7 @@
       transform: translateX(18px) rotate(-1.2deg) scale(1.28);
     }
 
-    /* bandeau bleu */
+    /* Bandeau bleu */
     .card-bottom{
       position:absolute;
       left:0; right:0; bottom:0;
@@ -339,7 +308,6 @@
       display:grid;
       grid-template-columns: 1fr 1fr;
       gap: 18px;
-      border-radius: 0;
     }
     .bottom-col h4{
       font-family:"GPMenu", system-ui, sans-serif;
@@ -358,20 +326,8 @@
       line-height: 1.15;
       opacity: 0.99;
     }
-    .bottom-col li{
-      display:flex;
-      gap: 10px;
-      align-items: baseline;
-      white-space: nowrap;
-    }
-    .dot{
-      width: 7px;
-      height: 7px;
-      background: rgba(255,255,255,0.95);
-      margin-top: 6px;
-      flex: 0 0 auto;
-      border-radius: 0;
-    }
+    .bottom-col li{ display:flex; gap: 10px; align-items: baseline; white-space: nowrap; }
+    .dot{ width: 7px; height: 7px; background: rgba(255,255,255,0.95); margin-top: 6px; flex: 0 0 auto; }
 
     /* =============================== */
     /* RESPONSIVE */
@@ -384,27 +340,21 @@
         --gap-y: 14px;
         --grid-max: 980px;
       }
-
       .title-box span{ font-size: 56px; }
       .fleet-grid{ grid-template-columns: 1fr; }
       .fleet-card-big{ max-width:none; justify-self:stretch; }
-      .plane-card{ height: 410px; }
 
-      /* MOBILE : avion carte plus “safe” (pas de dépassement) */
       .card-plane{ width: 92%; height: 230px; top: 45%; }
       .card-plane img{ transform: translateX(0) rotate(0deg) scale(1.02); }
       .plane-card:hover .card-plane img{ transform: translateX(14px) rotate(-1.0deg) scale(1.07); }
 
-      .title-row{ padding-right: 56px; }
       .card-name h3{ font-size: 34px; }
       .badge{ height: 26px; font-size: 11px; }
-
       .card-bottom{ height: 164px; padding: 16px 16px 18px; gap: 16px; }
-      .bottom-col ul{ font-size: 16px; gap: 8px; }
     }
 
     /* =============================== */
-    /* OVERLAY + SHEET (fiche technique) */
+    /* OVERLAY FULL HEIGHT */
     /* =============================== */
     .overlay{
       position:fixed; inset:0;
@@ -418,28 +368,25 @@
 
     .sheet{
       position:fixed;
-      top: 50%;
-      right: 0;
-      transform: translate3d(40px, -50%, 0);
-      width: var(--sheet-w);
-      height: var(--sheet-h);
+      inset: 0;                 /* ✅ plein écran */
+      width: 100vw;
+      height: 100vh;            /* ✅ plein écran vertical */
       background: var(--sheet-bg);
-      border: 1px solid var(--sheet-border);
-      box-shadow: 0 40px 120px rgba(0,0,0,0.60);
+      border-left: 1px solid var(--sheet-border);
       opacity:0;
       pointer-events:none;
+      transform: translate3d(28px,0,0);
       transition: transform .55s cubic-bezier(.16,1,.22,1), opacity .22s ease;
       z-index: 110;
-      border-radius: 0;
       overflow:hidden;
     }
     .sheet.is-open{
-      transform: translate3d(0, -50%, 0);
       opacity:1;
       pointer-events:auto;
+      transform: translate3d(0,0,0);
     }
 
-    /* grille “ingénieur” */
+    /* grille */
     .sheet::before{
       content:"";
       position:absolute; inset:0;
@@ -457,10 +404,12 @@
     .sheet-inner{
       position:relative;
       height:100%;
-      padding: 18px 18px 16px;
+      padding: 18px 18px 18px;
       display:flex;
       flex-direction:column;
       gap: 12px;
+      max-width: 1200px;        /* ✅ plus “premium” centré */
+      margin: 0 auto;
     }
 
     .sheet-topbar{
@@ -475,7 +424,7 @@
       letter-spacing: .22em;
       text-transform: uppercase;
       font-size: 13px;
-      color: rgba(255,255,255,0.75);
+      color: rgba(255,255,255,0.78);
     }
     .sheet-close{
       width: 56px;
@@ -487,7 +436,7 @@
       align-items:center;
       justify-content:center;
       box-shadow: 0 18px 34px rgba(0,0,0,0.45);
-      border-radius: 0;
+      position:relative;
     }
     .sheet-close::before,
     .sheet-close::after{
@@ -500,27 +449,60 @@
     .sheet-close::before{ transform: rotate(45deg); }
     .sheet-close::after{ transform: rotate(-45deg); }
 
-    .sheet-hero{
-      position:relative;
+    /* Nav pages overlay */
+    .sheet-nav{
+      display:flex;
+      gap: 10px;
+      align-items:center;
       z-index:2;
-      border: 1px solid rgba(255,255,255,0.10);
-      background: rgba(0,0,0,0.28);
-      height: 360px;
-      overflow:hidden;
-      border-radius:0;
+    }
+    .tab{
+      height: 44px;
+      padding: 0 16px;
+      border-radius: 0;
+      border: 1px solid rgba(255,255,255,0.16);
+      background: rgba(0,0,0,0.25);
+      color:#fff;
+      font-family:"GPMenu", system-ui, sans-serif;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      font-size: 12px;
+      cursor:pointer;
+      transition: transform .18s ease, border-color .18s ease, background .18s ease;
+    }
+    .tab:hover{ transform: translateY(-2px); border-color: rgba(47,107,255,0.55); }
+    .tab.is-active{
+      background: rgba(47,107,255,0.80);
+      border-color: rgba(47,107,255,0.95);
     }
 
+    /* Pages container */
+    .sheet-pages{
+      position:relative;
+      z-index:2;
+      flex: 1;
+      min-height: 0;
+      display:flex;
+      flex-direction:column;
+      gap: 12px;
+    }
+    .pageview{ display:none; height:100%; }
+    .pageview.is-active{ display:flex; flex-direction:column; gap: 12px; height:100%; }
+
+    /* Hero fiche technique */
+    .sheet-hero{
+      border: 1px solid rgba(255,255,255,0.10);
+      background: rgba(0,0,0,0.35);
+      height: 420px;
+      overflow:hidden;
+      position:relative;
+    }
     .hero-header{
       display:flex;
       align-items:flex-start;
       justify-content:space-between;
       gap: 16px;
       padding: 18px 18px 0;
-    }
-    .hero-title{
-      display:flex;
-      flex-direction:column;
-      gap: 10px;
     }
     .hero-title h2{
       font-family:"Swiss911", sans-serif;
@@ -532,25 +514,25 @@
       transform: skewX(-6deg);
       color:#fff;
     }
-    .hero-badges{
-      display:flex;
-      gap: 10px;
-      align-items:center;
-      padding-top: 10px;
-    }
+    .hero-badges{ display:flex; gap:10px; padding-top: 10px; }
 
-    /* zone avion + callouts */
     .hero-canvas{
       position:absolute;
       inset: 88px 14px 14px;
     }
+    .hero-lines{
+      position:absolute;
+      inset:0;
+      pointer-events:none;
+      z-index:1;
+    }
     .hero-plane{
       position:absolute;
       left:50%;
-      top: 46%;
+      top: 50%;
       transform: translate(-50%, -50%);
-      width: min(720px, 86%);
-      height: 220px;
+      width: min(760px, 88%);
+      height: 250px;
       display:flex;
       align-items:center;
       justify-content:center;
@@ -558,32 +540,23 @@
       z-index:2;
     }
     .hero-plane img{
-      max-width: 100%;
-      max-height: 100%;
-      object-fit: contain;
+      max-width:100%;
+      max-height:100%;
+      object-fit:contain;
       filter: drop-shadow(0 22px 26px rgba(0,0,0,0.55));
       transform: translateX(0) rotate(0deg) scale(1.08);
       transition: transform .35s cubic-bezier(.16,1,.22,1);
     }
-
-    /* ✅ animation “survol avion” dans la fiche */
     .sheet-hero:hover .hero-plane img{
       transform: translateX(18px) rotate(-1.1deg) scale(1.12);
     }
 
-    .hero-lines{
-      position:absolute;
-      inset:0;
-      z-index:1;
-      pointer-events:none;
-    }
-
     .callout{
       position:absolute;
-      width: 240px;
-      background: rgba(0,0,0,0.28);
+      width: 260px;
+      background: rgba(0,0,0,0.35);
       border: 1px solid rgba(47,107,255,0.55);
-      box-shadow: 0 14px 26px rgba(0,0,0,0.40);
+      box-shadow: 0 14px 26px rgba(0,0,0,0.42);
       padding: 12px 12px 10px;
       z-index:3;
     }
@@ -607,7 +580,7 @@
     .callout .sub{
       margin-top: 6px;
       font-size: 13px;
-      color: rgba(255,255,255,0.72);
+      color: rgba(255,255,255,0.75);
     }
 
     .target{
@@ -619,19 +592,10 @@
       z-index:4;
     }
 
-    /* tableaux bas */
-    .sheet-bottom{
-      position:relative;
-      z-index:2;
-      display:grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-      flex: 1;
-      min-height: 0;
-    }
+    /* ✅ Specs panel full-width (plus de tarifs ici) */
     .panel{
       border: 1px solid rgba(255,255,255,0.10);
-      background: rgba(0,0,0,0.26);
+      background: rgba(0,0,0,0.35);
       padding: 12px 12px 10px;
       overflow:hidden;
     }
@@ -650,16 +614,21 @@
     }
     .row{
       display:flex;
-      align-items:baseline;
+      align-items:center;                 /* ✅ évite coupures */
       justify-content:space-between;
       gap: 12px;
       padding-bottom: 10px;
       border-bottom: 1px dashed rgba(255,255,255,0.10);
+      min-height: 38px;                  /* ✅ même hauteur partout */
     }
     .row:last-child{ border-bottom:0; padding-bottom:0; }
     .row .k{
-      color: rgba(255,255,255,0.70);
+      color: rgba(255,255,255,0.74);
       font-size: 14px;
+      max-width: 60%;
+      overflow:hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
     .row .v{
       font-family:"Swiss911", sans-serif;
@@ -669,21 +638,24 @@
       color:#fff;
       letter-spacing:-0.02em;
       white-space: nowrap;
+      flex: 0 0 auto;
+      text-align:right;
+      min-width: 120px;                  /* ✅ évite valeurs “coupées” */
     }
 
+    /* CTA bottom (3 boutons) */
     .sheet-cta{
-      position:relative;
-      z-index:2;
       display:flex;
       gap: 10px;
       align-items:center;
       justify-content:flex-start;
+      z-index:2;
     }
     .cta-btn{
       height: 44px;
       padding: 0 16px;
       border-radius: 0;
-      border: 1px solid rgba(255,255,255,0.14);
+      border: 1px solid rgba(255,255,255,0.16);
       background: rgba(0,0,0,0.25);
       color:#fff;
       font-family:"GPMenu", system-ui, sans-serif;
@@ -697,25 +669,62 @@
       background: rgba(47,107,255,0.80);
       border-color: rgba(47,107,255,0.95);
     }
-    .cta-btn:hover{
-      transform: translateY(-2px);
-      border-color: rgba(47,107,255,0.55);
+    .cta-btn:hover{ transform: translateY(-2px); border-color: rgba(47,107,255,0.55); }
+
+    /* Tarifs view */
+    .tarifs-grid{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      flex:1;
+      min-height:0;
+    }
+    .tarifs-grid .panel{ height: 100%; }
+    @media (max-width: 980px){
+      .hero-title h2{ font-size: 56px; }
+      .callout{ width: 220px; }
+      .tarifs-grid{ grid-template-columns: 1fr; }
+    }
+
+    /* Contact view */
+    .contact-wrap{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      flex:1;
+      min-height:0;
+    }
+    .field{
+      display:flex;
+      flex-direction:column;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+    .label{
+      font-family:"GPMenu", system-ui, sans-serif;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      font-size: 12px;
+      color: rgba(255,255,255,0.78);
+    }
+    input, textarea{
+      width:100%;
+      border-radius:0;
+      border: 1px solid rgba(255,255,255,0.14);
+      background: rgba(0,0,0,0.28);
+      color:#fff;
+      padding: 12px 12px;
+      outline:none;
+      font-size: 14px;
+    }
+    textarea{ min-height: 220px; resize: vertical; }
+    input:focus, textarea:focus{
+      border-color: rgba(47,107,255,0.65);
+      box-shadow: 0 0 0 1px rgba(47,107,255,0.25);
     }
 
     @media (max-width: 980px){
-      .sheet{
-        left: 50%;
-        right: auto;
-        transform: translate3d(-50%, -50%, 0) scale(.98);
-        width: min(980px, 96vw);
-        height: min(760px, 94vh);
-      }
-      .sheet.is-open{
-        transform: translate3d(-50%, -50%, 0) scale(1);
-      }
-      .hero-title h2{ font-size: 56px; }
-      .callout{ width: 210px; }
-      .sheet-bottom{ grid-template-columns: 1fr; }
+      .contact-wrap{ grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -724,53 +733,40 @@
   <div class="page">
     <div class="content">
 
-      <!-- HEADER -->
       <header class="site-header">
         <div class="header-row">
           <a class="header-logo" href="index.html" aria-label="Retour accueil (logo)">
             <img src="apam-logo1.png" alt="Logo APAM">
           </a>
-
           <div class="header-bar">
             <nav class="nav-menu">
               <a class="nav-link" href="tarifs.html">FLOTTE</a>
               <a class="nav-link" href="activite.html">ACTIVITÉS</a>
               <a class="nav-link" href="ressources.html">RESSOURCES</a>
               <a class="nav-link" href="contact.html">CONTACT</a>
-              <a class="nav-link" href="espace-membres.html">MEMBRES</a>
               <a class="nav-link" href="https://openflyers.com/apam/" target="_blank" rel="noopener noreferrer">OPENFLYER</a>
             </nav>
-            <div class="header-right">
-              <button class="btn-compte" type="button">MON COMPTE</button>
-            </div>
+            <button class="btn-compte" type="button">MON COMPTE</button>
           </div>
         </div>
       </header>
 
-      <!-- TITLE -->
       <div class="page-title" aria-label="Titre page">
         <div class="title-box"><span>FLOTTE</span></div>
       </div>
 
-      <!-- GRID -->
       <main class="fleet-wrap" aria-label="Cartes flotte">
         <section class="fleet-grid">
 
-          <!-- C152 -->
           <a class="plane-card js-open-sheet" href="#" data-plane="c152" aria-label="Cessna 152">
             <div class="card-arrow" aria-hidden="true"><i></i></div>
-
             <div class="card-top">
               <div class="title-row">
                 <div class="card-name"><h3>CESSNA 152</h3></div>
                 <div class="badges"><span class="badge">VFR</span></div>
               </div>
             </div>
-
-            <div class="card-plane">
-              <img src="FGHKE1.png" alt="Cessna 152">
-            </div>
-
+            <div class="card-plane"><img src="FGHKE1.png" alt="Cessna 152"></div>
             <div class="card-bottom">
               <div class="bottom-col">
                 <h4>SPECS</h4>
@@ -791,21 +787,15 @@
             </div>
           </a>
 
-          <!-- TB200 -->
           <a class="plane-card js-open-sheet" href="#" data-plane="tb200" aria-label="TB200">
             <div class="card-arrow" aria-hidden="true"><i></i></div>
-
             <div class="card-top">
               <div class="title-row">
                 <div class="card-name"><h3>TB200</h3></div>
                 <div class="badges"><span class="badge">VFR</span></div>
               </div>
             </div>
-
-            <div class="card-plane">
-              <img src="TB200M.png" alt="TB200">
-            </div>
-
+            <div class="card-plane"><img src="TB200M.png" alt="TB200"></div>
             <div class="card-bottom">
               <div class="bottom-col">
                 <h4>SPECS</h4>
@@ -826,10 +816,8 @@
             </div>
           </a>
 
-          <!-- SR22 -->
           <a class="plane-card fleet-card-big js-open-sheet" href="#" data-plane="sr22" aria-label="Cirrus SR22">
             <div class="card-arrow" aria-hidden="true"><i></i></div>
-
             <div class="card-top">
               <div class="title-row">
                 <div class="card-name"><h3>CIRRUS SR22</h3></div>
@@ -839,11 +827,7 @@
                 </div>
               </div>
             </div>
-
-            <div class="card-plane">
-              <img src="SR1.png" alt="Cirrus SR22">
-            </div>
-
+            <div class="card-plane"><img src="SR1.png" alt="Cirrus SR22"></div>
             <div class="card-bottom">
               <div class="bottom-col">
                 <h4>SPECS</h4>
@@ -870,58 +854,126 @@
     </div>
   </div>
 
-  <!-- OVERLAY -->
+  <!-- Overlay -->
   <div class="overlay" id="overlay" aria-hidden="true"></div>
 
-  <!-- SHEET -->
-  <aside class="sheet" id="sheet" aria-hidden="true" aria-label="Fiche technique">
+  <!-- Sheet full-screen -->
+  <aside class="sheet" id="sheet" aria-hidden="true" aria-label="Fiche / Tarifs / Contact">
     <div class="sheet-inner">
+
       <div class="sheet-topbar">
-        <div class="sheet-kicker">FICHE TECHNIQUE</div>
+        <div class="sheet-kicker">APAM</div>
+
+        <div class="sheet-nav" role="tablist" aria-label="Navigation fiche">
+          <button class="tab is-active" data-tab="tech" type="button">FICHE TECHNIQUE</button>
+          <button class="tab" data-tab="prices" type="button">VOIR LES TARIFS</button>
+          <button class="tab" data-tab="contact" type="button">CONTACT</button>
+        </div>
+
         <button class="sheet-close" type="button" id="sheetClose" aria-label="Fermer"></button>
       </div>
 
-      <div class="sheet-hero" id="hero">
-        <div class="hero-header">
-          <div class="hero-title">
-            <h2 id="sheetTitle">—</h2>
+      <div class="sheet-pages">
+        <!-- TECH VIEW -->
+        <section class="pageview is-active" id="view-tech" aria-label="Fiche technique">
+          <div class="sheet-hero">
+            <div class="hero-header">
+              <div class="hero-title">
+                <h2 id="sheetTitle">—</h2>
+              </div>
+              <div class="hero-badges" id="sheetBadges"></div>
+            </div>
+
+            <div class="hero-canvas" id="heroCanvas">
+              <svg class="hero-lines" id="heroLines"></svg>
+
+              <div class="hero-plane">
+                <img id="sheetPlaneImg" src="" alt="">
+              </div>
+              <!-- callouts injected -->
+            </div>
           </div>
-          <div class="hero-badges" id="sheetBadges"></div>
-        </div>
 
-        <div class="hero-canvas" id="heroCanvas">
-          <svg class="hero-lines" id="heroLines"></svg>
-
-          <div class="hero-plane">
-            <img id="sheetPlaneImg" src="" alt="">
+          <div class="panel">
+            <h3>SPECS</h3>
+            <div class="rows" id="specRows"></div>
           </div>
 
-          <!-- callouts injected -->
-        </div>
+          <div class="sheet-cta">
+            <button class="cta-btn primary" data-tab="contact" type="button">CONTACT</button>
+            <button class="cta-btn" data-tab="prices" type="button">VOIR LES TARIFS</button>
+            <button class="cta-btn" type="button" id="ctaHome">ACCUEIL</button>
+          </div>
+        </section>
+
+        <!-- PRICES VIEW -->
+        <section class="pageview" id="view-prices" aria-label="Tarifs">
+          <div class="tarifs-grid">
+            <div class="panel">
+              <h3>TARIFS LOCATION</h3>
+              <div class="rows" id="pricesRows"></div>
+            </div>
+
+            <div class="panel">
+              <h3>BAPTÊME & VOL DÉCOUVERTE</h3>
+              <div class="rows" id="discoverRows"></div>
+            </div>
+          </div>
+
+          <div class="sheet-cta">
+            <button class="cta-btn primary" data-tab="tech" type="button">RETOUR FICHE</button>
+            <button class="cta-btn" data-tab="contact" type="button">CONTACT</button>
+            <button class="cta-btn" type="button" id="ctaHome2">ACCUEIL</button>
+          </div>
+        </section>
+
+        <!-- CONTACT VIEW -->
+        <section class="pageview" id="view-contact" aria-label="Contact">
+          <div class="contact-wrap">
+            <div class="panel">
+              <h3>NOUS ÉCRIRE</h3>
+              <form id="contactForm">
+                <div class="field">
+                  <div class="label">Nom</div>
+                  <input id="cName" type="text" placeholder="Votre nom" required>
+                </div>
+                <div class="field">
+                  <div class="label">Email</div>
+                  <input id="cEmail" type="email" placeholder="votre@email.com" required>
+                </div>
+                <div class="field">
+                  <div class="label">Téléphone</div>
+                  <input id="cPhone" type="text" placeholder="+33 / +1 / ...">
+                </div>
+              </form>
+            </div>
+
+            <div class="panel">
+              <h3>MESSAGE</h3>
+              <div class="field">
+                <div class="label">Votre demande</div>
+                <textarea id="cMsg" placeholder="Dites-nous ce que vous cherchez (initiation, inscription, infos tarifs, etc.)" required></textarea>
+              </div>
+
+              <div class="sheet-cta">
+                <button class="cta-btn primary" type="button" id="sendMail">ENVOYER (MAIL)</button>
+                <button class="cta-btn" data-tab="tech" type="button">RETOUR FICHE</button>
+                <button class="cta-btn" type="button" id="ctaHome3">ACCUEIL</button>
+              </div>
+              <div style="margin-top:10px;color:rgba(255,255,255,0.55);font-size:12px;">
+                (Le bouton ouvre votre logiciel mail via <strong>mailto:</strong>.)
+              </div>
+            </div>
+          </div>
+        </section>
       </div>
 
-      <div class="sheet-bottom">
-        <div class="panel">
-          <h3>SPECS</h3>
-          <div class="rows" id="specRows"></div>
-        </div>
-        <div class="panel">
-          <h3>TARIFS</h3>
-          <div class="rows" id="tarifRows"></div>
-        </div>
-      </div>
-
-      <div class="sheet-cta">
-        <button class="cta-btn primary" type="button">CONTACT</button>
-        <button class="cta-btn" type="button">VOIR LES TARIFS</button>
-        <button class="cta-btn" type="button">ESPACE MEMBRES</button>
-      </div>
     </div>
   </aside>
 
   <script>
     // ===============================
-    // DATA (tu changes les textes ici)
+    // DATA
     // ===============================
     const PLANES = {
       c152: {
@@ -930,10 +982,9 @@
         img: "FGHKE1.png",
         alt: "Cessna 152",
         callouts: [
-          // 🔥 On remplace places/autonomie/cruise par cockpit/train/aile
-          { id:"co1", label:"COCKPIT", big:"ANALOGIQUE", sub:"Instruments classiques", box:{x:10,y:14}, target:{x:44,y:40} },
-          { id:"co2", label:"TRAIN",   big:"CLASSIQUE",  sub:"Taildragger / maniabilité", box:{x:10,y:60}, target:{x:58,y:62} },
-          { id:"co3", label:"AILE",    big:"HAUTE",      sub:"Stabilité / visibilité", box:{x:70,y:32}, target:{x:48,y:30} }
+          { id:"co1", label:"COCKPIT", big:"ANALOGIQUE", sub:"Instruments classiques", box:{x:10,y:18}, target:{x:46,y:45} },
+          { id:"co2", label:"TRAIN",   big:"CLASSIQUE",  sub:"Taildragger / maniabilité", box:{x:10,y:62}, target:{x:56,y:70} },
+          { id:"co3", label:"AILE",    big:"HAUTE",      sub:"Stabilité / visibilité", box:{x:72,y:36}, target:{x:46,y:33} }
         ],
         specs: [
           ["Places", "2"],
@@ -942,10 +993,14 @@
           ["Avionique", "Analogique"],
           ["Vol de nuit", "Non"]
         ],
-        tarifs: [
+        prices: [
           ["Brevetés", "— €/h"],
           ["Non-brevetés", "— €/h"],
           ["Instruction", "— €/h"]
+        ],
+        discover: [
+          ["Baptême", "— €"],
+          ["Vol découverte", "— €"]
         ]
       },
 
@@ -955,9 +1010,9 @@
         img: "TB200M.png",
         alt: "TB200",
         callouts: [
-          { id:"co1", label:"VOILURE", big:"BASSE", sub:"Profil voyage", box:{x:10,y:18}, target:{x:48,y:33} },
-          { id:"co2", label:"TRAIN",   big:"TRICYCLE", sub:"Confort au roulage", box:{x:10,y:62}, target:{x:56,y:62} },
-          { id:"co3", label:"CABINE",  big:"CONFORT", sub:"Voyage / performance", box:{x:70,y:34}, target:{x:52,y:44} }
+          { id:"co1", label:"VOILURE", big:"BASSE", sub:"Profil voyage", box:{x:10,y:18}, target:{x:48,y:40} },
+          { id:"co2", label:"TRAIN",   big:"TRICYCLE", sub:"Confort au roulage", box:{x:10,y:62}, target:{x:58,y:72} },
+          { id:"co3", label:"CABINE",  big:"CONFORT", sub:"Voyage / performance", box:{x:72,y:36}, target:{x:54,y:52} }
         ],
         specs: [
           ["Places", "—"],
@@ -966,10 +1021,14 @@
           ["Avionique", "—"],
           ["Vol de nuit", "—"]
         ],
-        tarifs: [
+        prices: [
           ["Brevetés", "— €/h"],
           ["Non-brevetés", "— €/h"],
           ["Instruction", "— €/h"]
+        ],
+        discover: [
+          ["Baptême", "— €"],
+          ["Vol découverte", "— €"]
         ]
       },
 
@@ -979,9 +1038,9 @@
         img: "SR1.png",
         alt: "Cirrus SR22",
         callouts: [
-          { id:"co1", label:"AVIONIQUE", big:"GLASS", sub:"Écrans / ergonomie", box:{x:10,y:18}, target:{x:52,y:41} },
-          { id:"co2", label:"SÉCURITÉ",  big:"CAPS",  sub:"Parachute cellule", box:{x:10,y:62}, target:{x:40,y:28} },
-          { id:"co3", label:"TRAIN",     big:"TRICYCLE", sub:"Stabilité", box:{x:70,y:34}, target:{x:58,y:62} }
+          { id:"co1", label:"AVIONIQUE", big:"GLASS", sub:"Écrans / ergonomie", box:{x:10,y:18}, target:{x:52,y:50} },
+          { id:"co2", label:"SÉCURITÉ",  big:"CAPS",  sub:"Parachute cellule", box:{x:10,y:62}, target:{x:40,y:30} },
+          { id:"co3", label:"TRAIN",     big:"TRICYCLE", sub:"Stabilité", box:{x:72,y:36}, target:{x:60,y:72} }
         ],
         specs: [
           ["Places", "—"],
@@ -990,10 +1049,14 @@
           ["Avionique", "Glass"],
           ["Vol de nuit", "—"]
         ],
-        tarifs: [
+        prices: [
           ["Brevetés", "— €/h"],
           ["Non-brevetés", "— €/h"],
           ["Instruction", "— €/h"]
+        ],
+        discover: [
+          ["Baptême", "— €"],
+          ["Vol découverte", "— €"]
         ]
       }
     };
@@ -1010,12 +1073,30 @@
     const planeImg = document.getElementById('sheetPlaneImg');
     const heroCanvas = document.getElementById('heroCanvas');
     const heroLines = document.getElementById('heroLines');
+
     const specRows = document.getElementById('specRows');
-    const tarifRows = document.getElementById('tarifRows');
+    const pricesRows = document.getElementById('pricesRows');
+    const discoverRows = document.getElementById('discoverRows');
 
     const openBtns = document.querySelectorAll('.js-open-sheet');
+    const tabs = document.querySelectorAll('.tab');
+    const ctaTabButtons = document.querySelectorAll('[data-tab]');
+    const viewTech = document.getElementById('view-tech');
+    const viewPrices = document.getElementById('view-prices');
+    const viewContact = document.getElementById('view-contact');
+
+    const ctaHome = document.getElementById('ctaHome');
+    const ctaHome2 = document.getElementById('ctaHome2');
+    const ctaHome3 = document.getElementById('ctaHome3');
+
+    const sendMail = document.getElementById('sendMail');
+    const cName = document.getElementById('cName');
+    const cEmail = document.getElementById('cEmail');
+    const cPhone = document.getElementById('cPhone');
+    const cMsg = document.getElementById('cMsg');
 
     let lastFocus = null;
+    let currentPlaneKey = 'c152';
 
     function badgeEl(b){
       const s = document.createElement('span');
@@ -1036,8 +1117,7 @@
       while(heroLines.firstChild) heroLines.removeChild(heroLines.firstChild);
     }
 
-    function setCalloutPositions(callout){
-      // positions in % relative to heroCanvas box
+    function setCallout(callout){
       const co = document.createElement('div');
       co.className = 'callout';
       co.dataset.id = callout.id;
@@ -1060,7 +1140,6 @@
     }
 
     function drawLines(){
-      // SVG lines between callout box and target
       const canvasRect = heroCanvas.getBoundingClientRect();
       heroLines.setAttribute('viewBox', `0 0 ${canvasRect.width} ${canvasRect.height}`);
       heroLines.setAttribute('preserveAspectRatio', 'none');
@@ -1074,62 +1153,64 @@
         const coRect = co.getBoundingClientRect();
         const tgRect = tg.getBoundingClientRect();
 
-        // point on target (center)
         const x2 = (tgRect.left - canvasRect.left) + tgRect.width/2;
         const y2 = (tgRect.top  - canvasRect.top)  + tgRect.height/2;
 
-        // point from callout: choose closest edge to target
         const cx = (coRect.left - canvasRect.left) + coRect.width/2;
         const cy = (coRect.top  - canvasRect.top)  + coRect.height/2;
 
-        let x1 = cx, y1 = cy;
-
-        // Determine exit point from callout rectangle toward target
         const left = (coRect.left - canvasRect.left);
         const right = left + coRect.width;
         const top = (coRect.top - canvasRect.top);
         const bottom = top + coRect.height;
 
-        // directional vector from center to target
         const dx = x2 - cx;
         const dy = y2 - cy;
         const absDx = Math.abs(dx), absDy = Math.abs(dy);
 
+        let x1 = cx, y1 = cy;
         if(absDx > absDy){
-          // exit left or right
           x1 = dx > 0 ? right : left;
           y1 = cy;
         }else{
-          // exit top or bottom
-          x1 = dx; // keep x approx toward target for nicer look
           x1 = Math.min(Math.max(x2, left + 12), right - 12);
           y1 = dy > 0 ? bottom : top;
         }
 
+        const glow = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+        glow.setAttribute('x1', x1); glow.setAttribute('y1', y1);
+        glow.setAttribute('x2', x2); glow.setAttribute('y2', y2);
+        glow.setAttribute('stroke', 'rgba(47,107,255,0.20)');
+        glow.setAttribute('stroke-width', '9');
+        glow.setAttribute('stroke-linecap', 'square');
+
         const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-        line.setAttribute('x1', x1);
-        line.setAttribute('y1', y1);
-        line.setAttribute('x2', x2);
-        line.setAttribute('y2', y2);
-        line.setAttribute('stroke', 'rgba(47,107,255,0.85)');
+        line.setAttribute('x1', x1); line.setAttribute('y1', y1);
+        line.setAttribute('x2', x2); line.setAttribute('y2', y2);
+        line.setAttribute('stroke', 'rgba(47,107,255,0.90)');
         line.setAttribute('stroke-width', '2');
         line.setAttribute('stroke-linecap', 'square');
-
-        const glow = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-        glow.setAttribute('x1', x1);
-        glow.setAttribute('y1', y1);
-        glow.setAttribute('x2', x2);
-        glow.setAttribute('y2', y2);
-        glow.setAttribute('stroke', 'rgba(47,107,255,0.22)');
-        glow.setAttribute('stroke-width', '8');
-        glow.setAttribute('stroke-linecap', 'square');
 
         heroLines.appendChild(glow);
         heroLines.appendChild(line);
       });
     }
 
+    function setActiveTab(tabKey){
+      // tabs UI
+      tabs.forEach(t => t.classList.toggle('is-active', t.dataset.tab === tabKey));
+
+      // views
+      viewTech.classList.toggle('is-active', tabKey === 'tech');
+      viewPrices.classList.toggle('is-active', tabKey === 'prices');
+      viewContact.classList.toggle('is-active', tabKey === 'contact');
+
+      // redraw lines if returning to tech
+      if(tabKey === 'tech') setTimeout(drawLines, 60);
+    }
+
     function populateSheet(key){
+      currentPlaneKey = key;
       const p = PLANES[key];
       if(!p) return;
 
@@ -1144,16 +1225,16 @@
       specRows.innerHTML = '';
       p.specs.forEach(([k,v]) => specRows.appendChild(rowEl(k,v)));
 
-      tarifRows.innerHTML = '';
-      p.tarifs.forEach(([k,v]) => tarifRows.appendChild(rowEl(k,v)));
+      pricesRows.innerHTML = '';
+      p.prices.forEach(([k,v]) => pricesRows.appendChild(rowEl(k,v)));
+
+      discoverRows.innerHTML = '';
+      p.discover.forEach(([k,v]) => discoverRows.appendChild(rowEl(k,v)));
 
       clearCallouts();
-      p.callouts.forEach(setCalloutPositions);
+      p.callouts.forEach(setCallout);
 
-      // draw lines after layout + image decode
-      requestAnimationFrame(() => {
-        requestAnimationFrame(drawLines);
-      });
+      requestAnimationFrame(() => requestAnimationFrame(drawLines));
     }
 
     function openSheet(key){
@@ -1165,10 +1246,9 @@
       overlay.setAttribute('aria-hidden', 'false');
       sheet.setAttribute('aria-hidden', 'false');
 
-      // prevent body scroll
       document.body.style.overflow = 'hidden';
 
-      // redraw on resize (responsive)
+      setActiveTab('tech');
       setTimeout(drawLines, 80);
     }
 
@@ -1195,8 +1275,39 @@
     window.addEventListener('keydown', (e) => {
       if(e.key === 'Escape' && sheet.classList.contains('is-open')) closeSheet();
     });
+
     window.addEventListener('resize', () => {
-      if(sheet.classList.contains('is-open')) drawLines();
+      if(sheet.classList.contains('is-open') && viewTech.classList.contains('is-active')) drawLines();
+    });
+
+    // tabs click
+    tabs.forEach(t => t.addEventListener('click', () => setActiveTab(t.dataset.tab)));
+    ctaTabButtons.forEach(b => b.addEventListener('click', () => setActiveTab(b.dataset.tab)));
+
+    // home buttons just close
+    [ctaHome, ctaHome2, ctaHome3].forEach(b => b && b.addEventListener('click', closeSheet));
+
+    // contact mailto
+    sendMail.addEventListener('click', () => {
+      // minimal validation
+      const name = (cName.value || '').trim();
+      const email = (cEmail.value || '').trim();
+      const phone = (cPhone.value || '').trim();
+      const msg = (cMsg.value || '').trim();
+
+      if(!name || !email || !msg){
+        alert("Merci de remplir au minimum : Nom, Email, Message.");
+        return;
+      }
+
+      const subject = encodeURIComponent(`[APAM] Message de ${name}`);
+      const body = encodeURIComponent(
+        `Nom: ${name}\nEmail: ${email}\nTéléphone: ${phone}\n\nMessage:\n${msg}\n\n(Avion consulté: ${PLANES[currentPlaneKey]?.title || ''})`
+      );
+
+      // 🔁 mets ici l'email APAM
+      const to = "contact@apam.fr";
+      window.location.href = `mailto:${to}?subject=${subject}&body=${body}`;
     });
   </script>
 </body>
