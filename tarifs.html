@@ -1257,7 +1257,7 @@
                   <div class="fleet-panel" role="menu" aria-label="Menu flotte">
                     <a class="fleet-card" href="#fleet" data-open="c152" aria-label="Cessna 152">
                       <div class="fleet-name">CESSNA 152</div>
-                      <img class="fleet-plane" src="FGHK2.png" alt="Cessna 152">
+                      <img class="fleet-plane" src="FGHKE1.png" alt="Cessna 152">
                       <span class="fleet-chev" aria-hidden="true"></span>
                     </a>
 
@@ -1328,7 +1328,7 @@
               </div>
             </div>
 
-            <div class="card-plane"><img src="FGHK2.png" alt="Cessna 152"></div>
+            <div class="card-plane"><img src="FGHKE1.png" alt="Cessna 152"></div>
 
             <div class="card-bottom">
               <div class="bottom-col">
@@ -1600,15 +1600,15 @@
       const aircraft = {
         c152: {
           title: "CESSNA 152",
-          img: "FGHK2.png",
+          img: "FGHKE1.png",
           badges: ["VFR"],
           callouts: [
-            {k:"COCKPIT", v:"Analogique"},
+            {k:"COCKPIT", v:"Old"},
             {k:"TRAIN", v:"Classique"},
             {k:"AILE", v:"Haute"}
           ],
           specs: [
-            "Vol de nuit : Non",
+            "Vol de nuit : Oui",
             "Approche : VFR",
             "Notes : École / Initiation"
           ],
@@ -1624,12 +1624,12 @@
           img: "TB200M.png",
           badges: ["VFR"],
           callouts: [
-            {k:"MISSION", v:"Voyage"},
-            {k:"TRAIN", v:"Tricycle"},
-            {k:"CABINE", v:"Confort"}
+            {k:"COCKPIT", v:"Old/New"},
+            {k:"TRAIN", v:"Classique"},
+            {k:"AILE", v:"Basse"}
           ],
           specs: [
-            "Vol de nuit : —",
+            "Vol de nuit : Oui",
             "Approche : VFR",
             "Notes : Voyage / Performance"
           ],
@@ -1645,14 +1645,14 @@
           img: "SR1.png",
           badges: ["VFR","IFR"],
           callouts: [
-            {k:"AVIONIQUE", v:"Glass"},
-            {k:"SÉCURITÉ", v:"CAPS"},
-            {k:"MISSION", v:"Voyage"}
+            {k:"COCKPIT", v:"New (Glass)"},
+            {k:"TRAIN", v:"Classique"},
+            {k:"AILE", v:"Basse"}
           ],
           specs: [
             "Vol de nuit : Oui",
-            "IFR : Oui",
-            "Notes : Premium"
+            "Approche : VFR/IFR",
+            "Notes : Voyage / Performance"
           ],
           tarifs: [
             ["Brevetés", "— €/h"],
