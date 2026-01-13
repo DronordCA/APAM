@@ -22,9 +22,6 @@
       font-style: normal;
     }
 
-    /* =============================== */
-    /* VARIABLES */
-    /* =============================== */
     :root{
       --page-side-margin: 60px;
       --header-height: 50px;
@@ -48,32 +45,21 @@
 
       --m-side: 18px;
 
-      /* Layout (MBP 14") */
       --outer-x: 26px;
       --gap-x: 16px;
       --gap-y: 16px;
       --grid-max: 1460px;
 
-      /* Cards */
-      --card-radius: 0px;
       --card-bg: rgba(18,18,18,0.92);
-      --card-border: rgba(255,255,255,0.08);
-      --card-shadow: 0 26px 60px rgba(0,0,0,0.34);
-
-      /* Blue band */
       --blue-top: #2f6bff;
       --blue-bot: #1b45e8;
 
-      /* Modal */
-      --modal-bg: rgba(0,0,0,0.86); /* opaque-ish (PAS transparent) */
+      --modal-bg: rgba(0,0,0,0.86);
       --modal-panel: rgba(10,10,12,0.94);
       --gridline: rgba(255,255,255,0.10);
       --gridline-2: rgba(255,255,255,0.06);
     }
 
-    /* =============================== */
-    /* RESET */
-    /* =============================== */
     *{ box-sizing:border-box; margin:0; padding:0; }
     html, body{ height:100%; }
     body{
@@ -83,9 +69,6 @@
       background:#101012;
     }
 
-    /* =============================== */
-    /* PAGE BACKGROUND */
-    /* =============================== */
     .page{
       min-height: 100svh;
       position: relative;
@@ -261,8 +244,8 @@
       left:50%;
       transform: translateX(-50%);
       width: var(--panel-w);
-      background: var(--panel-bg);
-      border: 1px solid var(--panel-border);
+      background: #222;
+      border: 1px solid rgba(255,255,255,0.10);
       border-radius: 0;
       box-shadow: 0 22px 40px rgba(0,0,0,0.45);
       padding:10px;
@@ -281,10 +264,10 @@
 
     .fleet-card{
       position:relative;
-      height: var(--drop-card-h);
+      height: 100px;
       border-radius: 0;
-      background: var(--drop-card-bg);
-      border: 1px solid var(--drop-card-border);
+      background: #2a2a2a;
+      border: 1px solid rgba(255,255,255,0.10);
       text-decoration:none;
       color:#fff;
       overflow:hidden;
@@ -337,6 +320,7 @@
       border-color: var(--accent);
       transform: translate(4px, -50%) rotate(45deg);
     }
+
     .fleet-cta{
       margin-top:2px;
       padding-top:10px;
@@ -401,15 +385,10 @@
         display:inline-flex;
         align-items:center;
         text-decoration:none;
-        position:relative;
       }
       .m-logo img{
         height:54px;
         display:block;
-        opacity:0;
-        transform: translate3d(0, -14px, 0) scale(0.94);
-        filter: blur(8px);
-        animation: logoPop 1.05s cubic-bezier(.16, 1, .22, 1) forwards;
       }
 
       .m-burger{
@@ -452,16 +431,6 @@
         opacity:0;
         pointer-events:none;
         transition: transform .42s cubic-bezier(.16,1,.22,1), opacity .28s ease;
-      }
-
-      .m-drawer::after{
-        content:"";
-        position:absolute; inset:0;
-        pointer-events:none;
-        opacity:.09;
-        background-image:
-          url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='.6'/%3E%3C/svg%3E");
-        mix-blend-mode: overlay;
       }
 
       .m-drawer-top{
@@ -567,13 +536,6 @@
         opacity:1; pointer-events:auto;
         transform: translate3d(0,0,0);
       }
-      body.m-open .m-drawer-inner{
-        animation: drawerIn .45s cubic-bezier(.16,1,.22,1) both;
-      }
-      @keyframes drawerIn{
-        from{ opacity:0; transform: translate3d(0,-10px,0); filter: blur(6px); }
-        to{ opacity:1; transform: translate3d(0,0,0); filter: blur(0px); }
-      }
     }
 
     /* =============================== */
@@ -592,8 +554,6 @@
       box-shadow: 0 18px 34px rgba(0,0,0,0.22);
       padding: 18px 22px 14px;
       border-radius: 0;
-
-      /* entry */
       opacity: 0;
       transform: translate3d(0, 18px, 0);
       filter: blur(6px);
@@ -610,7 +570,6 @@
       letter-spacing: -0.02em;
       font-size: 76px;
       line-height: .9;
-      font-style: normal;
       transform: skewX(-6deg);
       display:block;
       white-space: nowrap;
@@ -654,7 +613,6 @@
       text-decoration: none;
       color:#fff;
       height: 410px;
-
       transform: translate3d(0, 18px, 0);
       opacity: 0;
       filter: blur(6px);
@@ -664,7 +622,6 @@
         filter .7s ease,
         box-shadow .22s ease,
         border-color .22s ease;
-      will-change: transform, opacity, filter;
     }
     .plane-card.is-in{
       transform: translate3d(0, 0, 0);
@@ -687,7 +644,6 @@
       pointer-events:none;
     }
 
-    /* flèche en carré blanc (haut droite) */
     .card-arrow{
       position:absolute;
       top: 16px;
@@ -700,8 +656,7 @@
       align-items:center;
       justify-content:center;
       z-index: 3;
-      border-radius: 0;
-      cursor: pointer;
+      cursor:pointer;
     }
     .card-arrow i{
       width: 16px;
@@ -718,7 +673,6 @@
       padding: 20px 20px 0;
     }
 
-    /* Nom + badges sur une ligne */
     .title-row{
       display:flex;
       align-items:flex-end;
@@ -758,16 +712,14 @@
       color:#fff;
       background: rgba(0,0,0,0.35);
       border: 2px solid rgba(47,107,255,0.75);
-      border-radius: 0;
       white-space: nowrap;
     }
     .badge.ifr{ border-color: rgba(255,59,48,1); }
 
-    /* avion (DESKTOP parfait) */
     .card-plane{
       position:absolute;
       left: 50%;
-      top: 38%; /* un peu remonté pour éviter le bandeau */
+      top: 38%;
       transform: translate(-50%, -50%);
       width: min(760px, 96%);
       height: 240px;
@@ -786,12 +738,10 @@
       transition: transform .28s cubic-bezier(.16,1,.22,1);
       will-change: transform;
     }
-    /* ✅ animation avion au hover (reviens bien) */
     .plane-card:hover .card-plane img{
       transform: translateX(18px) rotate(-1.2deg) scale(1.28);
     }
 
-    /* Bandeau bleu */
     .card-bottom{
       position:absolute;
       left:0; right:0; bottom:0;
@@ -803,16 +753,11 @@
       display:grid;
       grid-template-columns: 1fr 1fr;
       gap: 18px;
-      border-radius: 0;
 
-      /* ✅ petit “lift” au hover (bandeau qui monte) */
       transform: translate3d(0, 10px, 0);
       transition: transform .22s cubic-bezier(.16,1,.22,1);
-      will-change: transform;
     }
-    .plane-card:hover .card-bottom{
-      transform: translate3d(0, 0, 0);
-    }
+    .plane-card:hover .card-bottom{ transform: translate3d(0, 0, 0); }
 
     .bottom-col h4{
       font-family:"GPMenu", system-ui, sans-serif;
@@ -843,22 +788,13 @@
       background: rgba(255,255,255,0.95);
       margin-top: 6px;
       flex: 0 0 auto;
-      border-radius: 0;
     }
 
-    /* =============================== */
-    /* RESPONSIVE (cards) */
-    /* =============================== */
-    @media (max-width: 980px){
-      .page-title{ margin: 18px var(--page-side-margin) 10px; }
-      .title-box span{ font-size: 56px; }
-
+    /* ✅ MOBILE fixes for the card bottom: avoid cut text */
+    @media (max-width:980px){
       .fleet-grid{ grid-template-columns: 1fr; }
       .fleet-card-big{ max-width:none; justify-self:stretch; }
 
-      .plane-card{ height: 410px; }
-
-      /* ✅ MOBILE : avion adapté (pas trop large) */
       .card-plane{
         width: 90%;
         height: 230px;
@@ -867,27 +803,27 @@
       .card-plane img{
         transform: translateX(0) rotate(0deg) scale(1.02);
       }
-      .plane-card:hover .card-plane img{
-        transform: translateX(14px) rotate(-1.0deg) scale(1.07);
-      }
 
-      .title-row{ padding-right: 56px; }
-      .card-name h3{ font-size: 34px; }
-      .badge{ height: 26px; font-size: 11px; }
-
+      /* ✅ Make bottom a single column so text never cuts */
       .card-bottom{
-        height: 164px;
-        padding: 16px 16px 18px;
-        gap: 16px;
+        grid-template-columns: 1fr;
+        height: 230px;           /* more room */
+        gap: 12px;
+        padding: 14px 14px 16px;
       }
       .bottom-col ul{
-        font-size: 16px;
-        gap: 8px;
+        font-size: 15px;
+      }
+      .bottom-col li{
+        white-space: normal;      /* allow wrap */
+      }
+      .bottom-col h4{
+        margin-bottom: 6px;
       }
     }
 
     /* =============================== */
-    /* MODAL (fiche technique / tarifs / contact) */
+    /* MODAL */
     /* =============================== */
     .modal{
       position: fixed;
@@ -909,8 +845,6 @@
       inset:0;
       background: var(--modal-bg);
     }
-
-    /* “GP grid” plus gros carrés (moins ligné) */
     .modal-backdrop::before{
       content:"";
       position:absolute;
@@ -919,7 +853,7 @@
       background:
         linear-gradient(var(--gridline) 1px, transparent 1px),
         linear-gradient(90deg, var(--gridline) 1px, transparent 1px);
-      background-size: 64px 64px; /* ✅ carrés plus gros */
+      background-size: 64px 64px;
       background-position: center;
     }
     .modal-backdrop::after{
@@ -940,7 +874,6 @@
       background: var(--modal-panel);
       border: 1px solid rgba(255,255,255,0.10);
       box-shadow: 0 40px 110px rgba(0,0,0,0.62);
-      border-radius: 0;
       overflow: hidden;
 
       transform: translate3d(0, 18px, 0);
@@ -963,6 +896,7 @@
       border-bottom: 1px solid rgba(255,255,255,0.10);
       background: rgba(0,0,0,0.55);
       backdrop-filter: blur(10px);
+      position: relative;
     }
 
     .modal-brand{
@@ -984,7 +918,6 @@
       letter-spacing: 0.14em;
       font-size: 12px;
       background: rgba(0,0,0,0.35);
-      border-radius: 0;
     }
 
     .modal-nav{
@@ -992,6 +925,8 @@
       align-items:center;
       gap: 14px;
       margin-left: 18px;
+      flex-wrap: nowrap;
+      overflow: hidden;
     }
     .modal-tab{
       border: 0;
@@ -1008,7 +943,6 @@
       padding: 10px 10px 8px;
       border-bottom: 2px solid transparent;
       transition: color .18s ease, border-color .18s ease;
-      border-radius: 0;
       white-space: nowrap;
     }
     .modal-tab:hover{ color: #fff; }
@@ -1022,11 +956,7 @@
       height:56px;
       background:#fff;
       border:0;
-      border-radius: 0;
       cursor:pointer;
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
       box-shadow: 0 10px 18px rgba(0,0,0,0.35);
       position:relative;
       flex: 0 0 auto;
@@ -1049,12 +979,10 @@
       padding: 18px;
     }
 
-    /* Left: image + 3 info blocks (sans traits) */
     .hero{
       position: relative;
       border: 1px solid rgba(255,255,255,0.10);
       background: rgba(0,0,0,0.35);
-      border-radius: 0;
       overflow:hidden;
       padding: 16px;
       display:flex;
@@ -1102,7 +1030,6 @@
       max-height: 100%;
       object-fit: contain;
       filter: drop-shadow(0 20px 26px rgba(0,0,0,0.50));
-      transform: translateZ(0);
     }
 
     .hero-callouts{
@@ -1115,8 +1042,8 @@
       border: 1px solid rgba(255,255,255,0.12);
       background: rgba(0,0,0,0.35);
       padding: 12px 12px 10px;
-      border-radius: 0;
       min-height: 78px;
+      overflow: hidden;
     }
     .callout .k{
       font-family:"GPMenu", system-ui, sans-serif;
@@ -1132,20 +1059,18 @@
       font-size: 16px;
       line-height: 1.15;
       opacity: .96;
+      word-break: break-word;
     }
 
-    /* Right: specs block (only) / tarifs / contact panels */
     .side{
       display:flex;
       flex-direction:column;
       gap: 12px;
       min-height: 0;
     }
-
     .panel{
       border: 1px solid rgba(255,255,255,0.10);
       background: rgba(0,0,0,0.35);
-      border-radius: 0;
       overflow:hidden;
       min-height: 0;
       display:flex;
@@ -1180,19 +1105,20 @@
       line-height: 1.15;
       white-space: nowrap;
     }
-    .spec-row .dot{ margin-top: 6px; background: rgba(255,255,255,0.95); }
-
+    .spec-row .dot{
+      width: 7px; height: 7px; background: rgba(255,255,255,0.95);
+      margin-top: 6px;
+      flex: 0 0 auto;
+    }
     .muted{
       color: rgba(255,255,255,0.72);
       font-size: 14px;
       line-height: 1.25;
     }
 
-    /* Panels switching */
     .panel-view{ display:none; }
     .panel-view.is-active{ display:flex; flex-direction:column; min-height:0; flex:1; }
 
-    /* Tarifs list */
     .tarif-row{
       display:flex;
       justify-content:space-between;
@@ -1208,7 +1134,6 @@
     .tarif-row .label{ opacity:.92; }
     .tarif-row .price{ font-family:"GPMenu", system-ui, sans-serif; letter-spacing: 0.10em; }
 
-    /* Contact form */
     .contact-form{
       display:flex;
       flex-direction:column;
@@ -1232,7 +1157,6 @@
       border: 1px solid rgba(255,255,255,0.14);
       color:#fff;
       padding: 12px 12px;
-      border-radius: 0;
       outline: none;
       font-size: 15px;
     }
@@ -1250,7 +1174,6 @@
       transform: skewX(-6deg);
       padding: 10px 12px 8px;
       cursor:pointer;
-      border-radius: 0;
       transition: border-color .18s ease, background .18s ease, color .18s ease;
       align-self:flex-start;
     }
@@ -1260,16 +1183,45 @@
       color:#000;
     }
 
-    /* Modal mobile */
+    /* ✅ MOBILE FIXES for modal */
     @media (max-width: 980px){
-      .modal{ padding: 12px; }
-      .modal-panel{ height: 100%; }
+      .modal{ padding: 10px; }
+      .modal-panel{ height: 100%; width: 100%; }
+
+      /* Put close button above tabs; tabs get padding-right */
+      .modal-close{
+        position:absolute;
+        top: 8px;
+        right: 10px;
+        width:52px;
+        height:52px;
+        z-index: 3;
+      }
 
       .modal-topbar{
-        height: 68px;
-        padding: 0 12px;
+        height: auto;
+        padding: 10px 10px 12px;
+        align-items:flex-start;
       }
-      .modal-tab{ font-size: 22px; padding: 10px 8px 8px; }
+
+      .modal-brand{ margin-right: 8px; }
+      .modal-brand .apam-pill{ height: 38px; }
+
+      /* Make tabs scrollable and not covered by X */
+      .modal-nav{
+        margin-left: 10px;
+        padding-right: 64px; /* ✅ space for X */
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        max-width: 100%;
+      }
+      .modal-nav::-webkit-scrollbar{ display:none; }
+
+      .modal-tab{
+        font-size: 20px;
+        padding: 10px 8px 8px;
+      }
 
       .modal-body{
         grid-template-columns: 1fr;
@@ -1278,26 +1230,23 @@
         height: calc(100% - 68px);
         overflow: auto;
       }
+
+      /* ✅ Keep 3 callouts visible: remove clipping */
+      .hero{ overflow: visible; }
       .hero-title h2{ font-size: 40px; }
+      .hero-image{ min-height: 190px; }
+      .hero-image img{ max-height: 210px; }
+
       .hero-callouts{ grid-template-columns: 1fr; }
       .callout{ min-height: auto; }
-
-      .hero-image{
-        min-height: 220px; /* ✅ évite le “bizarre” mobile */
-      }
-      .hero-image img{
-        max-height: 240px;
-      }
-      .panel-body{ padding: 12px; }
       .spec-row, .tarif-row{ white-space: normal; }
     }
 
     /* Reduce motion */
     @media (prefers-reduced-motion: reduce){
       *{ animation: none !important; transition: none !important; }
-      .plane-card{ opacity: 1; transform: none; filter:none; }
-      .title-box{ opacity: 1; transform: none; filter:none; }
-      .modal-panel{ opacity: 1; transform: none; filter:none; }
+      .plane-card, .title-box{ opacity: 1 !important; transform: none !important; filter:none !important; }
+      .modal-panel{ opacity: 1 !important; transform: none !important; filter:none !important; }
     }
   </style>
 </head>
@@ -1362,7 +1311,7 @@
                   <div class="fleet-panel" role="menu" aria-label="Menu flotte">
                     <a class="fleet-card" href="#fleet" data-open="c152" aria-label="Cessna 152">
                       <div class="fleet-name">CESSNA 152</div>
-                      <img class="fleet-plane" src="FGHKE2.png" alt="Cessna 152">
+                      <img class="fleet-plane" src="FGHK2.png" alt="Cessna 152">
                       <span class="fleet-chev" aria-hidden="true"></span>
                     </a>
 
@@ -1415,29 +1364,27 @@
       </header>
 
       <!-- TITLE -->
-      <div class="page-title" aria-label="Titre page" id="fleet">
+      <div class="page-title" id="fleet">
         <div class="title-box"><span>FLOTTE</span></div>
       </div>
 
       <!-- GRID -->
-      <main class="fleet-wrap" aria-label="Cartes flotte">
+      <main class="fleet-wrap">
         <section class="fleet-grid">
 
           <!-- C152 -->
-          <a class="plane-card" href="#open" data-open="c152" aria-label="Cessna 152">
-            <div class="card-arrow" aria-label="Ouvrir la fiche"><i></i></div>
+          <a class="plane-card" href="#open" data-open="c152">
+            <div class="card-arrow"><i></i></div>
 
             <div class="card-top">
               <div class="title-row">
                 <div class="card-name"><h3>CESSNA 152</h3></div>
-                <div class="badges">
-                  <span class="badge">VFR</span>
-                </div>
+                <div class="badges"><span class="badge">VFR</span></div>
               </div>
             </div>
 
             <div class="card-plane">
-              <img src="FGHKE2.png" alt="Cessna 152">
+              <img src="FGHK2.png" alt="Cessna 152">
             </div>
 
             <div class="card-bottom">
@@ -1449,28 +1396,25 @@
                   <li><span class="dot"></span><span>Autonomie : 4 h</span></li>
                 </ul>
               </div>
-
               <div class="bottom-col">
                 <h4>TARIFS</h4>
                 <ul>
-                  <li><span class="dot"></span><span>Brevetés : 90 €/h</span></li>
-                  <li><span class="dot"></span><span>Non-brevetés : 110 €/h</span></li>
-                  <li><span class="dot"></span><span>Instruction : 120 €/h</span></li>
+                  <li><span class="dot"></span><span>Brevetés : — €/h</span></li>
+                  <li><span class="dot"></span><span>Non-brevetés : — €/h</span></li>
+                  <li><span class="dot"></span><span>Instruction : — €/h</span></li>
                 </ul>
               </div>
             </div>
           </a>
 
           <!-- TB200 -->
-          <a class="plane-card" href="#open" data-open="tb200" aria-label="TB200">
-            <div class="card-arrow" aria-label="Ouvrir la fiche"><i></i></div>
+          <a class="plane-card" href="#open" data-open="tb200">
+            <div class="card-arrow"><i></i></div>
 
             <div class="card-top">
               <div class="title-row">
                 <div class="card-name"><h3>TB200</h3></div>
-                <div class="badges">
-                  <span class="badge">VFR</span>
-                </div>
+                <div class="badges"><span class="badge">VFR</span></div>
               </div>
             </div>
 
@@ -1487,7 +1431,6 @@
                   <li><span class="dot"></span><span>Autonomie : —</span></li>
                 </ul>
               </div>
-
               <div class="bottom-col">
                 <h4>TARIFS</h4>
                 <ul>
@@ -1499,9 +1442,9 @@
             </div>
           </a>
 
-          <!-- SR22 (centrée en bas) -->
-          <a class="plane-card fleet-card-big" href="#open" data-open="sr22" aria-label="Cirrus SR22">
-            <div class="card-arrow" aria-label="Ouvrir la fiche"><i></i></div>
+          <!-- SR22 -->
+          <a class="plane-card fleet-card-big" href="#open" data-open="sr22">
+            <div class="card-arrow"><i></i></div>
 
             <div class="card-top">
               <div class="title-row">
@@ -1526,7 +1469,6 @@
                   <li><span class="dot"></span><span>Autonomie : —</span></li>
                 </ul>
               </div>
-
               <div class="bottom-col">
                 <h4>TARIFS</h4>
                 <ul>
@@ -1544,105 +1486,70 @@
     </div>
   </div>
 
-  <!-- =============================== -->
-  <!-- MODAL (single) -->
-  <!-- =============================== -->
-  <div class="modal" id="modal" aria-hidden="true" role="dialog" aria-label="Fiche avion">
+  <!-- MODAL -->
+  <div class="modal" id="modal" aria-hidden="true">
     <div class="modal-backdrop" data-close="1"></div>
 
-    <div class="modal-panel" role="document">
+    <div class="modal-panel">
       <div class="modal-topbar">
         <div style="display:flex; align-items:center; min-width:0;">
-          <a class="modal-brand" href="#fleet" id="modalBrand" aria-label="Retour flotte">
+          <a class="modal-brand" href="#fleet" id="modalBrand">
             <span class="apam-pill">APAM</span>
           </a>
 
-          <div class="modal-nav" role="tablist" aria-label="Navigation fiche">
-            <button class="modal-tab is-active" type="button" data-tab="tech" role="tab" aria-selected="true">FICHE TECHNIQUE</button>
-            <button class="modal-tab" type="button" data-tab="tarifs" role="tab" aria-selected="false">TARIFS</button>
-            <button class="modal-tab" type="button" data-tab="contact" role="tab" aria-selected="false">CONTACT</button>
+          <div class="modal-nav">
+            <button class="modal-tab is-active" type="button" data-tab="tech">FICHE TECHNIQUE</button>
+            <button class="modal-tab" type="button" data-tab="tarifs">TARIFS</button>
+            <button class="modal-tab" type="button" data-tab="contact">CONTACT</button>
           </div>
         </div>
 
-        <button class="modal-close" type="button" aria-label="Fermer" data-close="1"></button>
+        <button class="modal-close" type="button" data-close="1" aria-label="Fermer"></button>
       </div>
 
       <div class="modal-body">
-        <!-- LEFT -->
         <div class="hero">
           <div class="hero-title">
             <h2 id="mTitle">CESSNA 152</h2>
-            <div class="hero-badges" id="mBadges">
-              <span class="badge">VFR</span>
-            </div>
+            <div class="hero-badges" id="mBadges"></div>
           </div>
 
-          <!-- ✅ IMAGE (maquette) -->
           <div class="hero-image">
-            <img id="mImage" src="FGHKE2.png" alt="Avion">
+            <img id="mImage" src="FGHK2.png" alt="Avion">
           </div>
 
-          <!-- rectangles d'infos (sans traits) -->
-          <div class="hero-callouts" id="mCallouts">
-            <div class="callout">
-              <div class="k">COCKPIT</div>
-              <div class="v">Analogique</div>
-            </div>
-            <div class="callout">
-              <div class="k">TRAIN</div>
-              <div class="v">Classique</div>
-            </div>
-            <div class="callout">
-              <div class="k">AILE</div>
-              <div class="v">Haute</div>
-            </div>
-          </div>
+          <div class="hero-callouts" id="mCallouts"></div>
         </div>
 
-        <!-- RIGHT -->
         <div class="side">
-          <!-- TECH (only specs block) -->
           <div class="panel panel-view is-active" data-view="tech">
             <div class="panel-head"><h3>SPECS</h3></div>
-            <div class="panel-body" id="mSpecs">
-              <div class="spec-row"><span class="dot"></span><span>Vol de nuit : Non</span></div>
-              <div class="spec-row"><span class="dot"></span><span>Radio : 8.33 kHz</span></div>
-              <div class="spec-row"><span class="dot"></span><span>Approche : VFR</span></div>
-              <div class="muted">Infos à affiner/compléter selon la flotte APAM.</div>
-            </div>
+            <div class="panel-body" id="mSpecs"></div>
           </div>
 
-          <!-- TARIFS -->
           <div class="panel panel-view" data-view="tarifs">
             <div class="panel-head"><h3>TARIFS</h3></div>
-            <div class="panel-body" id="mTarifs">
-              <div class="tarif-row"><span class="label">Brevetés</span><span class="price">— €/h</span></div>
-              <div class="tarif-row"><span class="label">Non-brevetés</span><span class="price">— €/h</span></div>
-              <div class="tarif-row"><span class="label">Instruction</span><span class="price">— €/h</span></div>
-              <div class="tarif-row"><span class="label">Baptême / Vol découverte</span><span class="price">— €</span></div>
-              <div class="muted">Tu peux mettre les valeurs réelles ici, ou pointer vers ta page tarifs si tu préfères.</div>
-            </div>
+            <div class="panel-body" id="mTarifs"></div>
           </div>
 
-          <!-- CONTACT -->
           <div class="panel panel-view" data-view="contact">
             <div class="panel-head"><h3>CONTACT</h3></div>
             <div class="panel-body">
               <form class="contact-form" id="contactForm">
                 <div class="field">
                   <label for="cName">Nom</label>
-                  <input id="cName" name="name" type="text" placeholder="Votre nom" required />
+                  <input id="cName" type="text" required placeholder="Votre nom">
                 </div>
                 <div class="field">
                   <label for="cEmail">Email</label>
-                  <input id="cEmail" name="email" type="email" placeholder="vous@exemple.com" required />
+                  <input id="cEmail" type="email" required placeholder="vous@exemple.com">
                 </div>
                 <div class="field">
                   <label for="cMsg">Message</label>
-                  <textarea id="cMsg" name="message" placeholder="Votre message…" required></textarea>
+                  <textarea id="cMsg" required placeholder="Votre message…"></textarea>
                 </div>
                 <button class="send-btn" type="submit">ENVOYER</button>
-                <div class="muted">Le bouton ouvre votre client mail (mailto) avec le message pré-rempli.</div>
+                <div class="muted">Ouverture via mailto.</div>
               </form>
             </div>
           </div>
@@ -1654,71 +1561,11 @@
 
   <script>
     (function(){
-      /* ===========================
-         MOBILE DRAWER (FIX)
-      ============================ */
-      const openBtn = document.querySelector('.m-burger');
-      const closeBtn = document.querySelector('.m-close');
-      const drawer  = document.getElementById('m-drawer');
-      const overlay = document.querySelector('.m-overlay');
-      const drawerLinks = drawer ? drawer.querySelectorAll('a') : [];
-
-      let scrollY = 0;
-      function lockScroll(){
-        scrollY = window.scrollY || document.documentElement.scrollTop || 0;
-        document.body.style.position = 'fixed';
-        document.body.style.top = `-${scrollY}px`; /* ✅ FIX */
-        document.body.style.left = '0';
-        document.body.style.right = '0';
-        document.body.style.width = '100%';
-      }
-      function unlockScroll(){
-        document.body.style.position = '';
-        document.body.style.top = '';
-        document.body.style.left = '';
-        document.body.style.right = '';
-        document.body.style.width = '';
-        window.scrollTo(0, scrollY);
-      }
-
-      function openDrawer(){
-        document.body.classList.add('m-open');
-        if(openBtn) openBtn.setAttribute('aria-expanded', 'true');
-        if(drawer) drawer.setAttribute('aria-hidden', 'false');
-        lockScroll();
-      }
-      function closeDrawer(){
-        document.body.classList.remove('m-open');
-        if(openBtn) openBtn.setAttribute('aria-expanded', 'false');
-        if(drawer) drawer.setAttribute('aria-hidden', 'true');
-        unlockScroll();
-      }
-
-      if(openBtn){
-        openBtn.addEventListener('click', () => {
-          if(document.body.classList.contains('m-open')) closeDrawer();
-          else openDrawer();
-        });
-      }
-      if(closeBtn) closeBtn.addEventListener('click', closeDrawer);
-      if(overlay) overlay.addEventListener('click', closeDrawer);
-      drawerLinks.forEach(a => a.addEventListener('click', closeDrawer));
-      document.addEventListener('keydown', (e) => {
-        if(e.key === 'Escape') closeDrawer();
-      });
-
-      /* ===========================
-         ENTRY ANIMATIONS (title + cards)
-      ============================ */
+      // Entry animations
       const titleBox = document.querySelector('.title-box');
+      requestAnimationFrame(() => titleBox && titleBox.classList.add('is-in'));
+
       const cards = Array.from(document.querySelectorAll('.plane-card'));
-
-      // Title in
-      requestAnimationFrame(() => {
-        if(titleBox) titleBox.classList.add('is-in');
-      });
-
-      // Cards stagger
       const io = new IntersectionObserver((entries) => {
         entries.forEach((en) => {
           if(en.isIntersecting){
@@ -1730,17 +1577,14 @@
           }
         });
       }, { threshold: 0.12 });
-
       cards.forEach(c => io.observe(c));
 
-      /* ===========================
-         MODAL DATA
-      ============================ */
+      // Modal data
       const aircraft = {
         c152: {
           title: "CESSNA 152",
           img: "FGHK2.png",
-          badges: [{t:"VFR", ifr:false}],
+          badges: ["VFR"],
           callouts: [
             {k:"COCKPIT", v:"Analogique"},
             {k:"TRAIN", v:"Classique"},
@@ -1748,8 +1592,8 @@
           ],
           specs: [
             "Vol de nuit : Non",
-            "Type : École / Initiation",
-            "Remarques : Avion simple & ludique"
+            "Radio : 8.33 kHz",
+            "Approche : VFR"
           ],
           tarifs: [
             ["Brevetés", "— €/h"],
@@ -1761,16 +1605,16 @@
         tb200: {
           title: "TB200",
           img: "TB200M.png",
-          badges: [{t:"VFR", ifr:false}],
+          badges: ["VFR"],
           callouts: [
-            {k:"COCKPIT", v:"—"},
-            {k:"TRAIN", v:"—"},
-            {k:"AILE", v:"—"}
+            {k:"MISSION", v:"Voyage"},
+            {k:"TRAIN", v:"Tricycle"},
+            {k:"CABINE", v:"Confort"}
           ],
           specs: [
             "Vol de nuit : —",
-            "Type : Voyage / Performance",
-            "Remarques : —"
+            "Approche : VFR",
+            "Notes : —"
           ],
           tarifs: [
             ["Brevetés", "— €/h"],
@@ -1782,16 +1626,16 @@
         sr22: {
           title: "CIRRUS SR22",
           img: "SR1.png",
-          badges: [{t:"VFR", ifr:false},{t:"IFR", ifr:true}],
+          badges: ["VFR","IFR"],
           callouts: [
-            {k:"AVIONIQUE", v:"Glass cockpit"},
-            {k:"SÉCURITÉ", v:"Parachute"},
+            {k:"AVIONIQUE", v:"Glass"},
+            {k:"SÉCURITÉ", v:"CAPS"},
             {k:"MISSION", v:"Voyage"}
           ],
           specs: [
-            "Vol de nuit : Oui (selon qualif)",
-            "IFR : Oui (selon qualif)",
-            "Remarques : Avion premium & performant"
+            "Vol de nuit : Oui",
+            "IFR : Oui",
+            "Notes : Premium"
           ],
           tarifs: [
             ["Brevetés", "— €/h"],
@@ -1802,9 +1646,6 @@
         }
       };
 
-      /* ===========================
-         MODAL OPEN/CLOSE
-      ============================ */
       const modal = document.getElementById('modal');
       const mTitle = document.getElementById('mTitle');
       const mImage = document.getElementById('mImage');
@@ -1813,14 +1654,14 @@
       const mSpecs = document.getElementById('mSpecs');
       const mTarifs = document.getElementById('mTarifs');
 
+      const tabs = Array.from(document.querySelectorAll('.modal-tab'));
+      const views = Array.from(document.querySelectorAll('.panel-view'));
+
+      let scrollY = 0;
+      let lastFocus = null;
+
       function setActiveTab(tab){
-        const tabs = Array.from(document.querySelectorAll('.modal-tab'));
-        const views = Array.from(document.querySelectorAll('.panel-view'));
-        tabs.forEach(t => {
-          const on = t.dataset.tab === tab;
-          t.classList.toggle('is-active', on);
-          t.setAttribute('aria-selected', on ? 'true' : 'false');
-        });
+        tabs.forEach(t => t.classList.toggle('is-active', t.dataset.tab === tab));
         views.forEach(v => v.classList.toggle('is-active', v.dataset.view === tab));
       }
 
@@ -1836,8 +1677,8 @@
         mBadges.innerHTML = "";
         data.badges.forEach(b => {
           const s = document.createElement('span');
-          s.className = "badge" + (b.ifr ? " ifr" : "");
-          s.textContent = b.t;
+          s.className = "badge" + (b === "IFR" ? " ifr" : "");
+          s.textContent = b;
           mBadges.appendChild(s);
         });
 
@@ -1858,10 +1699,10 @@
           row.innerHTML = `<span class="dot"></span><span>${s}</span>`;
           mSpecs.appendChild(row);
         });
-        const m = document.createElement('div');
-        m.className = "muted";
-        m.textContent = "Infos à affiner/compléter selon la flotte APAM.";
-        mSpecs.appendChild(m);
+        const mut = document.createElement('div');
+        mut.className = "muted";
+        mut.textContent = "Infos à affiner/compléter selon la flotte APAM.";
+        mSpecs.appendChild(mut);
 
         // tarifs
         mTarifs.innerHTML = "";
@@ -1871,23 +1712,9 @@
           row.innerHTML = `<span class="label">${label}</span><span class="price">${price}</span>`;
           mTarifs.appendChild(row);
         });
-        const m2 = document.createElement('div');
-        m2.className = "muted";
-        m2.textContent = "Tu peux remplacer les “—” par les valeurs réelles.";
-        mTarifs.appendChild(m2);
       }
 
-      let lastFocus = null;
-
-      function openModal(key){
-        lastFocus = document.activeElement;
-        fillModal(key);
-        setActiveTab('tech');
-
-        modal.classList.add('is-open');
-        modal.setAttribute('aria-hidden', 'false');
-
-        // lock scroll
+      function lockScroll(){
         scrollY = window.scrollY || document.documentElement.scrollTop || 0;
         document.body.style.position = 'fixed';
         document.body.style.top = `-${scrollY}px`;
@@ -1895,24 +1722,32 @@
         document.body.style.right = '0';
         document.body.style.width = '100%';
       }
-
-      function closeModal(){
-        modal.classList.remove('is-open');
-        modal.setAttribute('aria-hidden', 'true');
-
-        // unlock scroll
-        const y = scrollY;
+      function unlockScroll(){
         document.body.style.position = '';
         document.body.style.top = '';
         document.body.style.left = '';
         document.body.style.right = '';
         document.body.style.width = '';
-        window.scrollTo(0, y);
+        window.scrollTo(0, scrollY);
+      }
 
+      function openModal(key){
+        lastFocus = document.activeElement;
+        fillModal(key);
+        setActiveTab('tech');
+        modal.classList.add('is-open');
+        modal.setAttribute('aria-hidden','false');
+        lockScroll();
+      }
+
+      function closeModal(){
+        modal.classList.remove('is-open');
+        modal.setAttribute('aria-hidden','true');
+        unlockScroll();
         if(lastFocus && typeof lastFocus.focus === 'function') lastFocus.focus();
       }
 
-      // open triggers (card click + arrow click + dropdown)
+      // open triggers
       document.addEventListener('click', (e) => {
         const openEl = e.target.closest('[data-open]');
         if(openEl){
@@ -1920,7 +1755,6 @@
           openModal(openEl.dataset.open);
           return;
         }
-
         const closeEl = e.target.closest('[data-close]');
         if(closeEl){
           e.preventDefault();
@@ -1929,17 +1763,15 @@
         }
       });
 
-      // tab switching
-      document.querySelectorAll('.modal-tab').forEach(btn => {
-        btn.addEventListener('click', () => setActiveTab(btn.dataset.tab));
-      });
+      // tabs
+      tabs.forEach(btn => btn.addEventListener('click', () => setActiveTab(btn.dataset.tab)));
 
-      // close on ESC
+      // ESC close
       document.addEventListener('keydown', (e) => {
         if(e.key === 'Escape' && modal.classList.contains('is-open')) closeModal();
       });
 
-      // brand click closes (retour flotte)
+      // brand closes and returns to fleet section
       const modalBrand = document.getElementById('modalBrand');
       if(modalBrand){
         modalBrand.addEventListener('click', (e) => {
@@ -1949,9 +1781,7 @@
         });
       }
 
-      /* ===========================
-         CONTACT: mailto
-      ============================ */
+      // contact form -> mailto
       const form = document.getElementById('contactForm');
       if(form){
         form.addEventListener('submit', (e) => {
@@ -1961,11 +1791,7 @@
           const msg = document.getElementById('cMsg').value.trim();
 
           const subject = encodeURIComponent(`[APAM] Message de ${name}`);
-          const body = encodeURIComponent(
-            `Nom: ${name}\nEmail: ${email}\n\nMessage:\n${msg}\n`
-          );
-
-          // ⚠️ remplace contact@apam.fr si besoin
+          const body = encodeURIComponent(`Nom: ${name}\nEmail: ${email}\n\nMessage:\n${msg}\n`);
           window.location.href = `mailto:contact@apam.fr?subject=${subject}&body=${body}`;
         });
       }
