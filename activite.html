@@ -407,7 +407,7 @@
     }
 
     /* =============================== */
-    /* ACTIVITE CONTENT */
+    /* PAGE CONTENT */
     /* =============================== */
     .title-bar{
       margin: 22px var(--page-side-margin) 10px;
@@ -484,7 +484,6 @@
     }
     .post.is-in{transform:none;opacity:1;filter:none}
 
-    /* bandeau bleu fin */
     .post::after{
       content:"";
       position:absolute;left:0;right:0;bottom:0;height:8px;
@@ -573,7 +572,7 @@
     }
 
     /* =============================== */
-    /* FACEBOOK responsive */
+    /* FACEBOOK — ✅ FIX desktop + mobile */
     /* =============================== */
     .fb-block{
       border: 1px solid rgba(255,255,255,0.10);
@@ -611,9 +610,11 @@
       overflow:hidden;
       border:1px solid rgba(255,255,255,0.08);
       background: rgba(255,255,255,0.04);
-      height: 620px;
+      height: 720px;          /* ✅ desktop */
     }
-    @media (max-width:980px){ .fb-responsive{height: 720px;} }
+    @media (max-width:980px){
+      .fb-responsive{ height: 980px; }  /* ✅ mobile : plus haut */
+    }
 
     .fb-responsive iframe{
       position:absolute;
@@ -621,10 +622,11 @@
       width:100% !important;
       height:100% !important;
       border:0;
+      background: transparent;
     }
 
     /* =============================== */
-    /* MODAL (plein écran, noir opaque, scroll interne) */
+    /* MODAL */
     /* =============================== */
     .modal{
       position:fixed; inset:0;
@@ -719,7 +721,6 @@
     .modal-close::before{transform:translate(-50%,-50%) rotate(45deg);}
     .modal-close::after{transform:translate(-50%,-50%) rotate(-45deg);}
 
-    /* ✅ scroll interne ici */
     .modal-body{
       height: calc(100% - 72px);
       display:flex;
@@ -736,10 +737,6 @@
       text-transform:uppercase;
       font-size:12px;
       color: rgba(255,255,255,0.75);
-      display:flex;
-      gap:10px;
-      align-items:center;
-      flex-wrap:wrap;
     }
 
     .modal-title{
@@ -767,53 +764,7 @@
       .modal-panel{width:100%;height:100%;}
       .modal-title{font-size:40px;}
       .modal-backdrop::before{background-size:110px 110px;}
-    }
-
-    /* =============================== */
-    /* FOOTER */
-    /* =============================== */
-    footer{
-      margin-top:22px;
-      border-top:1px solid rgba(255,255,255,0.08);
-      background: rgba(0,0,0,0.20);
-      padding:20px var(--page-side-margin);
-      color: rgba(255,255,255,0.78);
-    }
-    .footer-row{
-      display:flex;
-      gap:28px;
-      flex-wrap:wrap;
-      align-items:flex-start;
-      justify-content:space-between;
-    }
-    .footer-col{
-      min-width:220px;
-      flex:1 1 220px;
-    }
-    .footer-col h4{
-      font-family:"GPMenu",system-ui,sans-serif;
-      letter-spacing:0.18em;
-      text-transform:uppercase;
-      font-size:11px;
-      color: rgba(255,255,255,0.88);
-      margin-bottom:10px;
-    }
-    .footer-col a{
-      display:block;
-      text-decoration:none;
-      color: rgba(255,255,255,0.78);
-      font-size:14px;
-      margin-bottom:6px;
-    }
-    .footer-col a:hover{color:#fff}
-    .footer-bottom{
-      margin-top:14px;
-      font-size:12px;
-      color: rgba(255,255,255,0.58);
-      display:flex;
-      justify-content:space-between;
-      gap:12px;
-      flex-wrap:wrap;
+      .modal-body{padding:14px;}
     }
   </style>
 </head>
@@ -903,22 +854,11 @@
                   </div>
                 </span>
 
-                <span class="nav-item">
-                  <a href="activite.html" class="nav-link" data-text="ACTIVITÉS">ACTIVITÉS</a>
-                </span>
-                <span class="nav-item">
-                  <a href="ressources.html" class="nav-link" data-text="RESSOURCES">RESSOURCES</a>
-                </span>
-                <span class="nav-item">
-                  <a href="contact.html" class="nav-link" data-text="CONTACT">CONTACT</a>
-                </span>
-                <span class="nav-item">
-                  <a href="espace-membres.html" class="nav-link" data-text="MEMBRES">MEMBRES</a>
-                </span>
-                <span class="nav-item">
-                  <a href="https://openflyers.com/apam/" target="_blank" rel="noopener noreferrer"
-                    class="nav-link" data-text="OPENFLYER">OPENFLYER</a>
-                </span>
+                <span class="nav-item"><a href="activite.html" class="nav-link" data-text="ACTIVITÉS">ACTIVITÉS</a></span>
+                <span class="nav-item"><a href="ressources.html" class="nav-link" data-text="RESSOURCES">RESSOURCES</a></span>
+                <span class="nav-item"><a href="contact.html" class="nav-link" data-text="CONTACT">CONTACT</a></span>
+                <span class="nav-item"><a href="espace-membres.html" class="nav-link" data-text="MEMBRES">MEMBRES</a></span>
+                <span class="nav-item"><a href="https://openflyers.com/apam/" target="_blank" rel="noopener noreferrer" class="nav-link" data-text="OPENFLYER">OPENFLYER</a></span>
 
               </nav>
             </div>
@@ -957,6 +897,7 @@
           <div class="empty">CHARGEMENT DES ANNONCES…</div>
         </div>
 
+        <!-- ✅ FACEBOOK (nouvelle version responsive) -->
         <div class="fb-block">
           <div class="fb-head">
             <h3>FACEBOOK</h3>
@@ -965,41 +906,13 @@
             </a>
           </div>
 
-          <div class="fb-responsive">
-            <iframe
-              title="Facebook APAM"
-              loading="lazy"
-              src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2Fprofile.php%3Fid%3D61585663567523&tabs=timeline&small_header=true&adapt_container_width=true&hide_cover=false&show_facepile=false"
+          <div class="fb-responsive" id="fbWrap">
+            <iframe id="fbFrame" title="Facebook APAM" loading="lazy"
               allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share">
             </iframe>
           </div>
         </div>
       </div>
-
-      <footer>
-        <div class="footer-row">
-          <div class="footer-col">
-            <h4>PLAN DU SITE</h4>
-            <a href="index.html">Accueil</a>
-            <a href="tarifs.html">Flotte</a>
-            <a href="activite.html">Activités</a>
-            <a href="ressources.html">Ressources</a>
-            <a href="contact.html">Contact</a>
-            <a href="https://openflyers.com/apam/" target="_blank" rel="noopener noreferrer">OpenFlyer</a>
-          </div>
-
-          <div class="footer-col">
-            <h4>CONTACT</h4>
-            <a href="mailto:contact@apam.fr">contact@apam.fr</a>
-            <a href="https://www.facebook.com/profile.php?id=61585663567523" target="_blank" rel="noopener noreferrer">Facebook</a>
-          </div>
-        </div>
-
-        <div class="footer-bottom">
-          <span>© 2025 APAM – Tous droits réservés.</span>
-          <span>Site conçu par Dronord.</span>
-        </div>
-      </footer>
 
     </div>
   </div>
@@ -1059,19 +972,16 @@
     }
 
     const safe = (s) => (s ?? "").toString().trim();
-
     function normalizeHeaders(headers){
       return headers.map(h => safe(h).toLowerCase()
         .replaceAll("é","e").replaceAll("è","e").replaceAll("ê","e")
         .replaceAll("à","a").replaceAll("ç","c"));
     }
-
     function toRowObj(headers, row){
       const obj = {};
       headers.forEach((h, idx) => obj[h] = safe(row[idx]));
       return obj;
     }
-
     function formatDateFR(v){
       const s = safe(v);
       if (!s) return "";
@@ -1082,7 +992,7 @@
     }
 
     // ===============================
-    // MODAL (noir opaque + scroll interne)
+    // MODAL
     // ===============================
     const modal = document.getElementById("modal");
     const mTitle = document.getElementById("mTitle");
@@ -1106,7 +1016,6 @@
       document.body.style.width = '';
       window.scrollTo(0, modalScrollY);
     }
-
     function openDetail(post){
       const date = formatDateFR(post.date || post["date"]);
       const titre = post.titre || post["titre"] || "DÉTAILS";
@@ -1121,7 +1030,6 @@
       modal.setAttribute("aria-hidden", "false");
       lockScroll();
     }
-
     function closeDetail(){
       modal.classList.remove("is-open");
       modal.setAttribute("aria-hidden", "true");
@@ -1135,13 +1043,12 @@
         closeDetail();
       }
     });
-
     document.addEventListener("keydown", (e) => {
       if (e.key === "Escape" && modal.classList.contains("is-open")) closeDetail();
     });
 
     // ===============================
-    // RENDER CARDS
+    // CARDS
     // ===============================
     function buildCard(post, i){
       const date = formatDateFR(post.date || post["date"]);
@@ -1160,12 +1067,7 @@
 
       const meta = document.createElement("div");
       meta.className = "post-meta";
-      const left = document.createElement("div");
-      left.textContent = date || "—";
-      const right = document.createElement("div");
-      right.textContent = "";
-      meta.appendChild(left);
-      meta.appendChild(right);
+      meta.innerHTML = `<div>${date || "—"}</div><div></div>`;
 
       const h = document.createElement("div");
       h.className = "post-title";
@@ -1177,12 +1079,7 @@
 
       const cta = document.createElement("div");
       cta.className = "post-cta";
-      const ctaTxt = document.createElement("div");
-      ctaTxt.textContent = "DÉTAILS";
-      const chev = document.createElement("i");
-      chev.className = "chev";
-      cta.appendChild(ctaTxt);
-      cta.appendChild(chev);
+      cta.innerHTML = `<div>DÉTAILS</div><i class="chev"></i>`;
 
       body.appendChild(meta);
       body.appendChild(h);
@@ -1205,26 +1102,16 @@
       container.innerHTML = `<div class="empty">CHARGEMENT…</div>`;
 
       try{
-        const res = await fetch(SHEET_CSV_URL, {
-          method:"GET",
-          cache:"no-store",
-          redirect:"follow",
-          headers:{ "Accept":"text/csv,*/*" }
-        });
+        const res = await fetch(SHEET_CSV_URL, { cache:"no-store" });
         if(!res.ok) throw new Error("HTTP " + res.status);
+
         const text = await res.text();
-
-        if (text.trim().startsWith("<!DOCTYPE") || text.trim().startsWith("<html")){
-          throw new Error("HTML returned instead of CSV");
-        }
-
         const rows = parseCSV(text);
         if(rows.length < 2) throw new Error("No rows");
 
         const headers = normalizeHeaders(rows[0]);
         const posts = rows.slice(1).map(r => toRowObj(headers, r));
 
-        // Tri date desc si possible
         posts.sort((a,b) => {
           const da = new Date((a.date||"").split("/").reverse().join("-") || 0).getTime();
           const db = new Date((b.date||"").split("/").reverse().join("-") || 0).getTime();
@@ -1273,25 +1160,63 @@
 
       function openDrawer(){
         document.body.classList.add('m-open');
-        if(openBtn) openBtn.setAttribute('aria-expanded', 'true');
-        if(drawer) drawer.setAttribute('aria-hidden', 'false');
+        openBtn && openBtn.setAttribute('aria-expanded','true');
+        drawer && drawer.setAttribute('aria-hidden','false');
         lock();
       }
       function closeDrawer(){
         document.body.classList.remove('m-open');
-        if(openBtn) openBtn.setAttribute('aria-expanded', 'false');
-        if(drawer) drawer.setAttribute('aria-hidden', 'true');
+        openBtn && openBtn.setAttribute('aria-expanded','false');
+        drawer && drawer.setAttribute('aria-hidden','true');
         unlock();
       }
 
-      if(openBtn){
-        openBtn.addEventListener('click', () => {
-          document.body.classList.contains('m-open') ? closeDrawer() : openDrawer();
-        });
-      }
-      if(closeBtn) closeBtn.addEventListener('click', closeDrawer);
-      if(overlay) overlay.addEventListener('click', closeDrawer);
+      openBtn && openBtn.addEventListener('click', () => {
+        document.body.classList.contains('m-open') ? closeDrawer() : openDrawer();
+      });
+      closeBtn && closeBtn.addEventListener('click', closeDrawer);
+      overlay && overlay.addEventListener('click', closeDrawer);
       drawerLinks.forEach(a => a.addEventListener('click', closeDrawer));
+    })();
+
+    // ===============================
+    // ✅ FACEBOOK FIX: force width dynamique (supprime le vide à droite)
+    // ===============================
+    (function(){
+      const pageUrl = "https://www.facebook.com/profile.php?id=61585663567523";
+      const frame = document.getElementById("fbFrame");
+      const wrap  = document.getElementById("fbWrap");
+      if(!frame || !wrap) return;
+
+      function buildFbSrc(w){
+        const width = Math.max(340, Math.min(900, Math.round(w)));
+        const params = new URLSearchParams({
+          href: pageUrl,
+          tabs: "timeline",
+          width: width.toString(),
+          height: "9999",
+          small_header: "true",
+          adapt_container_width: "false",  // ✅ on force width
+          hide_cover: "false",
+          show_facepile: "false"
+        });
+        return "https://www.facebook.com/plugins/page.php?" + params.toString();
+      }
+
+      let lastWidth = 0;
+      function refresh(){
+        const w = wrap.clientWidth;
+        if(!w || Math.abs(w - lastWidth) < 20) return;
+        lastWidth = w;
+        frame.src = buildFbSrc(w);
+      }
+
+      refresh();
+      window.addEventListener("resize", () => {
+        clearTimeout(window.__fbT);
+        window.__fbT = setTimeout(refresh, 140);
+      });
+      window.addEventListener("load", () => setTimeout(refresh, 220));
     })();
 
     // init
