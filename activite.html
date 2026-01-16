@@ -684,11 +684,30 @@
       gap: 10px;
     }
     .ig-ph{
+      display:block;
+      position:relative;
       aspect-ratio: 1/1;
       border:1px solid rgba(255,255,255,0.10);
       background:
         radial-gradient(circle at 30% 20%, rgba(47,107,255,0.18), transparent 55%),
         rgba(0,0,0,0.35);
+      transition: transform .2s ease, border-color .2s ease;
+      overflow:hidden;
+    }
+    .ig-ph::after{
+      content:"";
+      position:absolute;
+      inset:0;
+      background: linear-gradient(135deg, rgba(255,255,255,0.06), transparent 55%);
+      opacity:0;
+      transition: opacity .2s ease;
+    }
+    .ig-ph:hover{
+      transform: translateY(-2px);
+      border-color: rgba(255,255,255,0.35);
+    }
+    .ig-ph:hover::after{
+      opacity:1;
     }
 
     /* =============================== */
@@ -994,8 +1013,12 @@
               </div>
 
               <div class="ig-preview">
-                <div class="ig-ph"></div><div class="ig-ph"></div><div class="ig-ph"></div>
-                <div class="ig-ph"></div><div class="ig-ph"></div><div class="ig-ph"></div>
+                <a class="ig-ph" href="https://www.instagram.com/apam_lfol?igsh=MTVnbjRtNHppMWwwcA%3D%3D&utm_source=qr" target="_blank" rel="noopener noreferrer" aria-label="Instagram APAM"></a>
+                <a class="ig-ph" href="https://www.instagram.com/apam_lfol?igsh=MTVnbjRtNHppMWwwcA%3D%3D&utm_source=qr" target="_blank" rel="noopener noreferrer" aria-label="Instagram APAM"></a>
+                <a class="ig-ph" href="https://www.instagram.com/apam_lfol?igsh=MTVnbjRtNHppMWwwcA%3D%3D&utm_source=qr" target="_blank" rel="noopener noreferrer" aria-label="Instagram APAM"></a>
+                <a class="ig-ph" href="https://www.instagram.com/apam_lfol?igsh=MTVnbjRtNHppMWwwcA%3D%3D&utm_source=qr" target="_blank" rel="noopener noreferrer" aria-label="Instagram APAM"></a>
+                <a class="ig-ph" href="https://www.instagram.com/apam_lfol?igsh=MTVnbjRtNHppMWwwcA%3D%3D&utm_source=qr" target="_blank" rel="noopener noreferrer" aria-label="Instagram APAM"></a>
+                <a class="ig-ph" href="https://www.instagram.com/apam_lfol?igsh=MTVnbjRtNHppMWwwcA%3D%3D&utm_source=qr" target="_blank" rel="noopener noreferrer" aria-label="Instagram APAM"></a>
               </div>
             </div>
           </div>
