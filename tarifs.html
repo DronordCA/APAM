@@ -11,13 +11,13 @@
     /* =============================== */
     @font-face {
       font-family: "GPMenu";
-      src: url("Helvetica Neue LT Pro 93 Black Extended.otf") format("opentype");
+      src: url("assets/fonts/Helvetica Neue LT Pro 93 Black Extended.otf") format("opentype");
       font-weight: 900;
       font-style: normal;
     }
     @font-face {
       font-family: "Swiss911";
-      src: url("Swiss911-ExtraCompressed.otf") format("opentype");
+      src: url("assets/fonts/Swiss911-ExtraCompressed.otf") format("opentype");
       font-weight: normal;
       font-style: normal;
     }
@@ -1204,7 +1204,7 @@
       <!-- ✅ HEADER MOBILE -->
       <div class="m-header" aria-label="Header mobile">
         <a class="m-logo" href="index.html" aria-label="Retour accueil (logo)">
-          <img src="apam-logo1.png" alt="Logo APAM">
+          <img src="assets/images/apam-logo.png" alt="Logo APAM">
         </a>
         <button class="m-burger" type="button" aria-label="Ouvrir le menu" aria-expanded="false">
           <span aria-hidden="true"></span>
@@ -1217,7 +1217,7 @@
       <aside class="m-drawer" id="m-drawer" aria-hidden="true" aria-label="Menu">
         <div class="m-drawer-top">
           <a class="m-logo" href="index.html" aria-label="Retour accueil (logo)">
-            <img src="apam-logo1.png" alt="Logo APAM">
+            <img src="assets/images/apam-logo.png" alt="Logo APAM">
           </a>
           <button class="m-close" type="button" aria-label="Fermer le menu"></button>
         </div>
@@ -1245,7 +1245,7 @@
       <header class="site-header">
         <div class="header-row">
           <a class="header-logo" href="index.html" aria-label="Retour accueil (logo)">
-            <img src="apam-logo1.png" alt="Logo APAM">
+            <img src="assets/images/apam-logo.png" alt="Logo APAM">
           </a>
 
           <div class="header-bar">
@@ -1257,19 +1257,19 @@
                   <div class="fleet-panel" role="menu" aria-label="Menu flotte">
                     <a class="fleet-card" href="#fleet" data-open="c152" aria-label="Cessna 152">
                       <div class="fleet-name">CESSNA 152</div>
-                      <img class="fleet-plane" src="FGHKE2.png" alt="Cessna 152">
+                      <img class="fleet-plane" src="assets/images/FGHKE2.png" alt="Cessna 152">
                       <span class="fleet-chev" aria-hidden="true"></span>
                     </a>
 
                     <a class="fleet-card" href="#fleet" data-open="tb200" aria-label="TB200">
                       <div class="fleet-name">TB200</div>
-                      <img class="fleet-plane" src="TB200M.png" alt="TB200">
+                      <img class="fleet-plane" src="assets/images/TB200M.png" alt="TB200">
                       <span class="fleet-chev" aria-hidden="true"></span>
                     </a>
 
                     <a class="fleet-card" href="#fleet" data-open="sr22" aria-label="Cirrus SR22">
                       <div class="fleet-name">CIRRUS SR22</div>
-                      <img class="fleet-plane" src="SR1.png" alt="Cirrus SR22">
+                      <img class="fleet-plane" src="assets/images/SR1.png" alt="Cirrus SR22">
                       <span class="fleet-chev" aria-hidden="true"></span>
                     </a>
 
@@ -1328,7 +1328,7 @@
               </div>
             </div>
 
-            <div class="card-plane"><img src="FGHKE2.png" alt="Cessna 152"></div>
+            <div class="card-plane"><img src="assets/images/FGHKE2.png" alt="Cessna 152"></div>
 
             <div class="card-bottom">
               <div class="bottom-col">
@@ -1360,7 +1360,7 @@
               </div>
             </div>
 
-            <div class="card-plane"><img src="TB200M.png" alt="TB200"></div>
+            <div class="card-plane"><img src="assets/images/TB200M.png" alt="TB200"></div>
 
             <div class="card-bottom">
               <div class="bottom-col">
@@ -1395,7 +1395,7 @@
               </div>
             </div>
 
-            <div class="card-plane"><img src="SR1.png" alt="Cirrus SR22"></div>
+            <div class="card-plane"><img src="assets/images/SR1.png" alt="Cirrus SR22"></div>
 
             <div class="card-bottom">
               <div class="bottom-col">
@@ -1478,7 +1478,7 @@
           </div>
 
           <div class="hero-image">
-            <img id="mImage" src="FGHKE2.png" alt="Avion">
+            <img id="mImage" src="assets/images/FGHKE2.png" alt="Avion">
           </div>
 
           <div class="hero-callouts" id="mCallouts"></div>
@@ -1600,7 +1600,7 @@
       const aircraft = {
         c152: {
           title: "CESSNA 152",
-          img: "FGHKE2.png",
+          img: "assets/images/FGHKE2.png",
           badges: ["VFR"],
           callouts: [
             {k:"COCKPIT", v:"Old"},
@@ -1621,7 +1621,7 @@
         },
         tb200: {
           title: "TB200",
-          img: "TB200M.png",
+          img: "assets/images/TB200M.png",
           badges: ["VFR"],
           callouts: [
             {k:"COCKPIT", v:"Old/New"},
@@ -1642,7 +1642,7 @@
         },
         sr22: {
           title: "CIRRUS SR22",
-          img: "SR1.png",
+          img: "assets/images/SR1.png",
           badges: ["VFR","IFR"],
           callouts: [
             {k:"COCKPIT", v:"New (Glass)"},
