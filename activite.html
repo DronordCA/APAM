@@ -574,9 +574,8 @@
       background: rgba(255,255,255,0.04);
       height: 720px;
 
-      /* ✅ la clé : scroll interne au lieu d’un grand vide */
-      overflow: auto;
-      -webkit-overflow-scrolling: touch;
+      /* ✅ éviter le décalage lié au scroll */
+      overflow: hidden;
     }
 
     @media (max-width:980px){
@@ -1320,7 +1319,7 @@
           width: width.toString(),
           height: height.toString(),
           small_header: "true",
-          adapt_container_width: "false",
+          adapt_container_width: "true",
           hide_cover: "false",
           show_facepile: "false"
         });
