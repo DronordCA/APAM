@@ -142,20 +142,42 @@
 
     .menu-toggle {
       display: none;
-      background: rgba(3, 16, 35, 0.8);
-      color: var(--apam-blue);
-      font-weight: 600;
-      font-size: 0.9rem;
-      border-radius: 999px;
-      border: 1px solid rgba(255, 255, 255, 0.3);
+      width: 56px;
+      height: 56px;
+      background: #fff;
+      border: 0;
+      border-radius: 8px;
       cursor: pointer;
-      padding: 7px 14px;
-      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3);
+      box-shadow: 0 10px 18px rgba(0, 0, 0, 0.2);
+      align-items: center;
+      justify-content: center;
+      position: relative;
     }
 
-    .menu-toggle:hover {
-      background: rgba(3, 16, 35, 0.92);
-      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4);
+    .menu-toggle span {
+      width: 22px;
+      height: 2px;
+      background: #111;
+      display: block;
+      position: relative;
+    }
+
+    .menu-toggle span::before,
+    .menu-toggle span::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      width: 22px;
+      height: 2px;
+      background: #111;
+    }
+
+    .menu-toggle span::before {
+      top: -7px;
+    }
+
+    .menu-toggle span::after {
+      top: 7px;
     }
 
     /* ================== CONTENU PRINCIPAL ================== */
@@ -486,68 +508,38 @@
     .site-footer {
       background: #ffffff;
       color: var(--apam-blue);
-      padding: 40px 20px 20px;
+      padding: 16px 20px;
       margin-top: 40px;
       border-top: 1px solid rgba(6, 32, 55, 0.12);
     }
 
-    .footer-content {
+    .footer-inline {
       max-width: 1100px;
       margin: 0 auto;
       display: flex;
       justify-content: space-between;
-      align-items: flex-start;
+      align-items: center;
       flex-wrap: wrap;
-      gap: 32px;
+      gap: 12px;
+      font-size: 0.85rem;
     }
 
-    .footer-brand {
-      max-width: 260px;
-      flex: 1 1 260px;
+    .footer-links {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
     }
 
-    .footer-logo {
-      height: 40px;
-      display: block;
-      margin-bottom: 10px;
-    }
-
-    .footer-brand p {
-      font-size: 0.9rem;
-      opacity: 0.85;
-    }
-
-    .footer-column {
-      flex: 1 1 180px;
-      min-width: 180px;
-    }
-
-    .footer-column h4 {
-      margin-bottom: 10px;
-      font-size: 1rem;
-      border-bottom: 1px solid rgba(6, 32, 55, 0.15);
-      padding-bottom: 5px;
-    }
-
-    .footer-column a {
-      display: block;
+    .footer-links a {
       color: var(--apam-blue);
       opacity: 0.82;
-      margin-bottom: 6px;
-      font-size: 0.9rem;
       text-decoration: none;
       transition: opacity 0.2s ease;
     }
 
-    .footer-column a:hover {
+    .footer-links a:hover {
       opacity: 1;
-    }
-
-    .copyright {
-      text-align: center;
-      margin-top: 26px;
-      opacity: 0.7;
-      font-size: 0.82rem;
     }
 
     /* ================== RESPONSIVE ================== */
@@ -610,7 +602,7 @@
         right: 10px;
       }
 
-      .footer-content {
+      .footer-inline {
         flex-direction: column;
         align-items: flex-start;
       }
@@ -623,7 +615,9 @@
     <div class="header-inner">
       <img src="assets/images/apam-logo.png" alt="Logo APAM" class="logo" />
 
-      <button class="menu-toggle" aria-label="Ouvrir le menu">Menu</button>
+      <button class="menu-toggle" aria-label="Ouvrir le menu">
+        <span aria-hidden="true"></span>
+      </button>
 
       <nav class="main-nav">
         <a href="index.html">Accueil</a>
@@ -827,37 +821,14 @@
 
   <!-- ============ FOOTER ============ -->
   <footer class="site-footer">
-    <div class="footer-content">
-      <div class="footer-brand">
-        <img src="assets/images/apam-logo.png" alt="Logo APAM" class="footer-logo" />
-        <p>
-          Aéroclub APAM L’Aigle Saint-Michel – un cadre convivial pour découvrir, apprendre
-          et partager la passion du vol.
-        </p>
+    <div class="footer-inline">
+      <div class="footer-links">
+        <a href="mailto:contact@apam.fr">contact@apam.fr</a>
+        <a href="https://www.facebook.com/profile.php?id=61585663567523" target="_blank" rel="noopener noreferrer">Facebook</a>
+        <a href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer">Instagram</a>
       </div>
-
-      <div class="footer-column">
-        <h4>Plan du site</h4>
-        <a href="index.html">Accueil</a>
-        <a href="#">À propos</a>
-        <a href="activite.html">Activité</a>
-        <a href="#">Tarif</a>
-        <a href="espace-membres.html">Membres</a>
-        <a href="contact.html">Contact</a>
-        <a href="https://openflyers.com/apam/" target="_blank">OpenFlyer</a>
-      </div>
-
-      <div class="footer-column">
-        <h4>Réseaux sociaux</h4>
-        <a href="https://www.instagram.com/_cauvin_" target="_blank">Instagram</a>
-        <a href="https://www.youtube.com/@DRONORD18" target="_blank">YouTube</a>
-        <a href="https://www.tiktok.com/@toncompte" target="_blank">TikTok</a>
-      </div>
+      <div class="footer-credit">Site conçu par Pierre Covin.</div>
     </div>
-
-    <p class="copyright">
-      © 2025 APAM – Tous droits réservés.
-    </p>
   </footer>
 
   <!-- ============ SCRIPTS ============ -->
