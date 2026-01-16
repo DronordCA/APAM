@@ -385,12 +385,14 @@
         width:56px;height:56px;
         background:#fff;
         border:0;
-        border-radius:0;
+        border-radius:8px;
         display:inline-flex;
         align-items:center;
         justify-content:center;
         cursor:pointer;
-        box-shadow: 0 10px 18px rgba(0,0,0,0.25);
+        box-shadow: 0 10px 18px rgba(0,0,0,0.35);
+        position: relative;
+        overflow: hidden;
       }
       .m-burger span{
         width:22px;height:2px;background:#111;position:relative;display:block;
@@ -445,7 +447,7 @@
         width:56px;height:56px;
         background:#fff;
         border:0;
-        border-radius:0;
+        border-radius:8px;
         cursor:pointer;
         display:inline-flex;
         align-items:center;
@@ -1158,42 +1160,27 @@
       padding: 20px var(--page-side-margin);
       color: rgba(255,255,255,0.78);
     }
-    .footer-row{
+    .footer-inline{
       display:flex;
-      gap: 28px;
-      flex-wrap: wrap;
-      align-items:flex-start;
-      justify-content: space-between;
-    }
-    .footer-col{
-      min-width: 220px;
-      flex: 1 1 220px;
-    }
-    .footer-col h4{
-      font-family:"GPMenu", system-ui, sans-serif;
-      letter-spacing:0.18em;
-      text-transform: uppercase;
-      font-size: 11px;
-      color: rgba(255,255,255,0.88);
-      margin-bottom: 10px;
-    }
-    .footer-col a{
-      display:block;
-      text-decoration:none;
-      color: rgba(255,255,255,0.78);
-      font-size: 14px;
-      margin-bottom: 6px;
-    }
-    .footer-col a:hover{ color:#fff; }
-    .footer-bottom{
-      margin-top: 14px;
-      font-size: 12px;
-      color: rgba(255,255,255,0.58);
-      display:flex;
-      justify-content: space-between;
+      align-items:center;
+      justify-content:space-between;
       gap: 12px;
       flex-wrap: wrap;
+      font-size: 12px;
+      color: rgba(255,255,255,0.7);
     }
+    .footer-links{
+      display:flex;
+      align-items:center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .footer-links a{
+      text-decoration:none;
+      color: rgba(255,255,255,0.78);
+      font-size: 12px;
+    }
+    .footer-links a:hover{ color:#fff; }
   </style>
 </head>
 
@@ -1422,27 +1409,13 @@
 
       <!-- FOOTER -->
       <footer>
-        <div class="footer-row">
-          <div class="footer-col">
-            <h4>PLAN DU SITE</h4>
-            <a href="index.html">Accueil</a>
-            <a href="tarifs.html">Flotte</a>
-            <a href="activite.html">Activités</a>
-            <a href="ressources.html">Ressources</a>
-            <a href="contact.html">Contact</a>
-            <a href="https://openflyers.com/apam/" target="_blank" rel="noopener noreferrer">OpenFlyer</a>
-          </div>
-
-          <div class="footer-col">
-            <h4>CONTACT</h4>
+        <div class="footer-inline">
+          <div class="footer-links">
             <a href="mailto:contact@apam.fr">contact@apam.fr</a>
-            <a href="#">Instagram</a>
+            <a href="https://www.facebook.com/profile.php?id=61585663567523" target="_blank" rel="noopener noreferrer">Facebook</a>
+            <a href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer">Instagram</a>
           </div>
-        </div>
-
-        <div class="footer-bottom">
-          <span>© 2025 APAM – Tous droits réservés.</span>
-          <span>Site conçu par Pierre Cauvin.</span>
+          <div class="footer-credit">Site conçu par Pierre Covin.</div>
         </div>
       </footer>
 
