@@ -1029,7 +1029,7 @@
                   SUIVEZ L’APAM
                 </div>
                 <div style="margin-top:10px;color:rgba(255,255,255,.78);line-height:1.5;font-size:14px;max-width:52ch;">
-                  Les plus belles photos/vidéos du club sont publiées sur Instagram.
+                  Les plus belles photos/vidéos du club sont publiées sur Instagram. Cliquez sur une photo pour ouvrir la publication sur Instagram.
                 </div>
                 <a class="ig-btn" href="https://www.instagram.com/apam_lfol?igsh=MTVnbjRtNHppMWwwcA%3D%3D&utm_source=qr" target="_blank" rel="noopener noreferrer">
                   OUVRIR INSTAGRAM <span class="ig-chev"></span>
@@ -1267,7 +1267,8 @@
     /* ===============================
        INSTAGRAM — grille automatique
     =============================== */
-    const INSTAGRAM_ACCESS_TOKEN = "";
+    const INSTAGRAM_USERNAME = "apam_lfol";
+    const INSTAGRAM_PROFILE_URL = `https://www.instagram.com/${INSTAGRAM_USERNAME}/`;
     const INSTAGRAM_MEDIA_LIMIT = 6;
     const igGrid = document.querySelector(".ig-preview");
     const igStatus = document.querySelector(".ig-status");
@@ -1276,7 +1277,7 @@
       if (!igGrid) return;
       igGrid.innerHTML = new Array(INSTAGRAM_MEDIA_LIMIT)
         .fill(0)
-        .map(() => '<div class="ig-ph"></div>')
+        .map(() => `<a class="ig-ph" href="${INSTAGRAM_PROFILE_URL}" target="_blank" rel="noopener noreferrer" aria-label="Instagram APAM"></a>`)
         .join("");
     }
 
@@ -1291,32 +1292,57 @@
       igGrid.innerHTML = items.map(item => {
         const imgUrl = item.media_type === "VIDEO" ? item.thumbnail_url : item.media_url;
         const altText = item.caption ? item.caption.replace(/\s+/g, " ").trim() : "Publication Instagram APAM";
-        return `<a href="${item.permalink}" target="_blank" rel="noopener noreferrer">
-          <img src="${imgUrl}" alt="${altText}">
+        return `<a class="ig-ph" href="${item.permalink}" target="_blank" rel="noopener noreferrer" aria-label="${altText}">
+          <img src="${imgUrl}" alt="${altText}" loading="lazy">
         </a>`;
       }).join("");
     }
 
-    function loadInstagramFeed(){
-      if (!INSTAGRAM_ACCESS_TOKEN) {
-        renderInstagramPlaceholders();
-        updateInstagramStatus("Ajoutez un jeton Instagram pour afficher automatiquement les dernières publications.");
-        return;
-      }
+    function decodeInstagramUrl(value){
+      return value
+        .replaceAll("\\u0026", "&")
+        .replaceAll("\\u002F", "/")
+        .replaceAll("\\\\/", "/");
+    }
 
-      const url = `https://graph.instagram.com/me/media?fields=id,media_type,media_url,thumbnail_url,permalink,caption&access_token=${INSTAGRAM_ACCESS_TOKEN}&limit=${INSTAGRAM_MEDIA_LIMIT}`;
+    function loadInstagramFeed(){
+      renderInstagramPlaceholders();
+      updateInstagramStatus("Chargement des dernières publications Instagram...");
+
+      const url = `https://r.jina.ai/http://www.instagram.com/${INSTAGRAM_USERNAME}/`;
       fetch(url)
         .then(response => {
           if (!response.ok) {
             throw new Error("Erreur de chargement Instagram");
           }
-          return response.json();
+          return response.text();
         })
-        .then(data => {
-          if (!data || !Array.isArray(data.data)) {
+        .then(text => {
+          const items = [];
+          const seen = new Set();
+          const regex = /"display_url":"([^"]+)".+?"shortcode":"([^"]+)"/g;
+          let match = regex.exec(text);
+
+          while (match && items.length < INSTAGRAM_MEDIA_LIMIT) {
+            const displayUrl = decodeInstagramUrl(match[1]);
+            const shortcode = match[2];
+            if (!seen.has(shortcode)) {
+              items.push({
+                media_type: "IMAGE",
+                media_url: displayUrl,
+                permalink: `https://www.instagram.com/p/${shortcode}/`,
+                caption: "Publication Instagram APAM"
+              });
+              seen.add(shortcode);
+            }
+            match = regex.exec(text);
+          }
+
+          if (!items.length) {
             throw new Error("Aucun contenu Instagram trouvé");
           }
-          renderInstagramItems(data.data.slice(0, INSTAGRAM_MEDIA_LIMIT));
+
+          renderInstagramItems(items);
           updateInstagramStatus("");
         })
         .catch(() => {
