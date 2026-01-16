@@ -709,8 +709,18 @@
       background:
         radial-gradient(circle at 30% 20%, rgba(47,107,255,0.18), transparent 55%),
         rgba(0,0,0,0.35);
+      display:flex;
+      align-items:center;
+      justify-content:center;
       transition: transform .2s ease, border-color .2s ease;
       overflow:hidden;
+    }
+    .ig-ph-label{
+      font-family:"GPMenu",system-ui,sans-serif;
+      letter-spacing:0.16em;
+      text-transform:uppercase;
+      font-size:10px;
+      color:rgba(255,255,255,0.75);
     }
     .ig-ph::after{
       content:"";
@@ -1029,7 +1039,7 @@
                   SUIVEZ L’APAM
                 </div>
                 <div style="margin-top:10px;color:rgba(255,255,255,.78);line-height:1.5;font-size:14px;max-width:52ch;">
-                  Les plus belles photos/vidéos du club sont publiées sur Instagram.
+                  Les plus belles photos/vidéos du club sont publiées sur Instagram. Cliquez sur une photo pour ouvrir la publication sur Instagram.
                 </div>
                 <a class="ig-btn" href="https://www.instagram.com/apam_lfol?igsh=MTVnbjRtNHppMWwwcA%3D%3D&utm_source=qr" target="_blank" rel="noopener noreferrer">
                   OUVRIR INSTAGRAM <span class="ig-chev"></span>
@@ -1267,7 +1277,9 @@
     /* ===============================
        INSTAGRAM — grille automatique
     =============================== */
-    const INSTAGRAM_ACCESS_TOKEN = "";
+    const INSTAGRAM_USERNAME = "apam_lfol";
+    const INSTAGRAM_PROFILE_URL = `https://www.instagram.com/${INSTAGRAM_USERNAME}/`;
+    const INSTAGRAM_ACCESS_TOKEN = "EAAQdN2k8aMoBQcJapZAeWFBe3JP2N3xZBqjMwZCLDcPDRha1FPwKzxoZBuEPfzQqDEIORvuqUTv1Ns3z4ZBz4k3R2dkIzfrZAD9LzPA9oQpSg9Ljd21Pyhia2xt8iS7m9BSmqJG7F08qLU6LAduVKZARZBhB0BR4NqdOHLUIbC0sZC020ZC5K9fm4nZAO13ZAIqr";
     const INSTAGRAM_MEDIA_LIMIT = 6;
     const igGrid = document.querySelector(".ig-preview");
     const igStatus = document.querySelector(".ig-status");
@@ -1276,7 +1288,9 @@
       if (!igGrid) return;
       igGrid.innerHTML = new Array(INSTAGRAM_MEDIA_LIMIT)
         .fill(0)
-        .map(() => '<div class="ig-ph"></div>')
+        .map(() => `<a class="ig-ph" href="${INSTAGRAM_PROFILE_URL}" target="_blank" rel="noopener noreferrer" aria-label="Instagram APAM">
+          <span class="ig-ph-label">Voir Instagram</span>
+        </a>`)
         .join("");
     }
 
@@ -1291,18 +1305,15 @@
       igGrid.innerHTML = items.map(item => {
         const imgUrl = item.media_type === "VIDEO" ? item.thumbnail_url : item.media_url;
         const altText = item.caption ? item.caption.replace(/\s+/g, " ").trim() : "Publication Instagram APAM";
-        return `<a href="${item.permalink}" target="_blank" rel="noopener noreferrer">
-          <img src="${imgUrl}" alt="${altText}">
+        return `<a class="ig-ph" href="${item.permalink}" target="_blank" rel="noopener noreferrer" aria-label="${altText}">
+          <img src="${imgUrl}" alt="${altText}" loading="lazy">
         </a>`;
       }).join("");
     }
 
     function loadInstagramFeed(){
-      if (!INSTAGRAM_ACCESS_TOKEN) {
-        renderInstagramPlaceholders();
-        updateInstagramStatus("Ajoutez un jeton Instagram pour afficher automatiquement les dernières publications.");
-        return;
-      }
+      renderInstagramPlaceholders();
+      updateInstagramStatus("Chargement des dernières publications Instagram...");
 
       const url = `https://graph.instagram.com/me/media?fields=id,media_type,media_url,thumbnail_url,permalink,caption&access_token=${INSTAGRAM_ACCESS_TOKEN}&limit=${INSTAGRAM_MEDIA_LIMIT}`;
       fetch(url)
@@ -1313,7 +1324,7 @@
           return response.json();
         })
         .then(data => {
-          if (!data || !Array.isArray(data.data)) {
+          if (!data || !Array.isArray(data.data) || data.data.length === 0) {
             throw new Error("Aucun contenu Instagram trouvé");
           }
           renderInstagramItems(data.data.slice(0, INSTAGRAM_MEDIA_LIMIT));
