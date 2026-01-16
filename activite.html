@@ -568,17 +568,32 @@
     .fb-head a:hover,.ig-head a:hover{ color:#fff; }
 
     .fb-responsive{
-      position:relative;
-      width:100%;
-      overflow:hidden;
-      border:1px solid rgba(255,255,255,0.08);
-      background: rgba(255,255,255,0.04);
-      height: 720px;
-    }
-    @media (max-width:980px){ .fb-responsive{ height: 980px; } }
-    .fb-responsive iframe{
-      position:absolute;inset:0;width:100% !important;height:100% !important;border:0;background: transparent;
-    }
+  position:relative;
+  width:100%;
+  border:1px solid rgba(255,255,255,0.08);
+  background: rgba(255,255,255,0.04);
+  height: 720px;
+
+  /* ✅ la clé : scroll interne au lieu d’un grand vide */
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+@media (max-width:980px){
+  .fb-responsive{ height: 980px; }
+}
+
+/* iframe “plus grand” que le viewport pour garantir du contenu scrollable */
+.fb-responsive iframe{
+  width: 100% !important;
+  height: 1200px !important; /* desktop */
+  border:0;
+  display:block;
+}
+
+@media (max-width:980px){
+  .fb-responsive iframe{ height: 1400px !important; }
+}
 
     .ig-card{
       border:1px solid rgba(255,255,255,0.08);
@@ -933,7 +948,7 @@
         <div class="social-grid">
           <div class="fb-block">
             <div class="fb-head">
-              <h3>FACEBOOK</h3>
+              <h3></h3>
               <a href="https://www.facebook.com/profile.php?id=61585663567523" target="_blank" rel="noopener noreferrer">
                 VOIR SUR FACEBOOK →
               </a>
@@ -947,7 +962,7 @@
 
           <div class="ig-block">
             <div class="ig-head">
-              <h3>INSTAGRAM</h3>
+              <h3></h3>
               <a href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer">
                 VOIR SUR INSTAGRAM →
               </a>
