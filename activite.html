@@ -30,7 +30,6 @@
       --header-grey:#222;
 
       --accent:#2f6bff;
-      --accent-glow: rgba(47,107,255,0.28);
 
       --panel-w:200px;
       --drop-card-h:100px;
@@ -56,11 +55,14 @@
 
     *{box-sizing:border-box;margin:0;padding:0}
     html,body{height:100%}
+
+    /* ✅ IMPORTANT: on ne bloque jamais le scroll ici */
     body{
       background:#101012;
       color:#fff;
       font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
       overflow-x:hidden;
+      overflow-y:auto;
     }
 
     /* =============================== */
@@ -194,7 +196,110 @@
     .btn-compte:hover::before{width:100%;}
 
     /* =============================== */
-    /* MOBILE HEADER + DRAWER (FIXED) */
+    /* DROPDOWN FLOTTE (desktop) */
+    /* =============================== */
+    .nav-item.has-dropdown::before{
+      content:"";
+      position:absolute; left:-22px; right:-22px;
+      top:100%; height:18px;
+    }
+
+    .fleet-panel{
+      position:absolute;
+      top:calc(100% + 18px);
+      left:50%;
+      transform:translateX(-50%);
+      width:var(--panel-w);
+      background:var(--panel-bg);
+      border:1px solid var(--panel-border);
+      box-shadow:0 22px 40px rgba(0,0,0,0.45);
+      padding:10px;
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+      opacity:0;
+      pointer-events:none;
+      transition:opacity .18s ease;
+      z-index:50;
+    }
+    .nav-item.has-dropdown:hover .fleet-panel{opacity:1;pointer-events:auto;}
+
+    .fleet-card{
+      position:relative;
+      height:var(--drop-card-h);
+      background:var(--drop-card-bg);
+      border:1px solid var(--drop-card-border);
+      text-decoration:none;
+      color:#fff;
+      overflow:hidden;
+      transition:transform .18s ease,border-color .18s ease,box-shadow .18s ease;
+    }
+    .fleet-card:hover{
+      transform:translateX(6px);
+      border-color:rgba(47,107,255,0.55);
+      box-shadow:0 0 0 1px rgba(47,107,255,0.25), 0 18px 30px rgba(0,0,0,0.35);
+    }
+    .fleet-name{
+      position:absolute; top:6px; left:50%;
+      transform:translateX(-50%);
+      font-family:"Swiss911", sans-serif;
+      text-transform:uppercase;
+      font-size:18px;
+      letter-spacing:-0.02em;
+      line-height:1;
+      opacity:.95;
+      white-space:nowrap;
+      pointer-events:none;
+    }
+    .fleet-plane{
+      position:absolute; left:50%; top:52%;
+      transform:translate(-50%,-50%);
+      height:80px;
+      max-width:88%;
+      object-fit:contain;
+      pointer-events:none;
+      filter:drop-shadow(0 10px 14px rgba(0,0,0,0.35));
+    }
+    .fleet-chev{
+      position:absolute; right:14px; top:50%;
+      width:10px;height:10px;
+      border-right:2px solid rgba(255,255,255,0.7);
+      border-top:2px solid rgba(255,255,255,0.7);
+      transform:translateY(-50%) rotate(45deg);
+      transition:transform .18s ease,border-color .18s ease;
+      opacity:.9;
+    }
+    .fleet-card:hover .fleet-chev{
+      border-color:var(--accent);
+      transform:translate(4px,-50%) rotate(45deg);
+    }
+
+    .fleet-cta{margin-top:2px;padding-top:10px;border-top:1px solid rgba(255,255,255,0.10);}
+    .fleet-cta a{
+      display:flex;align-items:center;justify-content:space-between;gap:10px;
+      padding:10px 4px 2px;
+      text-decoration:none;
+      color:rgba(255,255,255,0.88);
+      font-family:"Swiss911", sans-serif;
+      text-transform:uppercase;
+      font-size:20px;
+      letter-spacing:-0.02em;
+      font-style:italic;
+    }
+    .fleet-cta a .cta-chev{
+      width:10px;height:10px;
+      border-right:2px solid rgba(255,255,255,0.65);
+      border-top:2px solid rgba(255,255,255,0.65);
+      transform:rotate(45deg);
+      transition:transform .18s ease,border-color .18s ease;
+    }
+    .fleet-cta a:hover .cta-chev{
+      transform:translateX(4px) rotate(45deg);
+      border-color:var(--accent);
+    }
+
+    /* =============================== */
+    /* MOBILE HEADER + DRAWER */
     /* =============================== */
     .m-header,.m-overlay,.m-drawer{display:none;}
 
@@ -204,13 +309,16 @@
 
       .m-header{
         display:flex;
-        position:relative;
+        position:sticky;
+        top:0;
         z-index:30;
-        padding:16px var(--page-side-margin) 0;
+        padding:16px var(--page-side-margin);
         align-items:center;
         justify-content:space-between;
+        background: linear-gradient(180deg, rgba(16,16,18,0.92) 0%, rgba(16,16,18,0.75) 60%, rgba(16,16,18,0) 100%);
+        backdrop-filter: blur(10px);
       }
-      .m-logo{display:inline-flex;align-items:center;text-decoration:none;position:relative;}
+      .m-logo{display:inline-flex;align-items:center;text-decoration:none;}
       .m-logo img{height:54px;display:block;}
 
       .m-burger{
@@ -244,14 +352,12 @@
         transition:transform .35s cubic-bezier(.16,1,.22,1), opacity .22s ease;
       }
 
-      /* ✅ OPEN STATE */
       body.m-open .m-overlay{opacity:1;pointer-events:auto;}
       body.m-open .m-drawer{opacity:1;pointer-events:auto;transform:translate3d(0,0,0);}
 
       .m-drawer-top{
         display:flex;align-items:center;justify-content:space-between;
         padding:18px var(--page-side-margin);
-        position:relative;z-index:2;
       }
       .m-close{
         width:56px;height:56px;background:#fff;border:0;border-radius:0;
@@ -263,7 +369,7 @@
       .m-close::before{transform:rotate(45deg);}
       .m-close::after{transform:rotate(-45deg);}
 
-      .m-drawer-inner{position:relative;z-index:2;padding:8px var(--page-side-margin) 24px;}
+      .m-drawer-inner{padding:8px var(--page-side-margin) 24px;}
       .m-sub{
         font-family:"GPMenu",system-ui,sans-serif;
         text-transform:uppercase;
@@ -286,24 +392,6 @@
         opacity:0.92;
       }
       .m-link:hover{color:var(--accent);}
-
-      .m-cta{
-        margin-top:18px;
-        display:inline-flex;align-items:center;gap:12px;
-        text-decoration:none;color:#fff;
-        font-family:"Swiss911",sans-serif;
-        text-transform:uppercase;
-        font-size:28px;
-        letter-spacing:-0.02em;
-        font-style:italic;
-        opacity:0.95;
-      }
-      .m-cta i{
-        width:10px;height:10px;
-        border-right:2px solid rgba(255,255,255,0.70);
-        border-top:2px solid rgba(255,255,255,0.70);
-        transform:rotate(45deg);
-      }
     }
 
     /* =============================== */
@@ -349,7 +437,7 @@
 
     .wrap{
       max-width: var(--grid-max);
-      margin: 10px auto 0;
+      margin: 10px auto 44px;
       padding: 0 var(--outer-x);
     }
 
@@ -446,6 +534,7 @@
       grid-template-columns: minmax(0, 560px) minmax(0, 1fr);
       gap: 16px;
       align-items: start;
+      margin-top: 6px;
       margin-bottom: 18px;
     }
     @media (max-width: 980px){
@@ -754,10 +843,6 @@
             <a class="m-link" href="espace-membres.html">MEMBRES</a>
             <a class="m-link" href="https://openflyers.com/apam/" target="_blank" rel="noopener noreferrer">OPENFLYER</a>
           </nav>
-
-          <a class="m-cta" href="espace-membres.html" aria-label="Mon compte">
-            MON COMPTE <i aria-hidden="true"></i>
-          </a>
         </div>
       </aside>
 
@@ -771,24 +856,29 @@
           <div class="header-bar">
             <div class="header-left">
               <nav class="nav-menu">
+
                 <span class="nav-item has-dropdown">
                   <a href="tarifs.html" class="nav-link" data-text="FLOTTE">FLOTTE</a>
+
                   <div class="fleet-panel" role="menu" aria-label="Menu flotte">
                     <a class="fleet-card" href="tarifs.html" aria-label="Cessna 152">
                       <div class="fleet-name">CESSNA 152</div>
                       <img class="fleet-plane" src="FGHK2.png" alt="Cessna 152">
                       <span class="fleet-chev" aria-hidden="true"></span>
                     </a>
+
                     <a class="fleet-card" href="tarifs.html" aria-label="TB200">
                       <div class="fleet-name">TB200</div>
                       <img class="fleet-plane" src="TB200M.png" alt="TB200">
                       <span class="fleet-chev" aria-hidden="true"></span>
                     </a>
+
                     <a class="fleet-card" href="tarifs.html" aria-label="Cirrus SR22">
                       <div class="fleet-name">CIRRUS SR22</div>
                       <img class="fleet-plane" src="SR1.png" alt="Cirrus SR22">
                       <span class="fleet-chev" aria-hidden="true"></span>
                     </a>
+
                     <div class="fleet-cta">
                       <a href="tarifs.html" aria-label="Voir toute la flotte">
                         <span>VOIR TOUTE LA FLOTTE</span>
@@ -841,8 +931,6 @@
         </div>
 
         <div class="social-grid">
-
-          <!-- Facebook -->
           <div class="fb-block">
             <div class="fb-head">
               <h3>FACEBOOK</h3>
@@ -852,16 +940,11 @@
             </div>
 
             <div class="fb-responsive" id="fbWrap">
-              <iframe
-                id="fbFrame"
-                title="Facebook APAM"
-                loading="lazy"
-                allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share">
-              </iframe>
+              <iframe id="fbFrame" title="Facebook APAM" loading="lazy"
+                allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"></iframe>
             </div>
           </div>
 
-          <!-- Instagram (placeholder) -->
           <div class="ig-block">
             <div class="ig-head">
               <h3>INSTAGRAM</h3>
@@ -872,9 +955,13 @@
 
             <div class="ig-card">
               <div class="ig-big">
-                <div class="ig-kicker">PHOTOS & STORIES</div>
-                <div class="ig-title">SUIVEZ L’APAM</div>
-                <div class="ig-text">
+                <div style="font-family:'GPMenu',system-ui,sans-serif;letter-spacing:.18em;text-transform:uppercase;font-size:11px;color:rgba(255,255,255,.7);margin-bottom:6px;">
+                  PHOTOS & STORIES
+                </div>
+                <div style="font-family:'Swiss911',sans-serif;text-transform:uppercase;letter-spacing:-.02em;font-size:44px;line-height:.95;font-style:italic;transform:skewX(-6deg);">
+                  SUIVEZ L’APAM
+                </div>
+                <div style="margin-top:10px;color:rgba(255,255,255,.78);line-height:1.5;font-size:14px;max-width:52ch;">
                   Les plus belles photos/vidéos du club sont publiées sur Instagram.
                 </div>
                 <a class="ig-btn" href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer">
@@ -888,11 +975,9 @@
               </div>
             </div>
           </div>
-
         </div>
       </div>
 
-      <!-- ✅ FOOTER (fix placement) -->
       <footer>
         <div class="footer-inner">
           <div class="footer-row">
@@ -930,14 +1015,11 @@
 
     <div class="modal-panel">
       <div class="modal-topbar">
-        <a class="modal-brand" href="tarifs.html" aria-label="Retour flotte">
-          <span class="apam-pill-modal">APAM</span>
-        </a>
+        <div class="modal-meta" id="mMeta"></div>
         <button class="modal-close" type="button" data-close="1" aria-label="Fermer"></button>
       </div>
 
       <div class="modal-body">
-        <div class="modal-meta" id="mMeta"></div>
         <div class="modal-title" id="mTitle">TITRE</div>
         <div class="modal-detail" id="mDetail">Détails…</div>
       </div>
@@ -997,9 +1079,9 @@
       return d.toLocaleDateString("fr-FR", {year:"numeric", month:"short", day:"2-digit"});
     }
 
-    // ===============================
-    // MODAL
-    // ===============================
+    /* ===============================
+       MODAL
+    =============================== */
     const modal = document.getElementById("modal");
     const mTitle = document.getElementById("mTitle");
     const mMeta  = document.getElementById("mMeta");
@@ -1026,12 +1108,11 @@
     function openDetail(post){
       const date = formatDateFR(post.date || post["date"]);
       const titre = post.titre || post["titre"] || "DÉTAILS";
-      const resume = post.resume || post["resume"] || "";
-      const details = post.details || post["details"] || post.detail || post["detail"] || "";
+      const details = post.details || post["details"] || post.detail || post["detail"] || post.resume || "";
 
       mMeta.textContent = date ? date : "";
       mTitle.textContent = titre;
-      mDetail.textContent = details ? details : (resume ? resume : "Détails à venir.");
+      mDetail.textContent = details ? details : "Détails à venir.";
 
       modal.classList.add("is-open");
       modal.setAttribute("aria-hidden", "false");
@@ -1056,9 +1137,9 @@
       if (e.key === "Escape" && modal.classList.contains("is-open")) closeDetail();
     });
 
-    // ===============================
-    // CARDS
-    // ===============================
+    /* ===============================
+       POSTS
+    =============================== */
     function buildCard(post, i){
       const date = formatDateFR(post.date || post["date"]);
       const title = post.titre || post["titre"] || "Annonce";
@@ -1074,26 +1155,14 @@
       const body = document.createElement("div");
       body.className = "post-body";
 
-      const meta = document.createElement("div");
-      meta.className = "post-meta";
-      meta.innerHTML = `<div>${date || "—"}</div><div></div>`;
-
-      const h = document.createElement("div");
-      h.className = "post-title";
-      h.textContent = title;
-
-      const p = document.createElement("div");
-      p.className = "post-text";
-      p.textContent = resume;
-
-      const cta = document.createElement("div");
-      cta.className = "post-cta";
-      cta.innerHTML = `<div>DÉTAILS</div><i class="chev"></i>`;
-
-      body.appendChild(meta);
-      body.appendChild(h);
-      if (resume) body.appendChild(p);
-      body.appendChild(cta);
+      body.innerHTML = `
+        <div class="post-meta"><div>${date || "—"}</div><div></div></div>
+        <div class="post-title"></div>
+        ${resume ? `<div class="post-text"></div>` : ``}
+        <div class="post-cta"><div>DÉTAILS</div><i class="chev"></i></div>
+      `;
+      body.querySelector(".post-title").textContent = title;
+      if (resume) body.querySelector(".post-text").textContent = resume;
 
       a.appendChild(body);
 
@@ -1129,7 +1198,6 @@
 
         container.innerHTML = "";
         posts.slice(0, 30).forEach((p, i) => container.appendChild(buildCard(p, i)));
-
         if(posts.length === 0){
           container.innerHTML = `<div class="empty">AUCUNE ANNONCE POUR LE MOMENT</div>`;
         }
@@ -1139,9 +1207,9 @@
       }
     }
 
-    // ===============================
-    // MOBILE DRAWER (FIX scroll)
-    // ===============================
+    /* ===============================
+       MOBILE DRAWER — scroll robuste
+    =============================== */
     (function(){
       const openBtn = document.querySelector('.m-burger');
       const closeBtn = document.querySelector('.m-close');
@@ -1150,6 +1218,7 @@
       const drawerLinks = drawer ? drawer.querySelectorAll('a') : [];
 
       let scrollY = 0;
+
       function lock(){
         scrollY = window.scrollY || document.documentElement.scrollTop || 0;
         document.body.style.position = 'fixed';
@@ -1167,29 +1236,48 @@
         window.scrollTo(0, scrollY);
       }
 
+      function isOpen(){ return document.body.classList.contains('m-open'); }
+
       function openDrawer(){
+        if(isOpen()) return;
         document.body.classList.add('m-open');
         openBtn && openBtn.setAttribute('aria-expanded','true');
         drawer && drawer.setAttribute('aria-hidden','false');
         lock();
       }
+
       function closeDrawer(){
+        if(!isOpen()) return;
         document.body.classList.remove('m-open');
         openBtn && openBtn.setAttribute('aria-expanded','false');
         drawer && drawer.setAttribute('aria-hidden','true');
         unlock();
       }
 
-      openBtn && openBtn.addEventListener('click', () => {
-        document.body.classList.contains('m-open') ? closeDrawer() : openDrawer();
-      });
+      openBtn && openBtn.addEventListener('click', () => (isOpen() ? closeDrawer() : openDrawer()));
       closeBtn && closeBtn.addEventListener('click', closeDrawer);
       overlay && overlay.addEventListener('click', closeDrawer);
-      drawerLinks.forEach(a => a.addEventListener('click', closeDrawer));
 
-      // failsafe: si body reste fixed alors que drawer fermé
+      // ✅ fermer avant navigation (empêche “scroll bloqué” après clic)
+      drawerLinks.forEach(a => {
+        a.addEventListener('click', (e) => {
+          const href = a.getAttribute('href') || '';
+          const target = a.getAttribute('target');
+          closeDrawer();
+
+          if (href && href !== '#') {
+            e.preventDefault();
+            setTimeout(() => {
+              if (target === '_blank') window.open(href, '_blank', 'noopener');
+              else window.location.href = href;
+            }, 60);
+          }
+        });
+      });
+
+      // ✅ failsafe
       function forceUnlockIfClosed(){
-        if(document.body.classList.contains('m-open')) return;
+        if(isOpen()) return;
         if(document.body.style.position === 'fixed'){
           document.body.style.position = '';
           document.body.style.top = '';
@@ -1198,14 +1286,15 @@
           document.body.style.width = '';
         }
       }
-      window.addEventListener('load', forceUnlockIfClosed);
       window.addEventListener('pageshow', forceUnlockIfClosed);
-      document.addEventListener('click', forceUnlockIfClosed);
+      document.addEventListener('visibilitychange', forceUnlockIfClosed);
+      window.addEventListener('resize', forceUnlockIfClosed);
+      window.addEventListener('orientationchange', forceUnlockIfClosed);
     })();
 
-    // ===============================
-    // FACEBOOK FIX (width forcé max 560)
-    // ===============================
+    /* ===============================
+       FACEBOOK — desktop propre
+    =============================== */
     (function(){
       const pageUrl = "https://www.facebook.com/profile.php?id=61585663567523";
       const frame = document.getElementById("fbFrame");
@@ -1218,7 +1307,6 @@
           href: pageUrl,
           tabs: "timeline",
           width: width.toString(),
-          height: "9999",
           small_header: "true",
           adapt_container_width: "false",
           hide_cover: "false",
