@@ -713,6 +713,13 @@
     .ig-preview a:hover img{
       transform: scale(1.04);
     }
+    .drive-embed{
+      width:100%;
+      height:360px;
+      border:0;
+      display:none;
+      background: rgba(0,0,0,0.35);
+    }
     .ig-ph{
       display:block;
       position:relative;
@@ -1052,6 +1059,7 @@
                 <a class="ig-ph" href="https://drive.google.com/drive/folders/1kT0lWOg3rsbMM2mIU7lVkLyPA6--bc1D?usp=sharing" target="_blank" rel="noopener noreferrer" aria-label="Photos du club"></a>
                 <a class="ig-ph" href="https://drive.google.com/drive/folders/1kT0lWOg3rsbMM2mIU7lVkLyPA6--bc1D?usp=sharing" target="_blank" rel="noopener noreferrer" aria-label="Photos du club"></a>
               </div>
+              <iframe class="drive-embed" title="Photos du club" loading="lazy" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"></iframe>
               <div class="ig-status" role="status"></div>
             </div>
           </div>
@@ -1280,9 +1288,11 @@
     const DRIVE_FOLDER_ID = "1kT0lWOg3rsbMM2mIU7lVkLyPA6--bc1D";
     const DRIVE_FOLDER_URL = `https://drive.google.com/drive/folders/${DRIVE_FOLDER_ID}?usp=sharing`;
     const DRIVE_PROXY_URL = `https://r.jina.ai/http://drive.google.com/embeddedfolderview?id=${DRIVE_FOLDER_ID}#grid`;
+    const DRIVE_EMBED_URL = `https://drive.google.com/embeddedfolderview?id=${DRIVE_FOLDER_ID}#grid`;
     const DRIVE_MEDIA_LIMIT = 9;
     const driveGrid = document.querySelector(".ig-preview");
     const driveStatus = document.querySelector(".ig-status");
+    const driveEmbed = document.querySelector(".drive-embed");
 
     function renderDrivePlaceholders(){
       if (!driveGrid) return;
@@ -1316,6 +1326,7 @@
 
     function renderDriveItems(items){
       if (!driveGrid) return;
+      if (driveEmbed) driveEmbed.style.display = "none";
       driveGrid.innerHTML = items.map(item => {
         const caption = formatCaption(item.name);
         return `<a class="ig-ph" href="${item.url}" target="_blank" rel="noopener noreferrer" aria-label="${caption}">
@@ -1328,6 +1339,7 @@
     function loadDriveFeed(){
       renderDrivePlaceholders();
       updateDriveStatus("Chargement des photos du club...");
+      if (driveEmbed) driveEmbed.src = DRIVE_EMBED_URL;
 
       fetch(DRIVE_PROXY_URL)
         .then(response => {
@@ -1369,8 +1381,9 @@
           updateDriveStatus("");
         })
         .catch(() => {
-          renderDrivePlaceholders();
-          updateDriveStatus("Impossible de charger les photos du club pour le moment.");
+          if (driveGrid) driveGrid.innerHTML = "";
+          if (driveEmbed) driveEmbed.style.display = "block";
+          updateDriveStatus("Affichage du dossier Google Drive en mode intégré.");
         });
     }
 
