@@ -683,12 +683,36 @@
       grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 10px;
     }
+    .ig-preview a{
+      display:block;
+      position:relative;
+      border:1px solid rgba(255,255,255,0.10);
+      overflow:hidden;
+      background: rgba(0,0,0,0.35);
+    }
+    .ig-preview img{
+      display:block;
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      aspect-ratio:1/1;
+      transition: transform .2s ease;
+    }
+    .ig-preview a:hover img{
+      transform: scale(1.04);
+    }
     .ig-ph{
       aspect-ratio: 1/1;
       border:1px solid rgba(255,255,255,0.10);
       background:
         radial-gradient(circle at 30% 20%, rgba(47,107,255,0.18), transparent 55%),
         rgba(0,0,0,0.35);
+    }
+    .ig-status{
+      margin-top:12px;
+      font-size:12px;
+      color: rgba(255,255,255,0.7);
+      min-height: 1.4em;
     }
 
     /* =============================== */
@@ -997,6 +1021,7 @@
                 <div class="ig-ph"></div><div class="ig-ph"></div><div class="ig-ph"></div>
                 <div class="ig-ph"></div><div class="ig-ph"></div><div class="ig-ph"></div>
               </div>
+              <div class="ig-status" role="status"></div>
             </div>
           </div>
         </div>
@@ -1217,6 +1242,67 @@
     }
 
     /* ===============================
+       INSTAGRAM — grille automatique
+    =============================== */
+    const INSTAGRAM_ACCESS_TOKEN = "";
+    const INSTAGRAM_MEDIA_LIMIT = 6;
+    const igGrid = document.querySelector(".ig-preview");
+    const igStatus = document.querySelector(".ig-status");
+
+    function renderInstagramPlaceholders(){
+      if (!igGrid) return;
+      igGrid.innerHTML = new Array(INSTAGRAM_MEDIA_LIMIT)
+        .fill(0)
+        .map(() => '<div class="ig-ph"></div>')
+        .join("");
+    }
+
+    function updateInstagramStatus(message){
+      if (igStatus) {
+        igStatus.textContent = message;
+      }
+    }
+
+    function renderInstagramItems(items){
+      if (!igGrid) return;
+      igGrid.innerHTML = items.map(item => {
+        const imgUrl = item.media_type === "VIDEO" ? item.thumbnail_url : item.media_url;
+        const altText = item.caption ? item.caption.replace(/\s+/g, " ").trim() : "Publication Instagram APAM";
+        return `<a href="${item.permalink}" target="_blank" rel="noopener noreferrer">
+          <img src="${imgUrl}" alt="${altText}">
+        </a>`;
+      }).join("");
+    }
+
+    function loadInstagramFeed(){
+      if (!INSTAGRAM_ACCESS_TOKEN) {
+        renderInstagramPlaceholders();
+        updateInstagramStatus("Ajoutez un jeton Instagram pour afficher automatiquement les dernières publications.");
+        return;
+      }
+
+      const url = `https://graph.instagram.com/me/media?fields=id,media_type,media_url,thumbnail_url,permalink,caption&access_token=${INSTAGRAM_ACCESS_TOKEN}&limit=${INSTAGRAM_MEDIA_LIMIT}`;
+      fetch(url)
+        .then(response => {
+          if (!response.ok) {
+            throw new Error("Erreur de chargement Instagram");
+          }
+          return response.json();
+        })
+        .then(data => {
+          if (!data || !Array.isArray(data.data)) {
+            throw new Error("Aucun contenu Instagram trouvé");
+          }
+          renderInstagramItems(data.data.slice(0, INSTAGRAM_MEDIA_LIMIT));
+          updateInstagramStatus("");
+        })
+        .catch(() => {
+          renderInstagramPlaceholders();
+          updateInstagramStatus("Impossible de charger Instagram pour le moment.");
+        });
+    }
+
+    /* ===============================
        MOBILE DRAWER — scroll robuste
     =============================== */
     (function(){
@@ -1350,6 +1436,7 @@
     (function(){
       const tb = document.getElementById("titleBox");
       requestAnimationFrame(() => tb && tb.classList.add("is-in"));
+      loadInstagramFeed();
       loadPosts();
     })();
   </script>
