@@ -51,6 +51,7 @@
       --modal-bg: rgba(0,0,0,0.92);
       --modal-panel: rgba(10,10,12,0.98);
       --gridline: rgba(255,255,255,0.10);
+      --social-card-height: 600px;
     }
 
     *{box-sizing:border-box;margin:0;padding:0}
@@ -601,7 +602,7 @@
       width:100%;
       border:1px solid rgba(255,255,255,0.08);
       background: rgba(255,255,255,0.04);
-      height: 560px;
+      height: var(--social-card-height);
 
       /* ✅ éviter le décalage lié au scroll */
       overflow: hidden;
@@ -625,7 +626,7 @@
       grid-template-columns: 1fr;
       gap: 12px;
       padding: 14px;
-      min-height: 560px;
+      min-height: var(--social-card-height);
     }
     .ig-big{
       border:1px solid rgba(255,255,255,0.10);
@@ -989,7 +990,7 @@
 
       <p class="intro">
         Les annonces du club sont publiées via Google Sheets et s’affichent automatiquement ici.
-        Les photos sont partagées sur Facebook / Instagram.
+        Les photos sont partagées sur Facebook / Drive.
       </p>
 
       <div class="wrap">
@@ -1015,34 +1016,34 @@
           <div class="ig-block">
             <div class="ig-head">
               <h3></h3>
-              <a href="https://www.instagram.com/apam_lfol?igsh=MTVnbjRtNHppMWwwcA%3D%3D&utm_source=qr" target="_blank" rel="noopener noreferrer">
-                VOIR SUR INSTAGRAM →
+              <a href="https://drive.google.com/drive/folders/1kT0lWOg3rsbMM2mIU7lVkLyPA6--bc1D?usp=sharing" target="_blank" rel="noopener noreferrer">
+                VOIR SUR DRIVE →
               </a>
             </div>
 
             <div class="ig-card">
               <div class="ig-big">
                 <div style="font-family:'GPMenu',system-ui,sans-serif;letter-spacing:.18em;text-transform:uppercase;font-size:11px;color:rgba(255,255,255,.7);margin-bottom:6px;">
-                  PHOTOS & STORIES
+                  PHOTOS DU CLUB
                 </div>
                 <div style="font-family:'Swiss911',sans-serif;text-transform:uppercase;letter-spacing:-.02em;font-size:44px;line-height:.95;font-style:italic;transform:skewX(-6deg);">
-                  SUIVEZ L’APAM
+                  FEED PHOTO
                 </div>
                 <div style="margin-top:10px;color:rgba(255,255,255,.78);line-height:1.5;font-size:14px;max-width:52ch;">
-                  Les plus belles photos/vidéos du club sont publiées sur Instagram. Cliquez sur une photo pour ouvrir la publication sur Instagram.
+                  Les photos partagées par le club arrivent automatiquement ici depuis le drive commun. Cliquez sur une photo pour l’ouvrir dans le drive.
                 </div>
-                <a class="ig-btn" href="https://www.instagram.com/apam_lfol?igsh=MTVnbjRtNHppMWwwcA%3D%3D&utm_source=qr" target="_blank" rel="noopener noreferrer">
-                  OUVRIR INSTAGRAM <span class="ig-chev"></span>
+                <a class="ig-btn" href="https://drive.google.com/drive/folders/1kT0lWOg3rsbMM2mIU7lVkLyPA6--bc1D?usp=sharing" target="_blank" rel="noopener noreferrer">
+                  OUVRIR LE DRIVE <span class="ig-chev"></span>
                 </a>
               </div>
 
               <div class="ig-preview">
-                <a class="ig-ph" href="https://www.instagram.com/apam_lfol?igsh=MTVnbjRtNHppMWwwcA%3D%3D&utm_source=qr" target="_blank" rel="noopener noreferrer" aria-label="Instagram APAM"></a>
-                <a class="ig-ph" href="https://www.instagram.com/apam_lfol?igsh=MTVnbjRtNHppMWwwcA%3D%3D&utm_source=qr" target="_blank" rel="noopener noreferrer" aria-label="Instagram APAM"></a>
-                <a class="ig-ph" href="https://www.instagram.com/apam_lfol?igsh=MTVnbjRtNHppMWwwcA%3D%3D&utm_source=qr" target="_blank" rel="noopener noreferrer" aria-label="Instagram APAM"></a>
-                <a class="ig-ph" href="https://www.instagram.com/apam_lfol?igsh=MTVnbjRtNHppMWwwcA%3D%3D&utm_source=qr" target="_blank" rel="noopener noreferrer" aria-label="Instagram APAM"></a>
-                <a class="ig-ph" href="https://www.instagram.com/apam_lfol?igsh=MTVnbjRtNHppMWwwcA%3D%3D&utm_source=qr" target="_blank" rel="noopener noreferrer" aria-label="Instagram APAM"></a>
-                <a class="ig-ph" href="https://www.instagram.com/apam_lfol?igsh=MTVnbjRtNHppMWwwcA%3D%3D&utm_source=qr" target="_blank" rel="noopener noreferrer" aria-label="Instagram APAM"></a>
+                <a class="ig-ph" href="https://drive.google.com/drive/folders/1kT0lWOg3rsbMM2mIU7lVkLyPA6--bc1D?usp=sharing" target="_blank" rel="noopener noreferrer" aria-label="Drive APAM"></a>
+                <a class="ig-ph" href="https://drive.google.com/drive/folders/1kT0lWOg3rsbMM2mIU7lVkLyPA6--bc1D?usp=sharing" target="_blank" rel="noopener noreferrer" aria-label="Drive APAM"></a>
+                <a class="ig-ph" href="https://drive.google.com/drive/folders/1kT0lWOg3rsbMM2mIU7lVkLyPA6--bc1D?usp=sharing" target="_blank" rel="noopener noreferrer" aria-label="Drive APAM"></a>
+                <a class="ig-ph" href="https://drive.google.com/drive/folders/1kT0lWOg3rsbMM2mIU7lVkLyPA6--bc1D?usp=sharing" target="_blank" rel="noopener noreferrer" aria-label="Drive APAM"></a>
+                <a class="ig-ph" href="https://drive.google.com/drive/folders/1kT0lWOg3rsbMM2mIU7lVkLyPA6--bc1D?usp=sharing" target="_blank" rel="noopener noreferrer" aria-label="Drive APAM"></a>
+                <a class="ig-ph" href="https://drive.google.com/drive/folders/1kT0lWOg3rsbMM2mIU7lVkLyPA6--bc1D?usp=sharing" target="_blank" rel="noopener noreferrer" aria-label="Drive APAM"></a>
               </div>
               <div class="ig-status" role="status"></div>
             </div>
@@ -1056,7 +1057,7 @@
             <div class="footer-links">
               <a href="mailto:contact@apam.fr">contact@apam.fr</a>
               <a href="https://www.facebook.com/profile.php?id=61585663567523" target="_blank" rel="noopener noreferrer">Facebook</a>
-              <a href="https://www.instagram.com/apam_lfol?igsh=MTVnbjRtNHppMWwwcA%3D%3D&utm_source=qr" target="_blank" rel="noopener noreferrer">Instagram</a>
+              <a href="https://drive.google.com/drive/folders/1kT0lWOg3rsbMM2mIU7lVkLyPA6--bc1D?usp=sharing" target="_blank" rel="noopener noreferrer">Drive photos</a>
             </div>
             <div class="footer-credit">Site conçu par Pierre Cauvin.</div>
           </div>
@@ -1267,90 +1268,120 @@
     }
 
     /* ===============================
-       INSTAGRAM — grille automatique
+       DRIVE — Apps Script (JSON)
     =============================== */
-    const INSTAGRAM_USERNAME = "apamaero";
-    const INSTAGRAM_PROFILE_URL = `https://www.instagram.com/apamaero/`;
-    const INSTAGRAM_MEDIA_LIMIT = 6;
+    const DRIVE_FOLDER_ID = "1kT0lWOg3rsbMM2mIU7lVkLyPA6--bc1D";
+    const DRIVE_FOLDER_URL = `https://drive.google.com/drive/folders/${DRIVE_FOLDER_ID}?usp=sharing`;
+    const DRIVE_FEED_URL = "https://script.google.com/macros/s/AKfycbzBu2uWclcY9Pr7kaAipMCZCfWEgRD-_nRiaGkW8hvur7pMOP62qIFAI_abQuqRIp5ERg/exec";
+    const DRIVE_JSONP_CALLBACK = "driveFeedCallback";
+    const DRIVE_JSONP_URL = `${DRIVE_FEED_URL}?callback=${DRIVE_JSONP_CALLBACK}`;
+    const DRIVE_MEDIA_LIMIT = 6;
     const igGrid = document.querySelector(".ig-preview");
     const igStatus = document.querySelector(".ig-status");
 
-    function renderInstagramPlaceholders(){
+    function renderDrivePlaceholders(){
       if (!igGrid) return;
-      igGrid.innerHTML = new Array(INSTAGRAM_MEDIA_LIMIT)
+      igGrid.innerHTML = new Array(DRIVE_MEDIA_LIMIT)
         .fill(0)
-        .map(() => `<a class="ig-ph" href="${INSTAGRAM_PROFILE_URL}" target="_blank" rel="noopener noreferrer" aria-label="Instagram APAM"></a>`)
+        .map(() => `<a class="ig-ph" href="${DRIVE_FOLDER_URL}" target="_blank" rel="noopener noreferrer" aria-label="Drive APAM"></a>`)
         .join("");
     }
 
-    function updateInstagramStatus(message){
+    function updateDriveStatus(message){
       if (igStatus) {
         igStatus.textContent = message;
       }
     }
 
-    function renderInstagramItems(items){
+    function renderDriveItems(items){
       if (!igGrid) return;
       igGrid.innerHTML = items.map(item => {
-        const imgUrl = item.media_type === "VIDEO" ? item.thumbnail_url : item.media_url;
-        const altText = item.caption ? item.caption.replace(/\s+/g, " ").trim() : "Publication Instagram APAM";
+        const altText = item.name ? item.name.replace(/\s+/g, " ").trim() : "Photo APAM";
         return `<a class="ig-ph" href="${item.permalink}" target="_blank" rel="noopener noreferrer" aria-label="${altText}">
-          <img src="${imgUrl}" alt="${altText}" loading="lazy">
+          <img src="${item.thumbnail}" alt="${altText}" loading="lazy">
         </a>`;
       }).join("");
     }
 
-    function decodeInstagramUrl(value){
-      return value
-        .replaceAll("\\u0026", "&")
-        .replaceAll("\\u002F", "/")
-        .replaceAll("\\\\/", "/");
+    function normalizeDriveItem(item){
+      return {
+        name: item.name || "Photo APAM",
+        thumbnail: item.thumbnail || item.thumbnailUrl || item.thumb || "",
+        permalink: item.permalink || item.link || DRIVE_FOLDER_URL
+      };
     }
 
-    function loadInstagramFeed(){
-      renderInstagramPlaceholders();
-      updateInstagramStatus("Chargement des dernières publications Instagram...");
+    function renderDriveError(){
+      renderDrivePlaceholders();
+      updateDriveStatus("Impossible de charger le drive pour le moment.");
+    }
 
-      const url = `https://r.jina.ai/http://www.instagram.com/${INSTAGRAM_USERNAME}/`;
-      fetch(url)
+    function loadDriveFeedJsonp(){
+      return new Promise((resolve, reject) => {
+        if (!DRIVE_FEED_URL) return reject();
+
+        let script;
+        const cleanup = () => {
+          delete window[DRIVE_JSONP_CALLBACK];
+          if (script) script.remove();
+          if (timeout) clearTimeout(timeout);
+        };
+        const timeout = setTimeout(() => {
+          cleanup();
+          reject(new Error("JSONP timeout"));
+        }, 6000);
+
+        script = document.createElement("script");
+        script.src = DRIVE_JSONP_URL;
+        script.async = true;
+        script.onerror = () => {
+          cleanup();
+          reject(new Error("JSONP error"));
+        };
+
+        window[DRIVE_JSONP_CALLBACK] = (data) => {
+          cleanup();
+          resolve(data);
+        };
+
+        document.body.appendChild(script);
+      });
+    }
+
+    function loadDriveFeed(){
+      renderDrivePlaceholders();
+      if (!DRIVE_FEED_URL) {
+        updateDriveStatus("Flux photo en attente : URL Apps Script à renseigner.");
+        return;
+      }
+
+      updateDriveStatus("Chargement des dernières photos du drive...");
+      fetch(DRIVE_FEED_URL, { cache: "no-store" })
         .then(response => {
           if (!response.ok) {
-            throw new Error("Erreur de chargement Instagram");
+            throw new Error("Erreur de chargement Drive");
           }
-          return response.text();
+          return response.json();
         })
-        .then(text => {
-          const items = [];
-          const seen = new Set();
-          const regex = /"display_url":"([^"]+)".+?"shortcode":"([^"]+)"/g;
-          let match = regex.exec(text);
-
-          while (match && items.length < INSTAGRAM_MEDIA_LIMIT) {
-            const displayUrl = decodeInstagramUrl(match[1]);
-            const shortcode = match[2];
-            if (!seen.has(shortcode)) {
-              items.push({
-                media_type: "IMAGE",
-                media_url: displayUrl,
-                permalink: `https://www.instagram.com/p/${shortcode}/`,
-                caption: "Publication Instagram APAM"
-              });
-              seen.add(shortcode);
-            }
-            match = regex.exec(text);
-          }
-
-          if (!items.length) {
-            throw new Error("Aucun contenu Instagram trouvé");
-          }
-
-          renderInstagramItems(items);
-          updateInstagramStatus("");
-        })
+        .then(payload => renderDrivePayload(payload))
         .catch(() => {
-          renderInstagramPlaceholders();
-          updateInstagramStatus("Impossible de charger Instagram pour le moment.");
+          updateDriveStatus("Chargement direct impossible, tentative en secours...");
+          return loadDriveFeedJsonp()
+            .then(payload => renderDrivePayload(payload))
+            .catch(() => renderDriveError());
         });
+    }
+
+    function renderDrivePayload(payload){
+      const rawItems = Array.isArray(payload) ? payload : (payload.items || payload.photos || []);
+      const items = rawItems.map(normalizeDriveItem).filter(item => item.thumbnail);
+
+      if (!items.length) {
+        throw new Error("Aucune photo Drive trouvée");
+      }
+
+      renderDriveItems(items.slice(0, DRIVE_MEDIA_LIMIT));
+      updateDriveStatus("");
     }
 
     /* ===============================
@@ -1487,7 +1518,7 @@
     (function(){
       const tb = document.getElementById("titleBox");
       requestAnimationFrame(() => tb && tb.classList.add("is-in"));
-      loadInstagramFeed();
+      loadDriveFeed();
       loadPosts();
     })();
   </script>
