@@ -480,7 +480,7 @@
     .info-stack {
       position: absolute;
       right: var(--page-side-margin);
-      bottom: 40px;
+      bottom: 96px;
       z-index: 2;
       display: flex;
       flex-direction: column;
@@ -538,6 +538,48 @@
     @keyframes infoIn {
       65% { opacity: 1; transform: translate3d(0, -4px, 0); filter: blur(0px); }
       100% { opacity: 1; transform: translate3d(0, 0, 0); filter: blur(0px); }
+    }
+
+    /* =============================== */
+    /* FOOTER */
+    /* =============================== */
+    .site-footer {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 2;
+      background: rgba(0, 0, 0, 0.72);
+      color: #fff;
+      border-top: 1px solid rgba(255, 255, 255, 0.18);
+      padding: 12px var(--page-side-margin);
+      backdrop-filter: blur(8px);
+    }
+
+    .footer-inline {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      font-size: 0.85rem;
+    }
+
+    .footer-links {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .footer-links a {
+      color: rgba(255, 255, 255, 0.86);
+      text-decoration: none;
+      transition: color 0.2s ease, opacity 0.2s ease;
+    }
+
+    .footer-links a:hover {
+      color: #fff;
+      opacity: 1;
     }
 
     /* =============================== */
@@ -809,10 +851,19 @@
       }
       .info-stack{
         right: var(--page-side-margin);
-        bottom: 26px;
+        bottom: 86px;
       }
       .info-line{ font-size: 20px; }
       .info-line.small{ font-size: 18px; }
+
+      .site-footer {
+        padding: 12px var(--page-side-margin);
+      }
+
+      .footer-inline {
+        flex-direction: column;
+        align-items: flex-start;
+      }
     }
   </style>
 </head>
@@ -964,7 +1015,7 @@
     </div>
 
     <!-- ✅ Bas droite : FRQ + COORD (cliquable Maps) -->
-    <a class="info-link" href="https://www.google.com/maps?q=48.7588889,39.4666667"
+    <a class="info-link" href="https://www.google.com/maps/place/A%C3%A9rodrome+de+L'Aigle-Saint-Michel,+61300+Saint-Sulpice-sur-Risle,+France/@48.76122,0.6555821,17z/data=!3m1!4b1!4m6!3m5!1s0x47e181b394927687:0xdcf84cef68d0147c!8m2!3d48.76122!4d0.658157!16s%2Fg%2F11h54zpqz3?entry=ttu&g_ep=EgoyMDI2MDExMy4wIKXMDSoASAFQAw%3D%3D"
        target="_blank" rel="noopener noreferrer"
        aria-label="Ouvrir la position sur Google Maps">
       <div class="info-stack" aria-label="Infos terrain">
@@ -972,10 +1023,22 @@
           <div class="info-line small">FRQ 126.855</div>
         </div>
         <div class="info-coord">
-          <div class="info-line">48°45'32&quot; N · 39°28' E</div>
+          <div class="info-line">48°45'40&quot; N · 0°39'20&quot; E</div>
         </div>
       </div>
     </a>
+
+    <!-- ============ FOOTER ============ -->
+    <footer class="site-footer">
+      <div class="footer-inline">
+        <div class="footer-links">
+          <a href="mailto:contact@apam.fr">contact@apam.fr</a>
+          <a href="https://www.facebook.com/profile.php?id=61585663567523" target="_blank" rel="noopener noreferrer">Facebook</a>
+          <a href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer">Instagram</a>
+        </div>
+        <div class="footer-credit">Site conçu par Pierre Cauvin.</div>
+      </div>
+    </footer>
 
   </div>
 
