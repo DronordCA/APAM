@@ -568,27 +568,32 @@
     .fb-head a:hover,.ig-head a:hover{ color:#fff; }
 
     .fb-responsive{
-      position:relative;
-      width:100%;
-      border:1px solid rgba(255,255,255,0.08);
-      background: rgba(255,255,255,0.04);
-      height: 720px;
+  position:relative;
+  width:100%;
+  border:1px solid rgba(255,255,255,0.08);
+  background: rgba(255,255,255,0.04);
+  height: 720px;
 
-      /* ✅ la clé : scroll interne au lieu d’un grand vide */
-      overflow: auto;
-      -webkit-overflow-scrolling: touch;
-    }
+  /* ✅ la clé : scroll interne au lieu d’un grand vide */
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+}
 
-    @media (max-width:980px){
-      .fb-responsive{ height: 980px; }
-    }
+@media (max-width:980px){
+  .fb-responsive{ height: 980px; }
+}
 
-    .fb-responsive iframe{
-      width: 100% !important;
-      height: 100% !important;
-      border:0;
-      display:block;
-    }
+/* iframe “plus grand” que le viewport pour garantir du contenu scrollable */
+.fb-responsive iframe{
+  width: 100% !important;
+  height: 1200px !important; /* desktop */
+  border:0;
+  display:block;
+}
+
+@media (max-width:980px){
+  .fb-responsive iframe{ height: 1400px !important; }
+}
 
     .ig-card{
       border:1px solid rgba(255,255,255,0.08);
@@ -1311,14 +1316,12 @@
       const wrap  = document.getElementById("fbWrap");
       if(!frame || !wrap) return;
 
-      function buildFbSrc(w, h){
+      function buildFbSrc(w){
         const width = Math.max(340, Math.min(560, Math.round(w)));
-        const height = Math.max(420, Math.round(h));
         const params = new URLSearchParams({
           href: pageUrl,
           tabs: "timeline",
           width: width.toString(),
-          height: height.toString(),
           small_header: "true",
           adapt_container_width: "false",
           hide_cover: "false",
@@ -1327,16 +1330,13 @@
         return "https://www.facebook.com/plugins/page.php?" + params.toString();
       }
 
-      let lastWidth = 0;
-      let lastHeight = 0;
+      let last = 0;
       function refresh(){
         const w = wrap.clientWidth || 0;
-        const h = wrap.clientHeight || 0;
-        if(!w || !h) return;
-        if(Math.abs(w - lastWidth) < 20 && Math.abs(h - lastHeight) < 20) return;
-        lastWidth = w;
-        lastHeight = h;
-        frame.src = buildFbSrc(w, h);
+        if(!w) return;
+        if(Math.abs(w - last) < 20) return;
+        last = w;
+        frame.src = buildFbSrc(w);
       }
 
       refresh();
