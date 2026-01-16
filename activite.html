@@ -21,12 +21,12 @@
     }
 
     :root{
-      --page-side-margin:60px;
-      --header-height:50px;
-      --header-font-size:15px;
-      --header-letter-spacing:-0.05em;
-      --logo-height:100px;
-      --gap-logo-header:62px;
+      --page-side-margin:50px;
+      --header-height:40px;
+      --header-font-size:12px;
+      --header-letter-spacing:0.06em;
+      --logo-height:72px;
+      --gap-logo-header:36px;
       --header-grey:#222;
 
       --accent:#2f6bff;
@@ -126,13 +126,13 @@
       display:flex;
       align-items:center;
       justify-content:space-between;
-      padding:0 6px 0 32px;
+      padding:0 10px 0 24px;
       border:1px solid rgba(0,0,0,0.06);
-      box-shadow:0 2px 0 rgba(0,0,0,0.08);
+      box-shadow:0 1px 0 rgba(0,0,0,0.08);
     }
-    .header-left{display:flex; align-items:center; gap:34px;}
-    .header-right{display:flex; align-items:center; gap:18px; margin-left:auto;}
-    .nav-menu{display:flex; align-items:center; gap:34px;}
+    .header-left{display:flex; align-items:center; gap:26px;}
+    .header-right{display:flex; align-items:center; gap:12px; margin-left:auto;}
+    .nav-menu{display:flex; align-items:center; gap:26px;}
     .nav-item{position:relative; display:inline-flex; align-items:center;}
 
     .nav-link{
@@ -166,16 +166,16 @@
     }
     .nav-link[data-text]:hover::after{clip-path:inset(0 0 0 0);}
 
-    .icon{width:26px;height:26px;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;text-decoration:none;}
+    .icon{width:20px;height:20px;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;text-decoration:none;}
     .icon svg{width:100%;height:100%;fill:var(--header-grey);}
 
     .btn-compte{
       position:relative; overflow:hidden;
       font-family:"Swiss911", sans-serif;
-      font-size:25px;
-      letter-spacing:-0.04em;
+      font-size:18px;
+      letter-spacing:0.02em;
       text-transform:uppercase;
-      padding:6px 12px;
+      padding:5px 10px;
       border:2px solid var(--header-grey);
       background:#000;
       color:#fff;
@@ -797,9 +797,9 @@
     }
     .footer-col h4{
       font-family:"GPMenu",system-ui,sans-serif;
-      letter-spacing:0.18em;
+      letter-spacing:0.12em;
       text-transform:uppercase;
-      font-size:11px;
+      font-size:10px;
       color: rgba(255,255,255,0.88);
       margin-bottom:10px;
     }
@@ -807,13 +807,18 @@
       display:block;
       text-decoration:none;
       color: rgba(255,255,255,0.78);
-      font-size:14px;
+      font-size:11px;
+      text-transform:uppercase;
+      letter-spacing:0.1em;
+      font-family:"GPMenu",system-ui,sans-serif;
       margin-bottom:6px;
     }
     .footer-col a:hover{color:#fff}
     .footer-bottom{
       margin-top:14px;
-      font-size:12px;
+      font-size:10px;
+      letter-spacing:0.1em;
+      text-transform:uppercase;
       color: rgba(255,255,255,0.58);
       display:flex;
       justify-content:space-between;

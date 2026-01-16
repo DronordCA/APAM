@@ -6,6 +6,19 @@
   <title>APAM – Contact & accès</title>
   <style>
     /* ================== BASE ================== */
+    @font-face {
+      font-family: "GPMenu";
+      src: url("assets/fonts/Helvetica Neue LT Pro 93 Black Extended.otf") format("opentype");
+      font-weight: 900;
+      font-style: normal;
+    }
+
+    @font-face {
+      font-family: "Swiss911";
+      src: url("assets/fonts/Swiss911-ExtraCompressed.otf") format("opentype");
+      font-weight: normal;
+      font-style: normal;
+    }
 
     :root {
       --apam-blue-dark: #031023;
@@ -69,7 +82,7 @@
       left: 0;
       right: 0;
       z-index: 100;
-      padding: 10px 16px;
+      padding: 12px 16px;
       display: flex;
       justify-content: center;
       background: transparent;
@@ -78,39 +91,42 @@
     }
 
     .header-inner {
-      max-width: 1100px;
+      max-width: 1120px;
       width: 100%;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 16px;
-      padding: 8px 18px;
-      border-radius: 999px;
-      background: rgba(3, 16, 35, 0.07);
-      border: 1px solid rgba(255, 255, 255, 0.22);
-      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.45);
+      gap: 14px;
+      padding: 6px 12px;
+      border-radius: 6px;
+      background: rgba(255, 255, 255, 0.96);
+      border: 1px solid rgba(0, 0, 0, 0.08);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
       backdrop-filter: blur(20px);
       -webkit-backdrop-filter: blur(20px);
       pointer-events: auto;
     }
 
     .logo {
-      height: 48px;
+      height: 36px;
     }
 
     .main-nav {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 8px;
     }
 
     .main-nav a {
       text-decoration: none;
-      color: var(--apam-blue);
-      font-weight: 600;
-      font-size: 0.92rem;
-      padding: 7px 16px;
-      border-radius: 999px;
+      color: #111;
+      font-family: "GPMenu", system-ui, sans-serif;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-size: 0.72rem;
+      padding: 6px 10px;
+      border-radius: 4px;
       background: transparent;
       border: 1px solid transparent;
       transition:
@@ -122,40 +138,38 @@
     }
 
     .main-nav a:hover {
-      color: var(--apam-blue);
-      background: rgba(255, 255, 255, 0.08);
-      border-color: rgba(255, 255, 255, 0.3);
-      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.2);
+      color: #111;
+      background: rgba(0, 0, 0, 0.04);
+      border-color: rgba(0, 0, 0, 0.12);
+      box-shadow: 0 8px 18px rgba(0, 0, 0, 0.12);
       transform: translateY(-1px);
     }
 
     .main-nav a.active {
-      background: linear-gradient(
-        135deg,
-        rgba(139, 199, 255, 0.98),
-        rgba(70, 140, 255, 0.98)
-      );
-      border-color: rgba(74, 163, 255, 0.9);
-      box-shadow: 0 14px 30px rgba(74, 163, 255, 0.6);
-      color: #02101f;
+      background: #111;
+      border-color: #111;
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.24);
+      color: #fff;
     }
 
     .menu-toggle {
       display: none;
-      background: rgba(3, 16, 35, 0.8);
-      color: var(--apam-blue);
-      font-weight: 600;
-      font-size: 0.9rem;
-      border-radius: 999px;
-      border: 1px solid rgba(255, 255, 255, 0.3);
+      background: #111;
+      color: #fff;
+      font-weight: 900;
+      font-size: 0.7rem;
+      font-family: "GPMenu", system-ui, sans-serif;
+      letter-spacing: 0.08em;
+      border-radius: 4px;
+      border: 1px solid #111;
       cursor: pointer;
-      padding: 7px 14px;
-      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3);
+      padding: 6px 10px;
+      box-shadow: 0 6px 14px rgba(0, 0, 0, 0.2);
     }
 
     .menu-toggle:hover {
-      background: rgba(3, 16, 35, 0.92);
-      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4);
+      background: #000;
+      box-shadow: 0 8px 18px rgba(0, 0, 0, 0.28);
     }
 
     /* ================== CONTENU PRINCIPAL ================== */
@@ -451,8 +465,8 @@
     }
 
     .social-pill {
-      width: 38px;
-      height: 38px;
+      width: 32px;
+      height: 32px;
       border-radius: 999px;
       background: rgba(255, 255, 255, 0.9);
       border: 1px solid rgba(6, 32, 55, 0.1);
@@ -469,8 +483,8 @@
     }
 
     .social-pill img {
-      width: 18px;
-      height: 18px;
+      width: 16px;
+      height: 16px;
       display: block;
       filter: invert(0.1) brightness(0.2);
     }
@@ -484,11 +498,11 @@
     /* ================== FOOTER ================== */
 
     .site-footer {
-      background: #ffffff;
-      color: var(--apam-blue);
-      padding: 40px 20px 20px;
+      background: #0f0f10;
+      color: #f5f5f5;
+      padding: 36px 20px 18px;
       margin-top: 40px;
-      border-top: 1px solid rgba(6, 32, 55, 0.12);
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
     }
 
     .footer-content {
@@ -507,14 +521,14 @@
     }
 
     .footer-logo {
-      height: 40px;
+      height: 34px;
       display: block;
       margin-bottom: 10px;
     }
 
     .footer-brand p {
-      font-size: 0.9rem;
-      opacity: 0.85;
+      font-size: 0.82rem;
+      opacity: 0.75;
     }
 
     .footer-column {
@@ -524,17 +538,23 @@
 
     .footer-column h4 {
       margin-bottom: 10px;
-      font-size: 1rem;
-      border-bottom: 1px solid rgba(6, 32, 55, 0.15);
+      font-size: 0.78rem;
+      font-family: "GPMenu", system-ui, sans-serif;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.12);
       padding-bottom: 5px;
     }
 
     .footer-column a {
       display: block;
-      color: var(--apam-blue);
-      opacity: 0.82;
+      color: #f5f5f5;
+      opacity: 0.7;
       margin-bottom: 6px;
-      font-size: 0.9rem;
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-family: "GPMenu", system-ui, sans-serif;
       text-decoration: none;
       transition: opacity 0.2s ease;
     }
@@ -546,8 +566,10 @@
     .copyright {
       text-align: center;
       margin-top: 26px;
-      opacity: 0.7;
-      font-size: 0.82rem;
+      opacity: 0.55;
+      font-size: 0.7rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
     }
 
     /* ================== RESPONSIVE ================== */
@@ -593,7 +615,7 @@
       .main-nav a {
         margin: 3px 4px;
         width: 100%;
-        color: var(--apam-blue);
+        color: #111;
       }
 
       .main-nav.open {
