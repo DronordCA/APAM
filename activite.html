@@ -51,7 +51,6 @@
       --modal-bg: rgba(0,0,0,0.92);
       --modal-panel: rgba(10,10,12,0.98);
       --gridline: rgba(255,255,255,0.10);
-      --social-card-height: 600px;
     }
 
     *{box-sizing:border-box;margin:0;padding:0}
@@ -535,19 +534,11 @@
     /* SOCIAL GRID (FB + IG) */
     /* =============================== */
     .social-grid{
-      display:grid;
-      grid-template-columns: repeat(auto-fit, minmax(320px, 520px));
-      justify-content: center;
-      gap: 16px;
-      align-items: start;
       margin: 6px auto 18px;
       max-width: 1100px;
     }
-    @media (max-width: 980px){
-      .social-grid{ grid-template-columns: 1fr; }
-    }
 
-    .fb-block,.ig-block{
+    .fb-block{
       border: 1px solid rgba(255,255,255,0.10);
       background: rgba(0,0,0,0.35);
       padding: 14px;
@@ -557,17 +548,17 @@
       flex-direction:column;
       gap: 12px;
     }
-    .fb-head,.ig-head{
+    .fb-head{
       display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom: 10px;
     }
-    .fb-head h3,.ig-head h3{
+    .fb-head h3{
       font-family:"GPMenu",system-ui,sans-serif;
       letter-spacing:0.18em;
       text-transform:uppercase;
       font-size:12px;
       color: rgba(255,255,255,0.92);
     }
-    .fb-head a,.ig-head a{
+    .fb-head a{
       font-family:"GPMenu",system-ui,sans-serif;
       letter-spacing:0.16em;
       text-transform:uppercase;
@@ -578,7 +569,7 @@
       position: relative;
       padding-right: 18px;
     }
-    .fb-head a::after,.ig-head a::after{
+    .fb-head a::after{
       content:"";
       position:absolute;
       right:0;
@@ -591,8 +582,8 @@
       opacity:0;
       transition: transform .18s ease, opacity .18s ease;
     }
-    .fb-head a:hover,.ig-head a:hover{ color:#fff; }
-    .fb-head a:hover::after,.ig-head a:hover::after{
+    .fb-head a:hover{ color:#fff; }
+    .fb-head a:hover::after{
       transform: translateY(-50%) scale(1);
       opacity:1;
     }
@@ -602,7 +593,7 @@
       width:100%;
       border:1px solid rgba(255,255,255,0.08);
       background: rgba(255,255,255,0.04);
-      height: var(--social-card-height);
+      height: 600px;
 
       /* ✅ éviter le décalage lié au scroll */
       overflow: hidden;
@@ -619,121 +610,6 @@
       display:block;
     }
 
-    .ig-card{
-      border:1px solid rgba(255,255,255,0.08);
-      background: rgba(255,255,255,0.04);
-      display:grid;
-      grid-template-columns: 1fr;
-      gap: 12px;
-      padding: 14px;
-      min-height: var(--social-card-height);
-    }
-    .ig-big{
-      border:1px solid rgba(255,255,255,0.10);
-      background: rgba(0,0,0,0.35);
-      padding: 14px;
-    }
-    .ig-kicker{
-      font-family:"GPMenu",system-ui,sans-serif;
-      letter-spacing:0.18em;
-      text-transform:uppercase;
-      font-size:11px;
-      color: rgba(255,255,255,0.70);
-      margin-bottom: 6px;
-    }
-    .ig-title{
-      font-family:"Swiss911",sans-serif;
-      text-transform:uppercase;
-      letter-spacing:-0.02em;
-      font-size:44px;
-      line-height: 0.95;
-      font-style: italic;
-      transform: skewX(-6deg);
-    }
-    .ig-text{
-      margin-top: 10px;
-      color: rgba(255,255,255,0.78);
-      line-height: 1.5;
-      font-size: 14px;
-      max-width: 52ch;
-    }
-    .ig-btn{
-      margin-top: 12px;
-      display:inline-flex;align-items:center;gap:12px;
-      text-decoration:none;color:#fff;
-      font-family:"Swiss911",sans-serif;
-      text-transform:uppercase;
-      font-size:26px;
-      letter-spacing:-0.02em;
-      font-style: italic;
-    }
-    .ig-btn:hover{ color: var(--accent); }
-    .ig-chev{
-      width:10px;height:10px;
-      border-right:2px solid rgba(255,255,255,0.70);
-      border-top:2px solid rgba(255,255,255,0.70);
-      transform: rotate(45deg);
-      transition: transform .18s ease, border-color .18s ease;
-    }
-    .ig-btn:hover .ig-chev{
-      transform: translateX(4px) rotate(45deg);
-      border-color: var(--accent);
-    }
-    .ig-preview{
-      display:grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 10px;
-    }
-    .ig-preview a{
-      display:block;
-      position:relative;
-      border:1px solid rgba(255,255,255,0.10);
-      overflow:hidden;
-      background: rgba(0,0,0,0.35);
-    }
-    .ig-preview img{
-      display:block;
-      width:100%;
-      height:100%;
-      object-fit:cover;
-      aspect-ratio:1/1;
-      transition: transform .2s ease;
-    }
-    .ig-preview a:hover img{
-      transform: scale(1.04);
-    }
-    .ig-ph{
-      display:block;
-      position:relative;
-      aspect-ratio: 1/1;
-      border:1px solid rgba(255,255,255,0.10);
-      background:
-        radial-gradient(circle at 30% 20%, rgba(47,107,255,0.18), transparent 55%),
-        rgba(0,0,0,0.35);
-      transition: transform .2s ease, border-color .2s ease;
-      overflow:hidden;
-    }
-    .ig-ph::after{
-      content:"";
-      position:absolute;
-      inset:0;
-      background: linear-gradient(135deg, rgba(255,255,255,0.06), transparent 55%);
-      opacity:0;
-      transition: opacity .2s ease;
-    }
-    .ig-ph:hover{
-      transform: translateY(-2px);
-      border-color: rgba(255,255,255,0.35);
-    }
-    .ig-ph:hover::after{
-      opacity:1;
-    }
-    .ig-status{
-      margin-top:12px;
-      font-size:12px;
-      color: rgba(255,255,255,0.7);
-      min-height: 1.4em;
-    }
 
     /* =============================== */
     /* MODAL */
@@ -990,7 +866,7 @@
 
       <p class="intro">
         Les annonces du club sont publiées via Google Sheets et s’affichent automatiquement ici.
-        Les photos sont partagées sur Facebook / Drive.
+        Les photos sont partagées sur Facebook.
       </p>
 
       <div class="wrap">
@@ -1012,42 +888,6 @@
                 allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"></iframe>
             </div>
           </div>
-
-          <div class="ig-block">
-            <div class="ig-head">
-              <h3></h3>
-              <a href="https://drive.google.com/drive/folders/1kT0lWOg3rsbMM2mIU7lVkLyPA6--bc1D?usp=sharing" target="_blank" rel="noopener noreferrer">
-                VOIR SUR DRIVE →
-              </a>
-            </div>
-
-            <div class="ig-card">
-              <div class="ig-big">
-                <div style="font-family:'GPMenu',system-ui,sans-serif;letter-spacing:.18em;text-transform:uppercase;font-size:11px;color:rgba(255,255,255,.7);margin-bottom:6px;">
-                  PHOTOS DU CLUB
-                </div>
-                <div style="font-family:'Swiss911',sans-serif;text-transform:uppercase;letter-spacing:-.02em;font-size:44px;line-height:.95;font-style:italic;transform:skewX(-6deg);">
-                  FEED PHOTO
-                </div>
-                <div style="margin-top:10px;color:rgba(255,255,255,.78);line-height:1.5;font-size:14px;max-width:52ch;">
-                  Les photos partagées par le club arrivent automatiquement ici depuis le drive commun. Cliquez sur une photo pour l’ouvrir dans le drive.
-                </div>
-                <a class="ig-btn" href="https://drive.google.com/drive/folders/1kT0lWOg3rsbMM2mIU7lVkLyPA6--bc1D?usp=sharing" target="_blank" rel="noopener noreferrer">
-                  OUVRIR LE DRIVE <span class="ig-chev"></span>
-                </a>
-              </div>
-
-              <div class="ig-preview">
-                <a class="ig-ph" href="https://drive.google.com/drive/folders/1kT0lWOg3rsbMM2mIU7lVkLyPA6--bc1D?usp=sharing" target="_blank" rel="noopener noreferrer" aria-label="Drive APAM"></a>
-                <a class="ig-ph" href="https://drive.google.com/drive/folders/1kT0lWOg3rsbMM2mIU7lVkLyPA6--bc1D?usp=sharing" target="_blank" rel="noopener noreferrer" aria-label="Drive APAM"></a>
-                <a class="ig-ph" href="https://drive.google.com/drive/folders/1kT0lWOg3rsbMM2mIU7lVkLyPA6--bc1D?usp=sharing" target="_blank" rel="noopener noreferrer" aria-label="Drive APAM"></a>
-                <a class="ig-ph" href="https://drive.google.com/drive/folders/1kT0lWOg3rsbMM2mIU7lVkLyPA6--bc1D?usp=sharing" target="_blank" rel="noopener noreferrer" aria-label="Drive APAM"></a>
-                <a class="ig-ph" href="https://drive.google.com/drive/folders/1kT0lWOg3rsbMM2mIU7lVkLyPA6--bc1D?usp=sharing" target="_blank" rel="noopener noreferrer" aria-label="Drive APAM"></a>
-                <a class="ig-ph" href="https://drive.google.com/drive/folders/1kT0lWOg3rsbMM2mIU7lVkLyPA6--bc1D?usp=sharing" target="_blank" rel="noopener noreferrer" aria-label="Drive APAM"></a>
-              </div>
-              <div class="ig-status" role="status"></div>
-            </div>
-          </div>
         </div>
       </div>
 
@@ -1057,7 +897,7 @@
             <div class="footer-links">
               <a href="mailto:contact@apam.fr">contact@apam.fr</a>
               <a href="https://www.facebook.com/profile.php?id=61585663567523" target="_blank" rel="noopener noreferrer">Facebook</a>
-              <a href="https://drive.google.com/drive/folders/1kT0lWOg3rsbMM2mIU7lVkLyPA6--bc1D?usp=sharing" target="_blank" rel="noopener noreferrer">Drive photos</a>
+              <a href="https://www.instagram.com/apam_lfol?igsh=MTVnbjRtNHppMWwwcA%3D%3D&utm_source=qr" target="_blank" rel="noopener noreferrer">Instagram</a>
             </div>
             <div class="footer-credit">Site conçu par Pierre Cauvin.</div>
           </div>
@@ -1268,123 +1108,6 @@
     }
 
     /* ===============================
-       DRIVE — Apps Script (JSON)
-    =============================== */
-    const DRIVE_FOLDER_ID = "1kT0lWOg3rsbMM2mIU7lVkLyPA6--bc1D";
-    const DRIVE_FOLDER_URL = `https://drive.google.com/drive/folders/${DRIVE_FOLDER_ID}?usp=sharing`;
-    const DRIVE_FEED_URL = "https://script.google.com/macros/s/AKfycbxILVQSAg6_GVwsLYLGxXco3SiHRFbctn4D8vsB8y3-i_V-jA2_E3cDG7_61X_9Hmbszw/exec";
-    const DRIVE_JSONP_CALLBACK = "driveFeedCallback";
-    const DRIVE_JSONP_URL = `${DRIVE_FEED_URL}?callback=${DRIVE_JSONP_CALLBACK}`;
-    const DRIVE_MEDIA_LIMIT = 6;
-    const igGrid = document.querySelector(".ig-preview");
-    const igStatus = document.querySelector(".ig-status");
-
-    function renderDrivePlaceholders(){
-      if (!igGrid) return;
-      igGrid.innerHTML = new Array(DRIVE_MEDIA_LIMIT)
-        .fill(0)
-        .map(() => `<a class="ig-ph" href="${DRIVE_FOLDER_URL}" target="_blank" rel="noopener noreferrer" aria-label="Drive APAM"></a>`)
-        .join("");
-    }
-
-    function updateDriveStatus(message){
-      if (igStatus) {
-        igStatus.textContent = message;
-      }
-    }
-
-    function renderDriveItems(items){
-      if (!igGrid) return;
-      igGrid.innerHTML = items.map(item => {
-        const altText = item.name ? item.name.replace(/\s+/g, " ").trim() : "Photo APAM";
-        return `<a class="ig-ph" href="${item.permalink}" target="_blank" rel="noopener noreferrer" aria-label="${altText}">
-          <img src="${item.thumbnail}" alt="${altText}" loading="lazy">
-        </a>`;
-      }).join("");
-    }
-
-    function normalizeDriveItem(item){
-      return {
-        name: item.name || "Photo APAM",
-        thumbnail: item.thumbnail || item.thumbnailUrl || item.thumb || "",
-        permalink: item.permalink || item.link || DRIVE_FOLDER_URL
-      };
-    }
-
-    function renderDriveError(){
-      renderDrivePlaceholders();
-      updateDriveStatus("Impossible de charger le drive pour le moment.");
-    }
-
-    function loadDriveFeedJsonp(){
-      return new Promise((resolve, reject) => {
-        if (!DRIVE_FEED_URL) return reject();
-
-        let script;
-        const cleanup = () => {
-          delete window[DRIVE_JSONP_CALLBACK];
-          if (script) script.remove();
-          if (timeout) clearTimeout(timeout);
-        };
-        const timeout = setTimeout(() => {
-          cleanup();
-          reject(new Error("JSONP timeout"));
-        }, 6000);
-
-        script = document.createElement("script");
-        script.src = DRIVE_JSONP_URL;
-        script.async = true;
-        script.onerror = () => {
-          cleanup();
-          reject(new Error("JSONP error"));
-        };
-
-        window[DRIVE_JSONP_CALLBACK] = (data) => {
-          cleanup();
-          resolve(data);
-        };
-
-        document.body.appendChild(script);
-      });
-    }
-
-    function loadDriveFeed(){
-      renderDrivePlaceholders();
-      if (!DRIVE_FEED_URL) {
-        updateDriveStatus("Flux photo en attente : URL Apps Script à renseigner.");
-        return;
-      }
-
-      updateDriveStatus("Chargement des dernières photos du drive...");
-      fetch(DRIVE_FEED_URL, { cache: "no-store" })
-        .then(response => {
-          if (!response.ok) {
-            throw new Error("Erreur de chargement Drive");
-          }
-          return response.json();
-        })
-        .then(payload => renderDrivePayload(payload))
-        .catch(() => {
-          updateDriveStatus("Chargement direct impossible, tentative en secours...");
-          return loadDriveFeedJsonp()
-            .then(payload => renderDrivePayload(payload))
-            .catch(() => renderDriveError());
-        });
-    }
-
-    function renderDrivePayload(payload){
-      const rawItems = Array.isArray(payload) ? payload : (payload.items || payload.photos || []);
-      const items = rawItems.map(normalizeDriveItem).filter(item => item.thumbnail);
-
-      if (!items.length) {
-        throw new Error("Aucune photo Drive trouvée");
-      }
-
-      renderDriveItems(items.slice(0, DRIVE_MEDIA_LIMIT));
-      updateDriveStatus("");
-    }
-
-    /* ===============================
        MOBILE DRAWER — scroll robuste
     =============================== */
     (function(){
@@ -1518,7 +1241,6 @@
     (function(){
       const tb = document.getElementById("titleBox");
       requestAnimationFrame(() => tb && tb.classList.add("is-in"));
-      loadDriveFeed();
       loadPosts();
     })();
   </script>
