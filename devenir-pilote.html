@@ -428,8 +428,8 @@
     .posts-grid{
       display:grid;
       grid-template-columns: repeat(2, minmax(0,1fr));
-      gap: 16px;
-      margin-bottom: 18px;
+      gap: 18px;
+      margin-bottom: 28px;
     }
     @media (max-width:980px){ .posts-grid{grid-template-columns:1fr;} }
 
@@ -440,7 +440,7 @@
       overflow:hidden;
       text-decoration:none;
       color:#fff;
-      min-height: 260px;
+      min-height: 320px;
       box-shadow: var(--card-shadow);
       display:flex;
       flex-direction:column;
@@ -467,7 +467,35 @@
       box-shadow: 0 30px 92px rgba(0,0,0,0.48), 0 0 0 1px rgba(47,107,255,0.16);
     }
 
-    .post-body{padding: 14px 14px 26px;display:flex;flex-direction:column;gap:10px;flex:1;}
+    .post-media{
+      position:relative;
+      height:180px;
+      background: linear-gradient(135deg, rgba(47,107,255,0.3), rgba(0,0,0,0.55)),
+                  radial-gradient(circle at 20% 20%, rgba(255,255,255,0.18), transparent 60%);
+      overflow:hidden;
+    }
+    .post-media::after{
+      content:"";
+      position:absolute; inset:0;
+      background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.6) 100%);
+    }
+    .post-media img{
+      width:100%; height:100%; object-fit:cover; display:block;
+      filter:saturate(1.05) contrast(1.05);
+    }
+    .post-photo-label{
+      position:absolute; left:14px; bottom:14px; z-index:2;
+      font-family:"GPMenu",system-ui,sans-serif;
+      text-transform:uppercase;
+      letter-spacing:0.14em;
+      font-size:11px;
+      color:rgba(255,255,255,0.75);
+      background: rgba(0,0,0,0.4);
+      border:1px solid rgba(255,255,255,0.12);
+      padding:6px 8px;
+    }
+
+    .post-body{padding: 16px 16px 26px;display:flex;flex-direction:column;gap:10px;flex:1;}
     .post-meta{
       display:flex;align-items:center;justify-content:space-between;gap:10px;
       color: rgba(255,255,255,0.70);
@@ -510,28 +538,143 @@
       letter-spacing:0.14em;
     }
 
-    .steps-grid{
+    .timeline{
+      border:1px solid rgba(255,255,255,0.08);
+      background: rgba(0,0,0,0.3);
+      padding:18px;
+      margin-bottom: 24px;
+    }
+    .timeline-track{
+      display:grid;
+      grid-template-columns: repeat(4, minmax(0,1fr));
+      gap: 16px;
+    }
+    @media (max-width:1100px){ .timeline-track{grid-template-columns: repeat(2, minmax(0,1fr));} }
+    @media (max-width:680px){ .timeline-track{grid-template-columns: 1fr;} }
+
+    .timeline-card{
+      background: rgba(10,10,12,0.7);
+      border:1px solid rgba(255,255,255,0.08);
+      padding:16px;
+      box-shadow: var(--card-shadow);
+      display:flex;
+      flex-direction:column;
+      gap:12px;
+      min-height:240px;
+    }
+    .timeline-step{
+      font-family:"GPMenu",system-ui,sans-serif;
+      text-transform:uppercase;
+      letter-spacing:0.16em;
+      font-size:11px;
+      color:rgba(255,255,255,0.65);
+    }
+    .timeline-title{
+      font-family:"Swiss911",sans-serif;
+      text-transform:uppercase;
+      font-size:26px;
+      letter-spacing:-0.01em;
+      font-style:italic;
+      line-height:1.05;
+    }
+    .timeline-text{color:rgba(255,255,255,0.72);line-height:1.55;font-size:14px;}
+    .timeline-media{
+      position:relative;
+      height:120px;
+      border-radius:6px;
+      overflow:hidden;
+      background: linear-gradient(135deg, rgba(47,107,255,0.28), rgba(0,0,0,0.6));
+    }
+    .timeline-media img{width:100%;height:100%;object-fit:cover;display:block;}
+    .timeline-badge{
+      position:absolute; right:10px; top:10px;
+      font-family:"GPMenu",system-ui,sans-serif;
+      text-transform:uppercase;
+      letter-spacing:0.12em;
+      font-size:10px;
+      color:#fff;
+      background: rgba(0,0,0,0.5);
+      border:1px solid rgba(255,255,255,0.14);
+      padding:4px 6px;
+    }
+
+    .experience-grid{
+      display:grid;
+      grid-template-columns: repeat(2, minmax(0,1fr));
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+    @media (max-width:900px){ .experience-grid{grid-template-columns:1fr;} }
+    .experience-card{
+      background: rgba(10,10,12,0.75);
+      border:1px solid rgba(255,255,255,0.08);
+      box-shadow: var(--card-shadow);
+      display:grid;
+      grid-template-columns: 1.1fr 1fr;
+      min-height:220px;
+      overflow:hidden;
+    }
+    @media (max-width:900px){ .experience-card{grid-template-columns:1fr;} }
+    .experience-media{
+      position:relative;
+      min-height:200px;
+      background: linear-gradient(135deg, rgba(47,107,255,0.25), rgba(0,0,0,0.65));
+    }
+    .experience-media img{width:100%;height:100%;object-fit:cover;display:block;}
+    .experience-body{
+      padding:18px;
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+    }
+    .experience-tag{
+      font-family:"GPMenu",system-ui,sans-serif;
+      text-transform:uppercase;
+      letter-spacing:0.14em;
+      font-size:11px;
+      color:rgba(255,255,255,0.65);
+    }
+    .experience-title{
+      font-family:"Swiss911",sans-serif;
+      text-transform:uppercase;
+      font-size:30px;
+      font-style:italic;
+      letter-spacing:-0.02em;
+    }
+    .experience-text{color:rgba(255,255,255,0.72);line-height:1.55;font-size:14px;}
+
+    .ratings-grid{
       display:grid;
       grid-template-columns: repeat(3, minmax(0,1fr));
       gap: 16px;
+      margin-bottom: 12px;
     }
-    @media (max-width:980px){ .steps-grid{grid-template-columns:1fr;} }
-
-    .step-card{
-      background: rgba(10,10,12,0.7);
+    @media (max-width:980px){ .ratings-grid{grid-template-columns:1fr;} }
+    .rating-card{
+      background: rgba(10,10,12,0.75);
       border:1px solid rgba(255,255,255,0.08);
       padding:18px;
       box-shadow: var(--card-shadow);
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+      min-height:200px;
     }
-    .step-title{
+    .rating-media{
+      height:110px;
+      border-radius:6px;
+      overflow:hidden;
+      background: linear-gradient(135deg, rgba(47,107,255,0.25), rgba(0,0,0,0.65));
+    }
+    .rating-media img{width:100%;height:100%;object-fit:cover;display:block;}
+    .rating-title{
       font-family:"Swiss911",sans-serif;
       text-transform:uppercase;
-      font-size:28px;
-      letter-spacing:-0.01em;
+      font-size:24px;
       font-style:italic;
-      margin-bottom:10px;
+      letter-spacing:-0.01em;
     }
-    .step-text{color:rgba(255,255,255,0.72);line-height:1.55;font-size:14px;}
+    .rating-text{color:rgba(255,255,255,0.72);line-height:1.55;font-size:14px;}
 
     .cta-box{
       margin-top: 24px;
@@ -793,29 +936,169 @@
           <div class="empty">CHARGEMENT DES FORMATIONS…</div>
         </div>
 
-        <div class="section-title">COMMENT ÇA SE PASSE</div>
-        <div class="section-lead">Un accompagnement clair, du briefing au solo</div>
+        <div class="section-title">PARCOURS PPL</div>
+        <div class="section-lead">Une timeline claire, du premier vol aux navigations</div>
 
-        <div class="steps-grid">
-          <div class="step-card">
-            <div class="step-title">Découverte</div>
-            <p class="step-text">
-              Un vol d’initiation pour découvrir le cockpit, les sensations et les premières
-              manœuvres avec un instructeur dédié.
+        <div class="timeline">
+          <div class="timeline-track">
+            <div class="timeline-card">
+              <div class="timeline-media">
+                <img src="assets/images/image1.png" alt="Briefing PPL">
+                <span class="timeline-badge">Étape 01</span>
+              </div>
+              <div class="timeline-step">Accueil & briefing</div>
+              <div class="timeline-title">Découverte cockpit</div>
+              <p class="timeline-text">
+                Installation, sécurité, premiers repères et explications sur les instruments.
+              </p>
+            </div>
+            <div class="timeline-card">
+              <div class="timeline-media">
+                <img src="assets/images/image1.png" alt="Maniabilité PPL">
+                <span class="timeline-badge">Étape 02</span>
+              </div>
+              <div class="timeline-step">Vols en double</div>
+              <div class="timeline-title">Maniabilité & tour de piste</div>
+              <p class="timeline-text">
+                Exercices de base, atterrissages, coordination et confiance aux commandes.
+              </p>
+            </div>
+            <div class="timeline-card">
+              <div class="timeline-media">
+                <img src="assets/images/image1.png" alt="Navigation PPL">
+                <span class="timeline-badge">Étape 03</span>
+              </div>
+              <div class="timeline-step">Navigation</div>
+              <div class="timeline-title">Radio & navigation</div>
+              <p class="timeline-text">
+                Préparation de route, météo, procédures radio et vols de navigation.
+              </p>
+            </div>
+            <div class="timeline-card">
+              <div class="timeline-media">
+                <img src="assets/images/image1.png" alt="Solo PPL">
+                <span class="timeline-badge">Étape 04</span>
+              </div>
+              <div class="timeline-step">Autonomie</div>
+              <div class="timeline-title">Solo & examen</div>
+              <p class="timeline-text">
+                Vols solo supervisés, préparation théorique et passage de la licence.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="section-title">PARCOURS LAPL</div>
+        <div class="section-lead">Une progression fluide pensée pour voler léger</div>
+
+        <div class="timeline">
+          <div class="timeline-track">
+            <div class="timeline-card">
+              <div class="timeline-media">
+                <img src="assets/images/image1.png" alt="Découverte LAPL">
+                <span class="timeline-badge">Étape 01</span>
+              </div>
+              <div class="timeline-step">Initiation</div>
+              <div class="timeline-title">Vols découverte</div>
+              <p class="timeline-text">
+                Mise en confiance, premières prises de commandes et repères en vol.
+              </p>
+            </div>
+            <div class="timeline-card">
+              <div class="timeline-media">
+                <img src="assets/images/image1.png" alt="Pratique LAPL">
+                <span class="timeline-badge">Étape 02</span>
+              </div>
+              <div class="timeline-step">Pratique</div>
+              <div class="timeline-title">Tours de piste & maniabilité</div>
+              <p class="timeline-text">
+                Exercices progressifs, atterrissages et maîtrise de l’avion.
+              </p>
+            </div>
+            <div class="timeline-card">
+              <div class="timeline-media">
+                <img src="assets/images/image1.png" alt="Navigation LAPL">
+                <span class="timeline-badge">Étape 03</span>
+              </div>
+              <div class="timeline-step">Navigation</div>
+              <div class="timeline-title">Vols régionaux</div>
+              <p class="timeline-text">
+                Navigation courte, gestion du cap et préparation aux vols en autonomie.
+              </p>
+            </div>
+            <div class="timeline-card">
+              <div class="timeline-media">
+                <img src="assets/images/image1.png" alt="Licence LAPL">
+                <span class="timeline-badge">Étape 04</span>
+              </div>
+              <div class="timeline-step">Validation</div>
+              <div class="timeline-title">Solo & obtention</div>
+              <p class="timeline-text">
+                Heures solo, examen pratique et finalisation administrative.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="section-title">BAPTÊME & INITIATION</div>
+        <div class="section-lead">Des expériences immersives avec photos à mettre en avant</div>
+
+        <div class="experience-grid">
+          <div class="experience-card">
+            <div class="experience-media">
+              <img src="assets/images/image1.png" alt="Baptême de l’air">
+            </div>
+            <div class="experience-body">
+              <div class="experience-tag">Vol découverte</div>
+              <div class="experience-title">Baptême de l’air</div>
+              <p class="experience-text">
+                Un moment fort pour survoler la région, photographies souvenir et briefing personnalisé.
+              </p>
+            </div>
+          </div>
+          <div class="experience-card">
+            <div class="experience-media">
+              <img src="assets/images/image1.png" alt="Initiation au pilotage">
+            </div>
+            <div class="experience-body">
+              <div class="experience-tag">Premiers gestes</div>
+              <div class="experience-title">Initiation au pilotage</div>
+              <p class="experience-text">
+                Prise en main avec un instructeur, premières manœuvres et immersion cockpit.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="section-title">APRÈS LES LICENCES</div>
+        <div class="section-lead">Des qualifications pour élargir vos horizons</div>
+
+        <div class="ratings-grid">
+          <div class="rating-card">
+            <div class="rating-media">
+              <img src="assets/images/image1.png" alt="Vol de nuit">
+            </div>
+            <div class="rating-title">Vol de nuit</div>
+            <p class="rating-text">
+              Apprenez la navigation nocturne et les procédures spécifiques aux vols après sunset.
             </p>
           </div>
-          <div class="step-card">
-            <div class="step-title">Progression</div>
-            <p class="step-text">
-              Des séances régulières pour travailler la navigation, la météo et les procédures.
-              Le programme s’adapte à votre rythme.
+          <div class="rating-card">
+            <div class="rating-media">
+              <img src="assets/images/image1.png" alt="Pas variable">
+            </div>
+            <div class="rating-title">Pas variable</div>
+            <p class="rating-text">
+              Perfectionnez vos réglages moteurs et la gestion de puissance sur avion équipé.
             </p>
           </div>
-          <div class="step-card">
-            <div class="step-title">Licence</div>
-            <p class="step-text">
-              Préparation aux examens théoriques, heures de vol encadrées et mise en confiance
-              pour vos premiers vols en autonomie.
+          <div class="rating-card">
+            <div class="rating-media">
+              <img src="assets/images/image1.png" alt="Voyage club">
+            </div>
+            <div class="rating-title">Voyages club</div>
+            <p class="rating-text">
+              Préparez des navigations longues, vols en escale et sorties club encadrées.
             </p>
           </div>
         </div>
@@ -1004,12 +1287,27 @@
     /* ===============================
        CARDS
     =============================== */
+    function getImage(item){
+      return (
+        item.photo ||
+        item["photo"] ||
+        item.image ||
+        item["image"] ||
+        item.visuel ||
+        item["visuel"] ||
+        item["image url"] ||
+        item["image_url"] ||
+        ""
+      ).toString().trim();
+    }
+
     function buildCard(item, i){
       const title = item.titre || item["titre"] || "Formation";
       const resume = item.resume || item["resume"] || item.accroche || item["accroche"] || "";
       const niveau = item.niveau || item["niveau"] || "";
       const duree = item.duree || item["duree"] || "";
       const details = item.details || item["details"] || item.detail || item["detail"] || "";
+      const image = getImage(item);
 
       const a = document.createElement("a");
       a.className = "post";
@@ -1023,6 +1321,19 @@
       const metaLeft = niveau || "Formation";
       const metaRight = duree || "Sur mesure";
 
+      const media = document.createElement("div");
+      media.className = "post-media";
+      if (image){
+        const img = document.createElement("img");
+        img.src = image;
+        img.alt = title;
+        media.appendChild(img);
+      }
+      const label = document.createElement("div");
+      label.className = "post-photo-label";
+      label.textContent = image ? "Photo formation" : "Photo à remplacer";
+      media.appendChild(label);
+
       body.innerHTML = `
         <div class="post-meta"><div>${metaLeft}</div><div>${metaRight}</div></div>
         <div class="post-title"></div>
@@ -1032,6 +1343,7 @@
       body.querySelector(".post-title").textContent = title;
       if (resume) body.querySelector(".post-text").textContent = resume;
 
+      a.appendChild(media);
       a.appendChild(body);
 
       a.addEventListener("click", (e) => {
