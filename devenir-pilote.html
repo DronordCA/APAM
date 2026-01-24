@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8" />
-  <title>APAM – Activités</title>
+  <title>APAM – Devenir pilote</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <style>
@@ -56,7 +56,6 @@
     *{box-sizing:border-box;margin:0;padding:0}
     html,body{height:100%}
 
-    /* ✅ IMPORTANT: on ne bloque jamais le scroll ici */
     body{
       background:#101012;
       color:#fff;
@@ -199,31 +198,30 @@
     /* =============================== */
     /* DROPDOWN FLOTTE (desktop) */
     /* =============================== */
-    .nav-item.has-dropdown::before{
-      content:"";
-      position:absolute; left:-22px; right:-22px;
-      top:100%; height:18px;
-    }
-
     .fleet-panel{
       position:absolute;
-      top:calc(100% + 18px);
+      top:calc(100% + 10px);
       left:50%;
-      transform:translateX(-50%);
+      transform:translateX(-50%) translateY(8px);
       width:var(--panel-w);
       background:var(--panel-bg);
       border:1px solid var(--panel-border);
-      box-shadow:0 22px 40px rgba(0,0,0,0.45);
-      padding:10px;
+      padding:10px 10px 12px;
       display:flex;
       flex-direction:column;
       gap:10px;
       opacity:0;
       pointer-events:none;
-      transition:opacity .18s ease;
-      z-index:50;
+      transition:all .22s ease;
+      z-index:20;
+      box-shadow:0 16px 30px rgba(0,0,0,0.45);
     }
-    .nav-item.has-dropdown:hover .fleet-panel{opacity:1;pointer-events:auto;}
+
+    .nav-item.has-dropdown:hover .fleet-panel{
+      opacity:1;
+      pointer-events:auto;
+      transform:translateX(-50%) translateY(0);
+    }
 
     .fleet-card{
       position:relative;
@@ -232,71 +230,37 @@
       border:1px solid var(--drop-card-border);
       text-decoration:none;
       color:#fff;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      padding:10px 12px;
       overflow:hidden;
-      transition:transform .18s ease,border-color .18s ease,box-shadow .18s ease;
+      transition:border-color .18s ease, background .18s ease;
     }
-    .fleet-card:hover{
-      transform:translateX(6px);
-      border-color:rgba(47,107,255,0.55);
-      box-shadow:0 0 0 1px rgba(47,107,255,0.25), 0 18px 30px rgba(0,0,0,0.35);
-    }
-    .fleet-name{
-      position:absolute; top:6px; left:50%;
-      transform:translateX(-50%);
-      font-family:"Swiss911", sans-serif;
-      text-transform:uppercase;
-      font-size:18px;
-      letter-spacing:-0.02em;
-      line-height:1;
-      opacity:.95;
-      white-space:nowrap;
-      pointer-events:none;
-    }
+    .fleet-card:hover{border-color:rgba(47,107,255,0.5);background:#222;}
+    .fleet-name{font-family:"GPMenu",system-ui,sans-serif;letter-spacing:-0.02em;font-size:14px;text-transform:uppercase;}
     .fleet-plane{
-      position:absolute; left:50%; top:52%;
-      transform:translate(-50%,-50%);
+      position:absolute;
+      right:-10px;
+      bottom:-10px;
       height:80px;
-      max-width:88%;
-      object-fit:contain;
+      opacity:0.85;
       pointer-events:none;
-      filter:drop-shadow(0 10px 14px rgba(0,0,0,0.35));
     }
     .fleet-chev{
-      position:absolute; right:14px; top:50%;
-      width:10px;height:10px;
-      border-right:2px solid rgba(255,255,255,0.7);
-      border-top:2px solid rgba(255,255,255,0.7);
-      transform:translateY(-50%) rotate(45deg);
-      transition:transform .18s ease,border-color .18s ease;
-      opacity:.9;
-    }
-    .fleet-card:hover .fleet-chev{
-      border-color:var(--accent);
-      transform:translate(4px,-50%) rotate(45deg);
-    }
-
-    .fleet-cta{margin-top:2px;padding-top:10px;border-top:1px solid rgba(255,255,255,0.10);}
-    .fleet-cta a{
-      display:flex;align-items:center;justify-content:space-between;gap:10px;
-      padding:10px 4px 2px;
-      text-decoration:none;
-      color:rgba(255,255,255,0.88);
-      font-family:"Swiss911", sans-serif;
-      text-transform:uppercase;
-      font-size:20px;
-      letter-spacing:-0.02em;
-      font-style:italic;
-    }
-    .fleet-cta a .cta-chev{
-      width:10px;height:10px;
-      border-right:2px solid rgba(255,255,255,0.65);
-      border-top:2px solid rgba(255,255,255,0.65);
+      width:10px;height:10px;border-right:2px solid rgba(255,255,255,0.7);border-top:2px solid rgba(255,255,255,0.7);
       transform:rotate(45deg);
-      transition:transform .18s ease,border-color .18s ease;
     }
-    .fleet-cta a:hover .cta-chev{
-      transform:translateX(4px) rotate(45deg);
-      border-color:var(--accent);
+    .fleet-cta a{
+      display:flex;align-items:center;justify-content:space-between;
+      padding:8px 8px;
+      font-family:"GPMenu",system-ui,sans-serif;
+      font-size:11px;text-transform:uppercase;letter-spacing:0.12em;
+      text-decoration:none;color:#fff;border-top:1px solid rgba(255,255,255,0.08);
+    }
+    .cta-chev{
+      width:10px;height:10px;border-right:2px solid rgba(255,255,255,0.7);border-top:2px solid rgba(255,255,255,0.7);
+      transform:rotate(45deg);
     }
 
     /* =============================== */
@@ -444,6 +408,23 @@
       padding: 0 var(--outer-x);
     }
 
+    .section-title{
+      font-family:"GPMenu",system-ui,sans-serif;
+      text-transform:uppercase;
+      letter-spacing:0.14em;
+      font-size:12px;
+      color:rgba(255,255,255,0.7);
+      margin: 22px 0 12px;
+    }
+    .section-lead{
+      font-family:"Swiss911",sans-serif;
+      text-transform:uppercase;
+      font-style:italic;
+      letter-spacing:-0.02em;
+      font-size:38px;
+      margin-bottom: 18px;
+    }
+
     .posts-grid{
       display:grid;
       grid-template-columns: repeat(2, minmax(0,1fr));
@@ -521,99 +502,63 @@
     .post:hover .chev{transform: translateX(4px) rotate(45deg);border-color: var(--accent);}
 
     .empty{
-      border:1px dashed rgba(255,255,255,0.18);
-      background: rgba(0,0,0,0.25);
-      padding: 14px;
-      color: rgba(255,255,255,0.75);
-      font-size: 13px;
-      letter-spacing:0.10em;
-      text-transform:uppercase;
+      padding: 40px 20px;
+      text-align:center;
+      color: rgba(255,255,255,0.6);
       font-family:"GPMenu",system-ui,sans-serif;
+      text-transform:uppercase;
+      letter-spacing:0.14em;
     }
 
-    /* =============================== */
-    /* SOCIAL GRID (Facebook) */
-    /* =============================== */
-    .social-grid{
+    .steps-grid{
       display:grid;
-      grid-template-columns: minmax(0, 1fr);
+      grid-template-columns: repeat(3, minmax(0,1fr));
       gap: 16px;
-      align-items: start;
-      margin: 6px auto 18px;
-      max-width: 560px;
     }
+    @media (max-width:980px){ .steps-grid{grid-template-columns:1fr;} }
 
-    .fb-block{
-      border: 1px solid rgba(255,255,255,0.10);
-      background: rgba(0,0,0,0.35);
-      padding: 14px;
-      width: 100%;
-      max-width: 560px;
-      margin: 0 auto;
-      display:flex;
-      flex-direction:column;
-      gap: 12px;
-    }
-    .fb-head{
-      display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom: 10px;
-    }
-    .fb-head h3{
-      font-family:"GPMenu",system-ui,sans-serif;
-      letter-spacing:0.18em;
-      text-transform:uppercase;
-      font-size:12px;
-      color: rgba(255,255,255,0.92);
-    }
-    .fb-head a{
-      font-family:"GPMenu",system-ui,sans-serif;
-      letter-spacing:0.16em;
-      text-transform:uppercase;
-      font-size:12px;
-      color: rgba(255,255,255,0.80);
-      text-decoration:none;
-      white-space:nowrap;
-      position: relative;
-      padding-right: 18px;
-    }
-    .fb-head a::after{
-      content:"";
-      position:absolute;
-      right:0;
-      top:50%;
-      width:10px;
-      height:10px;
-      border-radius:2px;
-      background: var(--accent);
-      transform: translateY(-50%) scale(0);
-      opacity:0;
-      transition: transform .18s ease, opacity .18s ease;
-    }
-    .fb-head a:hover{ color:#fff; }
-    .fb-head a:hover::after{
-      transform: translateY(-50%) scale(1);
-      opacity:1;
-    }
-
-    .fb-responsive{
-      position:relative;
-      width:100%;
+    .step-card{
+      background: rgba(10,10,12,0.7);
       border:1px solid rgba(255,255,255,0.08);
-      background: rgba(255,255,255,0.04);
-      height: 560px;
-
-      /* ✅ éviter le décalage lié au scroll */
-      overflow: hidden;
+      padding:18px;
+      box-shadow: var(--card-shadow);
     }
-
-    @media (max-width:980px){
-      .fb-responsive{ height: 720px; }
+    .step-title{
+      font-family:"Swiss911",sans-serif;
+      text-transform:uppercase;
+      font-size:28px;
+      letter-spacing:-0.01em;
+      font-style:italic;
+      margin-bottom:10px;
     }
+    .step-text{color:rgba(255,255,255,0.72);line-height:1.55;font-size:14px;}
 
-    .fb-responsive iframe{
-      width: 100% !important;
-      height: 100% !important;
-      border:0;
-      display:block;
+    .cta-box{
+      margin-top: 24px;
+      padding: 18px;
+      border:1px solid rgba(255,255,255,0.1);
+      background: rgba(0,0,0,0.35);
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:14px;
+      flex-wrap:wrap;
+    }
+    .cta-text{
+      font-family:"GPMenu",system-ui,sans-serif;
+      text-transform:uppercase;
+      letter-spacing:0.12em;
+      font-size:12px;
+      color:rgba(255,255,255,0.7);
+    }
+    .cta-link{
+      text-decoration:none;
+      color:#fff;
+      font-family:"Swiss911",sans-serif;
+      text-transform:uppercase;
+      font-style:italic;
+      font-size:28px;
+      letter-spacing:-0.02em;
     }
 
     /* =============================== */
@@ -621,82 +566,54 @@
     /* =============================== */
     .modal{
       position:fixed; inset:0;
-      z-index:999;
-      display:grid;
-      place-items:center;
-      padding:18px;
-      opacity:0;
-      pointer-events:none;
-      transition:opacity .25s ease;
+      z-index:200;
+      display:none;
+      align-items:center; justify-content:center;
+      background:var(--modal-bg);
+      padding:20px;
     }
-    .modal.is-open{opacity:1;pointer-events:auto;}
-    .modal-backdrop{
-      position:absolute; inset:0;
-      background: var(--modal-bg);
-    }
-    .modal-backdrop::before{
-      content:"";
-      position:absolute; inset:0;
-      opacity:.55;
-      background:
-        linear-gradient(var(--gridline) 1px, transparent 1px),
-        linear-gradient(90deg, var(--gridline) 1px, transparent 1px);
-      background-size: 90px 90px;
-      background-position:center;
-    }
+    .modal.is-open{display:flex;}
+
     .modal-panel{
-      position:relative;
-      width:min(1120px,100%);
-      height:min(720px,100%);
-      background: var(--modal-panel);
-      border:1px solid rgba(255,255,255,0.10);
-      box-shadow: 0 40px 110px rgba(0,0,0,0.62);
+      width:min(860px, 92vw);
+      max-height:86vh;
+      background:var(--modal-panel);
+      border:1px solid rgba(255,255,255,0.08);
+      box-shadow:0 36px 120px rgba(0,0,0,0.6);
+      display:flex; flex-direction:column;
       overflow:hidden;
-      transform: translate3d(0,18px,0);
-      filter: blur(6px);
-      opacity:0;
-      transition: transform .38s cubic-bezier(.16,1,.22,1), filter .38s ease, opacity .38s ease;
-    }
-    .modal.is-open .modal-panel{transform:none;filter:none;opacity:1;}
-    .modal-topbar{
-      height:72px;
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      padding:0 18px;
-      border-bottom:1px solid rgba(255,255,255,0.10);
-      background: rgba(0,0,0,0.60);
-      backdrop-filter: blur(10px);
-    }
-    .modal-close{
-      width:56px;height:56px;background:#fff;border:0;cursor:pointer;
-      box-shadow:0 10px 18px rgba(0,0,0,0.35);
       position:relative;
     }
-    .modal-close::before,.modal-close::after{
-      content:"";width:24px;height:3px;background:#111;
-      position:absolute;left:50%;top:50%;
-    }
-    .modal-close::before{transform:translate(-50%,-50%) rotate(45deg);}
-    .modal-close::after{transform:translate(-50%,-50%) rotate(-45deg);}
-    .modal-body{
-      height: calc(100% - 72px);
-      padding:18px;
-      overflow:auto;
-      -webkit-overflow-scrolling:touch;
-      display:flex;flex-direction:column;gap:14px;
+
+    .modal-topbar{
+      display:flex;align-items:center;justify-content:space-between;
+      padding:14px 18px;
+      border-bottom:1px solid rgba(255,255,255,0.08);
+      background:rgba(0,0,0,0.35);
     }
     .modal-meta{
       font-family:"GPMenu",system-ui,sans-serif;
-      letter-spacing:0.18em;text-transform:uppercase;
-      font-size:12px;color: rgba(255,255,255,0.75);
+      text-transform:uppercase;
+      letter-spacing:0.14em;
+      font-size:11px;
+      color:rgba(255,255,255,0.65);
     }
+    .modal-close{
+      width:36px;height:36px;border:1px solid rgba(255,255,255,0.15);
+      background:transparent;color:#fff;cursor:pointer;position:relative;
+    }
+    .modal-close::before,.modal-close::after{
+      content:"";position:absolute;left:50%;top:50%;width:18px;height:2px;background:#fff;transform-origin:center;
+    }
+    .modal-close::before{transform:translate(-50%,-50%) rotate(45deg);} 
+    .modal-close::after{transform:translate(-50%,-50%) rotate(-45deg);} 
+
+    .modal-body{padding:22px;overflow:auto;display:flex;flex-direction:column;gap:18px;}
     .modal-title{
       font-family:"Swiss911",sans-serif;
       text-transform:uppercase;
-      letter-spacing:-0.02em;
       font-size:56px;
-      line-height:.95;
+      letter-spacing:-0.02em;
       font-style:italic;
       transform:skewX(-6deg);
     }
@@ -713,12 +630,11 @@
       .modal{padding:10px;}
       .modal-panel{width:100%;height:100%;}
       .modal-title{font-size:40px;}
-      .modal-backdrop::before{background-size:110px 110px;}
       .modal-body{padding:14px;}
     }
 
     /* =============================== */
-    /* FOOTER (FIX) */
+    /* FOOTER */
     /* =============================== */
     footer{
       margin-top: 22px;
@@ -860,32 +776,56 @@
 
       <!-- TITLE -->
       <div class="title-bar">
-        <div class="title-box" id="titleBox"><span>ACTIVITÉS</span></div>
+        <div class="title-box" id="titleBox"><span>DEVENIR PILOTE</span></div>
       </div>
 
       <p class="intro">
-        Les annonces du club sont publiées via Google Sheets et s’affichent automatiquement ici.
+        Du premier vol découverte à la licence, l’APAM accompagne chaque étape de votre progression.
+        Nos instructeurs vous guident sur des parcours sur mesure, du baptême de l’air à l’initiation,
+        jusqu’aux licences LAPL et PPL.
       </p>
 
       <div class="wrap">
+        <div class="section-title">FORMATIONS</div>
+        <div class="section-lead">Trouvez le parcours qui vous correspond</div>
+
         <div id="posts" class="posts-grid">
-          <div class="empty">CHARGEMENT DES ANNONCES…</div>
+          <div class="empty">CHARGEMENT DES FORMATIONS…</div>
         </div>
 
-        <div class="social-grid">
-          <div class="fb-block">
-            <div class="fb-head">
-              <h3></h3>
-              <a href="https://www.facebook.com/profile.php?id=61585663567523" target="_blank" rel="noopener noreferrer">
-                VOIR SUR FACEBOOK →
-              </a>
-            </div>
+        <div class="section-title">COMMENT ÇA SE PASSE</div>
+        <div class="section-lead">Un accompagnement clair, du briefing au solo</div>
 
-            <div class="fb-responsive" id="fbWrap">
-              <iframe id="fbFrame" title="Facebook APAM" loading="lazy"
-                allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"></iframe>
-            </div>
+        <div class="steps-grid">
+          <div class="step-card">
+            <div class="step-title">Découverte</div>
+            <p class="step-text">
+              Un vol d’initiation pour découvrir le cockpit, les sensations et les premières
+              manœuvres avec un instructeur dédié.
+            </p>
           </div>
+          <div class="step-card">
+            <div class="step-title">Progression</div>
+            <p class="step-text">
+              Des séances régulières pour travailler la navigation, la météo et les procédures.
+              Le programme s’adapte à votre rythme.
+            </p>
+          </div>
+          <div class="step-card">
+            <div class="step-title">Licence</div>
+            <p class="step-text">
+              Préparation aux examens théoriques, heures de vol encadrées et mise en confiance
+              pour vos premiers vols en autonomie.
+            </p>
+          </div>
+        </div>
+
+        <div class="cta-box">
+          <div>
+            <div class="cta-text">Besoin d’un conseil ou d’un devis ?</div>
+            <div class="section-lead" style="margin:10px 0 0;">Parlons de votre projet de pilote</div>
+          </div>
+          <a class="cta-link" href="contact.html">NOUS CONTACTER →</a>
         </div>
       </div>
 
@@ -915,17 +855,50 @@
       </div>
 
       <div class="modal-body">
-        <div class="modal-title" id="mTitle">TITRE</div>
+        <div class="modal-title" id="mTitle">FORMATION</div>
         <div class="modal-detail" id="mDetail">Détails…</div>
       </div>
     </div>
   </div>
 
   <script>
-    const SHEET_CSV_URL =
-      "https://docs.google.com/spreadsheets/d/e/2PACX-1vRPZQZVgc2CH2oCfmt4OUhatKJqnS_hkXFPbtGVDisV2N2QOI5mJAmFQ0fhbzjTLIwri3XmTWhTH3yX/pub?output=csv";
-    const ACTIVITY_PAGE_ACCESS_TOKEN =
-      "EAAQdN2k8aMoBQcJapZAeWFBe3JP2N3xZBqjMwZCLDcPDRha1FPwKzxoZBuEPfzQqDEIORvuqUTv1Ns3z4ZBz4k3R2dkIzfrZAD9LzPA9oQpSg9Ljd21Pyhia2xt8iS7m9BSmqJG7F08qLU6LAduVKZARZBhB0BR4NqdOHLUIbC0sZC020ZC5K9fm4nZAO13ZAIqr";
+    const TRAINING_SHEET_CSV_URL =
+      "https://docs.google.com/spreadsheets/d/e/REPLACE_ME/pub?output=csv";
+
+    const FALLBACK_TRAININGS = [
+      {
+        titre: "Baptême de l’air",
+        resume: "Une expérience inoubliable pour découvrir le pilotage en douceur.",
+        niveau: "Découverte",
+        duree: "30-40 min",
+        details:
+          "Vol découverte avec un instructeur, briefing sécurité et souvenir photo possible."
+      },
+      {
+        titre: "Initiation au pilotage",
+        resume: "Vos premières leçons de pilotage, manche en main.",
+        niveau: "Initiation",
+        duree: "Forfait",
+        details:
+          "Briefing, exercices en vol et débriefing personnalisé pour évaluer votre progression."
+      },
+      {
+        titre: "Licence LAPL",
+        resume: "La licence européenne pour voler en autonomie sur des avions légers.",
+        niveau: "Licence",
+        duree: "25h+",
+        details:
+          "Programme progressif, préparation théorique et accompagnement administratif."
+      },
+      {
+        titre: "Licence PPL",
+        resume: "La licence complète pour voyager librement partout en Europe.",
+        niveau: "Licence",
+        duree: "45h+",
+        details:
+          "Cours théoriques, navigation, vols solo supervisés et entraînement aux examens."
+      }
+    ];
 
     function parseCSV(text){
       const rows = [];
@@ -967,14 +940,6 @@
       headers.forEach((h, idx) => obj[h] = safe(row[idx]));
       return obj;
     }
-    function formatDateFR(v){
-      const s = safe(v);
-      if (!s) return "";
-      if (s.includes("/")) return s;
-      const d = new Date(s);
-      if (isNaN(d.getTime())) return s;
-      return d.toLocaleDateString("fr-FR", {year:"numeric", month:"short", day:"2-digit"});
-    }
 
     /* ===============================
        MODAL
@@ -1002,12 +967,14 @@
       window.scrollTo(0, modalScrollY);
     }
 
-    function openDetail(post){
-      const date = formatDateFR(post.date || post["date"]);
-      const titre = post.titre || post["titre"] || "DÉTAILS";
-      const details = post.details || post["details"] || post.detail || post["detail"] || post.resume || "";
+    function openDetail(item){
+      const titre = item.titre || item["titre"] || "FORMATION";
+      const meta = [item.niveau || item["niveau"], item.duree || item["duree"]]
+        .filter(Boolean)
+        .join(" • ");
+      const details = item.details || item["details"] || item.detail || item["detail"] || item.resume || "";
 
-      mMeta.textContent = date ? date : "";
+      mMeta.textContent = meta;
       mTitle.textContent = titre;
       mDetail.textContent = details ? details : "Détails à venir.";
 
@@ -1035,13 +1002,14 @@
     });
 
     /* ===============================
-       POSTS
+       CARDS
     =============================== */
-    function buildCard(post, i){
-      const date = formatDateFR(post.date || post["date"]);
-      const title = post.titre || post["titre"] || "Annonce";
-      const resume = post.resume || post["resume"] || "";
-      const details = post.details || post["details"] || post.detail || post["detail"] || "";
+    function buildCard(item, i){
+      const title = item.titre || item["titre"] || "Formation";
+      const resume = item.resume || item["resume"] || item.accroche || item["accroche"] || "";
+      const niveau = item.niveau || item["niveau"] || "";
+      const duree = item.duree || item["duree"] || "";
+      const details = item.details || item["details"] || item.detail || item["detail"] || "";
 
       const a = document.createElement("a");
       a.className = "post";
@@ -1052,11 +1020,14 @@
       const body = document.createElement("div");
       body.className = "post-body";
 
+      const metaLeft = niveau || "Formation";
+      const metaRight = duree || "Sur mesure";
+
       body.innerHTML = `
-        <div class="post-meta"><div>${date || "—"}</div><div></div></div>
+        <div class="post-meta"><div>${metaLeft}</div><div>${metaRight}</div></div>
         <div class="post-title"></div>
         ${resume ? `<div class="post-text"></div>` : ``}
-        <div class="post-cta"><div>DÉTAILS</div><i class="chev"></i></div>
+        <div class="post-cta"><div>DÉCOUVRIR</div><i class="chev"></i></div>
       `;
       body.querySelector(".post-title").textContent = title;
       if (resume) body.querySelector(".post-text").textContent = resume;
@@ -1065,19 +1036,20 @@
 
       a.addEventListener("click", (e) => {
         e.preventDefault();
-        openDetail({ date, titre: title, resume, details });
+        openDetail({ titre: title, resume, details, niveau, duree });
       });
 
       requestAnimationFrame(() => a.classList.add("is-in"));
       return a;
     }
 
-    async function loadPosts(){
+    async function loadTrainings(){
       const container = document.getElementById("posts");
       container.innerHTML = `<div class="empty">CHARGEMENT…</div>`;
 
+      let items = [];
       try{
-        const res = await fetch(SHEET_CSV_URL, { cache:"no-store" });
+        const res = await fetch(TRAINING_SHEET_CSV_URL, { cache:"no-store" });
         if(!res.ok) throw new Error("HTTP " + res.status);
         const text = await res.text();
 
@@ -1085,23 +1057,19 @@
         if(rows.length < 2) throw new Error("No rows");
 
         const headers = normalizeHeaders(rows[0]);
-        const posts = rows.slice(1).map(r => toRowObj(headers, r));
-
-        posts.sort((a,b) => {
-          const da = new Date((a.date||"").split("/").reverse().join("-") || 0).getTime();
-          const db = new Date((b.date||"").split("/").reverse().join("-") || 0).getTime();
-          return (db||0) - (da||0);
-        });
-
-        container.innerHTML = "";
-        posts.slice(0, 30).forEach((p, i) => container.appendChild(buildCard(p, i)));
-        if(posts.length === 0){
-          container.innerHTML = `<div class="empty">AUCUNE ANNONCE POUR LE MOMENT</div>`;
-        }
+        items = rows.slice(1).map(r => toRowObj(headers, r));
       }catch(e){
-        console.error(e);
-        container.innerHTML = `<div class="empty">IMPOSSIBLE DE CHARGER LES ANNONCES (CSV).</div>`;
+        console.warn("Fallback to local trainings", e);
+        items = FALLBACK_TRAININGS;
       }
+
+      container.innerHTML = "";
+      if(items.length === 0){
+        container.innerHTML = `<div class="empty">AUCUNE FORMATION POUR LE MOMENT</div>`;
+        return;
+      }
+
+      items.forEach((item, i) => container.appendChild(buildCard(item, i)));
     }
 
     /* ===============================
@@ -1155,7 +1123,6 @@
       closeBtn && closeBtn.addEventListener('click', closeDrawer);
       overlay && overlay.addEventListener('click', closeDrawer);
 
-      // ✅ fermer avant navigation (empêche “scroll bloqué” après clic)
       drawerLinks.forEach(a => {
         a.addEventListener('click', (e) => {
           const href = a.getAttribute('href') || '';
@@ -1172,7 +1139,6 @@
         });
       });
 
-      // ✅ failsafe
       function forceUnlockIfClosed(){
         if(isOpen()) return;
         if(document.body.style.position === 'fixed'){
@@ -1189,56 +1155,10 @@
       window.addEventListener('orientationchange', forceUnlockIfClosed);
     })();
 
-    /* ===============================
-       FACEBOOK — desktop propre
-    =============================== */
-    (function(){
-      const pageUrl = "https://www.facebook.com/profile.php?id=61585663567523";
-      const frame = document.getElementById("fbFrame");
-      const wrap  = document.getElementById("fbWrap");
-      if(!frame || !wrap) return;
-
-      function buildFbSrc(w, h){
-        const width = Math.max(340, Math.round(w));
-        const height = Math.max(420, Math.round(h));
-        const params = new URLSearchParams({
-          href: pageUrl,
-          tabs: "timeline",
-          width: width.toString(),
-          height: height.toString(),
-          small_header: "true",
-          adapt_container_width: "true",
-          hide_cover: "false",
-          show_facepile: "false"
-        });
-        return "https://www.facebook.com/plugins/page.php?" + params.toString();
-      }
-
-      let lastWidth = 0;
-      let lastHeight = 0;
-      function refresh(){
-        const w = wrap.clientWidth || 0;
-        const h = wrap.clientHeight || 0;
-        if(!w || !h) return;
-        if(Math.abs(w - lastWidth) < 20 && Math.abs(h - lastHeight) < 20) return;
-        lastWidth = w;
-        lastHeight = h;
-        frame.src = buildFbSrc(w, h);
-      }
-
-      refresh();
-      window.addEventListener("load", () => setTimeout(refresh, 200));
-      window.addEventListener("resize", () => {
-        clearTimeout(window.__fbT);
-        window.__fbT = setTimeout(refresh, 120);
-      });
-    })();
-
-    // init
     (function(){
       const tb = document.getElementById("titleBox");
       requestAnimationFrame(() => tb && tb.classList.add("is-in"));
-      loadPosts();
+      loadTrainings();
     })();
   </script>
 </body>
