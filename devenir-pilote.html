@@ -223,6 +223,48 @@
       transform:translateX(-50%) translateY(0);
     }
 
+    .pilot-panel{
+      position:absolute;
+      top:calc(100% + 10px);
+      left:50%;
+      transform:translateX(-50%) translateY(8px);
+      background:#121214;
+      border:1px solid rgba(255,255,255,0.12);
+      padding:12px 14px;
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+      min-width:240px;
+      opacity:0;
+      pointer-events:none;
+      transition:all .22s ease;
+      z-index:20;
+      box-shadow:0 18px 38px rgba(0,0,0,0.55);
+    }
+
+    .nav-item.has-dropdown:hover .pilot-panel{
+      opacity:1;
+      pointer-events:auto;
+      transform:translateX(-50%) translateY(0);
+    }
+
+    .pilot-link{
+      text-decoration:none;
+      color:#fff;
+      padding:10px 12px;
+      border:1px solid rgba(255,255,255,0.08);
+      background:rgba(18,18,20,0.9);
+      font-family:"GPMenu",system-ui,sans-serif;
+      text-transform:uppercase;
+      letter-spacing:0.12em;
+      font-size:12px;
+      transition:border-color .2s ease, transform .2s ease;
+    }
+    .pilot-link:hover{
+      border-color:rgba(47,107,255,0.45);
+      transform:translateY(-2px);
+    }
+
     .fleet-card{
       position:relative;
       height:var(--drop-card-h);
@@ -359,6 +401,16 @@
         opacity:0.92;
       }
       .m-link:hover{color:var(--accent);}
+      .m-sublink{
+        text-decoration:none;
+        color:rgba(255,255,255,0.75);
+        font-family:"GPMenu",system-ui,sans-serif;
+        text-transform:uppercase;
+        letter-spacing:0.16em;
+        font-size:12px;
+        padding-left:6px;
+      }
+      .m-sublink:hover{color:#fff;}
     }
 
     /* =============================== */
@@ -425,6 +477,112 @@
       margin-bottom: 18px;
     }
 
+    .content-block{
+      margin: 26px 0 40px;
+      padding: 26px 26px 30px;
+      border:1px solid rgba(255,255,255,0.08);
+      background: radial-gradient(circle at 10% 20%, rgba(47,107,255,0.12), transparent 55%),
+        rgba(8,8,12,0.75);
+      box-shadow: 0 30px 80px rgba(0,0,0,0.45);
+    }
+    @media (max-width:780px){ .content-block{padding:20px;} }
+    .block-header{
+      max-width:820px;
+      margin-bottom: 20px;
+    }
+    .block-kicker{
+      font-family:"GPMenu",system-ui,sans-serif;
+      text-transform:uppercase;
+      letter-spacing:0.2em;
+      font-size:11px;
+      color:rgba(255,255,255,0.7);
+      margin-bottom:10px;
+    }
+    .block-title{
+      font-family:"Swiss911",sans-serif;
+      text-transform:uppercase;
+      font-style:italic;
+      letter-spacing:-0.02em;
+      font-size:46px;
+      margin-bottom:10px;
+    }
+    @media (max-width:900px){ .block-title{font-size:38px;} }
+    .block-text{
+      color:rgba(255,255,255,0.75);
+      line-height:1.6;
+      font-size:15px;
+    }
+    .block-grid{
+      display:grid;
+      grid-template-columns: repeat(3, minmax(0,1fr));
+      gap:16px;
+      margin: 18px 0 10px;
+    }
+    @media (max-width:980px){ .block-grid{grid-template-columns:1fr;} }
+    .block-card{
+      border:1px solid rgba(255,255,255,0.08);
+      background: rgba(14,14,20,0.78);
+      padding:16px;
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+      min-height:150px;
+    }
+    .block-card-label{
+      font-family:"GPMenu",system-ui,sans-serif;
+      text-transform:uppercase;
+      letter-spacing:0.18em;
+      font-size:11px;
+      color:rgba(255,255,255,0.65);
+    }
+    .block-card-title{
+      font-family:"Swiss911",sans-serif;
+      text-transform:uppercase;
+      font-size:28px;
+      font-style:italic;
+      letter-spacing:-0.02em;
+    }
+    .block-card-text{
+      color:rgba(255,255,255,0.72);
+      line-height:1.55;
+      font-size:14px;
+    }
+    .block-columns{
+      display:grid;
+      grid-template-columns: 1.6fr 1fr;
+      gap:20px;
+      align-items:start;
+    }
+    @media (max-width:980px){ .block-columns{grid-template-columns:1fr;} }
+    .side-stack{
+      display:flex;
+      flex-direction:column;
+      gap:16px;
+    }
+    .info-card{
+      border:1px solid rgba(255,255,255,0.08);
+      background: rgba(12,12,18,0.72);
+      padding:18px;
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+    }
+    .info-list{
+      list-style:none;
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+      color:rgba(255,255,255,0.72);
+      font-size:14px;
+      line-height:1.6;
+      padding-left:0;
+      margin:0;
+    }
+    .info-list li::before{
+      content:"•";
+      color:var(--accent);
+      margin-right:8px;
+    }
     .posts-grid{
       display:grid;
       grid-template-columns: repeat(2, minmax(0,1fr));
@@ -878,6 +1036,10 @@
             <a class="m-link" href="tarifs.html">FLOTTE</a>
             <a class="m-link" href="activite.html">ACTIVITÉS</a>
             <a class="m-link" href="devenir-pilote.html">DEVENIR PILOTE</a>
+            <div class="m-sub">Accès rapide</div>
+            <a class="m-sublink" href="devenir-pilote.html#ppl">Formation PPL</a>
+            <a class="m-sublink" href="devenir-pilote.html#lapl">LAPL</a>
+            <a class="m-sublink" href="devenir-pilote.html#bapteme">Baptême / Initiation</a>
             <a class="m-link" href="contact.html">CONTACT</a>
             <a class="m-link" href="espace-membres.html">MEMBRES</a>
             <a class="m-link" href="https://openflyers.com/apam/" target="_blank" rel="noopener noreferrer">OPENFLYER</a>
@@ -928,7 +1090,14 @@
                 </span>
 
                 <span class="nav-item"><a href="activite.html" class="nav-link" data-text="ACTIVITÉS">ACTIVITÉS</a></span>
-                <span class="nav-item"><a href="devenir-pilote.html" class="nav-link" data-text="DEVENIR PILOTE">DEVENIR PILOTE</a></span>
+                <span class="nav-item has-dropdown">
+                  <a href="devenir-pilote.html" class="nav-link" data-text="DEVENIR PILOTE">DEVENIR PILOTE</a>
+                  <div class="pilot-panel" role="menu" aria-label="Accès rapide devenir pilote">
+                    <a class="pilot-link" href="devenir-pilote.html#ppl">Formation PPL</a>
+                    <a class="pilot-link" href="devenir-pilote.html#lapl">LAPL</a>
+                    <a class="pilot-link" href="devenir-pilote.html#bapteme">Baptême / Initiation</a>
+                  </div>
+                </span>
                 <span class="nav-item"><a href="contact.html" class="nav-link" data-text="CONTACT">CONTACT</a></span>
                 <span class="nav-item"><a href="espace-membres.html" class="nav-link" data-text="MEMBRES">MEMBRES</a></span>
                 <span class="nav-item"><a href="https://openflyers.com/apam/" target="_blank" rel="noopener noreferrer" class="nav-link" data-text="OPENFLYER">OPENFLYER</a></span>
@@ -960,145 +1129,180 @@
       </p>
 
       <div class="wrap">
+        <section class="content-block" id="ppl">
+          <div class="block-header">
+            <div class="block-kicker">Formation PPL</div>
+            <div class="block-title">La formation complète pour devenir pilote privé</div>
+            <p class="block-text">
+              Un parcours clair et progressif, pensé comme un document explicatif. Chaque étape vous emmène
+              du premier briefing jusqu’à l’autonomie en navigation, avec de la théorie, de la pratique et un suivi personnalisé.
+            </p>
+          </div>
+
+          <div class="block-grid">
+            <div class="block-card">
+              <div class="block-card-label">Objectif</div>
+              <div class="block-card-title">Liberté de voler</div>
+              <p class="block-card-text">Accédez à la licence PPL pour voyager et voler partout en Europe.</p>
+            </div>
+            <div class="block-card">
+              <div class="block-card-label">Durée indicative</div>
+              <div class="block-card-title">45h+</div>
+              <p class="block-card-text">Programme modulable entre vols, théorie et préparation à l’examen.</p>
+            </div>
+            <div class="block-card">
+              <div class="block-card-label">Accompagnement</div>
+              <div class="block-card-title">Suivi 1:1</div>
+              <p class="block-card-text">Briefings, débriefings, supports pédagogiques et conseils sur mesure.</p>
+            </div>
+          </div>
+
+          <div class="section-title">Timeline PPL</div>
+          <div class="section-lead">Une progression fluide, du premier vol à la licence</div>
+
+          <div class="timeline">
+            <div class="timeline-track">
+              <div class="timeline-card">
+                <div class="timeline-media">
+                  <img src="assets/images/image1.png" alt="Briefing PPL">
+                  <span class="timeline-badge">Étape 01</span>
+                </div>
+                <div class="timeline-step">Accueil & briefing</div>
+                <div class="timeline-title">Découverte cockpit</div>
+                <p class="timeline-text">
+                  Installation, sécurité, premiers repères et explications sur les instruments.
+                </p>
+              </div>
+              <div class="timeline-card">
+                <div class="timeline-media">
+                  <img src="assets/images/image1.png" alt="Maniabilité PPL">
+                  <span class="timeline-badge">Étape 02</span>
+                </div>
+                <div class="timeline-step">Vols en double</div>
+                <div class="timeline-title">Maniabilité & tour de piste</div>
+                <p class="timeline-text">
+                  Exercices de base, atterrissages, coordination et confiance aux commandes.
+                </p>
+              </div>
+              <div class="timeline-card">
+                <div class="timeline-media">
+                  <img src="assets/images/image1.png" alt="Navigation PPL">
+                  <span class="timeline-badge">Étape 03</span>
+                </div>
+                <div class="timeline-step">Navigation</div>
+                <div class="timeline-title">Radio & navigation</div>
+                <p class="timeline-text">
+                  Préparation de route, météo, procédures radio et vols de navigation.
+                </p>
+              </div>
+              <div class="timeline-card">
+                <div class="timeline-media">
+                  <img src="assets/images/image1.png" alt="Solo PPL">
+                  <span class="timeline-badge">Étape 04</span>
+                </div>
+                <div class="timeline-step">Autonomie</div>
+                <div class="timeline-title">Solo & examen</div>
+                <p class="timeline-text">
+                  Vols solo supervisés, préparation théorique et passage de la licence.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="content-block" id="lapl">
+          <div class="block-header">
+            <div class="block-kicker">LAPL, baptême & limitations</div>
+            <div class="block-title">Une offre complète pour voler léger et découvrir</div>
+            <p class="block-text">
+              Le LAPL propose une progression accessible, idéale pour voler localement. Dans ce même bloc,
+              retrouvez les expériences découverte (baptême & initiation) et les limites clés de la licence.
+            </p>
+          </div>
+
+          <div class="block-columns">
+            <div>
+              <div class="section-title">Parcours LAPL</div>
+              <div class="section-lead">Une progression fluide pensée pour voler léger</div>
+
+              <div class="timeline">
+                <div class="timeline-track">
+                  <div class="timeline-card">
+                    <div class="timeline-media">
+                      <img src="assets/images/image1.png" alt="Découverte LAPL">
+                      <span class="timeline-badge">Étape 01</span>
+                    </div>
+                    <div class="timeline-step">Initiation</div>
+                    <div class="timeline-title">Vols découverte</div>
+                    <p class="timeline-text">
+                      Mise en confiance, premières prises de commandes et repères en vol.
+                    </p>
+                  </div>
+                  <div class="timeline-card">
+                    <div class="timeline-media">
+                      <img src="assets/images/image1.png" alt="Pratique LAPL">
+                      <span class="timeline-badge">Étape 02</span>
+                    </div>
+                    <div class="timeline-step">Pratique</div>
+                    <div class="timeline-title">Tours de piste & maniabilité</div>
+                    <p class="timeline-text">
+                      Exercices progressifs, atterrissages et maîtrise de l’avion.
+                    </p>
+                  </div>
+                  <div class="timeline-card">
+                    <div class="timeline-media">
+                      <img src="assets/images/image1.png" alt="Navigation LAPL">
+                      <span class="timeline-badge">Étape 03</span>
+                    </div>
+                    <div class="timeline-step">Navigation</div>
+                    <div class="timeline-title">Vols régionaux</div>
+                    <p class="timeline-text">
+                      Navigation courte, gestion du cap et préparation aux vols en autonomie.
+                    </p>
+                  </div>
+                  <div class="timeline-card">
+                    <div class="timeline-media">
+                      <img src="assets/images/image1.png" alt="Licence LAPL">
+                      <span class="timeline-badge">Étape 04</span>
+                    </div>
+                    <div class="timeline-step">Validation</div>
+                    <div class="timeline-title">Solo & obtention</div>
+                    <p class="timeline-text">
+                      Heures solo, examen pratique et finalisation administrative.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="side-stack">
+              <div class="info-card" id="bapteme">
+                <div class="block-card-label">Baptême & initiation</div>
+                <div class="block-card-title">Deux formats découverte</div>
+                <p class="block-card-text">
+                  Baptême de l’air ou initiation au pilotage : briefing, vol accompagné, photos et immersion cockpit.
+                </p>
+              </div>
+
+              <div class="info-card">
+                <div class="block-card-label">Limitations LAPL</div>
+                <div class="block-card-title">Cadre simple</div>
+                <ul class="info-list">
+                  <li>Vols en avion léger monomoteur.</li>
+                  <li>Jusqu’à 3 passagers (4 personnes à bord).</li>
+                  <li>Opérations de jour en conditions VFR.</li>
+                  <li>Rayon d’action principalement régional.</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </section>
+
         <div class="section-title">FORMATIONS</div>
-        <div class="section-lead">Trouvez le parcours qui vous correspond</div>
+        <div class="section-lead">Toutes les formules disponibles</div>
 
         <div id="posts" class="posts-grid">
           <div class="empty">CHARGEMENT DES FORMATIONS…</div>
-        </div>
-
-        <div class="section-title">PARCOURS PPL</div>
-        <div class="section-lead">Une timeline claire, du premier vol aux navigations</div>
-
-        <div class="timeline">
-          <div class="timeline-track">
-            <div class="timeline-card">
-              <div class="timeline-media">
-                <img src="assets/images/image1.png" alt="Briefing PPL">
-                <span class="timeline-badge">Étape 01</span>
-              </div>
-              <div class="timeline-step">Accueil & briefing</div>
-              <div class="timeline-title">Découverte cockpit</div>
-              <p class="timeline-text">
-                Installation, sécurité, premiers repères et explications sur les instruments.
-              </p>
-            </div>
-            <div class="timeline-card">
-              <div class="timeline-media">
-                <img src="assets/images/image1.png" alt="Maniabilité PPL">
-                <span class="timeline-badge">Étape 02</span>
-              </div>
-              <div class="timeline-step">Vols en double</div>
-              <div class="timeline-title">Maniabilité & tour de piste</div>
-              <p class="timeline-text">
-                Exercices de base, atterrissages, coordination et confiance aux commandes.
-              </p>
-            </div>
-            <div class="timeline-card">
-              <div class="timeline-media">
-                <img src="assets/images/image1.png" alt="Navigation PPL">
-                <span class="timeline-badge">Étape 03</span>
-              </div>
-              <div class="timeline-step">Navigation</div>
-              <div class="timeline-title">Radio & navigation</div>
-              <p class="timeline-text">
-                Préparation de route, météo, procédures radio et vols de navigation.
-              </p>
-            </div>
-            <div class="timeline-card">
-              <div class="timeline-media">
-                <img src="assets/images/image1.png" alt="Solo PPL">
-                <span class="timeline-badge">Étape 04</span>
-              </div>
-              <div class="timeline-step">Autonomie</div>
-              <div class="timeline-title">Solo & examen</div>
-              <p class="timeline-text">
-                Vols solo supervisés, préparation théorique et passage de la licence.
-              </p>
-            </div>
-          </div>
-        </div>
-
-        <div class="section-title">PARCOURS LAPL</div>
-        <div class="section-lead">Une progression fluide pensée pour voler léger</div>
-
-        <div class="timeline">
-          <div class="timeline-track">
-            <div class="timeline-card">
-              <div class="timeline-media">
-                <img src="assets/images/image1.png" alt="Découverte LAPL">
-                <span class="timeline-badge">Étape 01</span>
-              </div>
-              <div class="timeline-step">Initiation</div>
-              <div class="timeline-title">Vols découverte</div>
-              <p class="timeline-text">
-                Mise en confiance, premières prises de commandes et repères en vol.
-              </p>
-            </div>
-            <div class="timeline-card">
-              <div class="timeline-media">
-                <img src="assets/images/image1.png" alt="Pratique LAPL">
-                <span class="timeline-badge">Étape 02</span>
-              </div>
-              <div class="timeline-step">Pratique</div>
-              <div class="timeline-title">Tours de piste & maniabilité</div>
-              <p class="timeline-text">
-                Exercices progressifs, atterrissages et maîtrise de l’avion.
-              </p>
-            </div>
-            <div class="timeline-card">
-              <div class="timeline-media">
-                <img src="assets/images/image1.png" alt="Navigation LAPL">
-                <span class="timeline-badge">Étape 03</span>
-              </div>
-              <div class="timeline-step">Navigation</div>
-              <div class="timeline-title">Vols régionaux</div>
-              <p class="timeline-text">
-                Navigation courte, gestion du cap et préparation aux vols en autonomie.
-              </p>
-            </div>
-            <div class="timeline-card">
-              <div class="timeline-media">
-                <img src="assets/images/image1.png" alt="Licence LAPL">
-                <span class="timeline-badge">Étape 04</span>
-              </div>
-              <div class="timeline-step">Validation</div>
-              <div class="timeline-title">Solo & obtention</div>
-              <p class="timeline-text">
-                Heures solo, examen pratique et finalisation administrative.
-              </p>
-            </div>
-          </div>
-        </div>
-
-        <div class="section-title">BAPTÊME & INITIATION</div>
-        <div class="section-lead">Des expériences immersives avec photos à mettre en avant</div>
-
-        <div class="experience-grid">
-          <div class="experience-card">
-            <div class="experience-media">
-              <img src="assets/images/image1.png" alt="Baptême de l’air">
-            </div>
-            <div class="experience-body">
-              <div class="experience-tag">Vol découverte</div>
-              <div class="experience-title">Baptême de l’air</div>
-              <p class="experience-text">
-                Un moment fort pour survoler la région, photographies souvenir et briefing personnalisé.
-              </p>
-            </div>
-          </div>
-          <div class="experience-card">
-            <div class="experience-media">
-              <img src="assets/images/image1.png" alt="Initiation au pilotage">
-            </div>
-            <div class="experience-body">
-              <div class="experience-tag">Premiers gestes</div>
-              <div class="experience-title">Initiation au pilotage</div>
-              <p class="experience-text">
-                Prise en main avec un instructeur, premières manœuvres et immersion cockpit.
-              </p>
-            </div>
-          </div>
         </div>
 
         <div class="section-title">APRÈS LES LICENCES</div>
