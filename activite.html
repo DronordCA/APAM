@@ -532,39 +532,38 @@
     }
 
     /* =============================== */
-    /* SOCIAL GRID (Facebook) */
+    /* SOCIAL GRID */
     /* =============================== */
     .social-grid{
       display:grid;
-      grid-template-columns: minmax(0, 1fr);
+      grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 16px;
       align-items: start;
       margin: 6px auto 18px;
-      max-width: 560px;
+      max-width: 1100px;
     }
 
-    .fb-block{
+    .social-block{
       border: 1px solid rgba(255,255,255,0.10);
       background: rgba(0,0,0,0.35);
       padding: 14px;
       width: 100%;
-      max-width: 560px;
       margin: 0 auto;
       display:flex;
       flex-direction:column;
       gap: 12px;
     }
-    .fb-head{
+    .social-head{
       display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom: 10px;
     }
-    .fb-head h3{
+    .social-head h3{
       font-family:"GPMenu",system-ui,sans-serif;
       letter-spacing:0.18em;
       text-transform:uppercase;
       font-size:12px;
       color: rgba(255,255,255,0.92);
     }
-    .fb-head a{
+    .social-head a{
       font-family:"GPMenu",system-ui,sans-serif;
       letter-spacing:0.16em;
       text-transform:uppercase;
@@ -575,7 +574,7 @@
       position: relative;
       padding-right: 18px;
     }
-    .fb-head a::after{
+    .social-head a::after{
       content:"";
       position:absolute;
       right:0;
@@ -588,13 +587,13 @@
       opacity:0;
       transition: transform .18s ease, opacity .18s ease;
     }
-    .fb-head a:hover{ color:#fff; }
-    .fb-head a:hover::after{
+    .social-head a:hover{ color:#fff; }
+    .social-head a:hover::after{
       transform: translateY(-50%) scale(1);
       opacity:1;
     }
 
-    .fb-responsive{
+    .social-frame{
       position:relative;
       width:100%;
       border:1px solid rgba(255,255,255,0.08);
@@ -606,14 +605,35 @@
     }
 
     @media (max-width:980px){
-      .fb-responsive{ height: 720px; }
+      .social-grid{grid-template-columns: 1fr;}
+      .social-frame{ height: 720px; }
+      .calendar-weekdays,
+      .calendar-board{gap:6px;}
+      .calendar-day{min-height:72px;}
     }
 
-    .fb-responsive iframe{
+    .social-frame iframe{
       width: 100% !important;
       height: 100% !important;
       border:0;
       display:block;
+    }
+    .ig-fallback{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      height:100%;
+      padding:16px;
+      color: rgba(255,255,255,0.7);
+      font-size:13px;
+      text-align:center;
+      gap:8px;
+      flex-direction:column;
+    }
+    .ig-fallback a{
+      color:#fff;
+      text-decoration:none;
+      font-weight:600;
     }
 
     /* =============================== */
@@ -813,15 +833,132 @@
     }
     .carousel-dot.is-active{background: var(--accent); border-color: var(--accent);}
 
-    .calendar-grid{
+    .calendar-shell{
+      border:1px solid rgba(255,255,255,0.12);
+      background: linear-gradient(180deg, rgba(18,18,18,0.88), rgba(8,8,8,0.82));
+      border-radius:20px;
+      padding:18px;
       display:grid;
       gap:16px;
+      box-shadow: var(--card-shadow);
     }
-    .calendar-item{
+    .calendar-top{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:14px;
+      flex-wrap:wrap;
+    }
+    .calendar-month{
+      font-size:26px;
+      font-weight:600;
+      letter-spacing:-0.01em;
+    }
+    .calendar-subtitle{
+      color: rgba(255,255,255,0.65);
+      font-size:13px;
+      margin-top:4px;
+    }
+    .calendar-actions{
+      display:flex;
+      align-items:center;
+      gap:10px;
+    }
+    .calendar-nav{
+      width:42px;
+      height:42px;
+      border-radius:50%;
+      border:1px solid rgba(255,255,255,0.18);
+      background: rgba(0,0,0,0.4);
+      color:#fff;
+      font-size:20px;
+      cursor:pointer;
+      transition: transform .2s ease, border-color .2s ease, background .2s ease;
+    }
+    .calendar-nav:hover{
+      transform: translateY(-1px);
+      border-color: rgba(47,107,255,0.6);
+      background: rgba(47,107,255,0.14);
+    }
+    .calendar-weekdays{
+      display:grid;
+      grid-template-columns: repeat(7, minmax(0,1fr));
+      gap:8px;
+      font-size:12px;
+      text-transform:uppercase;
+      letter-spacing:0.12em;
+      color: rgba(255,255,255,0.55);
+    }
+    .calendar-board{
+      display:grid;
+      grid-template-columns: repeat(7, minmax(0,1fr));
+      gap:8px;
+    }
+    .calendar-day{
+      position:relative;
+      min-height:82px;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,0.08);
+      background: rgba(0,0,0,0.35);
+      color:#fff;
+      padding:10px;
+      text-align:left;
+      font-size:14px;
+      cursor:pointer;
+      transition: border-color .2s ease, transform .2s ease, box-shadow .2s ease;
+    }
+    .calendar-day.is-muted{
+      cursor:default;
+      opacity:0.35;
+      background: rgba(255,255,255,0.04);
+    }
+    .calendar-day-number{
+      font-weight:600;
+      font-size:15px;
+    }
+    .calendar-day.has-event{
+      border-color: rgba(47,107,255,0.45);
+      box-shadow: 0 0 0 1px rgba(47,107,255,0.25);
+    }
+    .calendar-day.is-today{
+      border-color: rgba(255,255,255,0.4);
+    }
+    .calendar-day.is-selected{
+      transform: translateY(-2px);
+      border-color: rgba(47,107,255,0.8);
+      box-shadow: 0 0 0 2px rgba(47,107,255,0.3);
+    }
+    .calendar-dot{
+      position:absolute;
+      left:12px;
+      bottom:12px;
+      width:8px;
+      height:8px;
+      border-radius:50%;
+      background: var(--accent);
+      box-shadow: 0 0 0 4px rgba(47,107,255,0.15);
+    }
+    .calendar-count{
+      position:absolute;
+      right:10px;
+      top:10px;
+      padding:4px 8px;
+      border-radius:999px;
+      background: rgba(47,107,255,0.18);
+      border:1px solid rgba(47,107,255,0.45);
+      font-size:11px;
+      font-weight:600;
+    }
+    .calendar-detail{
+      margin-top:16px;
+      display:grid;
+      gap:12px;
+    }
+    .calendar-card{
       border:1px solid rgba(255,255,255,0.08);
       background: rgba(18,18,18,0.82);
       border-radius:16px;
-      padding:16px 18px;
+      padding:14px 16px;
       display:grid;
       gap:8px;
       box-shadow: var(--card-shadow);
@@ -829,19 +966,19 @@
     .calendar-meta{
       display:flex;
       align-items:center;
-      gap:12px;
+      gap:10px;
       flex-wrap:wrap;
-      font-size:13px;
+      font-size:12px;
       color: rgba(255,255,255,0.7);
     }
     .calendar-title{
-      font-size:20px;
+      font-size:18px;
       font-weight:600;
       letter-spacing:-0.01em;
     }
     .calendar-location{
       color: rgba(255,255,255,0.75);
-      font-size:14px;
+      font-size:13px;
     }
     .calendar-empty{
       padding:18px;
@@ -1030,10 +1167,35 @@
       <section class="section-block" aria-labelledby="calendar-title">
         <h2 class="section-title" id="calendar-title">Calendrier des événements</h2>
         <p class="section-note">
-          Liste générée depuis un fichier Google Sheet ou Excel exporté en CSV (colonnes : <strong>date</strong>, <strong>titre</strong>, <strong>lieu</strong>, <strong>description</strong>).
+          Le calendrier se met à jour automatiquement dès qu’un nouveau fichier Google Sheet ou Excel (CSV) est rempli.
+          Une notification bleue apparaît sur les jours concernés (colonnes : <strong>date</strong>, <strong>titre</strong>, <strong>lieu</strong>, <strong>description</strong>).
         </p>
-        <div class="calendar-grid" id="calendarGrid">
-          <div class="calendar-empty">Chargement du calendrier…</div>
+        <div class="calendar-shell">
+          <div class="calendar-top">
+            <div>
+              <div class="calendar-month" id="calendarMonth">Chargement…</div>
+              <div class="calendar-subtitle">Cliquez sur un jour pour afficher les événements.</div>
+            </div>
+            <div class="calendar-actions">
+              <button class="calendar-nav" type="button" id="calendarPrev" aria-label="Mois précédent">‹</button>
+              <button class="calendar-nav" type="button" id="calendarNext" aria-label="Mois suivant">›</button>
+            </div>
+          </div>
+          <div class="calendar-weekdays" aria-hidden="true">
+            <div>LUN</div>
+            <div>MAR</div>
+            <div>MER</div>
+            <div>JEU</div>
+            <div>VEN</div>
+            <div>SAM</div>
+            <div>DIM</div>
+          </div>
+          <div class="calendar-board" id="calendarBoard">
+            <div class="calendar-empty">Chargement du calendrier…</div>
+          </div>
+        </div>
+        <div class="calendar-detail" id="calendarDetail">
+          <div class="calendar-empty">Sélectionnez un jour pour voir les détails.</div>
         </div>
       </section>
 
@@ -1043,17 +1205,38 @@
         </div>
 
         <div class="social-grid">
-          <div class="fb-block">
-            <div class="fb-head">
-              <h3></h3>
+          <div class="social-block fb-block">
+            <div class="social-head">
+              <h3>Facebook</h3>
               <a href="https://www.facebook.com/profile.php?id=61585663567523" target="_blank" rel="noopener noreferrer">
                 VOIR SUR FACEBOOK →
               </a>
             </div>
 
-            <div class="fb-responsive" id="fbWrap">
+            <div class="social-frame" id="fbWrap">
               <iframe id="fbFrame" title="Facebook APAM" loading="lazy"
                 allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"></iframe>
+            </div>
+          </div>
+
+          <div class="social-block ig-block">
+            <div class="social-head">
+              <h3>Instagram</h3>
+              <a href="https://www.instagram.com/apam_lfol?igsh=MTVnbjRtNHppMWwwcA%3D%3D&utm_source=qr" target="_blank" rel="noopener noreferrer">
+                VOIR SUR INSTAGRAM →
+              </a>
+            </div>
+
+            <div class="social-frame">
+              <iframe title="Instagram APAM" loading="lazy"
+                src="https://www.instagram.com/apam_lfol/embed"
+                allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"></iframe>
+            </div>
+            <div class="ig-fallback">
+              Si l’aperçu Instagram ne charge pas, ouvrez le profil directement.
+              <a href="https://www.instagram.com/apam_lfol?igsh=MTVnbjRtNHppMWwwcA%3D%3D&utm_source=qr" target="_blank" rel="noopener noreferrer">
+                Ouvrir Instagram
+              </a>
             </div>
           </div>
         </div>
@@ -1148,6 +1331,32 @@
       const d = new Date(s);
       if (isNaN(d.getTime())) return s;
       return d.toLocaleDateString("fr-FR", {year:"numeric", month:"short", day:"2-digit"});
+    }
+
+    function parseEventDate(value){
+      const s = safe(value);
+      if (!s) return null;
+      const short = s.replaceAll(".", "/").trim();
+      if (/^\d{2}\/\d{2}\/\d{4}$/.test(short)){
+        const [d, m, y] = short.split("/");
+        return new Date(`${y}-${m}-${d}T00:00:00`);
+      }
+      if (/^\d{2}\/\d{2}\/\d{2}$/.test(short)){
+        const [d, m, y] = short.split("/");
+        return new Date(`20${y}-${m}-${d}T00:00:00`);
+      }
+      if (/^\d{4}-\d{2}-\d{2}$/.test(short)){
+        return new Date(`${short}T00:00:00`);
+      }
+      const date = new Date(s);
+      return isNaN(date.getTime()) ? null : date;
+    }
+
+    function toDateKey(date){
+      const y = date.getFullYear();
+      const m = String(date.getMonth() + 1).padStart(2, "0");
+      const d = String(date.getDate()).padStart(2, "0");
+      return `${y}-${m}-${d}`;
     }
 
     function normalizeHeaderKey(key){
@@ -1293,17 +1502,29 @@
       }).filter(item => item.image_url);
     }
 
-    function renderCalendar(rows){
-      const grid = document.getElementById("calendarGrid");
-      if (!rows.length){
-        grid.innerHTML = '<div class="calendar-empty">Aucun événement planifié.</div>';
+    const calendarState = {
+      currentMonth: null,
+      selectedDateKey: null,
+      eventsByDate: new Map(),
+      events: []
+    };
+
+    function renderCalendarDetail(dateKey){
+      const detail = document.getElementById("calendarDetail");
+      if (!detail) return;
+      if (!dateKey){
+        detail.innerHTML = '<div class="calendar-empty">Sélectionnez un jour pour voir les détails.</div>';
         return;
       }
-
-      grid.innerHTML = "";
-      rows.forEach((row) => {
+      const events = calendarState.eventsByDate.get(dateKey) || [];
+      if (!events.length){
+        detail.innerHTML = `<div class="calendar-empty">Aucun événement prévu le ${formatDateFR(dateKey)}.</div>`;
+        return;
+      }
+      detail.innerHTML = "";
+      events.forEach((row) => {
         const item = document.createElement("article");
-        item.className = "calendar-item";
+        item.className = "calendar-card";
         item.innerHTML = `
           <div class="calendar-meta">
             <span>${formatDateFR(row.date)}</span>
@@ -1313,8 +1534,68 @@
           ${row.lieu ? `<div class="calendar-location">${row.lieu}</div>` : ""}
           ${row.description ? `<div>${row.description}</div>` : ""}
         `;
-        grid.appendChild(item);
+        detail.appendChild(item);
       });
+    }
+
+    function renderCalendarMonth(){
+      const board = document.getElementById("calendarBoard");
+      const monthLabel = document.getElementById("calendarMonth");
+      if (!board || !monthLabel) return;
+
+      const viewDate = calendarState.currentMonth || new Date();
+      const year = viewDate.getFullYear();
+      const month = viewDate.getMonth();
+      const firstDay = new Date(year, month, 1);
+      const startOffset = (firstDay.getDay() + 6) % 7;
+      const daysInMonth = new Date(year, month + 1, 0).getDate();
+      const todayKey = toDateKey(new Date());
+
+      monthLabel.textContent = firstDay.toLocaleDateString("fr-FR", { month: "long", year: "numeric" });
+      board.innerHTML = "";
+
+      for (let i = 0; i < startOffset; i++){
+        const filler = document.createElement("div");
+        filler.className = "calendar-day is-muted";
+        board.appendChild(filler);
+      }
+
+      for (let day = 1; day <= daysInMonth; day++){
+        const dateObj = new Date(year, month, day);
+        const dateKey = toDateKey(dateObj);
+        const events = calendarState.eventsByDate.get(dateKey) || [];
+
+        const cell = document.createElement("button");
+        cell.type = "button";
+        cell.className = "calendar-day";
+        if (events.length) cell.classList.add("has-event");
+        if (dateKey === todayKey) cell.classList.add("is-today");
+        if (dateKey === calendarState.selectedDateKey) cell.classList.add("is-selected");
+
+        const number = document.createElement("span");
+        number.className = "calendar-day-number";
+        number.textContent = day;
+        cell.appendChild(number);
+
+        if (events.length){
+          const dot = document.createElement("span");
+          dot.className = "calendar-dot";
+          const count = document.createElement("span");
+          count.className = "calendar-count";
+          count.textContent = events.length;
+          cell.appendChild(dot);
+          cell.appendChild(count);
+        }
+
+        cell.addEventListener("click", () => selectCalendarDate(dateKey));
+        board.appendChild(cell);
+      }
+    }
+
+    function selectCalendarDate(dateKey){
+      calendarState.selectedDateKey = dateKey;
+      renderCalendarMonth();
+      renderCalendarDetail(dateKey);
     }
 
     /* ===============================
@@ -1472,8 +1753,8 @@
     }
 
     async function loadEvents(){
-      const grid = document.getElementById("calendarGrid");
-      if (!grid) return;
+      const board = document.getElementById("calendarBoard");
+      if (!board) return;
 
       try{
         const res = await fetch(EVENTS_SHEET_CSV_URL, { cache:"no-store" });
@@ -1484,19 +1765,58 @@
         const headers = rows[0];
         const events = rows.slice(1)
           .map(r => toNormalizedRow(headers, r))
-          .filter(r => r.date || r.titre || r.description);
+          .filter(r => r.date || r.titre || r.description)
+          .map((row) => {
+            const dateObj = parseEventDate(row.date);
+            return { ...row, dateObj };
+          })
+          .filter(row => row.dateObj);
 
         events.sort((a,b) => {
-          const da = new Date((a.date||"").split("/").reverse().join("-") || 0).getTime();
-          const db = new Date((b.date||"").split("/").reverse().join("-") || 0).getTime();
+          const da = a.dateObj ? a.dateObj.getTime() : 0;
+          const db = b.dateObj ? b.dateObj.getTime() : 0;
           return (da||0) - (db||0);
         });
 
-        renderCalendar(events);
+        calendarState.events = events;
+        calendarState.eventsByDate = new Map();
+        events.forEach((row) => {
+          const key = toDateKey(row.dateObj);
+          if (!calendarState.eventsByDate.has(key)) calendarState.eventsByDate.set(key, []);
+          calendarState.eventsByDate.get(key).push(row);
+        });
+
+        const today = new Date();
+        const defaultDate = events.length ? events[0].dateObj : today;
+        calendarState.currentMonth = new Date(defaultDate.getFullYear(), defaultDate.getMonth(), 1);
+
+        const todayKey = toDateKey(today);
+        const defaultKey = calendarState.eventsByDate.has(todayKey) ? todayKey : (events[0] ? toDateKey(events[0].dateObj) : null);
+        calendarState.selectedDateKey = defaultKey;
+
+        renderCalendarMonth();
+        renderCalendarDetail(defaultKey);
       }catch(e){
         console.error(e);
-        grid.innerHTML = '<div class="calendar-empty">Impossible de charger le calendrier.</div>';
+        board.innerHTML = '<div class="calendar-empty">Impossible de charger le calendrier.</div>';
+        const detail = document.getElementById("calendarDetail");
+        if (detail){
+          detail.innerHTML = '<div class="calendar-empty">Impossible de charger les détails.</div>';
+        }
       }
+    }
+
+    function shiftCalendarMonth(delta){
+      const current = calendarState.currentMonth || new Date();
+      calendarState.currentMonth = new Date(current.getFullYear(), current.getMonth() + delta, 1);
+      renderCalendarMonth();
+    }
+
+    function bindCalendarNav(){
+      const prevBtn = document.getElementById("calendarPrev");
+      const nextBtn = document.getElementById("calendarNext");
+      if (prevBtn) prevBtn.addEventListener("click", () => shiftCalendarMonth(-1));
+      if (nextBtn) nextBtn.addEventListener("click", () => shiftCalendarMonth(1));
     }
 
     /* ===============================
@@ -1635,6 +1955,7 @@
       requestAnimationFrame(() => tb && tb.classList.add("is-in"));
       loadPosts();
       loadPhotos();
+      bindCalendarNav();
       loadEvents();
     })();
   </script>
