@@ -709,6 +709,147 @@
       font-size:15px;
       white-space: pre-wrap;
     }
+
+    /* =============================== */
+    /* GALERIE + CALENDRIER */
+    /* =============================== */
+    .section-block{
+      margin: 32px auto 0;
+      max-width: var(--grid-max);
+      padding: 0 var(--outer-x);
+    }
+    .section-title{
+      font-family:"GPMenu", system-ui, sans-serif;
+      font-size:28px;
+      letter-spacing:-0.02em;
+      text-transform:uppercase;
+      margin-bottom:12px;
+    }
+    .section-note{
+      color: rgba(255,255,255,0.68);
+      font-size:14px;
+      margin-bottom:18px;
+    }
+
+    .photo-carousel{
+      position:relative;
+      border:1px solid rgba(255,255,255,0.08);
+      background: rgba(18,18,18,0.85);
+      border-radius:20px;
+      overflow:hidden;
+      box-shadow: var(--card-shadow);
+    }
+    .photo-track{
+      display:flex;
+      transition: transform .45s ease;
+      will-change: transform;
+    }
+    .photo-slide{
+      min-width:100%;
+      position:relative;
+      aspect-ratio: 16 / 9;
+      background: #0e0e12;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+    .photo-slide img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:block;
+    }
+    .photo-caption{
+      position:absolute;
+      left:18px;
+      bottom:18px;
+      padding:10px 14px;
+      background: rgba(0,0,0,0.55);
+      border:1px solid rgba(255,255,255,0.15);
+      border-radius:12px;
+      font-size:14px;
+      color:#fff;
+      max-width:70%;
+      line-height:1.4;
+    }
+    .carousel-controls{
+      position:absolute;
+      inset:0;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      pointer-events:none;
+    }
+    .carousel-btn{
+      pointer-events:auto;
+      width:44px;
+      height:44px;
+      border-radius:50%;
+      border:1px solid rgba(255,255,255,0.25);
+      background: rgba(0,0,0,0.55);
+      color:#fff;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      margin: 0 12px;
+      cursor:pointer;
+      transition: transform .2s ease, background .2s ease;
+    }
+    .carousel-btn:hover{transform:scale(1.05); background: rgba(0,0,0,0.75);}
+    .carousel-dots{
+      display:flex;
+      justify-content:center;
+      gap:8px;
+      padding:12px 0 16px;
+      background: rgba(0,0,0,0.2);
+    }
+    .carousel-dot{
+      width:10px;
+      height:10px;
+      border-radius:50%;
+      border:1px solid rgba(255,255,255,0.4);
+      background: transparent;
+      cursor:pointer;
+    }
+    .carousel-dot.is-active{background: var(--accent); border-color: var(--accent);}
+
+    .calendar-grid{
+      display:grid;
+      gap:16px;
+    }
+    .calendar-item{
+      border:1px solid rgba(255,255,255,0.08);
+      background: rgba(18,18,18,0.82);
+      border-radius:16px;
+      padding:16px 18px;
+      display:grid;
+      gap:8px;
+      box-shadow: var(--card-shadow);
+    }
+    .calendar-meta{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      flex-wrap:wrap;
+      font-size:13px;
+      color: rgba(255,255,255,0.7);
+    }
+    .calendar-title{
+      font-size:20px;
+      font-weight:600;
+      letter-spacing:-0.01em;
+    }
+    .calendar-location{
+      color: rgba(255,255,255,0.75);
+      font-size:14px;
+    }
+    .calendar-empty{
+      padding:18px;
+      text-align:center;
+      border-radius:12px;
+      border:1px dashed rgba(255,255,255,0.15);
+      color: rgba(255,255,255,0.6);
+    }
     @media (max-width:980px){
       .modal{padding:10px;}
       .modal-panel{width:100%;height:100%;}
@@ -867,6 +1008,35 @@
         Les annonces du club sont publiées via Google Sheets et s’affichent automatiquement ici.
       </p>
 
+      <section class="section-block" aria-labelledby="photos-title">
+        <h2 class="section-title" id="photos-title">Photos du club</h2>
+        <p class="section-note">
+          Défilement alimenté par un Google Sheet publié en CSV (colonnes : <strong>image_url</strong>, <strong>legende</strong>).
+        </p>
+        <div class="photo-carousel" aria-live="polite">
+          <div class="photo-track" id="photoTrack">
+            <div class="photo-slide">
+              <span class="calendar-empty">Chargement des photos…</span>
+            </div>
+          </div>
+          <div class="carousel-controls">
+            <button class="carousel-btn" type="button" id="photoPrev" aria-label="Photo précédente">‹</button>
+            <button class="carousel-btn" type="button" id="photoNext" aria-label="Photo suivante">›</button>
+          </div>
+          <div class="carousel-dots" id="photoDots" aria-hidden="true"></div>
+        </div>
+      </section>
+
+      <section class="section-block" aria-labelledby="calendar-title">
+        <h2 class="section-title" id="calendar-title">Calendrier des événements</h2>
+        <p class="section-note">
+          Liste générée depuis un fichier Google Sheet ou Excel exporté en CSV (colonnes : <strong>date</strong>, <strong>titre</strong>, <strong>lieu</strong>, <strong>description</strong>).
+        </p>
+        <div class="calendar-grid" id="calendarGrid">
+          <div class="calendar-empty">Chargement du calendrier…</div>
+        </div>
+      </section>
+
       <div class="wrap">
         <div id="posts" class="posts-grid">
           <div class="empty">CHARGEMENT DES ANNONCES…</div>
@@ -924,6 +1094,10 @@
   <script>
     const SHEET_CSV_URL =
       "https://docs.google.com/spreadsheets/d/e/2PACX-1vRPZQZVgc2CH2oCfmt4OUhatKJqnS_hkXFPbtGVDisV2N2QOI5mJAmFQ0fhbzjTLIwri3XmTWhTH3yX/pub?output=csv";
+    const PHOTO_SHEET_CSV_URL =
+      "https://docs.google.com/spreadsheets/d/e/2PACX-1vRjKc6YpUVBDmG8F3T2j0En6ND2yywWm3w4xpuKJwtnD6QEjP1oFM9U2p0t2TW5o6hD0O6o1v2ZCT0A/pub?output=csv";
+    const EVENTS_SHEET_CSV_URL =
+      "https://docs.google.com/spreadsheets/d/e/2PACX-1vSBqE4QjQncaev1U8Il2z03C3R7b6m0p3G9hPz5f1PKd3hY2dtiq-LpXRd0yV6T8WmYEn8sD9W3R2W9/pub?output=csv";
     const ACTIVITY_PAGE_ACCESS_TOKEN =
       "EAAQdN2k8aMoBQcJapZAeWFBe3JP2N3xZBqjMwZCLDcPDRha1FPwKzxoZBuEPfzQqDEIORvuqUTv1Ns3z4ZBz4k3R2dkIzfrZAD9LzPA9oQpSg9Ljd21Pyhia2xt8iS7m9BSmqJG7F08qLU6LAduVKZARZBhB0BR4NqdOHLUIbC0sZC020ZC5K9fm4nZAO13ZAIqr";
 
@@ -974,6 +1148,106 @@
       const d = new Date(s);
       if (isNaN(d.getTime())) return s;
       return d.toLocaleDateString("fr-FR", {year:"numeric", month:"short", day:"2-digit"});
+    }
+
+    function normalizeHeaderKey(key){
+      return safe(key).toLowerCase()
+        .replaceAll("é","e").replaceAll("è","e").replaceAll("ê","e")
+        .replaceAll("à","a").replaceAll("ç","c")
+        .replaceAll(" ","_");
+    }
+
+    function toNormalizedRow(headers, row){
+      const obj = {};
+      headers.forEach((h, idx) => obj[normalizeHeaderKey(h)] = safe(row[idx]));
+      return obj;
+    }
+
+    function buildSlides(rows){
+      const track = document.getElementById("photoTrack");
+      const dots = document.getElementById("photoDots");
+      const prevBtn = document.getElementById("photoPrev");
+      const nextBtn = document.getElementById("photoNext");
+      track.innerHTML = "";
+      dots.innerHTML = "";
+
+      if (!rows.length){
+        track.innerHTML = '<div class="photo-slide"><span class="calendar-empty">Aucune photo disponible.</span></div>';
+        prevBtn.disabled = true;
+        nextBtn.disabled = true;
+        return;
+      }
+
+      rows.forEach((row, index) => {
+        const slide = document.createElement("div");
+        slide.className = "photo-slide";
+        slide.innerHTML = `
+          <img src="${row.image_url}" alt="${row.legende || "Photo du club"}" loading="lazy">
+          ${row.legende ? `<div class="photo-caption">${row.legende}</div>` : ""}
+        `;
+        track.appendChild(slide);
+
+        const dot = document.createElement("button");
+        dot.type = "button";
+        dot.className = "carousel-dot";
+        dot.setAttribute("aria-label", `Aller à la photo ${index + 1}`);
+        dot.addEventListener("click", () => setSlide(index, true));
+        dots.appendChild(dot);
+      });
+
+      let current = 0;
+      let autoTimer;
+
+      const update = () => {
+        track.style.transform = `translateX(-${current * 100}%)`;
+        dots.querySelectorAll(".carousel-dot").forEach((dot, idx) => {
+          dot.classList.toggle("is-active", idx === current);
+        });
+      };
+
+      const setSlide = (index, restart) => {
+        current = (index + rows.length) % rows.length;
+        update();
+        if (restart) startAuto();
+      };
+
+      const next = () => setSlide(current + 1, true);
+      const prev = () => setSlide(current - 1, true);
+
+      prevBtn.addEventListener("click", prev);
+      nextBtn.addEventListener("click", next);
+
+      const startAuto = () => {
+        if (autoTimer) clearInterval(autoTimer);
+        autoTimer = setInterval(() => setSlide(current + 1, false), 6000);
+      };
+
+      update();
+      startAuto();
+    }
+
+    function renderCalendar(rows){
+      const grid = document.getElementById("calendarGrid");
+      if (!rows.length){
+        grid.innerHTML = '<div class="calendar-empty">Aucun événement planifié.</div>';
+        return;
+      }
+
+      grid.innerHTML = "";
+      rows.forEach((row) => {
+        const item = document.createElement("article");
+        item.className = "calendar-item";
+        item.innerHTML = `
+          <div class="calendar-meta">
+            <span>${formatDateFR(row.date)}</span>
+            ${row.heure ? `<span>• ${row.heure}</span>` : ""}
+          </div>
+          <div class="calendar-title">${row.titre || "Événement du club"}</div>
+          ${row.lieu ? `<div class="calendar-location">${row.lieu}</div>` : ""}
+          ${row.description ? `<div>${row.description}</div>` : ""}
+        `;
+        grid.appendChild(item);
+      });
     }
 
     /* ===============================
@@ -1101,6 +1375,55 @@
       }catch(e){
         console.error(e);
         container.innerHTML = `<div class="empty">IMPOSSIBLE DE CHARGER LES ANNONCES (CSV).</div>`;
+      }
+    }
+
+    async function loadPhotos(){
+      const track = document.getElementById("photoTrack");
+      if (!track) return;
+
+      try{
+        const res = await fetch(PHOTO_SHEET_CSV_URL, { cache:"no-store" });
+        if(!res.ok) throw new Error("HTTP " + res.status);
+        const text = await res.text();
+        const rows = parseCSV(text);
+        if(rows.length < 2) throw new Error("No rows");
+        const headers = rows[0];
+        const photos = rows.slice(1)
+          .map(r => toNormalizedRow(headers, r))
+          .filter(r => r.image_url);
+        buildSlides(photos);
+      }catch(e){
+        console.error(e);
+        track.innerHTML = '<div class="photo-slide"><span class="calendar-empty">Impossible de charger les photos.</span></div>';
+      }
+    }
+
+    async function loadEvents(){
+      const grid = document.getElementById("calendarGrid");
+      if (!grid) return;
+
+      try{
+        const res = await fetch(EVENTS_SHEET_CSV_URL, { cache:"no-store" });
+        if(!res.ok) throw new Error("HTTP " + res.status);
+        const text = await res.text();
+        const rows = parseCSV(text);
+        if(rows.length < 2) throw new Error("No rows");
+        const headers = rows[0];
+        const events = rows.slice(1)
+          .map(r => toNormalizedRow(headers, r))
+          .filter(r => r.date || r.titre || r.description);
+
+        events.sort((a,b) => {
+          const da = new Date((a.date||"").split("/").reverse().join("-") || 0).getTime();
+          const db = new Date((b.date||"").split("/").reverse().join("-") || 0).getTime();
+          return (da||0) - (db||0);
+        });
+
+        renderCalendar(events);
+      }catch(e){
+        console.error(e);
+        grid.innerHTML = '<div class="calendar-empty">Impossible de charger le calendrier.</div>';
       }
     }
 
@@ -1239,6 +1562,8 @@
       const tb = document.getElementById("titleBox");
       requestAnimationFrame(() => tb && tb.classList.add("is-in"));
       loadPosts();
+      loadPhotos();
+      loadEvents();
     })();
   </script>
 </body>
