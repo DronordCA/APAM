@@ -444,93 +444,6 @@
       padding: 0 var(--outer-x);
     }
 
-    .posts-grid{
-      display:grid;
-      grid-template-columns: repeat(2, minmax(0,1fr));
-      gap: 16px;
-      margin-bottom: 18px;
-    }
-    @media (max-width:980px){ .posts-grid{grid-template-columns:1fr;} }
-
-    .post{
-      position:relative;
-      background: var(--card-bg);
-      border: 1px solid var(--card-border);
-      overflow:hidden;
-      text-decoration:none;
-      color:#fff;
-      min-height: 260px;
-      box-shadow: var(--card-shadow);
-      display:flex;
-      flex-direction:column;
-      transform: translate3d(0,18px,0);
-      opacity: 0;
-      filter: blur(6px);
-      transition:
-        transform .7s cubic-bezier(.16,1,.22,1),
-        opacity .7s cubic-bezier(.16,1,.22,1),
-        filter .7s ease,
-        border-color .18s ease,
-        box-shadow .18s ease;
-    }
-    .post.is-in{transform:none;opacity:1;filter:none}
-    .post::after{
-      content:"";
-      position:absolute;left:0;right:0;bottom:0;height:8px;
-      background: linear-gradient(180deg, var(--accent), #1b45e8);
-      opacity:0.92;
-    }
-    .post:hover{
-      transform: translate3d(0,-6px,0);
-      border-color: rgba(47,107,255,0.35);
-      box-shadow: 0 30px 92px rgba(0,0,0,0.48), 0 0 0 1px rgba(47,107,255,0.16);
-    }
-
-    .post-body{padding: 14px 14px 26px;display:flex;flex-direction:column;gap:10px;flex:1;}
-    .post-meta{
-      display:flex;align-items:center;justify-content:space-between;gap:10px;
-      color: rgba(255,255,255,0.70);
-      font-size:12px;letter-spacing:0.14em;text-transform:uppercase;
-      font-family:"GPMenu",system-ui,sans-serif;
-    }
-    .post-title{
-      font-family:"Swiss911",sans-serif;
-      text-transform:uppercase;
-      letter-spacing:-0.02em;
-      font-size:38px;
-      line-height:1;
-      font-style:italic;
-      transform:skewX(-6deg);
-    }
-    @media (max-width:980px){ .post-title{font-size:34px;} }
-    .post-text{color: rgba(255,255,255,0.78);line-height:1.5;font-size:14px;}
-    .post-cta{
-      margin-top:auto;
-      display:flex;align-items:center;justify-content:space-between;gap:10px;
-      padding-top: 10px;border-top: 1px solid rgba(255,255,255,0.08);
-      color:#fff;font-family:"GPMenu",system-ui,sans-serif;
-      letter-spacing:0.16em;text-transform:uppercase;font-size:12px;
-    }
-    .chev{
-      width:10px;height:10px;
-      border-right:2px solid rgba(255,255,255,0.70);
-      border-top:2px solid rgba(255,255,255,0.70);
-      transform: rotate(45deg);
-      transition: transform .18s ease, border-color .18s ease;
-    }
-    .post:hover .chev{transform: translateX(4px) rotate(45deg);border-color: var(--accent);}
-
-    .empty{
-      border:1px dashed rgba(255,255,255,0.18);
-      background: rgba(0,0,0,0.25);
-      padding: 14px;
-      color: rgba(255,255,255,0.75);
-      font-size: 13px;
-      letter-spacing:0.10em;
-      text-transform:uppercase;
-      font-family:"GPMenu",system-ui,sans-serif;
-    }
-
     /* =============================== */
     /* SOCIAL GRID */
     /* =============================== */
@@ -618,7 +531,7 @@
       border:0;
       display:block;
     }
-    .ig-fallback{
+    .social-fallback{
       display:flex;
       align-items:center;
       justify-content:center;
@@ -630,104 +543,10 @@
       gap:8px;
       flex-direction:column;
     }
-    .ig-fallback a{
+    .social-fallback a{
       color:#fff;
       text-decoration:none;
       font-weight:600;
-    }
-
-    /* =============================== */
-    /* MODAL */
-    /* =============================== */
-    .modal{
-      position:fixed; inset:0;
-      z-index:999;
-      display:grid;
-      place-items:center;
-      padding:18px;
-      opacity:0;
-      pointer-events:none;
-      transition:opacity .25s ease;
-    }
-    .modal.is-open{opacity:1;pointer-events:auto;}
-    .modal-backdrop{
-      position:absolute; inset:0;
-      background: var(--modal-bg);
-    }
-    .modal-backdrop::before{
-      content:"";
-      position:absolute; inset:0;
-      opacity:.55;
-      background:
-        linear-gradient(var(--gridline) 1px, transparent 1px),
-        linear-gradient(90deg, var(--gridline) 1px, transparent 1px);
-      background-size: 90px 90px;
-      background-position:center;
-    }
-    .modal-panel{
-      position:relative;
-      width:min(1120px,100%);
-      height:min(720px,100%);
-      background: var(--modal-panel);
-      border:1px solid rgba(255,255,255,0.10);
-      box-shadow: 0 40px 110px rgba(0,0,0,0.62);
-      overflow:hidden;
-      transform: translate3d(0,18px,0);
-      filter: blur(6px);
-      opacity:0;
-      transition: transform .38s cubic-bezier(.16,1,.22,1), filter .38s ease, opacity .38s ease;
-    }
-    .modal.is-open .modal-panel{transform:none;filter:none;opacity:1;}
-    .modal-topbar{
-      height:72px;
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      padding:0 18px;
-      border-bottom:1px solid rgba(255,255,255,0.10);
-      background: rgba(0,0,0,0.60);
-      backdrop-filter: blur(10px);
-    }
-    .modal-close{
-      width:56px;height:56px;background:#fff;border:0;cursor:pointer;
-      box-shadow:0 10px 18px rgba(0,0,0,0.35);
-      position:relative;
-    }
-    .modal-close::before,.modal-close::after{
-      content:"";width:24px;height:3px;background:#111;
-      position:absolute;left:50%;top:50%;
-    }
-    .modal-close::before{transform:translate(-50%,-50%) rotate(45deg);}
-    .modal-close::after{transform:translate(-50%,-50%) rotate(-45deg);}
-    .modal-body{
-      height: calc(100% - 72px);
-      padding:18px;
-      overflow:auto;
-      -webkit-overflow-scrolling:touch;
-      display:flex;flex-direction:column;gap:14px;
-    }
-    .modal-meta{
-      font-family:"GPMenu",system-ui,sans-serif;
-      letter-spacing:0.18em;text-transform:uppercase;
-      font-size:12px;color: rgba(255,255,255,0.75);
-    }
-    .modal-title{
-      font-family:"Swiss911",sans-serif;
-      text-transform:uppercase;
-      letter-spacing:-0.02em;
-      font-size:56px;
-      line-height:.95;
-      font-style:italic;
-      transform:skewX(-6deg);
-    }
-    .modal-detail{
-      border:1px solid rgba(255,255,255,0.10);
-      background: rgba(0,0,0,0.35);
-      padding:16px;
-      line-height:1.65;
-      color: rgba(255,255,255,0.88);
-      font-size:15px;
-      white-space: pre-wrap;
     }
 
     /* =============================== */
@@ -751,92 +570,27 @@
       margin-bottom:18px;
     }
 
-    .photo-carousel{
-      position:relative;
-      border:1px solid rgba(255,255,255,0.08);
+    .club-photo{
+      border:1px solid rgba(255,255,255,0.1);
       background: rgba(18,18,18,0.85);
-      border-radius:20px;
+      border-radius:6px;
       overflow:hidden;
       box-shadow: var(--card-shadow);
-    }
-    .photo-track{
-      display:flex;
-      transition: transform .45s ease;
-      will-change: transform;
-    }
-    .photo-slide{
-      min-width:100%;
-      position:relative;
       aspect-ratio: 16 / 9;
-      background: #0e0e12;
-      display:flex;
-      align-items:center;
-      justify-content:center;
+      display:grid;
+      place-items:center;
     }
-    .photo-slide img{
+    .club-photo img{
       width:100%;
       height:100%;
       object-fit:cover;
       display:block;
     }
-    .photo-caption{
-      position:absolute;
-      left:18px;
-      bottom:18px;
-      padding:10px 14px;
-      background: rgba(0,0,0,0.55);
-      border:1px solid rgba(255,255,255,0.15);
-      border-radius:12px;
-      font-size:14px;
-      color:#fff;
-      max-width:70%;
-      line-height:1.4;
-    }
-    .carousel-controls{
-      position:absolute;
-      inset:0;
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      pointer-events:none;
-    }
-    .carousel-btn{
-      pointer-events:auto;
-      width:44px;
-      height:44px;
-      border-radius:50%;
-      border:1px solid rgba(255,255,255,0.25);
-      background: rgba(0,0,0,0.55);
-      color:#fff;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      margin: 0 12px;
-      cursor:pointer;
-      transition: transform .2s ease, background .2s ease;
-    }
-    .carousel-btn:hover{transform:scale(1.05); background: rgba(0,0,0,0.75);}
-    .carousel-dots{
-      display:flex;
-      justify-content:center;
-      gap:8px;
-      padding:12px 0 16px;
-      background: rgba(0,0,0,0.2);
-    }
-    .carousel-dot{
-      width:10px;
-      height:10px;
-      border-radius:50%;
-      border:1px solid rgba(255,255,255,0.4);
-      background: transparent;
-      cursor:pointer;
-    }
-    .carousel-dot.is-active{background: var(--accent); border-color: var(--accent);}
 
     .calendar-shell{
-      border:1px solid rgba(255,255,255,0.12);
-      background: linear-gradient(180deg, rgba(18,18,18,0.88), rgba(8,8,8,0.82));
-      border-radius:20px;
+      border:1px solid rgba(255,255,255,0.14);
+      background: linear-gradient(180deg, rgba(18,18,18,0.92), rgba(8,8,8,0.86));
+      border-radius:6px;
       padding:18px;
       display:grid;
       gap:16px;
@@ -850,9 +604,12 @@
       flex-wrap:wrap;
     }
     .calendar-month{
-      font-size:26px;
-      font-weight:600;
-      letter-spacing:-0.01em;
+      font-family:"Swiss911",sans-serif;
+      text-transform:uppercase;
+      font-size:30px;
+      letter-spacing:-0.02em;
+      font-style:italic;
+      transform:skewX(-4deg);
     }
     .calendar-subtitle{
       color: rgba(255,255,255,0.65);
@@ -867,7 +624,7 @@
     .calendar-nav{
       width:42px;
       height:42px;
-      border-radius:50%;
+      border-radius:6px;
       border:1px solid rgba(255,255,255,0.18);
       background: rgba(0,0,0,0.4);
       color:#fff;
@@ -897,13 +654,13 @@
     .calendar-day{
       position:relative;
       min-height:82px;
-      border-radius:14px;
+      border-radius:6px;
       border:1px solid rgba(255,255,255,0.08);
       background: rgba(0,0,0,0.35);
       color:#fff;
       padding:10px;
       text-align:left;
-      font-size:14px;
+      font-size:13px;
       cursor:pointer;
       transition: border-color .2s ease, transform .2s ease, box-shadow .2s ease;
     }
@@ -913,8 +670,10 @@
       background: rgba(255,255,255,0.04);
     }
     .calendar-day-number{
+      font-family:"GPMenu",system-ui,sans-serif;
       font-weight:600;
-      font-size:15px;
+      font-size:14px;
+      letter-spacing:-0.01em;
     }
     .calendar-day.has-event{
       border-color: rgba(47,107,255,0.45);
@@ -943,7 +702,7 @@
       right:10px;
       top:10px;
       padding:4px 8px;
-      border-radius:999px;
+      border-radius:6px;
       background: rgba(47,107,255,0.18);
       border:1px solid rgba(47,107,255,0.45);
       font-size:11px;
@@ -957,7 +716,7 @@
     .calendar-card{
       border:1px solid rgba(255,255,255,0.08);
       background: rgba(18,18,18,0.82);
-      border-radius:16px;
+      border-radius:6px;
       padding:14px 16px;
       display:grid;
       gap:8px;
@@ -972,9 +731,12 @@
       color: rgba(255,255,255,0.7);
     }
     .calendar-title{
-      font-size:18px;
-      font-weight:600;
-      letter-spacing:-0.01em;
+      font-family:"Swiss911",sans-serif;
+      text-transform:uppercase;
+      font-size:24px;
+      letter-spacing:-0.02em;
+      font-style:italic;
+      transform:skewX(-4deg);
     }
     .calendar-location{
       color: rgba(255,255,255,0.75);
@@ -983,18 +745,10 @@
     .calendar-empty{
       padding:18px;
       text-align:center;
-      border-radius:12px;
+      border-radius:6px;
       border:1px dashed rgba(255,255,255,0.15);
       color: rgba(255,255,255,0.6);
     }
-    @media (max-width:980px){
-      .modal{padding:10px;}
-      .modal-panel{width:100%;height:100%;}
-      .modal-title{font-size:40px;}
-      .modal-backdrop::before{background-size:110px 110px;}
-      .modal-body{padding:14px;}
-    }
-
     /* =============================== */
     /* FOOTER (FIX) */
     /* =============================== */
@@ -1145,25 +899,6 @@
         Les annonces du club sont publiées via Google Sheets et s’affichent automatiquement ici.
       </p>
 
-      <section class="section-block" aria-labelledby="photos-title">
-        <h2 class="section-title" id="photos-title">Photos du club</h2>
-        <p class="section-note">
-          Défilement alimenté par le feed Instagram Behold du club.
-        </p>
-        <div class="photo-carousel" aria-live="polite">
-          <div class="photo-track" id="photoTrack">
-            <div class="photo-slide">
-              <span class="calendar-empty">Chargement des photos…</span>
-            </div>
-          </div>
-          <div class="carousel-controls">
-            <button class="carousel-btn" type="button" id="photoPrev" aria-label="Photo précédente">‹</button>
-            <button class="carousel-btn" type="button" id="photoNext" aria-label="Photo suivante">›</button>
-          </div>
-          <div class="carousel-dots" id="photoDots" aria-hidden="true"></div>
-        </div>
-      </section>
-
       <section class="section-block" aria-labelledby="calendar-title">
         <h2 class="section-title" id="calendar-title">Calendrier des événements</h2>
         <p class="section-note">
@@ -1200,10 +935,6 @@
       </section>
 
       <div class="wrap">
-        <div id="posts" class="posts-grid">
-          <div class="empty">CHARGEMENT DES ANNONCES…</div>
-        </div>
-
         <div class="social-grid">
           <div class="social-block fb-block">
             <div class="social-head">
@@ -1216,6 +947,12 @@
             <div class="social-frame" id="fbWrap">
               <iframe id="fbFrame" title="Facebook APAM" loading="lazy"
                 allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"></iframe>
+            </div>
+            <div class="social-fallback">
+              Si l’aperçu Facebook ne charge pas, ouvrez le profil directement.
+              <a href="https://www.facebook.com/profile.php?id=61585663567523" target="_blank" rel="noopener noreferrer">
+                Ouvrir Facebook
+              </a>
             </div>
           </div>
 
@@ -1232,7 +969,7 @@
                 src="https://www.instagram.com/apam_lfol/embed"
                 allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"></iframe>
             </div>
-            <div class="ig-fallback">
+            <div class="social-fallback">
               Si l’aperçu Instagram ne charge pas, ouvrez le profil directement.
               <a href="https://www.instagram.com/apam_lfol?igsh=MTVnbjRtNHppMWwwcA%3D%3D&utm_source=qr" target="_blank" rel="noopener noreferrer">
                 Ouvrir Instagram
@@ -1241,6 +978,16 @@
           </div>
         </div>
       </div>
+
+      <section class="section-block" aria-labelledby="photos-title">
+        <h2 class="section-title" id="photos-title">Photo du club</h2>
+        <p class="section-note">
+          Image principale chargée depuis un dossier Google Drive (lien à connecter).
+        </p>
+        <div class="club-photo">
+          <img src="assets/images/image1.png" alt="Photo du club APAM">
+        </div>
+      </section>
 
       <footer>
         <div class="footer-inner">
@@ -1257,32 +1004,9 @@
     </div>
   </div>
 
-  <!-- MODAL DETAIL -->
-  <div class="modal" id="modal" aria-hidden="true">
-    <div class="modal-backdrop" data-close="1"></div>
-
-    <div class="modal-panel">
-      <div class="modal-topbar">
-        <div class="modal-meta" id="mMeta"></div>
-        <button class="modal-close" type="button" data-close="1" aria-label="Fermer"></button>
-      </div>
-
-      <div class="modal-body">
-        <div class="modal-title" id="mTitle">TITRE</div>
-        <div class="modal-detail" id="mDetail">Détails…</div>
-      </div>
-    </div>
-  </div>
-
   <script>
-    const SHEET_CSV_URL =
-      "https://docs.google.com/spreadsheets/d/e/2PACX-1vRPZQZVgc2CH2oCfmt4OUhatKJqnS_hkXFPbtGVDisV2N2QOI5mJAmFQ0fhbzjTLIwri3XmTWhTH3yX/pub?output=csv";
-    const PHOTO_FEED_URL =
-      "https://feeds.behold.so/HC6QdEySuYQjTKlRFnnY";
     const EVENTS_SHEET_CSV_URL =
       "https://docs.google.com/spreadsheets/d/e/2PACX-1vSBqE4QjQncaev1U8Il2z03C3R7b6m0p3G9hPz5f1PKd3hY2dtiq-LpXRd0yV6T8WmYEn8sD9W3R2W9/pub?output=csv";
-    const ACTIVITY_PAGE_ACCESS_TOKEN =
-      "EAAQdN2k8aMoBQcJapZAeWFBe3JP2N3xZBqjMwZCLDcPDRha1FPwKzxoZBuEPfzQqDEIORvuqUTv1Ns3z4ZBz4k3R2dkIzfrZAD9LzPA9oQpSg9Ljd21Pyhia2xt8iS7m9BSmqJG7F08qLU6LAduVKZARZBhB0BR4NqdOHLUIbC0sZC020ZC5K9fm4nZAO13ZAIqr";
 
     function parseCSV(text){
       const rows = [];
@@ -1314,16 +1038,6 @@
     }
 
     const safe = (s) => (s ?? "").toString().trim();
-    function normalizeHeaders(headers){
-      return headers.map(h => safe(h).toLowerCase()
-        .replaceAll("é","e").replaceAll("è","e").replaceAll("ê","e")
-        .replaceAll("à","a").replaceAll("ç","c"));
-    }
-    function toRowObj(headers, row){
-      const obj = {};
-      headers.forEach((h, idx) => obj[h] = safe(row[idx]));
-      return obj;
-    }
     function formatDateFR(v){
       const s = safe(v);
       if (!s) return "";
@@ -1370,136 +1084,6 @@
       const obj = {};
       headers.forEach((h, idx) => obj[normalizeHeaderKey(h)] = safe(row[idx]));
       return obj;
-    }
-
-    function buildSlides(rows){
-      const track = document.getElementById("photoTrack");
-      const dots = document.getElementById("photoDots");
-      const prevBtn = document.getElementById("photoPrev");
-      const nextBtn = document.getElementById("photoNext");
-      track.innerHTML = "";
-      dots.innerHTML = "";
-
-      if (!rows.length){
-        track.innerHTML = '<div class="photo-slide"><span class="calendar-empty">Aucune photo disponible.</span></div>';
-        prevBtn.disabled = true;
-        nextBtn.disabled = true;
-        return;
-      }
-
-      rows.forEach((row, index) => {
-        const slide = document.createElement("div");
-        slide.className = "photo-slide";
-        const image = document.createElement("img");
-        image.src = row.image_url;
-        image.alt = row.legende || "Photo du club";
-        image.loading = "lazy";
-
-        if (row.link){
-          const link = document.createElement("a");
-          link.href = row.link;
-          link.target = "_blank";
-          link.rel = "noopener noreferrer";
-          link.appendChild(image);
-          slide.appendChild(link);
-        } else {
-          slide.appendChild(image);
-        }
-
-        if (row.legende){
-          const caption = document.createElement("div");
-          caption.className = "photo-caption";
-          caption.textContent = row.legende;
-          slide.appendChild(caption);
-        }
-        track.appendChild(slide);
-
-        const dot = document.createElement("button");
-        dot.type = "button";
-        dot.className = "carousel-dot";
-        dot.setAttribute("aria-label", `Aller à la photo ${index + 1}`);
-        dot.addEventListener("click", () => setSlide(index, true));
-        dots.appendChild(dot);
-      });
-
-      let current = 0;
-      let autoTimer;
-
-      const update = () => {
-        track.style.transform = `translateX(-${current * 100}%)`;
-        dots.querySelectorAll(".carousel-dot").forEach((dot, idx) => {
-          dot.classList.toggle("is-active", idx === current);
-        });
-      };
-
-      const setSlide = (index, restart) => {
-        current = (index + rows.length) % rows.length;
-        update();
-        if (restart) startAuto();
-      };
-
-      const next = () => setSlide(current + 1, true);
-      const prev = () => setSlide(current - 1, true);
-
-      prevBtn.addEventListener("click", prev);
-      nextBtn.addEventListener("click", next);
-
-      const startAuto = () => {
-        if (autoTimer) clearInterval(autoTimer);
-        autoTimer = setInterval(() => setSlide(current + 1, false), 6000);
-      };
-
-      update();
-      startAuto();
-    }
-
-    function normalizePhotoItems(items){
-      if (!Array.isArray(items)) return [];
-      return items.map((item) => {
-        const media = Array.isArray(item.media) ? item.media[0] : null;
-        const sizes = item.sizes || {};
-        const image =
-          item.image_url ||
-          item.image ||
-          item.display_url ||
-          item.media_url ||
-          item.mediaUrl ||
-          item.thumbnail_url ||
-          (sizes.full && sizes.full.mediaUrl) ||
-          (sizes.large && sizes.large.mediaUrl) ||
-          (sizes.medium && sizes.medium.mediaUrl) ||
-          (sizes.small && sizes.small.mediaUrl) ||
-          item.url ||
-          (media && (media.image_url || media.url)) ||
-          "";
-        const legende = item.caption || item.title || item.description || item.text || "";
-        const link = item.permalink || item.link || item.post_url || "";
-        return { image_url: image, legende, link };
-      }).filter(item => item.image_url);
-    }
-
-    function parseXmlFeed(text){
-      const parser = new DOMParser();
-      const doc = parser.parseFromString(text, "text/xml");
-      const items = Array.from(doc.querySelectorAll("item"));
-      if (!items.length) return [];
-      return items.map((item) => {
-        const enclosure = item.querySelector("enclosure");
-        const mediaContent = item.querySelector("media\\:content");
-        const description = item.querySelector("description");
-        const title = item.querySelector("title");
-        const link = item.querySelector("link");
-        const image =
-          (mediaContent && mediaContent.getAttribute("url")) ||
-          (enclosure && enclosure.getAttribute("url")) ||
-          "";
-        const legende = (title && title.textContent) || (description && description.textContent) || "";
-        return {
-          image_url: image,
-          legende: legende.replace(/<[^>]*>/g, "").trim(),
-          link: link ? link.textContent : ""
-        };
-      }).filter(item => item.image_url);
     }
 
     const calendarState = {
@@ -1596,160 +1180,6 @@
       calendarState.selectedDateKey = dateKey;
       renderCalendarMonth();
       renderCalendarDetail(dateKey);
-    }
-
-    /* ===============================
-       MODAL
-    =============================== */
-    const modal = document.getElementById("modal");
-    const mTitle = document.getElementById("mTitle");
-    const mMeta  = document.getElementById("mMeta");
-    const mDetail= document.getElementById("mDetail");
-
-    let modalScrollY = 0;
-    function lockScroll(){
-      modalScrollY = window.scrollY || document.documentElement.scrollTop || 0;
-      document.body.style.position = 'fixed';
-      document.body.style.top = `-${modalScrollY}px`;
-      document.body.style.left = '0';
-      document.body.style.right = '0';
-      document.body.style.width = '100%';
-    }
-    function unlockScroll(){
-      document.body.style.position = '';
-      document.body.style.top = '';
-      document.body.style.left = '';
-      document.body.style.right = '';
-      document.body.style.width = '';
-      window.scrollTo(0, modalScrollY);
-    }
-
-    function openDetail(post){
-      const date = formatDateFR(post.date || post["date"]);
-      const titre = post.titre || post["titre"] || "DÉTAILS";
-      const details = post.details || post["details"] || post.detail || post["detail"] || post.resume || "";
-
-      mMeta.textContent = date ? date : "";
-      mTitle.textContent = titre;
-      mDetail.textContent = details ? details : "Détails à venir.";
-
-      modal.classList.add("is-open");
-      modal.setAttribute("aria-hidden", "false");
-      lockScroll();
-    }
-
-    function closeDetail(){
-      modal.classList.remove("is-open");
-      modal.setAttribute("aria-hidden", "true");
-      unlockScroll();
-    }
-
-    document.addEventListener("click", (e) => {
-      const closeEl = e.target.closest("[data-close]");
-      if (closeEl){
-        e.preventDefault();
-        closeDetail();
-      }
-    });
-
-    document.addEventListener("keydown", (e) => {
-      if (e.key === "Escape" && modal.classList.contains("is-open")) closeDetail();
-    });
-
-    /* ===============================
-       POSTS
-    =============================== */
-    function buildCard(post, i){
-      const date = formatDateFR(post.date || post["date"]);
-      const title = post.titre || post["titre"] || "Annonce";
-      const resume = post.resume || post["resume"] || "";
-      const details = post.details || post["details"] || post.detail || post["detail"] || "";
-
-      const a = document.createElement("a");
-      a.className = "post";
-      a.href = "#";
-      a.setAttribute("aria-label", title);
-      a.style.transitionDelay = `${Math.min(i*80, 240)}ms`;
-
-      const body = document.createElement("div");
-      body.className = "post-body";
-
-      body.innerHTML = `
-        <div class="post-meta"><div>${date || "—"}</div><div></div></div>
-        <div class="post-title"></div>
-        ${resume ? `<div class="post-text"></div>` : ``}
-        <div class="post-cta"><div>DÉTAILS</div><i class="chev"></i></div>
-      `;
-      body.querySelector(".post-title").textContent = title;
-      if (resume) body.querySelector(".post-text").textContent = resume;
-
-      a.appendChild(body);
-
-      a.addEventListener("click", (e) => {
-        e.preventDefault();
-        openDetail({ date, titre: title, resume, details });
-      });
-
-      requestAnimationFrame(() => a.classList.add("is-in"));
-      return a;
-    }
-
-    async function loadPosts(){
-      const container = document.getElementById("posts");
-      container.innerHTML = `<div class="empty">CHARGEMENT…</div>`;
-
-      try{
-        const res = await fetch(SHEET_CSV_URL, { cache:"no-store" });
-        if(!res.ok) throw new Error("HTTP " + res.status);
-        const text = await res.text();
-
-        const rows = parseCSV(text);
-        if(rows.length < 2) throw new Error("No rows");
-
-        const headers = normalizeHeaders(rows[0]);
-        const posts = rows.slice(1).map(r => toRowObj(headers, r));
-
-        posts.sort((a,b) => {
-          const da = new Date((a.date||"").split("/").reverse().join("-") || 0).getTime();
-          const db = new Date((b.date||"").split("/").reverse().join("-") || 0).getTime();
-          return (db||0) - (da||0);
-        });
-
-        container.innerHTML = "";
-        posts.slice(0, 30).forEach((p, i) => container.appendChild(buildCard(p, i)));
-        if(posts.length === 0){
-          container.innerHTML = `<div class="empty">AUCUNE ANNONCE POUR LE MOMENT</div>`;
-        }
-      }catch(e){
-        console.error(e);
-        container.innerHTML = `<div class="empty">IMPOSSIBLE DE CHARGER LES ANNONCES (CSV).</div>`;
-      }
-    }
-
-    async function loadPhotos(){
-      const track = document.getElementById("photoTrack");
-      if (!track) return;
-
-      try{
-        const res = await fetch(PHOTO_FEED_URL, { cache:"no-store" });
-        if(!res.ok) throw new Error("HTTP " + res.status);
-        const text = await res.text();
-        let photos = [];
-
-        try{
-          const json = JSON.parse(text);
-          const items = json.items || json.data || json.posts || json.feed || json;
-          photos = normalizePhotoItems(items);
-        }catch(e){
-          photos = parseXmlFeed(text);
-        }
-
-        if(!photos.length) throw new Error("No photos");
-        buildSlides(photos);
-      }catch(e){
-        console.error(e);
-        track.innerHTML = '<div class="photo-slide"><span class="calendar-empty">Impossible de charger les photos.</span></div>';
-      }
     }
 
     async function loadEvents(){
@@ -1953,8 +1383,6 @@
     (function(){
       const tb = document.getElementById("titleBox");
       requestAnimationFrame(() => tb && tb.classList.add("is-in"));
-      loadPosts();
-      loadPhotos();
       bindCalendarNav();
       loadEvents();
     })();
