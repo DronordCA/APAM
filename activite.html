@@ -1248,12 +1248,18 @@
       if (!Array.isArray(items)) return [];
       return items.map((item) => {
         const media = Array.isArray(item.media) ? item.media[0] : null;
+        const sizes = item.sizes || {};
         const image =
           item.image_url ||
           item.image ||
           item.display_url ||
           item.media_url ||
+          item.mediaUrl ||
           item.thumbnail_url ||
+          (sizes.full && sizes.full.mediaUrl) ||
+          (sizes.large && sizes.large.mediaUrl) ||
+          (sizes.medium && sizes.medium.mediaUrl) ||
+          (sizes.small && sizes.small.mediaUrl) ||
           item.url ||
           (media && (media.image_url || media.url)) ||
           "";
