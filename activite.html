@@ -1042,19 +1042,26 @@
       const s = safe(value);
       if (!s) return null;
       const short = s.replaceAll(".", "/").trim();
-      if (/^\d{4}-\d{2}-\d{2}$/.test(short)){
-        const [y, m, d] = short.split("-").map(Number);
-        return new Date(y, m - 1, d);
+      const datePart = short.split(/\s+/)[0];
+      const isoMatch = datePart.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+      if (isoMatch){
+        const [, y, m, d] = isoMatch;
+        return new Date(Number(y), Number(m) - 1, Number(d));
       }
-      if (/^\d{2}\/\d{2}\/\d{4}$/.test(short)){
-        const [d, m, y] = short.split("/").map(Number);
-        return new Date(y, m - 1, d);
+      const frMatch = datePart.match(/^(\d{2})\/(\d{2})\/(\d{2,4})$/);
+      if (frMatch){
+        const [, d, m, y] = frMatch;
+        const year = y.length === 2 ? 2000 + Number(y) : Number(y);
+        return new Date(year, Number(m) - 1, Number(d));
       }
-      if (/^\d{2}\/\d{2}\/\d{2}$/.test(short)){
-        const [d, m, y] = short.split("/").map(Number);
-        return new Date(2000 + y, m - 1, d);
+      if (/^\d+(\.\d+)?$/.test(datePart)){
+        const serial = Number(datePart);
+        if (!Number.isNaN(serial)){
+          const base = new Date(1899, 11, 30);
+          return new Date(base.getTime() + serial * 86400000);
+        }
       }
-      const date = new Date(s);
+      const date = new Date(short);
       return isNaN(date.getTime()) ? null : date;
     }
 
