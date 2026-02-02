@@ -1006,7 +1006,7 @@
 
   <script>
     const EVENTS_SHEET_CSV_URL =
-      "https://docs.google.com/spreadsheets/d/e/2PACX-1vSBqE4QjQncaev1U8Il2z03C3R7b6m0p3G9hPz5f1PKd3hY2dtiq-LpXRd0yV6T8WmYEn8sD9W3R2W9/pub?output=csv";
+      "https://docs.google.com/spreadsheets/d/1mX3emh8CVdkkPyfQZj8cEg2ljwNExOZubIV2Dio0h7s/export?format=csv";
 
     function parseCSV(text){
       const rows = [];
@@ -1038,32 +1038,37 @@
     }
 
     const safe = (s) => (s ?? "").toString().trim();
-    function formatDateFR(v){
-      const s = safe(v);
-      if (!s) return "";
-      if (s.includes("/")) return s;
-      const d = new Date(s);
-      if (isNaN(d.getTime())) return s;
-      return d.toLocaleDateString("fr-FR", {year:"numeric", month:"short", day:"2-digit"});
-    }
-
-    function parseEventDate(value){
+    function parseDateString(value){
       const s = safe(value);
       if (!s) return null;
       const short = s.replaceAll(".", "/").trim();
+      if (/^\d{4}-\d{2}-\d{2}$/.test(short)){
+        const [y, m, d] = short.split("-").map(Number);
+        return new Date(y, m - 1, d);
+      }
       if (/^\d{2}\/\d{2}\/\d{4}$/.test(short)){
-        const [d, m, y] = short.split("/");
-        return new Date(`${y}-${m}-${d}T00:00:00`);
+        const [d, m, y] = short.split("/").map(Number);
+        return new Date(y, m - 1, d);
       }
       if (/^\d{2}\/\d{2}\/\d{2}$/.test(short)){
-        const [d, m, y] = short.split("/");
-        return new Date(`20${y}-${m}-${d}T00:00:00`);
-      }
-      if (/^\d{4}-\d{2}-\d{2}$/.test(short)){
-        return new Date(`${short}T00:00:00`);
+        const [d, m, y] = short.split("/").map(Number);
+        return new Date(2000 + y, m - 1, d);
       }
       const date = new Date(s);
       return isNaN(date.getTime()) ? null : date;
+    }
+
+    function formatDateFR(v){
+      if (v instanceof Date){
+        return v.toLocaleDateString("fr-FR", { day:"2-digit", month:"2-digit", year:"numeric" });
+      }
+      const date = parseDateString(v);
+      if (!date) return safe(v);
+      return date.toLocaleDateString("fr-FR", { day:"2-digit", month:"2-digit", year:"numeric" });
+    }
+
+    function parseEventDate(value){
+      return parseDateString(value);
     }
 
     function toDateKey(date){
@@ -1084,6 +1089,14 @@
       const obj = {};
       headers.forEach((h, idx) => obj[normalizeHeaderKey(h)] = safe(row[idx]));
       return obj;
+    }
+
+    function findDateColumnIndex(headers){
+      const normalized = headers.map(h => normalizeHeaderKey(h));
+      const match = normalized.findIndex((key) =>
+        ["date", "dates", "jour", "journee", "journee_date"].includes(key)
+      );
+      return match !== -1 ? match : 0;
     }
 
     const calendarState = {
@@ -1193,8 +1206,13 @@
         const rows = parseCSV(text);
         if(rows.length < 2) throw new Error("No rows");
         const headers = rows[0];
+        const dateColumnIndex = findDateColumnIndex(headers);
         const events = rows.slice(1)
-          .map(r => toNormalizedRow(headers, r))
+          .map((r) => {
+            const row = toNormalizedRow(headers, r);
+            if (!row.date) row.date = safe(r[dateColumnIndex]);
+            return row;
+          })
           .filter(r => r.date || r.titre || r.description)
           .map((row) => {
             const dateObj = parseEventDate(row.date);
