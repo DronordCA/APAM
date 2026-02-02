@@ -1006,7 +1006,7 @@
 
   <script>
     const EVENTS_SHEET_CSV_URL =
-      "https://docs.google.com/spreadsheets/d/1mX3emh8CVdkkPyfQZj8cEg2ljwNExOZubIV2Dio0h7s/export?format=csv";
+      "https://docs.google.com/spreadsheets/d/1mX3emh8CVdkkPyfQZj8cEg2ljwNExOZubIV2Dio0h7s/export?format=csv&gid=1399260514";
 
     function parseCSV(text){
       const rows = [];
@@ -1136,6 +1136,8 @@
           </div>
           <div class="calendar-title">${row.titre || "Événement du club"}</div>
           ${row.lieu ? `<div class="calendar-location">${row.lieu}</div>` : ""}
+          ${row.resume ? `<div>${row.resume}</div>` : ""}
+          ${row.details ? `<div>${row.details}</div>` : ""}
           ${row.description ? `<div>${row.description}</div>` : ""}
         `;
         detail.appendChild(item);
@@ -1220,7 +1222,7 @@
             if (!row.date) row.date = safe(r[dateColumnIndex]);
             return row;
           })
-          .filter(r => r.date || r.titre || r.description)
+          .filter(r => r.date || r.titre || r.resume || r.details || r.description)
           .map((row) => {
             const dateObj = parseEventDate(row.date);
             return { ...row, dateObj };
