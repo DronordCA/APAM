@@ -899,7 +899,7 @@
         Les annonces du club sont publiées via Google Sheets et s’affichent automatiquement ici.
       </p>
 
-      <section class="section-block" aria-labelledby="calendar-title">
+      <section class="section-block" aria-labelledby="calendar-title" data-calendar-csv="https://docs.google.com/spreadsheets/d/1mX3emh8CVdkkPyfQZj8cEg2ljwNExOZubIV2Dio0h7s/gviz/tq?tqx=out:csv&gid=1399260514">
         <h2 class="section-title" id="calendar-title">Calendrier des événements</h2>
         <p class="section-note">
           Le calendrier se met à jour automatiquement dès qu’un nouveau fichier Google Sheet ou Excel (CSV) est rempli.
@@ -1005,8 +1005,10 @@
   </div>
 
   <script>
+    const calendarSection = document.querySelector("[data-calendar-csv]");
     const EVENTS_SHEET_CSV_URL =
-      "https://docs.google.com/spreadsheets/d/1mX3emh8CVdkkPyfQZj8cEg2ljwNExOZubIV2Dio0h7s/export?format=csv&gid=1399260514";
+      calendarSection?.dataset.calendarCsv ||
+      "https://docs.google.com/spreadsheets/d/1mX3emh8CVdkkPyfQZj8cEg2ljwNExOZubIV2Dio0h7s/gviz/tq?tqx=out:csv&gid=1399260514";
 
     function parseCSV(text){
       const rows = [];
@@ -1255,10 +1257,10 @@
         renderCalendarDetail(defaultKey);
       }catch(e){
         console.error(e);
-        board.innerHTML = '<div class="calendar-empty">Impossible de charger le calendrier.</div>';
+        board.innerHTML = '<div class="calendar-empty">Impossible de charger le calendrier. Vérifiez que le lien CSV est bien publié et partagé en lecture.</div>';
         const detail = document.getElementById("calendarDetail");
         if (detail){
-          detail.innerHTML = '<div class="calendar-empty">Impossible de charger les détails.</div>';
+          detail.innerHTML = '<div class="calendar-empty">Impossible de charger les détails. Assurez-vous que le fichier est accessible via un lien CSV public.</div>';
         }
       }
     }
