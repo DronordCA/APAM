@@ -1246,15 +1246,14 @@
         });
 
         const today = new Date();
-        const defaultDate = events.length ? events[0].dateObj : today;
-        calendarState.currentMonth = new Date(defaultDate.getFullYear(), defaultDate.getMonth(), 1);
-
         const todayKey = toDateKey(today);
-        const defaultKey = calendarState.eventsByDate.has(todayKey) ? todayKey : (events[0] ? toDateKey(events[0].dateObj) : null);
-        calendarState.selectedDateKey = defaultKey;
+
+        // Toujours ouvrir le calendrier sur la date du jour au chargement/rechargement.
+        calendarState.currentMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+        calendarState.selectedDateKey = todayKey;
 
         renderCalendarMonth();
-        renderCalendarDetail(defaultKey);
+        renderCalendarDetail(todayKey);
       }catch(e){
         console.error(e);
         board.innerHTML = '<div class="calendar-empty">Impossible de charger le calendrier. Vérifiez que le lien CSV est bien publié et partagé en lecture.</div>';
