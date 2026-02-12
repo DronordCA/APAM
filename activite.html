@@ -680,13 +680,13 @@
       box-shadow: 0 0 0 1px rgba(47,107,255,0.25);
     }
     .calendar-day.is-today{
-      border-color: rgba(255,76,76,0.95);
-      box-shadow: 0 0 0 1px rgba(255,76,76,0.42);
+      border-color: rgba(255,255,255,0.2);
+      box-shadow:none;
     }
     .calendar-day.is-selected{
+      border-color: rgba(255,76,76,0.95);
       transform: translateY(-2px);
-      border-color: rgba(47,107,255,0.8);
-      box-shadow: 0 0 0 2px rgba(47,107,255,0.3);
+      box-shadow: 0 0 0 2px rgba(255,76,76,0.35);
     }
     .calendar-dot{
       position:absolute;
@@ -1129,19 +1129,32 @@
     }
 
     function isMaintenanceValue(value){
-      return safe(value).toUpperCase() === "OUI";
+      const normalized = safe(value)
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .toLowerCase();
+      return ["oui", "yes", "true", "1", "x"].includes(normalized);
     }
 
-    function rowNeedsMaintenance(row, fallbackValue){
-      const maintenanceKeys = [
+    function findMaintenanceColumnIndexes(headers){
+      const maintenanceKeys = new Set([
         "maintenance",
         "maintenance_avion",
         "maintenance_plane",
         "entretien",
         "decor_maintenance"
-      ];
+      ]);
+      return headers
+        .map((header, idx) => ({ key: normalizeHeaderKey(header), idx }))
+        .filter(({ key }) => maintenanceKeys.has(key))
+        .map(({ idx }) => idx);
+    }
+
+    function rowNeedsMaintenance(row, fallbackValue, maintenanceIndexes = [], rawRow = []){
+      const maintenanceKeys = ["maintenance", "maintenance_avion", "maintenance_plane", "entretien", "decor_maintenance"];
       const hasMaintenance = maintenanceKeys.some((key) => isMaintenanceValue(row[key]));
-      return hasMaintenance || isMaintenanceValue(fallbackValue);
+      const hasMaintenanceInRawColumns = maintenanceIndexes.some((idx) => isMaintenanceValue(rawRow[idx]));
+      return hasMaintenance || hasMaintenanceInRawColumns || isMaintenanceValue(fallbackValue);
     }
 
     function findDateColumnIndex(headers){
@@ -1269,11 +1282,12 @@
         if(rows.length < 2) throw new Error("No rows");
         const headers = rows[0];
         const dateColumnIndex = findDateColumnIndex(headers);
+        const maintenanceIndexes = findMaintenanceColumnIndexes(headers);
         const events = rows.slice(1)
           .map((r) => {
             const row = toNormalizedRow(headers, r);
             if (!row.date) row.date = safe(r[dateColumnIndex]);
-            row.maintenance = rowNeedsMaintenance(row, r[4]);
+            row.maintenance = rowNeedsMaintenance(row, r[4], maintenanceIndexes, r);
             return row;
           })
           .filter(r => r.date || r.titre || r.resume || r.details || r.description)
