@@ -590,19 +590,65 @@
       aspect-ratio: 16 / 9;
       display:grid;
       place-items:center;
+      position:relative;
+      transition: aspect-ratio .25s ease;
+    }
+    .club-photo.is-portrait{
+      aspect-ratio: 3 / 4;
+      max-width: min(100%, 560px);
     }
     .club-photo img{
       width:100%;
       height:100%;
-      object-fit:cover;
+      object-fit:contain;
       display:block;
     }
-    .club-photo iframe{
+    .club-photo-track{
       width:100%;
       height:100%;
+      position:relative;
+    }
+    .club-photo-slide{
+      position:absolute;
+      inset:0;
+      opacity:0;
+      transition:opacity .35s ease;
+      pointer-events:none;
+    }
+    .club-photo-slide.is-active{
+      opacity:1;
+      pointer-events:auto;
+    }
+    .club-photo-dots{
+      position:absolute;
+      left:50%;
+      bottom:12px;
+      transform:translateX(-50%);
+      display:flex;
+      gap:8px;
+      z-index:2;
+      padding:8px 10px;
+      border-radius:999px;
+      background: rgba(0,0,0,0.38);
+    }
+    .club-photo-dot{
+      width:9px;
+      height:9px;
+      border-radius:50%;
       border:0;
-      display:block;
-      background:#111;
+      background: rgba(255,255,255,0.4);
+      cursor:pointer;
+      padding:0;
+    }
+    .club-photo-dot.is-active{
+      background:#fff;
+      transform: scale(1.15);
+    }
+    .club-photo-empty{
+      color: rgba(255,255,255,.72);
+      font-size:14px;
+      padding:20px;
+      text-align:center;
     }
     .club-photo-help{
       margin-top:10px;
@@ -1084,13 +1130,14 @@
         </div>
       </div>
 
-      <section class="section-block" aria-labelledby="photos-title" data-drive-folder-id="1kT0lWOg3rsbMM2mIU7lVkLyPA6--bc1D">
+      <section class="section-block" aria-labelledby="photos-title" data-drive-folder-id="1kT0lWOg3rsbMM2mIU7lVkLyPA6--bc1D" data-photo-urls="assets/images/image1.png,assets/images/FGHKE2.png,assets/images/TB200M.png,assets/images/SR1.png">
         <h2 class="section-title" id="photos-title">Photo du club</h2>
         <p class="section-note">
-          Les photos ci-dessous sont chargées automatiquement depuis le dossier Google Drive du club.
+          Les photos défilent automatiquement en grand format. Vous pouvez aussi choisir une photo via les pastilles.
         </p>
-        <div class="club-photo">
-          <iframe id="clubPhotoFrame" title="Photos du club APAM" loading="lazy"></iframe>
+        <div class="club-photo" id="clubPhotoFrame" aria-label="Galerie photos du club">
+          <div class="club-photo-track" id="clubPhotoTrack"></div>
+          <div class="club-photo-dots" id="clubPhotoDots" role="tablist" aria-label="Sélection de photo"></div>
         </div>
         <p class="club-photo-help" id="clubPhotoHelp"></p>
       </section>
@@ -1426,17 +1473,91 @@
       const photosSection = document.querySelector("[data-drive-folder-id]");
       const folderId = photosSection?.dataset.driveFolderId?.trim();
       const frame = document.getElementById("clubPhotoFrame");
+      const track = document.getElementById("clubPhotoTrack");
+      const dots = document.getElementById("clubPhotoDots");
       const help = document.getElementById("clubPhotoHelp");
-      if (!frame || !help) return;
+      if (!frame || !track || !dots || !help) return;
+
+      const images = (photosSection?.dataset.photoUrls || "")
+        .split(",")
+        .map(url => url.trim())
+        .filter(Boolean);
+
+      if (!images.length){
+        track.innerHTML = '<div class="club-photo-empty">Ajoutez des URLs d\'images dans data-photo-urls pour activer le diaporama.</div>';
+        dots.style.display = "none";
+      } else {
+        let activeIndex = 0;
+        let timer = null;
+        const slides = [];
+        const dotButtons = [];
+
+        function applyAspectFromSlide(index){
+          const img = slides[index]?.querySelector("img");
+          if (!img || !img.naturalWidth || !img.naturalHeight) return;
+          frame.classList.toggle("is-portrait", img.naturalHeight > img.naturalWidth);
+        }
+
+        function showSlide(index){
+          activeIndex = (index + slides.length) % slides.length;
+          slides.forEach((slide, i) => slide.classList.toggle("is-active", i === activeIndex));
+          dotButtons.forEach((dot, i) => {
+            dot.classList.toggle("is-active", i === activeIndex);
+            dot.setAttribute("aria-selected", i === activeIndex ? "true" : "false");
+          });
+          applyAspectFromSlide(activeIndex);
+        }
+
+        function startAuto(){
+          stopAuto();
+          timer = setInterval(() => showSlide(activeIndex + 1), 5000);
+        }
+
+        function stopAuto(){
+          if (timer) clearInterval(timer);
+          timer = null;
+        }
+
+        images.forEach((src, index) => {
+          const slide = document.createElement("div");
+          slide.className = "club-photo-slide";
+          const img = document.createElement("img");
+          img.src = src;
+          img.alt = `Photo du club ${index + 1}`;
+          img.loading = index === 0 ? "eager" : "lazy";
+          img.addEventListener("load", () => {
+            if (index === activeIndex) applyAspectFromSlide(activeIndex);
+          });
+          slide.appendChild(img);
+          track.appendChild(slide);
+          slides.push(slide);
+
+          const dot = document.createElement("button");
+          dot.type = "button";
+          dot.className = "club-photo-dot";
+          dot.setAttribute("role", "tab");
+          dot.setAttribute("aria-label", `Afficher la photo ${index + 1}`);
+          dot.addEventListener("click", () => {
+            showSlide(index);
+            startAuto();
+          });
+          dots.appendChild(dot);
+          dotButtons.push(dot);
+        });
+
+        showSlide(0);
+        startAuto();
+        frame.addEventListener("mouseenter", stopAuto);
+        frame.addEventListener("mouseleave", startAuto);
+      }
 
       if (!folderId){
-        help.textContent = "Ajoutez l'identifiant du dossier Google Drive pour activer la galerie.";
+        help.textContent = "Ajoutez l'identifiant du dossier Google Drive pour centraliser les photos du club.";
         return;
       }
 
       const folderUrl = `https://drive.google.com/drive/folders/${folderId}`;
-      frame.src = `https://drive.google.com/embeddedfolderview?id=${folderId}#grid`;
-      help.innerHTML = `Ajoutez vos images dans le dossier partagé : <a href="${folderUrl}" target="_blank" rel="noopener noreferrer">ouvrir le dossier Google Drive</a>.`;
+      help.innerHTML = `Le diaporama affiche une sélection en grand. Pour mettre à jour les photos, ajoutez-les dans le dossier partagé : <a href="${folderUrl}" target="_blank" rel="noopener noreferrer">ouvrir le dossier Google Drive</a>.`;
     }
 
     /* ===============================
