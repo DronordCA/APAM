@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>APAM – Outils pilotes</title>
+  <title>APAM – Mon compte</title>
   <style>
     /* ================== BASE ================== */
 
@@ -282,6 +282,12 @@
       font-size: 0.93rem;
       max-width: 600px;
       line-height: 1.6;
+    }
+
+    .member-cta-actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
     }
 
     .primary-button {
@@ -655,6 +661,10 @@
         align-items: flex-start;
       }
 
+      .member-cta-actions {
+        width: 100%;
+      }
+
       .primary-button {
         width: 100%;
         justify-content: center;
@@ -677,8 +687,8 @@
         <a href="#">À propos</a>
         <a href="activite.html">Activité</a>
         <a href="#">Tarif</a>
-        <a href="espace-membres.html" class="active">Outils</a>
-        <a href="mon-compte.html">Mon compte</a>
+        <a href="espace-membres.html">Outils</a>
+        <a href="mon-compte.html" class="active">Mon compte</a>
         <a href="#">Contact</a>
         <a href="https://openflyers.com/apam/" target="_blank">OpenFlyer</a>
       </nav>
@@ -687,98 +697,110 @@
 
   <!-- ============ CONTENU ============ -->
   <main>
-    <!-- HERO ESPACE MEMBRES -->
+    <!-- HERO MON COMPTE -->
     <section class="section-card member-hero reveal">
       <div class="member-tag">
         <span class="member-tag-dot"></span>
-        <span>Boîte à outils pilote</span>
+        <span>Accès membre</span>
       </div>
-      <h1><span class="emoji">🛠️</span><span>Outils pilotes</span></h1>
+      <h1><span class="emoji">🔐</span><span>Mon compte</span></h1>
       <p>
-        Cette page centralise les outils utiles aux pilotes APAM pour préparer, suivre et gérer leurs vols de manière rapide et ergonomique.
+        Depuis cette page, vous pouvez créer votre espace membre APAM ou vous connecter avec votre
+        adresse Google pour accéder directement aux ressources partagées du club.
       </p>
       <p class="member-hint">
-        Accédez ici aux services opérationnels (planning, météo, navigation, NOTAM, calculs) pour voler avec toutes les informations essentielles.
+        Les accès sont gérés automatiquement par l’adresse Gmail déclarée. Si votre compte n’est
+        pas encore reconnu, commencez par créer votre espace membre via le formulaire ci-dessous.
       </p>
 
       <!-- CTA créer mon espace -->
       <div class="member-cta">
         <div class="member-cta-text">
-          <h2>Gérer son vol en un coup d’œil</h2>
+          <h2>Créer ou activer mon compte</h2>
           <p>
-            Retrouvez les accès les plus utilisés par les pilotes APAM : réservation des avions, suivi météo, préparation de navigation et consultation des informations officielles.
+            Nouvel élève, pilote ou membre du bureau : remplissez ce formulaire pour créer votre
+            espace compte APAM et obtenir les bons droits d’accès aux ressources du Drive.
           </p>
         </div>
-        <a
-          href="https://openflyers.com/apam/"
-          target="_blank"
-          class="primary-button"
-        >
-          🗓️ Ouvrir OpenFlyers
-        </a>
+        <div class="member-cta-actions">
+          <a
+            href="https://docs.google.com/forms/d/e/1FAIpQLSd_uIRaKMWW5sIzq8NnZYflQr9glMLzq4WEDJrw0gtDI_NHGA/viewform?usp=header"
+            target="_blank"
+            class="primary-button"
+          >
+            ✍️ Créer mon espace
+          </a>
+          <a href="https://accounts.google.com/" target="_blank" class="primary-button">
+            🔓 Se connecter avec Google
+          </a>
+        </div>
       </div>
     </section>
 
     <!-- 4 BLOCS DOCUMENTS MEMBRES -->
     <section class="section-card member-docs-section reveal reveal-delay-1">
       <h2>
-        <span class="section-chip">Outils</span>
+        <span class="section-chip">Documents</span>
         <span class="section-emoji">📂</span>
-        <span>Accès rapides pour les pilotes</span>
+        <span>Ressources pour les membres</span>
       </h2>
       <p class="section-intro">
-        Les liens ci-dessous donnent accès aux plateformes indispensables pour préparer et exécuter vos vols sereinement.
+        Tous les membres ne voient pas les mêmes documents en fonction de leurs droits. Les liens
+        ci-dessous sont fixes, mais l’accès est géré côté Drive (ou service équivalent).
       </p>
 
       <div class="member-grid">
-        <!-- OpenFlyers -->
+        <!-- Documentation générale -->
         <article class="member-card">
           <div class="member-card-header">
             <div class="member-card-emoji-wrap">
               <span class="member-card-emoji">📁</span>
             </div>
-            <div class="member-card-title">OpenFlyers</div>
+            <div class="member-card-title">Documentation générale</div>
           </div>
           <p>
-            Réservation des avions, planning instructeurs, suivi des vols et gestion opérationnelle quotidienne du club.
+            Règlement intérieur, procédures club, consignes de sécurité, informations générales pour
+            tous les membres.
           </p>
-          <span class="member-highlight">Planification & suivi des vols</span>
-          <a class="section-link" href="https://openflyers.com/apam/" target="_blank">
-            Accéder à OpenFlyers
+          <span class="member-highlight">Pour tous les pilotes du club</span>
+          <a class="section-link" href="https://drive.google.com/drive/folders/1jWGTLMBNJbqWNg5op-NUo-3TowlVtJE5?usp=share_link" target="_blank">
+            Accéder à la documentation générale
           </a>
         </article>
 
-        <!-- Météo aéronautique -->
+        <!-- Documentation avions -->
         <article class="member-card">
           <div class="member-card-header">
             <div class="member-card-emoji-wrap">
               <span class="member-card-emoji">✈️</span>
             </div>
-            <div class="member-card-title">Météo aéronautique</div>
+            <div class="member-card-title">Documentation avions</div>
           </div>
           <p>
-            Préparez votre météo vol avec METAR/TAF, cartes TEMSI et vents altitude avant chaque départ.
+            POH, check-lists, bilans de masse et centrage et documents techniques pour la flotte de
+            l’APAM.
           </p>
-          <span class="member-highlight">Briefing météo avant vol</span>
-          <a class="section-link" href="https://aviation.meteo.fr/" target="_blank">
-            Ouvrir AeroWeb
+          <span class="member-highlight">À consulter avant vos vols</span>
+          <a class="section-link" href="https://drive.google.com/drive/folders/1MsCsXcE5R7800LjZbM86ug4sLmd_WQet?usp=share_link" target="_blank">
+            Accéder à la documentation avions
           </a>
         </article>
 
-        <!-- Navigation & préparation -->
+        <!-- Cours théoriques -->
         <article class="member-card">
           <div class="member-card-header">
             <div class="member-card-emoji-wrap">
               <span class="member-card-emoji">📚</span>
             </div>
-            <div class="member-card-title">Navigation & préparation</div>
+            <div class="member-card-title">Cours théoriques</div>
           </div>
           <p>
-            Préparez route, performances et navigation grâce aux outils SIA et aux services de préparation de vol.
+            Supports de cours, ressources de préparation et documents pédagogiques pour les élèves
+            pilotes et les membres en formation.
           </p>
-          <span class="member-highlight">Navigation & dossier de vol</span>
-          <a class="section-link" href="https://www.sia.aviation-civile.gouv.fr/" target="_blank">
-            Accéder au SIA
+          <span class="member-highlight">Idéal pour préparer ses vols</span>
+          <a class="section-link" href="https://drive.google.com/drive/folders/1j3OGL1BzDIOLYdDjoxcn-SxSAzwDdmLD?usp=share_link" target="_blank">
+            Accéder aux cours théoriques
           </a>
         </article>
 
@@ -788,14 +810,15 @@
             <div class="member-card-emoji-wrap">
               <span class="member-card-emoji">🧭</span>
             </div>
-            <div class="member-card-title">NOTAM & informations officielles</div>
+            <div class="member-card-title">Voyages & activités du club</div>
           </div>
           <p>
-            Consultez les NOTAM, SUP AIP et publications officielles pour vérifier les contraintes de votre vol.
+            Projets de voyages, briefings, tarifs, organisation des sorties et comptes rendus des
+            activités passées.
           </p>
-          <span class="member-highlight">Sécurité réglementaire</span>
-          <a class="section-link" href="https://olivia.aviation-civile.gouv.fr/" target="_blank">
-            Consulter OLIVIA
+          <span class="member-highlight">Pour suivre la vie du club</span>
+          <a class="section-link" href="https://drive.google.com/drive/folders/1aRq5gZqxQ6T6AkDWGrJb8OOX-4UD1frw?usp=sharing" target="_blank">
+            Accéder aux voyages & activités
           </a>
         </article>
       </div>
