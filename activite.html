@@ -597,6 +597,23 @@
       object-fit:cover;
       display:block;
     }
+    .club-photo iframe{
+      width:100%;
+      height:100%;
+      border:0;
+      display:block;
+      background:#111;
+    }
+    .club-photo-help{
+      margin-top:10px;
+      color: rgba(255,255,255,0.72);
+      font-size:13px;
+    }
+    .club-photo-help a{
+      color:#fff;
+      font-weight:600;
+      text-decoration:none;
+    }
 
     .calendar-layout{
       display:grid;
@@ -1067,14 +1084,15 @@
         </div>
       </div>
 
-      <section class="section-block" aria-labelledby="photos-title">
+      <section class="section-block" aria-labelledby="photos-title" data-drive-folder-id="1kT0lWOg3rsbMM2mIU7lVkLyPA6--bc1D">
         <h2 class="section-title" id="photos-title">Photo du club</h2>
         <p class="section-note">
-          Image principale chargée depuis un dossier Google Drive (lien à connecter).
+          Les photos ci-dessous sont chargées automatiquement depuis le dossier Google Drive du club.
         </p>
         <div class="club-photo">
-          <img src="assets/images/image1.png" alt="Photo du club APAM">
+          <iframe id="clubPhotoFrame" title="Photos du club APAM" loading="lazy"></iframe>
         </div>
+        <p class="club-photo-help" id="clubPhotoHelp"></p>
       </section>
 
       <footer>
@@ -1403,6 +1421,24 @@
       if (nextBtn) nextBtn.addEventListener("click", () => shiftCalendarMonth(1));
     }
 
+
+    function initClubPhotos(){
+      const photosSection = document.querySelector("[data-drive-folder-id]");
+      const folderId = photosSection?.dataset.driveFolderId?.trim();
+      const frame = document.getElementById("clubPhotoFrame");
+      const help = document.getElementById("clubPhotoHelp");
+      if (!frame || !help) return;
+
+      if (!folderId){
+        help.textContent = "Ajoutez l'identifiant du dossier Google Drive pour activer la galerie.";
+        return;
+      }
+
+      const folderUrl = `https://drive.google.com/drive/folders/${folderId}`;
+      frame.src = `https://drive.google.com/embeddedfolderview?id=${folderId}#grid`;
+      help.innerHTML = `Ajoutez vos images dans le dossier partagé : <a href="${folderUrl}" target="_blank" rel="noopener noreferrer">ouvrir le dossier Google Drive</a>.`;
+    }
+
     /* ===============================
        MOBILE DRAWER — scroll robuste
     =============================== */
@@ -1538,6 +1574,7 @@
       const tb = document.getElementById("titleBox");
       requestAnimationFrame(() => tb && tb.classList.add("is-in"));
       bindCalendarNav();
+      initClubPhotos();
       loadEvents();
     })();
   </script>
