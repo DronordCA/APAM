@@ -1469,6 +1469,29 @@
     }
 
 
+    function extractDriveFileId(url){
+      if (!url) return "";
+      const fromPath = url.match(/\/file\/d\/([a-zA-Z0-9_-]{10,})/);
+      if (fromPath) return fromPath[1];
+
+      const fromOpen = url.match(/[?&]id=([a-zA-Z0-9_-]{10,})/);
+      if (fromOpen) return fromOpen[1];
+
+      return "";
+    }
+
+    function normalizePhotoUrl(rawUrl){
+      const value = (rawUrl || "").trim();
+      if (!value) return "";
+
+      if (!/^https?:\/\//i.test(value)) return value;
+      if (!/drive\.google\.com/i.test(value)) return value;
+
+      const fileId = extractDriveFileId(value);
+      if (!fileId) return "";
+      return `https://drive.google.com/thumbnail?id=${fileId}&sz=w2400`;
+    }
+
     function initClubPhotos(){
       const photosSection = document.querySelector("[data-drive-folder-id]");
       const folderId = photosSection?.dataset.driveFolderId?.trim();
@@ -1480,7 +1503,7 @@
 
       const images = (photosSection?.dataset.photoUrls || "")
         .split(",")
-        .map(url => url.trim())
+        .map(url => normalizePhotoUrl(url))
         .filter(Boolean);
 
       if (!images.length){
@@ -1557,7 +1580,7 @@
       }
 
       const folderUrl = `https://drive.google.com/drive/folders/${folderId}`;
-      help.innerHTML = `Le diaporama affiche une sélection en grand. Pour mettre à jour les photos, ajoutez-les dans le dossier partagé : <a href="${folderUrl}" target="_blank" rel="noopener noreferrer">ouvrir le dossier Google Drive</a>.`;
+      help.innerHTML = `Le diaporama affiche une sélection en grand. Pour mettre à jour les photos, ajoutez-les dans le dossier partagé puis copiez les liens de fichiers Google Drive dans <code>data-photo-urls</code> (ou des URLs d'images directes) : <a href="${folderUrl}" target="_blank" rel="noopener noreferrer">ouvrir le dossier Google Drive</a>.`;
     }
 
     /* ===============================
