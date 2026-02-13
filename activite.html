@@ -600,7 +600,7 @@
 
     .calendar-layout{
       display:grid;
-      grid-template-columns: minmax(0, 1.15fr) minmax(280px, 0.85fr);
+      grid-template-columns: minmax(0, 1.3fr) minmax(300px, 0.7fr);
       gap:18px;
       align-items:start;
     }
@@ -608,7 +608,7 @@
       border:1px solid rgba(255,255,255,0.14);
       background: linear-gradient(180deg, rgba(18,18,18,0.92), rgba(8,8,8,0.86));
       border-radius:6px;
-      padding:18px;
+      padding:22px;
       display:grid;
       gap:16px;
       box-shadow: var(--card-shadow);
@@ -658,7 +658,7 @@
       display:grid;
       grid-template-columns: repeat(7, minmax(0,1fr));
       gap:8px;
-      font-size:12px;
+      font-size:13px;
       text-transform:uppercase;
       letter-spacing:0.12em;
       color: rgba(255,255,255,0.55);
@@ -670,7 +670,7 @@
     }
     .calendar-day{
       position:relative;
-      min-height:82px;
+      min-height:96px;
       border-radius:6px;
       border:1px solid rgba(255,255,255,0.08);
       background: rgba(0,0,0,0.35);
@@ -689,7 +689,7 @@
     .calendar-day-number{
       font-family:"GPMenu",system-ui,sans-serif;
       font-weight:600;
-      font-size:14px;
+      font-size:16px;
       letter-spacing:-0.01em;
     }
     .calendar-day.has-event{
@@ -732,7 +732,7 @@
       left:8px;
       right:8px;
       bottom:8px;
-      padding:3px 6px;
+      height:16px;
       border-radius:4px;
       border:1px solid rgba(235,184,42,0.92);
       background: repeating-linear-gradient(
@@ -740,16 +740,6 @@
         rgba(241,203,80,0.95) 0 8px,
         rgba(29,29,29,0.88) 8px 16px
       );
-      color:#120f03;
-      text-transform:uppercase;
-      text-align:center;
-      font-family:"GPMenu",system-ui,sans-serif;
-      font-size:10px;
-      font-weight:700;
-      letter-spacing:0.08em;
-      text-decoration: line-through;
-      text-decoration-thickness: 1.4px;
-      text-decoration-color: rgba(130,0,0,0.9);
       pointer-events:none;
     }
     .calendar-detail{
@@ -826,7 +816,7 @@
       .calendar-day-number{font-size:13px;}
       .calendar-count{top:8px;right:8px;padding:3px 7px;font-size:10px;}
       .calendar-dot{left:10px;bottom:10px;}
-      .calendar-maintenance-note{font-size:9px;left:6px;right:6px;bottom:6px;padding:2px 4px;}
+      .calendar-maintenance-note{left:6px;right:6px;bottom:6px;height:12px;}
 
       .calendar-detail{margin-top:0;gap:10px;}
       .calendar-card{padding:12px 13px;gap:7px;}
@@ -1325,7 +1315,7 @@
         if (events.some((eventRow) => eventRow.maintenance)){
           const maintenanceNote = document.createElement("span");
           maintenanceNote.className = "calendar-maintenance-note";
-          maintenanceNote.textContent = "Maintenance";
+          maintenanceNote.setAttribute("aria-label", "Maintenance");
           cell.appendChild(maintenanceNote);
         }
 
