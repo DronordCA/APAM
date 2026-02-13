@@ -775,6 +775,46 @@
       background: var(--accent);
       box-shadow: 0 0 0 4px rgba(47,107,255,0.15);
     }
+    .calendar-dot.is-cours{
+      background:#7af29e;
+      box-shadow: 0 0 0 4px rgba(122,242,158,0.2);
+      animation:coursePulse 1.6s ease-in-out infinite;
+    }
+    .calendar-dot.is-voyage{
+      width:auto;
+      height:auto;
+      min-width:22px;
+      min-height:22px;
+      border-radius:999px;
+      padding:3px 7px;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      font-size:12px;
+      line-height:1;
+      background:rgba(150,208,255,0.2);
+      border:1px solid rgba(150,208,255,0.7);
+      box-shadow:0 0 0 4px rgba(150,208,255,0.16);
+      animation:travelFloat 2.2s ease-in-out infinite;
+    }
+    .calendar-dot.is-voyage::before{
+      content:"✈";
+      transform:translateX(0);
+      animation:travelPlane 2.2s ease-in-out infinite;
+    }
+
+    @keyframes coursePulse{
+      0%,100%{transform:scale(1);}
+      50%{transform:scale(1.12);}
+    }
+    @keyframes travelFloat{
+      0%,100%{transform:translateX(0) translateY(0);}
+      50%{transform:translateX(2px) translateY(-2px);}
+    }
+    @keyframes travelPlane{
+      0%,100%{opacity:0.85;}
+      50%{opacity:1;}
+    }
     .calendar-count{
       position:absolute;
       right:10px;
@@ -904,8 +944,17 @@
       border:1px solid rgba(235,184,42,0.92);
     }
     .calendar-empty-chip.is-voyage::before{
-      background:#5ec6ff;
-      box-shadow: 0 0 0 4px rgba(94,198,255,0.2);
+      content:"✈";
+      width:20px;
+      height:20px;
+      border-radius:999px;
+      border:1px solid rgba(150,208,255,0.7);
+      background:rgba(150,208,255,0.2);
+      box-shadow: 0 0 0 4px rgba(150,208,255,0.16);
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      font-size:12px;
     }
     .calendar-empty-chip.is-formation::before{
       background:#7af29e;
@@ -1114,8 +1163,8 @@
         <h2 class="section-title" id="calendar-title">Calendrier des événements</h2>
         <p class="section-note">
           Le calendrier se met à jour automatiquement dès qu’un nouveau fichier Google Sheet ou Excel (CSV) est rempli.
-          Une notification bleue apparaît sur les jours concernés (colonnes : <strong>date</strong>, <strong>titre</strong>, <strong>lieu</strong>, <strong>description</strong>).
-          Si la colonne <strong>E</strong> contient <strong>OUI</strong>, la case du jour affiche un décor de maintenance.
+          Une notification apparaît sur les jours concernés (colonnes : <strong>date</strong>, <strong>titre</strong>, <strong>lieu</strong>, <strong>description</strong>).
+          Si la colonne <strong>E</strong> contient <strong>OUI</strong>, la case du jour affiche un décor de maintenance. Si <strong>F</strong> ou <strong>G</strong> contient <strong>OUI</strong>, une animation dédiée apparaît (voyage/sortie club ou cours).
         </p>
         <div class="calendar-layout">
           <div class="calendar-shell">
@@ -1196,7 +1245,7 @@
       </div>
 
       <section class="section-block" aria-labelledby="photos-title" data-drive-folder-id="1kT0lWOg3rsbMM2mIU7lVkLyPA6--bc1D" data-drive-api-key="AIzaSyBKcSH_6xVu9sA3M-JWwuLVJUkR7cjXB00" data-photo-urls="assets/images/image1.png,assets/images/FGHKE2.png,assets/images/TB200M.png,assets/images/SR1.png">
-        <h2 class="section-title" id="photos-title">Photo du club</h2>
+        <h2 class="section-title" id="photos-title">Photos du club</h2>
         <p class="section-note">
           Les photos défilent automatiquement en grand format. Dès qu’une photo est ajoutée dans le dossier Drive partagé, elle peut apparaître automatiquement ici (sans mise à jour GitHub).
         </p>
@@ -1347,6 +1396,20 @@
       return hasMaintenance || hasMaintenanceInRawColumns || isMaintenanceValue(fallbackValue);
     }
 
+    function rowHasTravel(row, rawRow = []){
+      const travelKeys = ["voyage", "voyages", "sortie_club", "voyage_sortie_club", "sortie", "deplacement"];
+      const hasTravel = travelKeys.some((key) => isMaintenanceValue(row[key]));
+      const hasTravelInRawColumn = isMaintenanceValue(rawRow[5]);
+      return hasTravel || hasTravelInRawColumn;
+    }
+
+    function rowHasCourse(row, rawRow = []){
+      const courseKeys = ["cours", "formation", "briefing", "instruction"];
+      const hasCourse = courseKeys.some((key) => isMaintenanceValue(row[key]));
+      const hasCourseInRawColumn = isMaintenanceValue(rawRow[6]);
+      return hasCourse || hasCourseInRawColumn;
+    }
+
     function findDateColumnIndex(headers){
       const normalized = headers.map(h => normalizeHeaderKey(h));
       const match = normalized.findIndex((key) =>
@@ -1365,14 +1428,16 @@
     function getEventPhotoUrl(row, rawRow = []){
       const fromNamedColumns = [
         row.lien_photo,
+        row.liens_photos,
+        row.liens_photo,
         row.lienphoto,
         row.photo,
         row.photo_url,
         row.image,
         row.image_url
       ];
-      const fromColumnF = rawRow[5];
-      return normalizePhotoUrl([...fromNamedColumns, fromColumnF].find(Boolean));
+      const fromColumnH = rawRow[7];
+      return normalizePhotoUrl([...fromNamedColumns, fromColumnH].find(Boolean));
     }
 
     function renderCalendarDetail(dateKey){
@@ -1458,6 +1523,11 @@
         if (events.length){
           const dot = document.createElement("span");
           dot.className = "calendar-dot";
+          if (events.some((eventRow) => eventRow.voyage)){
+            dot.classList.add("is-voyage");
+          } else if (events.some((eventRow) => eventRow.cours)){
+            dot.classList.add("is-cours");
+          }
           const count = document.createElement("span");
           count.className = "calendar-count";
           count.textContent = events.length;
@@ -1501,6 +1571,8 @@
             const row = toNormalizedRow(headers, r);
             if (!row.date) row.date = safe(r[dateColumnIndex]);
             row.maintenance = rowNeedsMaintenance(row, r[4], maintenanceIndexes, r);
+            row.voyage = rowHasTravel(row, r);
+            row.cours = rowHasCourse(row, r);
             row.photoUrl = getEventPhotoUrl(row, r);
             return row;
           })
