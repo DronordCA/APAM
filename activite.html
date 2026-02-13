@@ -836,12 +836,80 @@
       color: rgba(255,255,255,0.75);
       font-size:13px;
     }
+    .calendar-card-photo{
+      margin-top:4px;
+      border-radius:6px;
+      overflow:hidden;
+      border:1px solid rgba(255,255,255,0.1);
+      background: rgba(0,0,0,0.35);
+    }
+    .calendar-card-photo img{
+      display:block;
+      width:100%;
+      max-height:220px;
+      object-fit:cover;
+    }
     .calendar-empty{
       padding:18px;
       text-align:center;
       border-radius:6px;
       border:1px dashed rgba(255,255,255,0.15);
       color: rgba(255,255,255,0.6);
+    }
+    .calendar-empty-title{
+      display:block;
+      font-family:"Swiss911",sans-serif;
+      font-size:20px;
+      font-style:italic;
+      transform:skewX(-4deg);
+      margin-bottom:6px;
+      color:#fff;
+    }
+    .calendar-empty-hints{
+      margin-top:12px;
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      justify-content:center;
+    }
+    .calendar-empty-chip{
+      display:inline-flex;
+      align-items:center;
+      gap:7px;
+      border-radius:999px;
+      padding:7px 12px;
+      border:1px solid rgba(255,255,255,0.14);
+      background: rgba(0,0,0,0.38);
+      color: rgba(255,255,255,0.9);
+      font-size:12px;
+      white-space:nowrap;
+    }
+    .calendar-empty-chip::before{
+      content:"";
+      width:8px;
+      height:8px;
+      border-radius:50%;
+      display:inline-block;
+      background: var(--accent);
+      box-shadow: 0 0 0 4px rgba(47,107,255,0.18);
+    }
+    .calendar-empty-chip.is-maintenance::before{
+      border-radius:2px;
+      background: repeating-linear-gradient(
+        -45deg,
+        rgba(241,203,80,0.95) 0 4px,
+        rgba(29,29,29,0.88) 4px 8px
+      );
+      box-shadow:none;
+      border:1px solid rgba(235,184,42,0.92);
+    }
+    .calendar-empty-chip.is-voyage::before{
+      background:#5ec6ff;
+      box-shadow: 0 0 0 4px rgba(94,198,255,0.2);
+    }
+    .calendar-empty-chip.is-formation::before{
+      background:#7af29e;
+      box-shadow: 0 0 0 4px rgba(122,242,158,0.2);
     }
 
     .calendar-grid-scroll{
@@ -1294,6 +1362,19 @@
       events: []
     };
 
+    function getEventPhotoUrl(row, rawRow = []){
+      const fromNamedColumns = [
+        row.lien_photo,
+        row.lienphoto,
+        row.photo,
+        row.photo_url,
+        row.image,
+        row.image_url
+      ];
+      const fromColumnF = rawRow[5];
+      return normalizePhotoUrl([...fromNamedColumns, fromColumnF].find(Boolean));
+    }
+
     function renderCalendarDetail(dateKey){
       const detail = document.getElementById("calendarDetail");
       if (!detail) return;
@@ -1303,7 +1384,16 @@
       }
       const events = calendarState.eventsByDate.get(dateKey) || [];
       if (!events.length){
-        detail.innerHTML = `<div class="calendar-empty">Aucun événement prévu le ${formatDateFR(dateKey)}.</div>`;
+        detail.innerHTML = `
+          <div class="calendar-empty">
+            <span class="calendar-empty-title">Aucun événement prévu le ${formatDateFR(dateKey)}</span>
+            <div>Le calendrier peut aussi afficher : maintenance, sorties club, formations, voyages et réunions.</div>
+            <div class="calendar-empty-hints">
+              <span class="calendar-empty-chip is-maintenance">Maintenance avion</span>
+              <span class="calendar-empty-chip is-voyage">Voyage / sortie club</span>
+              <span class="calendar-empty-chip is-formation">Cours / briefing</span>
+            </div>
+          </div>`;
         return;
       }
       detail.innerHTML = "";
@@ -1320,6 +1410,7 @@
           ${row.resume ? `<div>${row.resume}</div>` : ""}
           ${row.details ? `<div>${row.details}</div>` : ""}
           ${row.description ? `<div>${row.description}</div>` : ""}
+          ${row.photoUrl ? `<div class="calendar-card-photo"><img src="${row.photoUrl}" alt="Photo liée à l'événement ${row.titre || "du club"}" loading="lazy"></div>` : ""}
         `;
         detail.appendChild(item);
       });
@@ -1410,6 +1501,7 @@
             const row = toNormalizedRow(headers, r);
             if (!row.date) row.date = safe(r[dateColumnIndex]);
             row.maintenance = rowNeedsMaintenance(row, r[4], maintenanceIndexes, r);
+            row.photoUrl = getEventPhotoUrl(row, r);
             return row;
           })
           .filter(r => r.date || r.titre || r.resume || r.details || r.description)
