@@ -519,6 +519,20 @@
 
     @media (max-width:980px){
       .social-grid{grid-template-columns: 1fr;}
+      .social-block{
+        max-width: 100%;
+        padding: 12px;
+      }
+      .social-head{
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 6px;
+      }
+      .social-head a{
+        white-space: normal;
+        padding-right: 0;
+      }
+      .social-head a::after{display:none;}
       .social-frame{ height: 720px; }
     }
 
@@ -804,10 +818,11 @@
       .calendar-actions{margin-left:auto;}
       .calendar-nav{width:40px;height:40px;}
 
-      .calendar-grid{min-width:560px;}
+      .calendar-grid-scroll{overflow-x:visible;}
+      .calendar-grid{min-width:0;}
       .calendar-weekdays,
-      .calendar-board{gap:6px;}
-      .calendar-day{min-height:66px;padding:8px;font-size:12px;}
+      .calendar-board{gap:5px;}
+      .calendar-day{min-height:78px;padding:8px 6px;font-size:12px;}
       .calendar-day-number{font-size:13px;}
       .calendar-count{top:8px;right:8px;padding:3px 7px;font-size:10px;}
       .calendar-dot{left:10px;bottom:10px;}
@@ -817,6 +832,14 @@
       .calendar-card{padding:12px 13px;gap:7px;}
       .calendar-title{font-size:20px;}
       .calendar-location{font-size:12px;}
+    }
+
+    @media (max-width:640px){
+      .wrap,
+      .section-block{padding: 0 16px;}
+      .calendar-weekdays{font-size:10px;letter-spacing:0.08em;}
+      .calendar-day{min-height:84px;}
+      .social-frame{height:680px;}
     }
 
     /* =============================== */
