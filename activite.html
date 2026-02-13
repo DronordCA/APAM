@@ -591,18 +591,15 @@
       display:grid;
       place-items:center;
       position:relative;
-      transition: aspect-ratio .25s ease;
-    }
-    .club-photo.is-portrait{
-      aspect-ratio: 3 / 4;
-      max-width: min(100%, 560px);
     }
     .club-photo img{
       width:100%;
       height:100%;
-      object-fit:contain;
+      object-fit:cover;
+      object-position:center;
       display:block;
     }
+    .club-photo-slide.is-portrait img{ object-fit:contain; }
     .club-photo-track{
       width:100%;
       height:100%;
@@ -1542,9 +1539,10 @@
         const dotButtons = [];
 
         function applyAspectFromSlide(index){
-          const img = slides[index]?.querySelector("img");
+          const slide = slides[index];
+          const img = slide?.querySelector("img");
           if (!img || !img.naturalWidth || !img.naturalHeight) return;
-          frame.classList.toggle("is-portrait", img.naturalHeight > img.naturalWidth);
+          slide.classList.toggle("is-portrait", img.naturalHeight > img.naturalWidth);
         }
 
         function showSlide(index){
@@ -1575,6 +1573,7 @@
           img.alt = `Photo du club ${index + 1}`;
           img.loading = index === 0 ? "eager" : "lazy";
           img.addEventListener("load", () => {
+            slide.classList.toggle("is-portrait", img.naturalHeight > img.naturalWidth);
             if (index === activeIndex) applyAspectFromSlide(activeIndex);
           });
           slide.appendChild(img);
