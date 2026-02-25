@@ -146,6 +146,7 @@
     .quick-links{margin-top:16px;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;}
     .quick-links a{display:block;padding:12px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);text-decoration:none;color:#fff;font-size:13px;text-transform:uppercase;letter-spacing:.06em;}
 
+
     footer{margin-top:22px;border-top:1px solid rgba(255,255,255,0.08);background:rgba(0,0,0,0.20);padding:20px var(--page-side-margin);color:rgba(255,255,255,0.78);}
     .footer-inner{max-width:var(--grid-max);margin:0 auto;padding:0 var(--outer-x);}
     .footer-inline{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;font-size:12px;color:rgba(255,255,255,0.7);}
@@ -158,7 +159,7 @@
       .quick-links{grid-template-columns:repeat(2,minmax(0,1fr));}
     }
     @media (max-width:640px){
-      .tools-grid,.quick-links{grid-template-columns:1fr;}
+
     }
   </style>
 </head>
@@ -217,13 +218,6 @@
 
         <section class="section-wrap">
           <div class="tools-grid">
-            <article class="tool-card"><h2>Carte cadeau vol</h2><p>Offrez une carte cadeau personnalisée APAM. Validation après paiement et envoi par email.</p><a href="mailto:contact@apam.fr?subject=Commande%20Carte%20Cadeau%20APAM">Commander par email</a></article>
-            <article class="tool-card"><h2>Vol découverte</h2><p>Choisissez votre formule et indiquez vos disponibilités. Confirmation après validation APAM.</p><a href="mailto:contact@apam.fr?subject=Commande%20Vol%20D%C3%A9couverte%20APAM">Demander un vol</a></article>
-            <article class="tool-card"><h2>Baptême de l'air</h2><p>Parcours initiation pour offrir une première expérience aéronautique encadrée.</p><a href="mailto:contact@apam.fr?subject=Commande%20Bapt%C3%AAme%20de%20l%27air%20APAM">Réserver un baptême</a></article>
-            <article class="tool-card"><h2>Casquette APAM</h2><p>Goodies club disponibles selon stock. Retrait sur place ou envoi selon disponibilité.</p><a href="mailto:contact@apam.fr?subject=Commande%20Casquette%20APAM">Commander la casquette</a></article>
-            <article class="tool-card"><h2>Paiement par virement</h2><p>Après demande, vous recevez automatiquement le RIB APAM, la référence commande et le délai.</p><a href="mailto:contact@apam.fr?subject=Demande%20paiement%20virement%20APAM">Recevoir les infos virement</a></article>
-            <article class="tool-card"><h2>Suivi de commande</h2><p>Une fois le paiement validé, APAM confirme l'envoi de votre carte cadeau ou la date du vol.</p><a href="mailto:contact@apam.fr?subject=Suivi%20commande%20Boutique%20APAM">Contacter la boutique</a></article>
-          </div>
 
           <div class="quick-links">
             <a href="connexion-membres.html">Connexion membres</a>
@@ -253,10 +247,12 @@
     const burger = document.querySelector('.m-burger');
     const closeBtn = document.querySelector('.m-close');
     const overlay = document.querySelector('.m-overlay');
+
     const setOpen = (open) => {
       body.classList.toggle('m-open', open);
       burger?.setAttribute('aria-expanded', open ? 'true' : 'false');
     };
+
     burger?.addEventListener('click', () => setOpen(true));
     closeBtn?.addEventListener('click', () => setOpen(false));
     overlay?.addEventListener('click', () => setOpen(false));

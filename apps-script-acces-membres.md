@@ -312,3 +312,4 @@ Oui, c'est possible avec votre architecture actuelle, sans backend e-commerce lo
 - Donc une boîte dédiée n'est pas obligatoire techniquement, mais elle est recommandée pour la lisibilité (ex: `boutique@apam.fr` ou alias).
 - Il faut configurer clairement : adresse expéditrice, destinataire interne APAM, et templates selon `mode_paiement`.
 - En cas de volume plus élevé, prévoir des quotas Google Workspace et un suivi des réponses automatiques.
+
