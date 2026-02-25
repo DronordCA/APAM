@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>APAM – Espace membres</title>
+  <title>APAM – Boutique</title>
 
   <style>
     @font-face{
@@ -146,6 +146,24 @@
     .quick-links{margin-top:16px;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;}
     .quick-links a{display:block;padding:12px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);text-decoration:none;color:#fff;font-size:13px;text-transform:uppercase;letter-spacing:.06em;}
 
+    .order-panel{margin-top:18px;background:rgba(11,12,16,.9);border:1px solid rgba(255,255,255,.14);padding:20px;display:grid;gap:14px;}
+    .order-panel h2{font-family:"GPMenu",system-ui,sans-serif;text-transform:uppercase;font-size:24px;letter-spacing:-.02em;}
+    .order-panel p{color:rgba(255,255,255,.75);line-height:1.5;font-size:14px;}
+    .order-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;}
+    .order-field{display:grid;gap:6px;}
+    .order-field.full{grid-column:1/-1;}
+    .order-field label{font-size:12px;letter-spacing:.07em;text-transform:uppercase;color:rgba(255,255,255,.78);}
+    .order-field input,.order-field select,.order-field textarea{width:100%;padding:11px 12px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.18);color:#fff;font:inherit;}
+    .order-field textarea{min-height:90px;resize:vertical;}
+    .order-actions{display:flex;gap:10px;flex-wrap:wrap;}
+    .order-btn{cursor:pointer;border:1px solid rgba(255,255,255,.24);padding:10px 14px;background:#1a1c24;color:#fff;text-transform:uppercase;letter-spacing:.06em;font-size:12px;}
+    .order-btn.primary{background:linear-gradient(135deg,#2f6bff,#183775);border-color:rgba(123,166,255,.55);}
+    .order-confirm{border:1px solid rgba(123,166,255,.46);background:rgba(25,43,86,.28);padding:14px;color:#d3e2ff;line-height:1.5;display:none;}
+    .order-confirm.is-visible{display:block;}
+    .order-mail-link{display:none;width:fit-content;text-decoration:none;color:#fff;border-bottom:1px solid rgba(255,255,255,.6);}
+    .order-mail-link.is-visible{display:inline-block;}
+    .order-note{font-size:12px;color:rgba(255,255,255,.6);}
+
     footer{margin-top:22px;border-top:1px solid rgba(255,255,255,0.08);background:rgba(0,0,0,0.20);padding:20px var(--page-side-margin);color:rgba(255,255,255,0.78);}
     .footer-inner{max-width:var(--grid-max);margin:0 auto;padding:0 var(--outer-x);}
     .footer-inline{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;font-size:12px;color:rgba(255,255,255,0.7);}
@@ -158,7 +176,7 @@
       .quick-links{grid-template-columns:repeat(2,minmax(0,1fr));}
     }
     @media (max-width:640px){
-      .tools-grid,.quick-links{grid-template-columns:1fr;}
+      .tools-grid,.quick-links,.order-grid{grid-template-columns:1fr;}
     }
   </style>
 </head>
@@ -212,24 +230,83 @@
       </header>
 
       <main>
-        <div class="title-bar"><div class="title-box"><span>Espace membres</span></div></div>
-        <p class="intro">Base harmonisée avec les pages principales (hero visuel, navigation et footer). Cette page regroupe les outils utiles pour préparer un vol proprement : réservation, météo, NOTAM, cartes, documentation et briefings.</p>
+        <div class="title-bar"><div class="title-box"><span>Boutique APAM</span></div></div>
+        <p class="intro">Commandez des cartes cadeaux, vols découverte, baptêmes et produits club. Le parcours est simple : demande via formulaire, email automatique selon le mode de paiement, puis confirmation APAM.</p>
 
         <section class="section-wrap">
           <div class="tools-grid">
-            <article class="tool-card"><h2>Réservation avion</h2><p>Planning club, disponibilité machine/instructeur et suivi des créneaux.</p><a href="https://openflyers.com/apam/" target="_blank" rel="noopener noreferrer">Ouvrir OpenFlyers</a></article>
-            <article class="tool-card"><h2>Météo aéronautique</h2><p>METAR, TAF et cartes météo pour la préparation et la prise de décision.</p><a href="https://aviation.meteo.fr/" target="_blank" rel="noopener noreferrer">Consulter la météo</a></article>
-            <article class="tool-card"><h2>NOTAM & briefing</h2><p>Vérification des informations temporaires impactant la navigation et les terrains.</p><a href="https://sofia-briefing.aviation-civile.gouv.fr/" target="_blank" rel="noopener noreferrer">Ouvrir SOFIA</a></article>
-            <article class="tool-card"><h2>Cartes VAC / AIP</h2><p>Accès aux cartes officielles, procédures et informations de référence SIA.</p><a href="https://www.sia.aviation-civile.gouv.fr/" target="_blank" rel="noopener noreferrer">Accéder au SIA</a></article>
-            <article class="tool-card"><h2>Plan de vol</h2><p>Dépôt et suivi des plans de vol sur les services officiels DGAC.</p><a href="https://olivia.aviation-civile.gouv.fr/" target="_blank" rel="noopener noreferrer">Ouvrir OLIVIA</a></article>
-            <article class="tool-card"><h2>Navigation</h2><p>Outils de navigation et de préparation de route complémentaires.</p><a href="https://skyvector.com/" target="_blank" rel="noopener noreferrer">Ouvrir SkyVector</a></article>
+            <article class="tool-card"><h2>Carte cadeau vol</h2><p>Offrez une carte cadeau personnalisée APAM. Validation après paiement et envoi par email.</p><button class="order-btn" type="button" data-product="Carte cadeau vol">Commander</button></article>
+            <article class="tool-card"><h2>Vol découverte</h2><p>Choisissez votre formule et indiquez vos disponibilités. Confirmation après validation APAM.</p><button class="order-btn" type="button" data-product="Vol découverte">Commander</button></article>
+            <article class="tool-card"><h2>Baptême de l'air</h2><p>Parcours initiation pour offrir une première expérience aéronautique encadrée.</p><button class="order-btn" type="button" data-product="Baptême de l'air">Commander</button></article>
+            <article class="tool-card"><h2>Casquette APAM</h2><p>Goodies club disponibles selon stock. Retrait sur place ou envoi selon disponibilité.</p><button class="order-btn" type="button" data-product="Casquette APAM">Commander</button></article>
+            <article class="tool-card"><h2>Paiement par virement</h2><p>Après demande, vous recevez automatiquement le RIB APAM, la référence commande et le délai.</p><button class="order-btn" type="button" data-product="Informations virement">Demander</button></article>
+            <article class="tool-card"><h2>Suivi de commande</h2><p>Une fois le paiement validé, APAM confirme l'envoi de votre carte cadeau ou la date du vol.</p><button class="order-btn" type="button" data-product="Suivi de commande">Contacter</button></article>
           </div>
 
+          <section class="order-panel" aria-labelledby="orderTitle">
+            <h2 id="orderTitle">Formulaire de commande</h2>
+            <p>Remplissez une seule fois ce formulaire : APAM reçoit votre demande complète, et vous obtenez un message de confirmation adapté au mode de paiement choisi.</p>
+
+            <form id="orderForm">
+              <div class="order-grid">
+                <div class="order-field full">
+                  <label for="product">Produit</label>
+                  <select id="product" name="product" required>
+                    <option value="Carte cadeau vol">Carte cadeau vol</option>
+                    <option value="Vol découverte">Vol découverte</option>
+                    <option value="Baptême de l'air">Baptême de l'air</option>
+                    <option value="Casquette APAM">Casquette APAM</option>
+                  </select>
+                </div>
+                <div class="order-field">
+                  <label for="paymentMode">Mode de paiement</label>
+                  <select id="paymentMode" name="paymentMode" required>
+                    <option value="cb">Carte bancaire (paiement au club)</option>
+                    <option value="virement">Virement bancaire</option>
+                  </select>
+                </div>
+                <div class="order-field">
+                  <label for="quantity">Quantité</label>
+                  <input id="quantity" name="quantity" type="number" min="1" value="1" required />
+                </div>
+                <div class="order-field">
+                  <label for="firstName">Prénom</label>
+                  <input id="firstName" name="firstName" type="text" required />
+                </div>
+                <div class="order-field">
+                  <label for="lastName">Nom</label>
+                  <input id="lastName" name="lastName" type="text" required />
+                </div>
+                <div class="order-field">
+                  <label for="email">Email</label>
+                  <input id="email" name="email" type="email" required />
+                </div>
+                <div class="order-field">
+                  <label for="phone">Contact téléphone</label>
+                  <input id="phone" name="phone" type="tel" required />
+                </div>
+                <div class="order-field full">
+                  <label for="address">Adresse</label>
+                  <textarea id="address" name="address" required></textarea>
+                </div>
+              </div>
+
+              <div class="order-actions">
+                <button class="order-btn primary" type="submit">Valider la demande</button>
+                <button class="order-btn" type="button" id="copySummaryBtn">Copier le récapitulatif</button>
+              </div>
+            </form>
+
+            <div class="order-confirm" id="orderConfirm" aria-live="polite"></div>
+            <a class="order-mail-link" id="orderMailLink" href="mailto:contact@apam.fr">Envoyer la demande à APAM</a>
+            <p class="order-note">Note : sur une version 100% statique, la confirmation affichée est immédiate et l'envoi automatique d'email se fait ensuite via Apps Script/Form backend.</p>
+          </section>
+
           <div class="quick-links">
-            <a href="https://www.ffa-aero.fr/" target="_blank" rel="noopener noreferrer">FFA</a>
-            <a href="https://www.ecologie.gouv.fr/direction-generale-laviation-civile-dgac" target="_blank" rel="noopener noreferrer">DGAC</a>
-            <a href="https://www.easa.europa.eu/en/document-library/easy-access-rules" target="_blank" rel="noopener noreferrer">Réglementation EASA</a>
-            <a href="https://www.meteofrance.com/meteo-aero" target="_blank" rel="noopener noreferrer">Météo France Aéro</a>
+            <a href="connexion-membres.html">Connexion membres</a>
+            <a href="mon-compte.html">Mon compte</a>
+            <a href="espace-membres.html">Outils membres</a>
+            <a href="mailto:contact@apam.fr">Support boutique</a>
           </div>
         </section>
       </main>
@@ -253,10 +330,89 @@
     const burger = document.querySelector('.m-burger');
     const closeBtn = document.querySelector('.m-close');
     const overlay = document.querySelector('.m-overlay');
+    const orderForm = document.getElementById('orderForm');
+    const productSelect = document.getElementById('product');
+    const paymentMode = document.getElementById('paymentMode');
+    const orderConfirm = document.getElementById('orderConfirm');
+    const orderMailLink = document.getElementById('orderMailLink');
+    const copySummaryBtn = document.getElementById('copySummaryBtn');
+    let latestSummary = '';
+
     const setOpen = (open) => {
       body.classList.toggle('m-open', open);
       burger?.setAttribute('aria-expanded', open ? 'true' : 'false');
     };
+
+    function buildSummary(values) {
+      return [
+        `Produit : ${values.product}`,
+        `Quantité : ${values.quantity}`,
+        `Mode de paiement : ${values.paymentLabel}`,
+        `Nom : ${values.firstName} ${values.lastName}`,
+        `Email : ${values.email}`,
+        `Contact : ${values.phone}`,
+        `Adresse : ${values.address}`
+      ].join('\n');
+    }
+
+    function buildConfirmation(values) {
+      if (values.paymentMode === 'cb') {
+        return `Commande reçue ✅<br><strong>Paiement carte bancaire :</strong> règlement directement au club (Aérodrome de L'Aigle Saint-Michel).<br>Votre produit sera remis sur place ou expédié après validation APAM.`;
+      }
+      return `Commande reçue ✅<br><strong>Paiement par virement :</strong> utilisez le RIB APAM transmis dans l'email de suivi.<br>Une fois le virement reçu, la commande est préparée puis livrée sous 2 à 3 jours ouvrés.`;
+    }
+
+    function updateMailto(summary, product) {
+      const subject = encodeURIComponent(`Commande Boutique APAM - ${product}`);
+      const body = encodeURIComponent(`Bonjour APAM,\n\nNouvelle demande de commande :\n${summary}\n\nMerci.`);
+      orderMailLink.href = `mailto:contact@apam.fr?subject=${subject}&body=${body}`;
+      orderMailLink.classList.add('is-visible');
+    }
+
+    document.querySelectorAll('[data-product]').forEach((button) => {
+      button.addEventListener('click', () => {
+        const product = button.dataset.product;
+        if (productSelect && productSelect.querySelector(`option[value="${product}"]`)) {
+          productSelect.value = product;
+        }
+        orderForm?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    });
+
+    orderForm?.addEventListener('submit', (event) => {
+      event.preventDefault();
+      const formData = new FormData(orderForm);
+      const values = {
+        product: String(formData.get('product') || ''),
+        paymentMode: String(formData.get('paymentMode') || ''),
+        paymentLabel: paymentMode?.selectedOptions?.[0]?.textContent || '',
+        quantity: String(formData.get('quantity') || ''),
+        firstName: String(formData.get('firstName') || ''),
+        lastName: String(formData.get('lastName') || ''),
+        email: String(formData.get('email') || ''),
+        phone: String(formData.get('phone') || ''),
+        address: String(formData.get('address') || '').trim().replace(/\s+/g, ' ')
+      };
+
+      latestSummary = buildSummary(values);
+      orderConfirm.innerHTML = `${buildConfirmation(values)}<br><br><strong>Récapitulatif :</strong><br>${latestSummary.replace(/\n/g, '<br>')}`;
+      orderConfirm.classList.add('is-visible');
+      updateMailto(latestSummary, values.product);
+    });
+
+    copySummaryBtn?.addEventListener('click', async () => {
+      if (!latestSummary) return;
+      try {
+        await navigator.clipboard.writeText(latestSummary);
+        copySummaryBtn.textContent = 'Récapitulatif copié';
+        window.setTimeout(() => {
+          copySummaryBtn.textContent = 'Copier le récapitulatif';
+        }, 1800);
+      } catch {
+        copySummaryBtn.textContent = 'Copie impossible';
+      }
+    });
+
     burger?.addEventListener('click', () => setOpen(true));
     closeBtn?.addEventListener('click', () => setOpen(false));
     overlay?.addEventListener('click', () => setOpen(false));

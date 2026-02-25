@@ -252,3 +252,84 @@ function generateHashForUser(email, password) {
 - Mettre une durée de session courte (ex: 60 min).
 - Révoquer les sessions lors de suspicion (onglet `sessions`, colonne `revoked`).
 - Garder les dossiers Drive privés et donner les droits uniquement aux membres.
+
+## 7) Paiements (Apple Pay / cartes cadeaux / boutique)
+
+### Apple Pay "directement sur le site" : ce que ça change vraiment
+- Apple Pay améliore l'expérience de paiement et la tokenisation côté wallet, **mais ne remplace pas** la sécurité e-commerce globale.
+- En pratique, votre site ne doit jamais traiter ni stocker des numéros de carte : il doit déléguer le paiement à un prestataire (Stripe Checkout/Payment Links, etc.).
+- Donc oui, une partie critique est gérée par Apple + le prestataire de paiement, mais vous restez responsable de la sécurité de votre site (liens, webhooks, accès admin, anti-fraude de base).
+
+### Recommandation pour APAM (sans backend lourd)
+- Conserver le site statique.
+- Créer des pages produits (vol découverte, baptême, carte cadeau, casquette).
+- Rediriger les boutons "Payer" vers des pages de paiement hébergées (Apple Pay activé côté prestataire).
+- Ne construire un backend personnalisé que si vous avez des besoins avancés (panier complexe, stock en temps réel, remboursements automatisés, etc.).
+
+
+## 8) Coûts : peut-on vendre sans frais ?
+
+Réponse courte :
+- Pour un paiement carte en ligne "propre" (checkout), il y a **presque toujours** des frais de transaction.
+- Si l'objectif est **zéro frais paiement**, il faut sortir du paiement carte en ligne classique (virement, chèque, espèces, terminal sur place).
+
+### Option la plus propre sans backend lourd
+- Garder un bouton "Acheter" sur le site.
+- Collecter la demande (formulaire ou email) puis envoyer un lien/référence de paiement (virement, paiement sur place, etc.).
+- Cette approche évite la complexité technique tout en restant claire pour l'utilisateur.
+
+### Arbitrage recommandé pour APAM
+- Si priorité = simplicité client : checkout hébergé (frais par transaction acceptés).
+- Si priorité = minimiser les frais : précommande + virement/confirmation manuelle.
+- Si priorité = zéro frais en ligne : pas de carte en ligne, uniquement moyens hors passerelle carte.
+
+## 9) Workflow recommandé : formulaire + email automatique selon le mode de paiement
+
+Oui, c'est possible avec votre architecture actuelle, sans backend e-commerce lourd.
+
+### Parcours proposé
+1. L'utilisateur remplit un formulaire (produit, identité, email, mode de paiement, créneau souhaité).
+2. Un envoi automatique d'email est déclenché selon le mode choisi :
+   - **Carte bancaire** : email client = paiement sur place (adresse, horaires, délai de remise).
+   - **Virement** : email client = RIB du club + référence de commande + délai estimé (ex: 3 à 5 jours après réception).
+3. En parallèle, un email interne APAM est envoyé avec le détail de la demande.
+4. Après vérification du virement reçu, APAM envoie manuellement la carte cadeau / confirmation du vol.
+
+### Mise en oeuvre simple (sans backend)
+- Utiliser Google Forms + Google Sheets + Apps Script (déjà dans votre pile).
+- Définir des templates d'email différents selon `mode_paiement`.
+- Ajouter un identifiant de commande dans la Sheet pour faciliter le suivi.
+- Conserver une validation manuelle finale avant envoi du produit (recommandé).
+
+### Points importants
+- Cette approche est propre, compréhensible pour le client, et limite les coûts.
+- Elle ne supprime pas le travail de suivi interne (vérifier les virements, déclencher l'envoi).
+- Pour les produits 100% numériques (carte cadeau PDF), prévoir un modèle d'email de livraison après validation du paiement.
+
+
+### Envoi automatique des emails : faut-il une boîte dédiée ?
+- Avec Apps Script, les emails automatiques sont envoyés par le compte Google qui exécute le script (`GmailApp`/`MailApp`).
+- Donc une boîte dédiée n'est pas obligatoire techniquement, mais elle est recommandée pour la lisibilité (ex: `boutique@apam.fr` ou alias).
+- Il faut configurer clairement : adresse expéditrice, destinataire interne APAM, et templates selon `mode_paiement`.
+- En cas de volume plus élevé, prévoir des quotas Google Workspace et un suivi des réponses automatiques.
+
+### Envoi réel d'emails automatiques (client + club)
+Pour que l'email parte **sans action manuelle**, il faut brancher le formulaire à Apps Script (trigger `onFormSubmit`) :
+- Email client : message différent selon `mode_paiement` (`cb` ou `virement`).
+- Email club : copie de la commande pour traitement interne.
+
+Exemple minimal :
+```javascript
+function onFormSubmit(e) {
+  const data = e.namedValues;
+  const email = String(data.Email?.[0] || '').trim();
+  const mode = String(data.mode_paiement?.[0] || '').toLowerCase();
+
+  const messageClient = mode === 'virement'
+    ? 'Merci pour votre commande. Voici le RIB APAM... Livraison 2 à 3 jours ouvrés après réception du virement.'
+    : 'Merci pour votre commande. Paiement carte au club, remise du produit sur place.';
+
+  MailApp.sendEmail(email, 'Confirmation commande APAM', messageClient);
+  MailApp.sendEmail('contact@apam.fr', 'Nouvelle commande boutique', JSON.stringify(data, null, 2));
+}
+```
