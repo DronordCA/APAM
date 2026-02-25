@@ -1,0 +1,2 @@
+order_id,created_at,source,product_key,product_name,quantity,unit_price_eur,total_price_eur,payment_mode,first_name,last_name,email,phone,address,notes,status,client_email_sent,internal_email_sent,payment_status,assigned_to
+EXAMPLE-0001,2026-01-01T10:30:00Z,FORM,vol-decouverte,Vol découverte,1,159,159,virement,Jeanne,Martin,jeanne@example.com,+33601020304,1 rue de l'Aigle 75000 Paris,Disponible samedi matin,new,OUI,OUI,awaiting_transfer,admin
