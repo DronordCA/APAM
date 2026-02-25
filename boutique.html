@@ -370,6 +370,14 @@
   </div>
 
   <script>
+    const BOUTIQUE_WEBAPP_URL = 'https://script.google.com/macros/s/AKfycbwXkGlN4_aOcnZ1a3vbjipLSK1eTudpGF8BFlUbYE92XWBL463ZRFthQOztnDlLdQJo/exec';
+    const PRODUCT_KEY_BY_NAME = {
+      'Carte cadeau vol': 'carte-cadeau-vol',
+      'Vol découverte': 'vol-decouverte',
+      "Baptême de l'air": 'bapteme-air',
+      'Casquette APAM': 'casquette-apam'
+    };
+
     const body = document.body;
     const burger = document.querySelector('.m-burger');
     const closeBtn = document.querySelector('.m-close');
@@ -442,7 +450,7 @@
       });
     });
 
-    orderForm?.addEventListener('submit', (event) => {
+    orderForm?.addEventListener('submit', async (event) => {
       event.preventDefault();
       const formData = new FormData(orderForm);
       const values = {
@@ -454,11 +462,45 @@
         lastName: String(formData.get('lastName') || ''),
         email: String(formData.get('email') || ''),
         phone: String(formData.get('phone') || ''),
-        address: String(formData.get('address') || '').trim().replace(/\s+/g, ' ')
+        address: String(formData.get('address') || '').trim().replace(/\s+/g, ' '),
+        notes: String(formData.get('notes') || '').trim()
       };
 
       latestSummary = buildSummary(values);
-      orderConfirm.innerHTML = `${buildConfirmation(values)}<br><br><strong>Récapitulatif :</strong><br>${latestSummary.replace(/\n/g, '<br>')}`;
+
+      let confirmationText = buildConfirmation(values);
+      const payload = {
+        action: 'create_order',
+        source: 'WEB_INTERNAL_FORM',
+        product_key: PRODUCT_KEY_BY_NAME[values.product] || values.product,
+        quantity: Number(values.quantity || 1),
+        payment_mode: values.paymentMode,
+        first_name: values.firstName,
+        last_name: values.lastName,
+        email: values.email,
+        phone: values.phone,
+        address: values.address,
+        notes: values.notes
+      };
+
+      try {
+        const response = await fetch(BOUTIQUE_WEBAPP_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify(payload)
+        });
+        const result = await response.json();
+        if (response.ok && result?.ok) {
+          const orderIdBlock = result.order_id ? `<br><strong>Référence :</strong> ${result.order_id}` : '';
+          confirmationText = `${confirmationText}${orderIdBlock}<br><br>Votre demande a bien été transmise à la boutique APAM.`;
+        } else {
+          confirmationText = `${confirmationText}<br><br>⚠️ Envoi automatique temporairement indisponible. Utilisez le lien email ci-dessous.`;
+        }
+      } catch {
+        confirmationText = `${confirmationText}<br><br>⚠️ Envoi automatique temporairement indisponible. Utilisez le lien email ci-dessous.`;
+      }
+
+      orderConfirm.innerHTML = `${confirmationText}<br><br><strong>Récapitulatif :</strong><br>${latestSummary.replace(/\n/g, '<br>')}`;
       orderConfirm.classList.add('is-visible');
       updateMailto(latestSummary, values.product);
     });
