@@ -2,319 +2,542 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>APAM – Mon compte</title>
+
   <style>
-    @font-face {
-      font-family: "GPMenu";
-      src: url("assets/fonts/Helvetica Neue LT Pro 93 Black Extended.otf") format("opentype");
-      font-weight: 900;
+    @font-face{
+      font-family:"GPMenu";
+      src:url("assets/fonts/Helvetica Neue LT Pro 93 Black Extended.otf") format("opentype");
+      font-weight:900;
+      font-style:normal;
+    }
+    @font-face{
+      font-family:"Swiss911";
+      src:url("assets/fonts/Swiss911-ExtraCompressed.otf") format("opentype");
+      font-weight:normal;
+      font-style:normal;
     }
 
-    @font-face {
-      font-family: "Swiss911";
-      src: url("assets/fonts/Swiss911-ExtraCompressed.otf") format("opentype");
-      font-weight: 400;
+    :root{
+      --page-side-margin:60px;
+      --header-height:50px;
+      --header-font-size:15px;
+      --header-letter-spacing:-0.05em;
+      --logo-height:100px;
+      --gap-logo-header:62px;
+      --header-grey:#222;
+      --accent:#2f6bff;
+      --panel-w:200px;
+      --drop-card-h:100px;
+      --panel-bg:#222;
+      --panel-border:rgba(255,255,255,0.10);
+      --drop-card-bg:#2a2a2a;
+      --drop-card-border:rgba(255,255,255,0.10);
+      --m-side:18px;
+      --outer-x:26px;
+      --grid-max:1200px;
+      --surface:rgba(10,10,14,0.85);
+      --surface-2:rgba(17,17,25,0.9);
+      --line:rgba(255,255,255,0.12);
+      --muted:rgba(255,255,255,0.72);
     }
 
-    :root {
-      --bg: #070b14;
-      --panel: #101b2f;
-      --panel-soft: #14233d;
-      --line: rgba(255, 255, 255, 0.12);
-      --text: #f4f7ff;
-      --soft: #9fb2d4;
-      --accent: #2f6bff;
-      --accent-2: #5cc7ff;
-      --max: 1180px;
+    *{box-sizing:border-box;margin:0;padding:0}
+    html,body{height:100%}
+    body{
+      font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+      color:#fff;
+      background:#101012;
+      overflow-x:hidden;
+      overflow-y:auto;
     }
 
-    * { box-sizing: border-box; }
-
-    body {
-      margin: 0;
-      font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+    .page{min-height:100svh;position:relative;background:#141417;}
+    .page::before{
+      content:"";
+      position:absolute;
+      inset:0;
       background:
-        radial-gradient(circle at 20% -10%, rgba(47, 107, 255, 0.35), transparent 40%),
-        radial-gradient(circle at 100% 20%, rgba(92, 199, 255, 0.2), transparent 36%),
-        var(--bg);
-      color: var(--text);
-      min-height: 100vh;
+        radial-gradient(circle at 20% 18%, rgba(255,255,255,0.06) 0%, rgba(255,255,255,0) 55%),
+        radial-gradient(circle at 80% 30%, rgba(47,107,255,0.08) 0%, rgba(47,107,255,0) 52%);
+      opacity:.55;
+      pointer-events:none;
+    }
+    .content{position:relative;z-index:2;}
+
+    .site-header{padding-top:20px;position:relative;z-index:10;}
+    .header-row{display:flex;align-items:center;margin:0 var(--page-side-margin);}
+    .header-logo{position:relative;display:inline-block;text-decoration:none;}
+    .header-logo img{height:var(--logo-height);display:block;margin-top:12px;}
+    .header-bar{
+      height:var(--header-height);background:#fff;color:var(--header-grey);
+      margin-left:var(--gap-logo-header);flex:1;display:flex;align-items:center;
+      justify-content:space-between;padding:0 6px 0 32px;border:1px solid rgba(0,0,0,.06);
+      box-shadow:0 2px 0 rgba(0,0,0,.08);
+    }
+    .header-left,.header-right{display:flex;align-items:center;gap:18px;}
+    .header-left{gap:34px;}
+    .nav-menu{display:flex;align-items:center;gap:34px;}
+    .nav-item{position:relative;display:inline-flex;align-items:center;}
+    .nav-link{
+      font-family:"GPMenu",system-ui,sans-serif;
+      font-size:var(--header-font-size);
+      letter-spacing:var(--header-letter-spacing);
+      text-transform:uppercase;
+      text-decoration:none;
+      color:var(--header-grey);
+      position:relative;
+      white-space:nowrap;
+    }
+    .nav-link[data-text]{color:transparent;}
+    .nav-link[data-text]::before,.nav-link[data-text]::after{content:attr(data-text);position:absolute;inset:0;white-space:nowrap;}
+    .nav-link[data-text]::before{color:var(--header-grey);}
+    .nav-link[data-text]::after{color:var(--accent);clip-path:inset(0 100% 0 0);transition:clip-path .22s ease;}
+    .nav-link[data-text]:hover::after{clip-path:inset(0 0 0 0);}
+
+    .btn-compte{
+      position:relative;
+      overflow:hidden;
+      font-family:"Swiss911",sans-serif;
+      font-size:25px;
+      letter-spacing:-0.04em;
+      text-transform:uppercase;
+      padding:6px 12px;
+      border:2px solid var(--header-grey);
+      background:#000;
+      color:#fff;
+      text-decoration:none;
+      line-height:1;
     }
 
-    a { color: inherit; }
+    .nav-item.has-dropdown::before{content:"";position:absolute;left:-22px;right:-22px;top:100%;height:18px;}
+    .fleet-panel{
+      position:absolute;top:calc(100% + 18px);left:50%;transform:translateX(-50%);
+      width:var(--panel-w);background:var(--panel-bg);border:1px solid var(--panel-border);
+      box-shadow:0 22px 40px rgba(0,0,0,.45);padding:10px;display:flex;flex-direction:column;gap:10px;
+      opacity:0;pointer-events:none;transition:opacity .18s ease;z-index:50;
+    }
+    .nav-item.has-dropdown:hover .fleet-panel{opacity:1;pointer-events:auto;}
+    .fleet-card{position:relative;height:var(--drop-card-h);background:var(--drop-card-bg);border:1px solid var(--drop-card-border);text-decoration:none;color:#fff;overflow:hidden;}
+    .fleet-name{position:absolute;top:6px;left:50%;transform:translateX(-50%);font-family:"Swiss911",sans-serif;font-size:18px;white-space:nowrap;}
+    .fleet-plane{position:absolute;left:50%;top:52%;transform:translate(-50%,-50%);height:80px;max-width:88%;object-fit:contain;}
 
-    header {
-      position: sticky;
-      top: 0;
-      z-index: 20;
-      padding: 16px;
-      backdrop-filter: blur(12px);
-      background: rgba(7, 11, 20, 0.72);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    .m-header,.m-overlay,.m-drawer{display:none;}
+
+    main{padding:24px var(--page-side-margin) 8px;}
+    .wrap{max-width:var(--grid-max);margin:0 auto;padding:0 var(--outer-x);}
+
+    .hero{
+      border:1px solid var(--line);
+      background:linear-gradient(132deg, rgba(21,28,45,.92), rgba(13,15,23,.92));
+      box-shadow:0 30px 60px rgba(0,0,0,.34);
+      padding:30px;
+      display:grid;
+      grid-template-columns:1.3fr .7fr;
+      gap:26px;
+      margin-bottom:18px;
+      position:relative;
+      overflow:hidden;
+    }
+    .hero::after{
+      content:"";
+      position:absolute;
+      width:240px;
+      height:240px;
+      border-radius:50%;
+      right:-80px;
+      top:-80px;
+      background:radial-gradient(circle, rgba(47,107,255,.35), rgba(47,107,255,0));
+      pointer-events:none;
+    }
+    .hero-kicker{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      font-family:"GPMenu",system-ui,sans-serif;
+      font-size:12px;
+      letter-spacing:.1em;
+      text-transform:uppercase;
+      color:#9ebdff;
+      margin-bottom:12px;
+    }
+    h1{
+      font-family:"Swiss911",sans-serif;
+      font-size:72px;
+      letter-spacing:-.02em;
+      line-height:.9;
+      text-transform:uppercase;
+      margin-bottom:14px;
+    }
+    .hero p{color:var(--muted);line-height:1.58;max-width:680px;}
+
+    .hero-side{
+      background:rgba(255,255,255,.04);
+      border:1px solid var(--line);
+      padding:18px;
+      display:grid;
+      gap:12px;
+      align-content:start;
+    }
+    .stat-row{display:flex;align-items:flex-end;justify-content:space-between;gap:10px;padding-bottom:10px;border-bottom:1px solid rgba(255,255,255,.08);}
+    .stat-row:last-child{border-bottom:0;padding-bottom:0;}
+    .stat-label{font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:rgba(255,255,255,.62);}
+    .stat-value{font-family:"Swiss911",sans-serif;font-size:36px;line-height:.9;letter-spacing:-.01em;}
+
+    .cta-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin-bottom:24px;}
+    .cta-link{
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap:16px;
+      text-decoration:none;
+      color:#fff;
+      background:linear-gradient(145deg, rgba(47,107,255,.20), rgba(12,16,30,.95));
+      border:1px solid rgba(123,166,255,.35);
+      padding:20px;
+      min-height:132px;
+      transition:transform .2s ease,border-color .2s ease,box-shadow .2s ease;
+      box-shadow:0 14px 26px rgba(0,0,0,.25);
+    }
+    .cta-link:hover{transform:translateY(-3px);border-color:rgba(123,166,255,.8);box-shadow:0 18px 32px rgba(15,22,41,.45);}
+    .cta-icon{
+      width:46px;
+      height:46px;
+      border-radius:50%;
+      display:grid;
+      place-items:center;
+      font-size:22px;
+      background:rgba(255,255,255,.12);
+      border:1px solid rgba(255,255,255,.25);
+      flex-shrink:0;
+    }
+    .cta-content{display:flex;flex-direction:column;gap:10px;}
+    .cta-title{font-family:"Swiss911",sans-serif;font-size:36px;line-height:.88;letter-spacing:-.01em;text-transform:uppercase;}
+    .cta-sub{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:rgba(227,237,255,.8);}
+    .cta-arrow{font-size:24px;align-self:flex-end;opacity:.9;}
+
+    .section-title{
+      font-family:"Swiss911",sans-serif;
+      text-transform:uppercase;
+      letter-spacing:-0.015em;
+      font-size:44px;
+      margin:0 0 12px;
+    }
+    .section-copy{color:var(--muted);max-width:760px;line-height:1.6;margin-bottom:16px;}
+    .access-note{margin:-4px 0 14px;color:rgba(173,205,255,.9);font-size:12px;letter-spacing:.04em;text-transform:uppercase;}
+
+    .cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;}
+    .card{
+      background:linear-gradient(160deg, rgba(25,25,34,.96), rgba(12,12,18,.9));
+      border:1px solid var(--line);
+      padding:18px;
+      min-height:196px;
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+      position:relative;
+      transition:transform .2s ease,border-color .2s ease;
+    }
+    .card:hover{transform:translateY(-3px);border-color:rgba(123,166,255,.5);}
+    .card-top{display:flex;align-items:center;gap:10px;}
+    .card-icon{width:30px;height:30px;border-radius:8px;display:grid;place-items:center;background:rgba(47,107,255,.25);font-size:15px;}
+    .card h3{
+      font-family:"GPMenu",system-ui,sans-serif;
+      font-size:15px;
+      letter-spacing:.02em;
+      text-transform:uppercase;
+      line-height:1.25;
+    }
+    .card p{color:var(--muted);font-size:14px;line-height:1.55;}
+    .card a{
+      margin-top:auto;
+      color:#fff;
+      text-decoration:none;
+      font-family:"GPMenu",system-ui,sans-serif;
+      text-transform:uppercase;
+      font-size:13px;
+      letter-spacing:.03em;
     }
 
-    .header-inner {
-      max-width: var(--max);
-      margin: 0 auto;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 14px;
+    .link-strip{
+      margin-top:16px;
+      display:grid;
+      grid-template-columns:repeat(5,minmax(0,1fr));
+      gap:10px;
+    }
+    .link-strip a{
+      text-decoration:none;
+      color:#d8e4ff;
+      border:1px solid var(--line);
+      background:linear-gradient(140deg, rgba(255,255,255,.05), rgba(47,107,255,.08));
+      padding:12px;
+      font-size:13px;
+      text-transform:uppercase;
+      letter-spacing:.04em;
+      text-align:center;
+      font-family:"GPMenu",system-ui,sans-serif;
+      transition:all .2s ease;
+    }
+    .link-strip a:hover{transform:translateY(-2px);border-color:rgba(123,166,255,.8);}
+
+    footer{
+      margin-top:22px;
+      border-top:1px solid rgba(255,255,255,0.08);
+      background: rgba(0,0,0,0.20);
+      padding: 20px var(--page-side-margin);
+      color: rgba(255,255,255,0.78);
+    }
+    .footer-inner{max-width: var(--grid-max);margin: 0 auto;padding: 0 var(--outer-x);}
+    .footer-inline{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;font-size:12px;color: rgba(255,255,255,0.7);}
+    .footer-links{display:flex;align-items:center;gap:16px;flex-wrap:wrap;}
+    .footer-links a{text-decoration:none;color: rgba(255,255,255,0.78);font-size:12px;}
+
+    @media (max-width:980px){
+      :root{--page-side-margin:var(--m-side);--logo-height:64px;--gap-logo-header:24px;--outer-x:18px;}
+      .site-header{display:none;}
+      .m-header{display:flex;position:sticky;top:0;z-index:30;padding:16px var(--page-side-margin);align-items:center;justify-content:space-between;background:rgba(16,16,18,.86);backdrop-filter:blur(8px);}
+      .m-logo img{height:56px;display:block;margin-top:6px;}
+      .m-burger,.m-close{width:56px;height:56px;background:#fff;border:0;border-radius:8px;cursor:pointer;position:relative;}
+      .m-burger span{width:22px;height:2px;background:#111;position:absolute;left:17px;top:27px;}
+      .m-burger span::before,.m-burger span::after{content:"";position:absolute;left:0;width:22px;height:2px;background:#111;}
+      .m-burger span::before{top:-7px}.m-burger span::after{top:7px}
+      .m-close::before,.m-close::after{content:"";position:absolute;left:16px;top:27px;width:24px;height:2px;background:#111;}
+      .m-close::before{transform:rotate(45deg)}.m-close::after{transform:rotate(-45deg)}
+      .m-overlay{display:block;position:fixed;inset:0;background:rgba(0,0,0,.55);opacity:0;pointer-events:none;transition:opacity .2s;z-index:40;}
+      .m-drawer{display:block;position:fixed;inset:0;background:rgba(0,0,0,.92);transform:translateX(100%);transition:transform .24s ease;z-index:50;color:#fff;}
+      .m-drawer-top{display:flex;align-items:center;justify-content:space-between;padding:16px var(--page-side-margin);border-bottom:1px solid rgba(255,255,255,.08);}
+      .m-drawer-inner{padding:24px var(--page-side-margin) 40px;}
+      .m-nav{display:flex;flex-direction:column;gap:16px;margin-top:14px;}
+      .m-link{font-family:"GPMenu",system-ui,sans-serif;font-size:24px;text-transform:uppercase;text-decoration:none;color:#fff;letter-spacing:-.02em;}
+      body.m-open{overflow:hidden;}
+      body.m-open .m-overlay{opacity:1;pointer-events:auto;}
+      body.m-open .m-drawer{transform:translateX(0);}
+
+      .hero{grid-template-columns:1fr;padding:22px;}
+      h1{font-size:50px;}
+      .cta-grid{grid-template-columns:1fr;}
+      .cards{grid-template-columns:repeat(2,minmax(0,1fr));}
+      .link-strip{grid-template-columns:repeat(2,minmax(0,1fr));}
     }
 
-    .logo {
-      height: 62px;
-      display: block;
-    }
-
-    .menu-toggle {
-      display: none;
-      border: 1px solid var(--line);
-      background: transparent;
-      color: #fff;
-      width: 44px;
-      height: 44px;
-      border-radius: 10px;
-      font-size: 1.1rem;
-    }
-
-    .main-nav {
-      display: flex;
-      align-items: center;
-      flex-wrap: wrap;
-      justify-content: flex-end;
-      gap: 8px;
-    }
-
-    .main-nav a {
-      text-decoration: none;
-      text-transform: uppercase;
-      font-family: "GPMenu", system-ui, sans-serif;
-      letter-spacing: 0.02em;
-      font-size: 0.82rem;
-      padding: 9px 14px;
-      border-radius: 999px;
-      border: 1px solid transparent;
-      color: #d8e3f6;
-      transition: .2s ease;
-    }
-
-    .main-nav a:hover { border-color: rgba(255,255,255,0.3); color: #fff; }
-
-    .main-nav a.active {
-      background: linear-gradient(120deg, var(--accent), var(--accent-2));
-      border-color: transparent;
-      color: #04111f;
-    }
-
-    main {
-      max-width: var(--max);
-      margin: 34px auto 50px;
-      padding: 0 16px;
-      display: grid;
-      gap: 20px;
-    }
-
-    .hero {
-      background: linear-gradient(130deg, rgba(16, 27, 47, 0.95), rgba(10, 19, 34, 0.95));
-      border: 1px solid var(--line);
-      border-radius: 24px;
-      padding: clamp(20px, 4vw, 34px);
-      display: grid;
-      grid-template-columns: 1.3fr 1fr;
-      gap: 18px;
-      box-shadow: 0 20px 44px rgba(0, 0, 0, 0.35);
-    }
-
-    .tag {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      font-size: .74rem;
-      letter-spacing: .14em;
-      text-transform: uppercase;
-      color: #b7cbef;
-      margin-bottom: 14px;
-    }
-
-    h1 {
-      margin: 0 0 10px;
-      font-family: "Swiss911", sans-serif;
-      font-size: clamp(2rem, 4vw, 3.2rem);
-      letter-spacing: 0.01em;
-      line-height: 0.95;
-      text-transform: uppercase;
-    }
-
-    .hero p { color: var(--soft); margin: 0; line-height: 1.6; max-width: 650px; }
-
-    .hero-actions {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      justify-content: center;
-    }
-
-    .btn {
-      text-decoration: none;
-      padding: 13px 16px;
-      border-radius: 12px;
-      border: 1px solid var(--line);
-      font-weight: 700;
-      color: #ecf3ff;
-      background: rgba(255,255,255,0.03);
-      transition: .2s ease;
-    }
-
-    .btn.primary {
-      background: linear-gradient(120deg, var(--accent), var(--accent-2));
-      color: #001226;
-      border: none;
-    }
-
-    .btn:hover { transform: translateY(-1px); }
-
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 16px;
-    }
-
-    .card {
-      background: var(--panel);
-      border: 1px solid var(--line);
-      border-radius: 18px;
-      padding: 18px;
-      min-height: 170px;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-
-    .card h2 {
-      margin: 0;
-      font-size: 1rem;
-      letter-spacing: 0.03em;
-      text-transform: uppercase;
-    }
-
-    .card p { margin: 0; color: var(--soft); line-height: 1.5; font-size: .95rem; }
-
-    .card a {
-      margin-top: auto;
-      color: #fff;
-      text-decoration: none;
-      border-bottom: 1px solid rgba(255,255,255,0.4);
-      width: fit-content;
-      font-size: .9rem;
-    }
-
-    .links {
-      display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 12px;
-    }
-
-    .link-pill {
-      background: var(--panel-soft);
-      border: 1px solid var(--line);
-      border-radius: 12px;
-      padding: 12px;
-      text-decoration: none;
-      color: #d9e7ff;
-      font-size: .9rem;
-    }
-
-    .link-pill:hover { border-color: rgba(255,255,255,0.38); }
-
-    footer {
-      max-width: var(--max);
-      margin: 30px auto 26px;
-      padding: 0 16px;
-      color: #8fa5ca;
-      font-size: .9rem;
-      display: flex;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 10px;
-    }
-
-    @media (max-width: 980px) {
-      .hero { grid-template-columns: 1fr; }
-      .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-      .links { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-      .menu-toggle { display: inline-flex; align-items: center; justify-content: center; }
-      .main-nav { display: none; width: 100%; margin-top: 10px; }
-      .header-inner.open .main-nav { display: flex; justify-content: flex-start; }
-    }
-
-    @media (max-width: 680px) {
-      .grid { grid-template-columns: 1fr; }
-      .links { grid-template-columns: 1fr; }
-      .logo { height: 54px; }
+    @media (max-width:640px){
+      .cards{grid-template-columns:1fr;}
+      .link-strip{grid-template-columns:1fr;}
+      h1{font-size:42px;}
+      .cta-title{font-size:31px;}
     }
   </style>
 </head>
 <body>
-  <header>
-    <div class="header-inner" id="headerInner">
-      <a href="index.html"><img src="assets/images/apam-logo.png" alt="Logo APAM" class="logo" /></a>
-      <button class="menu-toggle" id="menuToggle" aria-label="Ouvrir le menu">☰</button>
-      <nav class="main-nav">
-        <a href="index.html">Accueil</a>
-        <a href="apropos.html">À propos</a>
-        <a href="activite.html">Activité</a>
-        <a href="tarifs.html">Tarifs</a>
-        <a href="espace-membres.html">Outils</a>
-        <a href="mon-compte.html" class="active">Mon compte</a>
-        <a href="contact.html">Contact</a>
-        <a href="https://openflyers.com/apam/" target="_blank" rel="noopener noreferrer">OpenFlyers</a>
-      </nav>
+  <div class="page">
+    <div class="content">
+      <div class="m-header" aria-label="Header mobile">
+        <a class="m-logo" href="index.html" aria-label="Retour accueil (logo)">
+          <img src="assets/images/apam-logo2.png" alt="Logo APAM">
+        </a>
+        <button class="m-burger" type="button" aria-label="Ouvrir le menu" aria-expanded="false"><span aria-hidden="true"></span></button>
+      </div>
+
+      <div class="m-overlay" aria-hidden="true"></div>
+      <aside class="m-drawer" id="m-drawer" aria-hidden="true" aria-label="Menu">
+        <div class="m-drawer-top">
+          <a class="m-logo" href="index.html" aria-label="Retour accueil (logo)"><img src="assets/images/apam-logo2.png" alt="Logo APAM"></a>
+          <button class="m-close" type="button" aria-label="Fermer le menu"></button>
+        </div>
+        <div class="m-drawer-inner">
+          <nav class="m-nav" aria-label="Liens principaux">
+            <a class="m-link" href="tarifs.html">Flotte</a>
+            <a class="m-link" href="activite.html">Activités</a>
+            <a class="m-link" href="devenir-pilote.html">Devenir pilote</a>
+            <a class="m-link" href="contact.html">Contact</a>
+            <a class="m-link" href="espace-membres.html">Outils</a>
+            <a class="m-link" href="https://openflyers.com/apam/" target="_blank" rel="noopener noreferrer">OpenFlyer</a>
+            <a class="m-link" href="mon-compte.html">Mon compte</a>
+          </nav>
+        </div>
+      </aside>
+
+      <header class="site-header">
+        <div class="header-row">
+          <a class="header-logo" href="index.html"><img src="assets/images/apam-logo2.png" alt="Logo APAM"></a>
+          <div class="header-bar">
+            <div class="header-left">
+              <nav class="nav-menu">
+                <span class="nav-item has-dropdown">
+                  <a href="tarifs.html" class="nav-link" data-text="FLOTTE">FLOTTE</a>
+                  <div class="fleet-panel" role="menu" aria-label="Menu flotte">
+                    <a class="fleet-card" href="tarifs.html"><div class="fleet-name">CESSNA 152</div><img class="fleet-plane" src="assets/images/FGHKE2.png" alt="Cessna 152"></a>
+                    <a class="fleet-card" href="tarifs.html"><div class="fleet-name">TB200</div><img class="fleet-plane" src="assets/images/TB200M.png" alt="TB200"></a>
+                    <a class="fleet-card" href="tarifs.html"><div class="fleet-name">CIRRUS SR22</div><img class="fleet-plane" src="assets/images/SR1.png" alt="Cirrus SR22"></a>
+                  </div>
+                </span>
+                <span class="nav-item"><a href="activite.html" class="nav-link" data-text="ACTIVITÉS">ACTIVITÉS</a></span>
+                <span class="nav-item"><a href="devenir-pilote.html" class="nav-link" data-text="DEVENIR PILOTE">DEVENIR PILOTE</a></span>
+                <span class="nav-item"><a href="contact.html" class="nav-link" data-text="CONTACT">CONTACT</a></span>
+                <span class="nav-item"><a href="espace-membres.html" class="nav-link" data-text="OUTILS">OUTILS</a></span>
+                <span class="nav-item"><a href="https://openflyers.com/apam/" target="_blank" rel="noopener noreferrer" class="nav-link" data-text="OPENFLYER">OPENFLYER</a></span>
+              </nav>
+            </div>
+            <div class="header-right"><a class="btn-compte" href="mon-compte.html">Mon compte</a></div>
+          </div>
+        </div>
+      </header>
+
+      <main>
+        <div class="wrap" data-access-api="" data-user-email="">
+          <section class="hero">
+            <div>
+              <span class="hero-kicker">✈ Espace personnel APAM</span>
+              <h1>Mon compte pilote</h1>
+              <p>Une version plus fun et plus vivante, toujours alignée avec le style APAM : accès essentiels, outils club, documents et préparation de vol dans un seul espace.</p>
+            </div>
+            <div class="hero-side" aria-label="Indicateurs rapides" data-members-csv="https://docs.google.com/spreadsheets/d/e/2PACX-1vQ9cfj5o-MEMBERLIST/pub?gid=0&single=true&output=csv">
+              <div class="stat-row"><span class="stat-label">Membres inscrits</span><span class="stat-value" id="membersCount">--</span></div>
+              <div class="stat-row"><span class="stat-label">Ressources membres</span><span class="stat-value">24/7</span></div>
+              <div class="stat-row"><span class="stat-label">Portail club</span><span class="stat-value">APAM</span></div>
+            </div>
+          </section>
+
+          <div class="cta-grid">
+            <a class="cta-link" href="https://docs.google.com/forms/d/e/1FAIpQLSd_uIRaKMWW5sIzq8NnZYflQr9glMLzq4WEDJrw0gtDI_NHGA/viewform?usp=header" target="_blank" rel="noopener noreferrer">
+              <span class="cta-icon" aria-hidden="true">📝</span>
+              <span class="cta-content">
+                <span class="cta-title">Créer mon espace membre</span>
+                <span class="cta-sub">Nouvelle inscription / dossier pilote</span>
+              </span>
+              <span class="cta-arrow" aria-hidden="true">→</span>
+            </a>
+            <a class="cta-link" href="https://accounts.google.com/" target="_blank" rel="noopener noreferrer">
+              <span class="cta-icon" aria-hidden="true">🔐</span>
+              <span class="cta-content">
+                <span class="cta-title">Connexion Google</span>
+                <span class="cta-sub">Accéder aux documents APAM</span>
+              </span>
+              <span class="cta-arrow" aria-hidden="true">→</span>
+            </a>
+          </div>
+
+          <section aria-labelledby="ressources">
+            <h2 class="section-title" id="ressources">Ressources du compte</h2>
+            <p class="section-copy">Tous les éléments clés sont rassemblés en un seul écran : documents personnels, documents club, préparation des vols et outils réglementaires.</p>
+            <p class="access-note" id="accessNote">Affichage complet par défaut. Renseignez l’API d’accès Apps Script pour filtrer automatiquement par rôle.</p>
+            <div class="cards" id="resourceCards">
+              <article class="card" data-permission="compte_personnel"><div class="card-top"><span class="card-icon" aria-hidden="true">🗂️</span><h3>Compte personnel</h3></div><p>Accès à vos dossiers privés et aux informations membres partagées avec le club.</p><a href="https://drive.google.com/drive/folders/1jWGTLMBNJbqWNg5op-NUo-3TowlVtJE5?usp=share_link" target="_blank" rel="noopener noreferrer">Ouvrir le dossier →</a></article>
+              <article class="card" data-permission="docs_administratifs"><div class="card-top"><span class="card-icon" aria-hidden="true">📄</span><h3>Documents administratifs</h3></div><p>Pièces d’identité, attestations, éléments de suivi et justificatifs à jour.</p><a href="https://drive.google.com/drive/folders/1MsCsXcE5R7800LjZbM86ug4sLmd_WQet?usp=share_link" target="_blank" rel="noopener noreferrer">Voir les documents →</a></article>
+              <article class="card" data-permission="docs_club"><div class="card-top"><span class="card-icon" aria-hidden="true">🏛️</span><h3>Documents club</h3></div><p>Règlement intérieur, procédures opérationnelles et formulaires APAM.</p><a href="https://drive.google.com/drive/folders/1j3OGL1BzDIOLYdDjoxcn-SxSAzwDdmLD?usp=share_link" target="_blank" rel="noopener noreferrer">Consulter le club →</a></article>
+              <article class="card" data-permission="cours"><div class="card-top"><span class="card-icon" aria-hidden="true">🎯</span><h3>Guides de progression</h3></div><p>Briefings pédagogiques, progression PPL et rappels sécurité en vol.</p><a href="https://drive.google.com/drive/folders/1aRq5gZqxQ6T6AkDWGrJb8OOX-4UD1frw?usp=sharing" target="_blank" rel="noopener noreferrer">Accéder aux guides →</a></article>
+              <article class="card" data-permission="meteo"><div class="card-top"><span class="card-icon" aria-hidden="true">🌦️</span><h3>Météo aviation</h3></div><p>Préparation météo avec METAR/TAF, tendances et vues dédiées à l’aéro.</p><a href="https://aviation.meteo.fr/" target="_blank" rel="noopener noreferrer">Consulter la météo →</a></article>
+              <article class="card" data-permission="docs_avion"><div class="card-top"><span class="card-icon" aria-hidden="true">🧭</span><h3>Préparation navigation</h3></div><p>NOTAM, cartes VAC, briefing et dépôt de plan de vol sur plateformes officielles.</p><a href="https://olivia.aviation-civile.gouv.fr/" target="_blank" rel="noopener noreferrer">Préparer un vol →</a></article>
+            </div>
+
+            <div class="link-strip" aria-label="Liens utiles externes">
+              <a href="https://www.ffa-aero.fr/" target="_blank" rel="noopener noreferrer">🛩️ FFA</a>
+              <a href="https://www.sia.aviation-civile.gouv.fr/" target="_blank" rel="noopener noreferrer">📍 SIA</a>
+              <a href="https://sofia-briefing.aviation-civile.gouv.fr/sofia/redirectToHomepage.jsf" target="_blank" rel="noopener noreferrer">📢 SOFIA</a>
+              <a href="https://www.skyvector.com/" target="_blank" rel="noopener noreferrer">🗺️ SkyVector</a>
+              <a href="https://www.ecologie.gouv.fr/direction-generale-laviation-civile-dgac" target="_blank" rel="noopener noreferrer">🏢 DGAC</a>
+            </div>
+          </section>
+        </div>
+      </main>
+
+      <footer>
+        <div class="footer-inner">
+          <div class="footer-inline">
+            <div class="footer-links">
+              <a href="mailto:contact@apam.fr">contact@apam.fr</a>
+              <a href="https://www.facebook.com/profile.php?id=61585663567523" target="_blank" rel="noopener noreferrer">Facebook</a>
+            </div>
+            <div>Site conçu par Pierre Cauvin.</div>
+          </div>
+        </div>
+      </footer>
     </div>
-  </header>
-
-  <main>
-    <section class="hero">
-      <div>
-        <div class="tag">● espace membre APAM</div>
-        <h1>Mon compte pilote</h1>
-        <p>Un premier design plus premium et cohérent avec l'identité du site : accès rapides, documents essentiels et tous les liens opérationnels dans une interface claire.</p>
-      </div>
-      <div class="hero-actions">
-        <a class="btn primary" href="https://docs.google.com/forms/d/e/1FAIpQLSd_uIRaKMWW5sIzq8NnZYflQr9glMLzq4WEDJrw0gtDI_NHGA/viewform?usp=header" target="_blank" rel="noopener noreferrer">Créer mon espace membre</a>
-        <a class="btn" href="https://accounts.google.com/" target="_blank" rel="noopener noreferrer">Connexion Google</a>
-      </div>
-    </section>
-
-    <section class="grid">
-      <article class="card"><h2>Compte personnel</h2><p>Retrouvez vos accès, vos informations et vos ressources privées.</p><a href="https://drive.google.com/drive/folders/1jWGTLMBNJbqWNg5op-NUo-3TowlVtJE5?usp=share_link" target="_blank" rel="noopener noreferrer">Ouvrir le dossier</a></article>
-      <article class="card"><h2>Documents administratifs</h2><p>Pièces d'identité, certificats, attestations et documents de suivi.</p><a href="https://drive.google.com/drive/folders/1MsCsXcE5R7800LjZbM86ug4sLmd_WQet?usp=share_link" target="_blank" rel="noopener noreferrer">Voir les documents</a></article>
-      <article class="card"><h2>Documents club</h2><p>Règlement intérieur, organisation, procédures et formulaires APAM.</p><a href="https://drive.google.com/drive/folders/1j3OGL1BzDIOLYdDjoxcn-SxSAzwDdmLD?usp=share_link" target="_blank" rel="noopener noreferrer">Consulter</a></article>
-      <article class="card"><h2>Guides de progression</h2><p>Fiches de briefing, progression PPL et rappels sécurité.</p><a href="https://drive.google.com/drive/folders/1aRq5gZqxQ6T6AkDWGrJb8OOX-4UD1frw?usp=sharing" target="_blank" rel="noopener noreferrer">Accéder aux guides</a></article>
-      <article class="card"><h2>Suivi météo</h2><p>Préparez vos vols avec les principaux services météo aviation.</p><a href="https://aviation.meteo.fr/" target="_blank" rel="noopener noreferrer">Météo aviation</a></article>
-      <article class="card"><h2>Préparation navigation</h2><p>Plans de vol, NOTAM, cartes VAC et briefing pré-vol.</p><a href="https://olivia.aviation-civile.gouv.fr/" target="_blank" rel="noopener noreferrer">Préparer un vol</a></article>
-    </section>
-
-    <section class="links">
-      <a class="link-pill" href="https://www.ffa-aero.fr/" target="_blank" rel="noopener noreferrer">FFA</a>
-      <a class="link-pill" href="https://www.sia.aviation-civile.gouv.fr/" target="_blank" rel="noopener noreferrer">SIA</a>
-      <a class="link-pill" href="https://sofia-briefing.aviation-civile.gouv.fr/sofia/redirectToHomepage.jsf" target="_blank" rel="noopener noreferrer">SOFIA</a>
-      <a class="link-pill" href="https://www.skyvector.com/" target="_blank" rel="noopener noreferrer">SkyVector</a>
-    </section>
-  </main>
-
-  <footer>
-    <span>© APAM – Aéroclub de L'Aigle Saint-Michel</span>
-    <span><a href="mailto:contact@apam.fr">contact@apam.fr</a></span>
-  </footer>
+  </div>
 
   <script>
-    const menuToggle = document.getElementById("menuToggle");
-    const headerInner = document.getElementById("headerInner");
-    menuToggle?.addEventListener("click", () => {
-      headerInner.classList.toggle("open");
-    });
+    const body = document.body;
+    const burger = document.querySelector('.m-burger');
+    const closeBtn = document.querySelector('.m-close');
+    const overlay = document.querySelector('.m-overlay');
+    const membersWrapper = document.querySelector('[data-members-csv]');
+    const membersCountEl = document.getElementById('membersCount');
+    const accessContainer = document.querySelector('[data-access-api]');
+    const accessNote = document.getElementById('accessNote');
+
+    async function loadMembersCount(){
+      if (!membersWrapper || !membersCountEl) return;
+      const csvUrl = membersWrapper.dataset.membersCsv;
+      if (!csvUrl) return;
+
+      try {
+        const res = await fetch(csvUrl, { cache: 'no-store' });
+        if (!res.ok) throw new Error('Erreur HTTP');
+        const text = await res.text();
+
+        const rows = text
+          .split(/\r?\n/)
+          .map((line) => line.trim())
+          .filter((line) => line !== '');
+
+        const dataRows = Math.max(0, rows.length - 1);
+        membersCountEl.textContent = String(dataRows);
+      } catch {
+        membersCountEl.textContent = '--';
+      }
+    }
+
+
+    async function loadAccessByRole(){
+      if (!accessContainer) return;
+      const apiUrl = accessContainer.dataset.accessApi?.trim();
+      const configuredEmail = accessContainer.dataset.userEmail?.trim();
+      const cards = Array.from(document.querySelectorAll('[data-permission]'));
+      if (!cards.length) return;
+
+      if (!apiUrl){
+        if (accessNote) accessNote.textContent = "Affichage complet par défaut. Renseignez l’API d’accès Apps Script pour filtrer automatiquement par rôle.";
+        return;
+      }
+
+      try {
+        const userEmail = configuredEmail || (window.prompt("Email membre APAM", "") || "").trim().toLowerCase();
+        if (!userEmail) return;
+
+        const res = await fetch(`${apiUrl}?email=${encodeURIComponent(userEmail)}`, { cache: 'no-store' });
+        if (!res.ok) throw new Error('API indisponible');
+        const payload = await res.json();
+        const allowed = new Set((payload.permissions || []).map((v) => String(v).toLowerCase()));
+
+        let visibleCount = 0;
+        cards.forEach((card) => {
+          const key = (card.dataset.permission || '').toLowerCase();
+          const show = allowed.has(key);
+          card.style.display = show ? '' : 'none';
+          if (show) visibleCount += 1;
+        });
+
+        if (accessNote){
+          accessNote.textContent = visibleCount
+            ? `Accès chargé pour ${userEmail} : ${visibleCount} module(s) autorisé(s).`
+            : `Aucun module autorisé pour ${userEmail}.`;
+        }
+      } catch {
+        if (accessNote) accessNote.textContent = "Impossible de charger les droits. Affichage complet conservé.";
+      }
+    }
+
+    const setOpen = (open) => {
+      body.classList.toggle('m-open', open);
+      burger?.setAttribute('aria-expanded', open ? 'true' : 'false');
+    };
+
+    burger?.addEventListener('click', () => setOpen(true));
+    closeBtn?.addEventListener('click', () => setOpen(false));
+    overlay?.addEventListener('click', () => setOpen(false));
+    loadMembersCount();
+    loadAccessByRole();
   </script>
 </body>
 </html>
