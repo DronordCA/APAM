@@ -146,7 +146,17 @@
     .quick-links{margin-top:16px;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;}
     .quick-links a{display:block;padding:12px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);text-decoration:none;color:#fff;font-size:13px;text-transform:uppercase;letter-spacing:.06em;}
 
-    .order-panel{margin-top:18px;background:rgba(11,12,16,.9);border:1px solid rgba(255,255,255,.14);padding:20px;display:grid;gap:14px;}
+    .showcase-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin:18px 0 24px;}
+    .showcase-card{position:relative;min-height:210px;border:1px solid rgba(255,255,255,.16);background:rgba(14,16,22,.74);overflow:hidden;border-radius:10px;}
+    .showcase-photo{width:100%;height:100%;object-fit:cover;display:block;filter:saturate(1.05) contrast(1.04);}
+    .showcase-meta{position:absolute;left:0;right:0;bottom:0;padding:10px 12px;background:linear-gradient(180deg,rgba(0,0,0,0),rgba(0,0,0,.82));}
+    .showcase-meta h3{font-size:16px;letter-spacing:.02em;margin-bottom:4px;}
+    .showcase-meta p{font-size:12px;color:rgba(255,255,255,.86);line-height:1.35;}
+
+    .order-launch{margin-top:18px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:14px 16px;border:1px solid rgba(255,255,255,.16);background:rgba(12,14,20,.7);}
+    .order-launch p{margin:0;color:rgba(255,255,255,.8);font-size:13px;line-height:1.4;}
+    .order-panel{margin-top:12px;background:rgba(11,12,16,.9);border:1px solid rgba(255,255,255,.14);padding:20px;display:grid;gap:14px;max-height:2000px;opacity:1;overflow:hidden;transition:max-height .35s ease,opacity .25s ease,padding .2s ease,border-color .2s ease;}
+    .order-panel.is-collapsed{max-height:0;opacity:0;padding-top:0;padding-bottom:0;border-color:transparent;pointer-events:none;}
     .order-panel h2{font-family:"GPMenu",system-ui,sans-serif;text-transform:uppercase;font-size:24px;letter-spacing:-.02em;}
     .order-panel p{color:rgba(255,255,255,.75);line-height:1.5;font-size:14px;}
     .order-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;}
@@ -174,9 +184,10 @@
       .title-box span{font-size:56px;}
       .tools-grid{grid-template-columns:repeat(2,minmax(0,1fr));}
       .quick-links{grid-template-columns:repeat(2,minmax(0,1fr));}
+      .showcase-grid{grid-template-columns:repeat(2,minmax(0,1fr));}
     }
     @media (max-width:640px){
-      .tools-grid,.quick-links,.order-grid{grid-template-columns:1fr;}
+      .tools-grid,.quick-links,.order-grid,.showcase-grid{grid-template-columns:1fr;}
     }
   </style>
 </head>
@@ -233,6 +244,34 @@
         <div class="title-bar"><div class="title-box"><span>Boutique APAM</span></div></div>
         <p class="intro">Commandez des cartes cadeaux, vols découverte, baptêmes et produits club. Le parcours est simple : demande via formulaire, email automatique selon le mode de paiement, puis confirmation APAM.</p>
 
+        <section class="section-wrap" aria-label="Sélection boutique visuelle (simulation)">
+          <p class="intro" style="margin-bottom:12px;">Version simulation : ces encarts visuels utilisent des photos libres de droits (Pexels) et sont prêts à être reliés plus tard à une Google Sheet (titre, image, description via attributs <code>data-sheet-*</code>).</p>
+          <div class="showcase-grid">
+            <article class="showcase-card" data-sheet-key="photo_1">
+              <img class="showcase-photo" src="https://images.pexels.com/photos/46148/aircraft-jet-landing-cloud-46148.jpeg?auto=compress&cs=tinysrgb&w=1400" alt="Petit avion en approche" loading="lazy" />
+              <div class="showcase-meta">
+                <h3 data-sheet-field="titre">Vol découverte</h3>
+                <p data-sheet-field="description">Encart prêt à piloter depuis Sheet : image + titre + texte promo.</p>
+              </div>
+            </article>
+            <article class="showcase-card" data-sheet-key="photo_2">
+              <img class="showcase-photo" src="https://images.pexels.com/photos/912050/pexels-photo-912050.jpeg?auto=compress&cs=tinysrgb&w=1400" alt="Cockpit avec horizon" loading="lazy" />
+              <div class="showcase-meta">
+                <h3 data-sheet-field="titre">Carte cadeau APAM</h3>
+                <p data-sheet-field="description">Idéal pour les offres saisonnières et la mise en avant des nouveautés.</p>
+              </div>
+            </article>
+            <article class="showcase-card" data-sheet-key="photo_3">
+              <img class="showcase-photo" src="https://images.pexels.com/photos/358319/pexels-photo-358319.jpeg?auto=compress&cs=tinysrgb&w=1400" alt="Pilote devant un avion au soleil" loading="lazy" />
+              <div class="showcase-meta">
+                <h3 data-sheet-field="titre">Baptême de l'air</h3>
+                <p data-sheet-field="description">Bloc visuel réutilisable pour promouvoir des expériences club.</p>
+              </div>
+            </article>
+          </div>
+        </section>
+
+
         <section class="section-wrap">
           <div class="tools-grid">
             <article class="tool-card"><h2>Carte cadeau vol</h2><p>Offrez une carte cadeau personnalisée APAM. Validation après paiement et envoi par email.</p><button class="order-btn" type="button" data-product="Carte cadeau vol">Commander</button></article>
@@ -243,7 +282,12 @@
             <article class="tool-card"><h2>Suivi de commande</h2><p>Une fois le paiement validé, APAM confirme l'envoi de votre carte cadeau ou la date du vol.</p><button class="order-btn" type="button" data-product="Suivi de commande">Contacter</button></article>
           </div>
 
-          <section class="order-panel" aria-labelledby="orderTitle">
+          <div class="order-launch" aria-label="Ouvrir le formulaire boutique">
+            <p>Clique sur un produit pour ouvrir automatiquement le formulaire interne, ou ouvre-le manuellement.</p>
+            <button class="order-btn" type="button" id="toggleOrderPanelBtn" aria-expanded="false">Ouvrir le formulaire</button>
+          </div>
+
+          <section class="order-panel is-collapsed" id="orderPanel" aria-labelledby="orderTitle">
             <h2 id="orderTitle">Formulaire de commande</h2>
             <p>Remplissez une seule fois ce formulaire : APAM reçoit votre demande complète, et vous obtenez un message de confirmation adapté au mode de paiement choisi.</p>
 
@@ -299,7 +343,7 @@
 
             <div class="order-confirm" id="orderConfirm" aria-live="polite"></div>
             <a class="order-mail-link" id="orderMailLink" href="mailto:contact@apam.fr">Envoyer la demande à APAM</a>
-            <p class="order-note">Note : sur une version 100% statique, la confirmation affichée est immédiate et l'envoi automatique d'email se fait ensuite via Apps Script/Form backend.</p>
+            <p class="order-note">Note : sur une version 100% statique, la confirmation affichée est immédiate. L'envoi automatique réel se branche ensuite sur Apps Script (sans Google Form obligatoire).</p>
           </section>
 
           <div class="quick-links">
@@ -331,6 +375,8 @@
     const closeBtn = document.querySelector('.m-close');
     const overlay = document.querySelector('.m-overlay');
     const orderForm = document.getElementById('orderForm');
+    const orderPanel = document.getElementById('orderPanel');
+    const toggleOrderPanelBtn = document.getElementById('toggleOrderPanelBtn');
     const productSelect = document.getElementById('product');
     const paymentMode = document.getElementById('paymentMode');
     const orderConfirm = document.getElementById('orderConfirm');
@@ -369,13 +415,30 @@
       orderMailLink.classList.add('is-visible');
     }
 
+    function setOrderPanelOpen(open) {
+      orderPanel?.classList.toggle('is-collapsed', !open);
+      toggleOrderPanelBtn?.setAttribute('aria-expanded', open ? 'true' : 'false');
+      if (toggleOrderPanelBtn) {
+        toggleOrderPanelBtn.textContent = open ? 'Fermer le formulaire' : 'Ouvrir le formulaire';
+      }
+    }
+
+    toggleOrderPanelBtn?.addEventListener('click', () => {
+      const isCollapsed = orderPanel?.classList.contains('is-collapsed');
+      setOrderPanelOpen(Boolean(isCollapsed));
+      if (isCollapsed) {
+        orderPanel?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+
     document.querySelectorAll('[data-product]').forEach((button) => {
       button.addEventListener('click', () => {
         const product = button.dataset.product;
         if (productSelect && productSelect.querySelector(`option[value="${product}"]`)) {
           productSelect.value = product;
         }
-        orderForm?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        setOrderPanelOpen(true);
+        orderPanel?.scrollIntoView({ behavior: 'smooth', block: 'start' });
       });
     });
 

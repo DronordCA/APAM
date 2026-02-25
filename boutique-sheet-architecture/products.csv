@@ -1,0 +1,5 @@
+product_key,product_name,category,price_eur,active,description,image_url,sheet_slot
+carte-cadeau-vol,Carte cadeau vol,cadeau,129,OUI,Carte cadeau personnalisable APAM,https://images.pexels.com/photos/912050/pexels-photo-912050.jpeg,photo_1
+vol-decouverte,Vol découverte,vol,159,OUI,Vol découverte avec instructeur APAM,https://images.pexels.com/photos/46148/aircraft-jet-landing-cloud-46148.jpeg,photo_2
+bapteme-air,Baptême de l'air,vol,99,OUI,Première expérience aéronautique,https://images.pexels.com/photos/358319/pexels-photo-358319.jpeg,photo_3
+casquette-apam,Casquette APAM,goodies,25,OUI,Casquette club APAM édition standard,,photo_4
