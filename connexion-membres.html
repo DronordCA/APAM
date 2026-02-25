@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>APAM – Connexion membres</title>
+  <style>
+    :root{--accent:#2f6bff;--line:rgba(255,255,255,.16);--bg:#11131a;--surface:rgba(20,22,34,.92);}
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{min-height:100svh;display:grid;place-items:center;font-family:system-ui,-apple-system,"Segoe UI",sans-serif;background:radial-gradient(circle at top right,#203768,#11131a 44%);color:#fff;padding:20px;}
+    .panel{width:min(560px,100%);background:var(--surface);border:1px solid var(--line);padding:28px;box-shadow:0 30px 60px rgba(0,0,0,.35)}
+    h1{font-size:36px;line-height:1.05;text-transform:uppercase;letter-spacing:-.02em;margin-bottom:10px}
+    p{color:rgba(255,255,255,.76);line-height:1.5;margin-bottom:18px}
+    form{display:grid;gap:12px}
+    label{font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:rgba(255,255,255,.8)}
+    input{width:100%;padding:12px;border:1px solid var(--line);background:#0f1220;color:#fff}
+    button{padding:12px 14px;border:1px solid rgba(123,166,255,.55);background:linear-gradient(135deg,#2f6bff,#183775);color:#fff;cursor:pointer;text-transform:uppercase;letter-spacing:.08em;font-size:12px}
+    .status{margin-top:14px;font-size:13px;min-height:20px;color:#bcd2ff}
+    .help{margin-top:14px;font-size:12px;color:rgba(255,255,255,.63)}
+    a{color:#c8dbff}
+  </style>
+</head>
+<body>
+  <main class="panel" data-access-api="">
+    <h1>Connexion membres</h1>
+    <p>Entrez votre email APAM et votre mot de passe. La session sécurisée vous redirige ensuite vers l'espace membres.</p>
+
+    <form id="loginForm" novalidate>
+      <div>
+        <label for="email">Email</label>
+        <input id="email" name="email" type="email" autocomplete="username" required />
+      </div>
+      <div>
+        <label for="password">Mot de passe</label>
+        <input id="password" name="password" type="password" autocomplete="current-password" required />
+      </div>
+      <button type="submit">Se connecter</button>
+    </form>
+
+    <div class="status" id="status" aria-live="polite"></div>
+    <p class="help">Besoin d'un compte ? Utilisez le formulaire d'inscription APAM puis demandez l'activation de vos accès.</p>
+    <p class="help"><a href="index.html">← Retour à l'accueil</a></p>
+  </main>
+
+  <script>
+    const panel = document.querySelector('[data-access-api]');
+    const form = document.getElementById('loginForm');
+    const status = document.getElementById('status');
+    const params = new URLSearchParams(window.location.search);
+    const next = (params.get('next') || 'mon-compte.html').replace(/^\//, '');
+
+    function setStatus(message){
+      if (status) status.textContent = message;
+    }
+
+    form?.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      const apiUrl = panel?.dataset.accessApi?.trim();
+      if (!apiUrl){
+        setStatus('API non configurée. Ajoutez l\'URL de votre Web App Apps Script.');
+        return;
+      }
+
+      const email = String(form.email.value || '').trim().toLowerCase();
+      const password = String(form.password.value || '');
+      if (!email || !password){
+        setStatus('Merci de renseigner email et mot de passe.');
+        return;
+      }
+
+      setStatus('Vérification en cours...');
+
+      try {
+        const res = await fetch(apiUrl, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ action: 'login', email, password })
+        });
+        if (!res.ok) throw new Error('Erreur réseau');
+        const payload = await res.json();
+
+        if (!payload.ok || !payload.token){
+          setStatus(payload.error === 'invalid_credentials' ? 'Identifiants incorrects.' : 'Connexion refusée.');
+          return;
+        }
+
+        window.localStorage.setItem('apam_session_token', payload.token);
+        setStatus('Connexion validée. Redirection...');
+        window.location.href = next;
+      } catch {
+        setStatus('Impossible de contacter le serveur de connexion.');
+      }
+    });
+  </script>
+</body>
+</html>

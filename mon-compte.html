@@ -184,6 +184,18 @@
     .stat-row:last-child{border-bottom:0;padding-bottom:0;}
     .stat-label{font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:rgba(255,255,255,.62);}
     .stat-value{font-family:"Swiss911",sans-serif;font-size:36px;line-height:.9;letter-spacing:-.01em;}
+    .session-btn{
+      border:1px solid rgba(255,255,255,.3);
+      background:rgba(255,255,255,.08);
+      color:#fff;
+      font-size:12px;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+      padding:8px 10px;
+      cursor:pointer;
+    }
+    .session-btn:hover{border-color:rgba(123,166,255,.85);}
+
 
     .cta-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin-bottom:24px;}
     .cta-link{
@@ -385,7 +397,7 @@
       </header>
 
       <main>
-        <div class="wrap" data-access-api="" data-user-email="">
+        <div class="wrap" data-access-api="" data-login-url="connexion-membres.html">
           <section class="hero">
             <div>
               <span class="hero-kicker">✈ Espace personnel APAM</span>
@@ -396,6 +408,10 @@
               <div class="stat-row"><span class="stat-label">Membres inscrits</span><span class="stat-value" id="membersCount">--</span></div>
               <div class="stat-row"><span class="stat-label">Ressources membres</span><span class="stat-value">24/7</span></div>
               <div class="stat-row"><span class="stat-label">Portail club</span><span class="stat-value">APAM</span></div>
+              <div class="stat-row">
+                <span class="stat-label">Session</span>
+                <button class="session-btn" id="logoutBtn" type="button">Se déconnecter</button>
+              </div>
             </div>
           </section>
 
@@ -408,11 +424,11 @@
               </span>
               <span class="cta-arrow" aria-hidden="true">→</span>
             </a>
-            <a class="cta-link" href="https://accounts.google.com/" target="_blank" rel="noopener noreferrer">
+            <a class="cta-link" href="connexion-membres.html">
               <span class="cta-icon" aria-hidden="true">🔐</span>
               <span class="cta-content">
-                <span class="cta-title">Connexion Google</span>
-                <span class="cta-sub">Accéder aux documents APAM</span>
+                <span class="cta-title">Connexion membres</span>
+                <span class="cta-sub">Email + mot de passe APAM</span>
               </span>
               <span class="cta-arrow" aria-hidden="true">→</span>
             </a>
@@ -421,7 +437,7 @@
           <section aria-labelledby="ressources">
             <h2 class="section-title" id="ressources">Ressources du compte</h2>
             <p class="section-copy">Tous les éléments clés sont rassemblés en un seul écran : documents personnels, documents club, préparation des vols et outils réglementaires.</p>
-            <p class="access-note" id="accessNote">Affichage complet par défaut. Renseignez l’API d’accès Apps Script pour filtrer automatiquement par rôle.</p>
+            <p class="access-note" id="accessNote">Connexion requise. Les modules sont chargés à partir de votre session sécurisée Apps Script.</p>
             <div class="cards" id="resourceCards">
               <article class="card" data-permission="compte_personnel"><div class="card-top"><span class="card-icon" aria-hidden="true">🗂️</span><h3>Compte personnel</h3></div><p>Accès à vos dossiers privés et aux informations membres partagées avec le club.</p><a href="https://drive.google.com/drive/folders/1jWGTLMBNJbqWNg5op-NUo-3TowlVtJE5?usp=share_link" target="_blank" rel="noopener noreferrer">Ouvrir le dossier →</a></article>
               <article class="card" data-permission="docs_administratifs"><div class="card-top"><span class="card-icon" aria-hidden="true">📄</span><h3>Documents administratifs</h3></div><p>Pièces d’identité, attestations, éléments de suivi et justificatifs à jour.</p><a href="https://drive.google.com/drive/folders/1MsCsXcE5R7800LjZbM86ug4sLmd_WQet?usp=share_link" target="_blank" rel="noopener noreferrer">Voir les documents →</a></article>
@@ -465,6 +481,7 @@
     const membersCountEl = document.getElementById('membersCount');
     const accessContainer = document.querySelector('[data-access-api]');
     const accessNote = document.getElementById('accessNote');
+    const logoutBtn = document.getElementById('logoutBtn');
 
     async function loadMembersCount(){
       if (!membersWrapper || !membersCountEl) return;
@@ -489,25 +506,51 @@
     }
 
 
+    function hideAllCards(cards){
+      cards.forEach((card) => {
+        card.style.display = 'none';
+      });
+    }
+
+    function redirectToLogin(){
+      const loginUrl = accessContainer?.dataset.loginUrl?.trim() || 'connexion-membres.html';
+      const next = encodeURIComponent(window.location.pathname.split('/').pop() || 'mon-compte.html');
+      window.location.href = `${loginUrl}?next=${next}`;
+    }
+
     async function loadAccessByRole(){
       if (!accessContainer) return;
       const apiUrl = accessContainer.dataset.accessApi?.trim();
-      const configuredEmail = accessContainer.dataset.userEmail?.trim();
       const cards = Array.from(document.querySelectorAll('[data-permission]'));
       if (!cards.length) return;
 
       if (!apiUrl){
-        if (accessNote) accessNote.textContent = "Affichage complet par défaut. Renseignez l’API d’accès Apps Script pour filtrer automatiquement par rôle.";
+        if (accessNote) accessNote.textContent = "Mode démo : renseignez l’API Apps Script pour activer la sécurité par session.";
+        return;
+      }
+
+      const token = window.localStorage.getItem('apam_session_token') || '';
+      if (!token){
+        hideAllCards(cards);
+        if (accessNote) accessNote.textContent = "Session absente. Redirection vers la page de connexion membres...";
+        redirectToLogin();
         return;
       }
 
       try {
-        const userEmail = configuredEmail || (window.prompt("Email membre APAM", "") || "").trim().toLowerCase();
-        if (!userEmail) return;
-
-        const res = await fetch(`${apiUrl}?email=${encodeURIComponent(userEmail)}`, { cache: 'no-store' });
+        const res = await fetch(`${apiUrl}?action=me&token=${encodeURIComponent(token)}`, { cache: 'no-store' });
         if (!res.ok) throw new Error('API indisponible');
         const payload = await res.json();
+
+        if (!payload.ok){
+          window.localStorage.removeItem('apam_session_token');
+          hideAllCards(cards);
+          if (accessNote) accessNote.textContent = "Session expirée. Merci de vous reconnecter.";
+          redirectToLogin();
+          return;
+        }
+
+        const userEmail = String(payload.email || '').toLowerCase();
         const allowed = new Set((payload.permissions || []).map((v) => String(v).toLowerCase()));
 
         let visibleCount = 0;
@@ -520,11 +563,12 @@
 
         if (accessNote){
           accessNote.textContent = visibleCount
-            ? `Accès chargé pour ${userEmail} : ${visibleCount} module(s) autorisé(s).`
-            : `Aucun module autorisé pour ${userEmail}.`;
+            ? `Session active pour ${userEmail} : ${visibleCount} module(s) autorisé(s).`
+            : `Session active pour ${userEmail}, aucun module autorisé.`;
         }
       } catch {
-        if (accessNote) accessNote.textContent = "Impossible de charger les droits. Affichage complet conservé.";
+        hideAllCards(cards);
+        if (accessNote) accessNote.textContent = "Impossible de vérifier la session. Reconnexion nécessaire.";
       }
     }
 
@@ -536,6 +580,11 @@
     burger?.addEventListener('click', () => setOpen(true));
     closeBtn?.addEventListener('click', () => setOpen(false));
     overlay?.addEventListener('click', () => setOpen(false));
+    logoutBtn?.addEventListener('click', () => {
+      window.localStorage.removeItem('apam_session_token');
+      redirectToLogin();
+    });
+
     loadMembersCount();
     loadAccessByRole();
   </script>
