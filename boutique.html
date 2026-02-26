@@ -187,9 +187,50 @@
     .footer-links a{text-decoration:none;color:rgba(255,255,255,0.78);font-size:12px;}
 
     @media (max-width:980px){
+      .title-bar{margin-top:18px;}
+      .title-box{padding:14px 16px 10px;}
       .title-box span{font-size:56px;}
-      .showcase-grid{grid-template-columns:repeat(2,minmax(0,1fr));}
+      .intro{margin:10px var(--page-side-margin) 20px;font-size:15px;}
+      .showcase-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;}
+      .showcase-card{aspect-ratio:3/4.2;}
+      .card-face.back{padding:12px;}
       .card-order-form{grid-template-columns:1fr;}
+      .order-btn{padding:11px 12px;}
+    }
+
+    @media (max-width:680px){
+      :root{--page-side-margin:14px;--outer-x:12px;}
+      .m-header{padding:12px var(--page-side-margin);}
+      .m-logo img{height:48px;margin-top:0;}
+      .m-burger,.m-close{width:48px;height:48px;}
+      .m-burger span,.m-burger span::before,.m-burger span::after{left:12px;width:24px;}
+      .m-close::before,.m-close::after{left:12px;top:23px;width:24px;}
+      .m-link{font-size:34px;}
+
+      .title-bar{margin-top:12px;}
+      .title-box span{font-size:40px;}
+      .intro{font-size:14px;line-height:1.5;margin-bottom:16px;}
+      .section-wrap{margin-bottom:30px;}
+      .showcase-grid{grid-template-columns:1fr;gap:14px;margin-top:14px;}
+      .showcase-card{aspect-ratio:4/5;}
+      .showcase-meta{padding:10px;}
+      .showcase-meta h3{font-size:17px;}
+      .showcase-meta p{font-size:13px;}
+
+      .card-back-head h4{font-size:14px;}
+      .flip-back-btn{padding:6px 9px;font-size:10px;}
+      .card-order-form input,
+      .card-order-form select,
+      .card-order-form textarea{font-size:16px;}
+      .card-order-form textarea{min-height:84px;}
+      .order-actions{display:grid;grid-template-columns:1fr;}
+      .order-btn{width:100%;justify-content:center;text-align:center;}
+      .order-confirm{font-size:13px;}
+      .order-confirm h3{font-size:18px;}
+      .order-mail-link{font-size:13px;}
+
+      footer{margin-top:12px;padding:18px var(--page-side-margin);}
+      .footer-inline,.footer-links a{font-size:11px;}
     }
   </style>
 </head>
