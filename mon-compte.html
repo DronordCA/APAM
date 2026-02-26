@@ -332,25 +332,27 @@
       .m-logo img{height:56px;display:block;margin-top:6px;}
 
       .m-burger{
-        width:46px;height:40px;
-        background: rgba(255,255,255,0.08);
-        border:1px solid rgba(255,255,255,0.18);
+        width:56px;height:56px;
+        background:#fff;
+        border:0;
         border-radius:8px;
         display:flex;align-items:center;justify-content:center;
         cursor:pointer;
         position:relative;
+        box-shadow: 0 10px 18px rgba(0,0,0,0.35);
+        overflow:hidden;
       }
       .m-burger span,
       .m-burger span::before,
       .m-burger span::after{
         content:"";
-        width:18px;height:2px;
-        background:#fff;
+        width:22px;height:2px;
+        background:#111;
         display:block;
         position:relative;
       }
-      .m-burger span::before{ position:absolute; top:-6px; left:0; }
-      .m-burger span::after{ position:absolute; top:6px; left:0; }
+      .m-burger span::before{ position:absolute; top:-7px; left:0; }
+      .m-burger span::after{ position:absolute; top:7px; left:0; }
 
       .m-close{
         width:40px;height:40px;
@@ -378,8 +380,8 @@
       .m-nav{display:flex;flex-direction:column;gap:12px;margin-top:0;}
       .m-sub{font-family:"GPMenu",system-ui,sans-serif;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:rgba(255,255,255,.62);margin-bottom:6px;}
       .m-divider{height:1px;background:rgba(255,255,255,.10);margin:8px 0 6px;}
-      .m-link{text-decoration:none;color:#fff;font-family:"Swiss911",sans-serif;font-size:32px;letter-spacing:-0.02em;text-transform:uppercase;}
-      .m-cta{margin-top:8px;text-decoration:none;color:#fff;font-family:"Swiss911",sans-serif;font-size:28px;display:flex;align-items:center;gap:10px;text-transform:uppercase;}
+      .m-link{text-decoration:none;color:#fff;font-family:"Swiss911",sans-serif;font-size:44px;letter-spacing:-0.03em;line-height:0.92;font-style:italic;transform:skewX(-6deg);transform-origin:left center;opacity:0.92;text-transform:uppercase;}
+      .m-cta{margin-top:18px;text-decoration:none;color:#fff;font-family:"Swiss911",sans-serif;font-size:28px;letter-spacing:-0.02em;font-style:italic;opacity:0.95;display:flex;align-items:center;gap:10px;text-transform:uppercase;}
       .m-cta i{width:10px;height:10px;border-right:2px solid rgba(255,255,255,0.70);border-top:2px solid rgba(255,255,255,0.70);transform:rotate(45deg);transition: transform .18s ease, border-color .18s ease;}
       .m-cta:hover{ color: var(--accent); }
       .m-cta:hover i{transform: translateX(4px) rotate(45deg);border-color: var(--accent);}
