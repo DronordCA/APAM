@@ -510,9 +510,21 @@
                   <option value="cb">Carte bancaire (paiement au club)</option>
                 </select>
               </div>
-              <div class="order-field purchase-field">
-                <label>Montant (€)</label>
-                <input name="amount" type="number" min="1" step="1" value="1" required />
+              <div class="order-field purchase-field amount-field is-hidden">
+                <label>Montant carte cadeau (€)</label>
+                <input name="amount" type="number" min="1" step="1" value="100" required />
+              </div>
+              <div class="order-field purchase-field quantity-field">
+                <label>Quantité</label>
+                <input name="quantity" type="number" min="1" step="1" value="1" required />
+              </div>
+              <div class="order-field purchase-field aircraft-field is-hidden">
+                <label>Choix de l'avion</label>
+                <select name="aircraftChoice" required>
+                  <option value="">Sélectionner</option>
+                  <option value="csa-tb200">CSA TB200</option>
+                  <option value="cirrus-sr22">Cirrus SR22</option>
+                </select>
               </div>
               <div class="order-field size-field purchase-field is-hidden">
                 <label>Taille polo</label>
@@ -616,7 +628,9 @@
 
       return [
         `Produit : ${values.product}`,
-        `Montant : ${values.amount} €`,
+        values.amount ? `Montant carte cadeau : ${values.amount} €` : null,
+        !values.amount ? `Quantité : ${values.quantity}` : null,
+        values.aircraftChoiceLabel ? `Avion : ${values.aircraftChoiceLabel}` : null,
         `Mode de paiement : ${values.paymentLabel}`,
         `Nom : ${values.firstName} ${values.lastName}`,
         `Email : ${values.email}`,
@@ -692,6 +706,10 @@
         const paymentMode = form.querySelector('select[name="paymentMode"]');
         const purchaseFields = form.querySelectorAll('.purchase-field');
         const supportFields = form.querySelectorAll('.support-field');
+        const amountField = form.querySelector('.amount-field');
+        const quantityField = form.querySelector('.quantity-field');
+        const aircraftField = form.querySelector('.aircraft-field');
+        const aircraftSelect = form.querySelector('select[name="aircraftChoice"]');
         const sizeField = form.querySelector('.size-field');
         const sizeSelect = form.querySelector('select[name="size"]');
         const supportMessageInput = form.querySelector('textarea[name="supportMessage"]');
@@ -706,8 +724,13 @@
         productInput.value = product;
         const isPolo = product === 'Polo à APAM';
         const isSupport = product === 'Support boutique';
+        const isGiftCard = product === 'Carte cadeau vol';
+        const requiresAircraftChoice = product === 'Vol découverte' || product === "Baptême de l'air";
         setGroupVisibility(purchaseFields, !isSupport);
         setGroupVisibility(supportFields, isSupport);
+        setGroupVisibility(amountField ? [amountField] : [], !isSupport && isGiftCard);
+        setGroupVisibility(quantityField ? [quantityField] : [], !isSupport && !isGiftCard);
+        setGroupVisibility(aircraftField ? [aircraftField] : [], !isSupport && requiresAircraftChoice);
         if (supportMessageInput) {
           supportMessageInput.required = isSupport;
         }
@@ -720,6 +743,9 @@
           productInput.value = product;
           setGroupVisibility(purchaseFields, !isSupport);
           setGroupVisibility(supportFields, isSupport);
+          setGroupVisibility(amountField ? [amountField] : [], !isSupport && isGiftCard);
+          setGroupVisibility(quantityField ? [quantityField] : [], !isSupport && !isGiftCard);
+          setGroupVisibility(aircraftField ? [aircraftField] : [], !isSupport && requiresAircraftChoice);
           if (supportMessageInput) {
             supportMessageInput.required = isSupport;
           }
@@ -743,6 +769,9 @@
             paymentMode: String(formData.get('paymentMode') || ''),
             paymentLabel: paymentMode?.selectedOptions?.[0]?.textContent || '',
             amount: String(formData.get('amount') || ''),
+            quantity: String(formData.get('quantity') || ''),
+            aircraftChoice: String(formData.get('aircraftChoice') || ''),
+            aircraftChoiceLabel: aircraftSelect?.selectedOptions?.[0]?.textContent || '',
             firstName: String(formData.get('firstName') || ''),
             lastName: String(formData.get('lastName') || ''),
             email: String(formData.get('email') || ''),
@@ -769,7 +798,7 @@
             action: 'create_order',
             source: 'WEB_INTERNAL_FORM',
             product_key: PRODUCT_KEY_BY_NAME[values.product] || values.product,
-            quantity: values.isSupport ? 1 : Number(values.amount || 1),
+            quantity: values.isSupport ? 1 : Number(values.quantity || 1),
             payment_mode: values.isSupport ? 'support' : values.paymentMode,
             first_name: values.firstName,
             last_name: values.lastName,
@@ -778,7 +807,12 @@
             address: values.isSupport ? 'Support boutique - ticket client' : values.address,
             notes: values.isSupport
               ? `Ticket support\nOrder ID: ${values.supportOrderId || 'non renseigné'}\nMessage: ${values.supportMessage || 'non renseigné'}`
-              : (values.size ? `Taille polo : ${values.size}` : '')
+              : [
+                values.amount ? `Montant carte cadeau : ${values.amount} €` : null,
+                values.size ? `Taille polo : ${values.size}` : null,
+                values.aircraftChoiceLabel && values.aircraftChoice ? `Avion : ${values.aircraftChoiceLabel} (${values.aircraftChoice})` : null
+              ].filter(Boolean).join('\n'),
+            aircraft_choice: values.aircraftChoice || ''
           };
 
           try {
