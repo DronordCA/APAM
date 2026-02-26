@@ -433,7 +433,7 @@
         <section class="section-wrap" aria-label="Sélection boutique visuelle (simulation)">
           <p class="intro" style="margin-bottom:12px;">Version simulation : ces encarts visuels utilisent des photos libres de droits (Pexels) et sont prêts à être reliés plus tard à une Google Sheet (titre, image, description via attributs <code>data-sheet-*</code>).</p>
           <div class="showcase-grid">
-            <article class="showcase-card" data-sheet-key="photo_1">
+            <article class="showcase-card" data-sheet-key="photo_1" data-product-key="vol-decouverte">
               <img class="showcase-photo" src="https://images.pexels.com/photos/46148/aircraft-jet-landing-cloud-46148.jpeg?auto=compress&cs=tinysrgb&w=1400" alt="Petit avion en approche" loading="lazy" />
               <div class="showcase-meta">
                 <h3 data-sheet-field="titre">Vol découverte</h3>
@@ -442,7 +442,7 @@
                 <span class="showcase-price-badge">169 €</span>
               </div>
             </article>
-            <article class="showcase-card" data-sheet-key="photo_2">
+            <article class="showcase-card" data-sheet-key="photo_2" data-product-key="carte-cadeau-vol">
               <img class="showcase-photo" src="https://images.pexels.com/photos/912050/pexels-photo-912050.jpeg?auto=compress&cs=tinysrgb&w=1400" alt="Cockpit avec horizon" loading="lazy" />
               <div class="showcase-meta">
                 <h3 data-sheet-field="titre">Carte cadeau APAM</h3>
@@ -451,7 +451,7 @@
                 <span class="showcase-price-badge">149 €</span>
               </div>
             </article>
-            <article class="showcase-card" data-sheet-key="photo_3">
+            <article class="showcase-card" data-sheet-key="photo_3" data-product-key="bapteme-air">
               <img class="showcase-photo" src="https://images.pexels.com/photos/358319/pexels-photo-358319.jpeg?auto=compress&cs=tinysrgb&w=1400" alt="Pilote devant un avion au soleil" loading="lazy" />
               <div class="showcase-meta">
                 <h3 data-sheet-field="titre">Baptême de l'air</h3>
@@ -460,7 +460,7 @@
                 <span class="showcase-price-badge">119 €</span>
               </div>
             </article>
-            <article class="showcase-card" data-sheet-key="photo_4">
+            <article class="showcase-card" data-sheet-key="photo_4" data-product-key="casquette-apam">
               <img class="showcase-photo" src="https://images.pexels.com/photos/1040945/pexels-photo-1040945.jpeg?auto=compress&cs=tinysrgb&w=1400" alt="Casquette posée sur une aile d'avion" loading="lazy" />
               <div class="showcase-meta">
                 <h3 data-sheet-field="titre">Casquette APAM</h3>
@@ -469,7 +469,7 @@
                 <span class="showcase-price-badge">29 €</span>
               </div>
             </article>
-            <article class="showcase-card" data-sheet-key="photo_5">
+            <article class="showcase-card" data-sheet-key="photo_5" data-product-key="polo-apam">
               <img class="showcase-photo" src="https://images.pexels.com/photos/3782143/pexels-photo-3782143.jpeg?auto=compress&cs=tinysrgb&w=1400" alt="Polo à APAM sur ordinateur portable" loading="lazy" />
               <div class="showcase-meta">
                 <h3 data-sheet-field="titre">Polo APAM</h3>
@@ -478,7 +478,7 @@
                 <span class="showcase-price-badge">39 €</span>
               </div>
             </article>
-            <article class="showcase-card" data-sheet-key="photo_6">
+            <article class="showcase-card" data-sheet-key="photo_6" data-product-key="support-boutique">
               <img class="showcase-photo" src="https://images.pexels.com/photos/3183197/pexels-photo-3183197.jpeg?auto=compress&cs=tinysrgb&w=1400" alt="Support boutique APAM" loading="lazy" />
               <div class="showcase-meta">
                 <h3 data-sheet-field="titre">Support boutique</h3>
@@ -522,8 +522,9 @@
                 <label>Choix de l'avion</label>
                 <select name="aircraftChoice" required>
                   <option value="">Sélectionner</option>
-                  <option value="csa-tb200">CSA TB200</option>
-                  <option value="cirrus-sr22">Cirrus SR22</option>
+                  <option value="cessna-152">Cessna 152</option>
+                  <option value="tb200">TB200</option>
+                  <option value="sr20">SR20</option>
                 </select>
               </div>
               <div class="order-field size-field purchase-field is-hidden">
@@ -601,6 +602,7 @@
       'Polo à APAM': 'polo-apam',
       'Support boutique': 'support-boutique'
     };
+    const BOUTIQUE_PRICES_ENDPOINT = `${BOUTIQUE_WEBAPP_URL}?action=list_products`;
 
     const body = document.body;
     const burger = document.querySelector('.m-burger');
@@ -661,6 +663,36 @@
       const bodyMessage = encodeURIComponent(`Bonjour APAM,\n\nNouvelle demande de commande :\n${summary}\n\nMerci.`);
       link.href = `mailto:contact@apam.fr?subject=${subject}&body=${bodyMessage}`;
       link.classList.add('is-visible');
+    }
+
+    function formatEuroPrice(value) {
+      const amount = Number(value);
+      if (!Number.isFinite(amount) || amount <= 0) return 'Gratuit';
+      return `${amount.toLocaleString('fr-FR')} €`;
+    }
+
+    async function syncPricesFromSheet() {
+      const cards = document.querySelectorAll('.showcase-card[data-product-key]');
+      if (!cards.length) return;
+
+      try {
+        const response = await fetch(BOUTIQUE_PRICES_ENDPOINT, { method: 'GET' });
+        const result = await response.json();
+        const products = Array.isArray(result?.products) ? result.products : [];
+        const pricesByKey = new Map(
+          products.map((product) => [String(product.product_key || ''), product.price_eur])
+        );
+
+        cards.forEach((card) => {
+          const key = String(card.dataset.productKey || '');
+          if (!key || !pricesByKey.has(key)) return;
+          const priceNode = card.querySelector('.showcase-price-badge');
+          if (!priceNode) return;
+          priceNode.textContent = formatEuroPrice(pricesByKey.get(key));
+        });
+      } catch (error) {
+        console.warn('Synchronisation des prix indisponible.', error);
+      }
     }
 
     function setupCardOrders() {
@@ -857,6 +889,7 @@
       });
     }
 
+    syncPricesFromSheet();
     setupCardOrders();
     burger?.addEventListener('click', () => setOpen(true));
     closeBtn?.addEventListener('click', () => setOpen(false));
