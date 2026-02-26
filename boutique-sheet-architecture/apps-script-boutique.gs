@@ -17,6 +17,17 @@ function doPost(e) {
     const result = createOrderFromPayload_(payload);
     return json_(result);
   }
+  if (action === 'list_products') {
+    return json_({ ok: true, products: listActiveProducts_() });
+  }
+  return json_({ ok: false, error: 'invalid_action' });
+}
+
+function doGet(e) {
+  const action = String((e && e.parameter && e.parameter.action) || 'list_products').toLowerCase();
+  if (action === 'list_products') {
+    return json_({ ok: true, products: listActiveProducts_() });
+  }
   return json_({ ok: false, error: 'invalid_action' });
 }
 
@@ -203,6 +214,24 @@ function getProductByKey_(productKey) {
     }
   }
   return {};
+}
+
+function listActiveProducts_() {
+  const sh = getSheet_('products');
+  const rows = sh.getDataRange().getValues();
+  if (rows.length < 2) return [];
+
+  const headers = rows[0].map(String);
+  const idx = indexer_(headers);
+  const out = [];
+
+  for (let i = 1; i < rows.length; i += 1) {
+    const active = String(rows[i][idx('active')] || '').toUpperCase();
+    if (active !== 'OUI') continue;
+    out.push(rowToObject_(headers, rows[i]));
+  }
+
+  return out;
 }
 
 function getTemplates_() {
