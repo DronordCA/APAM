@@ -211,6 +211,8 @@
     .card-face.back{transform:rotateY(180deg);display:flex;flex-direction:column;padding:16px;gap:12px;background:linear-gradient(165deg,rgba(12,17,30,.96),rgba(9,13,23,.95));border-color:rgba(102,143,255,.42);box-shadow:inset 0 0 0 1px rgba(255,255,255,.06),0 22px 34px rgba(0,0,0,.35);}
     .showcase-photo{width:100%;height:100%;object-fit:cover;object-position:center;display:block;filter:saturate(1.05) contrast(1.04);}
     .showcase-meta{position:absolute;left:0;right:0;bottom:0;padding:10px 12px;background:linear-gradient(180deg,rgba(0,0,0,0),rgba(0,0,0,.82));}
+    .showcase-price-badge{position:absolute;right:12px;bottom:12px;display:inline-flex;align-items:center;gap:6px;background:linear-gradient(135deg,#2f6bff,#1b3f8f);border:1px solid rgba(141,179,255,.72);color:#fff;padding:5px 9px;border-radius:999px;font-size:12px;font-weight:800;letter-spacing:.03em;box-shadow:0 8px 16px rgba(0,0,0,.28);}
+    .showcase-price-badge::before{content:"";width:14px;height:14px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#dce8ff 0 35%,#7ea5ff 36% 100%);box-shadow:inset 0 0 0 2px rgba(24,55,117,.45);}
     .showcase-meta h3{font-size:16px;letter-spacing:.02em;margin-bottom:4px;}
     .showcase-meta p{font-size:12px;color:rgba(255,255,255,.86);line-height:1.35;}
     .showcase-meta .order-btn{margin-top:8px;background:linear-gradient(135deg,#2f6bff,#183775);border-color:rgba(123,166,255,.55);font-weight:800;letter-spacing:.08em;}
@@ -437,6 +439,7 @@
                 <h3 data-sheet-field="titre">Vol découverte</h3>
                 <p data-sheet-field="description">Encart prêt à piloter depuis Sheet : image + titre + texte promo.</p>
                 <button class="order-btn" type="button" data-product="Vol découverte">Commander</button>
+                <span class="showcase-price-badge">169 €</span>
               </div>
             </article>
             <article class="showcase-card" data-sheet-key="photo_2">
@@ -445,6 +448,7 @@
                 <h3 data-sheet-field="titre">Carte cadeau APAM</h3>
                 <p data-sheet-field="description">Idéal pour les offres saisonnières et la mise en avant des nouveautés.</p>
                 <button class="order-btn" type="button" data-product="Carte cadeau vol">Commander</button>
+                <span class="showcase-price-badge">149 €</span>
               </div>
             </article>
             <article class="showcase-card" data-sheet-key="photo_3">
@@ -453,6 +457,7 @@
                 <h3 data-sheet-field="titre">Baptême de l'air</h3>
                 <p data-sheet-field="description">Bloc visuel réutilisable pour promouvoir des expériences club.</p>
                 <button class="order-btn" type="button" data-product="Baptême de l'air">Commander</button>
+                <span class="showcase-price-badge">119 €</span>
               </div>
             </article>
             <article class="showcase-card" data-sheet-key="photo_4">
@@ -461,6 +466,7 @@
                 <h3 data-sheet-field="titre">Casquette APAM</h3>
                 <p data-sheet-field="description">Goodie officiel APAM, retrait club ou envoi selon disponibilité.</p>
                 <button class="order-btn" type="button" data-product="Casquette APAM">Commander</button>
+                <span class="showcase-price-badge">29 €</span>
               </div>
             </article>
             <article class="showcase-card" data-sheet-key="photo_5">
@@ -469,6 +475,7 @@
                 <h3 data-sheet-field="titre">Polo APAM</h3>
                 <p data-sheet-field="description">Goodies officiel APAM : choisissez votre taille et commandez directement depuis la carte.</p>
                 <button class="order-btn" type="button" data-product="Polo à APAM">Commander</button>
+                <span class="showcase-price-badge">39 €</span>
               </div>
             </article>
             <article class="showcase-card" data-sheet-key="photo_6">
@@ -477,6 +484,7 @@
                 <h3 data-sheet-field="titre">Support boutique</h3>
                 <p data-sheet-field="description">Besoin d'aide sur une commande ? Le support boutique vous répond rapidement.</p>
                 <button class="order-btn" type="button" data-product="Support boutique">Commander</button>
+                <span class="showcase-price-badge">Gratuit</span>
               </div>
             </article>
           </div>
@@ -498,13 +506,13 @@
               <div class="order-field purchase-field">
                 <label>Mode de paiement</label>
                 <select name="paymentMode" required>
-                  <option value="cb">Carte bancaire (paiement au club)</option>
                   <option value="virement">Virement bancaire</option>
+                  <option value="cb">Carte bancaire (paiement au club)</option>
                 </select>
               </div>
               <div class="order-field purchase-field">
-                <label>Quantité</label>
-                <input name="quantity" type="number" min="1" value="1" required />
+                <label>Montant (€)</label>
+                <input name="amount" type="number" min="1" step="1" value="1" required />
               </div>
               <div class="order-field size-field purchase-field is-hidden">
                 <label>Taille polo</label>
@@ -608,7 +616,7 @@
 
       return [
         `Produit : ${values.product}`,
-        `Quantité : ${values.quantity}`,
+        `Montant : ${values.amount} €`,
         `Mode de paiement : ${values.paymentLabel}`,
         `Nom : ${values.firstName} ${values.lastName}`,
         `Email : ${values.email}`,
@@ -692,6 +700,8 @@
         const orderConfirm = card.querySelector('.order-confirm');
         const orderMailLink = card.querySelector('.order-mail-link');
         let latestSummary = '';
+        let isSubmitting = false;
+        let isSubmitted = false;
 
         productInput.value = product;
         const isPolo = product === 'Polo à APAM';
@@ -724,12 +734,15 @@
 
         form?.addEventListener('submit', async (event) => {
           event.preventDefault();
+          if (isSubmitting || isSubmitted) return;
+          isSubmitting = true;
+
           const formData = new FormData(form);
           const values = {
             product: String(formData.get('product') || ''),
             paymentMode: String(formData.get('paymentMode') || ''),
             paymentLabel: paymentMode?.selectedOptions?.[0]?.textContent || '',
-            quantity: String(formData.get('quantity') || ''),
+            amount: String(formData.get('amount') || ''),
             firstName: String(formData.get('firstName') || ''),
             lastName: String(formData.get('lastName') || ''),
             email: String(formData.get('email') || ''),
@@ -745,11 +758,18 @@
           let orderId = generateOrderId();
           let confirmationText = buildConfirmation(values);
 
+          orderConfirm.innerHTML = `<h3>Nous avons bien reçu votre demande ✅</h3>Nous vous enverrons un email dans les prochaines minutes.<br><br>Traitement en cours...`;
+          orderConfirm.classList.add('is-visible');
+          if (submitBtn) {
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Validation en cours...';
+          }
+
           const payload = {
             action: 'create_order',
             source: 'WEB_INTERNAL_FORM',
             product_key: PRODUCT_KEY_BY_NAME[values.product] || values.product,
-            quantity: values.isSupport ? 1 : Number(values.quantity || 1),
+            quantity: values.isSupport ? 1 : Number(values.amount || 1),
             payment_mode: values.isSupport ? 'support' : values.paymentMode,
             first_name: values.firstName,
             last_name: values.lastName,
@@ -783,6 +803,8 @@
           orderConfirm.classList.add('is-visible');
           submitBtn?.classList.add('is-submitted');
           if (submitBtn) submitBtn.textContent = 'Demande validée';
+          isSubmitting = false;
+          isSubmitted = true;
           updateMailto(orderMailLink, `${latestSummary}\nNuméro de commande : ${orderId}`, values.product);
         });
 
