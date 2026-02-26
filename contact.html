@@ -301,26 +301,36 @@
     .icon svg{ width:22px; height:22px; fill: currentColor; }
 
     .btn-compte{
-      background:#111;
-      color:#fff;
-      border:none;
-      font-family: "GPMenu", system-ui, sans-serif;
-      font-size: 13px;
-      letter-spacing: -0.03em;
-      padding: 12px 18px 10px;
-      cursor:pointer;
       position:relative;
       overflow:hidden;
+      font-family:"Swiss911",sans-serif;
+      font-size:25px;
+      letter-spacing:-0.04em;
+      text-transform:uppercase;
+      padding:6px 12px;
+      border:2px solid var(--header-grey);
+      background:#000;
+      color:#fff;
+      text-decoration:none;
+      line-height:1;
+      transition:color .25s ease,border-color .25s ease;
     }
-    .btn-compte::after{
+    .btn-compte::before{
       content:"";
       position:absolute;
-      inset:0;
-      background: linear-gradient(120deg, rgba(255,255,255,0) 20%, rgba(255,255,255,0.25) 50%, rgba(255,255,255,0) 80%);
-      transform: translateX(-120%);
-      transition: transform .4s ease;
+      left:0;
+      top:0;
+      width:0;
+      height:100%;
+      background:var(--accent);
+      z-index:-1;
+      transition:width .25s ease;
     }
-    .btn-compte:hover::after{ transform: translateX(120%); }
+    .btn-compte:hover{
+      color:#000;
+      border-color:var(--accent);
+    }
+    .btn-compte:hover::before{ width:100%; }
 
     /* =============================== */
     /* MOBILE HEADER + DRAWER */
