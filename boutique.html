@@ -137,21 +137,13 @@
     .intro{margin:10px var(--page-side-margin) 24px;max-width:900px;color:rgba(255,255,255,.78);line-height:1.6;}
     .section-wrap{max-width:var(--grid-max);margin:0 auto 40px;padding:0 var(--outer-x);}
 
-    .tools-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;}
-    .tool-card{background:rgba(18,18,18,.92);border:1px solid rgba(255,255,255,.1);padding:18px;display:flex;flex-direction:column;gap:12px;min-height:210px;}
-    .tool-card h2{font-family:"GPMenu",system-ui,sans-serif;text-transform:uppercase;font-size:21px;letter-spacing:-0.02em;}
-    .tool-card p{color:rgba(255,255,255,.74);line-height:1.5;font-size:14px;}
-    .tool-card a{margin-top:auto;color:#fff;text-decoration:none;border-bottom:1px solid rgba(255,255,255,.45);width:fit-content;font-size:14px;}
-
-    .quick-links{margin-top:16px;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;}
-    .quick-links a{display:block;padding:12px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);text-decoration:none;color:#fff;font-size:13px;text-transform:uppercase;letter-spacing:.06em;}
-
     .showcase-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin:18px 0 24px;}
-    .showcase-card{position:relative;min-height:210px;border:1px solid rgba(255,255,255,.16);background:rgba(14,16,22,.74);overflow:hidden;border-radius:10px;}
-    .showcase-photo{width:100%;height:100%;object-fit:cover;display:block;filter:saturate(1.05) contrast(1.04);}
+    .showcase-card{position:relative;aspect-ratio:3/4;border:1px solid rgba(255,255,255,.16);background:rgba(14,16,22,.74);overflow:hidden;border-radius:10px;}
+    .showcase-photo{width:100%;height:100%;object-fit:cover;object-position:center;display:block;filter:saturate(1.05) contrast(1.04);}
     .showcase-meta{position:absolute;left:0;right:0;bottom:0;padding:10px 12px;background:linear-gradient(180deg,rgba(0,0,0,0),rgba(0,0,0,.82));}
     .showcase-meta h3{font-size:16px;letter-spacing:.02em;margin-bottom:4px;}
     .showcase-meta p{font-size:12px;color:rgba(255,255,255,.86);line-height:1.35;}
+    .showcase-meta .order-btn{margin-top:8px;background:linear-gradient(135deg,#2f6bff,#183775);border-color:rgba(123,166,255,.55);font-weight:800;letter-spacing:.08em;}
 
     .order-launch{margin-top:18px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:14px 16px;border:1px solid rgba(255,255,255,.16);background:rgba(12,14,20,.7);}
     .order-launch p{margin:0;color:rgba(255,255,255,.8);font-size:13px;line-height:1.4;}
@@ -168,6 +160,8 @@
     .order-actions{display:flex;gap:10px;flex-wrap:wrap;}
     .order-btn{cursor:pointer;border:1px solid rgba(255,255,255,.24);padding:10px 14px;background:#1a1c24;color:#fff;text-transform:uppercase;letter-spacing:.06em;font-size:12px;}
     .order-btn.primary{background:linear-gradient(135deg,#2f6bff,#183775);border-color:rgba(123,166,255,.55);}
+    .order-btn.primary.is-submitted{background:linear-gradient(135deg,#1a9656,#0c5f35);border-color:rgba(75,212,141,.65);box-shadow:0 0 0 2px rgba(79,214,145,.2);}
+    .order-confirm h3{font-family:"GPMenu",system-ui,sans-serif;font-size:26px;line-height:1.1;text-transform:uppercase;color:#fff;margin-bottom:8px;}
     .order-confirm{border:1px solid rgba(123,166,255,.46);background:rgba(25,43,86,.28);padding:14px;color:#d3e2ff;line-height:1.5;display:none;}
     .order-confirm.is-visible{display:block;}
     .order-mail-link{display:none;width:fit-content;text-decoration:none;color:#fff;border-bottom:1px solid rgba(255,255,255,.6);}
@@ -182,12 +176,8 @@
 
     @media (max-width:980px){
       .title-box span{font-size:56px;}
-      .tools-grid{grid-template-columns:repeat(2,minmax(0,1fr));}
-      .quick-links{grid-template-columns:repeat(2,minmax(0,1fr));}
       .showcase-grid{grid-template-columns:repeat(2,minmax(0,1fr));}
-    }
-    @media (max-width:640px){
-      .tools-grid,.quick-links,.order-grid,.showcase-grid{grid-template-columns:1fr;}
+      .order-grid{grid-template-columns:1fr;}
     }
   </style>
 </head>
@@ -252,6 +242,7 @@
               <div class="showcase-meta">
                 <h3 data-sheet-field="titre">Vol découverte</h3>
                 <p data-sheet-field="description">Encart prêt à piloter depuis Sheet : image + titre + texte promo.</p>
+                <button class="order-btn" type="button" data-product="Vol découverte">Commandée</button>
               </div>
             </article>
             <article class="showcase-card" data-sheet-key="photo_2">
@@ -259,6 +250,7 @@
               <div class="showcase-meta">
                 <h3 data-sheet-field="titre">Carte cadeau APAM</h3>
                 <p data-sheet-field="description">Idéal pour les offres saisonnières et la mise en avant des nouveautés.</p>
+                <button class="order-btn" type="button" data-product="Carte cadeau vol">Commandée</button>
               </div>
             </article>
             <article class="showcase-card" data-sheet-key="photo_3">
@@ -266,6 +258,31 @@
               <div class="showcase-meta">
                 <h3 data-sheet-field="titre">Baptême de l'air</h3>
                 <p data-sheet-field="description">Bloc visuel réutilisable pour promouvoir des expériences club.</p>
+                <button class="order-btn" type="button" data-product="Baptême de l'air">Commandée</button>
+              </div>
+            </article>
+            <article class="showcase-card" data-sheet-key="photo_4">
+              <img class="showcase-photo" src="https://images.pexels.com/photos/1040945/pexels-photo-1040945.jpeg?auto=compress&cs=tinysrgb&w=1400" alt="Casquette posée sur une aile d'avion" loading="lazy" />
+              <div class="showcase-meta">
+                <h3 data-sheet-field="titre">Casquette APAM</h3>
+                <p data-sheet-field="description">Goodie officiel APAM, retrait club ou envoi selon disponibilité.</p>
+                <button class="order-btn" type="button" data-product="Casquette APAM">Commandée</button>
+              </div>
+            </article>
+            <article class="showcase-card" data-sheet-key="photo_5">
+              <img class="showcase-photo" src="https://images.pexels.com/photos/3782143/pexels-photo-3782143.jpeg?auto=compress&cs=tinysrgb&w=1400" alt="Suivi de commande sur ordinateur portable" loading="lazy" />
+              <div class="showcase-meta">
+                <h3 data-sheet-field="titre">Suivi de commande</h3>
+                <p data-sheet-field="description">Suivez l'avancement grâce à votre numéro de commande généré automatiquement.</p>
+                <button class="order-btn" type="button" data-product="Suivi de commande">Commandée</button>
+              </div>
+            </article>
+            <article class="showcase-card" data-sheet-key="photo_6">
+              <img class="showcase-photo" src="https://images.pexels.com/photos/3183197/pexels-photo-3183197.jpeg?auto=compress&cs=tinysrgb&w=1400" alt="Support boutique APAM" loading="lazy" />
+              <div class="showcase-meta">
+                <h3 data-sheet-field="titre">Support boutique</h3>
+                <p data-sheet-field="description">Besoin d'aide sur une commande ? Le support boutique vous répond rapidement.</p>
+                <button class="order-btn" type="button" data-product="Suivi de commande">Commandée</button>
               </div>
             </article>
           </div>
@@ -273,14 +290,6 @@
 
 
         <section class="section-wrap">
-          <div class="tools-grid">
-            <article class="tool-card"><h2>Carte cadeau vol</h2><p>Offrez une carte cadeau personnalisée APAM. Validation après paiement et envoi par email.</p><button class="order-btn" type="button" data-product="Carte cadeau vol">Commander</button></article>
-            <article class="tool-card"><h2>Vol découverte</h2><p>Choisissez votre formule et indiquez vos disponibilités. Confirmation après validation APAM.</p><button class="order-btn" type="button" data-product="Vol découverte">Commander</button></article>
-            <article class="tool-card"><h2>Baptême de l'air</h2><p>Parcours initiation pour offrir une première expérience aéronautique encadrée.</p><button class="order-btn" type="button" data-product="Baptême de l'air">Commander</button></article>
-            <article class="tool-card"><h2>Casquette APAM</h2><p>Goodies club disponibles selon stock. Retrait sur place ou envoi selon disponibilité.</p><button class="order-btn" type="button" data-product="Casquette APAM">Commander</button></article>
-            <article class="tool-card"><h2>Paiement par virement</h2><p>Après demande, vous recevez automatiquement le RIB APAM, la référence commande et le délai.</p><button class="order-btn" type="button" data-product="Informations virement">Demander</button></article>
-            <article class="tool-card"><h2>Suivi de commande</h2><p>Une fois le paiement validé, APAM confirme l'envoi de votre carte cadeau ou la date du vol.</p><button class="order-btn" type="button" data-product="Suivi de commande">Contacter</button></article>
-          </div>
 
           <div class="order-launch" aria-label="Ouvrir le formulaire boutique">
             <p>Clique sur un produit pour ouvrir automatiquement le formulaire interne, ou ouvre-le manuellement.</p>
@@ -300,6 +309,7 @@
                     <option value="Vol découverte">Vol découverte</option>
                     <option value="Baptême de l'air">Baptême de l'air</option>
                     <option value="Casquette APAM">Casquette APAM</option>
+                    <option value="Suivi de commande">Suivi de commande</option>
                   </select>
                 </div>
                 <div class="order-field">
@@ -336,7 +346,7 @@
               </div>
 
               <div class="order-actions">
-                <button class="order-btn primary" type="submit">Valider la demande</button>
+                <button class="order-btn primary" id="submitOrderBtn" type="submit">Valider la demande</button>
                 <button class="order-btn" type="button" id="copySummaryBtn">Copier le récapitulatif</button>
               </div>
             </form>
@@ -345,13 +355,6 @@
             <a class="order-mail-link" id="orderMailLink" href="mailto:contact@apam.fr">Envoyer la demande à APAM</a>
             <p class="order-note">Note : sur une version 100% statique, la confirmation affichée est immédiate. L'envoi automatique réel se branche ensuite sur Apps Script (sans Google Form obligatoire).</p>
           </section>
-
-          <div class="quick-links">
-            <a href="connexion-membres.html">Connexion membres</a>
-            <a href="mon-compte.html">Mon compte</a>
-            <a href="espace-membres.html">Outils membres</a>
-            <a href="mailto:contact@apam.fr">Support boutique</a>
-          </div>
         </section>
       </main>
 
@@ -375,7 +378,8 @@
       'Carte cadeau vol': 'carte-cadeau-vol',
       'Vol découverte': 'vol-decouverte',
       "Baptême de l'air": 'bapteme-air',
-      'Casquette APAM': 'casquette-apam'
+      'Casquette APAM': 'casquette-apam',
+      'Suivi de commande': 'suivi-commande'
     };
 
     const body = document.body;
@@ -390,7 +394,9 @@
     const orderConfirm = document.getElementById('orderConfirm');
     const orderMailLink = document.getElementById('orderMailLink');
     const copySummaryBtn = document.getElementById('copySummaryBtn');
+    const submitOrderBtn = document.getElementById('submitOrderBtn');
     let latestSummary = '';
+    let localOrderCounter = 0;
 
     const setOpen = (open) => {
       body.classList.toggle('m-open', open);
@@ -411,9 +417,15 @@
 
     function buildConfirmation(values) {
       if (values.paymentMode === 'cb') {
-        return `Commande reçue ✅<br><strong>Paiement carte bancaire :</strong> règlement directement au club (Aérodrome de L'Aigle Saint-Michel).<br>Votre produit sera remis sur place ou expédié après validation APAM.`;
+        return `<h3>Nous avons bien reçu votre demande ✅</h3><strong>Paiement carte bancaire :</strong> règlement directement au club (Aérodrome de L'Aigle Saint-Michel).<br>Votre produit sera remis sur place ou expédié après validation APAM.`;
       }
-      return `Commande reçue ✅<br><strong>Paiement par virement :</strong> utilisez le RIB APAM transmis dans l'email de suivi.<br>Une fois le virement reçu, la commande est préparée puis livrée sous 2 à 3 jours ouvrés.`;
+      return `<h3>Nous avons bien reçu votre demande ✅</h3><strong>Paiement par virement :</strong> utilisez le RIB APAM transmis dans l'email de suivi.<br>Une fois le virement reçu, la commande est préparée puis livrée sous 2 à 3 jours ouvrés.`;
+    }
+
+    function generateOrderId() {
+      localOrderCounter += 1;
+      const stamp = new Date().toISOString().replace(/[-:TZ.]/g, '').slice(0, 12);
+      return `APAM-${stamp}-${String(localOrderCounter).padStart(3, '0')}`;
     }
 
     function updateMailto(summary, product) {
@@ -445,6 +457,10 @@
         if (productSelect && productSelect.querySelector(`option[value="${product}"]`)) {
           productSelect.value = product;
         }
+        const payment = button.dataset.payment;
+        if (paymentMode && paymentMode.querySelector(`option[value="${payment}"]`)) {
+          paymentMode.value = payment;
+        }
         setOrderPanelOpen(true);
         orderPanel?.scrollIntoView({ behavior: 'smooth', block: 'start' });
       });
@@ -468,6 +484,8 @@
 
       latestSummary = buildSummary(values);
 
+      const generatedOrderId = generateOrderId();
+      let orderId = generatedOrderId;
       let confirmationText = buildConfirmation(values);
       const payload = {
         action: 'create_order',
@@ -491,8 +509,10 @@
         });
         const result = await response.json();
         if (response.ok && result?.ok) {
-          const orderIdBlock = result.order_id ? `<br><strong>Référence :</strong> ${result.order_id}` : '';
-          confirmationText = `${confirmationText}${orderIdBlock}<br><br>Votre demande a bien été transmise à la boutique APAM.`;
+          if (result.order_id) {
+            orderId = result.order_id;
+          }
+          confirmationText = `${confirmationText}<br><br>Votre demande a bien été transmise à la boutique APAM.`;
         } else {
           confirmationText = `${confirmationText}<br><br>⚠️ Envoi automatique temporairement indisponible. Utilisez le lien email ci-dessous.`;
         }
@@ -500,9 +520,14 @@
         confirmationText = `${confirmationText}<br><br>⚠️ Envoi automatique temporairement indisponible. Utilisez le lien email ci-dessous.`;
       }
 
-      orderConfirm.innerHTML = `${confirmationText}<br><br><strong>Récapitulatif :</strong><br>${latestSummary.replace(/\n/g, '<br>')}`;
+      const orderIdBlock = `<br><strong>Numéro de commande :</strong> ${orderId}`;
+      orderConfirm.innerHTML = `${confirmationText}${orderIdBlock}<br><br><strong>Récapitulatif :</strong><br>${latestSummary.replace(/\n/g, '<br>')}`;
       orderConfirm.classList.add('is-visible');
-      updateMailto(latestSummary, values.product);
+      submitOrderBtn?.classList.add('is-submitted');
+      if (submitOrderBtn) {
+        submitOrderBtn.textContent = 'Demande validée';
+      }
+      updateMailto(`${latestSummary}\nNuméro de commande : ${orderId}`, values.product);
     });
 
     copySummaryBtn?.addEventListener('click', async () => {
