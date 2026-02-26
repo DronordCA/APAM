@@ -53,9 +53,9 @@
       position:absolute;
       inset:0;
       background:
-        linear-gradient(140deg, rgba(0,0,0,.78), rgba(0,0,0,.28)),
-        url("assets/images/image1.png") center/cover no-repeat;
-      opacity:.35;
+        radial-gradient(circle at 20% 18%, rgba(255,255,255,0.06) 0%, rgba(255,255,255,0) 55%),
+        radial-gradient(circle at 80% 30%, rgba(47,107,255,0.08) 0%, rgba(47,107,255,0) 52%);
+      opacity:.55;
       pointer-events:none;
     }
     .content{position:relative;z-index:2;}
@@ -70,8 +70,8 @@
       justify-content:space-between;padding:0 6px 0 32px;border:1px solid rgba(0,0,0,.06);
       box-shadow:0 2px 0 rgba(0,0,0,.08);
     }
-    .header-left,.header-right{display:flex;align-items:center;gap:18px;}
-    .header-left{gap:34px;}
+    .header-left{display:flex;align-items:center;gap:34px;}
+    .header-right{display:flex;align-items:center;gap:18px;margin-left:auto;}
     .nav-menu{display:flex;align-items:center;gap:34px;}
     .nav-item{position:relative;display:inline-flex;align-items:center;}
     .nav-link{
@@ -89,12 +89,19 @@
     .nav-link[data-text]::before{color:var(--header-grey);}
     .nav-link[data-text]::after{color:var(--accent);clip-path:inset(0 100% 0 0);transition:clip-path .22s ease;}
     .nav-link[data-text]:hover::after{clip-path:inset(0 0 0 0);}
+    .icon{width:26px;height:26px;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;text-decoration:none;}
+    .icon svg{width:100%;height:100%;fill:var(--header-grey);}
 
     .btn-compte{
+      position:relative;overflow:hidden;
       font-family:"Swiss911",sans-serif;font-size:25px;letter-spacing:-0.04em;text-transform:uppercase;
       padding:6px 12px;border:2px solid var(--header-grey);background:#000;color:#fff;
-      text-decoration:none;line-height:1;
+      text-decoration:none;line-height:1;transition:color .25s ease,border-color .25s ease;
     }
+    .btn-compte::before{content:"";position:absolute;left:0;top:0;width:0;height:100%;background:var(--accent);z-index:-1;transition:width .25s ease;}
+    .btn-compte:hover{color:#000;border-color:var(--accent);}
+    .btn-compte:hover::before{width:100%;}
+
 
     .nav-item.has-dropdown::before{content:"";position:absolute;left:-22px;right:-22px;top:100%;height:18px;}
     .fleet-panel{
@@ -138,35 +145,38 @@
     .section-wrap{max-width:var(--grid-max);margin:0 auto 40px;padding:0 var(--outer-x);}
 
     .showcase-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin:18px 0 24px;}
-    .showcase-card{position:relative;aspect-ratio:3/4;border:1px solid rgba(255,255,255,.16);background:rgba(14,16,22,.74);overflow:hidden;border-radius:10px;}
+    .showcase-card{position:relative;aspect-ratio:3/4;border-radius:10px;perspective:1400px;}
+    .card-flip{position:relative;width:100%;height:100%;transform-style:preserve-3d;transition:transform .72s cubic-bezier(.22,.61,.36,1);}
+    .showcase-card.is-flipped .card-flip{transform:rotateY(180deg);}
+    .card-face{position:absolute;inset:0;backface-visibility:hidden;border:1px solid rgba(255,255,255,.16);background:rgba(14,16,22,.74);overflow:hidden;border-radius:10px;}
+    .card-face.back{transform:rotateY(180deg);display:flex;flex-direction:column;padding:16px;gap:12px;background:linear-gradient(165deg,rgba(12,17,30,.96),rgba(9,13,23,.95));border-color:rgba(102,143,255,.42);box-shadow:inset 0 0 0 1px rgba(255,255,255,.06),0 22px 34px rgba(0,0,0,.35);}
     .showcase-photo{width:100%;height:100%;object-fit:cover;object-position:center;display:block;filter:saturate(1.05) contrast(1.04);}
     .showcase-meta{position:absolute;left:0;right:0;bottom:0;padding:10px 12px;background:linear-gradient(180deg,rgba(0,0,0,0),rgba(0,0,0,.82));}
     .showcase-meta h3{font-size:16px;letter-spacing:.02em;margin-bottom:4px;}
     .showcase-meta p{font-size:12px;color:rgba(255,255,255,.86);line-height:1.35;}
     .showcase-meta .order-btn{margin-top:8px;background:linear-gradient(135deg,#2f6bff,#183775);border-color:rgba(123,166,255,.55);font-weight:800;letter-spacing:.08em;}
 
-    .order-launch{margin-top:18px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:14px 16px;border:1px solid rgba(255,255,255,.16);background:rgba(12,14,20,.7);}
-    .order-launch p{margin:0;color:rgba(255,255,255,.8);font-size:13px;line-height:1.4;}
-    .order-panel{margin-top:12px;background:rgba(11,12,16,.9);border:1px solid rgba(255,255,255,.14);padding:20px;display:grid;gap:14px;max-height:2000px;opacity:1;overflow:hidden;transition:max-height .35s ease,opacity .25s ease,padding .2s ease,border-color .2s ease;}
-    .order-panel.is-collapsed{max-height:0;opacity:0;padding-top:0;padding-bottom:0;border-color:transparent;pointer-events:none;}
-    .order-panel h2{font-family:"GPMenu",system-ui,sans-serif;text-transform:uppercase;font-size:24px;letter-spacing:-.02em;}
-    .order-panel p{color:rgba(255,255,255,.75);line-height:1.5;font-size:14px;}
-    .order-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;}
-    .order-field{display:grid;gap:6px;}
-    .order-field.full{grid-column:1/-1;}
-    .order-field label{font-size:12px;letter-spacing:.07em;text-transform:uppercase;color:rgba(255,255,255,.78);}
-    .order-field input,.order-field select,.order-field textarea{width:100%;padding:11px 12px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.18);color:#fff;font:inherit;}
-    .order-field textarea{min-height:90px;resize:vertical;}
-    .order-actions{display:flex;gap:10px;flex-wrap:wrap;}
-    .order-btn{cursor:pointer;border:1px solid rgba(255,255,255,.24);padding:10px 14px;background:#1a1c24;color:#fff;text-transform:uppercase;letter-spacing:.06em;font-size:12px;}
+    .card-back-head{display:flex;align-items:center;justify-content:space-between;gap:8px;}
+    .card-back-head h4{font-size:15px;letter-spacing:.04em;text-transform:uppercase;color:#dce7ff;}
+    .flip-back-btn{border:1px solid rgba(255,255,255,.28);background:rgba(255,255,255,.08);color:#fff;padding:6px 10px;cursor:pointer;font-size:11px;text-transform:uppercase;letter-spacing:.07em;border-radius:999px;transition:background .2s ease,border-color .2s ease;}
+    .flip-back-btn:hover{background:rgba(47,107,255,.28);border-color:rgba(124,165,255,.8);}
+    .card-order-form{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;overflow:auto;padding-right:2px;}
+    .card-order-form .order-field{display:grid;gap:5px;}
+    .card-order-form .order-field.is-hidden{display:none;}
+    .card-order-form .order-field.full-width,.card-order-form .order-actions{grid-column:1/-1;}
+    .card-order-form .order-field label{font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:rgba(255,255,255,.78);}
+    .card-order-form input,.card-order-form select,.card-order-form textarea{width:100%;padding:9px 10px;background:rgba(255,255,255,.06);border:1px solid rgba(159,186,255,.24);color:#fff;font:inherit;font-size:13px;border-radius:8px;transition:border-color .2s ease,box-shadow .2s ease,background .2s ease;}
+    .card-order-form input:focus,.card-order-form select:focus,.card-order-form textarea:focus{outline:none;border-color:rgba(129,169,255,.9);box-shadow:0 0 0 3px rgba(47,107,255,.2);background:rgba(255,255,255,.09);}
+    .card-order-form textarea{min-height:58px;resize:vertical;}
+    .order-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:2px;}
+    .order-btn{cursor:pointer;border:1px solid rgba(255,255,255,.24);padding:10px 14px;background:#1a1c24;color:#fff;text-transform:uppercase;letter-spacing:.06em;font-size:12px;border-radius:10px;font-weight:700;}
     .order-btn.primary{background:linear-gradient(135deg,#2f6bff,#183775);border-color:rgba(123,166,255,.55);}
     .order-btn.primary.is-submitted{background:linear-gradient(135deg,#1a9656,#0c5f35);border-color:rgba(75,212,141,.65);box-shadow:0 0 0 2px rgba(79,214,145,.2);}
-    .order-confirm h3{font-family:"GPMenu",system-ui,sans-serif;font-size:26px;line-height:1.1;text-transform:uppercase;color:#fff;margin-bottom:8px;}
-    .order-confirm{border:1px solid rgba(123,166,255,.46);background:rgba(25,43,86,.28);padding:14px;color:#d3e2ff;line-height:1.5;display:none;}
+    .order-confirm h3{font-family:"GPMenu",system-ui,sans-serif;font-size:20px;line-height:1.1;text-transform:uppercase;color:#fff;margin-bottom:8px;}
+    .order-confirm{border:1px solid rgba(123,166,255,.46);background:rgba(25,43,86,.28);padding:10px;color:#d3e2ff;line-height:1.4;display:none;font-size:12px;}
     .order-confirm.is-visible{display:block;}
-    .order-mail-link{display:none;width:fit-content;text-decoration:none;color:#fff;border-bottom:1px solid rgba(255,255,255,.6);}
+    .order-mail-link{display:none;width:fit-content;text-decoration:none;color:#fff;border-bottom:1px solid rgba(255,255,255,.6);font-size:12px;}
     .order-mail-link.is-visible{display:inline-block;}
-    .order-note{font-size:12px;color:rgba(255,255,255,.6);}
 
     footer{margin-top:22px;border-top:1px solid rgba(255,255,255,0.08);background:rgba(0,0,0,0.20);padding:20px var(--page-side-margin);color:rgba(255,255,255,0.78);}
     .footer-inner{max-width:var(--grid-max);margin:0 auto;padding:0 var(--outer-x);}
@@ -177,7 +187,7 @@
     @media (max-width:980px){
       .title-box span{font-size:56px;}
       .showcase-grid{grid-template-columns:repeat(2,minmax(0,1fr));}
-      .order-grid{grid-template-columns:1fr;}
+      .card-order-form{grid-template-columns:1fr;}
     }
   </style>
 </head>
@@ -201,6 +211,7 @@
             <a class="m-link" href="devenir-pilote.html">Devenir pilote</a>
             <a class="m-link" href="contact.html">Contact</a>
             <a class="m-link" href="boutique.html">Boutique</a>
+            <a class="m-link" href="https://openflyers.com/apam/" target="_blank" rel="noopener noreferrer">OPENFLYER</a>
           </nav>
         </div>
       </aside>
@@ -223,9 +234,18 @@
                 <span class="nav-item"><a href="devenir-pilote.html" class="nav-link" data-text="DEVENIR PILOTE">DEVENIR PILOTE</a></span>
                 <span class="nav-item"><a href="contact.html" class="nav-link" data-text="CONTACT">CONTACT</a></span>
                 <span class="nav-item"><a href="boutique.html" class="nav-link" data-text="BOUTIQUE">BOUTIQUE</a></span>
+                <span class="nav-item"><a href="https://openflyers.com/apam/" target="_blank" rel="noopener noreferrer" class="nav-link" data-text="OPENFLYER">OPENFLYER</a></span>
               </nav>
             </div>
-            <div class="header-right"><a class="btn-compte" href="mon-compte.html">Mon compte</a></div>
+            <div class="header-right">
+              <a class="icon" href="https://www.instagram.com/apam_lfol?igsh=MTVnbjRtNHppMWwwcA%3D%3D&utm_source=qr" aria-label="Instagram">
+                <svg viewBox="0 0 24 24"><path d="M7 2C4.2 2 2 4.2 2 7v10c0 2.8 2.2 5 5 5h10c2.8 0 5-2.2 5-5V7c0-2.8-2.2-5-5-5H7zm10 2c1.7 0 3 1.3 3 3v10c0 1.7-1.3 3-3 3H7c-1.7 0-3-1.3-3-3V7c0-1.7 1.3-3 3-3h10zm-5 3.5A4.5 4.5 0 1 0 16.5 12 4.51 4.51 0 0 0 12 7.5zm0 7A2.5 2.5 0 1 1 14.5 12 2.5 2.5 0 0 1 12 14.5zm4.8-8.9a1.1 1.1 0 1 1-1.1 1.1c0-.6.5-1.1 1.1-1.1z"/></svg>
+              </a>
+              <a class="icon" href="mailto:contact@apam.fr" aria-label="Email">
+                <svg viewBox="0 0 24 24"><path d="M4 4h16a2 2 0 0 1 2 2v1l-10 6L2 7V6a2 2 0 0 1 2-2zm18 5v9a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V9l10 6 10-6z"/></svg>
+              </a>
+              <a class="btn-compte" href="mon-compte.html">MON COMPTE</a>
+            </div>
           </div>
         </div>
       </header>
@@ -242,7 +262,7 @@
               <div class="showcase-meta">
                 <h3 data-sheet-field="titre">Vol découverte</h3>
                 <p data-sheet-field="description">Encart prêt à piloter depuis Sheet : image + titre + texte promo.</p>
-                <button class="order-btn" type="button" data-product="Vol découverte">Commandée</button>
+                <button class="order-btn" type="button" data-product="Vol découverte">Commander</button>
               </div>
             </article>
             <article class="showcase-card" data-sheet-key="photo_2">
@@ -250,7 +270,7 @@
               <div class="showcase-meta">
                 <h3 data-sheet-field="titre">Carte cadeau APAM</h3>
                 <p data-sheet-field="description">Idéal pour les offres saisonnières et la mise en avant des nouveautés.</p>
-                <button class="order-btn" type="button" data-product="Carte cadeau vol">Commandée</button>
+                <button class="order-btn" type="button" data-product="Carte cadeau vol">Commander</button>
               </div>
             </article>
             <article class="showcase-card" data-sheet-key="photo_3">
@@ -258,7 +278,7 @@
               <div class="showcase-meta">
                 <h3 data-sheet-field="titre">Baptême de l'air</h3>
                 <p data-sheet-field="description">Bloc visuel réutilisable pour promouvoir des expériences club.</p>
-                <button class="order-btn" type="button" data-product="Baptême de l'air">Commandée</button>
+                <button class="order-btn" type="button" data-product="Baptême de l'air">Commander</button>
               </div>
             </article>
             <article class="showcase-card" data-sheet-key="photo_4">
@@ -266,15 +286,15 @@
               <div class="showcase-meta">
                 <h3 data-sheet-field="titre">Casquette APAM</h3>
                 <p data-sheet-field="description">Goodie officiel APAM, retrait club ou envoi selon disponibilité.</p>
-                <button class="order-btn" type="button" data-product="Casquette APAM">Commandée</button>
+                <button class="order-btn" type="button" data-product="Casquette APAM">Commander</button>
               </div>
             </article>
             <article class="showcase-card" data-sheet-key="photo_5">
-              <img class="showcase-photo" src="https://images.pexels.com/photos/3782143/pexels-photo-3782143.jpeg?auto=compress&cs=tinysrgb&w=1400" alt="Suivi de commande sur ordinateur portable" loading="lazy" />
+              <img class="showcase-photo" src="https://images.pexels.com/photos/3782143/pexels-photo-3782143.jpeg?auto=compress&cs=tinysrgb&w=1400" alt="Polo à APAM sur ordinateur portable" loading="lazy" />
               <div class="showcase-meta">
-                <h3 data-sheet-field="titre">Suivi de commande</h3>
-                <p data-sheet-field="description">Suivez l'avancement grâce à votre numéro de commande généré automatiquement.</p>
-                <button class="order-btn" type="button" data-product="Suivi de commande">Commandée</button>
+                <h3 data-sheet-field="titre">Polo APAM</h3>
+                <p data-sheet-field="description">Goodies officiel APAM : choisissez votre taille et commandez directement depuis la carte.</p>
+                <button class="order-btn" type="button" data-product="Polo à APAM">Commander</button>
               </div>
             </article>
             <article class="showcase-card" data-sheet-key="photo_6">
@@ -282,81 +302,86 @@
               <div class="showcase-meta">
                 <h3 data-sheet-field="titre">Support boutique</h3>
                 <p data-sheet-field="description">Besoin d'aide sur une commande ? Le support boutique vous répond rapidement.</p>
-                <button class="order-btn" type="button" data-product="Suivi de commande">Commandée</button>
+                <button class="order-btn" type="button" data-product="Support boutique">Commander</button>
               </div>
             </article>
           </div>
         </section>
 
 
-        <section class="section-wrap">
 
-          <div class="order-launch" aria-label="Ouvrir le formulaire boutique">
-            <p>Clique sur un produit pour ouvrir automatiquement le formulaire interne, ou ouvre-le manuellement.</p>
-            <button class="order-btn" type="button" id="toggleOrderPanelBtn" aria-expanded="false">Ouvrir le formulaire</button>
-          </div>
-
-          <section class="order-panel is-collapsed" id="orderPanel" aria-labelledby="orderTitle">
-            <h2 id="orderTitle">Formulaire de commande</h2>
-            <p>Remplissez une seule fois ce formulaire : APAM reçoit votre demande complète, et vous obtenez un message de confirmation adapté au mode de paiement choisi.</p>
-
-            <form id="orderForm">
-              <div class="order-grid">
-                <div class="order-field full">
-                  <label for="product">Produit</label>
-                  <select id="product" name="product" required>
-                    <option value="Carte cadeau vol">Carte cadeau vol</option>
-                    <option value="Vol découverte">Vol découverte</option>
-                    <option value="Baptême de l'air">Baptême de l'air</option>
-                    <option value="Casquette APAM">Casquette APAM</option>
-                    <option value="Suivi de commande">Suivi de commande</option>
-                  </select>
-                </div>
-                <div class="order-field">
-                  <label for="paymentMode">Mode de paiement</label>
-                  <select id="paymentMode" name="paymentMode" required>
-                    <option value="cb">Carte bancaire (paiement au club)</option>
-                    <option value="virement">Virement bancaire</option>
-                  </select>
-                </div>
-                <div class="order-field">
-                  <label for="quantity">Quantité</label>
-                  <input id="quantity" name="quantity" type="number" min="1" value="1" required />
-                </div>
-                <div class="order-field">
-                  <label for="firstName">Prénom</label>
-                  <input id="firstName" name="firstName" type="text" required />
-                </div>
-                <div class="order-field">
-                  <label for="lastName">Nom</label>
-                  <input id="lastName" name="lastName" type="text" required />
-                </div>
-                <div class="order-field">
-                  <label for="email">Email</label>
-                  <input id="email" name="email" type="email" required />
-                </div>
-                <div class="order-field">
-                  <label for="phone">Contact téléphone</label>
-                  <input id="phone" name="phone" type="tel" required />
-                </div>
-                <div class="order-field full">
-                  <label for="address">Adresse</label>
-                  <textarea id="address" name="address" required></textarea>
-                </div>
+        <template id="cardOrderTemplate">
+          <div class="card-face back">
+            <div class="card-back-head">
+              <h4>Formulaire de commande</h4>
+              <button class="flip-back-btn" type="button">Retour</button>
+            </div>
+            <form class="card-order-form">
+              <div class="order-field full-width">
+                <label>Produit</label>
+                <input name="product" type="text" required readonly />
               </div>
-
+              <div class="order-field purchase-field">
+                <label>Mode de paiement</label>
+                <select name="paymentMode" required>
+                  <option value="cb">Carte bancaire (paiement au club)</option>
+                  <option value="virement">Virement bancaire</option>
+                </select>
+              </div>
+              <div class="order-field purchase-field">
+                <label>Quantité</label>
+                <input name="quantity" type="number" min="1" value="1" required />
+              </div>
+              <div class="order-field size-field purchase-field is-hidden">
+                <label>Taille polo</label>
+                <select name="size">
+                  <option value="">Sélectionner</option>
+                  <option value="XS">XS</option>
+                  <option value="S">S</option>
+                  <option value="M">M</option>
+                  <option value="L">L</option>
+                  <option value="XL">XL</option>
+                  <option value="XXL">XXL</option>
+                </select>
+              </div>
+              <div class="order-field support-field is-hidden">
+                <label>Order ID (optionnel)</label>
+                <input name="supportOrderId" type="text" placeholder="Ex : APAM-20260226-001" />
+              </div>
+              <div class="order-field">
+                <label>Prénom</label>
+                <input name="firstName" type="text" required />
+              </div>
+              <div class="order-field">
+                <label>Nom</label>
+                <input name="lastName" type="text" required />
+              </div>
+              <div class="order-field">
+                <label>Email</label>
+                <input name="email" type="email" required />
+              </div>
+              <div class="order-field">
+                <label>Téléphone</label>
+                <input name="phone" type="tel" required />
+              </div>
+              <div class="order-field purchase-field full-width">
+                <label>Adresse</label>
+                <textarea name="address" required></textarea>
+              </div>
+              <div class="order-field support-field full-width is-hidden">
+                <label>Message support</label>
+                <textarea name="supportMessage" placeholder="Expliquez votre problème, où ça bloque, ce qui s'est passé..." ></textarea>
+              </div>
               <div class="order-actions">
-                <button class="order-btn primary" id="submitOrderBtn" type="submit">Valider la demande</button>
-                <button class="order-btn" type="button" id="copySummaryBtn">Copier le récapitulatif</button>
+                <button class="order-btn primary submit-order-btn" type="submit">Valider</button>
+                <button class="order-btn copy-summary-btn" type="button">Copier</button>
               </div>
             </form>
+            <div class="order-confirm" aria-live="polite"></div>
+            <a class="order-mail-link" href="mailto:contact@apam.fr">Envoyer la demande à APAM</a>
+          </div>
+        </template>
 
-            <div class="order-confirm" id="orderConfirm" aria-live="polite"></div>
-            <a class="order-mail-link" id="orderMailLink" href="mailto:contact@apam.fr">Envoyer la demande à APAM</a>
-            <p class="order-note">Note : sur une version 100% statique, la confirmation affichée est immédiate. L'envoi automatique réel se branche ensuite sur Apps Script (sans Google Form obligatoire).</p>
-          </section>
-        </section>
-      </main>
 
       <footer>
         <div class="footer-inner">
@@ -379,23 +404,14 @@
       'Vol découverte': 'vol-decouverte',
       "Baptême de l'air": 'bapteme-air',
       'Casquette APAM': 'casquette-apam',
-      'Suivi de commande': 'suivi-commande'
+      'Polo à APAM': 'polo-apam',
+      'Support boutique': 'support-boutique'
     };
 
     const body = document.body;
     const burger = document.querySelector('.m-burger');
     const closeBtn = document.querySelector('.m-close');
     const overlay = document.querySelector('.m-overlay');
-    const orderForm = document.getElementById('orderForm');
-    const orderPanel = document.getElementById('orderPanel');
-    const toggleOrderPanelBtn = document.getElementById('toggleOrderPanelBtn');
-    const productSelect = document.getElementById('product');
-    const paymentMode = document.getElementById('paymentMode');
-    const orderConfirm = document.getElementById('orderConfirm');
-    const orderMailLink = document.getElementById('orderMailLink');
-    const copySummaryBtn = document.getElementById('copySummaryBtn');
-    const submitOrderBtn = document.getElementById('submitOrderBtn');
-    let latestSummary = '';
     let localOrderCounter = 0;
 
     const setOpen = (open) => {
@@ -404,6 +420,18 @@
     };
 
     function buildSummary(values) {
+      if (values.isSupport) {
+        return [
+          `Type : Ticket support boutique`,
+          `Sujet : ${values.product}`,
+          values.supportOrderId ? `Order ID : ${values.supportOrderId}` : null,
+          `Nom : ${values.firstName} ${values.lastName}`,
+          `Email : ${values.email}`,
+          `Contact : ${values.phone}`,
+          `Message : ${values.supportMessage || 'Non renseigné'}`
+        ].filter(Boolean).join('\n');
+      }
+
       return [
         `Produit : ${values.product}`,
         `Quantité : ${values.quantity}`,
@@ -411,11 +439,15 @@
         `Nom : ${values.firstName} ${values.lastName}`,
         `Email : ${values.email}`,
         `Contact : ${values.phone}`,
-        `Adresse : ${values.address}`
-      ].join('\n');
+        `Adresse : ${values.address}`,
+        values.size ? `Taille polo : ${values.size}` : null
+      ].filter(Boolean).join('\n');
     }
 
     function buildConfirmation(values) {
+      if (values.isSupport) {
+        return `<h3>Ticket support envoyé ✅</h3>Votre demande d'assistance boutique a bien été prise en compte.<br>L'équipe APAM vous répondra rapidement avec le suivi de votre ticket.`;
+      }
       if (values.paymentMode === 'cb') {
         return `<h3>Nous avons bien reçu votre demande ✅</h3><strong>Paiement carte bancaire :</strong> règlement directement au club (Aérodrome de L'Aigle Saint-Michel).<br>Votre produit sera remis sur place ou expédié après validation APAM.`;
       }
@@ -428,121 +460,174 @@
       return `APAM-${stamp}-${String(localOrderCounter).padStart(3, '0')}`;
     }
 
-    function updateMailto(summary, product) {
+    function updateMailto(link, summary, product) {
       const subject = encodeURIComponent(`Commande Boutique APAM - ${product}`);
-      const body = encodeURIComponent(`Bonjour APAM,\n\nNouvelle demande de commande :\n${summary}\n\nMerci.`);
-      orderMailLink.href = `mailto:contact@apam.fr?subject=${subject}&body=${body}`;
-      orderMailLink.classList.add('is-visible');
+      const bodyMessage = encodeURIComponent(`Bonjour APAM,\n\nNouvelle demande de commande :\n${summary}\n\nMerci.`);
+      link.href = `mailto:contact@apam.fr?subject=${subject}&body=${bodyMessage}`;
+      link.classList.add('is-visible');
     }
 
-    function setOrderPanelOpen(open) {
-      orderPanel?.classList.toggle('is-collapsed', !open);
-      toggleOrderPanelBtn?.setAttribute('aria-expanded', open ? 'true' : 'false');
-      if (toggleOrderPanelBtn) {
-        toggleOrderPanelBtn.textContent = open ? 'Fermer le formulaire' : 'Ouvrir le formulaire';
-      }
-    }
+    function setupCardOrders() {
+      const template = document.getElementById('cardOrderTemplate');
+      document.querySelectorAll('.showcase-card').forEach((card) => {
+        const setGroupVisibility = (fields, visible) => {
+          fields.forEach((field) => {
+            field.classList.toggle('is-hidden', !visible);
+            field.querySelectorAll('input, select, textarea').forEach((control) => {
+              if (!control.dataset.initialRequired) {
+                control.dataset.initialRequired = control.required ? 'true' : 'false';
+              }
+              if (visible) {
+                control.disabled = false;
+                control.required = control.dataset.initialRequired === 'true';
+              } else {
+                control.disabled = true;
+                control.required = false;
+              }
+            });
+          });
+        };
 
-    toggleOrderPanelBtn?.addEventListener('click', () => {
-      const isCollapsed = orderPanel?.classList.contains('is-collapsed');
-      setOrderPanelOpen(Boolean(isCollapsed));
-      if (isCollapsed) {
-        orderPanel?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }
-    });
+        const flip = document.createElement('div');
+        flip.className = 'card-flip';
 
-    document.querySelectorAll('[data-product]').forEach((button) => {
-      button.addEventListener('click', () => {
-        const product = button.dataset.product;
-        if (productSelect && productSelect.querySelector(`option[value="${product}"]`)) {
-          productSelect.value = product;
+        const front = document.createElement('div');
+        front.className = 'card-face front';
+        while (card.firstChild) {
+          front.appendChild(card.firstChild);
         }
-        const payment = button.dataset.payment;
-        if (paymentMode && paymentMode.querySelector(`option[value="${payment}"]`)) {
-          paymentMode.value = payment;
+
+        const back = template.content.firstElementChild.cloneNode(true);
+        flip.appendChild(front);
+        flip.appendChild(back);
+        card.appendChild(flip);
+
+        const product = card.querySelector('[data-product]')?.dataset.product || '';
+        const openBtn = card.querySelector('[data-product]');
+        const closeFormBtn = card.querySelector('.flip-back-btn');
+        const form = card.querySelector('.card-order-form');
+        const productInput = form.querySelector('input[name="product"]');
+        const paymentMode = form.querySelector('select[name="paymentMode"]');
+        const purchaseFields = form.querySelectorAll('.purchase-field');
+        const supportFields = form.querySelectorAll('.support-field');
+        const sizeField = form.querySelector('.size-field');
+        const sizeSelect = form.querySelector('select[name="size"]');
+        const supportMessageInput = form.querySelector('textarea[name="supportMessage"]');
+        const submitBtn = form.querySelector('.submit-order-btn');
+        const copyBtn = form.querySelector('.copy-summary-btn');
+        const orderConfirm = card.querySelector('.order-confirm');
+        const orderMailLink = card.querySelector('.order-mail-link');
+        let latestSummary = '';
+
+        productInput.value = product;
+        const isPolo = product === 'Polo à APAM';
+        const isSupport = product === 'Support boutique';
+        setGroupVisibility(purchaseFields, !isSupport);
+        setGroupVisibility(supportFields, isSupport);
+        if (supportMessageInput) {
+          supportMessageInput.required = isSupport;
         }
-        setOrderPanelOpen(true);
-        orderPanel?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      });
-    });
+        if (sizeField && sizeSelect) {
+          sizeField.classList.toggle('is-hidden', !isPolo);
+          sizeSelect.required = isPolo;
+        }
 
-    orderForm?.addEventListener('submit', async (event) => {
-      event.preventDefault();
-      const formData = new FormData(orderForm);
-      const values = {
-        product: String(formData.get('product') || ''),
-        paymentMode: String(formData.get('paymentMode') || ''),
-        paymentLabel: paymentMode?.selectedOptions?.[0]?.textContent || '',
-        quantity: String(formData.get('quantity') || ''),
-        firstName: String(formData.get('firstName') || ''),
-        lastName: String(formData.get('lastName') || ''),
-        email: String(formData.get('email') || ''),
-        phone: String(formData.get('phone') || ''),
-        address: String(formData.get('address') || '').trim().replace(/\s+/g, ' '),
-        notes: String(formData.get('notes') || '').trim()
-      };
-
-      latestSummary = buildSummary(values);
-
-      const generatedOrderId = generateOrderId();
-      let orderId = generatedOrderId;
-      let confirmationText = buildConfirmation(values);
-      const payload = {
-        action: 'create_order',
-        source: 'WEB_INTERNAL_FORM',
-        product_key: PRODUCT_KEY_BY_NAME[values.product] || values.product,
-        quantity: Number(values.quantity || 1),
-        payment_mode: values.paymentMode,
-        first_name: values.firstName,
-        last_name: values.lastName,
-        email: values.email,
-        phone: values.phone,
-        address: values.address,
-        notes: values.notes
-      };
-
-      try {
-        const response = await fetch(BOUTIQUE_WEBAPP_URL, {
-          method: 'POST',
-          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-          body: JSON.stringify(payload)
-        });
-        const result = await response.json();
-        if (response.ok && result?.ok) {
-          if (result.order_id) {
-            orderId = result.order_id;
+        openBtn?.addEventListener('click', () => {
+          productInput.value = product;
+          setGroupVisibility(purchaseFields, !isSupport);
+          setGroupVisibility(supportFields, isSupport);
+          if (supportMessageInput) {
+            supportMessageInput.required = isSupport;
           }
-          confirmationText = `${confirmationText}<br><br>Votre demande a bien été transmise à la boutique APAM.`;
-        } else {
-          confirmationText = `${confirmationText}<br><br>⚠️ Envoi automatique temporairement indisponible. Utilisez le lien email ci-dessous.`;
-        }
-      } catch {
-        confirmationText = `${confirmationText}<br><br>⚠️ Envoi automatique temporairement indisponible. Utilisez le lien email ci-dessous.`;
-      }
+          if (sizeField && sizeSelect) {
+            sizeField.classList.toggle('is-hidden', !isPolo);
+            sizeSelect.required = isPolo;
+          }
+          card.classList.add('is-flipped');
+        });
 
-      const orderIdBlock = `<br><strong>Numéro de commande :</strong> ${orderId}`;
-      orderConfirm.innerHTML = `${confirmationText}${orderIdBlock}<br><br><strong>Récapitulatif :</strong><br>${latestSummary.replace(/\n/g, '<br>')}`;
-      orderConfirm.classList.add('is-visible');
-      submitOrderBtn?.classList.add('is-submitted');
-      if (submitOrderBtn) {
-        submitOrderBtn.textContent = 'Demande validée';
-      }
-      updateMailto(`${latestSummary}\nNuméro de commande : ${orderId}`, values.product);
-    });
+        closeFormBtn?.addEventListener('click', () => card.classList.remove('is-flipped'));
 
-    copySummaryBtn?.addEventListener('click', async () => {
-      if (!latestSummary) return;
-      try {
-        await navigator.clipboard.writeText(latestSummary);
-        copySummaryBtn.textContent = 'Récapitulatif copié';
-        window.setTimeout(() => {
-          copySummaryBtn.textContent = 'Copier le récapitulatif';
-        }, 1800);
-      } catch {
-        copySummaryBtn.textContent = 'Copie impossible';
-      }
-    });
+        form?.addEventListener('submit', async (event) => {
+          event.preventDefault();
+          const formData = new FormData(form);
+          const values = {
+            product: String(formData.get('product') || ''),
+            paymentMode: String(formData.get('paymentMode') || ''),
+            paymentLabel: paymentMode?.selectedOptions?.[0]?.textContent || '',
+            quantity: String(formData.get('quantity') || ''),
+            firstName: String(formData.get('firstName') || ''),
+            lastName: String(formData.get('lastName') || ''),
+            email: String(formData.get('email') || ''),
+            phone: String(formData.get('phone') || ''),
+            address: String(formData.get('address') || '').trim().replace(/\s+/g, ' '),
+            size: String(formData.get('size') || ''),
+            supportOrderId: String(formData.get('supportOrderId') || '').trim(),
+            supportMessage: String(formData.get('supportMessage') || '').trim(),
+            isSupport
+          };
 
+          latestSummary = buildSummary(values);
+          let orderId = generateOrderId();
+          let confirmationText = buildConfirmation(values);
+
+          const payload = {
+            action: 'create_order',
+            source: 'WEB_INTERNAL_FORM',
+            product_key: PRODUCT_KEY_BY_NAME[values.product] || values.product,
+            quantity: values.isSupport ? 1 : Number(values.quantity || 1),
+            payment_mode: values.isSupport ? 'support' : values.paymentMode,
+            first_name: values.firstName,
+            last_name: values.lastName,
+            email: values.email,
+            phone: values.phone,
+            address: values.isSupport ? 'Support boutique - ticket client' : values.address,
+            notes: values.isSupport
+              ? `Ticket support\nOrder ID: ${values.supportOrderId || 'non renseigné'}\nMessage: ${values.supportMessage || 'non renseigné'}`
+              : (values.size ? `Taille polo : ${values.size}` : '')
+          };
+
+          try {
+            const response = await fetch(BOUTIQUE_WEBAPP_URL, {
+              method: 'POST',
+              headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+              body: JSON.stringify(payload)
+            });
+            const result = await response.json();
+            if (response.ok && result?.ok) {
+              orderId = result.order_id || orderId;
+              confirmationText = `${confirmationText}<br><br>Votre demande a bien été transmise à la boutique APAM.`;
+            } else {
+              confirmationText = `${confirmationText}<br><br>⚠️ Envoi automatique indisponible. Utilisez le lien email ci-dessous.`;
+            }
+          } catch {
+            confirmationText = `${confirmationText}<br><br>⚠️ Envoi automatique indisponible. Utilisez le lien email ci-dessous.`;
+          }
+
+          const orderIdBlock = `<br><strong>Numéro de commande :</strong> ${orderId}`;
+          orderConfirm.innerHTML = `${confirmationText}${orderIdBlock}<br><br><strong>Récapitulatif :</strong><br>${latestSummary.replace(/\n/g, '<br>')}`;
+          orderConfirm.classList.add('is-visible');
+          submitBtn?.classList.add('is-submitted');
+          if (submitBtn) submitBtn.textContent = 'Demande validée';
+          updateMailto(orderMailLink, `${latestSummary}\nNuméro de commande : ${orderId}`, values.product);
+        });
+
+        copyBtn?.addEventListener('click', async () => {
+          if (!latestSummary) return;
+          try {
+            await navigator.clipboard.writeText(latestSummary);
+            copyBtn.textContent = 'Récapitulatif copié';
+            window.setTimeout(() => {
+              copyBtn.textContent = 'Copier';
+            }, 1800);
+          } catch {
+            copyBtn.textContent = 'Copie impossible';
+          }
+        });
+      });
+    }
+
+    setupCardOrders();
     burger?.addEventListener('click', () => setOpen(true));
     closeBtn?.addEventListener('click', () => setOpen(false));
     overlay?.addEventListener('click', () => setOpen(false));
