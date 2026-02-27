@@ -680,6 +680,15 @@
       return `${amount.toLocaleString('fr-FR')} €`;
     }
 
+    function setPricePlaceholders() {
+      const cards = document.querySelectorAll('.showcase-card[data-product-key]');
+      cards.forEach((card) => {
+        const priceNode = card.querySelector('.showcase-price-badge');
+        if (!priceNode) return;
+        priceNode.textContent = 'Tarif en chargement…';
+      });
+    }
+
     async function syncPricesFromSheet() {
       const cards = document.querySelectorAll('.showcase-card[data-product-key]');
       if (!cards.length) return;
@@ -914,6 +923,7 @@
       });
     }
 
+    setPricePlaceholders();
     syncPricesFromSheet();
     window.setInterval(syncPricesFromSheet, 60000);
     document.addEventListener('visibilitychange', () => {
