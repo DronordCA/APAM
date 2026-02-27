@@ -680,15 +680,18 @@
         endpointUrl.searchParams.set('t', Date.now().toString());
         const response = await fetch(endpointUrl.toString(), {
           method: 'GET',
-          cache: 'no-store',
-          headers: {
-            'Cache-Control': 'no-cache'
-          }
+          cache: 'no-store'
         });
+        if (!response.ok) {
+          throw new Error(`HTTP ${response.status}`);
+        }
         const result = await response.json();
         const products = Array.isArray(result?.products) ? result.products : [];
         const pricesByKey = new Map(
-          products.map((product) => [String(product.product_key || ''), product.price_eur])
+          products.map((product) => [
+            String(product.product_key || ''),
+            product.price_eur ?? product.unit_price_eur ?? product.price
+          ])
         );
 
         cards.forEach((card) => {
