@@ -665,8 +665,17 @@
       link.classList.add('is-visible');
     }
 
+    function normalizePriceValue(value) {
+      if (typeof value === 'number') return value;
+      const cleaned = String(value ?? '')
+        .replace(/\s+/g, '')
+        .replace(/€/g, '')
+        .replace(',', '.');
+      return Number(cleaned);
+    }
+
     function formatEuroPrice(value) {
-      const amount = Number(value);
+      const amount = normalizePriceValue(value);
       if (!Number.isFinite(amount) || amount <= 0) return 'Gratuit';
       return `${amount.toLocaleString('fr-FR')} €`;
     }
@@ -687,12 +696,17 @@
         }
         const result = await response.json();
         const products = Array.isArray(result?.products) ? result.products : [];
-        const pricesByKey = new Map(
-          products.map((product) => [
-            String(product.product_key || ''),
-            product.price_eur ?? product.unit_price_eur ?? product.price
-          ])
-        );
+        const pricesByKey = new Map();
+        products.forEach((product) => {
+          const key = String(product.product_key || '');
+          const name = String(product.product_name || '');
+          const price = product.price_eur ?? product.unit_price_eur ?? product.price;
+
+          if (key) pricesByKey.set(key, price);
+          if (name && PRODUCT_KEY_BY_NAME[name]) {
+            pricesByKey.set(PRODUCT_KEY_BY_NAME[name], price);
+          }
+        });
 
         cards.forEach((card) => {
           const key = String(card.dataset.productKey || '');
@@ -901,6 +915,12 @@
     }
 
     syncPricesFromSheet();
+    window.setInterval(syncPricesFromSheet, 60000);
+    document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState === 'visible') {
+        syncPricesFromSheet();
+      }
+    });
     setupCardOrders();
     burger?.addEventListener('click', () => setOpen(true));
     closeBtn?.addEventListener('click', () => setOpen(false));
