@@ -676,7 +676,15 @@
       if (!cards.length) return;
 
       try {
-        const response = await fetch(BOUTIQUE_PRICES_ENDPOINT, { method: 'GET' });
+        const endpointUrl = new URL(BOUTIQUE_PRICES_ENDPOINT);
+        endpointUrl.searchParams.set('t', Date.now().toString());
+        const response = await fetch(endpointUrl.toString(), {
+          method: 'GET',
+          cache: 'no-store',
+          headers: {
+            'Cache-Control': 'no-cache'
+          }
+        });
         const result = await response.json();
         const products = Array.isArray(result?.products) ? result.products : [];
         const pricesByKey = new Map(
