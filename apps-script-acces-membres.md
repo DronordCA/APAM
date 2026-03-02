@@ -11,12 +11,17 @@ En-têtes (ligne 1) :
 - `password_hash`
 - `salt`
 - `role`
+- `prenom`
+- `nom`
+- `telephone`
+- `licence`
+- `profil_club`
+- `created_at`
 - `compte_personnel`
-- `docs_administratifs`
 - `docs_club`
-- `cours`
-- `meteo`
-- `docs_avion`
+- `docs_eleves`
+- `voyage`
+- `sortie_club`
 - `active`
 
 Permissions : `OUI` / `NON`.
@@ -41,6 +46,7 @@ Créer un projet lié au Sheet et coller ce script.
 
 ```javascript
 const SESSION_DURATION_MIN = 60;
+const PERMISSION_FIELDS = ['compte_personnel', 'docs_club', 'docs_eleves', 'voyage', 'sortie_club'];
 
 function doGet(e) {
   const action = String((e.parameter.action || 'me')).toLowerCase();
@@ -52,9 +58,74 @@ function doGet(e) {
 function doPost(e) {
   const payload = parseJsonBody(e);
   const action = String(payload.action || '').toLowerCase();
+  if (action === 'signup') return handleSignup(payload);
   if (action === 'login') return handleLogin(payload);
   if (action === 'logout') return handleLogout(payload);
   return json({ ok: false, error: 'invalid_action' });
+}
+
+
+function handleSignup(payload) {
+  const email = String(payload.email || '').trim().toLowerCase();
+  const password = String(payload.password || '');
+  const prenom = String(payload.prenom || '').trim();
+  const nom = String(payload.nom || '').trim();
+  const telephone = String(payload.telephone || '').trim();
+  const licence = String(payload.licence || '').trim();
+  const profilClub = String(payload.profil_club || '').trim();
+
+  if (!email || !password || !prenom || !nom || !telephone || !profilClub) {
+    return json({ ok: false, error: 'missing_signup_fields' });
+  }
+  if (password.length < 10) {
+    return json({ ok: false, error: 'weak_password' });
+  }
+  if (getUserByEmail(email)) {
+    return json({ ok: false, error: 'email_exists' });
+  }
+
+  const salt = Utilities.getUuid();
+  const passwordHash = hashPassword(password, salt);
+
+  createUser({
+    email,
+    passwordHash,
+    salt,
+    prenom,
+    nom,
+    telephone,
+    licence,
+    profilClub,
+  });
+
+  writeAudit('signup_created', email, 'pending_activation');
+  return json({ ok: true, message: 'signup_recorded' });
+}
+
+function createUser(input) {
+  const sh = getSheet('users');
+  const headers = sh.getRange(1, 1, 1, sh.getLastColumn()).getValues()[0].map(String);
+  const rowByHeader = {
+    email: input.email,
+    password_hash: input.passwordHash,
+    salt: input.salt,
+    role: 'member',
+    prenom: input.prenom,
+    nom: input.nom,
+    telephone: input.telephone,
+    licence: input.licence,
+    profil_club: input.profilClub,
+    created_at: new Date().toISOString(),
+    compte_personnel: 'NON',
+    docs_club: 'NON',
+    docs_eleves: 'NON',
+    voyage: 'NON',
+    sortie_club: 'NON',
+    active: 'NON',
+  };
+
+  const row = headers.map((h) => rowByHeader[h] ?? '');
+  sh.appendRow(row);
 }
 
 function handleLogin(payload) {
@@ -93,8 +164,7 @@ function handleMe(e) {
     return json({ ok: false, error: 'user_inactive' });
   }
 
-  const permissions = Object.keys(user)
-    .filter((k) => !['email', 'password_hash', 'salt', 'role', 'active'].includes(k))
+  const permissions = PERMISSION_FIELDS
     .filter((k) => String(user[k] || '').toUpperCase() === 'OUI');
 
   return json({ ok: true, email: user.email, role: user.role || '', permissions });
@@ -219,21 +289,27 @@ function json(data) {
 }
 ```
 
-## 3) Initialiser un mot de passe utilisateur
-Pour chaque utilisateur :
-1. Générer un `salt` (UUID).
-2. Calculer `password_hash = SHA256(salt:motdepasse)`.
-3. Remplir les colonnes `salt` et `password_hash` dans `users`.
+## 3) Inscription interne (formulaire site → Sheet)
+Le formulaire du site envoie `action: "signup"` vers la Web App Apps Script.
 
-Exemple utilitaire (à lancer une fois dans Apps Script) :
+Champs minimum recommandés côté formulaire :
+- `prenom`
+- `nom`
+- `email`
+- `telephone`
+- `password`
+- `licence` (optionnel)
+- `profil_club` (obligatoire, ex: `eleve_pilote`, `pilote_brevete`)
 
-```javascript
-function generateHashForUser(email, password) {
-  const salt = Utilities.getUuid();
-  const hash = hashPassword(password, salt);
-  Logger.log({ email, salt, hash });
-}
-```
+À l'inscription, le script :
+1. Vérifie les champs requis et l'unicité email.
+2. Génère `salt` + `password_hash` (SHA-256).
+3. Crée une ligne `users` avec `active = NON` et toutes les permissions à `NON`.
+4. Journalise l'événement dans `audit`.
+
+Activation ensuite :
+- L'admin passe `active` à `OUI` et active les espaces (`OUI`) dans les colonnes permission.
+- L'utilisateur peut alors se connecter et voir uniquement ses modules autorisés.
 
 ## 4) Déploiement
 - Déployer en **Web App**.
@@ -242,6 +318,7 @@ function generateHashForUser(email, password) {
 - Ajouter une propriété de script `APP_SECRET` (long secret aléatoire).
 
 ## 5) Branchement front
+- `inscription-membres.html` : renseigner `data-access-api="URL_WEB_APP"` pour créer les comptes en attente.
 - `connexion-membres.html` : renseigner `data-access-api="URL_WEB_APP"`.
 - `mon-compte.html` : renseigner `data-access-api="URL_WEB_APP"`.
 - Le login stocke `apam_session_token` en localStorage puis redirige vers `mon-compte.html`.
@@ -312,4 +389,3 @@ Oui, c'est possible avec votre architecture actuelle, sans backend e-commerce lo
 - Donc une boîte dédiée n'est pas obligatoire techniquement, mais elle est recommandée pour la lisibilité (ex: `boutique@apam.fr` ou alias).
 - Il faut configurer clairement : adresse expéditrice, destinataire interne APAM, et templates selon `mode_paiement`.
 - En cas de volume plus élevé, prévoir des quotas Google Workspace et un suivi des réponses automatiques.
-
