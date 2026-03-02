@@ -547,9 +547,9 @@
               <h1>Mon compte pilote</h1>
               <p>Une version plus fun et plus vivante, toujours alignée avec le style APAM : accès essentiels, outils club, documents et préparation de vol dans un seul espace.</p>
             </div>
-            <div class="hero-side" aria-label="Indicateurs rapides" data-members-csv="https://docs.google.com/spreadsheets/d/e/2PACX-1vQ9cfj5o-MEMBERLIST/pub?gid=0&single=true&output=csv">
-              <div class="stat-row"><span class="stat-label">Membres inscrits</span><span class="stat-value" id="membersCount">--</span></div>
-              <div class="stat-row"><span class="stat-label">Ressources membres</span><span class="stat-value">24/7</span></div>
+            <div class="hero-side" aria-label="Indicateurs rapides">
+              <div class="stat-row"><span class="stat-label">Membre</span><span class="stat-value" id="memberIdentity">--</span></div>
+              <div class="stat-row"><span class="stat-label">Numéro du membre</span><span class="stat-value" id="memberNumber">--</span></div>
               <div class="stat-row"><span class="stat-label">Portail club</span><span class="stat-value">APAM</span></div>
               <div class="stat-row">
                 <span class="stat-label">Session</span>
@@ -557,25 +557,6 @@
               </div>
             </div>
           </section>
-
-          <div class="cta-grid">
-            <a class="cta-link" href="inscription-membres.html">
-              <span class="cta-icon" aria-hidden="true">📝</span>
-              <span class="cta-content">
-                <span class="cta-title">Créer mon espace membre</span>
-                <span class="cta-sub">Formulaire interne APAM</span>
-              </span>
-              <span class="cta-arrow" aria-hidden="true">→</span>
-            </a>
-            <a class="cta-link" href="connexion-membres.html">
-              <span class="cta-icon" aria-hidden="true">🔐</span>
-              <span class="cta-content">
-                <span class="cta-title">Connexion membres</span>
-                <span class="cta-sub">Email + mot de passe APAM</span>
-              </span>
-              <span class="cta-arrow" aria-hidden="true">→</span>
-            </a>
-          </div>
 
           <section aria-labelledby="ressources">
             <h2 class="section-title" id="ressources">Ressources du compte</h2>
@@ -620,34 +601,11 @@
     const burger = document.querySelector('.m-burger');
     const closeBtn = document.querySelector('.m-close');
     const overlay = document.querySelector('.m-overlay');
-    const membersWrapper = document.querySelector('[data-members-csv]');
-    const membersCountEl = document.getElementById('membersCount');
+    const memberIdentityEl = document.getElementById('memberIdentity');
+    const memberNumberEl = document.getElementById('memberNumber');
     const accessContainer = document.querySelector('[data-access-api]');
     const accessNote = document.getElementById('accessNote');
     const logoutBtn = document.getElementById('logoutBtn');
-
-    async function loadMembersCount(){
-      if (!membersWrapper || !membersCountEl) return;
-      const csvUrl = membersWrapper.dataset.membersCsv;
-      if (!csvUrl) return;
-
-      try {
-        const res = await fetch(csvUrl, { cache: 'no-store' });
-        if (!res.ok) throw new Error('Erreur HTTP');
-        const text = await res.text();
-
-        const rows = text
-          .split(/\r?\n/)
-          .map((line) => line.trim())
-          .filter((line) => line !== '');
-
-        const dataRows = Math.max(0, rows.length - 1);
-        membersCountEl.textContent = String(dataRows);
-      } catch {
-        membersCountEl.textContent = '--';
-      }
-    }
-
 
     function hideAllCards(cards){
       cards.forEach((card) => {
@@ -675,6 +633,8 @@
       const token = window.localStorage.getItem('apam_session_token') || '';
       if (!token){
         hideAllCards(cards);
+        if (memberIdentityEl) memberIdentityEl.textContent = '--';
+        if (memberNumberEl) memberNumberEl.textContent = '--';
         if (accessNote) accessNote.textContent = "Session absente. Redirection vers la page de connexion membres...";
         redirectToLogin();
         return;
@@ -688,12 +648,23 @@
         if (!payload.ok){
           window.localStorage.removeItem('apam_session_token');
           hideAllCards(cards);
+          if (memberIdentityEl) memberIdentityEl.textContent = '--';
+          if (memberNumberEl) memberNumberEl.textContent = '--';
           if (accessNote) accessNote.textContent = "Session expirée. Merci de vous reconnecter.";
           redirectToLogin();
           return;
         }
 
         const userEmail = String(payload.email || '').toLowerCase();
+        const firstName = String(payload.prenom || payload.first_name || '').trim();
+        const lastName = String(payload.nom || payload.last_name || '').trim();
+        const displayName = `${firstName} ${lastName}`.trim();
+        const memberIdentity = displayName || userEmail || 'Membre connecté';
+        if (memberIdentityEl) memberIdentityEl.textContent = memberIdentity;
+
+        const memberNumber = String(payload.numero_membre || payload.member_number || payload.member_id || '').trim();
+        if (memberNumberEl) memberNumberEl.textContent = memberNumber || '--';
+
         const allowed = new Set((payload.permissions || []).map((v) => String(v).toLowerCase()));
 
         let visibleCount = 0;
@@ -711,6 +682,8 @@
         }
       } catch {
         hideAllCards(cards);
+        if (memberIdentityEl) memberIdentityEl.textContent = '--';
+        if (memberNumberEl) memberNumberEl.textContent = '--';
         if (accessNote) accessNote.textContent = "Impossible de vérifier la session. Reconnexion nécessaire.";
       }
     }
@@ -728,7 +701,6 @@
       redirectToLogin();
     });
 
-    loadMembersCount();
     loadAccessByRole();
   </script>
 </body>
