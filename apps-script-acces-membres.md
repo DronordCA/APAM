@@ -14,7 +14,7 @@ En-têtes (ligne 1) :
 - `prenom`
 - `nom`
 - `telephone`
-- `licence`
+- `nocompt`
 - `profil_club`
 - `created_at`
 - `compte_personnel`
@@ -23,6 +23,7 @@ En-têtes (ligne 1) :
 - `voyage`
 - `sortie_club`
 - `active`
+- `compte_secret` (colonne Q, `OUI` pour un compte pré-configuré sur place)
 
 Permissions : `OUI` / `NON`.
 
@@ -72,7 +73,7 @@ function handleSignup(payload) {
   const prenom = String(payload.prenom || '').trim();
   const nom = String(payload.nom || '').trim();
   const telephone = String(payload.telephone || '').trim();
-  const licence = String(payload.licence || '').trim();
+  const nocompt = String(payload.nocompt || '').trim();
   const profilClub = String(payload.profil_club || '').trim();
 
   if (!email || !password || !prenom || !nom || !telephone || !profilClub) {
@@ -85,6 +86,20 @@ function handleSignup(payload) {
     return json({ ok: false, error: 'email_exists' });
   }
 
+  const existingByNocompt = nocompt ? getUserByNocompt(nocompt) : null;
+  if (existingByNocompt && String(existingByNocompt.compte_secret || '').toUpperCase() === 'OUI') {
+    const salt = Utilities.getUuid();
+    const passwordHash = hashPassword(password, salt);
+    upgradeSecretAccount(existingByNocompt._row, {
+      email,
+      passwordHash,
+      salt,
+      profilClub,
+    });
+    writeAudit('signup_claimed_secret_account', email, `nocompt:${nocompt}`);
+    return json({ ok: true, message: 'signup_recorded' });
+  }
+
   const salt = Utilities.getUuid();
   const passwordHash = hashPassword(password, salt);
 
@@ -95,7 +110,7 @@ function handleSignup(payload) {
     prenom,
     nom,
     telephone,
-    licence,
+    nocompt,
     profilClub,
   });
 
@@ -114,7 +129,7 @@ function createUser(input) {
     prenom: input.prenom,
     nom: input.nom,
     telephone: input.telephone,
-    licence: input.licence,
+    nocompt: input.nocompt,
     profil_club: input.profilClub,
     created_at: new Date().toISOString(),
     compte_personnel: 'NON',
@@ -123,6 +138,7 @@ function createUser(input) {
     voyage: 'NON',
     sortie_club: 'NON',
     active: 'NON',
+    compte_secret: 'NON',
   };
 
   const row = headers.map((h) => rowByHeader[h] ?? '');
@@ -206,6 +222,39 @@ function getUserByEmail(email) {
     }
   }
   return null;
+}
+
+
+function getUserByNocompt(nocompt) {
+  const sh = getSheet('users');
+  const rows = sh.getDataRange().getValues();
+  if (rows.length < 2) return null;
+
+  const headers = rows[0].map(String);
+  const idxNocompt = headers.indexOf('nocompt');
+  if (idxNocompt === -1) return null;
+
+  for (let i = 1; i < rows.length; i += 1) {
+    const candidate = String(rows[i][idxNocompt] || '').trim();
+    if (candidate === nocompt) {
+      const user = { _row: i + 1 };
+      headers.forEach((h, j) => user[h] = rows[i][j]);
+      return user;
+    }
+  }
+  return null;
+}
+
+function upgradeSecretAccount(rowNumber, input) {
+  const sh = getSheet('users');
+  const headers = sh.getRange(1, 1, 1, sh.getLastColumn()).getValues()[0].map(String);
+  const index = (key) => headers.indexOf(key) + 1;
+
+  sh.getRange(rowNumber, index('email')).setValue(input.email);
+  sh.getRange(rowNumber, index('password_hash')).setValue(input.passwordHash);
+  sh.getRange(rowNumber, index('salt')).setValue(input.salt);
+  sh.getRange(rowNumber, index('profil_club')).setValue(input.profilClub);
+  sh.getRange(rowNumber, index('compte_secret')).setValue('NON');
 }
 
 function createSession(token, email) {
@@ -299,13 +348,13 @@ Champs minimum recommandés côté formulaire :
 - `email`
 - `telephone`
 - `password`
-- `licence` (optionnel)
+- `nocompt` (optionnel)
 - `profil_club` (obligatoire, ex: `eleve_pilote`, `pilote_brevete`)
 
 À l'inscription, le script :
 1. Vérifie les champs requis et l'unicité email.
-2. Génère `salt` + `password_hash` (SHA-256).
-3. Crée une ligne `users` avec `active = NON` et toutes les permissions à `NON`.
+2. Si un `nocompt` existe avec `compte_secret = OUI`, remplace uniquement les identifiants (email + mot de passe) et conserve le profil déjà activé.
+3. Sinon, génère `salt` + `password_hash` (SHA-256) puis crée une ligne `users` avec `active = NON` et toutes les permissions à `NON`.
 4. Journalise l'événement dans `audit`.
 
 Activation ensuite :

@@ -48,8 +48,8 @@
         <input id="telephone" name="telephone" type="tel" autocomplete="tel" required />
       </div>
       <div>
-        <label for="licence">Numéro licence (optionnel)</label>
-        <input id="licence" name="licence" type="text" />
+        <label for="nocompt">NOCOMPT (numéro de compte, optionnel)</label>
+        <input id="nocompt" name="nocompt" type="text" />
       </div>
       <div>
         <label for="profilClub">Qui êtes-vous dans le club ?</label>
@@ -101,7 +101,7 @@
         nom: String(form.nom.value || '').trim(),
         email: String(form.email.value || '').trim().toLowerCase(),
         telephone: String(form.telephone.value || '').trim(),
-        licence: String(form.licence.value || '').trim(),
+        nocompt: String(form.nocompt.value || '').trim(),
         profil_club: String(form.profilClub.value || '').trim(),
         password: String(form.password.value || ''),
         confirmPassword: String(form.confirmPassword.value || '')
