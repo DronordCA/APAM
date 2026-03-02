@@ -239,6 +239,26 @@
     .cta-sub{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:rgba(227,237,255,.8);}
     .cta-arrow{font-size:24px;align-self:flex-end;opacity:.9;}
 
+    .pilot-actions{margin:18px 0 24px;}
+    .pilot-actions-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;}
+    .pilot-action-card{
+      text-decoration:none;
+      color:#fff;
+      border:1px solid var(--line);
+      background:linear-gradient(150deg, rgba(47,107,255,.18), rgba(15,15,20,.92));
+      padding:22px;
+      min-height:190px;
+      display:flex;
+      flex-direction:column;
+      gap:12px;
+      transition:transform .2s ease,border-color .2s ease,box-shadow .2s ease;
+      box-shadow:0 12px 24px rgba(0,0,0,.28);
+    }
+    .pilot-action-card:hover{transform:translateY(-3px);border-color:rgba(123,166,255,.75);box-shadow:0 18px 30px rgba(10,14,28,.48);}
+    .pilot-action-title{font-family:"Swiss911",sans-serif;font-size:52px;letter-spacing:-0.02em;text-transform:uppercase;line-height:.88;}
+    .pilot-action-copy{color:var(--muted);max-width:420px;line-height:1.5;}
+    .pilot-action-link{margin-top:auto;font-family:"GPMenu",system-ui,sans-serif;letter-spacing:.04em;text-transform:uppercase;font-size:13px;opacity:.95;}
+
     .section-title{
       font-family:"Swiss911",sans-serif;
       text-transform:uppercase;
@@ -393,6 +413,7 @@
       .hero{grid-template-columns:1fr;padding:22px;}
       h1{font-size:50px;}
       .cta-grid{grid-template-columns:1fr;}
+      .pilot-actions-grid{grid-template-columns:1fr;}
       .cards{grid-template-columns:repeat(2,minmax(0,1fr));}
       .link-strip{grid-template-columns:repeat(2,minmax(0,1fr));}
     }
@@ -400,6 +421,7 @@
     @media (max-width:640px){
       .cards{grid-template-columns:1fr;}
       .link-strip{grid-template-columns:1fr;}
+      .pilot-action-title{font-size:42px;}
       h1{font-size:42px;}
       .cta-title{font-size:31px;}
     }
@@ -555,6 +577,21 @@
                 <span class="stat-label">Session</span>
                 <button class="session-btn" id="logoutBtn" type="button">Se déconnecter</button>
               </div>
+            </div>
+          </section>
+
+          <section class="pilot-actions" aria-label="Accès rapides préparation de vol">
+            <div class="pilot-actions-grid">
+              <a class="pilot-action-card" href="https://meteofrance.com/previsions-meteo-france/epinal/88000" target="_blank" rel="noopener noreferrer">
+                <div class="pilot-action-title">METAR LFOL</div>
+                <p class="pilot-action-copy">Consultez rapidement la météo Météo-France pour LFOL avec des informations mises à jour en continu avant de partir.</p>
+                <span class="pilot-action-link">Voir le METAR sur Météo-France →</span>
+              </a>
+              <a class="pilot-action-card" href="https://olivia.aviation-civile.gouv.fr/" target="_blank" rel="noopener noreferrer">
+                <div class="pilot-action-title">Préparer mon vol</div>
+                <p class="pilot-action-copy">Retrouvez l'accès direct aux outils indispensables pour organiser votre navigation et déposer votre préparation.</p>
+                <span class="pilot-action-link">Démarrer la préparation →</span>
+              </a>
             </div>
           </section>
 
