@@ -599,10 +599,12 @@
       'Vol découverte': 'vol-decouverte',
       "Baptême de l'air": 'bapteme-air',
       'Casquette APAM': 'casquette-apam',
+      'Polo APAM': 'polo-apam',
       'Polo à APAM': 'polo-apam',
       'Support boutique': 'support-boutique'
     };
     const BOUTIQUE_PRICES_ENDPOINT = `${BOUTIQUE_WEBAPP_URL}?action=list_products`;
+    const PRODUCT_META_BY_KEY = new Map();
 
     const body = document.body;
     const burger = document.querySelector('.m-burger');
@@ -705,24 +707,52 @@
         }
         const result = await response.json();
         const products = Array.isArray(result?.products) ? result.products : [];
-        const pricesByKey = new Map();
-        products.forEach((product) => {
-          const key = String(product.product_key || '');
-          const name = String(product.product_name || '');
-          const price = product.price_eur ?? product.unit_price_eur ?? product.price;
+        PRODUCT_META_BY_KEY.clear();
 
-          if (key) pricesByKey.set(key, price);
+        products.forEach((product) => {
+          const key = String(product.product_key || '').trim();
+          const name = String(product.product_name || '').trim();
+          if (!key) return;
+
+          PRODUCT_META_BY_KEY.set(key, {
+            name,
+            description: String(product.description || '').trim(),
+            imageUrl: String(product.image_url || '').trim(),
+            price: product.price_eur ?? product.unit_price_eur ?? product.price
+          });
+
           if (name && PRODUCT_KEY_BY_NAME[name]) {
-            pricesByKey.set(PRODUCT_KEY_BY_NAME[name], price);
+            PRODUCT_META_BY_KEY.set(PRODUCT_KEY_BY_NAME[name], PRODUCT_META_BY_KEY.get(key));
           }
         });
 
         cards.forEach((card) => {
           const key = String(card.dataset.productKey || '');
-          if (!key || !pricesByKey.has(key)) return;
+          const meta = PRODUCT_META_BY_KEY.get(key);
+          if (!meta) return;
+
+          const titleNode = card.querySelector('[data-sheet-field="titre"]');
+          const descriptionNode = card.querySelector('[data-sheet-field="description"]');
+          const imageNode = card.querySelector('.showcase-photo');
+          const openBtn = card.querySelector('[data-product]');
           const priceNode = card.querySelector('.showcase-price-badge');
-          if (!priceNode) return;
-          priceNode.textContent = formatEuroPrice(pricesByKey.get(key));
+
+          if (meta.name) {
+            if (titleNode) titleNode.textContent = meta.name;
+            if (openBtn) openBtn.dataset.product = meta.name;
+          }
+
+          if (meta.description && descriptionNode) {
+            descriptionNode.textContent = meta.description;
+          }
+
+          if (meta.imageUrl && imageNode) {
+            imageNode.src = meta.imageUrl;
+          }
+
+          if (priceNode) {
+            priceNode.textContent = formatEuroPrice(meta.price);
+          }
         });
       } catch (error) {
         console.warn('Synchronisation des prix indisponible.', error);
@@ -764,7 +794,8 @@
         flip.appendChild(back);
         card.appendChild(flip);
 
-        const product = card.querySelector('[data-product]')?.dataset.product || '';
+        const productKey = String(card.dataset.productKey || '').trim();
+        const fallbackProduct = card.querySelector('[data-product]')?.dataset.product || '';
         const openBtn = card.querySelector('[data-product]');
         const closeFormBtn = card.querySelector('.flip-back-btn');
         const form = card.querySelector('.card-order-form');
@@ -787,11 +818,12 @@
         let isSubmitting = false;
         let isSubmitted = false;
 
-        productInput.value = product;
-        const isPolo = product === 'Polo à APAM';
-        const isSupport = product === 'Support boutique';
-        const isGiftCard = product === 'Carte cadeau vol';
-        const requiresAircraftChoice = product === 'Vol découverte' || product === "Baptême de l'air";
+        const getProductName = () => openBtn?.dataset.product || fallbackProduct;
+        productInput.value = getProductName();
+        const isPolo = productKey === 'polo-apam';
+        const isSupport = productKey === 'support-boutique';
+        const isGiftCard = productKey === 'carte-cadeau-vol';
+        const requiresAircraftChoice = productKey === 'vol-decouverte' || productKey === 'bapteme-air';
         setGroupVisibility(purchaseFields, !isSupport);
         setGroupVisibility(supportFields, isSupport);
         setGroupVisibility(amountField ? [amountField] : [], !isSupport && isGiftCard);
@@ -806,7 +838,7 @@
         }
 
         openBtn?.addEventListener('click', () => {
-          productInput.value = product;
+          productInput.value = getProductName();
           setGroupVisibility(purchaseFields, !isSupport);
           setGroupVisibility(supportFields, isSupport);
           setGroupVisibility(amountField ? [amountField] : [], !isSupport && isGiftCard);
@@ -863,7 +895,7 @@
           const payload = {
             action: 'create_order',
             source: 'WEB_INTERNAL_FORM',
-            product_key: PRODUCT_KEY_BY_NAME[values.product] || values.product,
+            product_key: productKey || PRODUCT_KEY_BY_NAME[values.product] || values.product,
             quantity: values.isSupport ? 1 : Number(values.quantity || 1),
             payment_mode: values.isSupport ? 'support' : values.paymentMode,
             first_name: values.firstName,
