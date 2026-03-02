@@ -49,14 +49,15 @@ const SESSION_DURATION_MIN = 60;
 const PERMISSION_FIELDS = ['compte_personnel', 'docs_club', 'docs_eleves', 'voyage', 'sortie_club'];
 
 function doGet(e) {
-  const action = String((e.parameter.action || 'me')).toLowerCase();
-  if (action === 'me') return handleMe(e);
+  const params = (e && e.parameter) ? e.parameter : {};
+  const action = String((params.action || 'health')).toLowerCase();
+  if (action === 'me') return handleMe({ parameter: params });
   if (action === 'health') return json({ ok: true, status: 'up' });
   return json({ ok: false, error: 'invalid_action' });
 }
 
 function doPost(e) {
-  const payload = parseJsonBody(e);
+  const payload = parseJsonBody(e || {});
   const action = String(payload.action || '').toLowerCase();
   if (action === 'signup') return handleSignup(payload);
   if (action === 'login') return handleLogin(payload);
@@ -316,6 +317,15 @@ Activation ensuite :
 - Exécuter en tant que : vous.
 - Accès : **toute personne ayant le lien** (l'auth est gérée par le script).
 - Ajouter une propriété de script `APP_SECRET` (long secret aléatoire).
+
+
+### Important : pourquoi l'erreur `Cannot read properties of undefined (reading 'parameter')` ?
+- Si vous cliquez sur **Run** dans l'éditeur Apps Script pour lancer `doGet`, l'objet événement `e` n'est **pas** fourni automatiquement.
+- Résultat : `e.parameter` peut être `undefined`.
+- Le script ci-dessus est maintenant tolérant à ce cas, mais le **vrai test** doit se faire via l'URL Web App, par exemple :
+  - `.../exec?action=health`
+  - `.../exec?action=me&token=...`
+- Pour les actions POST (`signup`, `login`, `logout`), testez via le site ou via `curl`/Postman, pas avec le bouton **Run**.
 
 ## 5) Branchement front
 - `inscription-membres.html` : renseigner `data-access-api="URL_WEB_APP"` pour créer les comptes en attente.

@@ -23,7 +23,7 @@
   </style>
 </head>
 <body>
-  <main class="panel" data-access-api="">
+  <main class="panel" data-access-api="https://script.google.com/macros/s/AKfycbyGGog7lP1Rkhoze8Qlt2-Ij_5_8uhuASSEqg2N-y2Y6-H_Ok9gir1HLzfoqptQhGpP/exec">
     <h1>Connexion membres</h1>
     <p>Entrez votre email APAM et votre mot de passe. La session sécurisée vous redirige ensuite vers l'espace membres.</p>
 
@@ -59,7 +59,7 @@
       event.preventDefault();
       const apiUrl = panel?.dataset.accessApi?.trim();
       if (!apiUrl){
-        setStatus('Le service de connexion est temporairement indisponible. Merci de réessayer plus tard.');
+        setStatus('Le service est temporairement indisponible.');
         return;
       }
 
@@ -78,8 +78,23 @@
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ action: 'login', email, password })
         });
-        if (!res.ok) throw new Error('Erreur réseau');
-        const payload = await res.json();
+        let payload = {};
+        const contentType = String(res.headers.get('content-type') || '').toLowerCase();
+        if (contentType.includes('application/json')) {
+          payload = await res.json();
+        } else {
+          const rawText = await res.text();
+          payload = { ok: false, error: rawText || 'invalid_response' };
+        }
+
+        if (!res.ok) {
+          if (res.status === 401 || res.status === 403) {
+            setStatus('Accès refusé par Apps Script (403). Vérifiez le déploiement Web App : accès "Toute personne ayant le lien".');
+            return;
+          }
+          setStatus('Le service de connexion est indisponible pour le moment.');
+          return;
+        }
 
         if (!payload.ok || !payload.token){
           setStatus(payload.error === 'invalid_credentials' ? 'Identifiants incorrects.' : 'Connexion refusée.');
