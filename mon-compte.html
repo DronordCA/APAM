@@ -239,6 +239,26 @@
     .cta-sub{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:rgba(227,237,255,.8);}
     .cta-arrow{font-size:24px;align-self:flex-end;opacity:.9;}
 
+    .pilot-actions{margin:18px 0 24px;}
+    .pilot-actions-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;}
+    .pilot-action-card{
+      text-decoration:none;
+      color:#fff;
+      border:1px solid var(--line);
+      background:linear-gradient(150deg, rgba(47,107,255,.18), rgba(15,15,20,.92));
+      padding:22px;
+      min-height:190px;
+      display:flex;
+      flex-direction:column;
+      gap:12px;
+      transition:transform .2s ease,border-color .2s ease,box-shadow .2s ease;
+      box-shadow:0 12px 24px rgba(0,0,0,.28);
+    }
+    .pilot-action-card:hover{transform:translateY(-3px);border-color:rgba(123,166,255,.75);box-shadow:0 18px 30px rgba(10,14,28,.48);}
+    .pilot-action-title{font-family:"Swiss911",sans-serif;font-size:52px;letter-spacing:-0.02em;text-transform:uppercase;line-height:.88;}
+    .pilot-action-copy{color:var(--muted);max-width:420px;line-height:1.5;}
+    .pilot-action-link{margin-top:auto;font-family:"GPMenu",system-ui,sans-serif;letter-spacing:.04em;text-transform:uppercase;font-size:13px;opacity:.95;}
+
     .section-title{
       font-family:"Swiss911",sans-serif;
       text-transform:uppercase;
@@ -393,6 +413,7 @@
       .hero{grid-template-columns:1fr;padding:22px;}
       h1{font-size:50px;}
       .cta-grid{grid-template-columns:1fr;}
+      .pilot-actions-grid{grid-template-columns:1fr;}
       .cards{grid-template-columns:repeat(2,minmax(0,1fr));}
       .link-strip{grid-template-columns:repeat(2,minmax(0,1fr));}
     }
@@ -400,6 +421,7 @@
     @media (max-width:640px){
       .cards{grid-template-columns:1fr;}
       .link-strip{grid-template-columns:1fr;}
+      .pilot-action-title{font-size:42px;}
       h1{font-size:42px;}
       .cta-title{font-size:31px;}
     }
@@ -558,13 +580,27 @@
             </div>
           </section>
 
+          <section class="pilot-actions" aria-label="Accès rapides préparation de vol">
+            <div class="pilot-actions-grid">
+              <a class="pilot-action-card" href="https://meteofrance.com/previsions-meteo-france/epinal/88000" target="_blank" rel="noopener noreferrer">
+                <div class="pilot-action-title">METAR LFOL</div>
+                <p class="pilot-action-copy">Consultez rapidement la météo Météo-France pour LFOL avec des informations mises à jour en continu avant de partir.</p>
+                <span class="pilot-action-link">Voir le METAR sur Météo-France →</span>
+              </a>
+              <a class="pilot-action-card" href="https://olivia.aviation-civile.gouv.fr/" target="_blank" rel="noopener noreferrer">
+                <div class="pilot-action-title">Préparer mon vol</div>
+                <p class="pilot-action-copy">Retrouvez l'accès direct aux outils indispensables pour organiser votre navigation et déposer votre préparation.</p>
+                <span class="pilot-action-link">Démarrer la préparation →</span>
+              </a>
+            </div>
+          </section>
+
           <section aria-labelledby="ressources">
             <h2 class="section-title" id="ressources">Ressources du compte</h2>
             <p class="section-copy">Tous les éléments clés sont rassemblés en un seul écran : documents personnels, documents club, préparation des vols et outils réglementaires.</p>
             <p class="access-note" id="accessNote">Connexion requise. Connectez-vous pour accéder à vos documents et services réservés aux membres APAM.</p>
             <div class="cards" id="resourceCards">
               <article class="card" data-permission="compte_personnel"><div class="card-top"><span class="card-icon" aria-hidden="true">🗂️</span><h3>Compte personnel</h3></div><p>Accès à vos dossiers privés et aux informations membres partagées avec le club.</p><a href="https://drive.google.com/drive/folders/1jWGTLMBNJbqWNg5op-NUo-3TowlVtJE5?usp=share_link" target="_blank" rel="noopener noreferrer">Ouvrir le dossier →</a></article>
-                            <article class="card" data-permission="docs_club"><div class="card-top"><span class="card-icon" aria-hidden="true">🏛️</span><h3>Documents club</h3></div><p>Règlement intérieur, procédures opérationnelles et formulaires APAM.</p><a href="https://drive.google.com/drive/folders/1j3OGL1BzDIOLYdDjoxcn-SxSAzwDdmLD?usp=share_link" target="_blank" rel="noopener noreferrer">Consulter le club →</a></article>
               <article class="card" data-permission="docs_eleves"><div class="card-top"><span class="card-icon" aria-hidden="true">🎯</span><h3>Documents élèves</h3></div><p>Supports pédagogiques, progression PPL et rappels sécurité pour la formation.</p><a href="https://drive.google.com/drive/folders/1aRq5gZqxQ6T6AkDWGrJb8OOX-4UD1frw?usp=sharing" target="_blank" rel="noopener noreferrer">Accéder aux documents →</a></article>
               <article class="card" data-permission="voyage"><div class="card-top"><span class="card-icon" aria-hidden="true">🌍</span><h3>Voyage</h3></div><p>Préparation des voyages, briefings dédiés et documents utiles pour les navigations club.</p><a href="https://olivia.aviation-civile.gouv.fr/" target="_blank" rel="noopener noreferrer">Préparer un voyage →</a></article>
               <article class="card" data-permission="sortie_club"><div class="card-top"><span class="card-icon" aria-hidden="true">🧭</span><h3>Sorties club</h3></div><p>Organisation des sorties, feuilles de route et informations logistiques APAM.</p><a href="espace-membres.html" rel="noopener noreferrer">Voir les sorties →</a></article>

@@ -14,7 +14,7 @@ En-têtes (ligne 1) :
 - `prenom`
 - `nom`
 - `telephone`
-- `licence`
+- `nocompte`
 - `profil_club`
 - `created_at`
 - `compte_personnel`
@@ -23,6 +23,8 @@ En-têtes (ligne 1) :
 - `voyage`
 - `sortie_club`
 - `active`
+
+> Remplacement demandé : la colonne H doit être `nocompte` (numéro de compte) à la place de `licence`.
 
 Permissions : `OUI` / `NON`.
 
@@ -72,7 +74,7 @@ function handleSignup(payload) {
   const prenom = String(payload.prenom || '').trim();
   const nom = String(payload.nom || '').trim();
   const telephone = String(payload.telephone || '').trim();
-  const licence = String(payload.licence || '').trim();
+  const nocompte = String(payload.nocompte || '').trim();
   const profilClub = String(payload.profil_club || '').trim();
 
   if (!email || !password || !prenom || !nom || !telephone || !profilClub) {
@@ -95,7 +97,7 @@ function handleSignup(payload) {
     prenom,
     nom,
     telephone,
-    licence,
+    nocompte,
     profilClub,
   });
 
@@ -114,7 +116,7 @@ function createUser(input) {
     prenom: input.prenom,
     nom: input.nom,
     telephone: input.telephone,
-    licence: input.licence,
+    nocompte: input.nocompte,
     profil_club: input.profilClub,
     created_at: new Date().toISOString(),
     compte_personnel: 'NON',
@@ -299,10 +301,10 @@ Champs minimum recommandés côté formulaire :
 - `email`
 - `telephone`
 - `password`
-- `licence` (optionnel)
+- `nocompte` (optionnel)
 - `profil_club` (obligatoire, ex: `eleve_pilote`, `pilote_brevete`)
 
-À l'inscription, le script :
+À l'inscription, le script (avec `nocompte` si renseigné) :
 1. Vérifie les champs requis et l'unicité email.
 2. Génère `salt` + `password_hash` (SHA-256).
 3. Crée une ligne `users` avec `active = NON` et toutes les permissions à `NON`.
