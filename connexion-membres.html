@@ -23,7 +23,7 @@
   </style>
 </head>
 <body>
-  <main class="panel" data-access-api="">
+  <main class="panel" data-access-api="https://script.google.com/macros/s/AKfycbwVc1EnaOTtncej1XhvzgaGsaW4mkcGB9wfdGqnAHP13fqgByvPooyjgK8apODqgDtn/exec">
     <h1>Connexion membres</h1>
     <p>Entrez votre email APAM et votre mot de passe. La session sécurisée vous redirige ensuite vers l'espace membres.</p>
 
@@ -59,7 +59,7 @@
       event.preventDefault();
       const apiUrl = panel?.dataset.accessApi?.trim();
       if (!apiUrl){
-        setStatus('Le service de connexion est temporairement indisponible. Merci de réessayer plus tard.');
+        setStatus('Le service est temporairement indisponible.');
         return;
       }
 
@@ -78,8 +78,23 @@
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ action: 'login', email, password })
         });
-        if (!res.ok) throw new Error('Erreur réseau');
-        const payload = await res.json();
+        let payload = {};
+        const contentType = String(res.headers.get('content-type') || '').toLowerCase();
+        if (contentType.includes('application/json')) {
+          payload = await res.json();
+        } else {
+          const rawText = await res.text();
+          payload = { ok: false, error: rawText || 'invalid_response' };
+        }
+
+        if (!res.ok) {
+          if (res.status === 401 || res.status === 403) {
+            setStatus('Accès refusé par Apps Script (403). Vérifiez le déploiement Web App : accès "Toute personne ayant le lien".');
+            return;
+          }
+          setStatus('Le service de connexion est indisponible pour le moment.');
+          return;
+        }
 
         if (!payload.ok || !payload.token){
           setStatus(payload.error === 'invalid_credentials' ? 'Identifiants incorrects.' : 'Connexion refusée.');
@@ -89,8 +104,13 @@
         window.localStorage.setItem('apam_session_token', payload.token);
         setStatus('Connexion validée. Redirection...');
         window.location.href = next;
-      } catch {
-        setStatus('Impossible de contacter le serveur de connexion.');
+      } catch (error) {
+        const protocol = window.location.protocol;
+        if (protocol === 'file:') {
+          setStatus('Impossible de se connecter : ouvrez le site via HTTPS (pas en fichier local).');
+          return;
+        }
+        setStatus('Impossible de contacter le serveur de connexion. Vérifiez le déploiement Apps Script et son accès « Toute personne ayant le lien ».');
       }
     });
   </script>
