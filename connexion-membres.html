@@ -23,7 +23,7 @@
   </style>
 </head>
 <body>
-  <main class="panel" data-access-api="">
+  <main class="panel" data-access-api="https://script.google.com/macros/s/AKfycbyGGog7lP1Rkhoze8Qlt2-Ij_5_8uhuASSEqg2N-y2Y6-H_Ok9gir1HLzfoqptQhGpP/exec">
     <h1>Connexion membres</h1>
     <p>Entrez votre email APAM et votre mot de passe. La session sécurisée vous redirige ensuite vers l'espace membres.</p>
 
@@ -59,7 +59,7 @@
       event.preventDefault();
       const apiUrl = panel?.dataset.accessApi?.trim();
       if (!apiUrl){
-        setStatus('Le service de connexion est temporairement indisponible. Merci de réessayer plus tard.');
+        setStatus('Le service est temporairement indisponible.');
         return;
       }
 

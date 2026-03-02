@@ -26,7 +26,7 @@
   </style>
 </head>
 <body>
-  <main class="panel" data-access-api="">
+  <main class="panel" data-access-api="https://script.google.com/macros/s/AKfycbyGGog7lP1Rkhoze8Qlt2-Ij_5_8uhuASSEqg2N-y2Y6-H_Ok9gir1HLzfoqptQhGpP/exec">
     <h1>Inscription membres</h1>
     <p>Formulaire interne APAM : votre demande crée un compte en attente de validation dans le Google Sheet. Une fois vos espaces validés, vous pourrez vous connecter.</p>
 
@@ -91,7 +91,7 @@
       event.preventDefault();
       const apiUrl = panel?.dataset.accessApi?.trim();
       if (!apiUrl){
-        setStatus('Le service d’inscription est temporairement indisponible.');
+        setStatus('Le service est temporairement indisponible.');
         return;
       }
 
