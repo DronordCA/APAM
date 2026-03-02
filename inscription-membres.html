@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/images/apam-logo.png" />
+  <link rel="shortcut icon" href="assets/images/apam-logo.png" />
+  <title>APAM – Inscription membres</title>
+  <style>
+    :root{--accent:#2f6bff;--line:rgba(255,255,255,.16);--bg:#11131a;--surface:rgba(20,22,34,.92)}
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{min-height:100svh;display:grid;place-items:center;font-family:system-ui,-apple-system,"Segoe UI",sans-serif;background:radial-gradient(circle at top right,#203768,#11131a 44%);color:#fff;padding:20px}
+    .panel{width:min(760px,100%);background:var(--surface);border:1px solid var(--line);padding:28px;box-shadow:0 30px 60px rgba(0,0,0,.35)}
+    h1{font-size:34px;line-height:1.05;text-transform:uppercase;letter-spacing:-.02em;margin-bottom:10px}
+    p{color:rgba(255,255,255,.76);line-height:1.5;margin-bottom:18px}
+    form{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+    .full{grid-column:1/-1}
+    label{font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:rgba(255,255,255,.8)}
+    input,textarea,select{width:100%;padding:12px;border:1px solid var(--line);background:#0f1220;color:#fff}
+    textarea{min-height:96px;resize:vertical}
+    button{padding:12px 14px;border:1px solid rgba(123,166,255,.55);background:linear-gradient(135deg,#2f6bff,#183775);color:#fff;cursor:pointer;text-transform:uppercase;letter-spacing:.08em;font-size:12px}
+    .status{margin-top:14px;font-size:13px;min-height:20px;color:#bcd2ff}
+    .help{margin-top:14px;font-size:12px;color:rgba(255,255,255,.63)}
+    a{color:#c8dbff}
+    @media (max-width:640px){form{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+  <main class="panel" data-access-api="">
+    <h1>Inscription membres</h1>
+    <p>Formulaire interne APAM : votre demande crée un compte en attente de validation dans le Google Sheet. Une fois vos espaces validés, vous pourrez vous connecter.</p>
+
+    <form id="signupForm" novalidate>
+      <div>
+        <label for="prenom">Prénom</label>
+        <input id="prenom" name="prenom" type="text" autocomplete="given-name" required />
+      </div>
+      <div>
+        <label for="nom">Nom</label>
+        <input id="nom" name="nom" type="text" autocomplete="family-name" required />
+      </div>
+      <div>
+        <label for="email">Email</label>
+        <input id="email" name="email" type="email" autocomplete="email" required />
+      </div>
+      <div>
+        <label for="telephone">Téléphone</label>
+        <input id="telephone" name="telephone" type="tel" autocomplete="tel" required />
+      </div>
+      <div>
+        <label for="licence">Numéro licence (optionnel)</label>
+        <input id="licence" name="licence" type="text" />
+      </div>
+      <div>
+        <label for="profilClub">Qui êtes-vous dans le club ?</label>
+        <select id="profilClub" name="profilClub" required>
+          <option value="">Sélectionner un profil</option>
+          <option value="eleve_pilote">Élève pilote</option>
+          <option value="pilote_brevete">Pilote breveté</option>
+          <option value="instructeur">Instructeur</option>
+          <option value="membre_association">Membre association</option>
+          <option value="autre">Autre</option>
+        </select>
+      </div>
+      <div>
+        <label for="password">Mot de passe</label>
+        <input id="password" name="password" type="password" autocomplete="new-password" minlength="10" required />
+      </div>
+      <div>
+        <label for="confirmPassword">Retaper le mot de passe</label>
+        <input id="confirmPassword" name="confirmPassword" type="password" autocomplete="new-password" minlength="10" required />
+      </div>
+      <div class="full">
+        <button type="submit">Envoyer ma demande d'inscription</button>
+      </div>
+    </form>
+
+    <div class="status" id="status" aria-live="polite"></div>
+    <p class="help"><a href="connexion-membres.html">Déjà un compte ? Se connecter</a></p>
+    <p class="help"><a href="mon-compte.html">← Retour à mon compte</a></p>
+  </main>
+
+  <script>
+    const panel = document.querySelector('[data-access-api]');
+    const form = document.getElementById('signupForm');
+    const status = document.getElementById('status');
+
+    function setStatus(message){ if (status) status.textContent = message; }
+
+    form?.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      const apiUrl = panel?.dataset.accessApi?.trim();
+      if (!apiUrl){
+        setStatus('Le service d’inscription est temporairement indisponible.');
+        return;
+      }
+
+      const payload = {
+        action: 'signup',
+        prenom: String(form.prenom.value || '').trim(),
+        nom: String(form.nom.value || '').trim(),
+        email: String(form.email.value || '').trim().toLowerCase(),
+        telephone: String(form.telephone.value || '').trim(),
+        licence: String(form.licence.value || '').trim(),
+        profil_club: String(form.profilClub.value || '').trim(),
+        password: String(form.password.value || ''),
+        confirmPassword: String(form.confirmPassword.value || '')
+      };
+
+      if (!payload.prenom || !payload.nom || !payload.email || !payload.telephone || !payload.profil_club || !payload.password || !payload.confirmPassword){
+        setStatus('Merci de compléter tous les champs obligatoires.');
+        return;
+      }
+
+      if (payload.password.length < 10){
+        setStatus('Le mot de passe doit contenir au moins 10 caractères.');
+        return;
+      }
+
+      if (payload.password !== payload.confirmPassword){
+        setStatus('Les mots de passe ne correspondent pas.');
+        return;
+      }
+
+      setStatus('Envoi de votre demande en cours...');
+      try {
+        const { confirmPassword, ...apiPayload } = payload;
+
+        const res = await fetch(apiUrl, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(apiPayload)
+        });
+        if (!res.ok) throw new Error('Erreur réseau');
+        const data = await res.json();
+
+        if (!data.ok){
+          if (data.error === 'email_exists'){
+            setStatus('Cet email est déjà inscrit. Contactez le club si nécessaire.');
+            return;
+          }
+          setStatus('Demande refusée. Merci de vérifier vos informations.');
+          return;
+        }
+
+        form.reset();
+        setStatus('Demande enregistrée. Le club validera vos accès et vous pourrez ensuite vous connecter.');
+      } catch {
+        setStatus('Impossible de transmettre la demande pour le moment.');
+      }
+    });
+  </script>
+</body>
+</html>
