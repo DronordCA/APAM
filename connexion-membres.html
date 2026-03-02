@@ -23,7 +23,7 @@
   </style>
 </head>
 <body>
-  <main class="panel" data-access-api="https://script.google.com/macros/s/AKfycbyGGog7lP1Rkhoze8Qlt2-Ij_5_8uhuASSEqg2N-y2Y6-H_Ok9gir1HLzfoqptQhGpP/exec">
+  <main class="panel" data-access-api="https://script.google.com/macros/s/AKfycbwVc1EnaOTtncej1XhvzgaGsaW4mkcGB9wfdGqnAHP13fqgByvPooyjgK8apODqgDtn/exec">
     <h1>Connexion membres</h1>
     <p>Entrez votre email APAM et votre mot de passe. La session sécurisée vous redirige ensuite vers l'espace membres.</p>
 
@@ -75,7 +75,8 @@
       try {
         const res = await fetch(apiUrl, {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+          // Requête CORS simple (sans préflight OPTIONS) pour Apps Script.
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
           body: JSON.stringify({ action: 'login', email, password })
         });
         let payload = {};
@@ -104,8 +105,9 @@
         window.localStorage.setItem('apam_session_token', payload.token);
         setStatus('Connexion validée. Redirection...');
         window.location.href = next;
-      } catch {
-        setStatus('Impossible de contacter le serveur de connexion.');
+      } catch (error) {
+        const reason = error && error.message ? ` (${error.message})` : '';
+        setStatus(`Impossible de contacter le serveur de connexion${reason}. Vérifiez le déploiement Apps Script (Web App publiée + accès "Toute personne ayant le lien").`);
       }
     });
   </script>
