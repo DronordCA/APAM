@@ -1158,15 +1158,14 @@
       </div>
 
       <p class="intro">
-        Les annonces du club sont publiées via Google Sheets et s’affichent automatiquement ici.
+        Retrouvez ici toute l’actualité du club : sorties, formations, ateliers et rendez-vous à ne pas manquer.
       </p>
 
       <section class="section-block" aria-labelledby="calendar-title" data-calendar-csv="https://docs.google.com/spreadsheets/d/1mX3emh8CVdkkPyfQZj8cEg2ljwNExOZubIV2Dio0h7s/gviz/tq?tqx=out:csv&gid=1399260514">
         <h2 class="section-title" id="calendar-title">Calendrier des événements</h2>
         <p class="section-note">
-          Le calendrier se met à jour automatiquement dès qu’un nouveau fichier Google Sheet ou Excel (CSV) est rempli.
-          Une notification apparaît sur les jours concernés (colonnes : <strong>date</strong>, <strong>titre</strong>, <strong>lieu</strong>, <strong>description</strong>).
-          Si la colonne <strong>E</strong> contient <strong>OUI</strong>, la case du jour affiche un décor de maintenance. Si <strong>F</strong> ou <strong>G</strong> contient <strong>OUI</strong>, une animation dédiée apparaît (voyage/sortie club ou cours).
+          Le calendrier recense les événements à venir du club. Cliquez sur un jour pour découvrir le programme détaillé,
+          le lieu et les informations utiles pour participer.
         </p>
         <div class="calendar-layout">
           <div class="calendar-shell">
@@ -1249,7 +1248,7 @@
       <section class="section-block" aria-labelledby="photos-title" data-drive-folder-id="1kT0lWOg3rsbMM2mIU7lVkLyPA6--bc1D" data-drive-api-key="AIzaSyBKcSH_6xVu9sA3M-JWwuLVJUkR7cjXB00" data-photo-urls="assets/images/image1.png,assets/images/FGHKE2.png,assets/images/TB200M.png,assets/images/SR1.png">
         <h2 class="section-title" id="photos-title">Photos du club</h2>
         <p class="section-note">
-          Les photos défilent automatiquement en grand format. Dès qu’une photo est ajoutée dans le dossier Drive partagé, elle peut apparaître automatiquement ici (sans mise à jour GitHub).
+          Découvrez en images la vie du club : sorties, moments de partage, vols et événements tout au long de l’année.
         </p>
         <div class="club-photo" id="clubPhotoFrame" aria-label="Galerie photos du club">
           <div class="club-photo-track" id="clubPhotoTrack"></div>
@@ -1610,10 +1609,10 @@
         renderCalendarDetail(todayKey);
       }catch(e){
         console.error(e);
-        board.innerHTML = '<div class="calendar-empty">Impossible de charger le calendrier. Vérifiez que le lien CSV est bien publié et partagé en lecture.</div>';
+        board.innerHTML = '<div class="calendar-empty">Le calendrier est momentanément indisponible. Merci de réessayer dans quelques instants ou de contacter le club.</div>';
         const detail = document.getElementById("calendarDetail");
         if (detail){
-          detail.innerHTML = '<div class="calendar-empty">Impossible de charger les détails. Assurez-vous que le fichier est accessible via un lien CSV public.</div>';
+          detail.innerHTML = '<div class="calendar-empty">Les détails de cette journée sont momentanément indisponibles. Merci de réessayer un peu plus tard.</div>';
         }
       }
     }
@@ -1696,7 +1695,7 @@
       const images = driveImages.length ? driveImages : fallbackImages;
 
       if (!images.length){
-        track.innerHTML = '<div class="club-photo-empty">Ajoutez des images dans le dossier Drive (API configurée) ou renseignez data-photo-urls.</div>';
+        track.innerHTML = '<div class="club-photo-empty">Les photos du club seront bientôt disponibles dans cette galerie.</div>';
         dots.style.display = "none";
       } else {
         let activeIndex = 0;
@@ -1766,15 +1765,15 @@
       }
 
       if (!folderId){
-        help.textContent = "Ajoutez l'identifiant du dossier Google Drive pour centraliser les photos du club.";
+        help.textContent = "La galerie photos est en cours de mise à jour.";
         return;
       }
 
       const folderUrl = `https://drive.google.com/drive/folders/${folderId}`;
       if (driveImages.length){
-        help.innerHTML = `Synchronisation automatique active : toute nouvelle photo ajoutée dans le dossier Drive public sera affichée ici sans modification GitHub. <a href="${folderUrl}" target="_blank" rel="noopener noreferrer">ouvrir le dossier Google Drive</a>.`;
+        help.innerHTML = `Nouvelles photos disponibles : la galerie se met à jour régulièrement. <a href="${folderUrl}" target="_blank" rel="noopener noreferrer">Voir l’album complet</a>.`;
       } else {
-        help.innerHTML = `Mode secours actif : le diaporama affiche les images de <code>data-photo-urls</code>. Pour activer la synchronisation automatique, renseignez une clé API Google Drive valide dans <code>data-drive-api-key</code> et gardez le dossier en accès public. <a href="${folderUrl}" target="_blank" rel="noopener noreferrer">ouvrir le dossier Google Drive</a>.`;
+        help.innerHTML = `Une sélection de photos est déjà disponible. L’album complet est consultable ici : <a href="${folderUrl}" target="_blank" rel="noopener noreferrer">Voir l’album complet</a>.`;
       }
     }
 
