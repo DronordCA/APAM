@@ -26,7 +26,7 @@
   </style>
 </head>
 <body>
-  <main class="panel" data-access-api="https://script.google.com/macros/s/AKfycbyGGog7lP1Rkhoze8Qlt2-Ij_5_8uhuASSEqg2N-y2Y6-H_Ok9gir1HLzfoqptQhGpP/exec">
+  <main class="panel" data-access-api="https://script.google.com/macros/s/AKfycbwVc1EnaOTtncej1XhvzgaGsaW4mkcGB9wfdGqnAHP13fqgByvPooyjgK8apODqgDtn/exec">
     <h1>Inscription membres</h1>
     <p>Formulaire interne APAM : votre demande crée un compte en attente de validation dans le Google Sheet. Une fois vos espaces validés, vous pourrez vous connecter.</p>
 
@@ -123,9 +123,8 @@
       }
 
       setStatus('Envoi de votre demande en cours...');
+      const { confirmPassword, ...apiPayload } = payload;
       try {
-        const { confirmPassword, ...apiPayload } = payload;
-
         const res = await fetch(apiUrl, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -160,8 +159,23 @@
 
         form.reset();
         setStatus('Demande enregistrée. Le club validera vos accès et vous pourrez ensuite vous connecter.');
-      } catch {
-        setStatus('Impossible de transmettre la demande pour le moment.');
+      } catch (error) {
+        // Fallback anti-CORS : on envoie quand même la demande sans lire la réponse.
+        // Utile quand le Web App est bien déployé mais ne renvoie pas les en-têtes CORS.
+        try {
+          await fetch(apiUrl, {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+            body: JSON.stringify(apiPayload)
+          });
+          form.reset();
+          setStatus('Demande envoyée (confirmation serveur non lisible). Si vous ne recevez rien, contactez le club pour validation manuelle.');
+          return;
+        } catch {
+          const reason = error && error.message ? ` (${error.message})` : '';
+          setStatus(`Impossible de transmettre la demande pour le moment${reason}. Vérifiez que le Web App est publié en accès "Toute personne ayant le lien".`);
+        }
       }
     });
   </script>
