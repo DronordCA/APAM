@@ -580,7 +580,7 @@
           <section aria-labelledby="ressources">
             <h2 class="section-title" id="ressources">Ressources du compte</h2>
             <p class="section-copy">Tous les éléments clés sont rassemblés en un seul écran : documents personnels, documents club, préparation des vols et outils réglementaires.</p>
-            <p class="access-note" id="accessNote">Connexion requise. Les modules sont chargés à partir de votre session sécurisée Apps Script.</p>
+            <p class="access-note" id="accessNote">Connexion requise. Connectez-vous pour accéder à vos documents et services réservés aux membres APAM.</p>
             <div class="cards" id="resourceCards">
               <article class="card" data-permission="compte_personnel"><div class="card-top"><span class="card-icon" aria-hidden="true">🗂️</span><h3>Compte personnel</h3></div><p>Accès à vos dossiers privés et aux informations membres partagées avec le club.</p><a href="https://drive.google.com/drive/folders/1jWGTLMBNJbqWNg5op-NUo-3TowlVtJE5?usp=share_link" target="_blank" rel="noopener noreferrer">Ouvrir le dossier →</a></article>
               <article class="card" data-permission="docs_administratifs"><div class="card-top"><span class="card-icon" aria-hidden="true">📄</span><h3>Documents administratifs</h3></div><p>Pièces d’identité, attestations, éléments de suivi et justificatifs à jour.</p><a href="https://drive.google.com/drive/folders/1MsCsXcE5R7800LjZbM86ug4sLmd_WQet?usp=share_link" target="_blank" rel="noopener noreferrer">Voir les documents →</a></article>
@@ -669,7 +669,7 @@
       if (!cards.length) return;
 
       if (!apiUrl){
-        if (accessNote) accessNote.textContent = "Mode démo : renseignez l’API Apps Script pour activer la sécurité par session.";
+        if (accessNote) accessNote.textContent = "Certaines fonctionnalités membres sont en cours d’activation. Si besoin, contactez le club pour obtenir vos accès.";
         return;
       }
 
