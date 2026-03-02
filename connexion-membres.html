@@ -104,8 +104,9 @@
         window.localStorage.setItem('apam_session_token', payload.token);
         setStatus('Connexion validée. Redirection...');
         window.location.href = next;
-      } catch {
-        setStatus('Impossible de contacter le serveur de connexion.');
+      } catch (error) {
+        const reason = error && error.message ? ` (${error.message})` : '';
+        setStatus(`Impossible de contacter le serveur de connexion${reason}. Vérifiez le déploiement Apps Script (Web App publiée + accès "Toute personne ayant le lien").`);
       }
     });
   </script>
