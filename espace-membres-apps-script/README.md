@@ -93,6 +93,18 @@ Entrée : `firstName`, `lastName`, `email`, `phone?`, `memberId?`
 3. Coller `Code.gs`.
 4. Ajouter Script Property :
    - `APP_BASE_URL=https://aeroclubapam.fr/connexion-membres.html`
+   - `APP_LOGIN_URL=https://aeroclubapam.fr/connexion-membres-password.html` (recommandé, utilisé pour les emails d'activation)
 5. Déployer en Web App (Execute as: Me, Access: Anyone).
 6. Dans le sheet, menu **Espace Membres** > **Vérifier structure users/sessions/audit**.
+7. Dans le sheet, menu **Espace Membres** > **Installer trigger email activation** (à faire une fois, puis autoriser le script).
 
+## 7) Email automatique lors de l'activation
+
+- Quand la colonne `users.active` passe de `NON` (ou vide) à `OUI`, un email est envoyé automatiquement au membre.
+- Cela fonctionne :
+  - lors d'une édition manuelle dans le Google Sheet (trigger installable à installer via le menu),
+  - lors d'un changement via l'API `admin_set_access`.
+- L'email contient un lien de connexion :
+  - priorité à `APP_LOGIN_URL`,
+  - sinon fallback dérivé de `APP_BASE_URL`,
+  - sinon fallback final `https://aeroclubapam.fr/connexion-membres-password.html`.
