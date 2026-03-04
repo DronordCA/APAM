@@ -976,6 +976,10 @@
                   Ce formulaire utilise votre logiciel de messagerie. Vous pouvez aussi écrire à
                   <a href="mailto:contact@apam.fr">contact@apam.fr</a>.
                 </p>
+                <p class="form-note">
+                  Les informations transmises via ce formulaire sont utilisées uniquement pour répondre à votre demande.
+                  Pour en savoir plus : <a href="confidentialite.html">Politique de confidentialité</a>.
+                </p>
               </div>
 
               <form class="contact-form" action="mailto:contact@apam.fr" method="post" enctype="text/plain">
@@ -1005,9 +1009,16 @@
                   <textarea id="message" name="Message" required></textarea>
                 </div>
 
+                <div class="field full">
+                  <label for="newsletter-optin">
+                    <input type="checkbox" id="newsletter-optin" name="Newsletter" value="Oui" />
+                    Je souhaite recevoir la newsletter de l'association (optionnel).
+                  </label>
+                </div>
+
                 <button class="send-btn" type="submit">Envoyer</button>
               </form>
-            </div>
+                      </div>
           </article>
         </section>
       </main>
@@ -1019,6 +1030,10 @@
             <a href="mailto:contact@apam.fr">contact@apam.fr</a>
             <a href="https://www.facebook.com/profile.php?id=61585663567523" target="_blank" rel="noopener noreferrer">Facebook</a>
             <a href="https://www.instagram.com/apam_lfol?igsh=MTVnbjRtNHppMWwwcA%3D%3D&utm_source=qr" target="_blank" rel="noopener noreferrer">Instagram</a>
+            <a href="mentions-legales.html">Mentions légales</a>
+            <a href="confidentialite.html">Confidentialité</a>
+            <a href="cookies.html">Cookies</a>
+            <a href="cgu.html">CGU</a>
           </div>
           <div class="footer-credit">Site conçu par Pierre Cauvin.</div>
         </div>
@@ -1100,5 +1115,10 @@
       cards.forEach(c => io.observe(c));
     })();
   </script>
+
+  <script>
+    window.COOKIE_CONSENT_CONFIG = window.COOKIE_CONSENT_CONFIG || { gaMeasurementId: "{{GA_MEASUREMENT_ID}}" };
+  </script>
+  <script src="assets/cookie-consent.js" defer></script>
 </body>
 </html>
