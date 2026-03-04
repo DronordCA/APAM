@@ -99,12 +99,23 @@
           return;
         }
 
-        if (!payload.ok || !payload.token){
-          setStatus(payload.error === 'invalid_credentials' ? 'Identifiants incorrects.' : 'Connexion refusée.');
+        const sessionToken = String(payload.token || payload.sessionToken || '').trim();
+
+        if (!payload.ok || !sessionToken){
+          if (payload.error === 'invalid_credentials') {
+            setStatus('Identifiants incorrects.');
+            return;
+          }
+          if (payload.error === 'ACTION_INVALIDE') {
+            setStatus('Connexion refusée : le serveur Apps Script actif ne prend pas en charge l\'action "login". Vérifiez l\'URL de déploiement active.');
+            return;
+          }
+          const detail = payload && payload.error ? ` (${payload.error})` : '';
+          setStatus(`Connexion refusée${detail}.`);
           return;
         }
 
-        window.localStorage.setItem('apam_session_token', payload.token);
+        window.localStorage.setItem('apam_session_token', sessionToken);
         setStatus('Connexion validée. Redirection...');
         window.location.href = next;
       } catch (error) {
