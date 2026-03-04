@@ -26,7 +26,7 @@
   </style>
 </head>
 <body>
-  <main class="panel" data-access-api="https://script.google.com/macros/s/AKfycbwVc1EnaOTtncej1XhvzgaGsaW4mkcGB9wfdGqnAHP13fqgByvPooyjgK8apODqgDtn/exec">
+  <main class="panel" data-access-api="https://script.google.com/macros/s/AKfycbwWyHp6gNoRXP_JUCoFhe4Tc73fa6weO9tf2gyc_FtxnoiB9Iq5lcKszJ95xLP3SAg8/exec" data-access-api-fallback="https://script.google.com/macros/s/AKfycbwVc1EnaOTtncej1XhvzgaGsaW4mkcGB9wfdGqnAHP13fqgByvPooyjgK8apODqgDtn/exec">
     <h1>Inscription membres</h1>
     <p>Formulaire interne APAM : votre demande crée un compte en attente de validation dans le Google Sheet. Une fois vos espaces validés, vous pourrez vous connecter.</p>
 
@@ -90,6 +90,7 @@
     form?.addEventListener('submit', async (event) => {
       event.preventDefault();
       const apiUrl = panel?.dataset.accessApi?.trim();
+      const fallbackApiUrl = panel?.dataset.accessApiFallback?.trim();
       if (!apiUrl){
         setStatus('Le service est temporairement indisponible.');
         return;
@@ -124,12 +125,23 @@
 
       setStatus('Envoi de votre demande en cours...');
       const { confirmPassword, ...apiPayload } = payload;
-      try {
-        const res = await fetch(apiUrl, {
+      async function sendSignupRequest(targetUrl){
+        return fetch(targetUrl, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(apiPayload)
         });
+      }
+
+      try {
+        let res = await sendSignupRequest(apiUrl);
+        if (!res.ok && fallbackApiUrl && fallbackApiUrl !== apiUrl) {
+          try {
+            res = await sendSignupRequest(fallbackApiUrl);
+          } catch {
+            // Si le fallback échoue aussi, on traite l'erreur ci-dessous.
+          }
+        }
         let data = {};
         const contentType = String(res.headers.get('content-type') || '').toLowerCase();
         if (contentType.includes('application/json')) {
@@ -163,7 +175,8 @@
         // Fallback anti-CORS : on envoie quand même la demande sans lire la réponse.
         // Utile quand le Web App est bien déployé mais ne renvoie pas les en-têtes CORS.
         try {
-          await fetch(apiUrl, {
+          const noCorsUrl = apiUrl || fallbackApiUrl;
+          await fetch(noCorsUrl, {
             method: 'POST',
             mode: 'no-cors',
             headers: { 'Content-Type': 'text/plain;charset=utf-8' },
