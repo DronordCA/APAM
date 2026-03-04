@@ -639,6 +639,8 @@
     </div>
   </div>
 
+  <script src="assets/access-config.js"></script>
+
   <script>
     const body = document.body;
     const burger = document.querySelector('.m-burger');
@@ -664,7 +666,7 @@
 
     async function loadAccessByRole(){
       if (!accessContainer) return;
-      const apiUrl = accessContainer.dataset.accessApi?.trim();
+      const apiUrl = String(window.APAM_ACCESS_API_URL || accessContainer.dataset.accessApi || '').trim();
       const cards = Array.from(document.querySelectorAll('[data-permission]'));
       if (!cards.length) return;
 

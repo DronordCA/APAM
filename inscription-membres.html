@@ -80,6 +80,8 @@
     <p class="help"><a href="mon-compte.html">← Retour à mon compte</a></p>
   </main>
 
+  <script src="assets/access-config.js"></script>
+
   <script>
     const panel = document.querySelector('[data-access-api]');
     const form = document.getElementById('signupForm');
@@ -89,7 +91,7 @@
 
     form?.addEventListener('submit', async (event) => {
       event.preventDefault();
-      const apiUrl = panel?.dataset.accessApi?.trim();
+      const apiUrl = String(window.APAM_ACCESS_API_URL || panel?.dataset.accessApi || '').trim();
       if (!apiUrl){
         setStatus('Le service est temporairement indisponible.');
         return;
@@ -161,8 +163,8 @@
         form.reset();
         setStatus('Demande enregistrée. Le club validera vos accès et vous pourrez ensuite vous connecter.');
       } catch (error) {
-        // Fallback anti-CORS : on envoie quand même la demande sans lire la réponse.
-        // Utile quand le Web App est bien déployé mais ne renvoie pas les en-têtes CORS.
+        // Fallback de dernier recours : envoi sans lecture de la réponse.
+        // Permet de transmettre la demande même si Apps Script ne renvoie pas les en-têtes CORS attendus.
         try {
           await fetch(apiUrl, {
             method: 'POST',
@@ -170,12 +172,12 @@
             headers: { 'Content-Type': 'text/plain;charset=utf-8' },
             body: JSON.stringify(apiPayload)
           });
-          form.reset();
-          setStatus('Demande envoyée (confirmation serveur non lisible). Si vous ne recevez rien, contactez le club pour validation manuelle.');
+          const reason = error && error.message ? ` (${error.message})` : '';
+          setStatus(`Demande transmise sans confirmation serveur${reason}. Vérifiez dans le Google Sheet si une ligne a été créée avant de renvoyer le formulaire.`);
           return;
         } catch {
           const reason = error && error.message ? ` (${error.message})` : '';
-          setStatus(`Impossible de transmettre la demande pour le moment${reason}. Vérifiez que le Web App est publié en accès "Toute personne ayant le lien".`);
+          setStatus(`Impossible de transmettre la demande pour le moment${reason}. Vérifiez l'URL Apps Script active et que le Web App est publié en accès "Toute personne ayant le lien".`);
         }
       }
     });
