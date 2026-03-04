@@ -218,7 +218,7 @@ function handleSignup_(payload) {
         if (!String(values[USER_COL.ACTIVE] || '').trim()) values[USER_COL.ACTIVE] = 'NON';
         users.getRange(reserved.rowNumber, 1, 1, values.length).setValues([values]);
         writeAudit_('signup_claim_memberid', email, 'memberId=' + memberId);
-        return jsonResponse_({ ok: true, message: 'signup_recorded' });
+        return jsonResponse_({ ok: true, message: 'signup_created_claimed_memberid' });
       }
       if (reserved) return jsonResponse_({ ok: false, error: 'nocompt_already_used' });
     }
@@ -244,7 +244,7 @@ function handleSignup_(payload) {
     ]);
 
     writeAudit_('signup_created', email, 'memberId=' + memberId);
-    return jsonResponse_({ ok: true, message: 'signup_recorded' });
+    return jsonResponse_({ ok: true, message: 'signup_pending_validation' });
   } finally {
     lock.releaseLock();
   }

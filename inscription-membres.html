@@ -20,6 +20,14 @@
     textarea{min-height:96px;resize:vertical}
     button{padding:12px 14px;border:1px solid rgba(123,166,255,.55);background:linear-gradient(135deg,#2f6bff,#183775);color:#fff;cursor:pointer;text-transform:uppercase;letter-spacing:.08em;font-size:12px}
     .status{margin-top:14px;font-size:13px;min-height:20px;color:#bcd2ff}
+    .success-screen{margin-top:14px;padding:22px;border:1px solid var(--line);background:rgba(14,17,30,.9);display:none}
+    .success-screen.is-visible{display:block}
+    .success-badge{display:inline-flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:50%;background:rgba(47,107,255,.2);border:1px solid rgba(123,166,255,.45);font-size:20px;margin-bottom:12px}
+    .success-title{font-size:22px;text-transform:uppercase;letter-spacing:.02em;margin-bottom:10px}
+    .success-copy{margin:0 0 16px;color:rgba(255,255,255,.82)}
+    .success-actions{display:flex;gap:10px;flex-wrap:wrap}
+    .success-btn{display:inline-flex;align-items:center;justify-content:center;padding:11px 14px;border:1px solid rgba(123,166,255,.55);background:linear-gradient(135deg,#2f6bff,#183775);color:#fff;text-decoration:none;text-transform:uppercase;letter-spacing:.08em;font-size:12px}
+    .ghost-btn{display:inline-flex;align-items:center;justify-content:center;padding:11px 14px;border:1px solid rgba(255,255,255,.35);background:transparent;color:#fff;text-decoration:none;text-transform:uppercase;letter-spacing:.08em;font-size:12px}
     .help{margin-top:14px;font-size:12px;color:rgba(255,255,255,.63)}
     a{color:#c8dbff}
     @media (max-width:640px){form{grid-template-columns:1fr}}
@@ -76,6 +84,12 @@
     </form>
 
     <div class="status" id="status" aria-live="polite"></div>
+    <section class="success-screen" id="successScreen" aria-live="polite">
+      <div class="success-badge">✓</div>
+      <h2 class="success-title" id="successTitle"></h2>
+      <p class="success-copy" id="successCopy"></p>
+      <div class="success-actions" id="successActions"></div>
+    </section>
     <p class="help"><a href="connexion-membres-password.html">Déjà un compte ? Se connecter</a></p>
     <p class="help"><a href="mon-compte.html">← Retour à mon compte</a></p>
   </main>
@@ -86,11 +100,36 @@
     const panel = document.querySelector('[data-access-api]');
     const form = document.getElementById('signupForm');
     const status = document.getElementById('status');
+    const successScreen = document.getElementById('successScreen');
+    const successTitle = document.getElementById('successTitle');
+    const successCopy = document.getElementById('successCopy');
+    const successActions = document.getElementById('successActions');
 
     function setStatus(message){ if (status) status.textContent = message; }
+    function hideSuccess(){ if (successScreen) successScreen.classList.remove('is-visible'); }
+    function showSuccess(config){
+      if (!successScreen || !successTitle || !successCopy || !successActions) return;
+      successTitle.textContent = config.title || 'Compte créé';
+      successCopy.textContent = config.copy || '';
+      successActions.innerHTML = '';
+
+      (config.actions || []).forEach((action) => {
+        const link = document.createElement('a');
+        link.className = action.primary ? 'success-btn' : 'ghost-btn';
+        link.href = action.href;
+        link.textContent = action.label;
+        successActions.appendChild(link);
+      });
+
+      form.style.display = 'none';
+      setStatus('');
+      successScreen.classList.add('is-visible');
+    }
 
     form?.addEventListener('submit', async (event) => {
       event.preventDefault();
+      hideSuccess();
+      form.style.display = '';
       const apiUrl = String(window.APAM_ACCESS_API_URL || panel?.dataset.accessApi || '').trim();
       if (!apiUrl){
         setStatus('Le service est temporairement indisponible.');
@@ -156,12 +195,34 @@
             setStatus('Cet email est déjà inscrit. Contactez le club si nécessaire.');
             return;
           }
+          if (data.error === 'nocompt_already_used') {
+            setStatus('Ce numéro membre est déjà associé à un compte. Utilisez la page de connexion ou contactez le club.');
+            return;
+          }
           setStatus('Demande refusée. Merci de vérifier vos informations.');
           return;
         }
 
         form.reset();
-        setStatus('Demande enregistrée. Le club validera vos accès et vous pourrez ensuite vous connecter.');
+        if (data.message === 'signup_created_claimed_memberid') {
+          showSuccess({
+            title: 'Votre compte a bien été créé',
+            copy: 'Votre numéro de membre a été reconnu. Vous pouvez dès à présent vous connecter à votre espace membre.',
+            actions: [
+              { label: 'Se connecter', href: 'connexion-membres-password.html', primary: true },
+              { label: 'Retour à mon compte', href: 'mon-compte.html' }
+            ]
+          });
+          return;
+        }
+
+        showSuccess({
+          title: 'Inscription enregistrée',
+          copy: 'Nous allons procéder à la vérification de vos informations. Vous recevrez un courriel dès que votre accès aura été approuvé.',
+          actions: [
+            { label: 'Retour à l\'accueil', href: 'index.html' }
+          ]
+        });
       } catch (error) {
         // Fallback de dernier recours : envoi sans lecture de la réponse.
         // Permet de transmettre la demande même si Apps Script ne renvoie pas les en-têtes CORS attendus.
