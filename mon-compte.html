@@ -686,7 +686,12 @@
       }
 
       try {
-        const res = await fetch(`${apiUrl}?action=me&token=${encodeURIComponent(token)}`, { cache: 'no-store' });
+        const res = await fetch(apiUrl, {
+          method: 'POST',
+          cache: 'no-store',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify({ action: 'me', sessionToken: token })
+        });
         if (!res.ok) throw new Error('API indisponible');
         const payload = await res.json();
 
@@ -700,17 +705,18 @@
           return;
         }
 
-        const userEmail = String(payload.email || '').toLowerCase();
-        const firstName = String(payload.prenom || payload.first_name || '').trim();
-        const lastName = String(payload.nom || payload.last_name || '').trim();
+        const profile = payload.profile || payload;
+        const userEmail = String(profile.email || payload.email || '').toLowerCase();
+        const firstName = String(profile.firstName || profile.prenom || payload.prenom || payload.first_name || '').trim();
+        const lastName = String(profile.lastName || profile.nom || payload.nom || payload.last_name || '').trim();
         const displayName = `${firstName} ${lastName}`.trim();
         const memberIdentity = displayName || userEmail || 'Membre connecté';
         if (memberIdentityEl) memberIdentityEl.textContent = memberIdentity;
 
-        const memberNumber = String(payload.numero_membre || payload.member_number || payload.member_id || '').trim();
+        const memberNumber = String(profile.MemberID || payload.numero_membre || payload.member_number || payload.member_id || '').trim();
         if (memberNumberEl) memberNumberEl.textContent = memberNumber || '--';
 
-        const allowed = new Set((payload.permissions || []).map((v) => String(v).toLowerCase()));
+        const allowed = new Set((profile.permissions || payload.permissions || []).map((v) => String(v).toLowerCase()));
 
         let visibleCount = 0;
         cards.forEach((card) => {
