@@ -22,6 +22,13 @@
     .status{margin-top:14px;font-size:13px;min-height:20px;color:#bcd2ff}
     .help{margin-top:14px;font-size:12px;color:rgba(255,255,255,.63)}
     a{color:#c8dbff}
+    .result-card{margin-top:16px;border:1px solid rgba(123,166,255,.55);background:rgba(16,24,49,.88);padding:18px;display:none}
+    .result-card h2{font-size:22px;margin-bottom:8px;text-transform:uppercase;letter-spacing:.04em}
+    .result-card p{margin-bottom:12px;color:rgba(255,255,255,.86)}
+    .result-actions{display:flex;gap:10px;flex-wrap:wrap}
+    .action-link{display:inline-block;padding:12px 14px;border:1px solid rgba(123,166,255,.55);background:linear-gradient(135deg,#2f6bff,#183775);color:#fff;text-decoration:none;text-transform:uppercase;letter-spacing:.08em;font-size:12px}
+    .btn-secondary{background:transparent;border:1px solid var(--line)}
+    .hidden{display:none !important}
     @media (max-width:640px){form{grid-template-columns:1fr}}
   </style>
 </head>
@@ -76,7 +83,17 @@
     </form>
 
     <div class="status" id="status" aria-live="polite"></div>
-    <p class="help"><a href="connexion-membres.html">Déjà un compte ? Se connecter</a></p>
+
+    <section class="result-card" id="resultCard" aria-live="polite">
+      <h2 id="resultTitle">Inscription enregistrée</h2>
+      <p id="resultMessage"></p>
+      <div class="result-actions">
+        <a id="resultLoginBtn" href="connexion-membres-password.html" class="action-link hidden">Se connecter</a>
+        <a href="index.html" class="action-link btn-secondary">Retour accueil</a>
+      </div>
+    </section>
+
+    <p class="help"><a href="connexion-membres-password.html">Déjà un compte ? Se connecter</a></p>
     <p class="help"><a href="mon-compte.html">← Retour à mon compte</a></p>
   </main>
 
@@ -86,8 +103,29 @@
     const panel = document.querySelector('[data-access-api]');
     const form = document.getElementById('signupForm');
     const status = document.getElementById('status');
+    const resultCard = document.getElementById('resultCard');
+    const resultTitle = document.getElementById('resultTitle');
+    const resultMessage = document.getElementById('resultMessage');
+    const resultLoginBtn = document.getElementById('resultLoginBtn');
 
     function setStatus(message){ if (status) status.textContent = message; }
+
+    function showSignupResult(mode){
+      if (!resultCard || !resultTitle || !resultMessage || !resultLoginBtn || !form) return;
+      form.classList.add('hidden');
+      if (status) status.classList.add('hidden');
+      resultCard.style.display = 'block';
+
+      if (mode === 'ready') {
+        resultTitle.textContent = 'Compte créé';
+        resultMessage.textContent = 'Votre compte a bien été créé. Vous pouvez dès à présent vous connecter.';
+        resultLoginBtn.classList.remove('hidden');
+      } else {
+        resultTitle.textContent = 'Demande en cours de vérification';
+        resultMessage.textContent = 'Nous allons procéder à la vérification de vos informations. Vous recevrez un courriel dès que votre accès aura été approuvé.';
+        resultLoginBtn.classList.add('hidden');
+      }
+    }
 
     form?.addEventListener('submit', async (event) => {
       event.preventDefault();
@@ -161,7 +199,12 @@
         }
 
         form.reset();
-        setStatus('Demande enregistrée. Le club validera vos accès et vous pourrez ensuite vous connecter.');
+        const signupStatus = String(data.signupStatus || '').toUpperCase();
+        if (signupStatus === 'READY_TO_LOGIN') {
+          showSignupResult('ready');
+        } else {
+          showSignupResult('pending');
+        }
       } catch (error) {
         // Fallback de dernier recours : envoi sans lecture de la réponse.
         // Permet de transmettre la demande même si Apps Script ne renvoie pas les en-têtes CORS attendus.
