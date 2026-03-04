@@ -4,8 +4,8 @@
   <meta charset="UTF-8" />
   <title>APAM – Devenir pilote</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link rel="icon" type="image/png" sizes="32x32" href="assets/images/apam-logo.png" />
-  <link rel="shortcut icon" href="assets/images/apam-logo.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/images/apam-logo2.png" />
+  <link rel="shortcut icon" href="assets/images/apam-logo2.png" />
 
   <style>
     /* =============================== */
@@ -1010,26 +1010,35 @@
   <style>
     .construction-overlay{position:fixed;inset:0;z-index:9999;display:grid;place-items:center;padding:20px;background:radial-gradient(circle at 20% 20%,rgba(47,107,255,.22),transparent 45%),radial-gradient(circle at 80% 12%,rgba(255,255,255,.15),transparent 40%),#0d101b}
     .construction-card{width:min(680px,100%);padding:34px 26px;background:rgba(14,18,32,.93);border:1px solid rgba(130,170,255,.4);box-shadow:0 24px 60px rgba(0,0,0,.45);text-align:center}
-    .construction-logo{width:86px;height:86px;object-fit:contain;animation:logoFloat 2.3s ease-in-out infinite}
+    .construction-logo{width:96px;height:96px;object-fit:contain;animation:logoFloat 2.3s ease-in-out infinite}
+    .construction-zone{margin:20px auto 18px;display:grid;gap:12px;max-width:520px}
+    .barrier{height:44px;border:2px solid rgba(255,255,255,.25);border-radius:10px;background:repeating-linear-gradient(-45deg,#f6b200 0 18px,#1d1d1d 18px 36px);position:relative;overflow:hidden;box-shadow:inset 0 0 0 1px rgba(0,0,0,.25)}
+    .barrier::after{content:"";position:absolute;inset:0;background:linear-gradient(120deg,transparent 20%,rgba(255,255,255,.35) 45%,transparent 70%);transform:translateX(-120%);animation:barrierSweep 1.8s linear infinite}
+    .barrier:nth-child(2){animation:barrierTilt 1.4s ease-in-out infinite alternate}
+    .construction-note{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:rgba(232,238,255,.74)}
     .construction-title{font-family:"Swiss911",sans-serif;font-size:56px;letter-spacing:-.02em;text-transform:uppercase;line-height:.86;margin:14px 0 10px}
     .construction-sub{color:rgba(231,238,255,.88);line-height:1.55;max-width:520px;margin:0 auto}
-    .construction-loader{margin:18px auto 20px;width:52px;height:52px;border-radius:50%;border:4px solid rgba(255,255,255,.2);border-top-color:#7ea6ff;animation:spin .9s linear infinite}
-    .creator-box{margin-top:8px;padding:14px;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.03)}
+.creator-box{margin-top:8px;padding:14px;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.03)}
     .creator-box h3{font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:rgba(214,226,255,.9);margin-bottom:10px}
     .creator-row{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
     .creator-row input{width:min(220px,100%);padding:10px 12px;border:1px solid rgba(130,170,255,.4);background:#0b1228;color:#fff;letter-spacing:.2em;text-align:center}
     .creator-row button{padding:10px 12px;border:1px solid rgba(130,170,255,.5);background:linear-gradient(135deg,#2f6bff,#183775);color:#fff;text-transform:uppercase;letter-spacing:.08em;cursor:pointer}
     .creator-status{margin-top:8px;font-size:12px;color:#ffccd2;min-height:16px}
     .construction-overlay.is-hidden{display:none}
-    @keyframes spin{to{transform:rotate(360deg)}}
     @keyframes logoFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+    @keyframes barrierSweep{to{transform:translateX(120%)}}
+    @keyframes barrierTilt{0%{transform:rotate(-1.2deg)}100%{transform:rotate(1.2deg)}}
   </style>
   <div class="construction-overlay" id="constructionOverlay" aria-live="polite">
     <div class="construction-card">
-      <img class="construction-logo" src="assets/images/apam-logo.png" alt="APAM" />
+      <img class="construction-logo" src="assets/images/apam-logo2.png" alt="APAM" />
       <h2 class="construction-title">Page en construction</h2>
       <p class="construction-sub">La page <strong>Devenir pilote</strong> est en cours de finalisation. Merci pour votre patience ✈️</p>
-      <div class="construction-loader" aria-hidden="true"></div>
+      <div class="construction-zone" aria-hidden="true">
+        <div class="barrier"></div>
+        <div class="barrier"></div>
+        <div class="construction-note">Zone de travaux en cours</div>
+      </div>
       <div class="creator-box">
         <h3>Accès créateur</h3>
         <div class="creator-row">
