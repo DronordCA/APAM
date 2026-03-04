@@ -6,42 +6,280 @@
   <title>APAM – Flotte</title>
   <link rel="stylesheet" href="assets/hangar-intro.css" />
   <style>
+    :root {
+      --bg: #111318;
+      --panel: #1b1f27;
+      --text: #f2f4f7;
+      --muted: #bec4d0;
+      --accent: #4ca6ff;
+      --accent-2: #8bd2ff;
+    }
+
     body {
       margin: 0;
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background: #111318;
-      color: #f2f4f7;
+      background: radial-gradient(circle at top, #181c27 0%, var(--bg) 52%);
+      color: var(--text);
+      min-height: 100vh;
     }
     main {
       max-width: 960px;
       margin: 0 auto;
       padding: 4rem 1.2rem 5rem;
     }
-    h1 { margin-bottom: 1rem; }
+    h1 {
+      margin-bottom: .6rem;
+      letter-spacing: .01em;
+    }
+
+    .intro {
+      color: var(--muted);
+      margin-bottom: 2rem;
+      max-width: 55ch;
+    }
+
     .cards {
       display: grid;
       gap: 1rem;
       grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
     }
+
     .card {
-      background: #1b1f27;
+      position: relative;
+      overflow: hidden;
+      background: linear-gradient(145deg, rgba(44, 50, 66, .9), rgba(22, 26, 34, .95));
       border: 1px solid rgba(255,255,255,.09);
+      border-radius: 16px;
+      padding: 1.1rem;
+      cursor: pointer;
+      transition: transform .26s ease, border-color .26s ease, box-shadow .26s ease;
+    }
+
+    .card::after {
+      content: "";
+      position: absolute;
+      inset: auto -20% -50% -20%;
+      height: 110px;
+      background: radial-gradient(circle, rgba(76, 166, 255, .32), transparent 62%);
+      opacity: 0;
+      transition: opacity .24s ease;
+      pointer-events: none;
+    }
+
+    .card:hover,
+    .card:focus-visible {
+      transform: translateY(-4px);
+      border-color: rgba(139, 210, 255, .65);
+      box-shadow: 0 14px 36px rgba(0, 0, 0, .28);
+      outline: none;
+    }
+
+    .card:hover::after,
+    .card:focus-visible::after {
+      opacity: 1;
+    }
+
+    .card p {
+      color: var(--muted);
+      margin-bottom: 0;
+    }
+
+    .card-tag {
+      display: inline-flex;
+      font-size: .72rem;
+      font-weight: 600;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+      color: #061324;
+      background: linear-gradient(90deg, var(--accent), var(--accent-2));
+      border-radius: 999px;
+      padding: .2rem .56rem;
+      margin-bottom: .65rem;
+    }
+
+    .modal {
+      position: fixed;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      padding: 1.2rem;
+      background: rgba(6, 9, 14, .7);
+      backdrop-filter: blur(7px);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .24s ease;
+      z-index: 20;
+    }
+
+    .modal.is-open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .modal-card {
+      width: min(640px, 100%);
+      background: linear-gradient(160deg, rgba(34, 40, 54, .98), rgba(19, 23, 32, .98));
+      border: 1px solid rgba(255,255,255,.12);
+      border-radius: 18px;
+      padding: 1.4rem;
+      box-shadow: 0 28px 80px rgba(0,0,0,.48);
+      transform: translateY(10px) scale(.97);
+      transition: transform .26s ease;
+    }
+
+    .modal.is-open .modal-card {
+      transform: translateY(0) scale(1);
+    }
+
+    .modal-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    .close-btn {
+      border: none;
+      color: var(--text);
+      background: rgba(255,255,255,.08);
+      border-radius: 9px;
+      width: 2rem;
+      height: 2rem;
+      cursor: pointer;
+    }
+
+    .modal-copy {
+      color: var(--muted);
+      margin-top: .35rem;
+      line-height: 1.5;
+    }
+
+    .modal-meta {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(125px, 1fr));
+      gap: .8rem;
+      margin-top: 1.2rem;
+    }
+
+    .stat {
+      background: rgba(255,255,255,.05);
+      border: 1px solid rgba(255,255,255,.08);
       border-radius: 12px;
-      padding: 1rem;
+      padding: .72rem;
+    }
+
+    .stat-label {
+      display: block;
+      color: #98a3b8;
+      font-size: .75rem;
+      text-transform: uppercase;
+      letter-spacing: .04em;
+      margin-bottom: .2rem;
+    }
+
+    .stat-value {
+      font-weight: 700;
+      color: #eff5ff;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        transition: none !important;
+      }
     }
   </style>
 </head>
 <body>
   <main>
     <h1>Notre flotte</h1>
-    <p>Découvre nos avions école et voyage.</p>
+    <p class="intro">Découvre nos avions école et voyage. Clique sur une carte pour afficher une fiche détaillée avec quelques informations utiles.</p>
     <section class="cards">
-      <article class="card"><h2>DR400</h2><p>Avion d'initiation polyvalent.</p></article>
-      <article class="card"><h2>PA-28</h2><p>Confortable pour les navigations.</p></article>
-      <article class="card"><h2>C152</h2><p>Classique pour la formation.</p></article>
+      <article class="card" tabindex="0" data-name="DR400" data-desc="Monomoteur idéal pour débuter et progresser en voyage VFR. Très apprécié pour sa visibilité et sa facilité de prise en main." data-speed="110 kt" data-range="430 NM" data-engine="Lycoming O-360">
+        <span class="card-tag">École & voyage</span>
+        <h2>DR400</h2>
+        <p>Avion d'initiation polyvalent.</p>
+      </article>
+      <article class="card" tabindex="0" data-name="PA-28" data-desc="Une cabine confortable pour les navigations plus longues, avec une stabilité appréciée en instruction et en voyage." data-speed="118 kt" data-range="520 NM" data-engine="Lycoming O-320">
+        <span class="card-tag">Navigation</span>
+        <h2>PA-28</h2>
+        <p>Confortable pour les navigations.</p>
+      </article>
+      <article class="card" tabindex="0" data-name="C152" data-desc="Le classique des premières heures de vol : économique, sain et parfait pour l'apprentissage des bases du pilotage." data-speed="95 kt" data-range="350 NM" data-engine="Lycoming O-235">
+        <span class="card-tag">Formation</span>
+        <h2>C152</h2>
+        <p>Classique pour la formation.</p>
+      </article>
     </section>
   </main>
 
+  <section class="modal" id="planeModal" aria-hidden="true">
+    <article class="modal-card" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <div class="modal-top">
+        <h2 id="modalTitle">Avion</h2>
+        <button class="close-btn" id="closeModal" aria-label="Fermer">✕</button>
+      </div>
+      <p class="modal-copy" id="modalCopy"></p>
+      <div class="modal-meta">
+        <div class="stat"><span class="stat-label">Vitesse croisière</span><span class="stat-value" id="modalSpeed"></span></div>
+        <div class="stat"><span class="stat-label">Autonomie</span><span class="stat-value" id="modalRange"></span></div>
+        <div class="stat"><span class="stat-label">Moteur</span><span class="stat-value" id="modalEngine"></span></div>
+      </div>
+    </article>
+  </section>
+
   <script src="assets/hangar-intro.js" defer></script>
+  <script>
+    (() => {
+      const modal = document.getElementById('planeModal');
+      const closeBtn = document.getElementById('closeModal');
+      const title = document.getElementById('modalTitle');
+      const copy = document.getElementById('modalCopy');
+      const speed = document.getElementById('modalSpeed');
+      const range = document.getElementById('modalRange');
+      const engine = document.getElementById('modalEngine');
+
+      let lastTrigger = null;
+
+      const openModal = (card) => {
+        title.textContent = card.dataset.name || 'Avion';
+        copy.textContent = card.dataset.desc || '';
+        speed.textContent = card.dataset.speed || 'N/A';
+        range.textContent = card.dataset.range || 'N/A';
+        engine.textContent = card.dataset.engine || 'N/A';
+        modal.classList.add('is-open');
+        modal.setAttribute('aria-hidden', 'false');
+        lastTrigger = card;
+      };
+
+      const closeModal = () => {
+        modal.classList.remove('is-open');
+        modal.setAttribute('aria-hidden', 'true');
+        if (lastTrigger) {
+          lastTrigger.focus();
+        }
+      };
+
+      document.querySelectorAll('.card').forEach((card) => {
+        card.addEventListener('click', () => openModal(card));
+        card.addEventListener('keydown', (event) => {
+          if (event.key === 'Enter' || event.key === ' ') {
+            event.preventDefault();
+            openModal(card);
+          }
+        });
+      });
+
+      closeBtn.addEventListener('click', closeModal);
+      modal.addEventListener('click', (event) => {
+        if (event.target === modal) closeModal();
+      });
+
+      document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape' && modal.classList.contains('is-open')) {
+          closeModal();
+        }
+      });
+    })();
+  </script>
 </body>
 </html>
