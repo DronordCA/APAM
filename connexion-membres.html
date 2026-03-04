@@ -52,9 +52,53 @@
     const status = document.getElementById('status');
     const params = new URLSearchParams(window.location.search);
     const next = (params.get('next') || 'mon-compte.html').replace(/^\//, '');
+    const magicToken = String(params.get('token') || '').trim();
 
     function setStatus(message){
       if (status) status.textContent = message;
+    }
+
+    async function requestMagicLink(apiUrl, email){
+      const res = await fetch(apiUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify({ action: 'request_magic_link', email })
+      });
+      if (!res.ok) throw new Error('magic_link_http_' + res.status);
+      return true;
+    }
+
+    async function consumeMagicLinkFromUrl(){
+      if (!magicToken) return;
+
+      const apiUrl = String(window.APAM_ACCESS_API_URL || panel?.dataset.accessApi || '').trim();
+      if (!apiUrl){
+        setStatus('Lien reçu, mais service indisponible : URL Apps Script manquante.');
+        return;
+      }
+
+      setStatus('Validation du lien de connexion...');
+      try {
+        const res = await fetch(apiUrl, {
+          method: 'POST',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify({ action: 'consume_magic_link', token: magicToken })
+        });
+        const payload = await res.json();
+        const sessionToken = String(payload.sessionToken || payload.token || '').trim();
+
+        if (!res.ok || !payload.ok || !sessionToken){
+          setStatus('Lien de connexion invalide ou expiré. Merci de demander un nouveau lien.');
+          return;
+        }
+
+        window.localStorage.setItem('apam_session_token', sessionToken);
+        setStatus('Connexion validée. Redirection...');
+        window.location.href = next;
+      } catch (error) {
+        const reason = error && error.message ? ` (${error.message})` : '';
+        setStatus(`Impossible de valider le lien de connexion${reason}.`);
+      }
     }
 
     form?.addEventListener('submit', async (event) => {
@@ -99,12 +143,24 @@
           return;
         }
 
-        if (!payload.ok || !payload.token){
-          setStatus(payload.error === 'invalid_credentials' ? 'Identifiants incorrects.' : 'Connexion refusée.');
+        const sessionToken = String(payload.token || payload.sessionToken || '').trim();
+
+        if (!payload.ok || !sessionToken){
+          if (payload.error === 'invalid_credentials') {
+            setStatus('Identifiants incorrects.');
+            return;
+          }
+          if (payload.error === 'ACTION_INVALIDE') {
+            await requestMagicLink(apiUrl, email);
+            setStatus('Ce serveur utilise un lien magique : un email de connexion vient d\'être envoyé.');
+            return;
+          }
+          const detail = payload && payload.error ? ` (${payload.error})` : '';
+          setStatus(`Connexion refusée${detail}.`);
           return;
         }
 
-        window.localStorage.setItem('apam_session_token', payload.token);
+        window.localStorage.setItem('apam_session_token', sessionToken);
         setStatus('Connexion validée. Redirection...');
         window.location.href = next;
       } catch (error) {
@@ -112,6 +168,8 @@
         setStatus(`Impossible de contacter le serveur de connexion${reason}. Vérifiez le déploiement Apps Script (Web App publiée + accès "Toute personne ayant le lien").`);
       }
     });
+
+    consumeMagicLinkFromUrl();
   </script>
 
   <script>

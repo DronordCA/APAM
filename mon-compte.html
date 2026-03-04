@@ -601,8 +601,8 @@
             <p class="access-note" id="accessNote">Connexion requise. Connectez-vous pour accéder à vos documents et services réservés aux membres APAM.</p>
             <div class="cards" id="resourceCards">
               <article class="card" data-permission="compte_personnel"><div class="card-top"><span class="card-icon" aria-hidden="true">👤</span><h3>Compte personnel</h3></div><p>Retrouvez votre espace personnel membre APAM avec vos informations et vos accès individuels.</p><a href="espace-membres.html" rel="noopener noreferrer">Accéder à mon espace →</a></article>
-              <article class="card" data-permission="docs_club"><div class="card-top"><span class="card-icon" aria-hidden="true">🛫</span><h3>Préparer mon vol</h3></div><p>Accédez rapidement aux outils de préparation de vol pour organiser votre navigation.</p><a href="https://olivia.aviation-civile.gouv.fr/" target="_blank" rel="noopener noreferrer">Démarrer la préparation →</a></article>
-              <article class="card" data-permission="docs_eleves"><div class="card-top"><span class="card-icon" aria-hidden="true">🎯</span><h3>Documents élèves</h3></div><p>Supports pédagogiques, progression PPL et rappels sécurité pour la formation.</p><a href="https://drive.google.com/drive/folders/1aRq5gZqxQ6T6AkDWGrJb8OOX-4UD1frw?usp=sharing" target="_blank" rel="noopener noreferrer">Accéder aux documents →</a></article>
+              <article class="card" data-permission="docs_club" data-permission-aliases="doc_club"><div class="card-top"><span class="card-icon" aria-hidden="true">🛫</span><h3>Préparer mon vol</h3></div><p>Accédez rapidement aux outils de préparation de vol pour organiser votre navigation.</p><a href="https://olivia.aviation-civile.gouv.fr/" target="_blank" rel="noopener noreferrer">Démarrer la préparation →</a></article>
+              <article class="card" data-permission="docs_eleves" data-permission-aliases="doc_eleve"><div class="card-top"><span class="card-icon" aria-hidden="true">🎯</span><h3>Documents élèves</h3></div><p>Supports pédagogiques, progression PPL et rappels sécurité pour la formation.</p><a href="https://drive.google.com/drive/folders/1aRq5gZqxQ6T6AkDWGrJb8OOX-4UD1frw?usp=sharing" target="_blank" rel="noopener noreferrer">Accéder aux documents →</a></article>
               <article class="card" data-permission="voyage"><div class="card-top"><span class="card-icon" aria-hidden="true">🌍</span><h3>Voyage</h3></div><p>Préparation des voyages, briefings dédiés et documents utiles pour les navigations club.</p><a href="https://olivia.aviation-civile.gouv.fr/" target="_blank" rel="noopener noreferrer">Préparer un voyage →</a></article>
               <article class="card" data-permission="sortie_club"><div class="card-top"><span class="card-icon" aria-hidden="true">🧭</span><h3>Sorties club</h3></div><p>Organisation des sorties, feuilles de route et informations logistiques APAM.</p><a href="espace-membres.html" rel="noopener noreferrer">Voir les sorties →</a></article>
             </div>
@@ -715,7 +715,11 @@
         let visibleCount = 0;
         cards.forEach((card) => {
           const key = (card.dataset.permission || '').toLowerCase();
-          const show = allowed.has(key);
+          const aliases = String(card.dataset.permissionAliases || '')
+            .split(',')
+            .map((entry) => entry.trim().toLowerCase())
+            .filter(Boolean);
+          const show = [key, ...aliases].some((permission) => allowed.has(permission));
           card.style.display = show ? '' : 'none';
           if (show) visibleCount += 1;
         });
