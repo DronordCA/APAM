@@ -44,6 +44,8 @@
     <p class="help"><a href="index.html">← Retour à l'accueil</a></p>
   </main>
 
+  <script src="assets/access-config.js"></script>
+
   <script>
     const panel = document.querySelector('[data-access-api]');
     const form = document.getElementById('loginForm');
@@ -57,7 +59,7 @@
 
     form?.addEventListener('submit', async (event) => {
       event.preventDefault();
-      const apiUrl = panel?.dataset.accessApi?.trim();
+      const apiUrl = String(window.APAM_ACCESS_API_URL || panel?.dataset.accessApi || '').trim();
       if (!apiUrl){
         setStatus('Le service est temporairement indisponible.');
         return;
