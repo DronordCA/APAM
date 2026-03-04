@@ -127,7 +127,8 @@
       try {
         const res = await fetch(apiUrl, {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+          // Requête CORS simple (sans preflight OPTIONS) pour Apps Script.
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
           body: JSON.stringify(apiPayload)
         });
         let data = {};
