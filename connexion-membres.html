@@ -25,18 +25,14 @@
 <body>
   <main class="panel" data-access-api="https://script.google.com/macros/s/AKfycbxmzpzMhv5wEaSajCkNYu6bpQbqwkb7klq029Yjo_3KNKMmyTtNdSEF_R0vgAUK9_-9/exec">
     <h1>Connexion membres</h1>
-    <p>Entrez votre email APAM et votre mot de passe. La session sécurisée vous redirige ensuite vers l'espace membres.</p>
+    <p>Entrez votre email APAM pour recevoir un lien de connexion sécurisé. Une fois le lien validé, vous serez redirigé vers l'espace membres.</p>
 
     <form id="loginForm" novalidate>
       <div>
         <label for="email">Email</label>
         <input id="email" name="email" type="email" autocomplete="username" required />
       </div>
-      <div>
-        <label for="password">Mot de passe</label>
-        <input id="password" name="password" type="password" autocomplete="current-password" required />
-      </div>
-      <button type="submit">Se connecter</button>
+      <button type="submit">Recevoir mon lien de connexion</button>
     </form>
 
     <div class="status" id="status" aria-live="polite"></div>
@@ -51,10 +47,40 @@
     const form = document.getElementById('loginForm');
     const status = document.getElementById('status');
     const params = new URLSearchParams(window.location.search);
-    const next = (params.get('next') || 'mon-compte.html').replace(/^\//, '');
+    const next = (params.get('next') || window.localStorage.getItem('apam_login_next') || 'mon-compte.html').replace(/^\//, '');
 
     function setStatus(message){
       if (status) status.textContent = message;
+    }
+
+    async function consumeMagicLinkIfNeeded(){
+      const apiUrl = String(window.APAM_ACCESS_API_URL || panel?.dataset.accessApi || '').trim();
+      const token = String(params.get('token') || '').trim();
+      if (!token || !apiUrl) return;
+
+      setStatus('Validation du lien en cours...');
+
+      try {
+        const res = await fetch(apiUrl, {
+          method: 'POST',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify({ action: 'consume_magic_link', token })
+        });
+        const payload = await res.json();
+        const sessionToken = String(payload.sessionToken || payload.token || '').trim();
+        if (!res.ok || !payload.ok || !sessionToken){
+          setStatus('Le lien de connexion est invalide ou expiré. Merci de demander un nouveau lien.');
+          return;
+        }
+
+        window.localStorage.setItem('apam_session_token', sessionToken);
+        setStatus('Connexion validée. Redirection...');
+        window.history.replaceState({}, '', window.location.pathname);
+        window.location.href = next;
+      } catch (error) {
+        const reason = error && error.message ? ` (${error.message})` : '';
+        setStatus(`Impossible de valider le lien${reason}.`);
+      }
     }
 
     form?.addEventListener('submit', async (event) => {
@@ -66,20 +92,19 @@
       }
 
       const email = String(form.email.value || '').trim().toLowerCase();
-      const password = String(form.password.value || '');
-      if (!email || !password){
-        setStatus('Merci de renseigner email et mot de passe.');
+      if (!email){
+        setStatus('Merci de renseigner votre email.');
         return;
       }
 
-      setStatus('Vérification en cours...');
+      setStatus('Envoi du lien en cours...');
+      window.localStorage.setItem('apam_login_next', next);
 
       try {
         const res = await fetch(apiUrl, {
           method: 'POST',
-          // Requête CORS simple (sans préflight OPTIONS) pour Apps Script.
           headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-          body: JSON.stringify({ action: 'login', email, password })
+          body: JSON.stringify({ action: 'request_magic_link', email })
         });
         let payload = {};
         const contentType = String(res.headers.get('content-type') || '').toLowerCase();
@@ -99,30 +124,20 @@
           return;
         }
 
-        const sessionToken = String(payload.token || payload.sessionToken || '').trim();
-
-        if (!payload.ok || !sessionToken){
-          if (payload.error === 'invalid_credentials') {
-            setStatus('Identifiants incorrects.');
-            return;
-          }
-          if (payload.error === 'ACTION_INVALIDE') {
-            setStatus('Connexion refusée : le serveur Apps Script actif ne prend pas en charge l\'action "login". Vérifiez l\'URL de déploiement active.');
-            return;
-          }
+        if (!payload.ok){
           const detail = payload && payload.error ? ` (${payload.error})` : '';
           setStatus(`Connexion refusée${detail}.`);
           return;
         }
 
-        window.localStorage.setItem('apam_session_token', sessionToken);
-        setStatus('Connexion validée. Redirection...');
-        window.location.href = next;
+        setStatus('Lien envoyé. Vérifiez votre boîte mail (et les indésirables).');
       } catch (error) {
         const reason = error && error.message ? ` (${error.message})` : '';
         setStatus(`Impossible de contacter le serveur de connexion${reason}. Vérifiez le déploiement Apps Script (Web App publiée + accès "Toute personne ayant le lien").`);
       }
     });
+
+    consumeMagicLinkIfNeeded();
   </script>
 
   <script>

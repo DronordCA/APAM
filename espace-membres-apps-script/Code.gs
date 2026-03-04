@@ -446,6 +446,13 @@ function mapUserRow_(values) {
 }
 
 function buildProfile_(values) {
+  const permissions = [];
+  if (String(values[USER_COL.COMPTE_PERSONNEL] || '').toUpperCase() === 'OUI') permissions.push('compte_personnel');
+  if (String(values[USER_COL.DOC_CLUB] || '').toUpperCase() === 'OUI') permissions.push('docs_club', 'doc_club');
+  if (String(values[USER_COL.DOC_ELEVE] || '').toUpperCase() === 'OUI') permissions.push('docs_eleves', 'doc_eleve');
+  if (String(values[USER_COL.VOYAGE] || '').toUpperCase() === 'OUI') permissions.push('voyage');
+  if (String(values[USER_COL.SORTIE_CLUB] || '').toUpperCase() === 'OUI') permissions.push('sortie_club');
+
   return {
     MemberID: canonicalizeMemberId(values[USER_COL.NOCOMPT]),
     Status: mapStatus_(values[USER_COL.ACTIVE]),
@@ -454,6 +461,7 @@ function buildProfile_(values) {
     firstName: String(values[USER_COL.PRENOM] || ''),
     lastName: String(values[USER_COL.NOM] || ''),
     email: normalizeEmail(values[USER_COL.EMAIL]),
+    permissions: permissions,
   };
 }
 
