@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Politique de confidentialité | APAM</title>
+  <style>
+    :root { --bg:#0b0b0c; --card:#17181b; --text:#f6f7fb; --muted:#c6cad8; --accent:#2f6bff; --border:#2a2c33; }
+    *{box-sizing:border-box} body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;background:linear-gradient(180deg,#050608 0%,var(--bg) 100%);color:var(--text);line-height:1.62}
+    .container{max-width:980px;margin:0 auto;padding:24px 18px 52px}.topbar{display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap}
+    .brand{font-size:.95rem;color:var(--muted)} nav a{color:var(--text);text-decoration:none;margin-right:14px} nav a:hover{color:var(--accent)}
+    h1{font-size:clamp(1.7rem,3vw,2.2rem);margin:22px 0 12px} h2{margin-top:28px;font-size:1.2rem}
+    .card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:20px;margin-top:18px}
+    .badge{display:inline-block;background:rgba(47,107,255,.12);border:1px solid rgba(47,107,255,.45);color:#99b6ff;border-radius:99px;padding:4px 10px;font-size:.84rem}
+    ul{padding-left:18px} .muted{color:var(--muted)} code{background:#111318;padding:.12rem .4rem;border-radius:4px}
+    footer{margin-top:28px;padding-top:18px;border-top:1px solid var(--border);color:var(--muted)} .footer-links a{color:var(--muted);text-decoration:none;margin-right:10px}
+    .footer-links a:hover{color:var(--accent)}
+  </style>
+</head>
+<body>
+  <main class="container">
+    <div class="topbar">
+      <div class="brand">{{NOM_OFFICIEL}} (valeur actuelle : Aero Club de l'Ex-Saint-Michel)</div>
+      <nav aria-label="Navigation légale">
+        <a href="mentions-legales.html">Mentions légales</a>
+        <a href="confidentialite.html">Confidentialité</a>
+        <a href="cookies.html">Cookies</a>
+        <a href="cgu.html">CGU</a>
+      </nav>
+    </div>
+
+    <h1>Politique de confidentialité (RGPD)</h1>
+    <span class="badge">Dernière mise à jour : {{DATE_MAJ}}</span>
+
+    <section class="card">
+      <h2>Responsable de traitement</h2>
+      <p>
+        Association <strong>{{NOM_OFFICIEL}}</strong> (valeur actuelle : <strong>Aero Club de l'Ex-Saint-Michel</strong>),
+        siège social : <strong>{{ADRESSE_SIEGE}}</strong>, SIREN/SIRET : <strong>{{SIREN}}</strong>.
+      </p>
+      <p>Contact RGPD : <a href="mailto:apamgestion@gmail.com">apamgestion@gmail.com</a>.</p>
+    </section>
+
+    <section class="card" id="formulaire-contact">
+      <h2>Traitement des données du formulaire de contact</h2>
+      <p>Lorsque vous utilisez le formulaire de contact du site, nous collectons :</p>
+      <ul>
+        <li><strong>Nom</strong> (si renseigné),</li>
+        <li><strong>Email</strong>,</li>
+        <li><strong>Message</strong>.</li>
+      </ul>
+      <ul>
+        <li><strong>Finalité</strong> : répondre à votre demande, assurer le suivi des échanges.</li>
+        <li><strong>Base légale</strong> : intérêt légitime de l'association à répondre aux sollicitations ;
+          consentement lorsque vous demandez explicitement un suivi spécifique.</li>
+        <li><strong>Durée de conservation</strong> : 12 mois maximum après le dernier échange,
+          sauf obligation légale contraire.</li>
+        <li><strong>Destinataires</strong> : membres habilités du bureau/administration de l'association,
+          et prestataires techniques strictement nécessaires à l'hébergement et au fonctionnement du site.</li>
+      </ul>
+      <p class="muted">Texte court à afficher près du formulaire :</p>
+      <p><em>Les informations transmises via ce formulaire sont utilisées uniquement pour répondre à votre demande. Pour en savoir plus : Politique de confidentialité.</em></p>
+    </section>
+
+    <section class="card">
+      <h2>Newsletter (future)</h2>
+      <p>
+        Une inscription newsletter pourra être proposée ultérieurement. Cette inscription reposera sur votre
+        consentement explicite (opt-in) et vous pourrez vous désinscrire à tout moment.
+      </p>
+      <p>Case à cocher optionnelle suggérée (non active pour l'instant) :</p>
+      <p><code>&lt;label&gt;&lt;input type="checkbox" name="newsletter" /&gt; Je souhaite recevoir la newsletter de l'association (optionnel).&lt;/label&gt;</code></p>
+    </section>
+
+    <section class="card">
+      <h2>Droits des personnes</h2>
+      <p>
+        Conformément au RGPD et à la loi Informatique et Libertés, vous disposez des droits d'accès,
+        de rectification, d'effacement, de limitation, d'opposition et, lorsque applicable, de portabilité.
+      </p>
+      <p>
+        Pour exercer vos droits : <a href="mailto:apamgestion@gmail.com">apamgestion@gmail.com</a>.
+        En cas de difficulté non résolue, vous pouvez introduire une réclamation auprès de la CNIL
+        (<a href="https://www.cnil.fr" target="_blank" rel="noopener noreferrer">www.cnil.fr</a>).
+      </p>
+    </section>
+
+    <section class="card">
+      <h2>Hébergement et transferts</h2>
+      <p>
+        Le site est hébergé par <strong>GitHub, Inc., 88 Colin P Kelly Jr St, San Francisco, CA 94107, USA.</strong>
+        Des transferts hors Union européenne peuvent exister selon les services techniques utilisés.
+      </p>
+    </section>
+
+    <footer>
+      <div class="footer-links">
+        <a href="mentions-legales.html">Mentions légales</a> |
+        <a href="confidentialite.html">Confidentialité</a> |
+        <a href="cookies.html">Cookies</a> |
+        <a href="cgu.html">CGU</a>
+      </div>
+    </footer>
+  </main>
+  <script>
+    window.COOKIE_CONSENT_CONFIG = { gaMeasurementId: '{{GA_MEASUREMENT_ID}}' };
+  </script>
+  <script src="assets/cookie-consent.js" defer></script>
+</body>
+</html>
