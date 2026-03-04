@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Politique cookies | APAM</title>
+  <style>
+    :root { --bg:#0b0b0c; --card:#17181b; --text:#f6f7fb; --muted:#c6cad8; --accent:#2f6bff; --border:#2a2c33; }
+    *{box-sizing:border-box} body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;background:linear-gradient(180deg,#050608 0%,var(--bg) 100%);color:var(--text);line-height:1.62}
+    .container{max-width:980px;margin:0 auto;padding:24px 18px 52px}.topbar{display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap}
+    .brand{font-size:.95rem;color:var(--muted)} nav a{color:var(--text);text-decoration:none;margin-right:14px} nav a:hover{color:var(--accent)}
+    h1{font-size:clamp(1.7rem,3vw,2.2rem);margin:22px 0 12px} h2{margin-top:28px;font-size:1.2rem}
+    .card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:20px;margin-top:18px}
+    .badge{display:inline-block;background:rgba(47,107,255,.12);border:1px solid rgba(47,107,255,.45);color:#99b6ff;border-radius:99px;padding:4px 10px;font-size:.84rem}
+    ul{padding-left:18px} .muted{color:var(--muted)} code{background:#111318;padding:.12rem .4rem;border-radius:4px}
+    footer{margin-top:28px;padding-top:18px;border-top:1px solid var(--border);color:var(--muted)} .footer-links a{color:var(--muted);text-decoration:none;margin-right:10px}
+    .footer-links a:hover{color:var(--accent)}
+  </style>
+</head>
+<body>
+  <main class="container">
+    <div class="topbar">
+      <div class="brand">{{NOM_OFFICIEL}} (valeur actuelle : Aero Club de l'Ex-Saint-Michel)</div>
+      <nav aria-label="Navigation légale">
+        <a href="mentions-legales.html">Mentions légales</a>
+        <a href="confidentialite.html">Confidentialité</a>
+        <a href="cookies.html">Cookies</a>
+        <a href="cgu.html">CGU</a>
+      </nav>
+    </div>
+
+    <a class="back-link" href="index.html">← Retour au site</a>
+
+    <h1>Politique de cookies</h1>
+    <span class="badge">Dernière mise à jour : {{DATE_MAJ}}</span>
+
+    <section class="card">
+      <h2>Qu'est-ce qu'un cookie ?</h2>
+      <p>
+        Un cookie est un petit fichier enregistré sur votre terminal lors de la consultation d'un site.
+        Il permet notamment de mémoriser vos préférences.
+      </p>
+    </section>
+
+    <section class="card">
+      <h2>Cookies utilisés sur ce site</h2>
+      <ul>
+        <li><strong>Cookies nécessaires</strong> : indispensables au fonctionnement du site et à la mémorisation de votre choix de consentement.</li>
+        <li><strong>Mesure d'audience (Google Analytics)</strong> : désactivée par défaut, activée uniquement après votre consentement explicite.</li>
+      </ul>
+      <p>
+        Aucun cookie de mesure d'audience n'est déposé tant que vous n'avez pas accepté la catégorie
+        « Mesure d'audience (Google Analytics) ».
+      </p>
+    </section>
+
+    <section class="card">
+      <h2>Gestion de vos préférences</h2>
+      <p>
+        Vous pouvez accepter, refuser ou personnaliser vos choix via la bannière cookies.
+        Vos préférences sont conservées pendant 6 mois puis redemandées.
+      </p>
+      <p>
+        Pour réouvrir le panneau de gestion des cookies à tout moment, utilisez le bouton flottant
+        « Gérer mes cookies » affiché en bas de page.
+      </p>
+    </section>
+
+    <section class="card">
+      <h2>Google Analytics</h2>
+      <p>
+        Si vous acceptez la mesure d'audience, des données de fréquentation pourront être traitées via
+        Google Analytics (Google Ireland Limited / Google LLC selon configuration), avec un risque de
+        transfert de données hors UE.
+      </p>
+      <p>
+        Vous pouvez retirer votre consentement à tout moment en modifiant vos préférences cookies.
+      </p>
+    </section>
+
+    <section class="card">
+      <h2>Contact</h2>
+      <p>
+        Pour toute question relative aux cookies et au traitement de vos données :
+        <a href="mailto:apamgestion@gmail.com">apamgestion@gmail.com</a>.
+      </p>
+      <p class="muted">Hébergement : GitHub, Inc., 88 Colin P Kelly Jr St, San Francisco, CA 94107, USA.</p>
+    </section>
+
+    <footer>
+      <div class="footer-links">
+              <a href="mailto:contact@apam.fr">contact@apam.fr</a>
+              <a href="https://www.facebook.com/profile.php?id=61585663567523" target="_blank" rel="noopener noreferrer">Facebook</a>
+              <a href="https://www.instagram.com/apam_lfol?igsh=MTVnbjRtNHppMWwwcA%3D%3D&utm_source=qr" target="_blank" rel="noopener noreferrer">Instagram</a>
+              <a href="mentions-legales.html">Mentions légales</a>
+              <a href="confidentialite.html">Confidentialité</a>
+              <a href="cookies.html">Cookies</a>
+              <a href="cgu.html">CGU</a>
+            </div>
+      <p class="muted footer-credit">Site conçu par Pierre Cauvin.</p>
+    </footer>
+  </main>
+  <script>
+    window.COOKIE_CONSENT_CONFIG = { gaMeasurementId: '{{GA_MEASUREMENT_ID}}' };
+  </script>
+  <script src="assets/cookie-consent.js" defer></script>
+</body>
+</html>

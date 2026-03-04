@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Mentions légales | APAM</title>
+  <style>
+    :root {
+      --bg: #0b0b0c;
+      --card: #17181b;
+      --text: #f6f7fb;
+      --muted: #c6cad8;
+      --accent: #2f6bff;
+      --border: #2a2c33;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+      background: linear-gradient(180deg, #050608 0%, var(--bg) 100%);
+      color: var(--text);
+      line-height: 1.6;
+    }
+    .container { max-width: 980px; margin: 0 auto; padding: 24px 18px 52px; }
+    .topbar { display: flex; justify-content: space-between; gap: 12px; align-items: center; flex-wrap: wrap; }
+    .brand { font-size: 0.95rem; color: var(--muted); }
+    nav a { color: var(--text); text-decoration: none; margin-right: 14px; }
+    nav a:hover { color: var(--accent); }
+    h1 { font-size: clamp(1.7rem, 3vw, 2.2rem); margin: 22px 0 12px; }
+    h2 { margin-top: 28px; font-size: 1.2rem; }
+    .card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 20px; margin-top: 18px; }
+    .badge { display: inline-block; background: rgba(47,107,255,.12); border: 1px solid rgba(47,107,255,.45); color: #99b6ff; border-radius: 99px; padding: 4px 10px; font-size: .84rem; }
+    .muted { color: var(--muted); }
+    ul { padding-left: 18px; }
+    footer { margin-top: 28px; padding-top: 18px; border-top: 1px solid var(--border); color: var(--muted); }
+    .footer-links a { color: var(--muted); text-decoration: none; margin-right: 10px; }
+    .footer-links a:hover { color: var(--accent); }
+    .back-link{display:inline-block;margin-top:14px;padding:8px 12px;border:1px solid var(--border);border-radius:8px;color:var(--text);text-decoration:none;background:#111318;}
+    .back-link:hover{border-color:var(--accent);color:var(--accent);} 
+  </style>
+</head>
+<body>
+  <main class="container">
+    <div class="topbar">
+      <div class="brand">Site officiel — {{NOM_OFFICIEL}} (valeur actuelle : Aero Club de l'Ex-Saint-Michel)</div>
+      <nav aria-label="Navigation légale">
+        <a href="mentions-legales.html">Mentions légales</a>
+        <a href="confidentialite.html">Confidentialité</a>
+        <a href="cookies.html">Cookies</a>
+        <a href="cgu.html">CGU</a>
+      </nav>
+    </div>
+
+    <a class="back-link" href="index.html">← Retour au site</a>
+
+    <h1>Mentions légales</h1>
+    <span class="badge">Dernière mise à jour : {{DATE_MAJ}}</span>
+
+    <section class="card">
+      <h2>Éditeur du site</h2>
+      <p>
+        Le présent site est édité par l'association loi 1901 <strong>{{NOM_OFFICIEL}}</strong>
+        (valeur actuelle : <strong>Aero Club de l'Ex-Saint-Michel</strong>),
+        dont le siège social est situé à <strong>{{ADRESSE_SIEGE}}</strong>.
+      </p>
+      <ul>
+        <li>SIREN / SIRET : <strong>{{SIREN}}</strong></li>
+        <li>Email de contact : <a href="mailto:apamgestion@gmail.com">apamgestion@gmail.com</a></li>
+        <li>Directeur de la publication : <strong>Frédéric Rognier</strong></li>
+        <li>Webmaster : <strong>Pierre Cauvin</strong></li>
+      </ul>
+    </section>
+
+    <section class="card">
+      <h2>Hébergement</h2>
+      <p>
+        Le site est hébergé par <strong>GitHub, Inc.</strong>, 88 Colin P Kelly Jr St,
+        San Francisco, CA 94107, USA.
+      </p>
+    </section>
+
+    <section class="card">
+      <h2>Propriété intellectuelle</h2>
+      <p>
+        L'ensemble des contenus présents sur ce site (textes, logos, photos, documents, charte graphique,
+        éléments sonores ou vidéo) est protégé par le droit de la propriété intellectuelle.
+        Sauf mention contraire, ces contenus sont la propriété de l'association ou utilisés avec autorisation.
+      </p>
+      <p>
+        Toute reproduction, représentation, adaptation, diffusion ou exploitation, totale ou partielle,
+        sans autorisation écrite préalable, est interdite.
+      </p>
+    </section>
+
+    <section class="card">
+      <h2>Limitation de responsabilité</h2>
+      <p>
+        L'association s'efforce de fournir des informations fiables et mises à jour. Toutefois, elle ne peut
+        garantir l'exactitude, la complétude ou l'actualité de l'ensemble des contenus publiés.
+      </p>
+      <p>
+        L'utilisation des informations du site se fait sous la seule responsabilité de l'utilisateur.
+        L'association ne pourra être tenue responsable de dommages directs ou indirects liés à l'accès
+        ou à l'utilisation du site.
+      </p>
+    </section>
+
+    <section class="card">
+      <h2>Liens externes</h2>
+      <p>
+        Le site peut contenir des liens vers des sites tiers. L'association n'exerce aucun contrôle sur
+        ces sites et décline toute responsabilité quant à leur contenu ou leur politique de confidentialité.
+      </p>
+    </section>
+
+    <footer>
+      <div class="footer-links">
+              <a href="mailto:contact@apam.fr">contact@apam.fr</a>
+              <a href="https://www.facebook.com/profile.php?id=61585663567523" target="_blank" rel="noopener noreferrer">Facebook</a>
+              <a href="https://www.instagram.com/apam_lfol?igsh=MTVnbjRtNHppMWwwcA%3D%3D&utm_source=qr" target="_blank" rel="noopener noreferrer">Instagram</a>
+              <a href="mentions-legales.html">Mentions légales</a>
+              <a href="confidentialite.html">Confidentialité</a>
+              <a href="cookies.html">Cookies</a>
+              <a href="cgu.html">CGU</a>
+            </div>
+      <p class="muted footer-credit">Site conçu par Pierre Cauvin.</p>
+    </footer>
+  </main>
+  <script>
+    window.COOKIE_CONSENT_CONFIG = { gaMeasurementId: '{{GA_MEASUREMENT_ID}}' };
+  </script>
+  <script src="assets/cookie-consent.js" defer></script>
+</body>
+</html>
