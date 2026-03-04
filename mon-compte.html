@@ -562,7 +562,7 @@
     </header>
 
       <main>
-        <div class="wrap" data-access-api="https://script.google.com/macros/s/AKfycbxmzpzMhv5wEaSajCkNYu6bpQbqwkb7klq029Yjo_3KNKMmyTtNdSEF_R0vgAUK9_-9/exec" data-login-url="connexion-membres.html">
+        <div class="wrap" data-access-api="https://script.google.com/macros/s/AKfycbxmzpzMhv5wEaSajCkNYu6bpQbqwkb7klq029Yjo_3KNKMmyTtNdSEF_R0vgAUK9_-9/exec" data-login-url="connexion-membres-password.html">
           <section class="hero">
             <div>
               <span class="hero-kicker">✈ Espace personnel APAM</span>
@@ -659,7 +659,7 @@
     }
 
     function redirectToLogin(){
-      const loginUrl = accessContainer?.dataset.loginUrl?.trim() || 'connexion-membres.html';
+      const loginUrl = accessContainer?.dataset.loginUrl?.trim() || 'connexion-membres-password.html';
       const next = encodeURIComponent(window.location.pathname.split('/').pop() || 'mon-compte.html');
       window.location.href = `${loginUrl}?next=${next}`;
     }
