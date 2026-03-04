@@ -124,23 +124,38 @@
 
       setStatus('Envoi de votre demande en cours...');
       const { confirmPassword, ...apiPayload } = payload;
-      try {
+
+      const postSignup = async (body, contentType) => {
         const res = await fetch(apiUrl, {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(apiPayload)
+          headers: { 'Content-Type': contentType },
+          body
         });
+
         let data = {};
-        const contentType = String(res.headers.get('content-type') || '').toLowerCase();
-        if (contentType.includes('application/json')) {
+        const responseType = String(res.headers.get('content-type') || '').toLowerCase();
+        if (responseType.includes('application/json')) {
           data = await res.json();
         } else {
           const rawText = await res.text();
           data = { ok: false, error: rawText || 'invalid_response' };
         }
 
-        if (!res.ok) {
-          if (res.status === 401 || res.status === 403) {
+        return { res, data };
+      };
+
+      try {
+        // 1) Format JSON en requête CORS simple (sans preflight OPTIONS).
+        let result = await postSignup(JSON.stringify(apiPayload), 'text/plain;charset=utf-8');
+
+        // 2) Fallback compatibilité : certains scripts Apps Script lisent e.parameter (form-urlencoded).
+        if (result.res.ok && !result.data.ok && ['invalid_action', 'missing_signup_fields', 'invalid_response'].includes(String(result.data.error || ''))) {
+          const encoded = new URLSearchParams(apiPayload).toString();
+          result = await postSignup(encoded, 'application/x-www-form-urlencoded;charset=utf-8');
+        }
+
+        if (!result.res.ok) {
+          if (result.res.status === 401 || result.res.status === 403) {
             setStatus('Accès refusé par Apps Script (403). Vérifiez le déploiement Web App : accès "Toute personne ayant le lien".');
             return;
           }
@@ -148,8 +163,8 @@
           return;
         }
 
-        if (!data.ok){
-          if (data.error === 'email_exists'){
+        if (!result.data.ok){
+          if (result.data.error === 'email_exists'){
             setStatus('Cet email est déjà inscrit. Contactez le club si nécessaire.');
             return;
           }
@@ -161,7 +176,6 @@
         setStatus('Demande enregistrée. Le club validera vos accès et vous pourrez ensuite vous connecter.');
       } catch (error) {
         // Fallback anti-CORS : on envoie quand même la demande sans lire la réponse.
-        // Utile quand le Web App est bien déployé mais ne renvoie pas les en-têtes CORS.
         try {
           await fetch(apiUrl, {
             method: 'POST',
