@@ -3,6 +3,7 @@ const CONFIG = {
   SESSIONS_SHEET: 'sessions',
   AUDIT_SHEET: 'audit',
   BASE_URL_PROPERTY: 'APP_BASE_URL',
+  LOGIN_URL_PROPERTY: 'APP_LOGIN_URL',
   SECRET_PROPERTY: 'APP_SECRET',
   MAGIC_LINK_TTL_MINUTES: 15,
   SESSION_TTL_MINUTES: 60 * 12,
@@ -33,7 +34,60 @@ function onOpen() {
     .createMenu('Espace Membres')
     .addItem('Vérifier structure users/sessions/audit', 'adminEnsureSheets')
     .addItem('Pré-créer membre (nocompt réservé)', 'adminPrecreateMemberPrompt')
+    .addItem('Installer trigger email activation', 'adminInstallActivationEmailTrigger')
     .addToUi();
+}
+
+function onEdit(e) {
+  // Trigger simple : on délègue uniquement à la logique commune.
+  // L'envoi d'email nécessite un trigger installable pour autoriser MailApp.
+  handleActivationStatusEdit_(e);
+}
+
+function onActivationStatusEditInstallable_(e) {
+  // Trigger installable (créé via adminInstallActivationEmailTrigger)
+  // utilisé pour l'envoi d'emails d'activation.
+  handleActivationStatusEdit_(e);
+}
+
+function adminInstallActivationEmailTrigger() {
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  const ui = SpreadsheetApp.getUi();
+  const wantedHandler = 'onActivationStatusEditInstallable_';
+
+  ScriptApp.getProjectTriggers().forEach((trigger) => {
+    if (trigger.getHandlerFunction() === wantedHandler && trigger.getTriggerSourceId() === ss.getId()) {
+      ScriptApp.deleteTrigger(trigger);
+    }
+  });
+
+  ScriptApp.newTrigger(wantedHandler)
+    .forSpreadsheet(ss)
+    .onEdit()
+    .create();
+
+  ui.alert('Trigger installé. Les emails seront envoyés automatiquement quand users.active passe à OUI.');
+}
+
+function handleActivationStatusEdit_(e) {
+  try {
+    if (!e || !e.range) return;
+    const range = e.range;
+    const sheet = range.getSheet();
+    if (!sheet || sheet.getName() !== CONFIG.USERS_SHEET) return;
+    if (range.getNumRows() !== 1 || range.getNumColumns() !== 1) return;
+    if (range.getColumn() !== USER_COL.ACTIVE + 1) return;
+    if (range.getRow() <= 1) return;
+
+    const newValue = String(e.value || range.getValue() || '').trim().toUpperCase();
+    const oldValue = String(e.oldValue || '').trim().toUpperCase();
+    if (newValue !== 'OUI' || oldValue === 'OUI') return;
+
+    const rowValues = sheet.getRange(range.getRow(), 1, 1, 16).getValues()[0] || [];
+    sendActivationEmail_(rowValues);
+  } catch (err) {
+    writeAudit_('activation_email_error', '', String(err && err.message ? err.message : err));
+  }
 }
 
 function adminEnsureSheets() {
@@ -218,7 +272,7 @@ function handleSignup_(payload) {
         if (!String(values[USER_COL.ACTIVE] || '').trim()) values[USER_COL.ACTIVE] = 'NON';
         users.getRange(reserved.rowNumber, 1, 1, values.length).setValues([values]);
         writeAudit_('signup_claim_memberid', email, 'memberId=' + memberId);
-        return jsonResponse_({ ok: true, message: 'signup_recorded' });
+        return jsonResponse_({ ok: true, message: 'signup_created_claimed_memberid' });
       }
       if (reserved) return jsonResponse_({ ok: false, error: 'nocompt_already_used' });
     }
@@ -244,7 +298,7 @@ function handleSignup_(payload) {
     ]);
 
     writeAudit_('signup_created', email, 'memberId=' + memberId);
-    return jsonResponse_({ ok: true, message: 'signup_recorded' });
+    return jsonResponse_({ ok: true, message: 'signup_pending_validation' });
   } finally {
     lock.releaseLock();
   }
@@ -380,6 +434,7 @@ function handleAdminSetAccess_(payload) {
   if (!target) return jsonResponse_({ ok: false, error: 'NUMERO_INTROUVABLE' });
 
   const values = target.values;
+  const previousActive = String(values[USER_COL.ACTIVE] || '').trim().toUpperCase();
   if (payload.AccessEnabled !== undefined) values[USER_COL.ACTIVE] = toOuiNon_(payload.AccessEnabled);
   if (payload.Status !== undefined) {
     const status = String(payload.Status || '').toUpperCase();
@@ -392,8 +447,52 @@ function handleAdminSetAccess_(payload) {
   getUsersSheet_().getRange(target.rowNumber, 1, 1, values.length).setValues([values]);
   revokeAllSessionsByEmail_(normalizeEmail(values[USER_COL.EMAIL]));
 
+  const currentActive = String(values[USER_COL.ACTIVE] || '').trim().toUpperCase();
+  if (currentActive === 'OUI' && previousActive !== 'OUI') {
+    sendActivationEmail_(values);
+  }
+
   writeAudit_('admin_set_access', normalizeEmail(values[USER_COL.EMAIL]), 'memberId=' + memberId);
   return jsonResponse_({ ok: true });
+}
+
+function sendActivationEmail_(userValues) {
+  const email = normalizeEmail(userValues[USER_COL.EMAIL]);
+  if (!email) return;
+
+  const firstName = String(userValues[USER_COL.PRENOM] || '').trim();
+  const memberId = canonicalizeMemberId(userValues[USER_COL.NOCOMPT]);
+  const loginUrl = getLoginUrl_();
+  const greetingName = firstName || 'membre APAM';
+
+  const body = [
+    'Bonjour ' + greetingName + ',',
+    '',
+    'Votre compte Espace Membres APAM est maintenant actif.',
+    'Vous pouvez vous connecter dès maintenant via :',
+    loginUrl,
+    '',
+    memberId ? ('Numéro membre : ' + memberId) : '',
+    '',
+    'Bons vols,',
+    'APAM'
+  ].filter(Boolean).join('\n');
+
+  MailApp.sendEmail(email, 'Votre compte APAM est maintenant actif', body);
+  writeAudit_('activation_email_sent', email, memberId ? ('memberId=' + memberId) : '');
+}
+
+function getLoginUrl_() {
+  const properties = PropertiesService.getScriptProperties();
+  const explicitLoginUrl = String(properties.getProperty(CONFIG.LOGIN_URL_PROPERTY) || '').trim();
+  if (explicitLoginUrl) return explicitLoginUrl;
+
+  const baseUrl = String(properties.getProperty(CONFIG.BASE_URL_PROPERTY) || '').trim();
+  if (baseUrl) {
+    return baseUrl.replace(/connexion-membres\.html(?:\?.*)?$/i, 'connexion-membres-password.html');
+  }
+
+  return 'https://aeroclubapam.fr/connexion-membres-password.html';
 }
 
 function requireSession_(sessionToken) {
