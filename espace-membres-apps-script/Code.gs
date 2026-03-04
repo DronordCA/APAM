@@ -81,10 +81,28 @@ function adminPrecreateMemberPrompt() {
   }
 }
 
+function doGet(e) {
+  try {
+    const params = (e && e.parameter) ? e.parameter : {};
+    const action = String(params.action || '').trim().toLowerCase();
+
+    if (action === 'me') return handleMe_(params);
+    if (action === 'health' || !action) return jsonResponse_({ ok: true, status: 'up' });
+
+    return jsonResponse_({ ok: false, error: 'ACTION_INVALIDE' });
+  } catch (err) {
+    return jsonResponse_({ ok: false, error: 'ERREUR_SERVEUR', message: String(err.message || err) });
+  }
+}
+
 function doPost(e) {
   try {
     const payload = parseJson_(e);
     const action = String(payload.action || '').trim().toLowerCase();
+
+    if (action === 'signup') return handleSignup_(payload);
+    if (action === 'login') return handleLogin_(payload);
+    if (action === 'logout') return handleLogout_(payload);
 
     if (action === 'register') return handleRegister_(payload);
     if (action === 'request_magic_link') return handleRequestMagicLink_(payload);
@@ -159,6 +177,129 @@ function handleRegister_(payload) {
   }
 }
 
+function handleSignup_(payload) {
+  const firstName = String(payload.prenom || payload.firstName || '').trim();
+  const lastName = String(payload.nom || payload.lastName || '').trim();
+  const email = normalizeEmail(payload.email);
+  const phone = String(payload.telephone || payload.phone || '').trim();
+  const profile = String(payload.profil_club || payload.profil_social || '').trim();
+  const password = String(payload.password || '');
+  const memberIdInput = String(payload.nocompt || payload.memberId || '').trim();
+
+  if (!firstName || !lastName || !email || !phone || !profile || !password) {
+    return jsonResponse_({ ok: false, error: 'missing_signup_fields' });
+  }
+  if (password.length < 10) return jsonResponse_({ ok: false, error: 'weak_password' });
+
+  const lock = LockService.getScriptLock();
+  lock.waitLock(30000);
+  try {
+    if (findRowByEmail(email)) return jsonResponse_({ ok: false, error: 'email_exists' });
+
+    const users = getUsersSheet_();
+    const salt = Utilities.getUuid();
+    const passwordHash = hashPassword_(password, salt);
+
+    let memberId = '';
+    if (memberIdInput) {
+      memberId = canonicalizeMemberId(memberIdInput);
+      const reserved = findRowByMemberId(memberId);
+      if (reserved && !normalizeEmail(reserved.values[USER_COL.EMAIL])) {
+        const values = reserved.values;
+        values[USER_COL.EMAIL] = email;
+        values[USER_COL.PASSWORD_HASH] = passwordHash;
+        values[USER_COL.SALT] = salt;
+        values[USER_COL.ROLE] = values[USER_COL.ROLE] || 'member';
+        values[USER_COL.PRENOM] = firstName;
+        values[USER_COL.NOM] = lastName;
+        values[USER_COL.TELEPHONE] = phone;
+        values[USER_COL.PROFIL_SOCIAL] = profile;
+        values[USER_COL.CREATED_AT] = values[USER_COL.CREATED_AT] || nowISO();
+        if (!String(values[USER_COL.ACTIVE] || '').trim()) values[USER_COL.ACTIVE] = 'NON';
+        users.getRange(reserved.rowNumber, 1, 1, values.length).setValues([values]);
+        writeAudit_('signup_claim_memberid', email, 'memberId=' + memberId);
+        return jsonResponse_({ ok: true, message: 'signup_recorded' });
+      }
+      if (reserved) return jsonResponse_({ ok: false, error: 'nocompt_already_used' });
+    }
+
+    if (!memberId) memberId = generateMemberId();
+    users.appendRow([
+      email,
+      passwordHash,
+      salt,
+      'member',
+      firstName,
+      lastName,
+      phone,
+      memberId,
+      profile,
+      nowISO(),
+      'NON',
+      'NON',
+      'NON',
+      'NON',
+      'NON',
+      'NON',
+    ]);
+
+    writeAudit_('signup_created', email, 'memberId=' + memberId);
+    return jsonResponse_({ ok: true, message: 'signup_recorded' });
+  } finally {
+    lock.releaseLock();
+  }
+}
+
+function handleLogin_(payload) {
+  const email = normalizeEmail(payload.email);
+  const password = String(payload.password || '');
+  if (!email || !password) return jsonResponse_({ ok: false, error: 'missing_credentials' });
+
+  const user = findRowByEmail(email);
+  if (!user || String(user.values[USER_COL.ACTIVE] || '').toUpperCase() !== 'OUI') {
+    writeAudit_('login_failed', email, 'unknown_or_inactive');
+    return jsonResponse_({ ok: false, error: 'invalid_credentials' });
+  }
+
+  const salt = String(user.values[USER_COL.SALT] || '');
+  const expected = String(user.values[USER_COL.PASSWORD_HASH] || '');
+  const computed = hashPassword_(password, salt);
+  if (!expected || !constantTimeEquals_(computed, expected)) {
+    writeAudit_('login_failed', email, 'password_mismatch');
+    return jsonResponse_({ ok: false, error: 'invalid_credentials' });
+  }
+
+  const memberId = canonicalizeMemberId(user.values[USER_COL.NOCOMPT]);
+  const sessionToken = signJWTLikeToken({
+    typ: 'session',
+    eml: email,
+    mid: memberId,
+    role: String(user.values[USER_COL.ROLE] || 'member'),
+    exp: Math.floor(Date.now() / 1000) + CONFIG.SESSION_TTL_MINUTES * 60,
+  });
+
+  createSession_(hashToken(sessionToken), email, CONFIG.SESSION_TTL_MINUTES, 'SESSION');
+  writeAudit_('login_success', email, 'memberId=' + memberId);
+
+  return jsonResponse_({
+    ok: true,
+    token: sessionToken,
+    sessionToken: sessionToken,
+    email: email,
+    role: String(user.values[USER_COL.ROLE] || 'member'),
+  });
+}
+
+function handleLogout_(payload) {
+  const sessionToken = String(payload.sessionToken || payload.token || '').trim();
+  if (!sessionToken) return jsonResponse_({ ok: false, error: 'missing_token' });
+
+  const session = findSessionByHash_(hashToken(sessionToken), 'SESSION');
+  if (session) revokeSessionRow_(session.rowNumber);
+  return jsonResponse_({ ok: true });
+}
+
+
 function handleRequestMagicLink_(payload) {
   const email = normalizeEmail(payload.email);
   if (!email) return jsonResponse_({ ok: true });
@@ -209,7 +350,19 @@ function handleMe_(payload) {
   const sessionToken = String(payload.sessionToken || payload.token || '').trim();
   const auth = requireSession_(sessionToken);
   if (!auth.ok) return jsonResponse_({ ok: false, error: auth.error });
-  return jsonResponse_({ ok: true, profile: buildProfile_(auth.user.values) });
+
+  const profile = buildProfile_(auth.user.values);
+  return jsonResponse_({
+    ok: true,
+    profile: profile,
+    email: profile.email,
+    prenom: profile.firstName,
+    nom: profile.lastName,
+    member_id: profile.MemberID,
+    member_number: profile.MemberID,
+    permissions: profile.permissions || [],
+    role: profile.Role,
+  });
 }
 
 function handleAdminSetAccess_(payload) {
@@ -362,6 +515,14 @@ function hashToken(token) {
   const bytes = Utilities.computeDigest(Utilities.DigestAlgorithm.SHA_256, token, Utilities.Charset.UTF_8);
   return bytesToHex_(bytes);
 }
+
+
+function hashPassword_(password, salt) {
+  const source = String(salt || '') + ':' + String(password || '');
+  const bytes = Utilities.computeDigest(Utilities.DigestAlgorithm.SHA_256, source, Utilities.Charset.UTF_8);
+  return bytesToHex_(bytes);
+}
+
 
 function signJWTLikeToken(payloadObj) {
   const header = { alg: 'HS256', typ: 'JWT' };
