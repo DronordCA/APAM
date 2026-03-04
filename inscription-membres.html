@@ -26,7 +26,7 @@
   </style>
 </head>
 <body>
-  <main class="panel" data-access-api="https://script.google.com/macros/s/AKfycbwVc1EnaOTtncej1XhvzgaGsaW4mkcGB9wfdGqnAHP13fqgByvPooyjgK8apODqgDtn/exec">
+  <main class="panel" data-access-api="https://script.google.com/macros/s/AKfycbwWyHp6gNoRXP_JUCoFhe4Tc73fa6weO9tf2gyc_FtxnoiB9Iq5lcKszJ95xLP3SAg8/exec">
     <h1>Inscription membres</h1>
     <p>Formulaire interne APAM : votre demande crée un compte en attente de validation dans le Google Sheet. Une fois vos espaces validés, vous pourrez vous connecter.</p>
 
@@ -48,8 +48,8 @@
         <input id="telephone" name="telephone" type="tel" autocomplete="tel" required />
       </div>
       <div>
-        <label for="licence">Numéro licence (optionnel)</label>
-        <input id="licence" name="licence" type="text" />
+        <label for="nocompt">NOCOMPT (numéro de compte, optionnel)</label>
+        <input id="nocompt" name="nocompt" type="text" />
       </div>
       <div>
         <label for="profilClub">Qui êtes-vous dans le club ?</label>
@@ -101,7 +101,7 @@
         nom: String(form.nom.value || '').trim(),
         email: String(form.email.value || '').trim().toLowerCase(),
         telephone: String(form.telephone.value || '').trim(),
-        licence: String(form.licence.value || '').trim(),
+        nocompt: String(form.nocompt.value || '').trim(),
         profil_club: String(form.profilClub.value || '').trim(),
         password: String(form.password.value || ''),
         confirmPassword: String(form.confirmPassword.value || '')
@@ -153,11 +153,20 @@
             setStatus('Cet email est déjà inscrit. Contactez le club si nécessaire.');
             return;
           }
+          if (data.error === 'nocompt_unavailable'){
+            setStatus('Ce numéro de compte est déjà utilisé. Vérifiez le numéro saisi ou contactez le club.');
+            return;
+          }
           setStatus('Demande refusée. Merci de vérifier vos informations.');
           return;
         }
 
+        const assignedNocompt = String(data.nocompt || '').trim();
         form.reset();
+        if (assignedNocompt) {
+          setStatus(`Demande enregistrée. Votre numéro de compte est ${assignedNocompt}. Le club validera vos accès.`);
+          return;
+        }
         setStatus('Demande enregistrée. Le club validera vos accès et vous pourrez ensuite vous connecter.');
       } catch (error) {
         // Fallback anti-CORS : on envoie quand même la demande sans lire la réponse.
