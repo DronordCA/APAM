@@ -6,42 +6,448 @@
   <title>APAM – Flotte</title>
   <link rel="stylesheet" href="assets/hangar-intro.css" />
   <style>
+    :root {
+      --bg: #111318;
+      --panel: #1b1f27;
+      --panel-2: #22293a;
+      --text: #f2f4f7;
+      --muted: #b9c1cf;
+      --accent: #4ca6ff;
+      --accent-2: #8bd2ff;
+      --ok: #44d2a8;
+    }
+
     body {
       margin: 0;
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background: #111318;
-      color: #f2f4f7;
+      background: radial-gradient(circle at top, #1b2130 0%, var(--bg) 52%);
+      color: var(--text);
+      min-height: 100vh;
     }
+
     main {
-      max-width: 960px;
+      max-width: 1020px;
       margin: 0 auto;
       padding: 4rem 1.2rem 5rem;
     }
-    h1 { margin-bottom: 1rem; }
+
+    h1 {
+      margin-bottom: .5rem;
+      letter-spacing: .01em;
+    }
+
+    .intro {
+      color: var(--muted);
+      margin-bottom: 2rem;
+      max-width: 56ch;
+    }
+
     .cards {
       display: grid;
       gap: 1rem;
-      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
     }
+
     .card {
-      background: #1b1f27;
-      border: 1px solid rgba(255,255,255,.09);
-      border-radius: 12px;
+      position: relative;
+      overflow: hidden;
+      background: linear-gradient(145deg, rgba(44, 53, 74, .92), rgba(21, 26, 36, .95));
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: 16px;
+      padding: 1.1rem;
+      cursor: pointer;
+      transition: transform .26s ease, border-color .26s ease, box-shadow .26s ease;
+    }
+
+    .card::after {
+      content: "";
+      position: absolute;
+      inset: auto -20% -45% -20%;
+      height: 108px;
+      background: radial-gradient(circle, rgba(76, 166, 255, .35), transparent 62%);
+      opacity: 0;
+      transition: opacity .24s ease;
+      pointer-events: none;
+    }
+
+    .card:hover,
+    .card:focus-visible {
+      transform: translateY(-5px);
+      border-color: rgba(139, 210, 255, .7);
+      box-shadow: 0 16px 40px rgba(0, 0, 0, .3);
+      outline: none;
+    }
+
+    .card:hover::after,
+    .card:focus-visible::after {
+      opacity: 1;
+    }
+
+    .card p {
+      color: var(--muted);
+      margin: .25rem 0 0;
+    }
+
+    .card-tag {
+      display: inline-flex;
+      font-size: .72rem;
+      font-weight: 700;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+      color: #061324;
+      background: linear-gradient(90deg, var(--accent), var(--accent-2));
+      border-radius: 999px;
+      padding: .2rem .56rem;
+      margin-bottom: .6rem;
+    }
+
+    .modal {
+      position: fixed;
+      inset: 0;
+      display: grid;
+      place-items: center;
       padding: 1rem;
+      background: rgba(4, 8, 13, .74);
+      backdrop-filter: blur(8px);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .24s ease;
+      z-index: 30;
+    }
+
+    .modal.is-open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .sheet {
+      width: min(780px, 100%);
+      background: linear-gradient(158deg, rgba(36, 43, 60, .98), rgba(18, 23, 34, .98));
+      border: 1px solid rgba(255,255,255,.12);
+      border-radius: 18px;
+      box-shadow: 0 28px 78px rgba(0,0,0,.5);
+      transform: translateY(10px) scale(.98);
+      transition: transform .3s ease;
+      overflow: hidden;
+    }
+
+    .modal.is-open .sheet {
+      transform: translateY(0) scale(1);
+    }
+
+    .sheet-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: .8rem;
+      padding: 1.2rem 1.2rem 1rem;
+      border-bottom: 1px solid rgba(255,255,255,.08);
+      background: linear-gradient(180deg, rgba(255,255,255,.04), transparent);
+    }
+
+    .sheet-title-wrap p {
+      margin: .25rem 0 0;
+      color: var(--muted);
+    }
+
+    .close-btn {
+      border: 1px solid rgba(255,255,255,.15);
+      color: var(--text);
+      background: rgba(255,255,255,.06);
+      border-radius: 10px;
+      width: 2rem;
+      height: 2rem;
+      cursor: pointer;
+    }
+
+    .tabs {
+      display: flex;
+      gap: .5rem;
+      padding: .9rem 1.2rem;
+      border-bottom: 1px solid rgba(255,255,255,.08);
+      flex-wrap: wrap;
+    }
+
+    .tab {
+      border: 1px solid rgba(255,255,255,.14);
+      color: var(--text);
+      background: rgba(255,255,255,.05);
+      border-radius: 999px;
+      padding: .4rem .8rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all .2s ease;
+    }
+
+    .tab:hover,
+    .tab:focus-visible {
+      border-color: rgba(139, 210, 255, .7);
+      transform: translateY(-1px);
+      outline: none;
+    }
+
+    .tab.is-active {
+      color: #031425;
+      border-color: transparent;
+      background: linear-gradient(90deg, var(--accent), var(--accent-2));
+    }
+
+    .panel-wrap {
+      padding: 1.1rem 1.2rem 1.2rem;
+    }
+
+    .panel {
+      display: none;
+      animation: fadeIn .24s ease;
+    }
+
+    .panel.is-active {
+      display: block;
+    }
+
+    .tech-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: .75rem;
+      margin-top: .9rem;
+    }
+
+    .metric {
+      background: rgba(255,255,255,.05);
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: 12px;
+      padding: .72rem;
+    }
+
+    .metric span {
+      display: block;
+    }
+
+    .metric .label {
+      color: #95a2ba;
+      font-size: .75rem;
+      text-transform: uppercase;
+      letter-spacing: .04em;
+      margin-bottom: .25rem;
+    }
+
+    .metric .value {
+      color: #f2f6ff;
+      font-weight: 700;
+    }
+
+    .tarif {
+      display: grid;
+      gap: .6rem;
+      margin-top: .8rem;
+    }
+
+    .tarif-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(255,255,255,.04);
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: 12px;
+      padding: .75rem .8rem;
+    }
+
+    .tarif-row strong {
+      color: var(--ok);
+      font-size: 1.02rem;
+    }
+
+    .contact {
+      display: grid;
+      gap: .75rem;
+      margin-top: .7rem;
+    }
+
+    .contact-card {
+      background: rgba(255,255,255,.04);
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: 12px;
+      padding: .8rem;
+    }
+
+    .contact a {
+      color: #a9dcff;
+      text-decoration: none;
+    }
+
+    .contact a:hover {
+      text-decoration: underline;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        transition: none !important;
+        animation: none !important;
+      }
     }
   </style>
 </head>
 <body>
   <main>
     <h1>Notre flotte</h1>
-    <p>Découvre nos avions école et voyage.</p>
+    <p class="intro">Découvre nos avions école et voyage. Clique sur une carte pour afficher une fiche technique complète, les tarifs et les infos contact.</p>
     <section class="cards">
-      <article class="card"><h2>DR400</h2><p>Avion d'initiation polyvalent.</p></article>
-      <article class="card"><h2>PA-28</h2><p>Confortable pour les navigations.</p></article>
-      <article class="card"><h2>C152</h2><p>Classique pour la formation.</p></article>
+      <article class="card" tabindex="0" data-name="DR400" data-desc="Monomoteur idéal pour débuter et progresser en voyage VFR. Très apprécié pour sa visibilité et sa prise en main." data-speed="110 kt" data-range="430 NM" data-engine="Lycoming O-360" data-fuel="36 L/h" data-price-dual="175 €/h" data-price-solo="152 €/h" data-price-pack="Pack nav 5h : 730 €" data-contact-person="Secrétariat APAM" data-contact-phone="+33 4 00 00 00 00" data-contact-mail="contact@apam.fr">
+        <span class="card-tag">École & voyage</span>
+        <h2>DR400</h2>
+        <p>Avion d'initiation polyvalent.</p>
+      </article>
+      <article class="card" tabindex="0" data-name="PA-28" data-desc="Cabine confortable pour les navigations longues avec une excellente stabilité en instruction et en voyage." data-speed="118 kt" data-range="520 NM" data-engine="Lycoming O-320" data-fuel="34 L/h" data-price-dual="182 €/h" data-price-solo="160 €/h" data-price-pack="Pack week-end : 890 €" data-contact-person="Pôle navigation" data-contact-phone="+33 4 00 00 00 01" data-contact-mail="navigation@apam.fr">
+        <span class="card-tag">Navigation</span>
+        <h2>PA-28</h2>
+        <p>Confortable pour les navigations.</p>
+      </article>
+      <article class="card" tabindex="0" data-name="C152" data-desc="Le classique des premières heures de vol : économique, sain et parfait pour apprendre les fondamentaux du pilotage." data-speed="95 kt" data-range="350 NM" data-engine="Lycoming O-235" data-fuel="24 L/h" data-price-dual="148 €/h" data-price-solo="128 €/h" data-price-pack="Pack lâcher 10h : 1 190 €" data-contact-person="Coordination instruction" data-contact-phone="+33 4 00 00 00 02" data-contact-mail="instruction@apam.fr">
+        <span class="card-tag">Formation</span>
+        <h2>C152</h2>
+        <p>Classique pour la formation.</p>
+      </article>
     </section>
   </main>
 
+  <section class="modal" id="planeModal" aria-hidden="true">
+    <article class="sheet" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <header class="sheet-header">
+        <div class="sheet-title-wrap">
+          <h2 id="modalTitle">Avion</h2>
+          <p id="modalDesc"></p>
+        </div>
+        <button class="close-btn" id="closeModal" aria-label="Fermer">✕</button>
+      </header>
+
+      <nav class="tabs" aria-label="Sections fiche avion">
+        <button class="tab is-active" data-panel="tech">Fiche technique</button>
+        <button class="tab" data-panel="tarif">Tarif</button>
+        <button class="tab" data-panel="contact">Contact</button>
+      </nav>
+
+      <div class="panel-wrap">
+        <section class="panel is-active" id="panel-tech">
+          <div class="tech-grid">
+            <div class="metric"><span class="label">Vitesse croisière</span><span class="value" id="modalSpeed"></span></div>
+            <div class="metric"><span class="label">Autonomie</span><span class="value" id="modalRange"></span></div>
+            <div class="metric"><span class="label">Moteur</span><span class="value" id="modalEngine"></span></div>
+            <div class="metric"><span class="label">Conso moyenne</span><span class="value" id="modalFuel"></span></div>
+          </div>
+        </section>
+
+        <section class="panel" id="panel-tarif">
+          <div class="tarif">
+            <div class="tarif-row"><span>Vol avec instructeur</span><strong id="modalPriceDual"></strong></div>
+            <div class="tarif-row"><span>Vol solo</span><strong id="modalPriceSolo"></strong></div>
+            <div class="tarif-row"><span>Offre pack</span><strong id="modalPricePack"></strong></div>
+          </div>
+        </section>
+
+        <section class="panel" id="panel-contact">
+          <div class="contact">
+            <div class="contact-card">
+              <strong id="modalContactPerson"></strong>
+              <p>Notre équipe te répond pour réserver, planifier une nav ou préparer ta formation.</p>
+            </div>
+            <div class="contact-card">Téléphone : <a id="modalPhone" href="#"></a></div>
+            <div class="contact-card">Email : <a id="modalMail" href="#"></a></div>
+          </div>
+        </section>
+      </div>
+    </article>
+  </section>
+
   <script src="assets/hangar-intro.js" defer></script>
+  <script>
+    (() => {
+      const modal = document.getElementById('planeModal');
+      const closeBtn = document.getElementById('closeModal');
+      const title = document.getElementById('modalTitle');
+      const desc = document.getElementById('modalDesc');
+      const speed = document.getElementById('modalSpeed');
+      const range = document.getElementById('modalRange');
+      const engine = document.getElementById('modalEngine');
+      const fuel = document.getElementById('modalFuel');
+      const priceDual = document.getElementById('modalPriceDual');
+      const priceSolo = document.getElementById('modalPriceSolo');
+      const pricePack = document.getElementById('modalPricePack');
+      const contactPerson = document.getElementById('modalContactPerson');
+      const phone = document.getElementById('modalPhone');
+      const mail = document.getElementById('modalMail');
+
+      let lastTrigger = null;
+
+      const setActivePanel = (panelName) => {
+        document.querySelectorAll('.tab').forEach((tab) => {
+          tab.classList.toggle('is-active', tab.dataset.panel === panelName);
+        });
+
+        document.querySelectorAll('.panel').forEach((panel) => {
+          panel.classList.toggle('is-active', panel.id === `panel-${panelName}`);
+        });
+      };
+
+      const openModal = (card) => {
+        title.textContent = card.dataset.name || 'Avion';
+        desc.textContent = card.dataset.desc || '';
+        speed.textContent = card.dataset.speed || 'N/A';
+        range.textContent = card.dataset.range || 'N/A';
+        engine.textContent = card.dataset.engine || 'N/A';
+        fuel.textContent = card.dataset.fuel || 'N/A';
+        priceDual.textContent = card.dataset.priceDual || 'N/A';
+        priceSolo.textContent = card.dataset.priceSolo || 'N/A';
+        pricePack.textContent = card.dataset.pricePack || 'N/A';
+        contactPerson.textContent = card.dataset.contactPerson || 'Équipe APAM';
+        phone.textContent = card.dataset.contactPhone || 'N/A';
+        phone.href = `tel:${(card.dataset.contactPhone || '').replace(/\s+/g, '')}`;
+        mail.textContent = card.dataset.contactMail || 'N/A';
+        mail.href = `mailto:${card.dataset.contactMail || ''}`;
+
+        setActivePanel('tech');
+        modal.classList.add('is-open');
+        modal.setAttribute('aria-hidden', 'false');
+        lastTrigger = card;
+      };
+
+      const closeModal = () => {
+        modal.classList.remove('is-open');
+        modal.setAttribute('aria-hidden', 'true');
+        if (lastTrigger) {
+          lastTrigger.focus();
+        }
+      };
+
+      document.querySelectorAll('.card').forEach((card) => {
+        card.addEventListener('click', () => openModal(card));
+        card.addEventListener('keydown', (event) => {
+          if (event.key === 'Enter' || event.key === ' ') {
+            event.preventDefault();
+            openModal(card);
+          }
+        });
+      });
+
+      document.querySelectorAll('.tab').forEach((tab) => {
+        tab.addEventListener('click', () => setActivePanel(tab.dataset.panel));
+      });
+
+      closeBtn.addEventListener('click', closeModal);
+      modal.addEventListener('click', (event) => {
+        if (event.target === modal) closeModal();
+      });
+
+      document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape' && modal.classList.contains('is-open')) {
+          closeModal();
+        }
+      });
+    })();
+  </script>
 </body>
 </html>
