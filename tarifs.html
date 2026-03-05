@@ -328,7 +328,7 @@
       align-items:center;
       justify-content:space-between;
       gap:10px;
-      padding:10px 4px 2px;
+      padding:12px 14px 10px;
       text-decoration:none;
       color: rgba(255,255,255,0.88);
       font-family:"Swiss911", sans-serif;
@@ -336,6 +336,17 @@
       font-size:20px;
       letter-spacing:-0.02em;
       font-style: italic;
+      border:1px solid rgba(255,255,255,0.16);
+      border-radius:999px;
+      background: linear-gradient(110deg, rgba(255,255,255,0.10), rgba(255,255,255,0.02));
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.22), 0 10px 20px rgba(0,0,0,0.22);
+      transition: border-color .2s ease, background .2s ease, transform .2s ease, box-shadow .2s ease;
+    }
+    .fleet-cta a:hover{
+      border-color: rgba(255,255,255,0.30);
+      background: linear-gradient(110deg, rgba(255,255,255,0.14), rgba(255,255,255,0.04));
+      transform: translateY(-1px);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.30), 0 14px 24px rgba(0,0,0,0.28);
     }
     .fleet-cta a .cta-chev{
       width:10px;height:10px;
@@ -937,8 +948,8 @@
     }
 
     .modal-tab{
-      border:0;
-      background:transparent;
+      border:1px solid rgba(255,255,255,0.12);
+      background: linear-gradient(128deg, rgba(255,255,255,0.08), rgba(255,255,255,0.015));
       color: rgba(255,255,255,0.82);
       cursor:pointer;
       font-family:"Swiss911", sans-serif;
@@ -946,14 +957,24 @@
       font-size:26px;
       letter-spacing:-0.02em;
       font-style: italic;
-      transform: skewX(-6deg);
-      padding:10px 10px 8px;
-      border-bottom:2px solid transparent;
+      padding:10px 14px 8px;
+      border-radius:999px;
       white-space:nowrap;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.14), 0 4px 10px rgba(0,0,0,0.22);
+      transition: color .2s ease, border-color .2s ease, background .2s ease, transform .2s ease, box-shadow .2s ease;
+    }
+    .modal-tab:hover{
+      color:#fff;
+      border-color: rgba(255,255,255,0.28);
+      background: linear-gradient(128deg, rgba(255,255,255,0.12), rgba(255,255,255,0.03));
+      transform: translateY(-1px);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.24), 0 10px 16px rgba(0,0,0,0.28);
     }
     .modal-tab.is-active{
       color:#fff;
-      border-color: rgba(47,107,255,0.9);
+      border-color: rgba(196,204,224,0.5);
+      background: linear-gradient(125deg, rgba(255,255,255,0.16), rgba(65,74,96,0.28));
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.3), 0 12px 22px rgba(0,0,0,0.34);
     }
 
     .modal-close{
@@ -1183,18 +1204,26 @@
     }
     .field textarea{ min-height:130px; resize:vertical; }
     .send-btn{
-      border:2px solid rgba(255,255,255,0.78);
-      background:#000;
+      border:1px solid rgba(224,230,245,0.62);
+      background: linear-gradient(128deg, rgba(255,255,255,0.15), rgba(24,29,43,0.94));
       color:#fff;
       font-family:"Swiss911", sans-serif;
       text-transform:uppercase;
       font-size:26px;
       letter-spacing:-0.02em;
       font-style: italic;
-      transform: skewX(-6deg);
-      padding:10px 12px 8px;
+      padding:10px 14px 8px;
       cursor:pointer;
       align-self:flex-start;
+      border-radius:999px;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.3), 0 12px 22px rgba(0,0,0,0.32);
+      transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease, background .2s ease;
+    }
+    .send-btn:hover{
+      border-color: rgba(255,255,255,0.84);
+      background: linear-gradient(128deg, rgba(255,255,255,0.2), rgba(30,38,56,0.96));
+      transform: translateY(-1px);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.4), 0 16px 28px rgba(0,0,0,0.4);
     }
 
     /* =============================== */
