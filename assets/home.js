@@ -50,10 +50,45 @@
     });
   }
 
+  const counterNodes = Array.from(document.querySelectorAll('[data-counter-target]'));
+  let countersStarted = false;
+
+  const formatCounterValue = (value, suffix = '') => {
+    const rounded = Math.round(value);
+    return `${rounded.toLocaleString('fr-FR')}${suffix}`;
+  };
+
+  const runCounters = () => {
+    if (countersStarted) return;
+    countersStarted = true;
+
+    const duration = reducedMotion ? 0 : 1300;
+    const startTime = performance.now();
+
+    const tick = (now) => {
+      const progress = duration === 0 ? 1 : Math.min((now - startTime) / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+
+      counterNodes.forEach((node) => {
+        const target = Number(node.getAttribute('data-counter-target') || 0);
+        const suffix = node.getAttribute('data-counter-suffix') || '';
+        const current = target * eased;
+        node.textContent = formatCounterValue(current, suffix);
+      });
+
+      if (progress < 1) {
+        window.requestAnimationFrame(tick);
+      }
+    };
+
+    window.requestAnimationFrame(tick);
+  };
+
   const revealItems = document.querySelectorAll('.reveal-on-scroll');
   if (reducedMotion) {
     revealItems.forEach((item) => item.classList.add('is-visible'));
     revealQuote();
+    runCounters();
     return;
   }
 
@@ -61,9 +96,15 @@
     entries.forEach((entry) => {
       if (!entry.isIntersecting) return;
       entry.target.classList.add('is-visible');
+
       if (entry.target.id === 'citation-club') {
         revealQuote();
       }
+
+      if (entry.target.id === 'chiffres-club') {
+        runCounters();
+      }
+
       observer.unobserve(entry.target);
     });
   }, { threshold: 0.16 });
