@@ -3,6 +3,7 @@
   --home-surface: #101010;
   --home-border: rgba(255, 255, 255, 0.12);
   --home-text-soft: rgba(255, 255, 255, 0.8);
+  --apam-blue: #2f6bff;
 }
 
 .hero-scroll-indicator {
@@ -145,18 +146,26 @@
   padding: 8px 0;
 }
 
+#histoire p,
+#histoire .section-intro,
+#histoire .history-timeline span,
+#histoire .location-note {
+  color: #000;
+}
 
 
 .numbers-hero {
   margin-top: 6px;
   margin-bottom: 10px;
   min-height: 180px;
+  max-height: 420px;
+  overflow: hidden;
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 14px;
   text-align: center;
   transform-origin: top center;
-  transition: transform 1s cubic-bezier(.16, 1, .3, 1), opacity 0.9s ease;
+  transition: transform 1s cubic-bezier(.16, 1, .3, 1), opacity 0.9s ease, max-height 0.55s ease, margin-bottom 0.55s ease;
 }
 
 .numbers-hero__item {
@@ -187,9 +196,17 @@
   transition: transform 0.85s cubic-bezier(.16, 1, .3, 1), opacity 0.65s ease;
 }
 
+.stats-grid--intro .stat-card {
+  background: linear-gradient(160deg, rgba(47, 107, 255, 0.25), rgba(47, 107, 255, 0.08));
+  border-color: rgba(47, 107, 255, 0.55);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.28);
+}
+
 #chiffres-club.is-compact .numbers-hero {
-  transform: translateY(-12px) scale(0.55);
+  transform: translateY(-26px) scale(0.45);
   opacity: 0;
+  max-height: 0;
+  margin-bottom: 0;
   pointer-events: none;
 }
 
@@ -321,6 +338,27 @@
   background: transparent;
   color: #fff;
   border-color: rgba(255, 255, 255, 0.55);
+}
+
+.home-btn:hover,
+.home-btn:focus-visible {
+  background: var(--apam-blue);
+  border-color: var(--apam-blue);
+  color: #fff;
+}
+
+.home-btn--ghost:hover,
+.home-btn--ghost:focus-visible {
+  background: var(--apam-blue);
+  border-color: var(--apam-blue);
+  color: #fff;
+}
+
+.final-cta .home-btn,
+.final-cta .home-btn--ghost {
+  background: var(--apam-blue);
+  border-color: var(--apam-blue);
+  color: #fff;
 }
 
 .location-card {

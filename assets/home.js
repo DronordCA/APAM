@@ -52,7 +52,7 @@
     return new Intl.NumberFormat('fr-FR').format(Math.round(value));
   }
 
-  function animateCount(el, { duration = 1100 } = {}) {
+  function animateCount(el, { duration = 1800 } = {}) {
     const target = Number(el.dataset.target || 0);
     if (!Number.isFinite(target)) return;
     if (reducedMotion) {
@@ -125,7 +125,7 @@
     };
 
     const runNumbersExperience = () => {
-      heroCountEls.forEach((heroEl) => animateCount(heroEl, { duration: 1350 }));
+      heroCountEls.forEach((heroEl) => animateCount(heroEl, { duration: 2300 }));
 
       if (reducedMotion) {
         numbersSection.classList.add('is-compact');
