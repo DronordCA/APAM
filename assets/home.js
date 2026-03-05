@@ -62,7 +62,7 @@
     if (countersStarted) return;
     countersStarted = true;
 
-    const duration = reducedMotion ? 0 : 1300;
+    const duration = reducedMotion ? 0 : 2100;
     const startTime = performance.now();
 
     const tick = (now) => {
