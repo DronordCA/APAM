@@ -1031,54 +1031,19 @@
       </div>
     </a>
 
-    <button class="hero-scroll-indicator" type="button" aria-label="Descendre vers les chiffres du club" data-scroll-target="#chiffres-club">
+    <button class="hero-scroll-indicator" type="button" aria-label="Descendre vers la citation du club" data-scroll-target="#citation-club">
       <span aria-hidden="true"></span>
     </button>
 
   </div>
 
   <main class="home-main">
-    <section class="home-section home-section--numbers reveal-on-scroll" id="chiffres-club" aria-labelledby="chiffres-title">
+    <section class="home-section home-section--numbers reveal-on-scroll" id="citation-club" aria-label="Citation d’Antoine de Saint-Exupéry">
       <div class="home-container">
-        <p class="home-kicker">Aéroclub APAM</p>
-        <h2 id="chiffres-title">Chiffres du club</h2>
-        <p class="section-intro">Quelques repères clés pour visualiser la dynamique du club au quotidien.</p>
-        <div class="numbers-hero" aria-hidden="true">
-          <article class="numbers-hero__item">
-            <p class="numbers-hero__label">Membres actifs</p>
-            <p class="numbers-hero__value js-count-hero" data-counter-key="members" data-target="120" data-suffix="+">120+</p>
-          </article>
-          <article class="numbers-hero__item">
-            <p class="numbers-hero__label">Avions</p>
-            <p class="numbers-hero__value js-count-hero" data-counter-key="aircraft" data-target="3">3</p>
-          </article>
-          <article class="numbers-hero__item">
-            <p class="numbers-hero__label">Heures de vol / an</p>
-            <p class="numbers-hero__value js-count-hero" data-counter-key="hours" data-target="2300" data-suffix=" h">2300 h</p>
-          </article>
-          <article class="numbers-hero__item">
-            <p class="numbers-hero__label">Années d’existence</p>
-            <p class="numbers-hero__value js-count-hero" data-counter-key="years" data-target="65" data-suffix="+">65+</p>
-          </article>
-        </div>
-        <div class="stats-grid stats-grid--intro">
-          <article class="stat-card">
-            <p class="stat-value js-count" data-counter-key="members" data-target="120" data-count-type="members" data-suffix="+">120</p>
-            <p class="stat-label">Membres actifs</p>
-          </article>
-          <article class="stat-card">
-            <p class="stat-value js-count" data-counter-key="aircraft" data-target="3">3</p>
-            <p class="stat-label">Avions</p>
-          </article>
-          <article class="stat-card">
-            <p class="stat-value js-count" data-counter-key="hours" data-target="2300" data-suffix=" h">2300 h</p>
-            <p class="stat-label">Heures de vol / an</p>
-          </article>
-          <article class="stat-card">
-            <p class="stat-value js-count" data-counter-key="years" data-target="65" data-suffix="+">65+</p>
-            <p class="stat-label">Années d’existence</p>
-          </article>
-        </div>
+        <blockquote class="club-quote club-quote--hero">
+          <p class="club-quote__text" data-quote-typing>Je vole parce que cela libère mon esprit de la tyrannie des petites choses.</p>
+          <cite>Antoine de Saint-Exupéry</cite>
+        </blockquote>
       </div>
     </section>
 
@@ -1105,7 +1070,7 @@
           <p class="home-kicker">LFOL</p>
           <h2 id="localisation-title">Localisation — Voler en Normandie</h2>
           <p>Basé à L’Aigle Saint-Michel, le club offre un terrain idéal pour découvrir la Normandie vue du ciel, entre campagne, vallées et axes de navigation variés.</p>
-          <p class="location-note">Aérodrome de L’Aigle Saint-Michel, 61300 Saint-Sulpice-sur-Risle</p>
+          <p class="location-note station-appear">Aérodrome de L’Aigle Saint-Michel, 61300 Saint-Sulpice-sur-Risle</p>
           <div class="home-actions">
             <a class="home-btn" id="plan-link" target="_blank" rel="noopener noreferrer">Plan</a>
             <a class="home-btn home-btn--ghost" id="google-link" target="_blank" rel="noopener noreferrer">Google Maps</a>
@@ -1119,6 +1084,32 @@
             <img src="https://source.unsplash.com/featured/1200x800/?mont-saint-michel" alt="Mont Saint-Michel vu depuis la baie" loading="lazy" decoding="async" referrerpolicy="no-referrer">
           </figure>
         </aside>
+      </div>
+    </section>
+
+    <section class="home-section home-section--numbers reveal-on-scroll" id="chiffres-club" aria-labelledby="chiffres-title">
+      <div class="home-container">
+        <p class="home-kicker">Aéroclub APAM</p>
+        <h2 id="chiffres-title">Chiffres du club</h2>
+        <p class="section-intro">Quelques repères clés pour visualiser la dynamique du club au quotidien.</p>
+        <div class="stats-grid stats-grid--intro">
+          <article class="stat-card">
+            <p class="stat-value">120+</p>
+            <p class="stat-label">Membres actifs</p>
+          </article>
+          <article class="stat-card">
+            <p class="stat-value">3</p>
+            <p class="stat-label">Avions</p>
+          </article>
+          <article class="stat-card">
+            <p class="stat-value">2300 h</p>
+            <p class="stat-label">Heures de vol / an</p>
+          </article>
+          <article class="stat-card">
+            <p class="stat-value">65+</p>
+            <p class="stat-label">Années d’existence</p>
+          </article>
+        </div>
       </div>
     </section>
 
