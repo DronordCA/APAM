@@ -1042,25 +1042,40 @@
       <div class="home-container">
         <p class="home-kicker">Aéroclub APAM</p>
         <h2 id="chiffres-title">Chiffres du club</h2>
+        <p class="section-intro">Quelques repères clés pour visualiser la dynamique du club au quotidien.</p>
         <div class="numbers-hero" aria-hidden="true">
-          <p class="numbers-hero__label">Membres actifs</p>
-          <p class="numbers-hero__value js-count-hero" data-target="120" data-suffix="+">120+</p>
+          <article class="numbers-hero__item">
+            <p class="numbers-hero__label">Membres actifs</p>
+            <p class="numbers-hero__value js-count-hero" data-counter-key="members" data-target="120" data-suffix="+">120+</p>
+          </article>
+          <article class="numbers-hero__item">
+            <p class="numbers-hero__label">Avions</p>
+            <p class="numbers-hero__value js-count-hero" data-counter-key="aircraft" data-target="3">3</p>
+          </article>
+          <article class="numbers-hero__item">
+            <p class="numbers-hero__label">Heures de vol / an</p>
+            <p class="numbers-hero__value js-count-hero" data-counter-key="hours" data-target="2300" data-suffix=" h">2300 h</p>
+          </article>
+          <article class="numbers-hero__item">
+            <p class="numbers-hero__label">Années d’existence</p>
+            <p class="numbers-hero__value js-count-hero" data-counter-key="years" data-target="65" data-suffix="+">65+</p>
+          </article>
         </div>
         <div class="stats-grid stats-grid--intro">
           <article class="stat-card">
-            <p class="stat-value js-count" data-target="120" data-count-type="members" data-suffix="+">120</p>
+            <p class="stat-value js-count" data-counter-key="members" data-target="120" data-count-type="members" data-suffix="+">120</p>
             <p class="stat-label">Membres actifs</p>
           </article>
           <article class="stat-card">
-            <p class="stat-value js-count" data-target="3">3</p>
+            <p class="stat-value js-count" data-counter-key="aircraft" data-target="3">3</p>
             <p class="stat-label">Avions</p>
           </article>
           <article class="stat-card">
-            <p class="stat-value js-count" data-target="2300" data-suffix=" h">2300 h</p>
+            <p class="stat-value js-count" data-counter-key="hours" data-target="2300" data-suffix=" h">2300 h</p>
             <p class="stat-label">Heures de vol / an</p>
           </article>
           <article class="stat-card">
-            <p class="stat-value stat-value--text">Depuis 1960</p>
+            <p class="stat-value js-count" data-counter-key="years" data-target="65" data-suffix="+">65+</p>
             <p class="stat-label">Années d’existence</p>
           </article>
         </div>
@@ -1072,13 +1087,11 @@
         <div>
           <p class="home-kicker">Notre ADN</p>
           <h2 id="histoire-title">L’histoire du club</h2>
-          <p>L’Aéroclub APAM fait vivre l’aviation légère à L’Aigle Saint-Michel en réunissant des passionnés, des élèves pilotes et des pilotes confirmés autour d’un même objectif : voler avec rigueur et plaisir.</p>
-          <p>Au fil des années, le club s’est structuré pour proposer une formation solide, des activités régulières et une vraie dynamique associative tournée vers l’avenir.</p>
-          <ul class="history-timeline">
-            <li><strong>Fondation</strong><span>1960 – Création de l’association et premiers vols.</span></li>
-            <li><strong>Développement</strong><span>1985 – Renforcement de la flotte et de la formation.</span></li>
-            <li><strong>Aujourd’hui</strong><span>Une communauté active au service de l’aviation en Normandie.</span></li>
-          </ul>
+          <p>Né de la passion de quelques pilotes locaux, le club s’est construit autour d’un esprit simple : partager le plaisir du vol, transmettre les bons réflexes et garder une ambiance conviviale sur le terrain.</p>
+          <p>Entre briefing café du matin, tours de piste au coucher du soleil et week-ends d’escapade en Normandie, l’APAM raconte une histoire d’aviation accessible, exigeante et profondément humaine.</p>
+          <div class="home-actions">
+            <a class="home-btn" href="#">En savoir plus</a>
+          </div>
         </div>
         <figure class="history-media">
           <img src="assets/images/image1.png" alt="Archives et vie du club APAM" loading="lazy" decoding="async">
@@ -1103,7 +1116,7 @@
           <h3>Normandie — Mont Saint-Michel</h3>
           <p>Un symbole de la région, entre lumière, marées et patrimoine : une destination iconique à découvrir depuis notre base.</p>
           <figure class="location-media">
-            <img src="https://source.unsplash.com/1200x800/?mont-saint-michel,sunset" alt="Mont Saint-Michel au coucher de soleil" loading="lazy" decoding="async" referrerpolicy="no-referrer">
+            <img src="https://source.unsplash.com/featured/1200x800/?mont-saint-michel" alt="Mont Saint-Michel vu depuis la baie" loading="lazy" decoding="async" referrerpolicy="no-referrer">
           </figure>
         </aside>
       </div>
