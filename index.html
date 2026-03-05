@@ -8,6 +8,7 @@
   <link rel="icon" type="image/png" sizes="32x32" href="assets/images/apam-logo2.png" />
   <link rel="shortcut icon" href="assets/images/apam-logo2.png" />
   <link rel="stylesheet" href="assets/home.css" />
+  <link rel="stylesheet" href="assets/propeller.css" />
 
   <style>
     /* =============================== */
@@ -1031,11 +1032,81 @@
       </div>
     </a>
 
-    <button class="hero-scroll-indicator" type="button" aria-label="Descendre vers les chiffres du club" data-scroll-target="#chiffres-club">
+    <button class="hero-scroll-indicator" type="button" aria-label="Descendre vers l’expérience APAM" data-scroll-target="#experience">
       <span aria-hidden="true"></span>
     </button>
 
   </div>
+
+  <section id="experience" aria-label="Propeller sections">
+    <div class="propeller-overlay" aria-hidden="true">
+      <div class="propeller-svg-wrap">
+        <svg id="propeller-svg" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Hélice tripale APAM">
+          <defs>
+            <linearGradient id="bladeGradient" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#a5abb2" stop-opacity="0.92"/>
+              <stop offset="100%" stop-color="#1c1f24" stop-opacity="0.96"/>
+            </linearGradient>
+          </defs>
+          <g id="propeller-rotor">
+            <g fill="url(#bladeGradient)" opacity="0.88">
+              <path d="M200 200 C210 112 233 56 286 44 C311 39 324 56 317 78 C297 141 251 181 200 200 Z"/>
+              <path d="M200 200 C130 254 85 292 27 280 C5 275 -2 252 10 233 C43 181 117 177 200 200 Z" transform="rotate(120 200 200)"/>
+              <path d="M200 200 C130 254 85 292 27 280 C5 275 -2 252 10 233 C43 181 117 177 200 200 Z" transform="rotate(240 200 200)"/>
+            </g>
+            <circle cx="200" cy="200" r="24" fill="#0f1115" opacity="0.95"/>
+            <circle cx="200" cy="200" r="10" fill="#8f959d" opacity="0.85"/>
+          </g>
+        </svg>
+      </div>
+      <div class="propeller-copy is-entering" aria-live="polite">
+        <div class="propeller-zone zone-top"></div>
+        <div class="propeller-zone zone-left"></div>
+        <div class="propeller-zone zone-right"></div>
+        <div class="propeller-zone zone-bottom"></div>
+      </div>
+    </div>
+
+    <section class="slide" data-slide="0">
+      <div class="slide-zones">
+        <div class="zone zone-top"><h2>Chiffres du club</h2><p>Des repères clairs pour découvrir l’activité APAM.</p></div>
+        <div class="zone zone-left"><ul class="propeller-metrics"><li>Avions : <strong>3</strong></li><li>Heures/an : <strong>2300</strong></li></ul></div>
+        <div class="zone zone-right"><ul class="propeller-metrics"><li>Membres : <strong>120</strong></li><li>Depuis : <strong>19XX</strong></li></ul></div>
+        <div class="zone zone-bottom"><p>Formation, voyages et vie associative toute l’année.</p></div>
+      </div>
+    </section>
+
+    <section class="slide" data-slide="1">
+      <div class="slide-zones">
+        <div class="zone zone-top"><h2>Histoire du club</h2><p>Un héritage aéronautique local transmis de génération en génération.</p></div>
+        <div class="zone zone-left"><p>Des débuts associatifs passionnés, autour de la formation et du partage.</p></div>
+        <div class="zone zone-right"><p>Une flotte et une pédagogie qui ont évolué avec les besoins des pilotes.</p></div>
+        <div class="zone zone-bottom"><p>Aujourd’hui : une communauté active tournée vers l’avenir.</p></div>
+      </div>
+    </section>
+
+    <section class="slide" data-slide="2">
+      <div class="slide-zones">
+        <div class="zone zone-top"><h2>Vie du club</h2><p>Des vols, des sorties, des échanges et une vraie dynamique associative.</p></div>
+        <div class="zone zone-left"><p>Élèves, pilotes privés et passionnés se retrouvent autour d’objectifs communs.</p></div>
+        <div class="zone zone-right"><p>Briefings, sécurité, progression : chaque activité renforce la cohésion.</p></div>
+        <div class="zone zone-bottom"><p>APAM, c’est voler sérieusement sans perdre le plaisir.</p></div>
+      </div>
+    </section>
+
+    <section class="slide" data-slide="3">
+      <div class="slide-zones">
+        <div class="zone zone-top"><h2>Localisation / Voler en Normandie</h2><p>Aérodrome de L’Aigle Saint-Michel (LFOL).</p></div>
+        <div class="zone zone-left"><p>Coordonnées : <strong>48.761111, 0.655556</strong></p></div>
+        <div class="zone zone-right"><p>Accès rapide aux vallées, campagnes et itinéraires emblématiques normands.</p></div>
+        <div class="zone zone-bottom"><div class="propeller-actions"><a class="propeller-btn" href="https://maps.apple.com/?ll=48.761111,0.655556" target="_blank" rel="noopener noreferrer">Apple Plans</a><a class="propeller-btn" href="https://www.google.com/maps/search/?api=1&query=48.761111,0.655556" target="_blank" rel="noopener noreferrer">Google Maps</a><a class="propeller-btn" href="https://waze.com/ul?ll=48.761111,0.655556&navigate=yes" target="_blank" rel="noopener noreferrer">Waze</a></div></div>
+      </div>
+    </section>
+
+    <div class="propeller-nav">
+      <button class="propeller-arrow" type="button" aria-label="Aller à la slide suivante">↓</button>
+    </div>
+  </section>
 
   <main class="home-main">
     <section class="home-section home-section--numbers reveal-on-scroll" id="chiffres-club" aria-labelledby="chiffres-title">
@@ -1123,6 +1194,7 @@
     </section>
   </main>
 
+
     <!-- ============ FOOTER ============ -->
     <footer class="site-footer">
       <div class="footer-inline">
@@ -1199,6 +1271,7 @@
   </script>
 
   <script src="assets/home.js" defer></script>
+  <script src="assets/propeller.js" defer></script>
 
   <script>
     window.COOKIE_CONSENT_CONFIG = window.COOKIE_CONSENT_CONFIG || { gaMeasurementId: "{{GA_MEASUREMENT_ID}}" };
