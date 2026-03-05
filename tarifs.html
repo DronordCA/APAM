@@ -1785,7 +1785,7 @@
         const openEl = e.target.closest('[data-open]');
         if(openEl){
           e.preventDefault();
-          openModal(openEl.dataset.open);
+          window.location.href = `flotte.html?plane=${encodeURIComponent(openEl.dataset.open)}`;
           return;
         }
         const closeEl = e.target.closest('[data-close]');
