@@ -54,6 +54,49 @@
 
 .home-section {
   padding: 88px 0;
+  background: #050505;
+  color: #fff;
+}
+
+.home-section--light {
+  background: #fff;
+  color: #060606;
+}
+
+.home-section--light .home-kicker {
+  color: rgba(0, 0, 0, 0.58);
+}
+
+.home-section--light .section-intro,
+.home-section--light p,
+.home-section--light .history-timeline span,
+.home-section--light .location-note {
+  color: rgba(0, 0, 0, 0.78);
+}
+
+.home-section--light .history-timeline li {
+  border-left-color: rgba(47, 107, 255, 0.45);
+}
+
+.home-section--light .history-media img {
+  border-color: rgba(0, 0, 0, 0.16);
+}
+
+.home-section--light .home-btn {
+  color: #fff;
+  background: #0a0a0a;
+  border-color: #0a0a0a;
+}
+
+.home-section--light .home-btn--ghost {
+  color: #0a0a0a;
+  border-color: rgba(0, 0, 0, 0.45);
+  background: transparent;
+}
+
+.home-section--dark {
+  background: #050505;
+  color: #fff;
 }
 
 .home-kicker {
@@ -231,6 +274,24 @@
   padding: 0 0 72px;
 }
 
+.final-cta--light {
+  background: #fff;
+  color: #060606;
+  padding: 88px 0 72px;
+}
+
+.final-cta--light .home-btn {
+  color: #fff;
+  background: #0a0a0a;
+  border-color: #0a0a0a;
+}
+
+.final-cta--light .home-btn--ghost {
+  color: #0a0a0a;
+  border-color: rgba(0, 0, 0, 0.45);
+  background: transparent;
+}
+
 .final-cta__inner {
   background: linear-gradient(135deg, rgba(47, 107, 255, 0.18), rgba(255, 255, 255, 0.06));
   border: 1px solid var(--home-border);
@@ -240,6 +301,11 @@
   align-items: center;
   justify-content: space-between;
   gap: 24px;
+}
+
+.final-cta--light .final-cta__inner {
+  background: linear-gradient(135deg, rgba(47, 107, 255, 0.16), rgba(0, 0, 0, 0.05));
+  border-color: rgba(0, 0, 0, 0.18);
 }
 
 .reveal-on-scroll {
