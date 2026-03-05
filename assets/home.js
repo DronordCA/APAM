@@ -24,8 +24,7 @@
   const links = {
     'plan-link': `https://maps.apple.com/?daddr=${locationString}`,
     'google-link': `https://www.google.com/maps/dir/?api=1&destination=${locationString}`,
-    'waze-link': `https://waze.com/ul?ll=${locationString}&navigate=yes`,
-    'map-image-link': `https://www.google.com/maps/dir/?api=1&destination=${locationString}`
+    'waze-link': `https://waze.com/ul?ll=${locationString}&navigate=yes`
   };
   Object.entries(links).forEach(([id, href]) => {
     const element = document.getElementById(id);
@@ -53,7 +52,7 @@
     return new Intl.NumberFormat('fr-FR').format(Math.round(value));
   }
 
-  function animateCount(el) {
+  function animateCount(el, { duration = 1100 } = {}) {
     const target = Number(el.dataset.target || 0);
     if (!Number.isFinite(target)) return;
     if (reducedMotion) {
@@ -61,7 +60,6 @@
       return;
     }
 
-    const duration = 1100;
     const start = performance.now();
 
     const step = (now) => {
@@ -102,19 +100,45 @@
     const numbersSection = document.getElementById('chiffres-club');
     if (!numbersSection) return;
 
+    const membersEl = document.querySelector('.js-count[data-count-type="members"]');
+    const heroCountEl = numbersSection.querySelector('.js-count-hero');
+    if (membersEl && heroCountEl) {
+      heroCountEl.dataset.target = membersEl.dataset.target || String(CONFIG.MEMBERS_COUNT_FALLBACK);
+      heroCountEl.dataset.suffix = membersEl.dataset.suffix || '+';
+      heroCountEl.textContent = `${formatCount(Number(heroCountEl.dataset.target || 0))}${heroCountEl.dataset.suffix || ''}`;
+    }
+
     const runCounters = () => {
       countEls.forEach((el) => animateCount(el));
     };
 
+    const runNumbersExperience = () => {
+      if (heroCountEl) animateCount(heroCountEl, { duration: 1350 });
+
+      if (reducedMotion) {
+        numbersSection.classList.add('is-compact');
+        runCounters();
+        return;
+      }
+
+      window.setTimeout(() => {
+        numbersSection.classList.add('is-compact');
+      }, 500);
+
+      window.setTimeout(() => {
+        runCounters();
+      }, 820);
+    };
+
     if (reducedMotion) {
-      runCounters();
+      runNumbersExperience();
       return;
     }
 
     const countObserver = new IntersectionObserver((entries, observer) => {
       entries.forEach((entry) => {
         if (!entry.isIntersecting) return;
-        runCounters();
+        runNumbersExperience();
         observer.disconnect();
       });
     }, { threshold: 0.35 });
