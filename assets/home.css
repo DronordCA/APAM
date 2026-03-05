@@ -197,7 +197,7 @@
 }
 
 .stats-grid--intro .stat-card {
-  background: linear-gradient(160deg, rgba(47, 107, 255, 0.25), rgba(47, 107, 255, 0.08));
+  background: transparent;
   border-color: rgba(47, 107, 255, 0.55);
   box-shadow: 0 10px 24px rgba(0, 0, 0, 0.28);
 }
@@ -221,10 +221,23 @@
 #chiffres-club.is-compact .stats-grid--intro .stat-card:nth-child(4) { transition-delay: 300ms; }
 
 .stats-grid {
-  margin-top: 14px;
+  margin-top: 12px;
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 16px;
+}
+
+#localisation .home-actions .home-btn {
+  background: transparent;
+  color: #fff;
+  border-color: rgba(47, 107, 255, 0.75);
+}
+
+#localisation .home-actions .home-btn:hover,
+#localisation .home-actions .home-btn:focus-visible {
+  background: var(--apam-blue);
+  border-color: var(--apam-blue);
+  color: #fff;
 }
 
 .stat-card {
