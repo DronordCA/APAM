@@ -66,7 +66,7 @@
     }
 
     body {
-      background: #000;
+      background: #1a1a1a;
       color: #fff;
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 
@@ -85,7 +85,7 @@
       height: 100svh;
       min-height: 100vh;
 
-      background: #000;
+      background: #1a1a1a;
       overflow: hidden;
     }
 
@@ -1042,7 +1042,11 @@
       <div class="home-container">
         <p class="home-kicker">Aéroclub APAM</p>
         <h2 id="chiffres-title">Chiffres du club</h2>
-        <div class="stats-grid">
+        <div class="numbers-hero" aria-hidden="true">
+          <p class="numbers-hero__label">Membres actifs</p>
+          <p class="numbers-hero__value js-count-hero" data-target="120" data-suffix="+">120+</p>
+        </div>
+        <div class="stats-grid stats-grid--intro">
           <article class="stat-card">
             <p class="stat-value js-count" data-target="120" data-count-type="members" data-suffix="+">120</p>
             <p class="stat-label">Membres actifs</p>
@@ -1096,12 +1100,11 @@
           </div>
         </div>
         <aside class="location-card">
-          <h3>LFOL — venir au club</h3>
-          <p>Coordonnées : 48.761111, 0.655556</p>
-          <p>Préparez votre trajet, puis retrouvez-nous directement au terrain pour votre briefing.</p>
-          <a class="map-placeholder" id="map-image-link" target="_blank" rel="noopener noreferrer" aria-label="Ouvrir l'itinéraire Google Maps">Ouvrir l’itinéraire</a>
-          <!-- Option iframe Google Maps (désactivée pour limiter les cookies) -->
-          <!-- <iframe src="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe> -->
+          <h3>Normandie — Mont Saint-Michel</h3>
+          <p>Un symbole de la région, entre lumière, marées et patrimoine : une destination iconique à découvrir depuis notre base.</p>
+          <figure class="location-media">
+            <img src="https://source.unsplash.com/1200x800/?mont-saint-michel,sunset" alt="Mont Saint-Michel au coucher de soleil" loading="lazy" decoding="async" referrerpolicy="no-referrer">
+          </figure>
         </aside>
       </div>
     </section>
