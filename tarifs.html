@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8" />
-  <title>APAM – Flotte</title>
+  <title>APAM – Tarifs flotte</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link rel="icon" type="image/png" sizes="32x32" href="assets/images/apam-logo2.png" />
   <link rel="shortcut icon" href="assets/images/apam-logo2.png" />
@@ -825,22 +825,35 @@
     .modal-backdrop::before{
       content:"";
       position:absolute; inset:0;
-      opacity:.65;
+      opacity:.92;
       background:
-        linear-gradient(var(--gridline) 1px, transparent 1px),
-        linear-gradient(90deg, var(--gridline) 1px, transparent 1px);
-      background-size: 64px 64px;
-      background-position: center;
+        radial-gradient(circle at 18% 22%, rgba(120,170,255,0.20) 0%, rgba(120,170,255,0) 40%),
+        radial-gradient(circle at 82% 14%, rgba(255,255,255,0.10) 0%, rgba(255,255,255,0) 36%),
+        radial-gradient(circle at 50% 78%, rgba(66,114,214,0.24) 0%, rgba(66,114,214,0) 44%),
+        linear-gradient(145deg, rgba(7,12,22,0.96), rgba(3,6,12,0.98));
+    }
+    .modal-backdrop::after{
+      content:"";
+      position:absolute; inset:0;
+      background:
+        linear-gradient(120deg, rgba(255,255,255,0.06), transparent 24%),
+        radial-gradient(circle at 30% 60%, rgba(255,255,255,0.07) 0%, rgba(255,255,255,0) 55%);
+      mix-blend-mode: screen;
+      opacity:.35;
+      pointer-events:none;
     }
 
     .modal-panel{
       position:relative;
       width:min(1120px,100%);
       height:min(720px,100%);
-      background: var(--modal-panel);
-      border:1px solid rgba(255,255,255,0.10);
-      box-shadow:0 40px 110px rgba(0,0,0,0.62);
+      background:
+        linear-gradient(160deg, rgba(18,22,34,0.96) 0%, rgba(9,12,20,0.98) 100%),
+        radial-gradient(circle at 92% -18%, rgba(79,143,255,0.20), transparent 48%);
+      border:1px solid rgba(255,255,255,0.14);
+      box-shadow:0 42px 120px rgba(0,0,0,0.66);
       overflow:hidden;
+      border-radius: 18px;
       transform: translate3d(0,18px,0);
       filter: blur(6px);
       opacity:0;
@@ -849,13 +862,13 @@
     .modal.is-open .modal-panel{ transform:none; filter:none; opacity:1; }
 
     .modal-topbar{
-      height:72px;
+      height:76px;
       display:flex;
       align-items:center;
       justify-content:space-between;
       padding:0 18px;
-      border-bottom:1px solid rgba(255,255,255,0.10);
-      background: rgba(0,0,0,0.55);
+      border-bottom:1px solid rgba(255,255,255,0.12);
+      background: linear-gradient(180deg, rgba(10,15,27,0.82), rgba(0,0,0,0.42));
       backdrop-filter: blur(10px);
       position:relative;
     }
@@ -884,10 +897,14 @@
     .modal-nav{
       display:flex;
       align-items:center;
-      gap:14px;
+      gap:8px;
       margin-left:18px;
       flex-wrap:nowrap;
       overflow:hidden;
+      border:1px solid rgba(255,255,255,0.14);
+      background: rgba(5,10,18,0.60);
+      border-radius: 999px;
+      padding: 4px;
     }
 
     .modal-tab{
@@ -897,28 +914,35 @@
       cursor:pointer;
       font-family:"Swiss911", sans-serif;
       text-transform:uppercase;
-      font-size:26px;
+      font-size:24px;
       letter-spacing:-0.02em;
       font-style: italic;
       transform: skewX(-6deg);
-      padding:10px 10px 8px;
-      border-bottom:2px solid transparent;
+      padding:9px 14px 8px;
+      border-radius: 999px;
+      border-bottom:0;
       white-space:nowrap;
+      transition: background .22s ease, color .22s ease;
     }
+    .modal-tab:hover{ background: rgba(79,143,255,0.16); color:#fff; }
     .modal-tab.is-active{
       color:#fff;
-      border-color: rgba(47,107,255,0.9);
+      background: linear-gradient(120deg, rgba(79,143,255,0.95), rgba(58,114,255,0.88));
+      box-shadow: 0 8px 18px rgba(47,107,255,0.32);
     }
 
     .modal-close{
-      width:56px;height:56px;
-      background:#fff;
-      border:0;
+      width:50px;height:50px;
+      background: rgba(255,255,255,0.96);
+      border:1px solid rgba(255,255,255,0.20);
       cursor:pointer;
       box-shadow:0 10px 18px rgba(0,0,0,0.35);
+      border-radius: 12px;
       position:relative;
       flex:0 0 auto;
+      transition: transform .2s ease, box-shadow .2s ease;
     }
+    .modal-close:hover{ transform: translateY(-1px); box-shadow:0 14px 24px rgba(0,0,0,0.42); }
     .modal-close::before,
     .modal-close::after{
       content:"";
@@ -940,8 +964,8 @@
     }
 
     .hero-left{
-      border:1px solid rgba(255,255,255,0.10);
-      background: rgba(0,0,0,0.35);
+      border:1px solid rgba(255,255,255,0.12);
+      background: linear-gradient(165deg, rgba(5,12,24,0.52), rgba(0,0,0,0.36));
       padding:16px;
       display:flex;
       flex-direction:column;
@@ -1012,6 +1036,38 @@
       word-break: break-word;
     }
 
+    .callout{
+      opacity:0;
+      transform: translateY(10px) scale(.98);
+      transition: opacity .36s ease, transform .42s cubic-bezier(.16,1,.22,1);
+    }
+    .callout.is-in{
+      opacity:1;
+      transform: translateY(0) scale(1);
+    }
+
+    .spec-row.is-hidden{ opacity:0; }
+    .spec-text{
+      display:inline-block;
+      position:relative;
+      min-height:1em;
+    }
+    .spec-text.is-typing::after{
+      content:"";
+      position:absolute;
+      right:-2px;
+      top:.12em;
+      width:2px;
+      height:.95em;
+      background: rgba(255,255,255,.85);
+      animation: caretBlink .8s steps(1,end) infinite;
+    }
+
+    @keyframes caretBlink {
+      0%,49% { opacity:1; }
+      50%,100% { opacity:0; }
+    }
+
     .side{
       display:flex;
       flex-direction:column;
@@ -1019,8 +1075,8 @@
       min-height:0;
     }
     .panel{
-      border:1px solid rgba(255,255,255,0.10);
-      background: rgba(0,0,0,0.35);
+      border:1px solid rgba(255,255,255,0.12);
+      background: linear-gradient(165deg, rgba(255,255,255,0.05), rgba(255,255,255,0.015));
       overflow:hidden;
       min-height:0;
       display:flex;
@@ -1028,8 +1084,8 @@
     }
     .panel-head{
       padding:14px 14px 12px;
-      border-bottom:1px solid rgba(255,255,255,0.10);
-      background: linear-gradient(180deg, rgba(47,107,255,0.22), rgba(0,0,0,0));
+      border-bottom:1px solid rgba(255,255,255,0.12);
+      background: linear-gradient(180deg, rgba(47,107,255,0.30), rgba(0,0,0,0));
     }
     .panel-head h3{
       font-family:"GPMenu", system-ui, sans-serif;
@@ -1346,7 +1402,7 @@
 
       <!-- TITLE -->
       <div class="page-title" id="fleet" aria-label="Titre page">
-        <div class="title-box"><span>FLOTTE</span></div>
+        <div class="title-box"><span>TARIFS FLOTTE</span></div>
       </div>
 
       <!-- GRID -->
@@ -1518,6 +1574,9 @@
           <div class="panel panel-view" data-view="tarifs">
             <div class="panel-head"><h3>TARIFS</h3></div>
             <div class="panel-body" id="mTarifs"></div>
+            <div class="panel-body" style="padding-top:0">
+              <div class="muted">Briefing inclus avant chaque vol • Support planning/météo par l'équipe APAM.</div>
+            </div>
           </div>
 
           <div class="panel panel-view" data-view="contact">
@@ -1537,7 +1596,7 @@
                   <textarea id="cMsg" required placeholder="Votre message…"></textarea>
                 </div>
                 <button class="send-btn" type="submit">ENVOYER</button>
-                <div class="muted">Ouverture via mailto.</div>
+                <div class="muted">Réponse moyenne sous 24h ouvrées. Ouverture via mailto.</div>
               </form>
             </div>
           </div>
@@ -1698,6 +1757,19 @@
 
       const tabs = Array.from(document.querySelectorAll('.modal-tab'));
       const views = Array.from(document.querySelectorAll('.panel-view'));
+      const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      let animationRun = 0;
+      let animationTimers = [];
+
+      const clearAnimationTimers = () => {
+        animationTimers.forEach((timer) => clearTimeout(timer));
+        animationTimers = [];
+      };
+
+      const schedule = (fn, delay) => {
+        const timer = window.setTimeout(fn, delay);
+        animationTimers.push(timer);
+      };
 
       let modalScrollY = 0;
       function lockPage(){
@@ -1747,10 +1819,10 @@
         });
 
         mSpecs.innerHTML = "";
-        d.specs.forEach(s => {
+        d.specs.forEach((spec) => {
           const row = document.createElement('div');
-          row.className = "spec-row";
-          row.innerHTML = `<span class="dot"></span><span>${s}</span>`;
+          row.className = "spec-row is-hidden";
+          row.innerHTML = `<span class="dot"></span><span class="spec-text" data-fulltext="${spec}"></span>`;
           mSpecs.appendChild(row);
         });
         const mut = document.createElement('div');
@@ -1767,15 +1839,70 @@
         });
       }
 
+      function animateCallouts(){
+        const calloutItems = Array.from(mCallouts.querySelectorAll('.callout'));
+        calloutItems.forEach((item, index) => {
+          if(prefersReducedMotion){
+            item.classList.add('is-in');
+            return;
+          }
+          schedule(() => item.classList.add('is-in'), 130 + (index * 150));
+        });
+      }
+
+      function typeSpecLine(node, fullText, speed, runId){
+        let index = 0;
+        node.textContent = '';
+        node.classList.add('is-typing');
+
+        const step = () => {
+          if(runId !== animationRun) return;
+          if(index <= fullText.length){
+            node.textContent = fullText.slice(0, index);
+            index += 1;
+            schedule(step, speed);
+            return;
+          }
+          node.classList.remove('is-typing');
+        };
+
+        step();
+      }
+
+      function animateSpecs(){
+        const rows = Array.from(mSpecs.querySelectorAll('.spec-row'));
+        rows.forEach((row, rowIndex) => {
+          const textNode = row.querySelector('.spec-text');
+          const fullText = textNode?.dataset.fulltext || '';
+
+          if(prefersReducedMotion){
+            row.classList.remove('is-hidden');
+            if(textNode) textNode.textContent = fullText;
+            return;
+          }
+
+          schedule(() => {
+            row.classList.remove('is-hidden');
+            if(textNode) typeSpecLine(textNode, fullText, 16, animationRun);
+          }, 260 + (rowIndex * 260));
+        });
+      }
+
       function openModal(key){
+        animationRun += 1;
+        clearAnimationTimers();
         fillModal(key);
         setActiveTab('tech');
         modal.classList.add('is-open');
         modal.setAttribute('aria-hidden','false');
         lockPage();
+        animateCallouts();
+        animateSpecs();
       }
 
       function closeModal(){
+        animationRun += 1;
+        clearAnimationTimers();
         modal.classList.remove('is-open');
         modal.setAttribute('aria-hidden','true');
         unlockPage();
