@@ -101,19 +101,31 @@
     if (!numbersSection) return;
 
     const membersEl = document.querySelector('.js-count[data-count-type="members"]');
-    const heroCountEl = numbersSection.querySelector('.js-count-hero');
-    if (membersEl && heroCountEl) {
-      heroCountEl.dataset.target = membersEl.dataset.target || String(CONFIG.MEMBERS_COUNT_FALLBACK);
-      heroCountEl.dataset.suffix = membersEl.dataset.suffix || '+';
-      heroCountEl.textContent = `${formatCount(Number(heroCountEl.dataset.target || 0))}${heroCountEl.dataset.suffix || ''}`;
+    const heroCountEls = numbersSection.querySelectorAll('.js-count-hero[data-counter-key]');
+    if (membersEl) {
+      const memberHero = numbersSection.querySelector('.js-count-hero[data-counter-key="members"]');
+      if (memberHero) {
+        memberHero.dataset.target = membersEl.dataset.target || String(CONFIG.MEMBERS_COUNT_FALLBACK);
+        memberHero.dataset.suffix = membersEl.dataset.suffix || '+';
+      }
     }
+
+    heroCountEls.forEach((heroEl) => {
+      const key = heroEl.dataset.counterKey;
+      const matchingCounter = key ? numbersSection.querySelector(`.js-count[data-counter-key="${key}"]`) : null;
+      if (matchingCounter) {
+        heroEl.dataset.target = matchingCounter.dataset.target || '0';
+        heroEl.dataset.suffix = matchingCounter.dataset.suffix || '';
+      }
+      heroEl.textContent = `${formatCount(Number(heroEl.dataset.target || 0))}${heroEl.dataset.suffix || ''}`;
+    });
 
     const runCounters = () => {
       countEls.forEach((el) => animateCount(el));
     };
 
     const runNumbersExperience = () => {
-      if (heroCountEl) animateCount(heroCountEl, { duration: 1350 });
+      heroCountEls.forEach((heroEl) => animateCount(heroEl, { duration: 1350 }));
 
       if (reducedMotion) {
         numbersSection.classList.add('is-compact');
