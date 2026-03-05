@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link rel="icon" type="image/png" sizes="32x32" href="assets/images/apam-logo2.png" />
   <link rel="shortcut icon" href="assets/images/apam-logo2.png" />
+  <link rel="stylesheet" href="assets/home.css" />
 
   <style>
     /* =============================== */
@@ -70,7 +71,7 @@
 
       /* ✅ index plein écran -> pas de scroll vertical parasite */
       overflow-x: hidden;
-      overflow-y: hidden;
+      overflow-y: auto;
     }
 
     /* =============================== */
@@ -547,10 +548,7 @@
     /* FOOTER */
     /* =============================== */
     .site-footer {
-      position: absolute;
-      left: 0;
-      right: 0;
-      bottom: 0;
+      position: relative;
       z-index: 2;
       background: rgba(0, 0, 0, 0.72);
       color: #fff;
@@ -601,7 +599,7 @@
 
       /* IMPORTANT : on remet le scroll normal sur mobile si tu veux */
       body{
-        overflow-y: hidden; /* ✅ index toujours full screen */
+        overflow-y: auto;
       }
 
       /* cacher header desktop */
@@ -1032,6 +1030,120 @@
       </div>
     </a>
 
+    <button class="hero-scroll-indicator" type="button" aria-label="Descendre vers les chiffres du club" data-scroll-target="#chiffres-club">
+      <span aria-hidden="true"></span>
+    </button>
+
+  </div>
+
+  <main class="home-main">
+    <section class="home-section home-section--numbers reveal-on-scroll" id="chiffres-club" aria-labelledby="chiffres-title">
+      <div class="home-container">
+        <p class="home-kicker">Aéroclub APAM</p>
+        <h2 id="chiffres-title">Chiffres du club</h2>
+        <div class="stats-grid">
+          <article class="stat-card">
+            <p class="stat-value js-count" data-target="120" data-count-type="members" data-suffix="+">120</p>
+            <p class="stat-label">Membres actifs</p>
+          </article>
+          <article class="stat-card">
+            <p class="stat-value js-count" data-target="3">3</p>
+            <p class="stat-label">Avions</p>
+          </article>
+          <article class="stat-card">
+            <p class="stat-value js-count" data-target="2300" data-suffix=" h">2300 h</p>
+            <p class="stat-label">Heures de vol / an</p>
+          </article>
+          <article class="stat-card">
+            <p class="stat-value stat-value--text">Depuis {{ANNEE_CREATION}}</p>
+            <p class="stat-label">Années d’existence</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="home-section reveal-on-scroll" id="histoire" aria-labelledby="histoire-title">
+      <div class="home-container split-layout">
+        <div>
+          <p class="home-kicker">Notre ADN</p>
+          <h2 id="histoire-title">L’histoire du club</h2>
+          <p>L’Aéroclub APAM fait vivre l’aviation légère à L’Aigle Saint-Michel en réunissant des passionnés, des élèves pilotes et des pilotes confirmés autour d’un même objectif : voler avec rigueur et plaisir.</p>
+          <p>Au fil des années, le club s’est structuré pour proposer une formation solide, des activités régulières et une vraie dynamique associative tournée vers l’avenir.</p>
+          <ul class="history-timeline">
+            <li><strong>Fondation</strong><span>{{ANNEE_FONDATION}} – Création de l’association et premiers vols.</span></li>
+            <li><strong>Développement</strong><span>{{ANNEE_DEVELOPPEMENT}} – Renforcement de la flotte et de la formation.</span></li>
+            <li><strong>Aujourd’hui</strong><span>Une communauté active au service de l’aviation en Normandie.</span></li>
+          </ul>
+        </div>
+        <figure class="history-media">
+          <img src="assets/home/history.jpg" alt="Archives et vie du club APAM" loading="lazy" decoding="async">
+        </figure>
+      </div>
+    </section>
+
+    <section class="home-section reveal-on-scroll" id="vie-du-club" aria-labelledby="vie-title">
+      <div class="home-container">
+        <p class="home-kicker">Au quotidien</p>
+        <h2 id="vie-title">La vie du club</h2>
+        <p class="section-intro">Briefings, vols locaux, navigations et moments partagés : le club vit toute l’année avec une ambiance conviviale et exigeante.</p>
+        <ul class="highlights-list">
+          <li>Sécurité et briefing systématiques avant chaque départ.</li>
+          <li>Sorties et navigations organisées entre membres.</li>
+          <li>Convivialité, transmission et esprit associatif.</li>
+        </ul>
+        <div class="life-grid">
+          <img src="assets/home/vie-1.jpg" alt="Préparation d’un vol au club" loading="lazy" decoding="async">
+          <img src="assets/home/vie-2.jpg" alt="Équipage et instructeur sur le tarmac" loading="lazy" decoding="async">
+          <img src="assets/home/vie-3.jpg" alt="Avion du club en vol" loading="lazy" decoding="async">
+          <img src="assets/home/vie-4.jpg" alt="Moment convivial après les vols" loading="lazy" decoding="async">
+          <img src="assets/home/vie-5.jpg" alt="Briefing collectif des pilotes" loading="lazy" decoding="async">
+          <img src="assets/home/vie-6.jpg" alt="Aérodrome de L’Aigle Saint-Michel" loading="lazy" decoding="async">
+        </div>
+        <div class="home-actions">
+          <a class="home-btn" href="devenir-pilote.html">Rejoindre le club</a>
+          <a class="home-btn home-btn--ghost" href="contact.html">Faire un vol découverte</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="home-section reveal-on-scroll" id="localisation" aria-labelledby="localisation-title">
+      <div class="home-container split-layout">
+        <div>
+          <p class="home-kicker">LFOL</p>
+          <h2 id="localisation-title">Localisation — Voler en Normandie</h2>
+          <p>Basé à L’Aigle Saint-Michel, le club offre un terrain idéal pour découvrir la Normandie vue du ciel, entre campagne, vallées et axes de navigation variés.</p>
+          <p class="location-note">{{ADRESSE_TERRAIN}}</p>
+          <div class="home-actions">
+            <a class="home-btn" id="plan-link" target="_blank" rel="noopener noreferrer">Plan</a>
+            <a class="home-btn home-btn--ghost" id="google-link" target="_blank" rel="noopener noreferrer">Google Maps</a>
+            <a class="home-btn home-btn--ghost" id="waze-link" target="_blank" rel="noopener noreferrer">Waze</a>
+          </div>
+        </div>
+        <aside class="location-card">
+          <h3>LFOL — venir au club</h3>
+          <p>Coordonnées : 48.761111, 0.655556</p>
+          <p>Préparez votre trajet, puis retrouvez-nous directement au terrain pour votre briefing.</p>
+          <a class="map-placeholder" id="map-image-link" target="_blank" rel="noopener noreferrer" aria-label="Ouvrir l'itinéraire Google Maps">Ouvrir l’itinéraire</a>
+          <!-- Option iframe Google Maps (désactivée pour limiter les cookies) -->
+          <!-- <iframe src="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe> -->
+        </aside>
+      </div>
+    </section>
+
+    <section class="final-cta reveal-on-scroll" aria-labelledby="cta-title">
+      <div class="home-container final-cta__inner">
+        <div>
+          <h2 id="cta-title">Prêt à prendre les commandes ?</h2>
+          <p>Commencez votre parcours pilote ou venez découvrir l’ambiance APAM.</p>
+        </div>
+        <div class="home-actions">
+          <a class="home-btn" href="devenir-pilote.html">Devenir pilote</a>
+          <a class="home-btn home-btn--ghost" href="contact.html">Nous contacter</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
     <!-- ============ FOOTER ============ -->
     <footer class="site-footer">
       <div class="footer-inline">
@@ -1049,7 +1161,6 @@
       </div>
     </footer>
 
-  </div>
 
   <script>
     (function(){
@@ -1107,6 +1218,8 @@
       });
     })();
   </script>
+
+  <script src="assets/home.js" defer></script>
 
   <script>
     window.COOKIE_CONSENT_CONFIG = window.COOKIE_CONSENT_CONFIG || { gaMeasurementId: "{{GA_MEASUREMENT_ID}}" };
