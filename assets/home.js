@@ -31,15 +31,21 @@
   });
 
   const quoteText = document.querySelector('[data-quote-typing]');
+  const revealQuote = () => {
+    if (!quoteText) return;
+    quoteText.classList.add('is-typing');
+    quoteText.closest('.club-quote')?.classList.add('is-animated');
+  };
+
   if (quoteText) {
     const sentence = (quoteText.textContent || '').trim();
-    const words = sentence.split(/\s+/).filter(Boolean);
+    const chars = Array.from(sentence);
     quoteText.textContent = '';
-    words.forEach((word, index) => {
+    chars.forEach((char, index) => {
       const span = document.createElement('span');
       span.className = 'quote-word';
       span.style.setProperty('--word-index', String(index));
-      span.textContent = `${word}${index < words.length - 1 ? ' ' : ''}`;
+      span.textContent = char;
       quoteText.appendChild(span);
     });
   }
@@ -47,7 +53,7 @@
   const revealItems = document.querySelectorAll('.reveal-on-scroll');
   if (reducedMotion) {
     revealItems.forEach((item) => item.classList.add('is-visible'));
-    if (quoteText) quoteText.closest('.club-quote')?.classList.add('is-animated');
+    revealQuote();
     return;
   }
 
@@ -56,7 +62,7 @@
       if (!entry.isIntersecting) return;
       entry.target.classList.add('is-visible');
       if (entry.target.id === 'citation-club') {
-        entry.target.querySelector('.club-quote')?.classList.add('is-animated');
+        revealQuote();
       }
       observer.unobserve(entry.target);
     });
