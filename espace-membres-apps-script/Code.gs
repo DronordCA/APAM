@@ -4,6 +4,7 @@ const CONFIG = {
   AUDIT_SHEET: 'audit',
   BASE_URL_PROPERTY: 'APP_BASE_URL',
   LOGIN_URL_PROPERTY: 'APP_LOGIN_URL',
+  CONTACT_EMAIL_PROPERTY: 'APP_CONTACT_EMAIL',
   SECRET_PROPERTY: 'APP_SECRET',
   MAGIC_LINK_TTL_MINUTES: 15,
   SESSION_TTL_MINUTES: 60 * 12,
@@ -81,10 +82,11 @@ function handleActivationStatusEdit_(e) {
 
     const newValue = String(e.value || range.getValue() || '').trim().toUpperCase();
     const oldValue = String(e.oldValue || '').trim().toUpperCase();
-    if (newValue !== 'OUI' || oldValue === 'OUI') return;
+    if (!['OUI', 'NON', 'SUSPENDED'].includes(newValue)) return;
+    if (newValue === oldValue) return;
 
     const rowValues = sheet.getRange(range.getRow(), 1, 1, 16).getValues()[0] || [];
-    sendActivationEmail_(rowValues);
+    sendAccountStatusEmail_(rowValues, newValue);
   } catch (err) {
     writeAudit_('activation_email_error', '', String(err && err.message ? err.message : err));
   }
@@ -448,38 +450,61 @@ function handleAdminSetAccess_(payload) {
   revokeAllSessionsByEmail_(normalizeEmail(values[USER_COL.EMAIL]));
 
   const currentActive = String(values[USER_COL.ACTIVE] || '').trim().toUpperCase();
-  if (currentActive === 'OUI' && previousActive !== 'OUI') {
-    sendActivationEmail_(values);
+  if (currentActive !== previousActive && ['OUI', 'NON', 'SUSPENDED'].includes(currentActive)) {
+    sendAccountStatusEmail_(values, currentActive);
   }
 
   writeAudit_('admin_set_access', normalizeEmail(values[USER_COL.EMAIL]), 'memberId=' + memberId);
   return jsonResponse_({ ok: true });
 }
 
-function sendActivationEmail_(userValues) {
+function sendAccountStatusEmail_(userValues, status) {
   const email = normalizeEmail(userValues[USER_COL.EMAIL]);
   if (!email) return;
 
   const firstName = String(userValues[USER_COL.PRENOM] || '').trim();
   const memberId = canonicalizeMemberId(userValues[USER_COL.NOCOMPT]);
-  const loginUrl = getLoginUrl_();
   const greetingName = firstName || 'membre APAM';
+  const supportEmail = getSupportEmail_();
+  const normalizedStatus = String(status || '').trim().toUpperCase();
 
-  const body = [
+  let subject = 'Mise à jour de votre compte APAM';
+  let bodyLines = [
     'Bonjour ' + greetingName + ',',
-    '',
-    'Votre compte Espace Membres APAM est maintenant actif.',
-    'Vous pouvez vous connecter dès maintenant via :',
-    loginUrl,
-    '',
-    memberId ? ('Numéro membre : ' + memberId) : '',
+    ''
+  ];
+
+  if (normalizedStatus === 'OUI') {
+    const loginUrl = getLoginUrl_();
+    subject = 'Votre compte APAM est maintenant actif';
+    bodyLines = bodyLines.concat([
+      'Votre compte Espace Membres APAM est maintenant actif.',
+      'Vous pouvez vous connecter dès maintenant via :',
+      loginUrl,
+      '',
+      memberId ? ('Numéro membre : ' + memberId) : ''
+    ]);
+  } else {
+    subject = 'Mise à jour de votre accès Espace Membres APAM';
+    bodyLines = bodyLines.concat([
+      'Votre accès Espace Membres APAM est actuellement inactif.',
+      'Si cela vous semble anormal, contactez-nous à : ' + supportEmail,
+      '',
+      memberId ? ('Numéro membre : ' + memberId) : ''
+    ]);
+  }
+
+  const body = bodyLines.concat([
     '',
     'Bons vols,',
     'APAM'
-  ].filter(Boolean).join('\n');
+  ]).filter(Boolean).join('\n');
 
-  MailApp.sendEmail(email, 'Votre compte APAM est maintenant actif', body);
-  writeAudit_('activation_email_sent', email, memberId ? ('memberId=' + memberId) : '');
+  MailApp.sendEmail(email, subject, body, {
+    name: 'APAM',
+    replyTo: supportEmail,
+  });
+  writeAudit_('account_status_email_sent', email, 'status=' + normalizedStatus + (memberId ? (';memberId=' + memberId) : ''));
 }
 
 function getLoginUrl_() {
@@ -493,6 +518,13 @@ function getLoginUrl_() {
   }
 
   return 'https://aeroclubapam.fr/connexion-membres-password.html';
+}
+
+
+function getSupportEmail_() {
+  const properties = PropertiesService.getScriptProperties();
+  const configured = String(properties.getProperty(CONFIG.CONTACT_EMAIL_PROPERTY) || '').trim();
+  return configured || 'aeroclubapam@gmail.com';
 }
 
 function requireSession_(sessionToken) {
@@ -540,7 +572,10 @@ function sendMagicLink_(rowNumber, userValues) {
     'Ce lien expire dans ' + CONFIG.MAGIC_LINK_TTL_MINUTES + ' minutes.',
   ].join('\n');
 
-  MailApp.sendEmail(email, 'Connexion Espace Membres APAM', body);
+  MailApp.sendEmail(email, 'Connexion Espace Membres APAM', body, {
+    name: 'APAM',
+    replyTo: getSupportEmail_(),
+  });
   writeAudit_('magic_link_sent', email, 'row=' + rowNumber);
 }
 
