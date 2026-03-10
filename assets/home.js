@@ -50,6 +50,29 @@
     });
   }
 
+
+  document.querySelectorAll('.reveal-track').forEach((track) => {
+    Array.from(track.querySelectorAll('[data-reveal-item]')).forEach((item, index) => {
+      item.style.setProperty('--reveal-index', String(index));
+    });
+  });
+
+  const progressSections = Array.from(document.querySelectorAll('.home-section, .final-cta'));
+  const updateSectionProgress = () => {
+    const viewport = window.innerHeight || document.documentElement.clientHeight || 1;
+    progressSections.forEach((section) => {
+      const rect = section.getBoundingClientRect();
+      const total = viewport + rect.height;
+      const raw = (viewport - rect.top) / total;
+      const progress = Math.max(0, Math.min(1, raw));
+      section.style.setProperty('--section-progress', progress.toFixed(3));
+    });
+  };
+
+  updateSectionProgress();
+  window.addEventListener('scroll', () => window.requestAnimationFrame(updateSectionProgress), { passive: true });
+  window.addEventListener('resize', updateSectionProgress);
+
   const counterNodes = Array.from(document.querySelectorAll('[data-counter-target]'));
   let countersStarted = false;
 
