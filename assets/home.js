@@ -116,12 +116,13 @@
   }
 
   let quoteRevealed = false;
-  const revealObserver = new IntersectionObserver((entries) => {
+  const revealObserver = new IntersectionObserver((entries, observer) => {
     entries.forEach((entry) => {
       const isVisible = entry.isIntersecting && entry.intersectionRatio >= 0.28;
-      entry.target.classList.toggle('is-visible', isVisible);
-
       if (!isVisible) return;
+
+      entry.target.classList.add('is-visible');
+      observer.unobserve(entry.target);
 
       if (entry.target.id === 'citation-club' && !quoteRevealed) {
         quoteRevealed = true;
