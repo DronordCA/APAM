@@ -92,22 +92,27 @@
     return;
   }
 
-  const revealObserver = new IntersectionObserver((entries, observer) => {
+  let quoteRevealed = false;
+  const revealObserver = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
-      if (!entry.isIntersecting) return;
-      entry.target.classList.add('is-visible');
+      const isVisible = entry.isIntersecting && entry.intersectionRatio >= 0.28;
+      entry.target.classList.toggle('is-visible', isVisible);
 
-      if (entry.target.id === 'citation-club') {
+      if (!isVisible) return;
+
+      if (entry.target.id === 'citation-club' && !quoteRevealed) {
+        quoteRevealed = true;
         revealQuote();
       }
 
       if (entry.target.id === 'chiffres-club') {
         runCounters();
       }
-
-      observer.unobserve(entry.target);
     });
-  }, { threshold: 0.16 });
+  }, {
+    threshold: [0, 0.2, 0.28, 0.45],
+    rootMargin: '0px 0px -14% 0px'
+  });
 
   revealItems.forEach((item) => revealObserver.observe(item));
 })();
