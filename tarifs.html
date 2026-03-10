@@ -951,8 +951,8 @@
     }
 
     .modal-tab{
-      border:1px solid transparent;
-      background: linear-gradient(120deg, rgba(255,255,255,0.10), rgba(255,255,255,0.01));
+      border:1px solid rgba(255,255,255,0.72);
+      background: linear-gradient(135deg, rgba(255,255,255,0.16), rgba(255,255,255,0.03));
       color: rgba(255,255,255,0.82);
       cursor:pointer;
       font-family:"Swiss911", sans-serif;
@@ -960,10 +960,10 @@
       font-size:26px;
       letter-spacing:-0.02em;
       font-style: italic;
-      padding:10px 14px 8px;
-      border-radius:999px;
+      padding:9px 14px 7px;
+      border-radius:0;
       white-space:nowrap;
-      box-shadow: inset 0 1px 0 rgba(255,255,255,0.16);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.35);
       transition: color .2s ease, border-color .2s ease, background .2s ease, transform .2s ease, box-shadow .2s ease;
     }
     .modal-tab:hover{
@@ -975,7 +975,7 @@
     .modal-tab.is-active{
       color:#fff;
       border-color: rgba(47,107,255,0.92);
-      background: linear-gradient(118deg, rgba(47,107,255,0.34), rgba(255,255,255,0.08));
+      background: linear-gradient(118deg, rgba(47,107,255,0.34), rgba(255,255,255,0.12));
       box-shadow: inset 0 1px 0 rgba(255,255,255,0.34), 0 10px 18px rgba(8,16,35,0.36);
     }
 
@@ -1283,7 +1283,7 @@
         max-width:100%;
       }
       .modal-nav::-webkit-scrollbar{ display:none; }
-      .modal-tab{ font-size:20px; padding:10px 8px 8px; }
+      .modal-tab{ font-size:20px; padding:9px 10px 7px; }
 
       .modal-body{
         grid-template-columns: 1fr;
