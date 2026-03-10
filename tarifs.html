@@ -1158,7 +1158,8 @@
     }
     .spec-row .dot{ width:7px;height:7px;background:rgba(255,255,255,0.95);margin-top:6px;flex:0 0 auto; }
     .spec-text{ display:inline-block; }
-    .spec-row.is-typing .spec-text::after{
+    .type-anim{ display:inline-block; }
+    .is-typing .type-anim::after{
       content:"";
       display:inline-block;
       width:1px;
@@ -1176,18 +1177,25 @@
     .tarif-row{
       display:flex;
       justify-content:space-between;
+      align-items:center;
       gap:14px;
-      border-bottom:1px dashed rgba(255,255,255,0.16);
-      padding-bottom:10px;
-      margin-bottom:6px;
       font-size:16px;
       white-space:nowrap;
+      padding: 10px 11px;
+      border:1px solid rgba(255,255,255,0.09);
+      background: linear-gradient(120deg, rgba(255,255,255,0.05), rgba(255,255,255,0.01));
     }
     .tarif-row .price{ font-family:"GPMenu", system-ui, sans-serif; letter-spacing:0.10em; }
 
     .muted{ color: rgba(255,255,255,0.72); font-size:14px; line-height:1.25; }
 
     .contact-form{ display:flex; flex-direction:column; gap:10px; }
+    .contact-line{
+      font-size:14px;
+      color: rgba(255,255,255,0.78);
+      line-height:1.25;
+      padding: 6px 0 2px;
+    }
     .field{ display:flex; flex-direction:column; gap:6px; }
     .field label{
       font-family:"GPMenu", system-ui, sans-serif;
@@ -1275,7 +1283,9 @@
         padding: 10px 10px 12px;
         align-items:flex-start;
       }
+      .modal-brand{ display:none; }
       .modal-nav{
+        margin-left:0;
         padding-right: 74px;
         overflow-x:auto;
         -webkit-overflow-scrolling:touch;
@@ -1287,26 +1297,38 @@
 
       .modal-body{
         grid-template-columns: 1fr;
+        display:flex;
+        flex-direction:column;
         padding: 12px;
         gap: 12px;
         height: calc(100% - 68px);
-        overflow:auto;
+        overflow:hidden;
       }
 
       /* left block compact so callouts not “mal placés” */
-      .hero-left{ overflow:hidden; }
+      .hero-left{
+        overflow:hidden;
+        flex:0 0 auto;
+      }
       .hero-title h2{ font-size:40px; }
-      .hero-image{ min-height:160px; margin-top:6px; }
-      .hero-image img{ max-height:180px; }
+      .hero-image{ min-height:132px; margin-top:6px; }
+      .hero-image img{ max-height:142px; }
 
       .hero-callouts{
-        grid-template-columns: 1fr;
-        gap:10px;
-        margin-bottom:10px;
+        grid-template-columns: repeat(3, minmax(0,1fr));
+        gap:8px;
+        margin-bottom:6px;
       }
-      .callout{ min-height:auto; padding:10px 10px 9px; }
-      .callout .k{ font-size:10px; margin-bottom:6px; }
-      .callout .v{ font-size:15px; line-height:1.1; }
+      .callout{ min-height:auto; padding:8px 8px 7px; }
+      .callout .k{ font-size:9px; margin-bottom:4px; letter-spacing:0.1em; }
+      .callout .v{ font-size:13px; line-height:1.1; }
+
+      .side{
+        flex: 1 1 auto;
+        min-height: 0;
+      }
+      .panel-view.is-active{ min-height:0; }
+      .panel-body{ overflow-y:auto; }
 
       .spec-row, .tarif-row{ white-space: normal; }
     }
@@ -1644,20 +1666,21 @@
             <div class="panel-head"><h3>CONTACT</h3></div>
             <div class="panel-body">
               <form class="contact-form" id="contactForm">
+                <p class="contact-line"><span class="type-anim contact-type" data-fulltext="Réponse rapide par email.">Réponse rapide par email.</span></p>
                 <div class="field">
-                  <label for="cName">Nom</label>
+                  <label for="cName"><span class="type-anim contact-type" data-fulltext="Nom">Nom</span></label>
                   <input id="cName" type="text" required placeholder="Votre nom">
                 </div>
                 <div class="field">
-                  <label for="cEmail">Email</label>
+                  <label for="cEmail"><span class="type-anim contact-type" data-fulltext="Email">Email</span></label>
                   <input id="cEmail" type="email" required placeholder="vous@exemple.com">
                 </div>
                 <div class="field">
-                  <label for="cMsg">Message</label>
+                  <label for="cMsg"><span class="type-anim contact-type" data-fulltext="Message">Message</span></label>
                   <textarea id="cMsg" required placeholder="Votre message…"></textarea>
                 </div>
-                <button class="send-btn" type="submit">ENVOYER</button>
-                <div class="muted">Ouverture via mailto.</div>
+                <button class="send-btn" type="submit"><span class="type-anim contact-type" data-fulltext="ENVOYER">ENVOYER</span></button>
+                <div class="muted"><span class="type-anim contact-type" data-fulltext="Ouverture via mailto.">Ouverture via mailto.</span></div>
               </form>
             </div>
           </div>
@@ -1850,11 +1873,11 @@
       }
 
       function setActiveTab(tab, options = {}){
-        const shouldReplayTech = options.replayTechAnimation !== false;
+        const shouldReplayAnimation = options.replayAnimation !== false;
         tabs.forEach(t => t.classList.toggle('is-active', t.dataset.tab === tab));
         views.forEach(v => v.classList.toggle('is-active', v.dataset.view === tab));
-        if(tab === 'tech' && modal.classList.contains('is-open') && shouldReplayTech){
-          runModalAnimations();
+        if(modal.classList.contains('is-open') && shouldReplayAnimation){
+          runTabAnimations(tab);
         }
       }
 
@@ -1889,7 +1912,7 @@
           const dot = document.createElement('span');
           dot.className = 'dot';
           const text = document.createElement('span');
-          text.className = 'spec-text';
+          text.className = 'spec-text type-anim';
           text.dataset.fulltext = specText;
           text.textContent = specText;
           row.append(dot, text);
@@ -1899,41 +1922,56 @@
         d.tarifs.forEach(([label, price]) => {
           const row = document.createElement('div');
           row.className = "tarif-row";
-          row.innerHTML = `<span class="label">${label}</span><span class="price">${price}</span>`;
+          row.innerHTML = `<span class="label type-anim" data-fulltext="${label}">${label}</span><span class="price type-anim" data-fulltext="${price}">${price}</span>`;
           mTarifs.appendChild(row);
         });
       }
 
-      function animateSpecsTypewriter(token){
-        const rows = Array.from(mSpecs.querySelectorAll('.spec-row'));
-        let timelineCursor = 110;
+      function animateTypewriterRows(rows, token, options = {}){
+        const charDelay = options.charDelay || 16;
+        const minDuration = options.minDuration || 200;
+        const startAt = options.startAt || 90;
+        let timelineCursor = startAt;
 
         rows.forEach((row) => {
-          const textEl = row.querySelector('.spec-text');
-          if(!textEl) return;
-          const fullText = textEl.dataset.fulltext || textEl.textContent || '';
+          const textEls = Array.from(row.querySelectorAll('.type-anim'));
+          if(textEls.length === 0) return;
+
+          const fullTexts = textEls.map((el) => el.dataset.fulltext || el.textContent || '');
 
           if(prefersReducedMotion){
-            textEl.textContent = fullText;
+            textEls.forEach((el, idx) => el.textContent = fullTexts[idx]);
             row.classList.remove('is-typing');
             return;
           }
 
-          textEl.textContent = '';
+          textEls.forEach((el) => el.textContent = '');
+          const totalChars = fullTexts.reduce((acc, text) => acc + text.length, 0);
           const startDelay = timelineCursor;
-          const charDelay = 16;
-          timelineCursor += Math.max(fullText.length * charDelay, 210);
+          timelineCursor += Math.max(totalChars * charDelay, minDuration);
 
           const startTimer = setTimeout(() => {
             if(token !== modalAnim.token || !modal.classList.contains('is-open')) return;
             row.classList.add('is-typing');
-            let i = 0;
+
+            let textIndex = 0;
+            let charIndex = 0;
             const typeStep = () => {
               if(token !== modalAnim.token || !modal.classList.contains('is-open')) return;
-              i += 1;
-              textEl.textContent = fullText.slice(0, i);
-              if(i < fullText.length){
+              const currentText = fullTexts[textIndex] || '';
+              charIndex += 1;
+              textEls[textIndex].textContent = currentText.slice(0, charIndex);
+
+              if(charIndex < currentText.length){
                 const stepTimer = setTimeout(typeStep, charDelay);
+                modalAnim.timers.push(stepTimer);
+                return;
+              }
+
+              textIndex += 1;
+              charIndex = 0;
+              if(textIndex < textEls.length){
+                const stepTimer = setTimeout(typeStep, 40);
                 modalAnim.timers.push(stepTimer);
               } else {
                 row.classList.remove('is-typing');
@@ -1945,7 +1983,7 @@
         });
       }
 
-      function runModalAnimations(){
+      function runTechAnimations(){
         clearModalAnimations();
         const token = modalAnim.token;
 
@@ -1963,17 +2001,42 @@
           modalAnim.timers.push(timer);
         });
 
-        animateSpecsTypewriter(token);
+        animateTypewriterRows(Array.from(mSpecs.querySelectorAll('.spec-row')), token, { charDelay: 16, minDuration: 210, startAt: 110 });
+      }
+
+      function runTarifsAnimations(){
+        clearModalAnimations();
+        const token = modalAnim.token;
+        animateTypewriterRows(Array.from(mTarifs.querySelectorAll('.tarif-row')), token, { charDelay: 15, minDuration: 180, startAt: 90 });
+      }
+
+      function runContactAnimations(){
+        clearModalAnimations();
+        const token = modalAnim.token;
+        const rows = Array.from(document.querySelectorAll('[data-view="contact"] .contact-line, [data-view="contact"] .field label, [data-view="contact"] .send-btn, [data-view="contact"] .muted'));
+        animateTypewriterRows(rows, token, { charDelay: 15, minDuration: 150, startAt: 70 });
+      }
+
+      function runTabAnimations(tab){
+        if(tab === 'tarifs'){
+          runTarifsAnimations();
+          return;
+        }
+        if(tab === 'contact'){
+          runContactAnimations();
+          return;
+        }
+        runTechAnimations();
       }
 
       function openModal(key){
         clearModalAnimations();
         fillModal(key);
-        setActiveTab('tech', { replayTechAnimation: false });
+        setActiveTab('tech', { replayAnimation: false });
         modal.classList.add('is-open');
         modal.setAttribute('aria-hidden','false');
         lockPage();
-        runModalAnimations();
+        runTabAnimations('tech');
       }
 
       function closeModal(){
@@ -1998,7 +2061,7 @@
         }
       });
 
-      tabs.forEach(btn => btn.addEventListener('click', () => setActiveTab(btn.dataset.tab, { replayTechAnimation: true })));
+      tabs.forEach(btn => btn.addEventListener('click', () => setActiveTab(btn.dataset.tab, { replayAnimation: true })));
 
       document.addEventListener('keydown', (e) => {
         if(e.key === 'Escape' && modal.classList.contains('is-open')) closeModal();
