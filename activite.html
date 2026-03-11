@@ -173,6 +173,9 @@
       pointer-events:none;
     }
     .nav-link[data-text]:hover::after{clip-path:inset(0 0 0 0);}
+    .nav-link[aria-current="page"]{color:var(--accent);}
+    .nav-link[aria-current="page"][data-text]::before{color:var(--accent);}
+    .nav-link[aria-current="page"][data-text]::after{clip-path:inset(0 0 0 0);}
 
     .icon{width:26px;height:26px;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;text-decoration:none;}
     .icon svg{width:100%;height:100%;fill:var(--header-grey);}
@@ -1300,8 +1303,8 @@
       .calendar-actions{margin-left:auto;}
       .calendar-nav{width:40px;height:40px;}
 
-      .calendar-grid-scroll{overflow-x:visible;}
-      .calendar-grid{min-width:0;}
+      .calendar-grid-scroll{overflow-x:auto;}
+      .calendar-grid{min-width:680px;}
       .calendar-weekdays,
       .calendar-board{gap:5px;}
       .calendar-day{min-height:78px;padding:8px 6px;font-size:12px;}
@@ -1414,7 +1417,7 @@
 
           <nav class="m-nav" aria-label="Liens principaux">
             <a class="m-link" href="tarifs.html">FLOTTE</a>
-            <a class="m-link" href="activite.html">LE CLUB</a>
+            <a class="m-link" href="activite.html" aria-current="page">LE CLUB</a>
             <a class="m-link" href="devenir-pilote.html">DEVENIR PILOTE</a>
             <a class="m-link" href="contact.html">CONTACT</a>
             <a class="m-link" href="boutique.html">BOUTIQUE</a>
@@ -1466,7 +1469,7 @@
                 </span>
 
                 <span class="nav-item has-dropdown">
-                  <a href="activite.html" class="nav-link" data-text="LE CLUB">LE CLUB</a>
+                  <a href="activite.html" class="nav-link" aria-current="page" data-text="LE CLUB">LE CLUB</a>
                   <div class="activity-panel" role="menu" aria-label="Navigation Le Club">
                     <a class="activity-link" href="#calendar-title">Calendrier des activités</a>
                     <a class="activity-link" href="#photos-title">Photos du club</a>
@@ -1519,8 +1522,8 @@
               </div>
               <div class="calendar-actions">
                 <div class="calendar-view-toggle" role="group" aria-label="Affichage du calendrier">
-                  <button class="calendar-view-btn is-active" type="button" id="calendarViewMonth" data-view="month">Mois</button>
-                  <button class="calendar-view-btn" type="button" id="calendarViewWeek" data-view="week">Semaine</button>
+                  <button class="calendar-view-btn" type="button" id="calendarViewMonth" data-view="month">Mois</button>
+                  <button class="calendar-view-btn is-active" type="button" id="calendarViewWeek" data-view="week">Semaine</button>
                 </div>
                 <button class="calendar-nav calendar-nav-today" type="button" id="calendarToday">Aujourd’hui</button>
                 <button class="calendar-nav" type="button" id="calendarPrev" aria-label="Mois précédent">‹</button>
@@ -1905,7 +1908,7 @@
     const calendarState = {
       currentMonth: null,
       selectedDateKey: null,
-      currentView: "month",
+      currentView: "week",
       weekAnchor: null,
       eventsByDate: new Map(),
       events: []
@@ -2140,7 +2143,7 @@
 
         calendarState.currentMonth = new Date(today.getFullYear(), today.getMonth(), 1);
         calendarState.weekAnchor = getStartOfWeek(today);
-        calendarState.currentView = "month";
+        calendarState.currentView = "week";
         calendarState.selectedDateKey = todayKey;
 
         renderCalendarMonth();
