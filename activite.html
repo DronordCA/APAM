@@ -233,6 +233,7 @@
     .nav-item.has-dropdown:hover .fleet-panel{opacity:1;pointer-events:auto;}
 
     .activity-panel{
+      display:none;
       position:absolute;
       top:calc(100% + 14px);
       left:50%;
@@ -242,7 +243,7 @@
       border:1px solid var(--panel-border);
       box-shadow:0 18px 34px rgba(0,0,0,0.42);
       padding:8px;
-      display:grid;
+      grid-template-columns:1fr;
       gap:6px;
       opacity:0;
       visibility:hidden;
@@ -252,6 +253,7 @@
     }
     .nav-item.has-dropdown:hover .activity-panel,
     .nav-item.has-dropdown > .nav-link:focus-visible + .activity-panel{
+      display:grid;
       opacity:1;
       visibility:visible;
       pointer-events:auto;
@@ -937,6 +939,35 @@
       display:flex;
       align-items:center;
       gap:10px;
+      flex-wrap:wrap;
+      justify-content:flex-end;
+    }
+    .calendar-view-toggle{
+      display:inline-flex;
+      align-items:center;
+      gap:4px;
+      padding:4px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,0.16);
+      background:rgba(255,255,255,0.04);
+    }
+    .calendar-view-btn{
+      border:0;
+      background:transparent;
+      color:rgba(255,255,255,0.72);
+      font-size:12px;
+      text-transform:uppercase;
+      letter-spacing:0.12em;
+      font-family:"GPMenu",system-ui,sans-serif;
+      padding:7px 12px;
+      border-radius:999px;
+      cursor:pointer;
+      transition:background .2s ease,color .2s ease,box-shadow .2s ease;
+    }
+    .calendar-view-btn.is-active{
+      color:#fff;
+      background:linear-gradient(135deg, rgba(47,107,255,0.95), rgba(25,62,153,0.9));
+      box-shadow:0 8px 18px rgba(26,70,181,0.35);
     }
     .calendar-nav{
       width:42px;
@@ -948,6 +979,15 @@
       font-size:20px;
       cursor:pointer;
       transition: transform .2s ease, border-color .2s ease, background .2s ease;
+    }
+    .calendar-nav-today{
+      width:auto;
+      min-width:118px;
+      padding:0 16px;
+      font-size:12px;
+      letter-spacing:0.1em;
+      text-transform:uppercase;
+      font-family:"GPMenu",system-ui,sans-serif;
     }
     .calendar-nav:hover{
       transform: translateY(-1px);
@@ -983,6 +1023,7 @@
     }
     .calendar-day.is-muted{
       cursor:default;
+      pointer-events:none;
       opacity:0.35;
       background: rgba(255,255,255,0.04);
     }
@@ -1250,6 +1291,10 @@
       .calendar-layout{grid-template-columns:1fr;gap:12px;}
       .calendar-shell{padding:14px;gap:12px;}
       .calendar-top{gap:10px;align-items:flex-start;}
+      .calendar-actions{width:100%;justify-content:flex-start;}
+      .calendar-nav{width:38px;height:38px;}
+      .calendar-nav-today{min-width:auto;padding:0 12px;font-size:11px;}
+      .calendar-view-btn{padding:6px 10px;font-size:11px;}
       .calendar-month{font-size:26px;}
       .calendar-subtitle{font-size:12px;}
       .calendar-actions{margin-left:auto;}
@@ -1473,6 +1518,11 @@
                 <div class="calendar-subtitle">Cliquez sur un jour pour afficher les événements.</div>
               </div>
               <div class="calendar-actions">
+                <div class="calendar-view-toggle" role="group" aria-label="Affichage du calendrier">
+                  <button class="calendar-view-btn is-active" type="button" id="calendarViewMonth" data-view="month">Mois</button>
+                  <button class="calendar-view-btn" type="button" id="calendarViewWeek" data-view="week">Semaine</button>
+                </div>
+                <button class="calendar-nav calendar-nav-today" type="button" id="calendarToday">Aujourd’hui</button>
                 <button class="calendar-nav" type="button" id="calendarPrev" aria-label="Mois précédent">‹</button>
                 <button class="calendar-nav" type="button" id="calendarNext" aria-label="Mois suivant">›</button>
               </div>
@@ -1855,6 +1905,8 @@
     const calendarState = {
       currentMonth: null,
       selectedDateKey: null,
+      currentView: "month",
+      weekAnchor: null,
       eventsByDate: new Map(),
       events: []
     };
@@ -1872,6 +1924,13 @@
       ];
       const fromColumnH = rawRow[7];
       return normalizePhotoUrl([...fromNamedColumns, fromColumnH].find(Boolean));
+    }
+
+    function getStartOfWeek(dateObj){
+      const start = new Date(dateObj.getFullYear(), dateObj.getMonth(), dateObj.getDate());
+      const offset = (start.getDay() + 6) % 7;
+      start.setDate(start.getDate() - offset);
+      return start;
     }
 
     function renderCalendarDetail(dateKey){
@@ -1915,9 +1974,20 @@
       });
     }
 
+    function setCalendarView(view){
+      calendarState.currentView = view === "week" ? "week" : "month";
+      const monthBtn = document.getElementById("calendarViewMonth");
+      const weekBtn = document.getElementById("calendarViewWeek");
+      if (monthBtn) monthBtn.classList.toggle("is-active", calendarState.currentView === "month");
+      if (weekBtn) weekBtn.classList.toggle("is-active", calendarState.currentView === "week");
+      renderCalendarMonth();
+    }
+
     function renderCalendarMonth(){
       const board = document.getElementById("calendarBoard");
       const monthLabel = document.getElementById("calendarMonth");
+      const prevBtn = document.getElementById("calendarPrev");
+      const nextBtn = document.getElementById("calendarNext");
       if (!board || !monthLabel) return;
 
       const viewDate = calendarState.currentMonth || new Date();
@@ -1927,18 +1997,33 @@
       const startOffset = (firstDay.getDay() + 6) % 7;
       const daysInMonth = new Date(year, month + 1, 0).getDate();
       const todayKey = toDateKey(new Date());
+      const isWeekView = calendarState.currentView === "week";
 
-      monthLabel.textContent = firstDay.toLocaleDateString("fr-FR", { month: "long", year: "numeric" });
+      if (prevBtn) prevBtn.setAttribute("aria-label", isWeekView ? "Semaine précédente" : "Mois précédent");
+      if (nextBtn) nextBtn.setAttribute("aria-label", isWeekView ? "Semaine suivante" : "Mois suivant");
+
+      monthLabel.textContent = isWeekView
+        ? `Semaine du ${formatDateFR(getStartOfWeek(calendarState.weekAnchor || viewDate))}`
+        : firstDay.toLocaleDateString("fr-FR", { month: "long", year: "numeric" });
       board.innerHTML = "";
 
-      for (let i = 0; i < startOffset; i++){
-        const filler = document.createElement("div");
-        filler.className = "calendar-day is-muted";
-        board.appendChild(filler);
+      if (!isWeekView){
+        for (let i = 0; i < startOffset; i++){
+          const filler = document.createElement("div");
+          filler.className = "calendar-day is-muted";
+          board.appendChild(filler);
+        }
       }
 
-      for (let day = 1; day <= daysInMonth; day++){
-        const dateObj = new Date(year, month, day);
+      const dayList = [];
+      if (isWeekView){
+        const start = getStartOfWeek(calendarState.weekAnchor || new Date());
+        for (let i = 0; i < 7; i++) dayList.push(new Date(start.getFullYear(), start.getMonth(), start.getDate() + i));
+      } else {
+        for (let day = 1; day <= daysInMonth; day++) dayList.push(new Date(year, month, day));
+      }
+
+      dayList.forEach((dateObj) => {
         const dateKey = toDateKey(dateObj);
         const events = calendarState.eventsByDate.get(dateKey) || [];
 
@@ -1951,7 +2036,7 @@
 
         const number = document.createElement("span");
         number.className = "calendar-day-number";
-        number.textContent = day;
+        number.textContent = dateObj.getDate();
         cell.appendChild(number);
 
         if (events.length){
@@ -1978,11 +2063,14 @@
 
         cell.addEventListener("click", () => selectCalendarDate(dateKey));
         board.appendChild(cell);
-      }
+      });
     }
 
     function selectCalendarDate(dateKey){
       calendarState.selectedDateKey = dateKey;
+      const selectedDate = parseEventDate(dateKey) || new Date();
+      calendarState.currentMonth = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), 1);
+      calendarState.weekAnchor = getStartOfWeek(selectedDate);
       renderCalendarMonth();
       renderCalendarDetail(dateKey);
     }
@@ -2050,8 +2138,9 @@
         const today = new Date();
         const todayKey = toDateKey(today);
 
-        // Toujours ouvrir le calendrier sur la date du jour au chargement/rechargement.
         calendarState.currentMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+        calendarState.weekAnchor = getStartOfWeek(today);
+        calendarState.currentView = "month";
         calendarState.selectedDateKey = todayKey;
 
         renderCalendarMonth();
@@ -2067,6 +2156,12 @@
     }
 
     function shiftCalendarMonth(delta){
+      if (calendarState.currentView === "week"){
+        const base = calendarState.weekAnchor || new Date();
+        calendarState.weekAnchor = new Date(base.getFullYear(), base.getMonth(), base.getDate() + (delta * 7));
+        renderCalendarMonth();
+        return;
+      }
       const current = calendarState.currentMonth || new Date();
       calendarState.currentMonth = new Date(current.getFullYear(), current.getMonth() + delta, 1);
       renderCalendarMonth();
@@ -2075,10 +2170,18 @@
     function bindCalendarNav(){
       const prevBtn = document.getElementById("calendarPrev");
       const nextBtn = document.getElementById("calendarNext");
+      const todayBtn = document.getElementById("calendarToday");
+      const monthBtn = document.getElementById("calendarViewMonth");
+      const weekBtn = document.getElementById("calendarViewWeek");
       if (prevBtn) prevBtn.addEventListener("click", () => shiftCalendarMonth(-1));
       if (nextBtn) nextBtn.addEventListener("click", () => shiftCalendarMonth(1));
+      if (todayBtn) todayBtn.addEventListener("click", () => {
+        const today = new Date();
+        selectCalendarDate(toDateKey(today));
+      });
+      if (monthBtn) monthBtn.addEventListener("click", () => setCalendarView("month"));
+      if (weekBtn) weekBtn.addEventListener("click", () => setCalendarView("week"));
     }
-
 
     function extractDriveFileId(url){
       if (!url) return "";
