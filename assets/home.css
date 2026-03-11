@@ -83,22 +83,11 @@
 }
 
 .home-section {
-  --section-progress: 0;
-  --section-lift: 54px;
   position: relative;
   z-index: 1;
   padding: 88px 0;
   background: #171717;
   color: #fff;
-  transition: transform 0.75s cubic-bezier(.16, 1, .3, 1), opacity 0.6s ease;
-}
-
-.js .home-section:not(.is-visible) {
-  transform: translate3d(0, calc((1 - var(--section-progress)) * var(--section-lift)), 0);
-}
-
-.js .home-section.is-visible {
-  transform: translate3d(0, 0, 0);
 }
 
 .home-section::after {
@@ -116,7 +105,6 @@
 }
 
 .home-section--light {
-  --section-lift: 42px;
   background: #fff;
   color: #060606;
 }
@@ -153,7 +141,6 @@
 }
 
 .home-section--dark {
-  --section-lift: 46px;
   background: #1a1a1a;
   color: #fff;
 }
@@ -190,8 +177,6 @@
 }
 
 .home-section h2::after {
-  transform: scaleX(calc(0.82 + (var(--section-progress, 0) * 0.18)));
-  transform-origin: left center;
   content: "";
   position: absolute;
   left: 0;
@@ -289,21 +274,6 @@
   animation: quoteCaret 0.65s steps(1, end) infinite;
 }
 
-.station-appear {
-  opacity: 0;
-  transform: translateY(12px);
-}
-
-#localisation.is-visible .station-appear {
-  animation: stationArrival 0.9s cubic-bezier(.16, 1, .3, 1) 0.2s forwards;
-}
-
-@keyframes stationArrival {
-  0% { opacity: 0; transform: translateY(14px) scale(0.98); }
-  60% { opacity: 1; transform: translateY(-2px) scale(1.01); }
-  100% { opacity: 1; transform: translateY(0) scale(1); }
-}
-
 @keyframes quoteCaret {
   0%, 45% { opacity: 1; }
   46%, 100% { opacity: 0; }
@@ -366,6 +336,13 @@
   font-size: clamp(2rem, 4vw, 3.2rem);
   line-height: 1;
   margin-bottom: 8px;
+  color: #fff;
+  text-shadow:
+    -1px -1px 0 rgba(47, 107, 255, 0.95),
+    1px -1px 0 rgba(47, 107, 255, 0.95),
+    -1px 1px 0 rgba(47, 107, 255, 0.95),
+    1px 1px 0 rgba(47, 107, 255, 0.95),
+    0 0 14px rgba(47, 107, 255, 0.3);
 }
 
 .stat-value--text {
@@ -394,35 +371,31 @@
   box-shadow: 0 18px 30px rgba(0, 0, 0, 0.28);
 }
 
-.story-item,
-.story-media {
+.js #histoire .split-layout > div,
+.js #histoire .history-media,
+.js #localisation .split-layout > div,
+.js #localisation .location-card {
   opacity: 0;
+  transition: opacity 0.45s ease, transform 0.45s ease;
 }
 
-.story-item {
-  transform: none;
+.js #histoire .split-layout > div,
+.js #localisation .split-layout > div {
+  transform: translateX(-90px);
 }
 
-.story-media {
-  transform: translateX(120vw) scale(1.06);
+.js #histoire .history-media,
+.js #localisation .location-card {
+  transform: translateX(90px);
 }
 
-#histoire.is-visible .story-item {
-  animation: none;
+#histoire.is-visible .split-layout > div,
+#histoire.is-visible .history-media,
+#localisation.is-visible .split-layout > div,
+#localisation.is-visible .location-card {
   opacity: 1;
-  transform: none;
+  transform: translateX(0);
 }
-
-#histoire.is-visible .story-media {
-  animation: softLiftIn 1.28s cubic-bezier(.16, 1, .3, 1) forwards;
-}
-
-#histoire.is-visible .story-media {
-  animation-name: storyMediaArrival;
-  animation-duration: 1.45s;
-}
-
-#histoire.is-visible .story-media { animation-delay: 0.16s; }
 
 .history-timeline {
   list-style: none;
@@ -580,39 +553,7 @@
   z-index: 1;
 }
 
-.location-item,
-#localisation .location-card {
-  opacity: 0;
-  transform: translateY(24px);
-}
 
-.location-item {
-  transform: none;
-}
-
-#localisation .location-card {
-  transform: translateX(26px);
-}
-
-#localisation.is-visible::before {
-  animation: cloudDrift 2.15s ease-out forwards;
-}
-
-#localisation.is-visible::after {
-  animation: cloudOpen 1.8s cubic-bezier(.16, 1, .3, 1) 0.22s forwards;
-}
-
-#localisation.is-visible .location-item {
-  animation: none;
-  opacity: 1;
-  transform: none;
-}
-
-#localisation.is-visible .location-card {
-  animation: softLiftIn 0.85s cubic-bezier(.16, 1, .3, 1) forwards;
-}
-
-#localisation.is-visible .location-card { animation-delay: 0.3s; }
 
 .final-cta {
   padding: 0 0 72px;
@@ -658,91 +599,6 @@
   color: #fff;
 }
 
-.reveal-on-scroll {
-  opacity: 1;
-  transform: translateY(0);
-  transition: opacity 0.6s ease, transform 0.6s ease;
-}
-
-.js .reveal-on-scroll {
-  opacity: 0;
-  transform: translateY(26px);
-}
-
-.js .reveal-on-scroll.is-visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.reveal-track [data-reveal-item] {
-  opacity: 0;
-  transform: translate3d(0, 28px, 0) scale(0.99);
-  transition:
-    opacity 0.72s cubic-bezier(.16, 1, .3, 1),
-    transform 0.88s cubic-bezier(.16, 1, .3, 1);
-  transition-delay: calc(var(--reveal-index, 0) * 70ms);
-}
-
-.reveal-on-scroll.is-visible .reveal-track [data-reveal-item] {
-  opacity: 1;
-  transform: translate3d(0, 0, 0) scale(1);
-}
-
-@keyframes softLiftIn {
-  from {
-    opacity: 0;
-    transform: translateY(20px) scale(0.985);
-    filter: blur(5px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-    filter: blur(0);
-  }
-}
-
-@keyframes storyMediaArrival {
-  0% {
-    opacity: 0;
-    transform: translateX(130vw) scale(1.08);
-    filter: blur(8px);
-  }
-  62% {
-    opacity: 1;
-    transform: translateX(-8px) scale(1.015);
-    filter: blur(0);
-  }
-  100% {
-    opacity: 1;
-    transform: translateX(0) scale(1);
-    filter: blur(0);
-  }
-}
-
-@keyframes cloudOpen {
-  0% {
-    opacity: 1;
-    transform: scaleY(1.25);
-  }
-  100% {
-    opacity: 0;
-    transform: scaleY(0);
-  }
-}
-
-@keyframes cloudDrift {
-  0% {
-    opacity: 0;
-    transform: translateY(18px);
-  }
-  38% {
-    opacity: 1;
-  }
-  100% {
-    opacity: 0;
-    transform: translateY(-16px);
-  }
-}
 
 @media (max-width: 980px) {
   .hero-scroll-indicator { bottom: 110px; }
@@ -758,25 +614,18 @@
 
 @media (prefers-reduced-motion: reduce) {
   .hero-scroll-indicator,
-  .reveal-on-scroll,
   .home-section,
-  .reveal-track [data-reveal-item],
-  .station-appear,
-  .story-item,
-  .story-media,
-  .location-item,
-  #localisation::before,
-  #localisation::after,
+  #histoire .split-layout > div,
+  #histoire .history-media,
+  #localisation .split-layout > div,
   #localisation .location-card {
     animation: none !important;
     transition: none !important;
   }
 
-  .station-appear,
-  .reveal-track [data-reveal-item],
-  .story-item,
-  .story-media,
-  .location-item,
+  #histoire .split-layout > div,
+  #histoire .history-media,
+  #localisation .split-layout > div,
   #localisation .location-card {
     opacity: 1;
     transform: none;
