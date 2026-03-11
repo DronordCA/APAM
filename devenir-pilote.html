@@ -155,7 +155,8 @@
       line-height:1;
       padding:2px 0;
     }
-    .nav-link[data-text]{color:transparent;}
+    .nav-link[data-text],
+    .nav-link[data-text]:visited{color:transparent;-webkit-text-fill-color:transparent;}
     .nav-link[data-text]::before{
       content:attr(data-text);
       position:absolute; inset:0;
@@ -228,7 +229,9 @@
     }
 
     .nav-item.has-dropdown:hover .fleet-panel{
-
+      opacity:1;
+      pointer-events:auto;
+    }
 
     .activity-panel{
       display:none;
