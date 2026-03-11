@@ -299,6 +299,7 @@
 
 
     .activity-panel{
+      display:none;
       position:absolute;
       top:calc(100% + 14px);
       left:50%;
@@ -308,7 +309,7 @@
       border:1px solid var(--panel-border);
       box-shadow:0 18px 34px rgba(0,0,0,0.42);
       padding:8px;
-      display:grid;
+      grid-template-columns:1fr;
       gap:6px;
       opacity:0;
       visibility:hidden;
@@ -318,6 +319,7 @@
     }
     .nav-item.has-dropdown:hover .activity-panel,
     .nav-item.has-dropdown > .nav-link:focus-visible + .activity-panel{
+      display:grid;
       opacity:1;
       visibility:visible;
       pointer-events:auto;
