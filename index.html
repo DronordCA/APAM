@@ -112,12 +112,17 @@
     /* =============================== */
     /* HEADER DESKTOP */
     /* =============================== */
-    .site-header { padding-top: 20px; position: relative; z-index: 10; }
+    .site-header {
+      padding-top: 20px;
+      position: relative;
+      z-index: 120;
+    }
 
     .header-row {
       display: flex;
       align-items: center;
       margin: 0 var(--page-side-margin);
+      overflow: visible;
     }
 
     .header-logo {
@@ -173,6 +178,7 @@
       padding: 0 6px 0 32px;
       position: relative;
       z-index: 10;
+      overflow: visible;
       box-shadow: 0 2px 0 rgba(0,0,0,0.08);
     }
 
@@ -363,10 +369,6 @@
       transform:translateX(3px) rotate(45deg);
       border-color:var(--accent);
     }
-      opacity: 1;
-      pointer-events: auto;
-    }
-
     .fleet-card {
       position: relative;
       height: var(--card-h);
