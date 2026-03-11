@@ -251,7 +251,7 @@
       z-index:55;
     }
     .nav-item.has-dropdown:hover .activity-panel,
-    .nav-item.has-dropdown:focus-within .activity-panel{
+    .nav-item.has-dropdown > .nav-link:focus-visible + .activity-panel{
       opacity:1;
       visibility:visible;
       pointer-events:auto;
@@ -1280,6 +1280,10 @@
     }
 
     @media (max-width:640px){
+      .reveal-on-scroll{ --reveal-y: 22px; }
+      .reveal-on-scroll[data-reveal="left"]{ --reveal-x:-30px; --reveal-y:6px; }
+      .reveal-on-scroll[data-reveal="right"]{ --reveal-x:30px; --reveal-y:6px; }
+      .reveal-on-scroll[data-reveal="up"]{ --reveal-x:0px; --reveal-y:26px; }
       .wrap,
       .section-inner{padding: 0 16px;}
       .calendar-weekdays{font-size:10px;letter-spacing:0.08em;}
@@ -2370,14 +2374,18 @@
         return;
       }
 
+      const isMobile = window.matchMedia('(max-width: 640px)').matches;
+      const visibilityThreshold = isMobile ? 0.12 : 0.2;
+      const teamThreshold = isMobile ? 0.06 : visibilityThreshold;
+
       const io = new IntersectionObserver((entries) => {
         entries.forEach((entry) => {
-          if (entry.isIntersecting && entry.intersectionRatio >= 0.2){
-            entry.target.classList.add('is-visible');
-            io.unobserve(entry.target);
-          }
+          const isTeamSection = entry.target.getAttribute('aria-labelledby') === 'team-title';
+          const minRatio = isTeamSection ? teamThreshold : visibilityThreshold;
+          const shouldShow = entry.isIntersecting && entry.intersectionRatio >= minRatio;
+          entry.target.classList.toggle('is-visible', shouldShow);
         });
-      }, { threshold: [0.2, 0.45], rootMargin: '0px 0px -8% 0px' });
+      }, { threshold: [0, 0.06, 0.12, 0.2, 0.45], rootMargin: isMobile ? '0px 0px -2% 0px' : '0px 0px -8% 0px' });
       blocks.forEach((block) => io.observe(block));
     }
 
