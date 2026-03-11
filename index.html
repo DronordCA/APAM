@@ -199,7 +199,8 @@
     }
 
     /* Hover remplissage BLEU (accents OK via data-text) */
-    .nav-link[data-text] { color: transparent; }
+    .nav-link[data-text],
+    .nav-link[data-text]:visited { color: transparent; -webkit-text-fill-color: transparent; }
     .nav-link[data-text]::before {
       content: attr(data-text);
       position: absolute;
@@ -296,7 +297,9 @@
     }
 
     .nav-item.has-dropdown:hover .fleet-panel {
-
+      opacity: 1;
+      pointer-events: auto;
+    }
 
     .activity-panel{
       display:none;
