@@ -103,22 +103,22 @@
   const observer = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
       if (entry.target.id === 'histoire' || entry.target.id === 'localisation') {
-        entry.target.classList.toggle('is-visible', entry.isIntersecting && entry.intersectionRatio >= 0.35);
+        entry.target.classList.toggle('is-visible', entry.isIntersecting && entry.intersectionRatio >= 0.55);
         return;
       }
 
-      if (entry.target.id === 'citation-club' && entry.isIntersecting && !quoteRevealed) {
+      if (entry.target.id === 'citation-club' && entry.isIntersecting && entry.intersectionRatio >= 0.6 && !quoteRevealed) {
         quoteRevealed = true;
         revealQuote();
       }
 
-      if (entry.target.id === 'chiffres-club' && entry.isIntersecting) {
+      if (entry.target.id === 'chiffres-club' && entry.isIntersecting && entry.intersectionRatio >= 0.55) {
         runCounters();
       }
     });
   }, {
-    threshold: [0, 0.35, 0.55],
-    rootMargin: '0px'
+    threshold: [0, 0.35, 0.55, 0.6],
+    rootMargin: '0px 0px -12% 0px'
   });
 
   bidirectionalSections.forEach((section) => observer.observe(section));
