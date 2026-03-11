@@ -200,25 +200,15 @@
 
     /* Hover remplissage BLEU (accents OK via data-text) */
     .nav-link[data-text],
-    .nav-link[data-text]:visited { color: transparent; -webkit-text-fill-color: transparent; }
-    .nav-link[data-text]::before {
-      content: attr(data-text);
-      position: absolute;
-      inset: 0;
+    .nav-link[data-text]:visited{
       color: var(--header-grey);
-      white-space: nowrap;
+      -webkit-text-fill-color: currentColor;
     }
-    .nav-link[data-text]::after {
-      content: attr(data-text);
-      position: absolute;
-      inset: 0;
-      color: var(--accent);
-      white-space: nowrap;
-      clip-path: inset(0 100% 0 0);
-      transition: clip-path .22s ease;
-      pointer-events: none;
+    .nav-link[data-text]::before,
+    .nav-link[data-text]::after{
+      content:none;
     }
-    .nav-link[data-text]:hover::after { clip-path: inset(0 0 0 0); }
+    .nav-link:hover{ color: var(--accent); }
 
     /* Icônes */
     .icon {
