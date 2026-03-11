@@ -231,6 +231,59 @@
     }
     .nav-item.has-dropdown:hover .fleet-panel{opacity:1;pointer-events:auto;}
 
+    .activity-panel{
+      position:absolute;
+      top:calc(100% + 14px);
+      left:50%;
+      transform:translateX(-50%);
+      min-width:220px;
+      background:var(--panel-bg);
+      border:1px solid var(--panel-border);
+      box-shadow:0 18px 34px rgba(0,0,0,0.42);
+      padding:8px;
+      display:grid;
+      gap:6px;
+      opacity:0;
+      pointer-events:none;
+      transition:opacity .18s ease;
+      z-index:55;
+    }
+    .nav-item.has-dropdown:hover .activity-panel{opacity:1;pointer-events:auto;}
+    .activity-link{
+      text-decoration:none;
+      color:rgba(255,255,255,0.88);
+      border:1px solid rgba(255,255,255,0.10);
+      background:rgba(255,255,255,0.02);
+      padding:10px 12px;
+      font-family:"GPMenu", system-ui, sans-serif;
+      font-size:12px;
+      letter-spacing:0.12em;
+      text-transform:uppercase;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      transition:transform .18s ease, border-color .18s ease, color .18s ease;
+    }
+    .activity-link::after{
+      content:"";
+      width:7px;
+      height:7px;
+      border-top:2px solid rgba(255,255,255,0.72);
+      border-right:2px solid rgba(255,255,255,0.72);
+      transform:rotate(45deg);
+      transition:transform .18s ease, border-color .18s ease;
+    }
+    .activity-link:hover{
+      color:#fff;
+      border-color:rgba(47,107,255,0.55);
+      transform:translateX(3px);
+    }
+    .activity-link:hover::after{
+      transform:translateX(3px) rotate(45deg);
+      border-color:var(--accent);
+    }
+
     .fleet-card{
       position:relative;
       height:var(--drop-card-h);
@@ -573,6 +626,7 @@
       margin: 32px auto 0;
       max-width: var(--grid-max);
       padding: 0 var(--outer-x);
+      scroll-margin-top: 120px;
     }
     .section-title{
       font-family:"GPMenu", system-ui, sans-serif;
@@ -664,6 +718,107 @@
       text-decoration:none;
     }
 
+    .team-hierarchy{
+      display:grid;
+      gap:38px;
+      margin-top:14px;
+    }
+    .team-row-title{
+      text-align:left;
+      font-family:"GPMenu", system-ui, sans-serif;
+      letter-spacing:0.2em;
+      text-transform:uppercase;
+      font-size:11px;
+      color:rgba(255,255,255,0.56);
+      margin-bottom:8px;
+      padding-left:6px;
+    }
+    .team-grid{
+      display:grid;
+      grid-template-columns:repeat(3, minmax(0, 1fr));
+      gap:28px;
+      align-items:stretch;
+    }
+    .team-grid--single{grid-template-columns:minmax(0, 1fr); max-width:460px;}
+    .team-grid--three{grid-template-columns:repeat(3, minmax(0, 1fr));}
+    .team-grid--four{grid-template-columns:repeat(4, minmax(0, 1fr));}
+
+    .team-card{
+      border:1px solid rgba(255,255,255,0.18);
+      background:linear-gradient(180deg, rgba(24,24,28,0.97), rgba(12,12,15,0.96));
+      border-radius:22px;
+      overflow:hidden;
+      box-shadow:0 26px 54px rgba(0,0,0,0.36);
+      transition:transform .28s ease, border-color .28s ease, box-shadow .28s ease;
+      position:relative;
+      min-height:620px;
+      display:flex;
+      flex-direction:column;
+    }
+    .team-card::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:
+        radial-gradient(circle at 20% 8%, rgba(47,107,255,0.20), transparent 45%),
+        linear-gradient(160deg, rgba(255,255,255,0.05), rgba(255,255,255,0));
+      opacity:.9;
+      pointer-events:none;
+    }
+    .team-card:hover{
+      transform:translateY(-8px);
+      border-color:rgba(47,107,255,0.72);
+      box-shadow:0 0 0 1px rgba(47,107,255,0.30), 0 36px 68px rgba(0,0,0,0.42);
+    }
+    .team-media{
+      position:relative;
+      padding:26px 26px 20px;
+      display:grid;
+      justify-items:center;
+      z-index:1;
+    }
+    .team-photo{
+      width:206px;
+      aspect-ratio:1;
+      border-radius:50%;
+      border:4px solid rgba(47,107,255,0.86);
+      overflow:hidden;
+      background:rgba(255,255,255,0.05);
+      box-shadow:0 0 0 14px rgba(47,107,255,0.18), 0 24px 36px rgba(0,0,0,0.4);
+    }
+    .team-photo img{width:100%;height:100%;object-fit:cover;display:block;}
+
+    .team-body{
+      position:relative;
+      z-index:1;
+      padding:0 24px 24px;
+      display:flex;
+      flex-direction:column;
+      gap:12px;
+      flex:1;
+    }
+    .team-name{
+      font-family:"Swiss911",sans-serif;
+      font-size:46px;
+      line-height:0.9;
+      letter-spacing:-0.02em;
+      text-transform:uppercase;
+      transform:skewX(-4deg);
+    }
+    .team-role{
+      font-family:"GPMenu", system-ui, sans-serif;
+      font-size:11px;
+      letter-spacing:0.18em;
+      text-transform:uppercase;
+      color:rgba(255,255,255,0.74);
+    }
+    .team-bio{
+      margin-top:4px;
+      color:rgba(255,255,255,0.78);
+      font-size:14px;
+      line-height:1.55;
+      max-width:46ch;
+    }
     .calendar-layout{
       display:grid;
       grid-template-columns: minmax(0, 1.3fr) minmax(300px, 0.7fr);
@@ -1005,6 +1160,14 @@
       .calendar-card{padding:12px 13px;gap:7px;}
       .calendar-title{font-size:20px;}
       .calendar-location{font-size:12px;}
+
+      .team-grid--single{max-width:none;}
+      .team-grid,
+      .team-grid--three,
+      .team-grid--four{grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;}
+      .team-card{min-height:560px;}
+      .team-name{font-size:40px;}
+      .team-photo{width:186px;}
     }
 
     @media (max-width:640px){
@@ -1013,6 +1176,15 @@
       .calendar-weekdays{font-size:10px;letter-spacing:0.08em;}
       .calendar-day{min-height:84px;}
       .social-frame{height:680px;}
+      .team-grid,
+      .team-grid--three,
+      .team-grid--four{grid-template-columns:1fr;}
+      .team-card{min-height:0;}
+      .team-media{padding:22px 18px 16px;}
+      .team-body{padding:0 18px 20px;}
+      .team-photo{width:170px;}
+      .team-name{font-size:40px;}
+      .team-bio{font-size:13px;}
     }
 
     /* =============================== */
@@ -1135,7 +1307,15 @@
                   </div>
                 </span>
 
-                <span class="nav-item"><a href="activite.html" class="nav-link" data-text="ACTIVITÉS">ACTIVITÉS</a></span>
+                <span class="nav-item has-dropdown">
+                  <a href="activite.html" class="nav-link" data-text="ACTIVITÉS">ACTIVITÉS</a>
+                  <div class="activity-panel" role="menu" aria-label="Navigation page activités">
+                    <a class="activity-link" href="#calendar-title">Calendrier</a>
+                    <a class="activity-link" href="#social-title">Réseaux sociaux</a>
+                    <a class="activity-link" href="#photos-title">Photos du club</a>
+                    <a class="activity-link" href="#team-title">Notre équipe</a>
+                  </div>
+                </span>
                 <span class="nav-item"><a href="devenir-pilote.html" class="nav-link" data-text="DEVENIR PILOTE">DEVENIR PILOTE</a></span>
                 <span class="nav-item"><a href="contact.html" class="nav-link" data-text="CONTACT">CONTACT</a></span>
                 <span class="nav-item"><a href="boutique.html" class="nav-link" data-text="BOUTIQUE">BOUTIQUE</a></span>
@@ -1201,10 +1381,11 @@
           <div class="calendar-detail" id="calendarDetail">
             <div class="calendar-empty">Sélectionnez un jour pour voir les détails.</div>
           </div>
-        </div>
       </section>
 
-      <div class="wrap">
+      <div class="wrap" id="social-title">
+        <h2 class="section-title">Réseaux sociaux</h2>
+        <p class="section-note">Suivez les dernières nouvelles du club sur nos réseaux et retrouvez nos publications en direct.</p>
         <div class="social-grid">
           <div class="social-block fb-block">
             <div class="social-head">
@@ -1261,6 +1442,112 @@
         <p class="club-photo-help" id="clubPhotoHelp"></p>
       </section>
 
+
+      <section class="section-block" aria-labelledby="team-title">
+        <h2 class="section-title" id="team-title">Notre équipe</h2>
+        <p class="section-note">
+          Une équipe passionnée qui vous accompagne au quotidien sur le terrain, en vol et dans la vie du club.
+        </p>
+        <div class="team-hierarchy">
+          <div>
+            <div class="team-row-title">Présidence</div>
+            <div class="team-grid team-grid--single">
+              <article class="team-card">
+                <div class="team-media">
+                  <div class="team-photo"><img src="assets/images/image1.png" alt="Portrait de Frédéric Regnier"></div>
+                </div>
+                <div class="team-body">
+                  <h3 class="team-name">Frédéric Regnier</h3>
+                  <p class="team-role">Président</p>
+                  <p class="team-bio">Frédéric pilote la vision du club et fédère les membres autour d’une pratique du vol exigeante, conviviale et durable. Il accompagne les décisions stratégiques et veille à maintenir un esprit associatif fort.</p>
+                </div>
+              </article>
+            </div>
+          </div>
+
+          <div>
+            <div class="team-row-title">Gestion & structure numérique</div>
+            <div class="team-grid team-grid--three">
+              <article class="team-card">
+                <div class="team-media">
+                  <div class="team-photo"><img src="assets/images/FGHKE2.png" alt="Portrait de Luc Welsing"></div>
+                </div>
+                <div class="team-body">
+                  <h3 class="team-name">Luc Welsing</h3>
+                  <p class="team-role">Gestionnaire</p>
+                  <p class="team-bio">Luc coordonne l’organisation opérationnelle du club : suivi des plannings, articulation des besoins membres et fluidité de l’activité quotidienne sur la plateforme.</p>
+                </div>
+              </article>
+              <article class="team-card">
+                <div class="team-media">
+                  <div class="team-photo"><img src="assets/images/TB200M.png" alt="Portrait de Camille Duret"></div>
+                </div>
+                <div class="team-body">
+                  <h3 class="team-name">Camille Duret</h3>
+                  <p class="team-role">Trésorier</p>
+                  <p class="team-bio">Camille assure le suivi financier du club : budget, prévisions, investissements matériels et équilibre économique pour soutenir le développement des activités.</p>
+                </div>
+              </article>
+              <article class="team-card">
+                <div class="team-media">
+                  <div class="team-photo"><img src="assets/images/apam-logo2.png" alt="Portrait de Pierre Cauvin"></div>
+                </div>
+                <div class="team-body">
+                  <h3 class="team-name">Pierre Cauvin</h3>
+                  <p class="team-role">Responsable numérique</p>
+                  <p class="team-bio">Pierre conçoit et maintient le site du club ainsi que l’architecture documentaire Drive, pour centraliser les informations et garantir un accès clair, fiable et à jour.</p>
+                </div>
+              </article>
+            </div>
+          </div>
+
+          <div>
+            <div class="team-row-title">Instruction de vol</div>
+            <div class="team-grid team-grid--four">
+              <article class="team-card">
+                <div class="team-media">
+                  <div class="team-photo"><img src="assets/images/SR1.png" alt="Portrait de Paul Renard"></div>
+                </div>
+                <div class="team-body">
+                  <h3 class="team-name">Paul Renard</h3>
+                  <p class="team-role">Chef pilote</p>
+                  <p class="team-bio">Paul accompagne les élèves sur la progression technique et les automatismes sécurité, du tour de piste aux navigations plus ambitieuses.</p>
+                </div>
+              </article>
+              <article class="team-card">
+                <div class="team-media">
+                  <div class="team-photo"><img src="assets/images/FGHKE2.png" alt="Portrait de Lina Mercier"></div>
+                </div>
+                <div class="team-body">
+                  <h3 class="team-name">Lina Mercier</h3>
+                  <p class="team-role">Instructrice de vol</p>
+                  <p class="team-bio">Lina est référente pédagogie en phase de progression et aide chaque pilote à construire une pratique régulière, précise et sereine.</p>
+                </div>
+              </article>
+              <article class="team-card">
+                <div class="team-media">
+                  <div class="team-photo"><img src="assets/images/TB200M.png" alt="Portrait de Julien Moreau"></div>
+                </div>
+                <div class="team-body">
+                  <h3 class="team-name">Julien Moreau</h3>
+                  <p class="team-role">Instructeur de vol</p>
+                  <p class="team-bio">Julien intervient sur les séances de perfectionnement et met l’accent sur la prise de décision en environnement réel.</p>
+                </div>
+              </article>
+              <article class="team-card">
+                <div class="team-media">
+                  <div class="team-photo"><img src="assets/images/image1.png" alt="Portrait de Nora Blanchard"></div>
+                </div>
+                <div class="team-body">
+                  <h3 class="team-name">Nora Blanchard</h3>
+                  <p class="team-role">Instructrice de vol</p>
+                  <p class="team-bio">Nora suit les membres sur la régularité des compétences et accompagne les remises à niveau avec une approche progressive.</p>
+                </div>
+              </article>
+            </div>
+          </div>
+        </div>
+      </section>
       <footer>
         <div class="footer-inner">
           <div class="footer-inline">
