@@ -195,6 +195,9 @@
       white-space: nowrap;
     }
     .nav-link[data-text]:hover::after{ clip-path: inset(0 0 0 0); }
+    .nav-link[aria-current="page"]{ color: var(--accent); }
+    .nav-link[aria-current="page"][data-text]::before{ color: var(--accent); }
+    .nav-link[aria-current="page"][data-text]::after{ clip-path: inset(0 0 0 0); }
 
     .nav-item.has-dropdown::before{
       content:"";
@@ -902,7 +905,7 @@
             <a class="m-link" href="tarifs.html">FLOTTE</a>
             <a class="m-link" href="activite.html">LE CLUB</a>
             <a class="m-link" href="devenir-pilote.html">DEVENIR PILOTE</a>
-            <a class="m-link" href="contact.html">CONTACT</a>
+            <a class="m-link" href="contact.html" aria-current="page">CONTACT</a>
             <a class="m-link" href="boutique.html">BOUTIQUE</a>
             <a class="m-link" href="https://openflyers.com/apam/" target="_blank" rel="noopener noreferrer">OPENFLYER</a>
           </nav>
@@ -964,7 +967,7 @@
                   </div>
                 </span>
                 <span class="nav-item"><a href="devenir-pilote.html" class="nav-link" data-text="DEVENIR PILOTE">DEVENIR PILOTE</a></span>
-                <span class="nav-item"><a href="contact.html" class="nav-link" data-text="CONTACT">CONTACT</a></span>
+                <span class="nav-item"><a href="contact.html" class="nav-link" aria-current="page" data-text="CONTACT">CONTACT</a></span>
                 <span class="nav-item"><a href="boutique.html" class="nav-link" data-text="BOUTIQUE">BOUTIQUE</a></span>
                 <span class="nav-item"><a href="https://openflyers.com/apam/" target="_blank" rel="noopener noreferrer" class="nav-link" data-text="OPENFLYER">OPENFLYER</a></span>
               </nav>
