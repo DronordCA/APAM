@@ -50,29 +50,6 @@
     });
   }
 
-
-  document.querySelectorAll('.reveal-track').forEach((track) => {
-    Array.from(track.querySelectorAll('[data-reveal-item]')).forEach((item, index) => {
-      item.style.setProperty('--reveal-index', String(index));
-    });
-  });
-
-  const progressSections = Array.from(document.querySelectorAll('.home-section, .final-cta'));
-  const updateSectionProgress = () => {
-    const viewport = window.innerHeight || document.documentElement.clientHeight || 1;
-    progressSections.forEach((section) => {
-      const rect = section.getBoundingClientRect();
-      const total = viewport + rect.height;
-      const raw = (viewport - rect.top) / total;
-      const progress = Math.max(0, Math.min(1, raw));
-      section.style.setProperty('--section-progress', progress.toFixed(3));
-    });
-  };
-
-  updateSectionProgress();
-  window.addEventListener('scroll', () => window.requestAnimationFrame(updateSectionProgress), { passive: true });
-  window.addEventListener('resize', updateSectionProgress);
-
   const counterNodes = Array.from(document.querySelectorAll('[data-counter-target]'));
   let countersStarted = false;
 
@@ -107,36 +84,44 @@
     window.requestAnimationFrame(tick);
   };
 
-  const revealItems = document.querySelectorAll('.reveal-on-scroll');
+  const bidirectionalSections = [
+    document.getElementById('histoire'),
+    document.getElementById('localisation')
+  ].filter(Boolean);
+
   if (reducedMotion) {
-    revealItems.forEach((item) => item.classList.add('is-visible'));
+    bidirectionalSections.forEach((section) => section.classList.add('is-visible'));
     revealQuote();
     runCounters();
     return;
   }
 
   let quoteRevealed = false;
-  const revealObserver = new IntersectionObserver((entries, observer) => {
+  const quoteSection = document.getElementById('citation-club');
+  const chiffreSection = document.getElementById('chiffres-club');
+
+  const observer = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
-      const isVisible = entry.isIntersecting && entry.intersectionRatio >= 0.28;
-      if (!isVisible) return;
+      if (entry.target.id === 'histoire' || entry.target.id === 'localisation') {
+        entry.target.classList.toggle('is-visible', entry.isIntersecting && entry.intersectionRatio >= 0.35);
+        return;
+      }
 
-      entry.target.classList.add('is-visible');
-      observer.unobserve(entry.target);
-
-      if (entry.target.id === 'citation-club' && !quoteRevealed) {
+      if (entry.target.id === 'citation-club' && entry.isIntersecting && !quoteRevealed) {
         quoteRevealed = true;
         revealQuote();
       }
 
-      if (entry.target.id === 'chiffres-club') {
+      if (entry.target.id === 'chiffres-club' && entry.isIntersecting) {
         runCounters();
       }
     });
   }, {
-    threshold: [0, 0.2, 0.28, 0.45],
-    rootMargin: '0px 0px -14% 0px'
+    threshold: [0, 0.35, 0.55],
+    rootMargin: '0px'
   });
 
-  revealItems.forEach((item) => revealObserver.observe(item));
+  bidirectionalSections.forEach((section) => observer.observe(section));
+  if (quoteSection) observer.observe(quoteSection);
+  if (chiffreSection) observer.observe(chiffreSection);
 })();
