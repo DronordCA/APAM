@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8" />
-  <title>APAM – Activités</title>
+  <title>APAM – Le Club</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link rel="icon" type="image/png" sizes="32x32" href="assets/images/apam-logo2.png" />
   <link rel="shortcut icon" href="assets/images/apam-logo2.png" />
@@ -502,6 +502,11 @@
       margin: 10px auto 44px;
       padding: 0 var(--outer-x);
     }
+    .wrap.section-surface{
+      margin:0 auto;
+      padding:36px var(--outer-x);
+      scroll-margin-top:120px;
+    }
 
     /* =============================== */
     /* SOCIAL GRID */
@@ -623,10 +628,22 @@
     /* GALERIE + CALENDRIER */
     /* =============================== */
     .section-block{
-      margin: 32px auto 0;
+      margin: 0 auto;
       max-width: var(--grid-max);
       padding: 0 var(--outer-x);
       scroll-margin-top: 120px;
+    }
+    .section-surface{
+      padding-top:36px;
+      padding-bottom:36px;
+    }
+    .section-surface--light{
+      background:#f3f3f4;
+      color:#141416;
+    }
+    .section-surface--dark{
+      background:#121317;
+      color:#fff;
     }
     .section-title{
       font-family:"GPMenu", system-ui, sans-serif;
@@ -639,6 +656,21 @@
       color: rgba(255,255,255,0.68);
       font-size:14px;
       margin-bottom:18px;
+    }
+    .section-surface--light .section-note,
+    .section-surface--light .club-photo-help,
+    .section-surface--light .team-row-title{color:rgba(0,0,0,0.62);}
+
+    .reveal-on-scroll{
+      opacity:0;
+      transform:translate3d(0,32px,0);
+      filter:blur(6px);
+      transition:opacity .7s cubic-bezier(.16,1,.22,1),transform .7s cubic-bezier(.16,1,.22,1),filter .7s ease;
+    }
+    .reveal-on-scroll.is-visible{
+      opacity:1;
+      transform:none;
+      filter:none;
     }
 
     .club-photo{
@@ -1256,7 +1288,7 @@
 
           <nav class="m-nav" aria-label="Liens principaux">
             <a class="m-link" href="tarifs.html">FLOTTE</a>
-            <a class="m-link" href="activite.html">ACTIVITÉS</a>
+            <a class="m-link" href="activite.html">LE CLUB</a>
             <a class="m-link" href="devenir-pilote.html">DEVENIR PILOTE</a>
             <a class="m-link" href="contact.html">CONTACT</a>
             <a class="m-link" href="boutique.html">BOUTIQUE</a>
@@ -1308,12 +1340,12 @@
                 </span>
 
                 <span class="nav-item has-dropdown">
-                  <a href="activite.html" class="nav-link" data-text="ACTIVITÉS">ACTIVITÉS</a>
-                  <div class="activity-panel" role="menu" aria-label="Navigation page activités">
-                    <a class="activity-link" href="#calendar-title">Calendrier</a>
-                    <a class="activity-link" href="#social-title">Réseaux sociaux</a>
+                  <a href="activite.html" class="nav-link" data-text="LE CLUB">LE CLUB</a>
+                  <div class="activity-panel" role="menu" aria-label="Navigation Le Club">
+                    <a class="activity-link" href="#calendar-title">Calendrier des activités</a>
                     <a class="activity-link" href="#photos-title">Photos du club</a>
                     <a class="activity-link" href="#team-title">Notre équipe</a>
+                    <a class="activity-link" href="#social-title">Réseaux sociaux</a>
                   </div>
                 </span>
                 <span class="nav-item"><a href="devenir-pilote.html" class="nav-link" data-text="DEVENIR PILOTE">DEVENIR PILOTE</a></span>
@@ -1338,15 +1370,15 @@
 
       <!-- TITLE -->
       <div class="title-bar">
-        <div class="title-box" id="titleBox"><span>ACTIVITÉS</span></div>
+        <div class="title-box" id="titleBox"><span>LE CLUB</span></div>
       </div>
 
       <p class="intro">
-        Retrouvez ici toute l’actualité du club : sorties, formations, ateliers et rendez-vous à ne pas manquer.
+        Retrouvez ici la vie du club : calendrier des activités, galerie photos, équipe et actualités sur nos réseaux sociaux.
       </p>
 
-      <section class="section-block" aria-labelledby="calendar-title" data-calendar-csv="https://docs.google.com/spreadsheets/d/1mX3emh8CVdkkPyfQZj8cEg2ljwNExOZubIV2Dio0h7s/gviz/tq?tqx=out:csv&gid=1399260514">
-        <h2 class="section-title" id="calendar-title">Calendrier des événements</h2>
+      <section class="section-block section-surface section-surface--light reveal-on-scroll" aria-labelledby="calendar-title" data-calendar-csv="https://docs.google.com/spreadsheets/d/1mX3emh8CVdkkPyfQZj8cEg2ljwNExOZubIV2Dio0h7s/gviz/tq?tqx=out:csv&gid=1399260514">
+        <h2 class="section-title" id="calendar-title">Calendrier des activités</h2>
         <p class="section-note">
           Le calendrier recense les événements à venir du club. Cliquez sur un jour pour découvrir le programme détaillé,
           le lieu et les informations utiles pour participer.
@@ -1383,8 +1415,8 @@
           </div>
       </section>
 
-      <div class="wrap" id="social-title">
-        <h2 class="section-title">Réseaux sociaux</h2>
+      <section class="wrap section-surface section-surface--dark reveal-on-scroll" id="social-title" aria-labelledby="social-title-heading">
+        <h2 class="section-title" id="social-title-heading">Réseaux sociaux</h2>
         <p class="section-note">Suivez les dernières nouvelles du club sur nos réseaux et retrouvez nos publications en direct.</p>
         <div class="social-grid">
           <div class="social-block fb-block">
@@ -1428,9 +1460,9 @@
             </div>
           </div>
         </div>
-      </div>
+      </section>
 
-      <section class="section-block" aria-labelledby="photos-title" data-drive-folder-id="1kT0lWOg3rsbMM2mIU7lVkLyPA6--bc1D" data-drive-api-key="AIzaSyBKcSH_6xVu9sA3M-JWwuLVJUkR7cjXB00" data-photo-urls="assets/images/image1.png,assets/images/FGHKE2.png,assets/images/TB200M.png,assets/images/SR1.png">
+      <section class="section-block section-surface section-surface--dark reveal-on-scroll" aria-labelledby="photos-title" data-drive-folder-id="1kT0lWOg3rsbMM2mIU7lVkLyPA6--bc1D" data-drive-api-key="AIzaSyBKcSH_6xVu9sA3M-JWwuLVJUkR7cjXB00" data-photo-urls="assets/images/image1.png,assets/images/FGHKE2.png,assets/images/TB200M.png,assets/images/SR1.png">
         <h2 class="section-title" id="photos-title">Photos du club</h2>
         <p class="section-note">
           Découvrez en images la vie du club : sorties, moments de partage, vols et événements tout au long de l’année.
@@ -1443,7 +1475,7 @@
       </section>
 
 
-      <section class="section-block" aria-labelledby="team-title">
+      <section class="section-block section-surface section-surface--light reveal-on-scroll" aria-labelledby="team-title">
         <h2 class="section-title" id="team-title">Notre équipe</h2>
         <p class="section-note">
           Une équipe passionnée qui vous accompagne au quotidien sur le terrain, en vol et dans la vie du club.
@@ -2204,10 +2236,32 @@
       });
     })();
 
+
+    function reorderClubSections(){
+      const social = document.getElementById("social-title");
+      const team = document.querySelector('[aria-labelledby="team-title"]');
+      if (social && team && team.nextElementSibling !== social){
+        team.insertAdjacentElement("afterend", social);
+      }
+    }
+
+    function initScrollReveal(){
+      const blocks = Array.from(document.querySelectorAll('.reveal-on-scroll'));
+      if(!blocks.length) return;
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          entry.target.classList.toggle('is-visible', entry.isIntersecting);
+        });
+      }, { threshold: 0.18, rootMargin: '0px 0px -10% 0px' });
+      blocks.forEach((block) => io.observe(block));
+    }
+
     // init
     (function(){
       const tb = document.getElementById("titleBox");
       requestAnimationFrame(() => tb && tb.classList.add("is-in"));
+      reorderClubSections();
+      initScrollReveal();
       bindCalendarNav();
       initClubPhotos();
       loadEvents();
