@@ -129,6 +129,60 @@
       opacity:0;pointer-events:none;transition:opacity .18s ease;z-index:50;
     }
     .nav-item.has-dropdown:hover .fleet-panel{opacity:1;pointer-events:auto;}
+
+
+    .activity-panel{
+      position:absolute;
+      top:calc(100% + 14px);
+      left:50%;
+      transform:translateX(-50%);
+      min-width:220px;
+      background:var(--panel-bg);
+      border:1px solid var(--panel-border);
+      box-shadow:0 18px 34px rgba(0,0,0,0.42);
+      padding:8px;
+      display:grid;
+      gap:6px;
+      opacity:0;
+      pointer-events:none;
+      transition:opacity .18s ease;
+      z-index:55;
+    }
+    .nav-item.has-dropdown:hover .activity-panel{opacity:1;pointer-events:auto;}
+    .activity-link{
+      text-decoration:none;
+      color:rgba(255,255,255,0.88);
+      border:1px solid rgba(255,255,255,0.10);
+      background:rgba(255,255,255,0.02);
+      padding:10px 12px;
+      font-family:"GPMenu", system-ui, sans-serif;
+      font-size:12px;
+      letter-spacing:0.12em;
+      text-transform:uppercase;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      transition:transform .18s ease, border-color .18s ease, color .18s ease;
+    }
+    .activity-link::after{
+      content:"";
+      width:7px;
+      height:7px;
+      border-top:2px solid rgba(255,255,255,0.72);
+      border-right:2px solid rgba(255,255,255,0.72);
+      transform:rotate(45deg);
+      transition:transform .18s ease, border-color .18s ease;
+    }
+    .activity-link:hover{
+      color:#fff;
+      border-color:rgba(47,107,255,0.55);
+      transform:translateX(3px);
+    }
+    .activity-link:hover::after{
+      transform:translateX(3px) rotate(45deg);
+      border-color:var(--accent);
+    }
     .fleet-card{position:relative;height:var(--drop-card-h);background:var(--drop-card-bg);border:1px solid var(--drop-card-border);text-decoration:none;color:#fff;overflow:hidden;}
     .fleet-name{position:absolute;top:6px;left:50%;transform:translateX(-50%);font-family:"Swiss911",sans-serif;font-size:18px;letter-spacing:-0.01em;line-height:1;white-space:nowrap;}
     .fleet-plane{position:absolute;left:50%;top:52%;transform:translate(-50%,-50%);height:80px;max-width:88%;object-fit:contain;}
@@ -462,7 +516,7 @@
 
         <nav class="m-nav" aria-label="Liens principaux">
           <a class="m-link" href="tarifs.html">FLOTTE</a>
-          <a class="m-link" href="activite.html">ACTIVITÉS</a>
+          <a class="m-link" href="activite.html">LE CLUB</a>
           <a class="m-link" href="devenir-pilote.html">DEVENIR PILOTE</a>
           <a class="m-link" href="contact.html">CONTACT</a>
           <a class="m-link" href="boutique.html">BOUTIQUE</a>
@@ -521,9 +575,15 @@
                 </div>
               </span>
 
-              <span class="nav-item">
-                <a href="activite.html" class="nav-link" data-text="ACTIVITÉS">ACTIVITÉS</a>
-              </span>
+              <span class="nav-item has-dropdown">
+                  <a href="activite.html" class="nav-link" data-text="LE CLUB">LE CLUB</a>
+                  <div class="activity-panel" role="menu" aria-label="Navigation Le Club">
+                    <a class="activity-link" href="activite.html#calendar-title">Calendrier des activités</a>
+                    <a class="activity-link" href="activite.html#photos-title">Photos du club</a>
+                    <a class="activity-link" href="activite.html#team-title">Notre équipe</a>
+                    <a class="activity-link" href="activite.html#social-title">Réseaux sociaux</a>
+                  </div>
+                </span>
 
               <span class="nav-item">
                 <a href="devenir-pilote.html" class="nav-link" data-text="DEVENIR PILOTE">DEVENIR PILOTE</a>
