@@ -47,6 +47,7 @@
 .home-main {
   position: relative;
   background: linear-gradient(180deg, #141414 0%, #1d1d1d 100%);
+  overflow-x: clip;
 }
 
 .home-main::before {
@@ -88,6 +89,7 @@
   padding: 88px 0;
   background: #171717;
   color: #fff;
+  overflow-x: clip;
 }
 
 .home-section::after {
@@ -616,6 +618,15 @@
 
 
 @media (max-width: 980px) {
+  html,
+  body {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+    overscroll-behavior-x: none;
+    touch-action: pan-y;
+  }
+
   .hero-scroll-indicator { bottom: 110px; }
   .home-container { width: min(1180px, calc(100% - 36px)); }
   .home-section { padding: 68px 0; }
