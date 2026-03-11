@@ -784,6 +784,7 @@
 
         if (!payload.ok){
           window.localStorage.removeItem('apam_session_token');
+          window.localStorage.removeItem('apam_member_authenticated_at');
           hideAllCards(cards);
           if (memberIdentityEl) memberIdentityEl.textContent = '--';
           if (memberNumberEl) memberNumberEl.textContent = '--';
@@ -840,6 +841,7 @@
     overlay?.addEventListener('click', () => setOpen(false));
     logoutBtn?.addEventListener('click', () => {
       window.localStorage.removeItem('apam_session_token');
+      window.localStorage.removeItem('apam_member_authenticated_at');
       redirectToLogin();
     });
 

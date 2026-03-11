@@ -3,6 +3,7 @@
   if (!lock.enabled) return;
 
   const CACHE_KEY = 'apam_prelaunch_grant_v1';
+  const AUTH_MARKER_KEY = 'apam_member_authenticated_at';
   const ttlHours = Number(lock.accessTtlHours || 48);
   const ttlMs = Number.isFinite(ttlHours) && ttlHours > 0 ? ttlHours * 60 * 60 * 1000 : 48 * 60 * 60 * 1000;
 
@@ -12,6 +13,20 @@
   const allowedPermissions = new Set((lock.allowedPermissions || []).map((permission) => String(permission || '').trim().toLowerCase()).filter(Boolean));
 
   const now = () => Date.now();
+
+  const bootStyle = document.createElement('style');
+  bootStyle.setAttribute('data-prelaunch-guard', '');
+  bootStyle.textContent = 'html.apam-prelaunch-pending body{visibility:hidden !important;}';
+  if (document.head) {
+    document.head.appendChild(bootStyle);
+  } else {
+    document.addEventListener('DOMContentLoaded', () => document.head?.appendChild(bootStyle), { once: true });
+  }
+  document.documentElement.classList.add('apam-prelaunch-pending');
+
+  const releasePage = () => {
+    document.documentElement.classList.remove('apam-prelaunch-pending');
+  };
 
   const blockMarkup = `
     <main style="min-height:100svh;display:grid;place-items:center;background:#10131d;color:#fff;padding:24px;font-family:system-ui,-apple-system,Segoe UI,sans-serif;">
@@ -28,6 +43,7 @@
     const doRender = () => {
       if (!document.body) return;
       document.body.innerHTML = blockMarkup;
+      releasePage();
     };
 
     if (document.body) {
@@ -48,6 +64,16 @@
       return parsed;
     } catch {
       return null;
+    }
+  };
+
+  const hasRecentAuthMarker = () => {
+    try {
+      const markerRaw = window.localStorage.getItem(AUTH_MARKER_KEY);
+      const markerTs = Number(markerRaw || 0);
+      return Number.isFinite(markerTs) && markerTs > 0 && markerTs + ttlMs > now();
+    } catch {
+      return false;
     }
   };
 
@@ -79,8 +105,14 @@
     const cachedEmail = String(cached.email || '').trim().toLowerCase();
     const cachedPermissions = new Set((cached.permissions || []).map((permission) => String(permission || '').trim().toLowerCase()));
     if ((cachedEmail && allowedEmails.has(cachedEmail)) || hasAllowedPermission(cachedPermissions)) {
+      releasePage();
       return;
     }
+  }
+
+  if (token && hasRecentAuthMarker()) {
+    releasePage();
+    return;
   }
 
   if (!token || !apiUrl) {
@@ -105,6 +137,7 @@
         return;
       }
       writeCache(profile);
+      releasePage();
     })
     .catch(() => {
       renderBlocked();
