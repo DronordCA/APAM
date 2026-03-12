@@ -14,6 +14,12 @@
   </script>
   <link rel="icon" type="image/png" sizes="32x32" href="assets/images/apam-logo2.png" />
   <link rel="shortcut icon" href="assets/images/apam-logo2.png" />
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+    crossorigin=""
+  />
 
   <style>
     /* =============================== */
@@ -983,7 +989,30 @@
       aspect-ratio:16/8;
       border-radius:16px;
       display:block;
-      background:radial-gradient(120% 80% at 50% 50%, #19345f 0%, #0e1f38 62%, #091321 100%);
+      overflow:hidden;
+      border:1px solid rgba(255,255,255,0.16);
+      box-shadow:inset 0 0 0 1px rgba(255,255,255,0.05);
+    }
+    .voyages-map .leaflet-control-zoom a{
+      background:rgba(10,14,22,0.9);
+      color:#fff;
+      border-color:rgba(255,255,255,0.28);
+    }
+    .voyages-map .leaflet-control-attribution{
+      background:rgba(8,12,18,0.75);
+      color:rgba(255,255,255,0.72);
+      font-size:10px;
+    }
+    .voyages-map .leaflet-control-attribution a{color:#9ec4ff;}
+
+    .voyages-point-label{
+      color:#fff;
+      font-family:"GPMenu", system-ui, sans-serif;
+      font-size:10px;
+      letter-spacing:0.09em;
+      text-transform:uppercase;
+      text-shadow:0 1px 8px rgba(0,0,0,0.8);
+      white-space:nowrap;
     }
     .voyages-route{
       fill:none;
@@ -2186,45 +2215,7 @@
                   <span data-voyages-progress>Route 1 / 4</span>
                 </div>
                 <div class="voyages-stage__map">
-                  <svg class="voyages-map" viewBox="0 0 1200 620" aria-hidden="true">
-                    <defs>
-                      <linearGradient id="routeGradient" x1="0" y1="0" x2="1" y2="1">
-                        <stop offset="0%" stop-color="#b6d3ff"></stop>
-                        <stop offset="45%" stop-color="#76adff"></stop>
-                        <stop offset="100%" stop-color="#2f6bff"></stop>
-                      </linearGradient>
-                    </defs>
-                    <rect x="0" y="0" width="1200" height="620" fill="transparent"></rect>
-
-                    <g fill="rgba(160,198,255,0.24)">
-                      <path d="M102,206 L160,180 L230,194 L288,174 L348,190 L412,210 L462,258 L434,306 L382,324 L314,310 L274,328 L220,312 L168,270 Z"></path>
-                      <path d="M470,168 L556,152 L676,170 L736,204 L748,242 L694,258 L620,242 L554,232 L492,214 Z"></path>
-                      <path d="M556,294 L630,286 L690,304 L730,340 L708,372 L656,380 L594,360 L548,334 Z"></path>
-                      <path d="M732,248 L776,236 L810,254 L816,286 L792,306 L756,294 L724,272 Z"></path>
-                    </g>
-
-                    <g stroke="rgba(255,255,255,0.14)" stroke-width="1" fill="none">
-                      <path d="M0 160 H1200"></path>
-                      <path d="M0 280 H1200"></path>
-                      <path d="M0 400 H1200"></path>
-                    </g>
-
-                    <path class="voyages-route" data-voyage-route d="M 260 230 Q 340 140 470 112"></path>
-                    <path class="voyages-route" data-voyage-route d="M 260 230 Q 300 300 318 366"></path>
-                    <path class="voyages-route" data-voyage-route d="M 260 230 Q 420 240 608 286"></path>
-                    <path class="voyages-route" data-voyage-route d="M 260 230 Q 236 270 218 332"></path>
-
-                    <circle class="voyages-route-dot" cx="260" cy="230" r="7"></circle>
-                    <circle class="voyages-route-dot" cx="470" cy="112" r="6"></circle>
-                    <circle class="voyages-route-dot" cx="318" cy="366" r="6"></circle>
-                    <circle class="voyages-route-dot" cx="608" cy="286" r="6"></circle>
-                    <circle class="voyages-route-dot" cx="218" cy="332" r="6"></circle>
-
-                    <text class="voyages-route-label" x="272" y="220">L'AIGLE</text>
-                    <text class="voyages-route-label" x="482" y="104">NORVÈGE</text>
-                    <text class="voyages-route-label" x="330" y="378">MAROC</text>
-                    <text class="voyages-route-label" x="618" y="280">CHYPRE</text>
-                  </svg>
+                  <div class="voyages-map" id="voyages-map" aria-hidden="true"></div>
                 </div>
                 <div class="voyages-legend" data-voyages-legend>
                   <article class="voyage-chip is-active" data-voyage-chip>
@@ -2333,6 +2324,12 @@
 
     </div>
   </div>
+
+  <script
+    src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+    crossorigin=""
+  ></script>
 
   <script>
     const calendarSection = document.querySelector("[data-calendar-csv]");
@@ -3092,32 +3089,69 @@
     function initVoyagesMap(){
       const scroll = document.querySelector('[data-voyages-scroll]');
       const stage = document.querySelector('[data-voyages-stage]');
-      const routes = Array.from(document.querySelectorAll('[data-voyage-route]'));
       const chips = Array.from(document.querySelectorAll('[data-voyage-chip]'));
       const progressLabel = document.querySelector('[data-voyages-progress]');
-      if (!scroll || !stage || !routes.length) return;
+      const mapNode = document.getElementById('voyages-map');
+      if (!scroll || !stage || !chips.length || !mapNode || typeof window.L === 'undefined') return;
 
-      routes.forEach((route, index) => {
-        const length = route.getTotalLength();
-        route.style.stroke = 'url(#routeGradient)';
-        route.style.strokeDasharray = String(length);
-        route.style.strokeDashoffset = String(length);
-        route.dataset.routeLength = String(length);
-        if (index === 0){
-          route.style.strokeDashoffset = '0';
-          route.style.opacity = '0.95';
-        }
+      const points = {
+        base: [48.7636, 0.6272],
+        norvege: [59.9139, 10.7522],
+        maroc: [33.5731, -7.5898],
+        chypre: [35.1856, 33.3823],
+        atlantique: [37.7412, -25.6756]
+      };
+
+      const map = L.map(mapNode, {
+        center: [43, 4],
+        zoom: 3,
+        minZoom: 2,
+        maxZoom: 6,
+        worldCopyJump: true,
+        zoomControl: true,
+        scrollWheelZoom: false
       });
+
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+      }).addTo(map);
+
+      const routes = [
+        [points.base, points.norvege],
+        [points.base, points.maroc],
+        [points.base, points.chypre],
+        [points.base, points.atlantique]
+      ].map((line) => L.polyline(line, {
+        color: '#7cb3ff',
+        weight: 3,
+        opacity: 0.22,
+        lineCap: 'round'
+      }).addTo(map));
+
+      const markerStyle = { radius: 5, color: '#7cb3ff', weight: 2, fillColor: '#ffffff', fillOpacity: 1 };
+      [points.base, points.norvege, points.maroc, points.chypre, points.atlantique].forEach((point) => {
+        L.circleMarker(point, markerStyle).addTo(map);
+      });
+
+      const labelIcon = (text) => L.divIcon({
+        className: 'voyages-point-label',
+        html: text,
+        iconSize: [120, 18],
+        iconAnchor: [-8, 10]
+      });
+
+      L.marker(points.base, { icon: labelIcon("L'AIGLE") }).addTo(map);
+      L.marker(points.norvege, { icon: labelIcon('NORVÈGE') }).addTo(map);
+      L.marker(points.maroc, { icon: labelIcon('MAROC') }).addTo(map);
+      L.marker(points.chypre, { icon: labelIcon('CHYPRE') }).addTo(map);
 
       const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       if (reducedMotion){
-        routes.forEach((route) => {
-          route.style.strokeDashoffset = '0';
-          route.style.opacity = '0.95';
-        });
+        routes.forEach((route) => route.setStyle({ opacity: 0.95 }));
         chips.forEach((chip) => chip.classList.add('is-active'));
         if (progressLabel) progressLabel.textContent = `Route ${routes.length} / ${routes.length}`;
         stage.style.setProperty('--voyage-progress', '1');
+        setTimeout(() => map.invalidateSize(), 100);
         return;
       }
 
@@ -3135,10 +3169,7 @@
         let activeRoute = 0;
         routes.forEach((route, index) => {
           const routeProgress = Math.max(0, Math.min(1, (progress - (index * perRoute)) / perRoute));
-          const length = Number(route.dataset.routeLength || '0');
-          const offset = length * (1 - routeProgress);
-          route.style.strokeDashoffset = String(offset);
-          route.style.opacity = String(0.34 + (routeProgress * 0.66));
+          route.setStyle({ opacity: 0.22 + (routeProgress * 0.73) });
           if (routeProgress >= 0.98) activeRoute = index + 1;
         });
 
@@ -3157,8 +3188,10 @@
       };
 
       update();
+      setTimeout(() => map.invalidateSize(), 120);
       window.addEventListener('scroll', onScroll, { passive: true });
       window.addEventListener('resize', onScroll);
+      window.addEventListener('resize', () => map.invalidateSize());
     }
 
     function initInstallationsRunway(){
