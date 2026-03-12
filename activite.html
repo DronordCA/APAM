@@ -924,9 +924,6 @@
       --story-steps:4;
       --runway-progress:0;
       margin-top:22px;
-      width:100vw;
-      margin-left:calc(50% - 50vw);
-      margin-right:calc(50% - 50vw);
       min-height:calc(100vh * var(--story-steps));
       position:relative;
     }
@@ -1049,6 +1046,28 @@
       bottom:clamp(42px, 11vh, 94px);
       z-index:4;
       max-width:min(760px, 92vw);
+    }
+    .installations-points{
+      margin:12px 0 0;
+      padding:0;
+      list-style:none;
+      display:flex;
+      align-items:center;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+    .installations-points li{
+      width:10px;
+      height:10px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,0.42);
+      background:rgba(255,255,255,0.12);
+      transition:transform .2s ease, background .2s ease, border-color .2s ease;
+    }
+    .installations-points li.is-active{
+      background:rgba(125,174,255,0.96);
+      border-color:rgba(125,174,255,0.96);
+      transform:scale(1.12);
     }
     .installations-step{
       display:none;
@@ -1530,6 +1549,7 @@
 
       .installations-scroll{min-height:calc(100vh * 3.6);}
       .installations-sticky{padding:14px 14px 20px;}
+      .installations-points{gap:8px;}
     }
 
     @media (max-width:640px){
@@ -1564,6 +1584,7 @@
       .runway-threshold{font-size:20px;}
       .installations-story{position:static;max-width:none;margin-top:12px;}
       .installations-step{display:block;font-size:13px;margin-bottom:8px;}
+      .installations-points{display:none;}
     }
 
     /* =============================== */
@@ -1987,6 +2008,12 @@
                     <a class="installations-btn" href="activite.html#calendar-title">Voir les horaires</a>
                   </div>
                 </article>
+                <ol class="installations-points" aria-hidden="true">
+                  <li class="is-active" data-installations-point></li>
+                  <li data-installations-point></li>
+                  <li data-installations-point></li>
+                  <li data-installations-point></li>
+                </ol>
               </div>
             </div>
           </div>
@@ -2771,11 +2798,18 @@
       const story = document.querySelector('[data-installations-scroll]');
       const runway = document.querySelector('[data-installations-runway]');
       const steps = Array.from(document.querySelectorAll('[data-installations-step]'));
+      const points = Array.from(document.querySelectorAll('[data-installations-point]'));
       if (!runway || !story || !steps.length) return;
+
+      const setActiveStep = (index) => {
+        steps.forEach((step, stepIndex) => step.classList.toggle('is-active', stepIndex === index));
+        points.forEach((point, pointIndex) => point.classList.toggle('is-active', pointIndex === index));
+      };
+
       const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       if (reducedMotion){
         runway.style.setProperty('--runway-progress', '1');
-        steps.forEach((step, index) => step.classList.toggle('is-active', index === steps.length - 1));
+        setActiveStep(steps.length - 1);
         return;
       }
 
@@ -2789,8 +2823,8 @@
         const progress = Math.max(0, Math.min(1, raw));
         runway.style.setProperty('--runway-progress', progress.toFixed(3));
 
-        const stepIndex = Math.min(steps.length - 1, Math.floor(progress * steps.length));
-        steps.forEach((step, index) => step.classList.toggle('is-active', index === stepIndex));
+        const stepIndex = Math.min(steps.length - 1, Math.round(progress * (steps.length - 1)));
+        setActiveStep(stepIndex);
       };
 
       const onScroll = () => {
