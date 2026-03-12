@@ -931,10 +931,15 @@
       max-width:46ch;
     }
 
+    .section-surface--voyages,
+    .section-surface--installations{
+      padding-top:0;
+      padding-bottom:0;
+    }
+
     .voyages-scroll{
       --voyage-progress:0;
       --voyage-steps:4;
-      margin-top:24px;
       min-height:calc(100vh * var(--voyage-steps));
       width:100vw;
       left:50%;
@@ -1045,7 +1050,7 @@
       stroke-width:2.4;
       stroke-linecap:round;
       filter:drop-shadow(0 0 8px rgba(79,139,255,0.65));
-      opacity:0.42;
+      opacity:0;
     }
     .voyages-route-dot{
       fill:#fff;
@@ -1111,7 +1116,6 @@
       --runway-progress:0;
       --runway-smoothed:0;
       --runway-drift:0;
-      margin-top:22px;
       min-height:calc(100vh * var(--story-steps));
       position:relative;
       perspective:1600px;
@@ -1247,7 +1251,8 @@
       filter:blur(5px);
     }
     .runway-papi{
-      right:8%;
+      left:8%;
+      right:auto;
       top:46%;
       z-index:3;
       display:flex;
@@ -1260,6 +1265,14 @@
       box-shadow:0 8px 18px rgba(0,0,0,0.42);
       transform:translate3d(calc(var(--runway-drift) * 0.2%), calc(var(--runway-smoothed) * 0.5%), 0);
     }
+    .runway-papi--right{
+      right:8%;
+      left:auto;
+    }
+    .runway-papi--left{
+      left:8%;
+      right:auto;
+    }
     .runway-papi__light{
       width:9px;
       height:9px;
@@ -1268,19 +1281,6 @@
     }
     .runway-papi__light--red{color:rgba(255,74,74,0.95);background:currentColor;}
     .runway-papi__light--white{color:rgba(255,255,255,0.95);background:currentColor;}
-    .installations-track__caption{
-      position:absolute;
-      left:20px;
-      right:20px;
-      bottom:14px;
-      margin:0;
-      z-index:3;
-      font-family:"GPMenu", system-ui, sans-serif;
-      font-size:11px;
-      letter-spacing:0.11em;
-      text-transform:uppercase;
-      color:rgba(255,255,255,0.78);
-    }
     .installations-story{
       position:absolute;
       inset:0;
@@ -1986,7 +1986,7 @@
                     <a class="activity-link" href="#calendar-title">Calendrier des activités</a>
                     <a class="activity-link" href="#photos-title">Photos du club</a>
                     <a class="activity-link" href="#team-title">Notre équipe</a>
-                    <a class="activity-link" href="#voyages-title">Voyages APAM</a>
+                    <a class="activity-link" href="#voyages-title">Voyage de L'APAM</a>
                     <a class="activity-link" href="#installations-title">Nos installations</a>
                     <a class="activity-link" href="#social-title">Réseaux sociaux</a>
                   </div>
@@ -2239,18 +2239,14 @@
       </section>
 
 
-      <section class="section-surface section-surface--light reveal-on-scroll" data-reveal="up" aria-labelledby="voyages-title">
+      <section class="section-surface section-surface--light section-surface--voyages reveal-on-scroll" data-reveal="up" aria-labelledby="voyages-title">
         <div class="section-inner">
-          <h2 class="section-title" id="voyages-title">Voyages APAM</h2>
-          <p class="section-note">
-            Entre l'équipe et les installations, retrouvez les grandes navigations déjà réalisées par le club.
-            En défilant, les routes se dessinent progressivement sur la carte du monde.
-          </p>
+          <h2 class="section-title" id="voyages-title" hidden>Voyage de L'APAM</h2>
           <div class="voyages-scroll" data-voyages-scroll>
             <div class="voyages-sticky">
               <div class="voyages-stage" data-voyages-stage role="img" aria-label="Carte des grands trajets APAM en Europe et Afrique du Nord">
                 <div class="voyages-stage__hud" aria-hidden="true">
-                  <span>LFOL — LONGUES NAVIGATIONS</span>
+                  <span>VOYAGE DE L'APAM</span>
                   <span data-voyages-progress>Route 1 / 4</span>
                 </div>
                 <div class="voyages-stage__map">
@@ -2280,17 +2276,14 @@
         </div>
       </section>
 
-      <section class="section-surface section-surface--dark reveal-on-scroll" data-reveal="up" aria-labelledby="installations-title">
+      <section class="section-surface section-surface--dark section-surface--installations reveal-on-scroll" data-reveal="up" aria-labelledby="installations-title">
         <div class="section-inner">
-          <div class="installations-heading">
-            <h2 class="section-title" id="installations-title">Nos installations</h2>
-            <p class="section-note">Une piste d'avion en dur pensée pour l'entraînement : roulement précis, décollages réguliers et atterrissages plus sûrs toute l'année.</p>
-          </div>
+          <h2 class="section-title" id="installations-title" hidden>Nos installations</h2>
           <div class="installations-scroll" data-installations-scroll>
             <div class="installations-sticky">
               <div class="installations-track" data-installations-runway role="img" aria-label="Vue immersive de la piste en dur du club">
                 <div class="installations-track__hud" aria-hidden="true">
-                  <span>LFOL</span>
+                  <span>NOS INSTALLATIONS</span>
                   <span>Piste 07/25</span>
                   <span>Approche</span>
                 </div>
@@ -2302,14 +2295,19 @@
                   <span class="runway-threshold runway-threshold--start">07</span>
                   <span class="runway-threshold runway-threshold--end">25</span>
                   <span class="runway-sweep"></span>
-                  <span class="runway-papi" aria-hidden="true">
+                  <span class="runway-papi runway-papi--left" aria-hidden="true">
+                    <span class="runway-papi__light runway-papi__light--red"></span>
+                    <span class="runway-papi__light runway-papi__light--red"></span>
+                    <span class="runway-papi__light runway-papi__light--white"></span>
+                    <span class="runway-papi__light runway-papi__light--white"></span>
+                  </span>
+                  <span class="runway-papi runway-papi--right" aria-hidden="true">
                     <span class="runway-papi__light runway-papi__light--red"></span>
                     <span class="runway-papi__light runway-papi__light--red"></span>
                     <span class="runway-papi__light runway-papi__light--white"></span>
                     <span class="runway-papi__light runway-papi__light--white"></span>
                   </span>
                 </div>
-                <p class="installations-track__caption">Premier scroll : plein écran. Ensuite, avancez le long de la piste pour révéler chaque point clé.</p>
               </div>
               <div class="installations-story" data-installations-story>
                 <article class="installations-step is-active" data-installations-step>
@@ -3167,23 +3165,25 @@
         return [start, [bendLat, bendLng], end];
       };
 
-      const routes = [
+      const routeDefinitions = [
         curvedLine(points.base, points.norvege, 0.14),
         curvedLine(points.base, points.maroc, 0.16),
         curvedLine(points.base, points.chypre, 0.12),
         curvedLine(points.base, points.angleterre, 0.2)
-      ].map((line) => L.polyline(line, {
+      ];
+
+      const routes = routeDefinitions.map((line) => L.polyline(line, {
         color: '#d93030',
         weight: 4,
-        opacity: 0.24,
+        opacity: 0,
         lineCap: 'round',
         lineJoin: 'round'
       }).addTo(map));
 
-      const markerStyle = { radius: 5.5, color: '#d93030', weight: 2, fillColor: '#ffffff', fillOpacity: 1 };
-      [points.base, points.norvege, points.maroc, points.chypre, points.angleterre].forEach((point) => {
-        L.circleMarker(point, markerStyle).addTo(map);
-      });
+      L.circleMarker(points.base, { radius: 5.5, color: '#d93030', weight: 2, fillColor: '#ffffff', fillOpacity: 1 }).addTo(map);
+      const routeMarkers = [points.norvege, points.maroc, points.chypre, points.angleterre].map((point) => (
+        L.circleMarker(point, { radius: 5.5, color: '#d93030', weight: 2, fillColor: '#ffffff', fillOpacity: 0, opacity: 0 }).addTo(map)
+      ));
 
       const labelIcon = (text) => L.divIcon({
         className: 'voyages-point-label',
@@ -3193,14 +3193,31 @@
       });
 
       L.marker(points.base, { icon: labelIcon("L'AIGLE") }).addTo(map);
-      L.marker(points.norvege, { icon: labelIcon('NORVÈGE') }).addTo(map);
-      L.marker(points.maroc, { icon: labelIcon('MAROC') }).addTo(map);
-      L.marker(points.chypre, { icon: labelIcon('CHYPRE') }).addTo(map);
-      L.marker(points.angleterre, { icon: labelIcon('ANGLETERRE · CORNOUAILLES') }).addTo(map);
+      const destinationLabels = [
+        L.marker(points.norvege, { icon: labelIcon('NORVÈGE'), opacity: 0 }).addTo(map),
+        L.marker(points.maroc, { icon: labelIcon('MAROC'), opacity: 0 }).addTo(map),
+        L.marker(points.chypre, { icon: labelIcon('CHYPRE'), opacity: 0 }).addTo(map),
+        L.marker(points.angleterre, { icon: labelIcon('ANGLETERRE · CORNOUAILLES'), opacity: 0 }).addTo(map)
+      ];
+
+      let routeLengths = [];
+      const setRouteDraw = (route, routeProgress, index) => {
+        const clamped = Math.max(0, Math.min(1, routeProgress));
+        const path = route && route._path;
+        if (path){
+          const length = routeLengths[index] || path.getTotalLength() || 0;
+          routeLengths[index] = length;
+          path.style.strokeDasharray = `${length}`;
+          path.style.strokeDashoffset = `${length * (1 - clamped)}`;
+        }
+        route.setStyle({ opacity: clamped <= 0.001 ? 0 : (0.15 + (clamped * 0.82)) });
+        routeMarkers[index].setStyle({ opacity: clamped >= 0.98 ? 1 : 0, fillOpacity: clamped >= 0.98 ? 1 : 0 });
+        destinationLabels[index].setOpacity(clamped >= 0.98 ? 1 : 0);
+      };
 
       const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       if (reducedMotion){
-        routes.forEach((route) => route.setStyle({ opacity: 0.95 }));
+        routes.forEach((route, index) => setRouteDraw(route, 1, index));
         chips.forEach((chip) => chip.classList.add('is-active'));
         if (progressLabel) progressLabel.textContent = `Route ${routes.length} / ${routes.length}`;
         stage.style.setProperty('--voyage-progress', '1');
@@ -3222,7 +3239,7 @@
         let activeRoute = 0;
         routes.forEach((route, index) => {
           const routeProgress = Math.max(0, Math.min(1, (progress - (index * perRoute)) / perRoute));
-          route.setStyle({ opacity: 0.22 + (routeProgress * 0.73) });
+          setRouteDraw(route, routeProgress, index);
           if (routeProgress >= 0.98) activeRoute = index + 1;
         });
 
@@ -3242,6 +3259,13 @@
 
       update();
       setTimeout(() => map.invalidateSize(), 120);
+      setTimeout(() => {
+        routeLengths = routes.map((route) => {
+          const path = route && route._path;
+          return path ? path.getTotalLength() : 0;
+        });
+        update();
+      }, 220);
       window.addEventListener('scroll', onScroll, { passive: true });
       window.addEventListener('resize', onScroll);
       window.addEventListener('resize', () => map.invalidateSize());
