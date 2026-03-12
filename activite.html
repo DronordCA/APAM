@@ -963,6 +963,11 @@
       overflow:hidden;
       isolation:isolate;
     }
+    .section-surface--light .voyages-stage{
+      background:#ffffff;
+      border-top:1px solid rgba(0,0,0,0.12);
+      border-bottom:1px solid rgba(0,0,0,0.12);
+    }
     .voyages-stage__hud{
       display:flex;
       justify-content:space-between;
@@ -975,6 +980,7 @@
       color:rgba(255,255,255,0.8);
       margin-bottom:16px;
     }
+    .section-surface--light .voyages-stage__hud{color:rgba(0,0,0,0.62);}
     .voyages-stage__map{
       width:min(1220px, 100%);
       margin:0 auto;
@@ -983,6 +989,11 @@
       background:linear-gradient(160deg, rgba(255,255,255,0.1), rgba(5,8,14,0.84));
       box-shadow:0 28px 56px rgba(0,0,0,0.48), inset 0 1px 0 rgba(255,255,255,0.2);
       padding:18px;
+    }
+    .section-surface--light .voyages-stage__map{
+      border:1px solid rgba(0,0,0,0.16);
+      background:#fff;
+      box-shadow:0 20px 44px rgba(0,0,0,0.12);
     }
     .voyages-map{
       width:100%;
@@ -998,12 +1009,22 @@
       color:#fff;
       border-color:rgba(255,255,255,0.28);
     }
+    .section-surface--light .voyages-map .leaflet-control-zoom a{
+      background:rgba(255,255,255,0.95);
+      color:#111;
+      border-color:rgba(0,0,0,0.22);
+    }
     .voyages-map .leaflet-control-attribution{
       background:rgba(8,12,18,0.75);
       color:rgba(255,255,255,0.72);
       font-size:10px;
     }
+    .section-surface--light .voyages-map .leaflet-control-attribution{
+      background:rgba(255,255,255,0.86);
+      color:rgba(0,0,0,0.58);
+    }
     .voyages-map .leaflet-control-attribution a{color:#9ec4ff;}
+    .section-surface--light .voyages-map .leaflet-control-attribution a{color:#c63131;}
 
     .voyages-point-label{
       color:#fff;
@@ -1013,6 +1034,10 @@
       text-transform:uppercase;
       text-shadow:0 1px 8px rgba(0,0,0,0.8);
       white-space:nowrap;
+    }
+    .section-surface--light .voyages-point-label{
+      color:#161616;
+      text-shadow:0 1px 6px rgba(255,255,255,0.85);
     }
     .voyages-route{
       fill:none;
@@ -1070,6 +1095,16 @@
       margin-bottom:4px;
     }
     .voyage-chip span{font-size:13px;color:rgba(255,255,255,0.76);}
+    .section-surface--light .voyage-chip{
+      border-color:rgba(0,0,0,0.16);
+      background:rgba(255,255,255,0.88);
+      color:rgba(0,0,0,0.74);
+    }
+    .section-surface--light .voyage-chip.is-active{
+      border-color:rgba(198,49,49,0.82);
+      background:rgba(255,241,241,0.96);
+    }
+    .section-surface--light .voyage-chip span{color:rgba(0,0,0,0.62);}
 
     .installations-scroll{
       --story-steps:4;
@@ -1107,6 +1142,10 @@
       transition:transform 120ms linear;
       will-change:transform;
       isolation:isolate;
+    }
+    .section-surface--dark .installations-track{
+      background:radial-gradient(130% 86% at 50% -14%, rgba(106,106,106,0.24), rgba(10,10,10,0.98) 58%, #000 100%);
+      border-color:rgba(255,255,255,0.2);
     }
     .installations-track__hud{
       position:absolute;
@@ -2027,7 +2066,7 @@
       </div>
       </section>
 
-      <section class="section-surface section-surface--dark reveal-on-scroll" data-reveal="right" id="social-title" aria-labelledby="social-title-heading">
+      <section class="section-surface section-surface--light reveal-on-scroll" data-reveal="right" id="social-title" aria-labelledby="social-title-heading">
         <div class="section-inner">
         <h2 class="section-title" id="social-title-heading">Réseaux sociaux</h2>
         <p class="section-note">Suivez les dernières nouvelles du club sur nos réseaux et retrouvez nos publications en direct.</p>
@@ -2200,7 +2239,7 @@
       </section>
 
 
-      <section class="section-surface section-surface--dark reveal-on-scroll" data-reveal="up" aria-labelledby="voyages-title">
+      <section class="section-surface section-surface--light reveal-on-scroll" data-reveal="up" aria-labelledby="voyages-title">
         <div class="section-inner">
           <h2 class="section-title" id="voyages-title">Voyages APAM</h2>
           <p class="section-note">
@@ -2231,8 +2270,8 @@
                     <span>Route méditerranéenne de référence.</span>
                   </article>
                   <article class="voyage-chip" data-voyage-chip>
-                    <strong>Escapade Atlantique</strong>
-                    <span>Exemple d'itinéraire côtier longue distance.</span>
+                    <strong>Angleterre (Cornouailles)</strong>
+                    <span>Navigation ciblée vers le sud-ouest anglais, surtout en Cornouailles.</span>
                   </article>
                 </div>
               </div>
@@ -2241,7 +2280,7 @@
         </div>
       </section>
 
-      <section class="section-surface section-surface--light reveal-on-scroll" data-reveal="up" aria-labelledby="installations-title">
+      <section class="section-surface section-surface--dark reveal-on-scroll" data-reveal="up" aria-labelledby="installations-title">
         <div class="section-inner">
           <div class="installations-heading">
             <h2 class="section-title" id="installations-title">Nos installations</h2>
@@ -3099,7 +3138,7 @@
         norvege: [59.9139, 10.7522],
         maroc: [33.5731, -7.5898],
         chypre: [35.1856, 33.3823],
-        atlantique: [37.7412, -25.6756]
+        angleterre: [50.2660, -5.0527]
       };
 
       const map = L.map(mapNode, {
@@ -3116,20 +3155,33 @@
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
       }).addTo(map);
 
+      const curvedLine = (start, end, curve = 0.2) => {
+        const [lat1, lng1] = start;
+        const [lat2, lng2] = end;
+        const midLat = (lat1 + lat2) / 2;
+        const midLng = (lng1 + lng2) / 2;
+        const dLat = lat2 - lat1;
+        const dLng = lng2 - lng1;
+        const bendLat = midLat + (-dLng * curve);
+        const bendLng = midLng + (dLat * curve);
+        return [start, [bendLat, bendLng], end];
+      };
+
       const routes = [
-        [points.base, points.norvege],
-        [points.base, points.maroc],
-        [points.base, points.chypre],
-        [points.base, points.atlantique]
+        curvedLine(points.base, points.norvege, 0.14),
+        curvedLine(points.base, points.maroc, 0.16),
+        curvedLine(points.base, points.chypre, 0.12),
+        curvedLine(points.base, points.angleterre, 0.2)
       ].map((line) => L.polyline(line, {
-        color: '#7cb3ff',
-        weight: 3,
-        opacity: 0.22,
-        lineCap: 'round'
+        color: '#d93030',
+        weight: 4,
+        opacity: 0.24,
+        lineCap: 'round',
+        lineJoin: 'round'
       }).addTo(map));
 
-      const markerStyle = { radius: 5, color: '#7cb3ff', weight: 2, fillColor: '#ffffff', fillOpacity: 1 };
-      [points.base, points.norvege, points.maroc, points.chypre, points.atlantique].forEach((point) => {
+      const markerStyle = { radius: 5.5, color: '#d93030', weight: 2, fillColor: '#ffffff', fillOpacity: 1 };
+      [points.base, points.norvege, points.maroc, points.chypre, points.angleterre].forEach((point) => {
         L.circleMarker(point, markerStyle).addTo(map);
       });
 
@@ -3144,6 +3196,7 @@
       L.marker(points.norvege, { icon: labelIcon('NORVÈGE') }).addTo(map);
       L.marker(points.maroc, { icon: labelIcon('MAROC') }).addTo(map);
       L.marker(points.chypre, { icon: labelIcon('CHYPRE') }).addTo(map);
+      L.marker(points.angleterre, { icon: labelIcon('ANGLETERRE · CORNOUAILLES') }).addTo(map);
 
       const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       if (reducedMotion){
