@@ -682,6 +682,14 @@
       padding-top:36px;
       padding-bottom:36px;
     }
+    @media (min-width:981px){
+      .section-surface--full{
+        min-height:100vh;
+        display:flex;
+        align-items:center;
+      }
+      .section-surface--full > .section-inner{width:100%;}
+    }
     .section-surface--light{
       background:#fff;
       color:#0d0d0f;
@@ -1107,9 +1115,9 @@
 
     .voyages-scroll-cue{
       position:absolute;
-      right:14px;
-      top:50%;
-      transform:translateY(-50%);
+      left:50%;
+      bottom:24px;
+      transform:translateX(-50%);
       display:flex;
       flex-direction:column;
       align-items:center;
@@ -1147,19 +1155,22 @@
     }
 
     .installations-scroll{
-      min-height:auto;
+      min-height:200vh;
       position:relative;
       width:100%;
     }
     .installations-sticky{
-      position:static;
-      height:auto;
-      padding:0;
+      position:sticky;
+      top:0;
+      height:100vh;
+      padding:18px 0;
+      display:grid;
+      align-items:center;
     }
     .installations-track{
       position:relative;
       width:100%;
-      min-height:620px;
+      min-height:min(92vh, 760px);
       border-radius:24px;
       overflow:hidden;
       background:radial-gradient(120% 80% at 50% -10%, rgba(125,174,255,0.34), rgba(15,18,24,0.96) 56%, rgba(8,10,14,1) 100%);
@@ -1244,9 +1255,10 @@
     .runway-threshold--start{left:18%;transform:translateX(-50%) rotate(90deg);}
     .runway-threshold--end{right:18%;transform:translateX(50%) rotate(90deg);}
     .runway-papi{
-      left:9%;
+      left:clamp(10px, 2.4vw, 36px);
       right:auto;
-      top:62%;
+      top:68%;
+      transform:translateY(-50%);
       z-index:5;
       display:flex;
       gap:10px;
@@ -1258,11 +1270,11 @@
       box-shadow:0 12px 28px rgba(0,0,0,0.58), 0 0 22px rgba(255,255,255,0.22);
     }
     .runway-papi--right{
-      right:9%;
+      right:clamp(10px, 2.4vw, 36px);
       left:auto;
     }
     .runway-papi--left{
-      left:9%;
+      left:clamp(10px, 2.4vw, 36px);
       right:auto;
     }
     .runway-papi__light{
@@ -1806,10 +1818,11 @@
       .voyages-legend{padding:0 14px;grid-template-columns:1fr;}
       .voyage-chip{padding:9px 10px;}
 
-      .voyages-scroll-cue{right:10px;top:auto;bottom:18px;transform:none;}
+      .voyages-scroll-cue{left:50%;right:auto;top:auto;bottom:18px;transform:translateX(-50%);}
       .voyages-scroll-cue span:last-child{display:none;}
 
       .installations-scroll{min-height:auto;}
+      .installations-sticky{position:static;height:auto;}
       .installations-track{min-height:560px;border-radius:14px;}
       .installations-track__hud{font-size:9px;gap:8px;flex-wrap:wrap;}
       .installations-track__runway{inset:16% 4% 26%;clip-path:polygon(38% 0%, 62% 0%, 98% 100%, 2% 100%);}
@@ -1981,7 +1994,7 @@
         Retrouvez ici la vie du club : calendrier des activités, galerie photos, équipe, installations et actualités sur nos réseaux sociaux.
       </p>
 
-      <section class="section-surface section-surface--dark reveal-on-scroll" data-reveal="up" aria-labelledby="calendar-title" data-calendar-csv="https://docs.google.com/spreadsheets/d/1mX3emh8CVdkkPyfQZj8cEg2ljwNExOZubIV2Dio0h7s/gviz/tq?tqx=out:csv&gid=1399260514">
+      <section class="section-surface section-surface--dark section-surface--full reveal-on-scroll" data-reveal="up" aria-labelledby="calendar-title" data-calendar-csv="https://docs.google.com/spreadsheets/d/1mX3emh8CVdkkPyfQZj8cEg2ljwNExOZubIV2Dio0h7s/gviz/tq?tqx=out:csv&gid=1399260514">
         <div class="section-inner">
         <h2 class="section-title" id="calendar-title">Calendrier des activités</h2>
         <p class="section-note">
@@ -2027,7 +2040,7 @@
       </div>
       </section>
 
-      <section class="section-surface section-surface--light reveal-on-scroll" data-reveal="right" id="social-title" aria-labelledby="social-title-heading">
+      <section class="section-surface section-surface--light section-surface--full reveal-on-scroll" data-reveal="right" id="social-title" aria-labelledby="social-title-heading">
         <div class="section-inner">
         <h2 class="section-title" id="social-title-heading">Réseaux sociaux</h2>
         <p class="section-note">Suivez les dernières nouvelles du club sur nos réseaux et retrouvez nos publications en direct.</p>
@@ -2076,7 +2089,7 @@
       </div>
       </section>
 
-      <section class="section-surface section-surface--light reveal-on-scroll" data-reveal="left" aria-labelledby="photos-title" data-drive-folder-id="1kT0lWOg3rsbMM2mIU7lVkLyPA6--bc1D" data-drive-api-key="AIzaSyBKcSH_6xVu9sA3M-JWwuLVJUkR7cjXB00" data-photo-urls="assets/images/image1.png,assets/images/FGHKE2.png,assets/images/TB200M.png,assets/images/SR1.png">
+      <section class="section-surface section-surface--light section-surface--full reveal-on-scroll" data-reveal="left" aria-labelledby="photos-title" data-drive-folder-id="1kT0lWOg3rsbMM2mIU7lVkLyPA6--bc1D" data-drive-api-key="AIzaSyBKcSH_6xVu9sA3M-JWwuLVJUkR7cjXB00" data-photo-urls="assets/images/image1.png,assets/images/FGHKE2.png,assets/images/TB200M.png,assets/images/SR1.png">
         <div class="section-inner">
         <h2 class="section-title" id="photos-title">Photos du club</h2>
         <p class="section-note">
@@ -2091,7 +2104,7 @@
       </section>
 
 
-      <section class="section-surface section-surface--dark reveal-on-scroll" data-reveal="up" aria-labelledby="team-title">
+      <section class="section-surface section-surface--dark section-surface--full reveal-on-scroll" data-reveal="up" aria-labelledby="team-title">
         <div class="section-inner">
         <h2 class="section-title" id="team-title">Notre équipe</h2>
         <p class="section-note">
