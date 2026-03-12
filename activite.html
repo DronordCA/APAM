@@ -939,7 +939,7 @@
 
     .voyages-scroll{
       --voyage-progress:0;
-      --voyage-steps:4;
+      --voyage-steps:6;
       min-height:calc(100vh * var(--voyage-steps));
       width:100vw;
       left:50%;
@@ -1205,20 +1205,10 @@
       transform:translateY(calc(var(--runway-smoothed) * 26%));
       opacity:0.72;
     }
-    .runway-edge,
     .runway-centerline,
     .runway-sweep,
     .runway-threshold,
     .runway-papi{position:absolute;display:block;}
-    .runway-edge{
-      top:0;
-      bottom:0;
-      width:2px;
-      background:linear-gradient(180deg, rgba(255,255,255,0.7), rgba(255,255,255,0.2));
-      box-shadow:0 0 12px rgba(255,255,255,0.4);
-    }
-    .runway-edge--left{left:12%;}
-    .runway-edge--right{right:12%;}
     .runway-centerline{
       left:50%;
       top:-52%;
@@ -1251,36 +1241,36 @@
       filter:blur(5px);
     }
     .runway-papi{
-      left:8%;
+      left:11%;
       right:auto;
-      top:46%;
+      top:56%;
       z-index:3;
       display:flex;
-      gap:7px;
+      gap:9px;
       align-items:center;
-      padding:6px 10px;
+      padding:7px 11px;
       border-radius:999px;
-      background:rgba(7,8,10,0.66);
-      border:1px solid rgba(255,255,255,0.22);
-      box-shadow:0 8px 18px rgba(0,0,0,0.42);
+      background:rgba(7,8,10,0.78);
+      border:1px solid rgba(255,255,255,0.3);
+      box-shadow:0 10px 24px rgba(0,0,0,0.5), 0 0 16px rgba(255,255,255,0.18);
       transform:translate3d(calc(var(--runway-drift) * 0.2%), calc(var(--runway-smoothed) * 0.5%), 0);
     }
     .runway-papi--right{
-      right:8%;
+      right:11%;
       left:auto;
     }
     .runway-papi--left{
-      left:8%;
+      left:11%;
       right:auto;
     }
     .runway-papi__light{
-      width:9px;
-      height:9px;
+      width:12px;
+      height:12px;
       border-radius:999px;
-      box-shadow:0 0 9px currentColor;
+      box-shadow:0 0 13px currentColor, 0 0 18px color-mix(in srgb, currentColor 65%, transparent);
     }
-    .runway-papi__light--red{color:rgba(255,74,74,0.95);background:currentColor;}
-    .runway-papi__light--white{color:rgba(255,255,255,0.95);background:currentColor;}
+    .runway-papi__light--red{color:rgba(255,66,66,0.98);background:currentColor;}
+    .runway-papi__light--white{color:rgba(255,255,255,0.98);background:currentColor;}
     .installations-story{
       position:absolute;
       inset:0;
@@ -1804,7 +1794,7 @@
       .team-name{font-size:40px;}
       .team-photo{width:186px;}
 
-      .voyages-scroll{min-height:calc(100vh * 3.8);}
+      .voyages-scroll{min-height:calc(100vh * 6);}
       .voyages-stage{padding:20px 3vw;}
       .voyages-legend{grid-template-columns:repeat(2,minmax(0,1fr));}
 
@@ -1833,7 +1823,7 @@
       .team-photo{width:170px;}
       .team-name{font-size:40px;}
       .team-bio{font-size:13px;}
-      .voyages-scroll{min-height:calc(100svh * 4.2);}
+      .voyages-scroll{min-height:calc(100svh * 6.2);}
       .voyages-stage{padding:14px 0;}
       .voyages-stage__hud{padding:0 14px;font-size:9px;}
       .voyages-stage__map{border-radius:0;padding:10px;border-left:0;border-right:0;}
@@ -2247,13 +2237,13 @@
               <div class="voyages-stage" data-voyages-stage role="img" aria-label="Carte des grands trajets APAM en Europe et Afrique du Nord">
                 <div class="voyages-stage__hud" aria-hidden="true">
                   <span>VOYAGE DE L'APAM</span>
-                  <span data-voyages-progress>Route 1 / 4</span>
+                  <span data-voyages-progress>Préparation des routes</span>
                 </div>
                 <div class="voyages-stage__map">
                   <div class="voyages-map" id="voyages-map" aria-hidden="true"></div>
                 </div>
                 <div class="voyages-legend" data-voyages-legend>
-                  <article class="voyage-chip is-active" data-voyage-chip>
+                  <article class="voyage-chip" data-voyage-chip>
                     <strong>Norvège</strong>
                     <span>Navigation long range vers le nord.</span>
                   </article>
@@ -2284,13 +2274,11 @@
               <div class="installations-track" data-installations-runway role="img" aria-label="Vue immersive de la piste en dur du club">
                 <div class="installations-track__hud" aria-hidden="true">
                   <span>NOS INSTALLATIONS</span>
-                  <span>Piste 07/25</span>
+                  <span>Piste en dur 07/25 & hangar avion</span>
                   <span>Approche</span>
                 </div>
                 <div class="installations-track__sky" aria-hidden="true"></div>
                 <div class="installations-track__runway" aria-hidden="true">
-                  <span class="runway-edge runway-edge--left"></span>
-                  <span class="runway-edge runway-edge--right"></span>
                   <span class="runway-centerline"></span>
                   <span class="runway-threshold runway-threshold--start">07</span>
                   <span class="runway-threshold runway-threshold--end">25</span>
@@ -2319,14 +2307,14 @@
                   <p>Une piste lisible et stable facilite l'arrondi, la tenue d'axe et les remises de gaz en instruction.</p>
                 </article>
                 <article class="installations-step" data-installations-step>
-                  <strong>Exploitation toute saison</strong>
-                  <p>Surface en dur plus praticable selon la météo pour voler plus souvent et progresser plus vite.</p>
+                  <strong>Piste en dur exploitable toute saison</strong>
+                  <p>La surface en dur reste plus régulière selon la météo pour maintenir les vols école, les navigations et la progression toute l’année.</p>
                 </article>
                 <article class="installations-step" data-installations-step>
-                  <strong>Venir essayer la piste</strong>
-                  <p>Planifiez une visite et découvrez les créneaux disponibles pour voler avec l'équipe APAM.</p>
+                  <strong>Hangar avion & accueil des équipages</strong>
+                  <p>Le hangar protège les appareils, facilite la préparation des vols et permet d’accueillir les équipages dans de bonnes conditions sur la base.</p>
                   <div class="installations-cta">
-                    <a class="installations-btn installations-btn--primary" href="contact.html">Venir essayer la piste</a>
+                    <a class="installations-btn installations-btn--primary" href="contact.html">Découvrir nos installations</a>
                     <a class="installations-btn" href="activite.html#calendar-title">Voir les horaires</a>
                   </div>
                 </article>
@@ -3235,17 +3223,22 @@
         const progress = Math.max(0, Math.min(1, raw));
         stage.style.setProperty('--voyage-progress', progress.toFixed(4));
 
-        const perRoute = 1 / routes.length;
+        const totalSteps = routes.length + 2;
+        const perStep = 1 / totalSteps;
         let activeRoute = 0;
         routes.forEach((route, index) => {
-          const routeProgress = Math.max(0, Math.min(1, (progress - (index * perRoute)) / perRoute));
+          const routeStart = (index + 1) * perStep;
+          const routeProgress = Math.max(0, Math.min(1, (progress - routeStart) / perStep));
           setRouteDraw(route, routeProgress, index);
           if (routeProgress >= 0.98) activeRoute = index + 1;
         });
 
-        const currentIndex = Math.max(0, Math.min(routes.length - 1, Math.floor(progress * routes.length)));
-        chips.forEach((chip, index) => chip.classList.toggle('is-active', index <= currentIndex));
-        if (progressLabel) progressLabel.textContent = `Route ${Math.max(1, activeRoute)} / ${routes.length}`;
+        chips.forEach((chip, index) => chip.classList.toggle('is-active', index < activeRoute));
+        if (progressLabel){
+          progressLabel.textContent = activeRoute === 0
+            ? 'Préparation des routes'
+            : `Route ${activeRoute} / ${routes.length}`;
+        }
       };
 
       const onScroll = () => {
