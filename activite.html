@@ -705,9 +705,8 @@
     .section-surface--light .club-photo-empty{color:rgba(0,0,0,0.64);}
     .section-surface--light .club-photo-help a{color:#111;}
     .section-surface--light .installations-track{
-      border:none;
-      background:transparent;
-      box-shadow:none;
+      border-color:rgba(0,0,0,0.2);
+      box-shadow:0 24px 42px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.18);
     }
     .section-surface--light .installations-points li{
       border-color:rgba(0,0,0,0.14);
@@ -929,76 +928,107 @@
       align-items:center;
     }
     .installations-track{
-      border:none;
-      border-radius:0;
-      padding:0;
-      background:transparent;
-      box-shadow:none;
-      overflow:visible;
+      --runway-progress:0;
+      position:relative;
+      border-radius:24px;
+      min-height:clamp(280px, 35vw, 430px);
+      overflow:hidden;
+      background:radial-gradient(120% 80% at 50% -10%, rgba(125,174,255,0.34), rgba(15,18,24,0.96) 56%, rgba(8,10,14,1) 100%);
+      border:1px solid rgba(255,255,255,0.24);
+      box-shadow:0 28px 52px rgba(0,0,0,0.42), inset 0 1px 0 rgba(255,255,255,0.12);
+      transform:perspective(1400px) rotateX(calc(9deg - (var(--runway-progress) * 9deg))) scale(calc(0.82 + (var(--runway-progress) * 0.28)));
+      transform-origin:50% 16%;
+      transition:transform 220ms ease-out;
+      will-change:transform;
+      isolation:isolate;
     }
-    .runway-asphalt{
-      fill:#0c0c0f;
-      stroke:rgba(255,255,255,0.2);
-      stroke-width:2;
+    .installations-track__hud{
+      position:absolute;
+      top:16px;
+      left:18px;
+      right:18px;
+      z-index:3;
+      display:flex;
+      justify-content:space-between;
+      font-family:"GPMenu", system-ui, sans-serif;
+      letter-spacing:0.14em;
+      text-transform:uppercase;
+      font-size:10px;
+      color:rgba(255,255,255,0.9);
+      text-shadow:0 4px 16px rgba(0,0,0,0.65);
     }
-    .track-line{
-      fill:none;
-      stroke:#16171d;
-      stroke-width:74;
-      stroke-linecap:square;
-      stroke-linejoin:miter;
-      stroke-dasharray:640;
-      stroke-dashoffset:640;
-      filter:drop-shadow(0 0 14px rgba(0,0,0,0.5));
+    .installations-track__sky{
+      position:absolute;
+      inset:0;
+      background:
+        radial-gradient(40% 28% at 24% 24%, rgba(255,255,255,0.18), transparent 74%),
+        radial-gradient(36% 24% at 76% 20%, rgba(125,174,255,0.36), transparent 76%),
+        linear-gradient(180deg, rgba(17,22,32,0.35) 0%, rgba(8,9,12,0.96) 82%);
+      opacity:calc(0.65 + (var(--runway-progress) * 0.35));
     }
-    .reveal-on-scroll.is-visible .track-line{
-      animation:track-draw 3.4s ease forwards;
+    .installations-track__runway{
+      position:absolute;
+      inset:14% 8% 12%;
+      clip-path:polygon(42% 0%, 58% 0%, 95% 100%, 5% 100%);
+      background:linear-gradient(180deg, rgba(35,39,50,0.9) 0%, rgba(17,19,25,0.98) 100%);
+      border:1px solid rgba(255,255,255,0.18);
+      box-shadow:inset 0 -30px 50px rgba(0,0,0,0.56), inset 0 16px 22px rgba(255,255,255,0.08);
+      z-index:2;
     }
-    .track-glow{
-      fill:none;
-      stroke:rgba(255,255,255,0.12);
-      stroke-width:92;
-      stroke-linecap:square;
-      stroke-linejoin:miter;
+    .runway-edge,
+    .runway-centerline,
+    .runway-sweep,
+    .runway-threshold{position:absolute;display:block;}
+    .runway-edge{
+      top:0;
+      bottom:0;
+      width:2px;
+      background:linear-gradient(180deg, rgba(255,255,255,0.7), rgba(255,255,255,0.2));
+      box-shadow:0 0 12px rgba(255,255,255,0.4);
+    }
+    .runway-edge--left{left:12%;}
+    .runway-edge--right{right:12%;}
+    .runway-centerline{
+      left:50%;
+      top:4%;
+      bottom:6%;
+      width:min(1vw, 7px);
+      transform:translateX(-50%);
+      background:repeating-linear-gradient(180deg, rgba(255,255,255,0.95) 0 8%, transparent 8% 18%);
+      filter:drop-shadow(0 0 8px rgba(255,255,255,0.28));
+    }
+    .runway-threshold{
+      top:18px;
+      font-family:"GPMenu", system-ui, sans-serif;
+      font-size:26px;
+      color:rgba(255,255,255,0.9);
+      letter-spacing:0.12em;
+    }
+    .runway-threshold--start{left:18%;transform:translateX(-50%) rotate(90deg);}
+    .runway-threshold--end{right:18%;transform:translateX(50%) rotate(90deg);}
+    .runway-sweep{
+      left:0;
+      right:0;
+      top:0;
+      bottom:0;
+      background:linear-gradient(180deg, rgba(125,174,255,0) 0%, rgba(125,174,255,0.8) 44%, rgba(125,174,255,0) 100%);
+      mix-blend-mode:screen;
+      opacity:calc(0.15 + (var(--runway-progress) * 0.42));
+      transform:translateY(calc(58% - (var(--runway-progress) * 66%)));
       filter:blur(6px);
     }
-    .runway-centerline{
-      fill:none;
-      stroke:rgba(255,255,255,0.8);
-      stroke-width:4;
-      stroke-linecap:square;
-      stroke-dasharray:28 24;
-    }
-    .runway-number{
-      fill:rgba(255,255,255,0.9);
+    .installations-track__caption{
+      position:absolute;
+      left:20px;
+      right:20px;
+      bottom:14px;
+      margin:0;
+      z-index:3;
       font-family:"GPMenu", system-ui, sans-serif;
-      font-size:36px;
-      letter-spacing:0.12em;
-      text-anchor:middle;
-      dominant-baseline:middle;
-    }
-    .runway-arrival-sweep{
-      fill:none;
-      stroke:rgba(116,178,255,0.95);
-      stroke-width:10;
-      stroke-linecap:round;
-      stroke-dasharray:150 540;
-      stroke-dashoffset:560;
-      opacity:0;
-      filter:drop-shadow(0 0 10px rgba(116,178,255,0.7));
-    }
-    .runway-threshold-pulse{
-      fill:none;
-      stroke:rgba(116,178,255,0.9);
-      stroke-width:5;
-      opacity:0;
-      transform-origin:138px 250px;
-    }
-    .reveal-on-scroll.is-visible .runway-arrival-sweep{
-      animation:runway-arrival 3.8s cubic-bezier(.2,.7,.2,1) infinite;
-    }
-    .reveal-on-scroll.is-visible .runway-threshold-pulse{
-      animation:runway-pulse 2s ease-out infinite;
+      font-size:11px;
+      letter-spacing:0.11em;
+      text-transform:uppercase;
+      color:rgba(255,255,255,0.78);
     }
     .installations-points{
       display:grid;
@@ -1056,20 +1086,6 @@
       box-shadow:0 10px 24px rgba(47,107,255,0.32);
     }
 
-    @keyframes track-draw{
-      to{stroke-dashoffset:0;}
-    }
-    @keyframes runway-arrival{
-      0%{stroke-dashoffset:560;opacity:0;}
-      15%{opacity:1;}
-      80%{opacity:0.95;}
-      100%{stroke-dashoffset:0;opacity:0;}
-    }
-    @keyframes runway-pulse{
-      0%{opacity:0;transform:scale(0.35);}
-      20%{opacity:0.85;}
-      100%{opacity:0;transform:scale(1.75);}
-    }
     .calendar-layout{
       display:grid;
       grid-template-columns: minmax(0, 1.3fr) minmax(300px, 0.7fr);
@@ -1515,12 +1531,10 @@
       .team-photo{width:170px;}
       .team-name{font-size:40px;}
       .team-bio{font-size:13px;}
-      .installations-track{padding:0;border-radius:0;}
-      .track-line{stroke-width:46;}
-      .track-glow{stroke-width:58;}
-      .runway-number{font-size:24px;}
-      .runway-arrival-sweep{stroke-width:8;}
-      .runway-threshold-pulse{stroke-width:4;}
+      .installations-track{min-height:300px;border-radius:18px;transform:none;}
+      .installations-track__hud{font-size:9px;gap:8px;flex-wrap:wrap;}
+      .installations-track__runway{inset:16% 4% 12%;}
+      .runway-threshold{font-size:20px;}
       .installations-points li{font-size:13px;}
     }
 
@@ -1906,17 +1920,22 @@
           <h2 class="section-title" id="installations-title">Nos installations</h2>
           <p class="section-note">Une piste d'avion en dur pensée pour l'entraînement : roulement précis, décollages réguliers et atterrissages plus sûrs toute l'année.</p>
           <div class="installations-layout">
-            <div class="installations-track" role="img" aria-label="Vue animée de la piste en dur du club">
-              <svg viewBox="0 0 900 500" width="100%" height="100%" aria-hidden="true">
-                <rect class="runway-asphalt" x="90" y="195" width="720" height="110" rx="10"></rect>
-                <path class="track-glow" d="M130 250 H770"></path>
-                <path id="clubTrackPath" class="track-line" d="M130 250 H770"></path>
-                <path class="runway-centerline" d="M145 250 H755"></path>
-                <path class="runway-arrival-sweep" d="M130 250 H770"></path>
-                <circle class="runway-threshold-pulse" cx="138" cy="250" r="16"></circle>
-                <text class="runway-number" x="138" y="250" transform="rotate(270 138 250)">07</text>
-                <text class="runway-number" x="762" y="250" transform="rotate(270 762 250)">25</text>
-              </svg>
+            <div class="installations-track" data-installations-runway role="img" aria-label="Vue immersive de la piste en dur du club">
+              <div class="installations-track__hud" aria-hidden="true">
+                <span>LFOL</span>
+                <span>Piste 07/25</span>
+                <span>Approche</span>
+              </div>
+              <div class="installations-track__sky" aria-hidden="true"></div>
+              <div class="installations-track__runway" aria-hidden="true">
+                <span class="runway-edge runway-edge--left"></span>
+                <span class="runway-edge runway-edge--right"></span>
+                <span class="runway-centerline"></span>
+                <span class="runway-threshold runway-threshold--start">07</span>
+                <span class="runway-threshold runway-threshold--end">25</span>
+                <span class="runway-sweep"></span>
+              </div>
+              <p class="installations-track__caption">Scrollez : la piste se dévoile en grand pendant l'approche.</p>
             </div>
             <div>
               <ul class="installations-points">
@@ -2706,6 +2725,41 @@
       blocks.forEach((block) => io.observe(block));
     }
 
+
+    function initInstallationsRunway(){
+      const runway = document.querySelector('[data-installations-runway]');
+      if (!runway) return;
+      const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reducedMotion){
+        runway.style.setProperty('--runway-progress', '1');
+        return;
+      }
+
+      let ticking = false;
+      const update = () => {
+        const rect = runway.getBoundingClientRect();
+        const viewport = window.innerHeight || document.documentElement.clientHeight || 1;
+        const start = viewport * 0.9;
+        const end = -rect.height * 0.15;
+        const raw = (start - rect.top) / (start - end);
+        const progress = Math.max(0, Math.min(1, raw));
+        runway.style.setProperty('--runway-progress', progress.toFixed(3));
+      };
+
+      const onScroll = () => {
+        if (ticking) return;
+        ticking = true;
+        requestAnimationFrame(() => {
+          update();
+          ticking = false;
+        });
+      };
+
+      update();
+      window.addEventListener('scroll', onScroll, { passive: true });
+      window.addEventListener('resize', onScroll);
+    }
+
     function initClubAnchorScroll(){
       const links = Array.from(document.querySelectorAll('.activity-link[href^="#"]'));
       if(!links.length) return;
@@ -2726,6 +2780,7 @@
       reorderClubSections();
       initScrollReveal();
       initClubAnchorScroll();
+      initInstallationsRunway();
       bindCalendarNav();
       initClubPhotos();
       loadEvents();
