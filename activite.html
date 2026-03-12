@@ -1123,12 +1123,18 @@
       align-items:center;
       gap:8px;
       z-index:4;
-      pointer-events:none;
+      border:0;
+      cursor:pointer;
       color:rgba(0,0,0,0.56);
       font-family:"GPMenu", system-ui, sans-serif;
       letter-spacing:0.1em;
       text-transform:uppercase;
       font-size:9px;
+      background:transparent;
+      transition:transform .2s ease;
+    }
+    .voyages-scroll-cue:hover{
+      transform:translateX(-50%) translateY(-2px);
     }
     .voyages-scroll-cue__arrow{
       width:30px;
@@ -1366,12 +1372,38 @@
     }
     .calendar-shell{
       border:1px solid rgba(255,255,255,0.14);
-      background: linear-gradient(180deg, rgba(18,18,18,0.92), rgba(8,8,8,0.86));
-      border-radius:6px;
+      background:
+        radial-gradient(circle at 10% -20%, rgba(84,118,255,0.38), transparent 46%),
+        radial-gradient(circle at 100% 0%, rgba(242,61,96,0.2), transparent 30%),
+        linear-gradient(180deg, rgba(18,18,18,0.96), rgba(8,8,8,0.92));
+      border-radius:18px;
       padding:22px;
       display:grid;
       gap:16px;
-      box-shadow: var(--card-shadow);
+      box-shadow:0 28px 55px rgba(0,0,0,0.45);
+      position:relative;
+      overflow:hidden;
+    }
+    .calendar-shell::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      border-radius:inherit;
+      border:1px solid rgba(255,255,255,0.08);
+      pointer-events:none;
+    }
+    .calendar-kicker{
+      display:inline-flex;
+      align-items:center;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,0.2);
+      background:rgba(255,255,255,0.08);
+      color:rgba(255,255,255,0.86);
+      font-size:10px;
+      text-transform:uppercase;
+      letter-spacing:0.16em;
+      padding:5px 11px;
+      margin-bottom:7px;
     }
     .calendar-top{
       display:flex;
@@ -1961,7 +1993,6 @@
                     <a class="activity-link" href="#photos-title">Photos du club</a>
                     <a class="activity-link" href="#team-title">Notre équipe</a>
                     <a class="activity-link" href="#voyages-title">Voyage de L'APAM</a>
-                    <a class="activity-link" href="#installations-title">Nos installations</a>
                     <a class="activity-link" href="#social-title">Réseaux sociaux</a>
                   </div>
                 </span>
@@ -1991,7 +2022,7 @@
       </div>
 
       <p class="intro">
-        Retrouvez ici la vie du club : calendrier des activités, galerie photos, équipe, installations et actualités sur nos réseaux sociaux.
+        Retrouvez ici la vie du club : calendrier des activités, galerie photos, équipe et actualités sur nos réseaux sociaux.
       </p>
 
       <section class="section-surface section-surface--dark section-surface--full reveal-on-scroll" data-reveal="up" aria-labelledby="calendar-title" data-calendar-csv="https://docs.google.com/spreadsheets/d/1mX3emh8CVdkkPyfQZj8cEg2ljwNExOZubIV2Dio0h7s/gviz/tq?tqx=out:csv&gid=1399260514">
@@ -2005,8 +2036,9 @@
           <div class="calendar-shell">
             <div class="calendar-top">
               <div>
+                <div class="calendar-kicker">Expérience club</div>
                 <div class="calendar-month" id="calendarMonth">Chargement…</div>
-                <div class="calendar-subtitle">Cliquez sur un jour pour afficher les événements.</div>
+                <div class="calendar-subtitle">Planning premium APAM — cliquez sur un jour pour afficher les événements.</div>
               </div>
               <div class="calendar-actions">
                 <div class="calendar-view-toggle" role="group" aria-label="Affichage du calendrier">
@@ -2040,7 +2072,7 @@
       </div>
       </section>
 
-      <section class="section-surface section-surface--light section-surface--full reveal-on-scroll" data-reveal="right" id="social-title" aria-labelledby="social-title-heading">
+      <section class="section-surface section-surface--dark section-surface--full reveal-on-scroll" data-reveal="right" id="social-title" aria-labelledby="social-title-heading">
         <div class="section-inner">
         <h2 class="section-title" id="social-title-heading">Réseaux sociaux</h2>
         <p class="section-note">Suivez les dernières nouvelles du club sur nos réseaux et retrouvez nos publications en direct.</p>
@@ -2244,59 +2276,11 @@
                     <span>Navigation ciblée vers le sud-ouest anglais, surtout en Cornouailles.</span>
                   </article>
                 </div>
-                <div class="voyages-scroll-cue" aria-hidden="true">
-                  <span class="voyages-scroll-cue__arrow"></span>
+                <button class="voyages-scroll-cue" type="button" data-voyages-next aria-label="Continuer la navigation">
+                  <span class="voyages-scroll-cue__arrow" aria-hidden="true"></span>
                   <span>Continuer</span>
-                </div>
+                </button>
               </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section class="section-surface section-surface--dark section-surface--installations reveal-on-scroll" data-reveal="up" aria-labelledby="installations-title">
-        <div class="section-inner">
-          <h2 class="section-title" id="installations-title" hidden>Nos installations</h2>
-          <div class="installations-scroll" data-installations-scroll>
-            <div class="installations-sticky">
-              <div class="installations-track" data-installations-runway role="img" aria-label="Vue immersive de la piste en dur du club">
-                <div class="installations-track__hud" aria-hidden="true">
-                  <span>NOS INSTALLATIONS</span>
-                  <span>Piste en dur 07/25 & hangar avion</span>
-                  <span>Approche</span>
-                </div>
-                <div class="installations-track__sky" aria-hidden="true"></div>
-                <div class="installations-track__runway" aria-hidden="true">
-                  <span class="runway-centerline"></span>
-                  <span class="runway-threshold runway-threshold--start">07</span>
-                  <span class="runway-threshold runway-threshold--end">25</span>
-                  <span class="runway-papi runway-papi--left" aria-hidden="true">
-                    <span class="runway-papi__light runway-papi__light--red"></span>
-                    <span class="runway-papi__light runway-papi__light--red"></span>
-                    <span class="runway-papi__light runway-papi__light--white"></span>
-                    <span class="runway-papi__light runway-papi__light--white"></span>
-                  </span>
-                  <span class="runway-papi runway-papi--right" aria-hidden="true">
-                    <span class="runway-papi__light runway-papi__light--red"></span>
-                    <span class="runway-papi__light runway-papi__light--red"></span>
-                    <span class="runway-papi__light runway-papi__light--white"></span>
-                    <span class="runway-papi__light runway-papi__light--white"></span>
-                  </span>
-                </div>
-              </div>
-              <article class="installations-panel">
-                <strong>Piste en dur & hangar fermé</strong>
-                <p>Le club s’appuie sur une piste en dur 07/25, un hangar fermé pour protéger la flotte et des espaces de préparation pour briefer sereinement avant chaque vol.</p>
-                <ul class="installations-features" aria-label="Points clés des installations APAM">
-                  <li><strong>Piste en dur 07/25</strong>Repères visuels clairs et exploitation régulière toute l’année.</li>
-                  <li><strong>Hangar avion fermé</strong>Stationnement protégé, maintenance facilitée et matériel sécurisé.</li>
-                  <li><strong>Base club complète</strong>Accueil des équipages, briefings et préparation des navigations sur site.</li>
-                </ul>
-                <div class="installations-cta">
-                  <a class="installations-btn installations-btn--primary" href="contact.html">Découvrir nos installations</a>
-                  <a class="installations-btn" href="activite.html#calendar-title">Voir les horaires</a>
-                </div>
-              </article>
             </div>
           </div>
         </div>
@@ -3094,9 +3078,18 @@
     function initVoyagesMap(){
       const scroll = document.querySelector('[data-voyages-scroll]');
       const stage = document.querySelector('[data-voyages-stage]');
+      const continueBtn = document.querySelector('[data-voyages-next]');
       const chips = Array.from(document.querySelectorAll('[data-voyage-chip]'));
       const progressLabel = document.querySelector('[data-voyages-progress]');
       const mapNode = document.getElementById('voyages-map');
+
+      if (continueBtn){
+        continueBtn.addEventListener('click', () => {
+          const scrollStep = Math.max(320, Math.round((window.innerHeight || 900) * 0.72));
+          window.scrollBy({ top: scrollStep, left: 0, behavior: 'smooth' });
+        });
+      }
+
       if (!scroll || !stage || !chips.length || !mapNode || typeof window.L === 'undefined') return;
 
       const points = {
