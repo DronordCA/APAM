@@ -949,12 +949,12 @@
       position:relative;
       width:100%;
       height:100vh;
-      border-radius:calc(28px - (var(--runway-progress) * 28px));
+      border-radius:0;
       overflow:hidden;
       background:radial-gradient(120% 80% at 50% -10%, rgba(125,174,255,0.34), rgba(15,18,24,0.96) 56%, rgba(8,10,14,1) 100%);
       border:1px solid rgba(255,255,255,0.24);
       box-shadow:0 28px 52px rgba(0,0,0,0.42), inset 0 1px 0 rgba(255,255,255,0.12);
-      transform:perspective(1600px) rotateX(calc(11deg - (var(--runway-progress) * 11deg))) translateZ(calc(-56px + (var(--runway-progress) * 56px))) scale(calc(0.9 + (var(--runway-progress) * 0.1)));
+      transform:translate3d(0,0,0);
       transform-origin:50% 16%;
       transition:transform 220ms ease-out;
       will-change:transform;
@@ -993,6 +993,32 @@
       box-shadow:inset 0 -30px 50px rgba(0,0,0,0.56), inset 0 16px 22px rgba(255,255,255,0.08);
       z-index:2;
     }
+    .installations-track__runway::before,
+    .installations-track__runway::after{
+      content:"";
+      position:absolute;
+      left:-16%;
+      right:-16%;
+      top:-80%;
+      bottom:-18%;
+      pointer-events:none;
+    }
+    .installations-track__runway::before{
+      background:repeating-linear-gradient(
+        180deg,
+        rgba(255,255,255,0.1) 0 1.8%,
+        transparent 1.8% 8.8%
+      );
+      transform:translateY(calc(var(--runway-progress) * 34%));
+      mix-blend-mode:screen;
+      opacity:0.45;
+      filter:blur(0.4px);
+    }
+    .installations-track__runway::after{
+      background:radial-gradient(56% 40% at 50% 24%, rgba(130,180,255,0.22), transparent 72%);
+      transform:translateY(calc(var(--runway-progress) * 26%));
+      opacity:0.72;
+    }
     .runway-edge,
     .runway-centerline,
     .runway-sweep,
@@ -1008,11 +1034,13 @@
     .runway-edge--right{right:12%;}
     .runway-centerline{
       left:50%;
-      top:4%;
-      bottom:6%;
+      top:-52%;
+      bottom:-24%;
       width:min(1vw, 7px);
       transform:translateX(-50%);
-      background:repeating-linear-gradient(180deg, rgba(255,255,255,0.95) 0 8%, transparent 8% 18%);
+      background:repeating-linear-gradient(180deg, rgba(255,255,255,0.95) 0 5.5%, transparent 5.5% 11.5%);
+      background-size:100% 48%;
+      background-position:50% calc(var(--runway-progress) * 92%);
       filter:drop-shadow(0 0 8px rgba(255,255,255,0.28));
     }
     .runway-threshold{
@@ -1032,7 +1060,7 @@
       background:linear-gradient(180deg, rgba(125,174,255,0) 0%, rgba(125,174,255,0.8) 44%, rgba(125,174,255,0) 100%);
       mix-blend-mode:screen;
       opacity:calc(0.15 + (var(--runway-progress) * 0.42));
-      transform:translateY(calc(58% - (var(--runway-progress) * 66%)));
+      transform:translateY(calc(68% - (var(--runway-progress) * 82%)));
       filter:blur(6px);
     }
     .installations-track__caption{
@@ -1083,15 +1111,15 @@
       top:50%;
       width:min(420px, 36vw);
       transform-style:preserve-3d;
-      border:1px solid rgba(255,255,255,0.18);
-      border-radius:18px;
+      border:1px solid rgba(255,255,255,0.2);
+      border-radius:22px;
       padding:14px 16px;
-      background:rgba(4,7,12,0.75);
-      backdrop-filter:blur(8px);
+      background:linear-gradient(155deg, rgba(255,255,255,0.15), rgba(4,7,12,0.68));
+      backdrop-filter:blur(10px) saturate(135%);
       color:rgba(255,255,255,0.82);
       font-size:15px;
       line-height:1.45;
-      box-shadow:0 22px 34px rgba(0,0,0,0.42);
+      box-shadow:0 22px 34px rgba(0,0,0,0.42), inset 0 1px 0 rgba(255,255,255,0.28);
       pointer-events:auto;
     }
     .installations-step:nth-of-type(odd){
@@ -1572,7 +1600,7 @@
       .team-photo{width:186px;}
 
       .installations-scroll{min-height:calc(100vh * 3.6);}
-      .installations-sticky{padding:14px 14px 20px;}
+      .installations-sticky{padding:0;}
       .installations-step{width:min(360px, 42vw);}
       .installations-points{gap:8px;}
     }
@@ -1597,19 +1625,21 @@
       .team-name{font-size:40px;}
       .team-bio{font-size:13px;}
       .installations-scroll{
-        width:auto;
-        left:auto;
-        margin-left:0;
-        min-height:auto;
+        width:100vw;
+        left:50%;
+        margin-left:-50vw;
+        min-height:calc(100svh * 4.2);
       }
-      .installations-sticky{position:relative;height:auto;padding:0;overflow:visible;}
-      .installations-track{min-height:300px;height:340px;border-radius:18px;transform:none;}
+      .installations-sticky{position:sticky;top:0;height:100svh;padding:0;overflow:hidden;}
+      .installations-track{min-height:100svh;height:100svh;border-radius:0;transform:none;}
       .installations-track__hud{font-size:9px;gap:8px;flex-wrap:wrap;}
-      .installations-track__runway{inset:16% 4% 12%;}
+      .installations-track__runway{inset:13% 2% 8%;clip-path:polygon(38% 0%, 62% 0%, 98% 100%, 2% 100%);}
       .runway-threshold{font-size:20px;}
-      .installations-story{position:static;max-width:none;margin-top:12px;pointer-events:auto;}
-      .installations-step{display:block;position:static;width:auto;transform:none !important;font-size:13px;margin-bottom:8px;}
-      .installations-points{display:none;}
+      .installations-story{position:absolute;inset:0;pointer-events:none;}
+      .installations-step{font-size:13px;width:min(86vw, 320px);padding:12px 13px;border-radius:18px;}
+      .installations-step:nth-of-type(odd){left:12px;transform:translate3d(0,-50%,0) rotateY(8deg);}
+      .installations-step:nth-of-type(even){right:12px;transform:translate3d(0,-50%,0) rotateY(-8deg);}
+      .installations-points{position:absolute;left:14px;right:14px;bottom:18px;justify-content:center;}
     }
 
     /* =============================== */
@@ -2012,7 +2042,7 @@
                   <span class="runway-threshold runway-threshold--end">25</span>
                   <span class="runway-sweep"></span>
                 </div>
-                <p class="installations-track__caption">Scrollez : la piste reste en plein écran et affiche chaque point clé.</p>
+                <p class="installations-track__caption">Premier scroll : plein écran. Ensuite, avancez le long de la piste pour révéler chaque point clé.</p>
               </div>
               <div class="installations-story" data-installations-story>
                 <article class="installations-step is-active" data-installations-step>
