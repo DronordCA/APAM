@@ -704,6 +704,22 @@
     .section-surface--light .club-photo-dot.is-active{background:#111;}
     .section-surface--light .club-photo-empty{color:rgba(0,0,0,0.64);}
     .section-surface--light .club-photo-help a{color:#111;}
+    .section-surface--light .installations-track{
+      border:none;
+      background:transparent;
+      box-shadow:none;
+    }
+    .section-surface--light .installations-points li{
+      border-color:rgba(0,0,0,0.14);
+      background:rgba(0,0,0,0.04);
+      color:rgba(0,0,0,0.76);
+    }
+    .section-surface--light .installations-points strong{color:rgba(0,0,0,0.78);}
+    .section-surface--light .installations-btn{
+      color:#0f1117;
+      border-color:rgba(0,0,0,0.24);
+      background:rgba(0,0,0,0.03);
+    }
 
     .reveal-on-scroll{
       --reveal-x: 0px;
@@ -913,40 +929,76 @@
       align-items:center;
     }
     .installations-track{
-      border:1px solid rgba(255,255,255,0.2);
-      border-radius:22px;
-      padding:16px;
-      background:radial-gradient(circle at 12% 8%, rgba(47,107,255,0.2), rgba(7,9,16,0.92));
-      box-shadow:0 26px 50px rgba(0,0,0,0.34);
-      overflow:hidden;
+      border:none;
+      border-radius:0;
+      padding:0;
+      background:transparent;
+      box-shadow:none;
+      overflow:visible;
+    }
+    .runway-asphalt{
+      fill:#0c0c0f;
+      stroke:rgba(255,255,255,0.2);
+      stroke-width:2;
     }
     .track-line{
       fill:none;
-      stroke:#f7f9ff;
-      stroke-width:16;
-      stroke-linecap:round;
-      stroke-linejoin:round;
-      stroke-dasharray:980;
-      stroke-dashoffset:980;
-      filter:drop-shadow(0 0 10px rgba(125,174,255,0.72));
+      stroke:#16171d;
+      stroke-width:74;
+      stroke-linecap:square;
+      stroke-linejoin:miter;
+      stroke-dasharray:640;
+      stroke-dashoffset:640;
+      filter:drop-shadow(0 0 14px rgba(0,0,0,0.5));
     }
     .reveal-on-scroll.is-visible .track-line{
       animation:track-draw 3.4s ease forwards;
     }
     .track-glow{
       fill:none;
-      stroke:rgba(107,170,255,0.56);
-      stroke-width:28;
-      stroke-linecap:round;
-      stroke-linejoin:round;
-      filter:blur(9px);
+      stroke:rgba(255,255,255,0.12);
+      stroke-width:92;
+      stroke-linecap:square;
+      stroke-linejoin:miter;
+      filter:blur(6px);
     }
-    .track-kart{
-      width:14px;
-      height:14px;
-      border-radius:50%;
-      background:#fff;
-      box-shadow:0 0 0 8px rgba(255,255,255,0.22), 0 0 18px rgba(125,174,255,0.92);
+    .runway-centerline{
+      fill:none;
+      stroke:rgba(255,255,255,0.8);
+      stroke-width:4;
+      stroke-linecap:square;
+      stroke-dasharray:28 24;
+    }
+    .runway-number{
+      fill:rgba(255,255,255,0.9);
+      font-family:"GPMenu", system-ui, sans-serif;
+      font-size:36px;
+      letter-spacing:0.12em;
+      text-anchor:middle;
+      dominant-baseline:middle;
+    }
+    .runway-arrival-sweep{
+      fill:none;
+      stroke:rgba(116,178,255,0.95);
+      stroke-width:10;
+      stroke-linecap:round;
+      stroke-dasharray:150 540;
+      stroke-dashoffset:560;
+      opacity:0;
+      filter:drop-shadow(0 0 10px rgba(116,178,255,0.7));
+    }
+    .runway-threshold-pulse{
+      fill:none;
+      stroke:rgba(116,178,255,0.9);
+      stroke-width:5;
+      opacity:0;
+      transform-origin:138px 250px;
+    }
+    .reveal-on-scroll.is-visible .runway-arrival-sweep{
+      animation:runway-arrival 3.8s cubic-bezier(.2,.7,.2,1) infinite;
+    }
+    .reveal-on-scroll.is-visible .runway-threshold-pulse{
+      animation:runway-pulse 2s ease-out infinite;
     }
     .installations-points{
       display:grid;
@@ -1006,6 +1058,17 @@
 
     @keyframes track-draw{
       to{stroke-dashoffset:0;}
+    }
+    @keyframes runway-arrival{
+      0%{stroke-dashoffset:560;opacity:0;}
+      15%{opacity:1;}
+      80%{opacity:0.95;}
+      100%{stroke-dashoffset:0;opacity:0;}
+    }
+    @keyframes runway-pulse{
+      0%{opacity:0;transform:scale(0.35);}
+      20%{opacity:0.85;}
+      100%{opacity:0;transform:scale(1.75);}
     }
     .calendar-layout{
       display:grid;
@@ -1452,9 +1515,12 @@
       .team-photo{width:170px;}
       .team-name{font-size:40px;}
       .team-bio{font-size:13px;}
-      .installations-track{padding:12px;border-radius:16px;}
-      .track-line{stroke-width:12;}
-      .track-glow{stroke-width:20;}
+      .installations-track{padding:0;border-radius:0;}
+      .track-line{stroke-width:46;}
+      .track-glow{stroke-width:58;}
+      .runway-number{font-size:24px;}
+      .runway-arrival-sweep{stroke-width:8;}
+      .runway-threshold-pulse{stroke-width:4;}
       .installations-points li{font-size:13px;}
     }
 
@@ -1663,7 +1729,7 @@
       </div>
       </section>
 
-      <section class="section-surface section-surface--light reveal-on-scroll" data-reveal="right" id="social-title" aria-labelledby="social-title-heading">
+      <section class="section-surface section-surface--dark reveal-on-scroll" data-reveal="right" id="social-title" aria-labelledby="social-title-heading">
         <div class="section-inner">
         <h2 class="section-title" id="social-title-heading">Réseaux sociaux</h2>
         <p class="section-note">Suivez les dernières nouvelles du club sur nos réseaux et retrouvez nos publications en direct.</p>
@@ -1835,27 +1901,28 @@
       </div>
       </section>
 
-      <section class="section-surface section-surface--dark reveal-on-scroll" data-reveal="up" aria-labelledby="installations-title">
+      <section class="section-surface section-surface--light reveal-on-scroll" data-reveal="up" aria-labelledby="installations-title">
         <div class="section-inner">
           <h2 class="section-title" id="installations-title">Nos installations</h2>
-          <p class="section-note">Une piste en dur unique pour s’entraîner toute l’année : régulière, lisible et idéale pour progresser à chaque séance.</p>
+          <p class="section-note">Une piste d'avion en dur pensée pour l'entraînement : roulement précis, décollages réguliers et atterrissages plus sûrs toute l'année.</p>
           <div class="installations-layout">
             <div class="installations-track" role="img" aria-label="Vue animée de la piste en dur du club">
               <svg viewBox="0 0 900 500" width="100%" height="100%" aria-hidden="true">
-                <path class="track-glow" d="M120 300 C120 190 230 130 350 150 C440 165 500 130 590 120 C700 105 780 180 770 280 C760 370 660 410 560 390 C470 372 410 415 325 415 C210 415 120 375 120 300 Z"></path>
-                <path id="clubTrackPath" class="track-line" d="M120 300 C120 190 230 130 350 150 C440 165 500 130 590 120 C700 105 780 180 770 280 C760 370 660 410 560 390 C470 372 410 415 325 415 C210 415 120 375 120 300 Z"></path>
-                <circle class="track-kart" r="6">
-                  <animateMotion dur="6s" repeatCount="indefinite" rotate="auto">
-                    <mpath href="#clubTrackPath"></mpath>
-                  </animateMotion>
-                </circle>
+                <rect class="runway-asphalt" x="90" y="195" width="720" height="110" rx="10"></rect>
+                <path class="track-glow" d="M130 250 H770"></path>
+                <path id="clubTrackPath" class="track-line" d="M130 250 H770"></path>
+                <path class="runway-centerline" d="M145 250 H755"></path>
+                <path class="runway-arrival-sweep" d="M130 250 H770"></path>
+                <circle class="runway-threshold-pulse" cx="138" cy="250" r="16"></circle>
+                <text class="runway-number" x="138" y="250" transform="rotate(270 138 250)">07</text>
+                <text class="runway-number" x="762" y="250" transform="rotate(270 762 250)">25</text>
               </svg>
             </div>
             <div>
               <ul class="installations-points">
-                <li><strong>Régularité de roulage</strong><span>Une surface stable qui permet de travailler les automatismes dans des conditions homogènes.</span></li>
-                <li><strong>Sécurité & grip constant</strong><span>Des appuis prévisibles pour apprendre avec plus de sérénité, même en phase de progression.</span></li>
-                <li><strong>Progression technique</strong><span>Idéal pour répéter, corriger et gagner en précision sur chaque trajectoire au sol.</span></li>
+                <li><strong>Décollage plus constant</strong><span>Le bitume offre une accélération régulière pour répéter les procédures de départ dans des conditions fiables.</span></li>
+                <li><strong>Atterrissage mieux maîtrisé</strong><span>Une piste lisible et stable facilite l'arrondi, la tenue d'axe et les remises de gaz en instruction.</span></li>
+                <li><strong>Exploitation toute saison</strong><span>Surface en dur plus praticable selon la météo pour voler plus souvent et progresser plus vite.</span></li>
               </ul>
               <div class="installations-cta">
                 <a class="installations-btn installations-btn--primary" href="contact.html">Venir essayer la piste</a>
