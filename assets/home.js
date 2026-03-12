@@ -30,6 +30,20 @@
     if (element) element.setAttribute('href', href);
   });
 
+
+
+  const runwayStage = document.querySelector('[data-runway-stage]');
+  const setRunwayProgress = () => {
+    if (!runwayStage) return;
+    const rect = runwayStage.getBoundingClientRect();
+    const viewportHeight = window.innerHeight || document.documentElement.clientHeight || 1;
+    const start = viewportHeight * 0.92;
+    const end = -rect.height * 0.15;
+    const rawProgress = (start - rect.top) / (start - end);
+    const progress = Math.min(1, Math.max(0, rawProgress));
+    runwayStage.style.setProperty('--runway-progress', progress.toFixed(3));
+  };
+
   const quoteText = document.querySelector('[data-quote-typing]');
   const revealQuote = () => {
     if (!quoteText) return;
@@ -93,6 +107,7 @@
     bidirectionalSections.forEach((section) => section.classList.add('is-visible'));
     revealQuote();
     runCounters();
+    if (runwayStage) runwayStage.style.setProperty('--runway-progress', '1');
     return;
   }
 
@@ -124,4 +139,18 @@
   bidirectionalSections.forEach((section) => observer.observe(section));
   if (quoteSection) observer.observe(quoteSection);
   if (chiffreSection) observer.observe(chiffreSection);
+
+  let runwayTicking = false;
+  const requestRunwayUpdate = () => {
+    if (runwayTicking) return;
+    runwayTicking = true;
+    window.requestAnimationFrame(() => {
+      setRunwayProgress();
+      runwayTicking = false;
+    });
+  };
+
+  setRunwayProgress();
+  window.addEventListener('scroll', requestRunwayUpdate, { passive: true });
+  window.addEventListener('resize', requestRunwayUpdate);
 })();

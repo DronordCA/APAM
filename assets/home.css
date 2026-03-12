@@ -571,6 +571,136 @@
 }
 
 
+.runway-reveal {
+  margin-top: clamp(44px, 8vw, 96px);
+}
+
+.runway-stage {
+  --runway-progress: 0;
+  --runway-scale: calc(0.78 + (var(--runway-progress) * 0.35));
+  --runway-tilt: calc(7deg - (var(--runway-progress) * 7deg));
+  position: relative;
+  min-height: clamp(340px, 58vw, 620px);
+  border-radius: 24px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background:
+    radial-gradient(130% 72% at 50% 0%, rgba(108, 145, 255, 0.26) 0%, rgba(10, 13, 20, 0.95) 52%, rgba(6, 7, 10, 1) 100%),
+    #08090e;
+  box-shadow:
+    0 36px 62px rgba(0, 0, 0, 0.55),
+    inset 0 1px 0 rgba(255, 255, 255, 0.14);
+  transform: perspective(1500px) rotateX(var(--runway-tilt)) scale(var(--runway-scale));
+  transform-origin: 50% 16%;
+  transition: transform 240ms ease-out, box-shadow 240ms ease-out;
+  will-change: transform;
+}
+
+.runway-stage::before,
+.runway-stage::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.runway-stage::before {
+  background:
+    linear-gradient(180deg, rgba(129, 159, 255, 0.85) 0%, rgba(129, 159, 255, 0.18) 14%, transparent 38%),
+    repeating-linear-gradient(90deg, transparent 0 44px, rgba(255, 255, 255, 0.06) 44px 48px);
+  opacity: calc(0.2 + (var(--runway-progress) * 0.6));
+}
+
+.runway-stage::after {
+  background: radial-gradient(58% 42% at 50% 86%, rgba(47, 107, 255, calc(0.28 + (var(--runway-progress) * 0.24))) 0%, transparent 78%);
+  mix-blend-mode: screen;
+}
+
+.runway-stage__hud {
+  position: absolute;
+  top: 16px;
+  left: 20px;
+  right: 20px;
+  z-index: 4;
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  font-family: "GPMenu", system-ui, sans-serif;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-size: 0.66rem;
+  color: rgba(255, 255, 255, 0.88);
+  text-shadow: 0 3px 14px rgba(0, 0, 0, 0.65);
+}
+
+.runway-stage__surface {
+  position: absolute;
+  inset: 12% 8% 10%;
+  background:
+    linear-gradient(180deg, rgba(34, 38, 47, 0.88) 0%, rgba(16, 18, 24, 0.98) 100%);
+  clip-path: polygon(42% 0%, 58% 0%, 92% 100%, 8% 100%);
+  border: 1px solid rgba(255, 255, 255, 0.26);
+  box-shadow:
+    inset 0 -24px 54px rgba(0, 0, 0, 0.6),
+    inset 0 18px 24px rgba(255, 255, 255, 0.08);
+}
+
+.runway-stage__surface::before,
+.runway-stage__surface::after {
+  content: "";
+  position: absolute;
+  pointer-events: none;
+}
+
+.runway-stage__surface::before {
+  inset: 0;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.06) 0%, transparent 36%);
+}
+
+.runway-stage__surface::after {
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background: repeating-linear-gradient(180deg, rgba(255, 255, 255, 0) 0 8%, rgba(255, 255, 255, 0.08) 8% 9.4%);
+  opacity: 0.3;
+}
+
+.runway-centerline {
+  position: absolute;
+  left: 50%;
+  top: 5%;
+  bottom: 6%;
+  width: min(1.1vw, 9px);
+  transform: translateX(-50%);
+  background: repeating-linear-gradient(180deg, rgba(255, 255, 255, 0.96) 0 8%, transparent 8% 17%);
+  filter: drop-shadow(0 0 9px rgba(255, 255, 255, 0.32));
+}
+
+.runway-stage__aura {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background:
+    radial-gradient(56% 34% at 50% 82%, rgba(47, 107, 255, calc(0.2 + (var(--runway-progress) * 0.32))) 0%, transparent 76%),
+    radial-gradient(26% 24% at 50% 58%, rgba(255, 255, 255, calc(0.07 + (var(--runway-progress) * 0.14))) 0%, transparent 74%);
+}
+
+.runway-stage__caption {
+  position: absolute;
+  left: 24px;
+  right: 24px;
+  bottom: 16px;
+  z-index: 4;
+  margin: 0;
+  font-size: 0.9rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-family: "GPMenu", system-ui, sans-serif;
+  color: rgba(255, 255, 255, 0.78);
+}
+
 
 .final-cta {
   padding: 0 0 72px;
@@ -635,6 +765,25 @@
   .split-layout {
     grid-template-columns: 1fr;
   }
+  .runway-stage {
+    min-height: clamp(300px, 72vw, 460px);
+    border-radius: 18px;
+  }
+
+  .runway-stage__hud {
+    flex-wrap: wrap;
+    row-gap: 8px;
+  }
+
+  .runway-stage__surface {
+    inset: 16% 5% 10%;
+  }
+
+  .runway-stage__caption {
+    font-size: 0.72rem;
+    letter-spacing: 0.07em;
+  }
+
   .final-cta__inner { flex-direction: column; align-items: flex-start; }
 }
 
@@ -656,6 +805,11 @@
     opacity: 1;
     transform: none;
     filter: none;
+  }
+
+  .runway-stage {
+    transform: none !important;
+    transition: none !important;
   }
 
   .quote-word {
