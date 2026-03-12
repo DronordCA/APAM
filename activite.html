@@ -920,18 +920,30 @@
       max-width:46ch;
     }
 
-    .installations-layout{
-      margin-top:24px;
+    .installations-scroll{
+      --story-steps:4;
+      --runway-progress:0;
+      margin-top:22px;
+      width:100vw;
+      margin-left:calc(50% - 50vw);
+      margin-right:calc(50% - 50vw);
+      min-height:calc(100vh * var(--story-steps));
+      position:relative;
+    }
+    .installations-sticky{
+      position:sticky;
+      top:0;
+      height:100vh;
       display:grid;
-      grid-template-columns:minmax(0, 1.1fr) minmax(0, 0.9fr);
-      gap:24px;
-      align-items:center;
+      place-items:center;
+      padding:18px clamp(14px, 3vw, 36px);
+      overflow:hidden;
     }
     .installations-track{
-      --runway-progress:0;
       position:relative;
-      border-radius:24px;
-      min-height:clamp(280px, 35vw, 430px);
+      width:100%;
+      height:min(86vh, 680px);
+      border-radius:26px;
       overflow:hidden;
       background:radial-gradient(120% 80% at 50% -10%, rgba(125,174,255,0.34), rgba(15,18,24,0.96) 56%, rgba(8,10,14,1) 100%);
       border:1px solid rgba(255,255,255,0.24);
@@ -1030,24 +1042,27 @@
       text-transform:uppercase;
       color:rgba(255,255,255,0.78);
     }
-    .installations-points{
-      display:grid;
-      grid-template-columns:1fr;
-      gap:10px;
-      margin:0;
-      padding:0;
-      list-style:none;
+    .installations-story{
+      position:absolute;
+      left:clamp(16px, 4vw, 46px);
+      right:clamp(16px, 4vw, 46px);
+      bottom:clamp(42px, 11vh, 94px);
+      z-index:4;
+      max-width:min(760px, 92vw);
     }
-    .installations-points li{
+    .installations-step{
+      display:none;
       border:1px solid rgba(255,255,255,0.18);
-      border-radius:14px;
-      padding:12px 14px;
-      background:rgba(255,255,255,0.04);
+      border-radius:16px;
+      padding:14px 16px;
+      background:rgba(5,8,14,0.64);
+      backdrop-filter:blur(6px);
       color:rgba(255,255,255,0.82);
-      font-size:14px;
+      font-size:15px;
       line-height:1.45;
     }
-    .installations-points strong{
+    .installations-step.is-active{display:block;animation:installationsStepIn .36s ease;}
+    .installations-step strong{
       display:block;
       font-family:"GPMenu", system-ui, sans-serif;
       font-size:11px;
@@ -1055,6 +1070,10 @@
       text-transform:uppercase;
       color:rgba(125,174,255,0.95);
       margin-bottom:6px;
+    }
+    .installations-step p{margin:0;}
+    @keyframes installationsStepIn{
+      from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:translateY(0);}
     }
     .installations-cta{
       margin-top:14px;
@@ -1509,7 +1528,8 @@
       .team-name{font-size:40px;}
       .team-photo{width:186px;}
 
-      .installations-layout{grid-template-columns:1fr;gap:16px;}
+      .installations-scroll{min-height:calc(100vh * 3.6);}
+      .installations-sticky{padding:14px 14px 20px;}
     }
 
     @media (max-width:640px){
@@ -1531,11 +1551,19 @@
       .team-photo{width:170px;}
       .team-name{font-size:40px;}
       .team-bio{font-size:13px;}
-      .installations-track{min-height:300px;border-radius:18px;transform:none;}
+      .installations-scroll{
+        width:auto;
+        margin-left:0;
+        margin-right:0;
+        min-height:auto;
+      }
+      .installations-sticky{position:relative;height:auto;padding:0;overflow:visible;}
+      .installations-track{min-height:300px;height:340px;border-radius:18px;transform:none;}
       .installations-track__hud{font-size:9px;gap:8px;flex-wrap:wrap;}
       .installations-track__runway{inset:16% 4% 12%;}
       .runway-threshold{font-size:20px;}
-      .installations-points li{font-size:13px;}
+      .installations-story{position:static;max-width:none;margin-top:12px;}
+      .installations-step{display:block;font-size:13px;margin-bottom:8px;}
     }
 
     /* =============================== */
@@ -1919,33 +1947,46 @@
         <div class="section-inner">
           <h2 class="section-title" id="installations-title">Nos installations</h2>
           <p class="section-note">Une piste d'avion en dur pensée pour l'entraînement : roulement précis, décollages réguliers et atterrissages plus sûrs toute l'année.</p>
-          <div class="installations-layout">
-            <div class="installations-track" data-installations-runway role="img" aria-label="Vue immersive de la piste en dur du club">
-              <div class="installations-track__hud" aria-hidden="true">
-                <span>LFOL</span>
-                <span>Piste 07/25</span>
-                <span>Approche</span>
+          <div class="installations-scroll" data-installations-scroll>
+            <div class="installations-sticky">
+              <div class="installations-track" data-installations-runway role="img" aria-label="Vue immersive de la piste en dur du club">
+                <div class="installations-track__hud" aria-hidden="true">
+                  <span>LFOL</span>
+                  <span>Piste 07/25</span>
+                  <span>Approche</span>
+                </div>
+                <div class="installations-track__sky" aria-hidden="true"></div>
+                <div class="installations-track__runway" aria-hidden="true">
+                  <span class="runway-edge runway-edge--left"></span>
+                  <span class="runway-edge runway-edge--right"></span>
+                  <span class="runway-centerline"></span>
+                  <span class="runway-threshold runway-threshold--start">07</span>
+                  <span class="runway-threshold runway-threshold--end">25</span>
+                  <span class="runway-sweep"></span>
+                </div>
+                <p class="installations-track__caption">Scrollez : la piste reste en plein écran et affiche chaque point clé.</p>
               </div>
-              <div class="installations-track__sky" aria-hidden="true"></div>
-              <div class="installations-track__runway" aria-hidden="true">
-                <span class="runway-edge runway-edge--left"></span>
-                <span class="runway-edge runway-edge--right"></span>
-                <span class="runway-centerline"></span>
-                <span class="runway-threshold runway-threshold--start">07</span>
-                <span class="runway-threshold runway-threshold--end">25</span>
-                <span class="runway-sweep"></span>
-              </div>
-              <p class="installations-track__caption">Scrollez : la piste se dévoile en grand pendant l'approche.</p>
-            </div>
-            <div>
-              <ul class="installations-points">
-                <li><strong>Décollage plus constant</strong><span>Le bitume offre une accélération régulière pour répéter les procédures de départ dans des conditions fiables.</span></li>
-                <li><strong>Atterrissage mieux maîtrisé</strong><span>Une piste lisible et stable facilite l'arrondi, la tenue d'axe et les remises de gaz en instruction.</span></li>
-                <li><strong>Exploitation toute saison</strong><span>Surface en dur plus praticable selon la météo pour voler plus souvent et progresser plus vite.</span></li>
-              </ul>
-              <div class="installations-cta">
-                <a class="installations-btn installations-btn--primary" href="contact.html">Venir essayer la piste</a>
-                <a class="installations-btn" href="activite.html#calendar-title">Voir les horaires</a>
+              <div class="installations-story" data-installations-story>
+                <article class="installations-step is-active" data-installations-step>
+                  <strong>Décollage plus constant</strong>
+                  <p>Le bitume offre une accélération régulière pour répéter les procédures de départ dans des conditions fiables.</p>
+                </article>
+                <article class="installations-step" data-installations-step>
+                  <strong>Atterrissage mieux maîtrisé</strong>
+                  <p>Une piste lisible et stable facilite l'arrondi, la tenue d'axe et les remises de gaz en instruction.</p>
+                </article>
+                <article class="installations-step" data-installations-step>
+                  <strong>Exploitation toute saison</strong>
+                  <p>Surface en dur plus praticable selon la météo pour voler plus souvent et progresser plus vite.</p>
+                </article>
+                <article class="installations-step" data-installations-step>
+                  <strong>Venir essayer la piste</strong>
+                  <p>Planifiez une visite et découvrez les créneaux disponibles pour voler avec l'équipe APAM.</p>
+                  <div class="installations-cta">
+                    <a class="installations-btn installations-btn--primary" href="contact.html">Venir essayer la piste</a>
+                    <a class="installations-btn" href="activite.html#calendar-title">Voir les horaires</a>
+                  </div>
+                </article>
               </div>
             </div>
           </div>
@@ -2727,23 +2768,29 @@
 
 
     function initInstallationsRunway(){
+      const story = document.querySelector('[data-installations-scroll]');
       const runway = document.querySelector('[data-installations-runway]');
-      if (!runway) return;
+      const steps = Array.from(document.querySelectorAll('[data-installations-step]'));
+      if (!runway || !story || !steps.length) return;
       const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       if (reducedMotion){
         runway.style.setProperty('--runway-progress', '1');
+        steps.forEach((step, index) => step.classList.toggle('is-active', index === steps.length - 1));
         return;
       }
 
       let ticking = false;
       const update = () => {
-        const rect = runway.getBoundingClientRect();
+        const rect = story.getBoundingClientRect();
         const viewport = window.innerHeight || document.documentElement.clientHeight || 1;
-        const start = viewport * 0.9;
-        const end = -rect.height * 0.15;
+        const start = viewport * 0.8;
+        const end = -Math.max(1, rect.height - viewport * 0.2);
         const raw = (start - rect.top) / (start - end);
         const progress = Math.max(0, Math.min(1, raw));
         runway.style.setProperty('--runway-progress', progress.toFixed(3));
+
+        const stepIndex = Math.min(steps.length - 1, Math.floor(progress * steps.length));
+        steps.forEach((step, index) => step.classList.toggle('is-active', index === stepIndex));
       };
 
       const onScroll = () => {
