@@ -2352,7 +2352,6 @@
 
   <script
     src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
     crossorigin=""
   ></script>
 
@@ -3353,6 +3352,34 @@
       });
     }
 
+    function ensureLeafletReady(onReady){
+      if (typeof onReady !== 'function') return;
+      if (typeof window.L !== 'undefined'){
+        onReady();
+        return;
+      }
+
+      const fallbackSrc = 'https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js';
+      if (!document.querySelector(`script[data-leaflet-fallback="${fallbackSrc}"]`)){
+        const fallbackScript = document.createElement('script');
+        fallbackScript.src = fallbackSrc;
+        fallbackScript.async = true;
+        fallbackScript.dataset.leafletFallback = fallbackSrc;
+        document.head.appendChild(fallbackScript);
+      }
+
+      const timeoutAt = Date.now() + 5000;
+      const waitForLeaflet = () => {
+        if (typeof window.L !== 'undefined'){
+          onReady();
+          return;
+        }
+        if (Date.now() >= timeoutAt) return;
+        window.setTimeout(waitForLeaflet, 120);
+      };
+      waitForLeaflet();
+    }
+
     // init
     (function(){
       const tb = document.getElementById("titleBox");
@@ -3361,7 +3388,7 @@
       initScrollReveal();
       initClubAnchorScroll();
       initInstallationsRunway();
-      initVoyagesMap();
+      ensureLeafletReady(initVoyagesMap);
       bindCalendarNav();
       initClubPhotos();
       loadEvents();
