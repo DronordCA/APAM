@@ -1009,17 +1009,7 @@
       pointer-events:none;
     }
     .installations-track__runway::before{
-      background:repeating-linear-gradient(
-        180deg,
-        rgba(255,255,255,0.1) 0 1.8%,
-        transparent 1.8% 8.8%
-      );
-      background-size:100% 28%;
-      background-position:50% calc(var(--runway-smoothed) * 140%);
-      transform:translateY(calc(var(--runway-smoothed) * 34%));
-      mix-blend-mode:screen;
-      opacity:0.56;
-      filter:blur(0.4px);
+      background:none;
     }
     .installations-track__runway::after{
       background:radial-gradient(56% 40% at 50% 24%, rgba(130,180,255,0.22), transparent 72%);
@@ -1029,7 +1019,8 @@
     .runway-edge,
     .runway-centerline,
     .runway-sweep,
-    .runway-threshold{position:absolute;display:block;}
+    .runway-threshold,
+    .runway-papi{position:absolute;display:block;}
     .runway-edge{
       top:0;
       bottom:0;
@@ -1070,6 +1061,28 @@
       transform:translate3d(calc(var(--runway-drift) * -0.5%), calc(72% - (var(--runway-smoothed) * 86%)), 0);
       filter:blur(5px);
     }
+    .runway-papi{
+      right:8%;
+      top:46%;
+      z-index:3;
+      display:flex;
+      gap:7px;
+      align-items:center;
+      padding:6px 10px;
+      border-radius:999px;
+      background:rgba(7,8,10,0.66);
+      border:1px solid rgba(255,255,255,0.22);
+      box-shadow:0 8px 18px rgba(0,0,0,0.42);
+      transform:translate3d(calc(var(--runway-drift) * 0.2%), calc(var(--runway-smoothed) * 0.5%), 0);
+    }
+    .runway-papi__light{
+      width:9px;
+      height:9px;
+      border-radius:999px;
+      box-shadow:0 0 9px currentColor;
+    }
+    .runway-papi__light--red{color:rgba(255,74,74,0.95);background:currentColor;}
+    .runway-papi__light--white{color:rgba(255,255,255,0.95);background:currentColor;}
     .installations-track__caption{
       position:absolute;
       left:20px;
@@ -2048,6 +2061,12 @@
                   <span class="runway-threshold runway-threshold--start">07</span>
                   <span class="runway-threshold runway-threshold--end">25</span>
                   <span class="runway-sweep"></span>
+                  <span class="runway-papi" aria-hidden="true">
+                    <span class="runway-papi__light runway-papi__light--red"></span>
+                    <span class="runway-papi__light runway-papi__light--red"></span>
+                    <span class="runway-papi__light runway-papi__light--white"></span>
+                    <span class="runway-papi__light runway-papi__light--white"></span>
+                  </span>
                 </div>
                 <p class="installations-track__caption">Premier scroll : plein écran. Ensuite, avancez le long de la piste pour révéler chaque point clé.</p>
               </div>
