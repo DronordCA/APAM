@@ -933,7 +933,7 @@
 
     .voyages-scroll{
       --voyage-progress:0;
-      --voyage-steps:7;
+      --voyage-steps:4.2;
       min-height:calc(100vh * var(--voyage-steps));
       width:100vw;
       left:50%;
@@ -1805,7 +1805,7 @@
       .team-name{font-size:40px;}
       .team-photo{width:186px;}
 
-      .voyages-scroll{min-height:calc(100vh * 6);}
+      .voyages-scroll{min-height:calc(100vh * 4.2);}
       .voyages-stage{padding:20px 3vw;}
       .voyages-legend{grid-template-columns:repeat(2,minmax(0,1fr));}
 
@@ -1833,7 +1833,7 @@
       .team-photo{width:170px;}
       .team-name{font-size:40px;}
       .team-bio{font-size:13px;}
-      .voyages-scroll{min-height:calc(100svh * 6.2);}
+      .voyages-scroll{min-height:calc(100svh * 4.4);}
       .voyages-stage{padding:14px 0;}
       .voyages-stage__hud{padding:0 14px;font-size:9px;}
       .voyages-stage__map{border-radius:0;padding:10px;border-left:0;border-right:0;}
@@ -1984,8 +1984,8 @@
                     <a class="activity-link" href="#calendar-title">Calendrier des activités</a>
                     <a class="activity-link" href="#photos-title">Photos du club</a>
                     <a class="activity-link" href="#team-title">Notre équipe</a>
-                    <a class="activity-link" href="#voyages-title">Voyage de L'APAM</a>
                     <a class="activity-link" href="#social-title">Réseaux sociaux</a>
+                    <a class="activity-link" href="#voyages-title">Voyage de L'APAM</a>
                   </div>
                 </span>
                 <span class="nav-item"><a href="devenir-pilote.html" class="nav-link" data-text="DEVENIR PILOTE">DEVENIR PILOTE</a></span>
@@ -2064,53 +2064,45 @@
       </div>
       </section>
 
-      <section class="section-surface section-surface--dark section-surface--full reveal-on-scroll" data-reveal="right" id="social-title" aria-labelledby="social-title-heading">
+      <section class="section-surface section-surface--light section-surface--voyages reveal-on-scroll" data-reveal="up" aria-labelledby="voyages-title">
         <div class="section-inner">
-        <h2 class="section-title" id="social-title-heading">Réseaux sociaux</h2>
-        <p class="section-note">Suivez les dernières nouvelles du club sur nos réseaux et retrouvez nos publications en direct.</p>
-        <div class="social-grid">
-          <div class="social-block fb-block">
-            <div class="social-head">
-              <h3>Facebook</h3>
-              <a href="https://www.facebook.com/profile.php?id=61585663567523" target="_blank" rel="noopener noreferrer">
-                VOIR SUR FACEBOOK →
-              </a>
-            </div>
-
-            <div class="social-frame" id="fbWrap">
-              <iframe id="fbFrame" title="Facebook APAM" loading="lazy"
-                allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"></iframe>
-            </div>
-            <div class="social-fallback">
-              Si l’aperçu Facebook ne charge pas, ouvrez le profil directement.
-              <a href="https://www.facebook.com/profile.php?id=61585663567523" target="_blank" rel="noopener noreferrer">
-                Ouvrir Facebook
-              </a>
-            </div>
-          </div>
-
-          <div class="social-block ig-block">
-            <div class="social-head">
-              <h3>Instagram</h3>
-              <a href="https://www.instagram.com/apam_lfol?igsh=MTVnbjRtNHppMWwwcA%3D%3D&utm_source=qr" target="_blank" rel="noopener noreferrer">
-                VOIR SUR INSTAGRAM →
-              </a>
-            </div>
-
-            <div class="social-frame">
-              <iframe title="Instagram APAM" loading="lazy"
-                src="https://www.instagram.com/apam_lfol/embed"
-                allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"></iframe>
-            </div>
-            <div class="social-fallback">
-              Si l’aperçu Instagram ne charge pas, ouvrez le profil directement.
-              <a href="https://www.instagram.com/apam_lfol?igsh=MTVnbjRtNHppMWwwcA%3D%3D&utm_source=qr" target="_blank" rel="noopener noreferrer">
-                Ouvrir Instagram
-              </a>
+          <h2 class="section-title" id="voyages-title" hidden>Voyage de L'APAM</h2>
+          <div class="voyages-scroll" data-voyages-scroll>
+            <div class="voyages-sticky">
+              <div class="voyages-stage" data-voyages-stage role="img" aria-label="Carte des grands trajets APAM en Europe et Afrique du Nord">
+                <div class="voyages-stage__hud" aria-hidden="true">
+                  <span>VOYAGE DE L'APAM</span>
+                  <span data-voyages-progress>Préparation des routes</span>
+                </div>
+                <div class="voyages-stage__map">
+                  <div class="voyages-map" id="voyages-map" aria-hidden="true"></div>
+                </div>
+                <div class="voyages-legend" data-voyages-legend>
+                  <article class="voyage-chip" data-voyage-chip>
+                    <strong>Norvège</strong>
+                    <span>Navigation long range vers le nord.</span>
+                  </article>
+                  <article class="voyage-chip" data-voyage-chip>
+                    <strong>Maroc</strong>
+                    <span>Traversée vers l'Afrique du Nord.</span>
+                  </article>
+                  <article class="voyage-chip" data-voyage-chip>
+                    <strong>Chypre</strong>
+                    <span>Route méditerranéenne de référence.</span>
+                  </article>
+                  <article class="voyage-chip" data-voyage-chip>
+                    <strong>Angleterre (Cornouailles)</strong>
+                    <span>Navigation ciblée vers le sud-ouest anglais, surtout en Cornouailles.</span>
+                  </article>
+                </div>
+                <button class="voyages-scroll-cue" type="button" data-voyages-next aria-label="Continuer la navigation">
+                  <span class="voyages-scroll-cue__arrow" aria-hidden="true"></span>
+                  <span>Continuer</span>
+                </button>
+              </div>
             </div>
           </div>
         </div>
-      </div>
       </section>
 
       <section class="section-surface section-surface--light section-surface--full reveal-on-scroll" data-reveal="left" aria-labelledby="photos-title" data-drive-folder-id="1kT0lWOg3rsbMM2mIU7lVkLyPA6--bc1D" data-drive-api-key="AIzaSyBKcSH_6xVu9sA3M-JWwuLVJUkR7cjXB00" data-photo-urls="assets/images/image1.png,assets/images/FGHKE2.png,assets/images/TB200M.png,assets/images/SR1.png">
@@ -2237,45 +2229,53 @@
       </section>
 
 
-      <section class="section-surface section-surface--light section-surface--voyages reveal-on-scroll" data-reveal="up" aria-labelledby="voyages-title">
+      <section class="section-surface section-surface--dark section-surface--full reveal-on-scroll" data-reveal="right" id="social-title" aria-labelledby="social-title-heading">
         <div class="section-inner">
-          <h2 class="section-title" id="voyages-title" hidden>Voyage de L'APAM</h2>
-          <div class="voyages-scroll" data-voyages-scroll>
-            <div class="voyages-sticky">
-              <div class="voyages-stage" data-voyages-stage role="img" aria-label="Carte des grands trajets APAM en Europe et Afrique du Nord">
-                <div class="voyages-stage__hud" aria-hidden="true">
-                  <span>VOYAGE DE L'APAM</span>
-                  <span data-voyages-progress>Préparation des routes</span>
-                </div>
-                <div class="voyages-stage__map">
-                  <div class="voyages-map" id="voyages-map" aria-hidden="true"></div>
-                </div>
-                <div class="voyages-legend" data-voyages-legend>
-                  <article class="voyage-chip" data-voyage-chip>
-                    <strong>Norvège</strong>
-                    <span>Navigation long range vers le nord.</span>
-                  </article>
-                  <article class="voyage-chip" data-voyage-chip>
-                    <strong>Maroc</strong>
-                    <span>Traversée vers l'Afrique du Nord.</span>
-                  </article>
-                  <article class="voyage-chip" data-voyage-chip>
-                    <strong>Chypre</strong>
-                    <span>Route méditerranéenne de référence.</span>
-                  </article>
-                  <article class="voyage-chip" data-voyage-chip>
-                    <strong>Angleterre (Cornouailles)</strong>
-                    <span>Navigation ciblée vers le sud-ouest anglais, surtout en Cornouailles.</span>
-                  </article>
-                </div>
-                <button class="voyages-scroll-cue" type="button" data-voyages-next aria-label="Continuer la navigation">
-                  <span class="voyages-scroll-cue__arrow" aria-hidden="true"></span>
-                  <span>Continuer</span>
-                </button>
-              </div>
+        <h2 class="section-title" id="social-title-heading">Réseaux sociaux</h2>
+        <p class="section-note">Suivez les dernières nouvelles du club sur nos réseaux et retrouvez nos publications en direct.</p>
+        <div class="social-grid">
+          <div class="social-block fb-block">
+            <div class="social-head">
+              <h3>Facebook</h3>
+              <a href="https://www.facebook.com/profile.php?id=61585663567523" target="_blank" rel="noopener noreferrer">
+                VOIR SUR FACEBOOK →
+              </a>
+            </div>
+
+            <div class="social-frame" id="fbWrap">
+              <iframe id="fbFrame" title="Facebook APAM" loading="lazy"
+                allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"></iframe>
+            </div>
+            <div class="social-fallback">
+              Si l’aperçu Facebook ne charge pas, ouvrez le profil directement.
+              <a href="https://www.facebook.com/profile.php?id=61585663567523" target="_blank" rel="noopener noreferrer">
+                Ouvrir Facebook
+              </a>
+            </div>
+          </div>
+
+          <div class="social-block ig-block">
+            <div class="social-head">
+              <h3>Instagram</h3>
+              <a href="https://www.instagram.com/apam_lfol?igsh=MTVnbjRtNHppMWwwcA%3D%3D&utm_source=qr" target="_blank" rel="noopener noreferrer">
+                VOIR SUR INSTAGRAM →
+              </a>
+            </div>
+
+            <div class="social-frame">
+              <iframe title="Instagram APAM" loading="lazy"
+                src="https://www.instagram.com/apam_lfol/embed"
+                allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"></iframe>
+            </div>
+            <div class="social-fallback">
+              Si l’aperçu Instagram ne charge pas, ouvrez le profil directement.
+              <a href="https://www.instagram.com/apam_lfol?igsh=MTVnbjRtNHppMWwwcA%3D%3D&utm_source=qr" target="_blank" rel="noopener noreferrer">
+                Ouvrir Instagram
+              </a>
             </div>
           </div>
         </div>
+      </div>
       </section>
       <footer>
         <div class="footer-inner">
@@ -3022,16 +3022,6 @@
     })();
 
 
-    function reorderClubSections(){
-      const social = document.getElementById("social-title");
-      const team = document.querySelector('[aria-labelledby="team-title"]');
-      const installations = document.querySelector('[aria-labelledby="installations-title"]');
-      const insertionPoint = installations || team;
-      if (social && insertionPoint && insertionPoint.nextElementSibling !== social){
-        insertionPoint.insertAdjacentElement("afterend", social);
-      }
-    }
-
     function initScrollReveal(){
       const blocks = Array.from(document.querySelectorAll('.reveal-on-scroll'));
       if(!blocks.length) return;
@@ -3188,14 +3178,13 @@
         const progress = Math.max(0, Math.min(1, raw));
         stage.style.setProperty('--voyage-progress', progress.toFixed(4));
 
-        const totalSteps = routes.length + 3;
-        const perStep = 1 / totalSteps;
+        const perRoute = 1 / routes.length;
         let activeRoute = 0;
         routes.forEach((route, index) => {
-          const routeStart = (index + 2) * perStep;
-          const routeProgress = Math.max(0, Math.min(1, (progress - routeStart) / perStep));
+          const routeStart = index * perRoute;
+          const routeProgress = Math.max(0, Math.min(1, (progress - routeStart) / (perRoute * 0.92)));
           setRouteDraw(route, routeProgress, index);
-          if (routeProgress >= 0.98) activeRoute = index + 1;
+          if (routeProgress >= 0.92) activeRoute = index + 1;
         });
 
         chips.forEach((chip, index) => chip.classList.toggle('is-active', index < activeRoute));
@@ -3275,7 +3264,6 @@
     (function(){
       const tb = document.getElementById("titleBox");
       requestAnimationFrame(() => tb && tb.classList.add("is-in"));
-      reorderClubSections();
       initScrollReveal();
       initClubAnchorScroll();
       ensureLeafletReady(initVoyagesMap);
