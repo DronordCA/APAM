@@ -62,15 +62,16 @@
     }
 
     *{box-sizing:border-box;margin:0;padding:0}
-    html,body{height:100%}
+    html,body{height:100%;max-width:100%;overflow-x:clip;overscroll-behavior-x:none;}
 
     /* ✅ IMPORTANT: on ne bloque jamais le scroll ici */
     body{
       background:#101012;
       color:#fff;
       font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
-      overflow-x:hidden;
+      overflow-x:clip;
       overflow-y:auto;
+      touch-action:pan-y pinch-zoom;
     }
 
     /* =============================== */
@@ -90,7 +91,7 @@
       opacity:.55;
       pointer-events:none;
     }
-    .content{position:relative; z-index:2;}
+    .content{position:relative; z-index:2; width:100%; overflow-x:clip;}
 
     /* =============================== */
     /* HEADER DESKTOP */
@@ -390,14 +391,12 @@
 
       .m-header{
         display:flex;
-        position:sticky;
-        top:0;
+        position:relative;
         z-index:30;
         padding:16px var(--page-side-margin);
         align-items:center;
         justify-content:space-between;
-        background: linear-gradient(180deg, rgba(16,16,18,0.92) 0%, rgba(16,16,18,0.75) 60%, rgba(16,16,18,0) 100%);
-        backdrop-filter: blur(10px);
+        background: rgba(16,16,18,0.98);
       }
       .m-logo{display:inline-flex;align-items:center;text-decoration:none;}
     .m-logo img{height:56px;display:block;margin-top:6px;}
@@ -1808,6 +1807,37 @@
       .voyages-scroll{min-height:calc(100vh * 4.2);}
       .voyages-stage{padding:20px 3vw;}
       .voyages-legend{grid-template-columns:repeat(2,minmax(0,1fr));}
+      .calendar-layout{gap:10px;}
+      .calendar-shell{padding:12px;gap:10px;}
+      .calendar-grid{min-width:620px;}
+      .calendar-detail{margin-top:2px;}
+
+      .voyages-scroll{
+        min-height:auto;
+        width:100%;
+        left:auto;
+        margin-left:0;
+      }
+      .voyages-sticky{
+        position:relative;
+        top:auto;
+        min-height:auto;
+        display:block;
+        overflow:visible;
+      }
+      .voyages-stage{
+        min-height:auto;
+        padding:16px 0 18px;
+      }
+      .voyages-stage__map{
+        border-radius:14px;
+        padding:10px;
+      }
+      .voyages-map{
+        aspect-ratio:16/11;
+      }
+      .voyages-scroll-cue{display:none;}
+
 
       .installations-scroll{min-height:auto;}
       .installations-sticky{padding:0;}
@@ -1833,8 +1863,8 @@
       .team-photo{width:170px;}
       .team-name{font-size:40px;}
       .team-bio{font-size:13px;}
-      .voyages-scroll{min-height:calc(100svh * 4.4);}
-      .voyages-stage{padding:14px 0;}
+      .voyages-scroll{min-height:auto;}
+      .voyages-stage{padding:12px 0 16px;}
       .voyages-stage__hud{padding:0 14px;font-size:9px;}
       .voyages-stage__map{border-radius:0;padding:10px;border-left:0;border-right:0;}
       .voyages-map{border-radius:0;aspect-ratio:15/10;}
@@ -1984,8 +2014,8 @@
                     <a class="activity-link" href="#calendar-title">Calendrier des activités</a>
                     <a class="activity-link" href="#photos-title">Photos du club</a>
                     <a class="activity-link" href="#team-title">Notre équipe</a>
-                    <a class="activity-link" href="#social-title">Réseaux sociaux</a>
                     <a class="activity-link" href="#voyages-title">Voyage de L'APAM</a>
+                    <a class="activity-link" href="#social-title">Réseaux sociaux</a>
                   </div>
                 </span>
                 <span class="nav-item"><a href="devenir-pilote.html" class="nav-link" data-text="DEVENIR PILOTE">DEVENIR PILOTE</a></span>
@@ -2064,46 +2094,7 @@
       </div>
       </section>
 
-      <section class="section-surface section-surface--light section-surface--voyages reveal-on-scroll" data-reveal="up" aria-labelledby="voyages-title">
-        <div class="section-inner">
-          <h2 class="section-title" id="voyages-title" hidden>Voyage de L'APAM</h2>
-          <div class="voyages-scroll" data-voyages-scroll>
-            <div class="voyages-sticky">
-              <div class="voyages-stage" data-voyages-stage role="img" aria-label="Carte des grands trajets APAM en Europe et Afrique du Nord">
-                <div class="voyages-stage__hud" aria-hidden="true">
-                  <span>VOYAGE DE L'APAM</span>
-                  <span data-voyages-progress>Préparation des routes</span>
-                </div>
-                <div class="voyages-stage__map">
-                  <div class="voyages-map" id="voyages-map" aria-hidden="true"></div>
-                </div>
-                <div class="voyages-legend" data-voyages-legend>
-                  <article class="voyage-chip" data-voyage-chip>
-                    <strong>Norvège</strong>
-                    <span>Navigation long range vers le nord.</span>
-                  </article>
-                  <article class="voyage-chip" data-voyage-chip>
-                    <strong>Maroc</strong>
-                    <span>Traversée vers l'Afrique du Nord.</span>
-                  </article>
-                  <article class="voyage-chip" data-voyage-chip>
-                    <strong>Chypre</strong>
-                    <span>Route méditerranéenne de référence.</span>
-                  </article>
-                  <article class="voyage-chip" data-voyage-chip>
-                    <strong>Angleterre (Cornouailles)</strong>
-                    <span>Navigation ciblée vers le sud-ouest anglais, surtout en Cornouailles.</span>
-                  </article>
-                </div>
-                <button class="voyages-scroll-cue" type="button" data-voyages-next aria-label="Continuer la navigation">
-                  <span class="voyages-scroll-cue__arrow" aria-hidden="true"></span>
-                  <span>Continuer</span>
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+      
 
       <section class="section-surface section-surface--light section-surface--full reveal-on-scroll" data-reveal="left" aria-labelledby="photos-title" data-drive-folder-id="1kT0lWOg3rsbMM2mIU7lVkLyPA6--bc1D" data-drive-api-key="AIzaSyBKcSH_6xVu9sA3M-JWwuLVJUkR7cjXB00" data-photo-urls="assets/images/image1.png,assets/images/FGHKE2.png,assets/images/TB200M.png,assets/images/SR1.png">
         <div class="section-inner">
@@ -2228,6 +2219,47 @@
       </div>
       </section>
 
+
+      <section class="section-surface section-surface--light section-surface--voyages reveal-on-scroll" data-reveal="up" aria-labelledby="voyages-title">
+        <div class="section-inner">
+          <h2 class="section-title" id="voyages-title" hidden>Voyage de L'APAM</h2>
+          <div class="voyages-scroll" data-voyages-scroll>
+            <div class="voyages-sticky">
+              <div class="voyages-stage" data-voyages-stage role="img" aria-label="Carte des grands trajets APAM en Europe et Afrique du Nord">
+                <div class="voyages-stage__hud" aria-hidden="true">
+                  <span>VOYAGE DE L'APAM</span>
+                  <span data-voyages-progress>Préparation des routes</span>
+                </div>
+                <div class="voyages-stage__map">
+                  <div class="voyages-map" id="voyages-map" aria-hidden="true"></div>
+                </div>
+                <div class="voyages-legend" data-voyages-legend>
+                  <article class="voyage-chip" data-voyage-chip>
+                    <strong>Norvège</strong>
+                    <span>Navigation long range vers le nord.</span>
+                  </article>
+                  <article class="voyage-chip" data-voyage-chip>
+                    <strong>Maroc</strong>
+                    <span>Traversée vers l'Afrique du Nord.</span>
+                  </article>
+                  <article class="voyage-chip" data-voyage-chip>
+                    <strong>Chypre</strong>
+                    <span>Route méditerranéenne de référence.</span>
+                  </article>
+                  <article class="voyage-chip" data-voyage-chip>
+                    <strong>Angleterre (Cornouailles)</strong>
+                    <span>Navigation ciblée vers le sud-ouest anglais, surtout en Cornouailles.</span>
+                  </article>
+                </div>
+                <button class="voyages-scroll-cue" type="button" data-voyages-next aria-label="Continuer la navigation">
+                  <span class="voyages-scroll-cue__arrow" aria-hidden="true"></span>
+                  <span>Continuer</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
 
       <section class="section-surface section-surface--dark section-surface--full reveal-on-scroll" data-reveal="right" id="social-title" aria-labelledby="social-title-heading">
         <div class="section-inner">
@@ -3159,7 +3191,8 @@
       };
 
       const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      if (reducedMotion){
+      const isCompact = window.matchMedia('(max-width: 980px)').matches;
+      if (reducedMotion || isCompact){
         routes.forEach((route, index) => setRouteDraw(route, 1, index));
         chips.forEach((chip) => chip.classList.add('is-active'));
         if (progressLabel) progressLabel.textContent = `Route ${routes.length} / ${routes.length}`;
