@@ -3,14 +3,6 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-VYNBMK1WPC"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-VYNBMK1WPC');
-  </script>
   <title>Politique cookies | APAM</title>
   <style>
     :root { --bg:#0b0b0c; --card:#17181b; --text:#f6f7fb; --muted:#c6cad8; --accent:#2f6bff; --border:#2a2c33; }
@@ -60,6 +52,10 @@
         Aucun cookie de mesure d'audience n'est déposé tant que vous n'avez pas accepté la catégorie
         « Mesure d'audience (Google Analytics) ».
       </p>
+      <ul>
+        <li><strong>Stockage du consentement</strong> : <code>apam_cookie_consent_v1</code> (localStorage), conservation 6 mois.</li>
+        <li><strong>Analytics (si accepté)</strong> : cookies Google Analytics (ex. <code>_ga</code>, <code>_ga_*</code>) avec une durée définie par Google selon sa configuration en vigueur.</li>
+      </ul>
     </section>
 
     <section class="card">
@@ -91,7 +87,7 @@
       <p>
         Pour toute question relative aux cookies et au traitement de vos données :
         <a href="mailto:aeroclubapam@gmail.com">aeroclubapam@gmail.com</a>
-        (Frédéric Rognier, 02 33 24 21 52 sans permanence ; 06 08 28 83 22).
+        (Frédéric Regnier, 02 33 24 21 52 sans permanence ; 06 08 28 83 22).
       </p>
       <p class="muted">Hébergement : GitHub, Inc., 88 Colin P Kelly Jr St, San Francisco, CA 94107, USA.</p>
     </section>
@@ -107,7 +103,7 @@
     </footer>
   </main>
   <script>
-    window.COOKIE_CONSENT_CONFIG = { gaMeasurementId: '{{GA_MEASUREMENT_ID}}' };
+    window.COOKIE_CONSENT_CONFIG = { gaMeasurementId: 'G-VYNBMK1WPC' };
   </script>
   <script src="assets/cookie-consent.js" defer></script>
 </body>
