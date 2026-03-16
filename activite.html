@@ -3230,11 +3230,13 @@
 
       let ticking = false;
       const update = () => {
-        const rect = scroll.getBoundingClientRect();
         const viewport = window.innerHeight || document.documentElement.clientHeight || 1;
-        const start = viewport * 0.78;
-        const end = -Math.max(1, rect.height - viewport * 0.2);
-        const raw = (start - rect.top) / (start - end);
+        const scrollTop = window.pageYOffset || document.documentElement.scrollTop || 0;
+        const sectionTop = scroll.offsetTop || 0;
+        const sectionHeight = Math.max(1, scroll.offsetHeight || 1);
+        const travelStart = sectionTop - (viewport * 0.28);
+        const travelDistance = Math.max(1, sectionHeight - (viewport * 0.25));
+        const raw = (scrollTop - travelStart) / travelDistance;
         const progress = Math.max(0, Math.min(1, raw));
         stage.style.setProperty('--voyage-progress', progress.toFixed(4));
 
