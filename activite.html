@@ -3134,31 +3134,28 @@
       `;
 
       const routes = Array.from(mapNode.querySelectorAll('.voyages-route'));
-      let ticking = false;
-      const update = () => {
-        const viewport = window.innerHeight || document.documentElement.clientHeight || 1;
-        const scrollTop = window.pageYOffset || document.documentElement.scrollTop || 0;
-        const sectionTop = scroll.offsetTop || 0;
-        const sectionHeight = Math.max(1, scroll.offsetHeight || 1);
-        const travelStart = sectionTop - (viewport * 0.28);
-        const travelDistance = Math.max(1, sectionHeight - (viewport * 0.25));
-        const progress = Math.max(0, Math.min(1, (scrollTop - travelStart) / travelDistance));
-        stage.style.setProperty('--voyage-progress', progress.toFixed(4));
+      const lengths = routes.map((route) => (route.getTotalLength ? route.getTotalLength() : 0));
+      const setRouteDraw = (route, routeProgress, index) => {
+        const clamped = Math.max(0, Math.min(1, routeProgress));
+        const length = Number(lengths[index]) || 0;
+        if (length > 1){
+          route.style.strokeDasharray = `${length}`;
+          route.style.strokeDashoffset = `${length * (1 - clamped)}`;
+        }
+        route.style.opacity = clamped <= 0.001 ? '0' : `${0.15 + (clamped * 0.82)}`;
+      };
 
+      const renderProgress = (progress) => {
+        const clampedProgress = Math.max(0, Math.min(1, progress));
+        stage.style.setProperty('--voyage-progress', clampedProgress.toFixed(4));
         const perRoute = 1 / routes.length;
         let activeRoute = 0;
         routes.forEach((route, index) => {
           const routeStart = index * perRoute;
-          const routeProgress = Math.max(0, Math.min(1, (progress - routeStart) / (perRoute * 0.92)));
-          const length = route.getTotalLength ? route.getTotalLength() : 0;
-          if (length > 1){
-            route.style.strokeDasharray = `${length}`;
-            route.style.strokeDashoffset = `${length * (1 - routeProgress)}`;
-          }
-          route.style.opacity = routeProgress <= 0.001 ? '0' : `${0.15 + (routeProgress * 0.82)}`;
+          const routeProgress = Math.max(0, Math.min(1, (clampedProgress - routeStart) / (perRoute * 0.92)));
+          setRouteDraw(route, routeProgress, index);
           if (routeProgress >= 0.92) activeRoute = index + 1;
         });
-
         chips.forEach((chip, index) => chip.classList.toggle('is-active', index < activeRoute));
         if (progressLabel){
           progressLabel.textContent = activeRoute === 0
@@ -3167,18 +3164,43 @@
         }
       };
 
-      const onScroll = () => {
-        if (ticking) return;
-        ticking = true;
-        requestAnimationFrame(() => {
-          update();
-          ticking = false;
-        });
+      const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reducedMotion){
+        renderProgress(1);
+        return;
+      }
+
+      let hasStarted = false;
+      const startAutoAnimation = () => {
+        if (hasStarted) return;
+        hasStarted = true;
+        const duration = 2600;
+        const startAt = performance.now();
+        const tick = (now) => {
+          const progress = (now - startAt) / duration;
+          renderProgress(progress);
+          if (progress < 1) requestAnimationFrame(tick);
+        };
+        requestAnimationFrame(tick);
       };
 
-      update();
-      window.addEventListener('scroll', onScroll, { passive: true });
-      window.addEventListener('resize', onScroll);
+      renderProgress(0);
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && entry.intersectionRatio >= 0.25){
+            startAutoAnimation();
+            observer.disconnect();
+          }
+        });
+      }, { threshold: [0, 0.25, 0.5] });
+      observer.observe(scroll);
+
+      const scrollRect = scroll.getBoundingClientRect();
+      const viewportHeight = window.innerHeight || document.documentElement.clientHeight || 1;
+      if (scrollRect.top < viewportHeight * 0.78 && scrollRect.bottom > viewportHeight * 0.2){
+        startAutoAnimation();
+        observer.disconnect();
+      }
     }
 
 
@@ -3311,23 +3333,14 @@
         return;
       }
 
-      let ticking = false;
-      const update = () => {
-        const viewport = window.innerHeight || document.documentElement.clientHeight || 1;
-        const scrollTop = window.pageYOffset || document.documentElement.scrollTop || 0;
-        const sectionTop = scroll.offsetTop || 0;
-        const sectionHeight = Math.max(1, scroll.offsetHeight || 1);
-        const travelStart = sectionTop - (viewport * 0.28);
-        const travelDistance = Math.max(1, sectionHeight - (viewport * 0.25));
-        const raw = (scrollTop - travelStart) / travelDistance;
-        const progress = Math.max(0, Math.min(1, raw));
-        stage.style.setProperty('--voyage-progress', progress.toFixed(4));
-
+      const renderProgress = (progress) => {
+        const clampedProgress = Math.max(0, Math.min(1, progress));
+        stage.style.setProperty('--voyage-progress', clampedProgress.toFixed(4));
         const perRoute = 1 / routes.length;
         let activeRoute = 0;
         routes.forEach((route, index) => {
           const routeStart = index * perRoute;
-          const routeProgress = Math.max(0, Math.min(1, (progress - routeStart) / (perRoute * 0.92)));
+          const routeProgress = Math.max(0, Math.min(1, (clampedProgress - routeStart) / (perRoute * 0.92)));
           setRouteDraw(route, routeProgress, index);
           if (routeProgress >= 0.92) activeRoute = index + 1;
         });
@@ -3340,31 +3353,49 @@
         }
       };
 
-      const onScroll = () => {
-        if (ticking) return;
-        ticking = true;
-        requestAnimationFrame(() => {
-          update();
-          ticking = false;
-        });
-      };
-
-      update();
+      renderProgress(0);
       setTimeout(() => map.invalidateSize(), 120);
       setTimeout(() => {
         routeLengths = routes.map((route) => {
           const path = route && route._path;
           return getPathLength(path);
         });
-        update();
+        renderProgress(0);
       }, 220);
-      window.addEventListener('scroll', onScroll, { passive: true });
-      window.addEventListener('resize', onScroll);
-      window.addEventListener('resize', () => {
+
+      let hasStarted = false;
+      const startAutoAnimation = () => {
+        if (hasStarted) return;
+        hasStarted = true;
         map.invalidateSize();
-        onScroll();
-      });
-      map.on('load moveend zoomend', onScroll);
+        const duration = 2600;
+        const startAt = performance.now();
+        const tick = (now) => {
+          const progress = (now - startAt) / duration;
+          renderProgress(progress);
+          if (progress < 1) requestAnimationFrame(tick);
+        };
+        requestAnimationFrame(tick);
+      };
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && entry.intersectionRatio >= 0.25){
+            startAutoAnimation();
+            observer.disconnect();
+          }
+        });
+      }, { threshold: [0, 0.25, 0.5] });
+      observer.observe(scroll);
+
+      const scrollRect = scroll.getBoundingClientRect();
+      const viewportHeight = window.innerHeight || document.documentElement.clientHeight || 1;
+      if (scrollRect.top < viewportHeight * 0.78 && scrollRect.bottom > viewportHeight * 0.2){
+        startAutoAnimation();
+        observer.disconnect();
+      }
+
+      window.addEventListener('resize', () => map.invalidateSize());
     }
 
 
