@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link rel="icon" type="image/png" sizes="32x32" href="assets/images/apam-logo2.png" />
   <link rel="shortcut icon" href="assets/images/apam-logo2.png" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   <style>
     /* =============================== */
     /* FONTS */
@@ -950,29 +951,16 @@
       overflow:hidden;
       background:#0d213d;
     }
-    .voyages-map{display:block;width:100%;height:auto;aspect-ratio:2/1;}
-    .voyages-route{
-      fill:none;
-      stroke:#8ec5ff;
-      stroke-width:3;
-      stroke-linecap:round;
-      opacity:0.25;
-      transition:opacity .28s ease;
+    .voyages-map{display:block;width:100%;height:clamp(260px, 44vw, 480px);}
+    .voyages-map .leaflet-control-attribution,
+    .voyages-map .leaflet-control-zoom{
+      background:rgba(12,26,45,0.8);
+      border-color:rgba(255,255,255,0.2);
+      color:#fff;
     }
-    .voyages-route.is-active{opacity:1;}
-    .voyages-dot{fill:#fff;stroke:#8ec5ff;stroke-width:2;opacity:.35;transition:opacity .28s ease;}
-    .voyages-dot--base{opacity:1;}
-    .voyages-dot.is-active{opacity:1;}
-    .voyages-route-label{
-      fill:#fff;
-      font-family:"GPMenu", system-ui, sans-serif;
-      font-size:11px;
-      letter-spacing:0.08em;
-      text-transform:uppercase;
-      paint-order:stroke;
-      stroke:rgba(10,20,35,0.8);
-      stroke-width:4;
-      stroke-linejoin:round;
+    .voyages-map .leaflet-control-zoom a{
+      color:#fff;
+      background:transparent;
     }
     .voyages-legend{margin-top:14px;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;}
     .voyage-chip{
@@ -2060,32 +2048,7 @@
               <span data-voyages-progress>Route active : Norvège</span>
             </div>
             <div class="voyages-stage__map">
-              <svg class="voyages-map" id="voyages-map" viewBox="0 0 1000 500" role="img" aria-label="Carte stylisée des trajets APAM entre L'Aigle et plusieurs destinations">
-                <defs>
-                  <linearGradient id="voyagesSea" x1="0" y1="0" x2="1" y2="1">
-                    <stop offset="0%" stop-color="#12315f"/>
-                    <stop offset="100%" stop-color="#1f4f87"/>
-                  </linearGradient>
-                </defs>
-                <rect x="0" y="0" width="1000" height="500" fill="url(#voyagesSea)"></rect>
-                <circle cx="409" cy="186" r="6" class="voyages-dot voyages-dot--base"></circle>
-
-                <path class="voyages-route" data-route="norvege" d="M 409 186 Q 510 102 706 114" />
-                <path class="voyages-route" data-route="maroc" d="M 409 186 Q 349 250 266 286" />
-                <path class="voyages-route" data-route="chypre" d="M 409 186 Q 575 278 778 298" />
-                <path class="voyages-route" data-route="angleterre" d="M 409 186 Q 343 132 202 132" />
-
-                <circle cx="706" cy="114" r="5" class="voyages-dot" data-route-dot="norvege"></circle>
-                <circle cx="266" cy="286" r="5" class="voyages-dot" data-route-dot="maroc"></circle>
-                <circle cx="778" cy="298" r="5" class="voyages-dot" data-route-dot="chypre"></circle>
-                <circle cx="202" cy="132" r="5" class="voyages-dot" data-route-dot="angleterre"></circle>
-
-                <text x="420" y="170" class="voyages-route-label">L'AIGLE</text>
-                <text x="720" y="104" class="voyages-route-label">NORVÈGE</text>
-                <text x="214" y="308" class="voyages-route-label">MAROC</text>
-                <text x="792" y="320" class="voyages-route-label">CHYPRE</text>
-                <text x="132" y="122" class="voyages-route-label">CORNOUAILLES</text>
-              </svg>
+              <div class="voyages-map" id="voyages-map" role="img" aria-label="Carte interactive des trajets APAM entre L'Aigle et plusieurs destinations"></div>
             </div>
 
             <div class="voyages-legend" data-voyages-legend>
@@ -2179,6 +2142,7 @@
     </div>
   </div>
 
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script>
     const calendarSection = document.querySelector("[data-calendar-csv]");
     const EVENTS_SHEET_CSV_URL =
@@ -2940,18 +2904,61 @@
       const mapNode = document.getElementById('voyages-map');
       if (!stage || !chips.length || !mapNode) return;
 
-      const routes = Array.from(mapNode.querySelectorAll('.voyages-route'));
-      const dots = Array.from(mapNode.querySelectorAll('[data-route-dot]'));
+      if (typeof L === 'undefined') return;
+
+      const destinations = {
+        norvege: { name: 'Norvège', coords: [60.472, 8.4689] },
+        maroc: { name: 'Maroc', coords: [31.7917, -7.0926] },
+        chypre: { name: 'Chypre', coords: [35.1264, 33.4299] },
+        angleterre: { name: 'Angleterre (Cornouailles)', coords: [50.266, -5.0527] }
+      };
+      const baseCoords = [48.766, 0.6582];
+
+      const map = L.map(mapNode, { scrollWheelZoom: false });
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 9,
+        minZoom: 3,
+        attribution: '&copy; OpenStreetMap'
+      }).addTo(map);
+
+      const routeLayers = {};
+      Object.entries(destinations).forEach(([key, destination]) => {
+        L.circleMarker(destination.coords, {
+          radius: 6,
+          color: '#8ec5ff',
+          weight: 2,
+          fillColor: '#ffffff',
+          fillOpacity: 0.95
+        }).bindTooltip(destination.name, { direction: 'top' }).addTo(map);
+
+        routeLayers[key] = L.polyline([baseCoords, destination.coords], {
+          color: '#8ec5ff',
+          weight: 3,
+          opacity: 0.28
+        }).addTo(map);
+      });
+
+      L.circleMarker(baseCoords, {
+        radius: 7,
+        color: '#8ec5ff',
+        weight: 2,
+        fillColor: '#ffffff',
+        fillOpacity: 1
+      }).bindTooltip("L'Aigle", { direction: 'top' }).addTo(map);
+      map.fitBounds([[30, -12], [63, 35]], { padding: [24, 24] });
 
       const setActiveRoute = (routeName) => {
-        routes.forEach((route) => route.classList.toggle('is-active', route.dataset.route === routeName));
-        dots.forEach((dot) => dot.classList.toggle('is-active', dot.dataset.routeDot === routeName));
+        Object.entries(routeLayers).forEach(([key, layer]) => {
+          layer.setStyle({ opacity: key === routeName ? 1 : 0.28, weight: key === routeName ? 4 : 3 });
+        });
         chips.forEach((chip) => chip.classList.toggle('is-active', chip.dataset.route === routeName));
         const activeChip = chips.find((chip) => chip.dataset.route === routeName);
         if (progressLabel && activeChip){
           const title = activeChip.querySelector('strong')?.textContent?.trim() || routeName;
           progressLabel.textContent = `Route active : ${title}`;
         }
+        const selectedRoute = routeLayers[routeName];
+        if (selectedRoute) map.fitBounds(selectedRoute.getBounds(), { padding: [80, 80], maxZoom: 5 });
       };
 
       chips.forEach((chip) => {
