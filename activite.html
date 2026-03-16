@@ -3134,15 +3134,17 @@
       `;
 
       const routes = Array.from(mapNode.querySelectorAll('.voyages-route'));
+      const getVoyageProgress = () => {
+        const viewport = window.innerHeight || document.documentElement.clientHeight || 1;
+        const rect = scroll.getBoundingClientRect();
+        const travelDistance = Math.max(1, rect.height - (viewport * 0.25));
+        const traveled = (viewport * 0.72) - rect.top;
+        return Math.max(0, Math.min(1, traveled / travelDistance));
+      };
+
       let ticking = false;
       const update = () => {
-        const viewport = window.innerHeight || document.documentElement.clientHeight || 1;
-        const scrollTop = window.pageYOffset || document.documentElement.scrollTop || 0;
-        const sectionTop = scroll.offsetTop || 0;
-        const sectionHeight = Math.max(1, scroll.offsetHeight || 1);
-        const travelStart = sectionTop - (viewport * 0.28);
-        const travelDistance = Math.max(1, sectionHeight - (viewport * 0.25));
-        const progress = Math.max(0, Math.min(1, (scrollTop - travelStart) / travelDistance));
+        const progress = getVoyageProgress();
         stage.style.setProperty('--voyage-progress', progress.toFixed(4));
 
         const perRoute = 1 / routes.length;
@@ -3274,6 +3276,14 @@
       ];
 
       let routeLengths = [];
+      const getVoyageProgress = () => {
+        const viewport = window.innerHeight || document.documentElement.clientHeight || 1;
+        const rect = scroll.getBoundingClientRect();
+        const travelDistance = Math.max(1, rect.height - (viewport * 0.25));
+        const traveled = (viewport * 0.72) - rect.top;
+        return Math.max(0, Math.min(1, traveled / travelDistance));
+      };
+
       const getPathLength = (path) => {
         if (!path || typeof path.getTotalLength !== 'function') return 0;
         const measured = Number(path.getTotalLength());
@@ -3313,14 +3323,7 @@
 
       let ticking = false;
       const update = () => {
-        const viewport = window.innerHeight || document.documentElement.clientHeight || 1;
-        const scrollTop = window.pageYOffset || document.documentElement.scrollTop || 0;
-        const sectionTop = scroll.offsetTop || 0;
-        const sectionHeight = Math.max(1, scroll.offsetHeight || 1);
-        const travelStart = sectionTop - (viewport * 0.28);
-        const travelDistance = Math.max(1, sectionHeight - (viewport * 0.25));
-        const raw = (scrollTop - travelStart) / travelDistance;
-        const progress = Math.max(0, Math.min(1, raw));
+        const progress = getVoyageProgress();
         stage.style.setProperty('--voyage-progress', progress.toFixed(4));
 
         const perRoute = 1 / routes.length;
