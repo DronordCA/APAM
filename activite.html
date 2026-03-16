@@ -3285,10 +3285,11 @@
         const path = route && route._path;
         if (path){
           const measured = getPathLength(path);
-          const length = routeLengths[index] || measured || 0;
+          const cached = Number(routeLengths[index]) || 0;
+          const length = Math.max(cached, measured);
           if (length > 1){
             routeLengths[index] = length;
-            path.style.strokeDasharray = `${length}`;
+            path.style.strokeDasharray = `${length} ${length}`;
             path.style.strokeDashoffset = `${length * (1 - clamped)}`;
           } else {
             path.style.strokeDasharray = 'none';
