@@ -31,6 +31,12 @@
   });
 
   const quoteText = document.querySelector('[data-quote-typing]');
+  const revealQuote = () => {
+    if (!quoteText) return;
+    quoteText.classList.add('is-typing');
+    quoteText.closest('.club-quote')?.classList.add('is-animated');
+  };
+
   if (quoteText) {
     const sentence = (quoteText.textContent || '').trim();
     const chars = Array.from(sentence);
@@ -43,12 +49,6 @@
       quoteText.appendChild(span);
     });
   }
-
-  const revealQuote = () => {
-    if (!quoteText) return;
-    quoteText.classList.add('is-typing');
-    quoteText.closest('.club-quote')?.classList.add('is-animated');
-  };
 
   const counterNodes = Array.from(document.querySelectorAll('[data-counter-target]'));
   let countersStarted = false;
@@ -72,57 +72,56 @@
       counterNodes.forEach((node) => {
         const target = Number(node.getAttribute('data-counter-target') || 0);
         const suffix = node.getAttribute('data-counter-suffix') || '';
-        node.textContent = formatCounterValue(target * eased, suffix);
+        const current = target * eased;
+        node.textContent = formatCounterValue(current, suffix);
       });
 
-      if (progress < 1) window.requestAnimationFrame(tick);
+      if (progress < 1) {
+        window.requestAnimationFrame(tick);
+      }
     };
 
     window.requestAnimationFrame(tick);
   };
 
-  const revealItems = Array.from(document.querySelectorAll('.reveal-on-scroll [data-reveal-item]'));
-  revealItems.forEach((item, index) => item.style.setProperty('--reveal-order', String(index % 8)));
-
-  const sections = Array.from(document.querySelectorAll('.reveal-on-scroll'));
-  const revealSection = (section) => {
-    section.classList.add('is-visible');
-    section.querySelectorAll('[data-reveal-item]').forEach((item) => item.classList.add('is-revealed'));
-  };
+  const bidirectionalSections = [
+    document.getElementById('histoire'),
+    document.getElementById('localisation')
+  ].filter(Boolean);
 
   if (reducedMotion) {
-    sections.forEach(revealSection);
+    bidirectionalSections.forEach((section) => section.classList.add('is-visible'));
     revealQuote();
     runCounters();
     return;
   }
 
+  let quoteRevealed = false;
+  const quoteSection = document.getElementById('citation-club');
+  const chiffreSection = document.getElementById('chiffres-club');
+
   const observer = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
-      if (!entry.isIntersecting) return;
+      if (entry.target.id === 'histoire' || entry.target.id === 'localisation') {
+        entry.target.classList.toggle('is-visible', entry.isIntersecting && entry.intersectionRatio >= 0.55);
+        return;
+      }
 
-      const section = entry.target.closest('.reveal-on-scroll');
-      entry.target.classList.add('is-revealed');
-      if (section) section.classList.add('is-visible');
+      if (entry.target.id === 'citation-club' && entry.isIntersecting && entry.intersectionRatio >= 0.6 && !quoteRevealed) {
+        quoteRevealed = true;
+        revealQuote();
+      }
 
-      if (section?.id === 'citation-club') revealQuote();
-      if (section?.id === 'chiffres-club') runCounters();
-
-      observer.unobserve(entry.target);
+      if (entry.target.id === 'chiffres-club' && entry.isIntersecting && entry.intersectionRatio >= 0.55) {
+        runCounters();
+      }
     });
   }, {
-    threshold: 0.2,
-    rootMargin: '0px 0px -8% 0px'
+    threshold: [0, 0.35, 0.55, 0.6],
+    rootMargin: '0px 0px -12% 0px'
   });
 
-  revealItems.forEach((item) => observer.observe(item));
-
-  window.setTimeout(() => {
-    revealItems.forEach((item) => {
-      if (!item.classList.contains('is-revealed')) item.classList.add('is-revealed');
-    });
-    sections.forEach((section) => section.classList.add('is-visible'));
-    if (!quoteText?.closest('.club-quote')?.classList.contains('is-animated')) revealQuote();
-    runCounters();
-  }, 1800);
+  bidirectionalSections.forEach((section) => observer.observe(section));
+  if (quoteSection) observer.observe(quoteSection);
+  if (chiffreSection) observer.observe(chiffreSection);
 })();
