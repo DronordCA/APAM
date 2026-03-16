@@ -6,13 +6,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link rel="icon" type="image/png" sizes="32x32" href="assets/images/apam-logo2.png" />
   <link rel="shortcut icon" href="assets/images/apam-logo2.png" />
-  <link
-    rel="stylesheet"
-    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
-    crossorigin=""
-  />
-
   <style>
     /* =============================== */
     /* FONTS */
@@ -930,228 +923,73 @@
       padding-bottom:0;
     }
 
-    .voyages-scroll{
-      --voyage-progress:0;
-      --voyage-steps:4.2;
-      min-height:calc(100vh * var(--voyage-steps));
-      width:100vw;
-      left:50%;
-      margin-left:-50vw;
-      position:relative;
-    }
-    .voyages-sticky{
-      position:sticky;
-      top:0;
-      min-height:100vh;
-      display:grid;
-      place-items:center;
-      overflow:hidden;
-    }
+    .voyages-showcase{padding-top:20px;padding-bottom:18px;}
     .voyages-stage{
       width:100%;
-      min-height:100vh;
-      padding:26px 4vw;
-      background:
-        radial-gradient(46% 28% at 18% 12%, rgba(125,174,255,0.26), transparent 72%),
-        radial-gradient(42% 28% at 84% 22%, rgba(255,255,255,0.15), transparent 72%),
-        linear-gradient(180deg, #0f141c 0%, #090c12 72%, #05070b 100%);
-      border-top:1px solid rgba(255,255,255,0.2);
-      border-bottom:1px solid rgba(255,255,255,0.16);
-      position:relative;
-      overflow:hidden;
-      isolation:isolate;
+      padding:24px;
+      border-radius:20px;
+      background:linear-gradient(180deg,#0c1a2d 0%, #122745 55%, #0d1d34 100%);
+      border:1px solid rgba(255,255,255,0.2);
+      box-shadow:0 24px 50px rgba(7,11,20,0.34);
     }
-    .section-surface--light .voyages-stage{
-      background:#ffffff;
-      border-top:1px solid rgba(0,0,0,0.12);
-      border-bottom:1px solid rgba(0,0,0,0.12);
-    }
+    .section-surface--light .voyages-stage{color:#fff;}
     .voyages-stage__hud{
       display:flex;
       justify-content:space-between;
-      align-items:center;
-      gap:12px;
+      gap:10px;
       font-family:"GPMenu", system-ui, sans-serif;
-      text-transform:uppercase;
-      letter-spacing:0.12em;
       font-size:11px;
-      color:rgba(255,255,255,0.8);
-      margin-bottom:16px;
-    }
-    .section-surface--light .voyages-stage__hud{color:rgba(0,0,0,0.62);}
-    .voyages-stage__map{
-      width:min(1220px, 100%);
-      margin:0 auto;
-      border:1px solid rgba(255,255,255,0.22);
-      border-radius:24px;
-      background:linear-gradient(160deg, rgba(255,255,255,0.1), rgba(5,8,14,0.84));
-      box-shadow:0 28px 56px rgba(0,0,0,0.48), inset 0 1px 0 rgba(255,255,255,0.2);
-      padding:18px;
-    }
-    .section-surface--light .voyages-stage__map{
-      border:1px solid rgba(0,0,0,0.16);
-      background:#fff;
-      box-shadow:0 20px 44px rgba(0,0,0,0.12);
-    }
-    .voyages-map{
-      width:100%;
-      aspect-ratio:16/8;
-      min-height:280px;
-      border-radius:16px;
-      display:block;
-      overflow:hidden;
-      border:1px solid rgba(255,255,255,0.16);
-      box-shadow:inset 0 0 0 1px rgba(255,255,255,0.05);
-    }
-    .voyages-map .leaflet-control-zoom a{
-      background:rgba(10,14,22,0.9);
-      color:#fff;
-      border-color:rgba(255,255,255,0.28);
-    }
-    .section-surface--light .voyages-map .leaflet-control-zoom a{
-      background:rgba(255,255,255,0.95);
-      color:#111;
-      border-color:rgba(0,0,0,0.22);
-    }
-    .voyages-map .leaflet-control-attribution{
-      background:rgba(8,12,18,0.75);
-      color:rgba(255,255,255,0.72);
-      font-size:10px;
-    }
-    .section-surface--light .voyages-map .leaflet-control-attribution{
-      background:rgba(255,255,255,0.86);
-      color:rgba(0,0,0,0.58);
-    }
-    .voyages-map .leaflet-control-attribution a{color:#9ec4ff;}
-    .section-surface--light .voyages-map .leaflet-control-attribution a{color:#c63131;}
-
-    .voyages-point-label{
-      color:#fff;
-      font-family:"GPMenu", system-ui, sans-serif;
-      font-size:10px;
-      letter-spacing:0.09em;
+      letter-spacing:0.12em;
       text-transform:uppercase;
-      text-shadow:0 1px 8px rgba(0,0,0,0.8);
-      white-space:nowrap;
+      color:rgba(255,255,255,0.84);
+      margin-bottom:14px;
     }
-    .section-surface--light .voyages-point-label{
-      color:#161616;
-      text-shadow:0 1px 6px rgba(255,255,255,0.85);
+    .voyages-stage__map{
+      border:1px solid rgba(255,255,255,0.24);
+      border-radius:14px;
+      overflow:hidden;
+      background:#0d213d;
     }
+    .voyages-map{display:block;width:100%;height:auto;aspect-ratio:2/1;}
     .voyages-route{
       fill:none;
-      stroke:rgba(98, 163, 255, 0.95);
-      stroke-width:2.4;
+      stroke:#8ec5ff;
+      stroke-width:3;
       stroke-linecap:round;
-      filter:drop-shadow(0 0 8px rgba(79,139,255,0.65));
-      opacity:0;
+      opacity:0.25;
+      transition:opacity .28s ease;
     }
-    .voyages-route-dot{
-      fill:#fff;
-      stroke:#7db2ff;
-      stroke-width:2;
-      filter:drop-shadow(0 0 8px rgba(125,178,255,0.6));
-    }
+    .voyages-route.is-active{opacity:1;}
+    .voyages-dot{fill:#fff;stroke:#8ec5ff;stroke-width:2;opacity:.35;transition:opacity .28s ease;}
+    .voyages-dot--base{opacity:1;}
+    .voyages-dot.is-active{opacity:1;}
     .voyages-route-label{
       fill:#fff;
       font-family:"GPMenu", system-ui, sans-serif;
-      font-size:12px;
+      font-size:11px;
       letter-spacing:0.08em;
       text-transform:uppercase;
       paint-order:stroke;
-      stroke:rgba(8,12,18,0.65);
-      stroke-width:4px;
+      stroke:rgba(10,20,35,0.8);
+      stroke-width:4;
       stroke-linejoin:round;
     }
-    .voyages-legend{
-      margin-top:16px;
-      display:grid;
-      grid-template-columns:repeat(4, minmax(0, 1fr));
-      gap:10px;
-    }
+    .voyages-legend{margin-top:14px;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;}
     .voyage-chip{
-      border:1px solid rgba(255,255,255,0.22);
+      appearance:none;
+      text-align:left;
+      border:1px solid rgba(255,255,255,0.28);
       border-radius:12px;
       padding:10px 12px;
-      background:rgba(10,14,22,0.58);
-      color:rgba(255,255,255,0.85);
-      opacity:0.35;
-      transform:translateY(8px);
-      transition:opacity .28s ease, transform .28s ease, border-color .28s ease;
-    }
-    .voyage-chip.is-active{
-      opacity:1;
-      transform:translateY(0);
-      border-color:rgba(125,178,255,0.95);
-      background:rgba(34,61,105,0.75);
-    }
-    .voyage-chip strong{
-      display:block;
-      font-family:"GPMenu", system-ui, sans-serif;
-      letter-spacing:0.09em;
-      text-transform:uppercase;
-      font-size:11px;
-      margin-bottom:4px;
-    }
-    .voyage-chip span{font-size:13px;color:rgba(255,255,255,0.76);}
-    .section-surface--light .voyage-chip{
-      border-color:rgba(0,0,0,0.16);
-      background:rgba(255,255,255,0.88);
-      color:rgba(0,0,0,0.74);
-    }
-    .section-surface--light .voyage-chip.is-active{
-      border-color:rgba(198,49,49,0.82);
-      background:rgba(255,241,241,0.96);
-    }
-    .section-surface--light .voyage-chip span{color:rgba(0,0,0,0.62);}
-
-    .voyages-scroll-cue{
-      position:absolute;
-      left:50%;
-      bottom:24px;
-      transform:translateX(-50%);
-      display:flex;
-      flex-direction:column;
-      align-items:center;
-      gap:8px;
-      z-index:1200;
-      border:0;
+      background:rgba(10,20,35,0.45);
+      color:#fff;
       cursor:pointer;
-      pointer-events:auto;
-      color:rgba(0,0,0,0.56);
-      font-family:"GPMenu", system-ui, sans-serif;
-      letter-spacing:0.1em;
-      text-transform:uppercase;
-      font-size:9px;
-      background:transparent;
-      transition:transform .2s ease;
+      opacity:.62;
+      transition:opacity .22s ease, transform .22s ease, border-color .22s ease;
     }
-    .voyages-scroll-cue:hover{
-      transform:translateX(-50%) translateY(-2px);
-    }
-    .voyages-scroll-cue__arrow{
-      width:30px;
-      height:30px;
-      border-radius:999px;
-      border:1px solid rgba(0,0,0,0.24);
-      background:rgba(255,255,255,0.92);
-      display:grid;
-      place-items:center;
-      box-shadow:0 8px 22px rgba(0,0,0,0.14);
-      animation:voyagesCueBounce 1.5s ease-in-out infinite;
-    }
-    .voyages-scroll-cue__arrow::before{
-      content:"";
-      width:9px;
-      height:9px;
-      border-right:2px solid rgba(0,0,0,0.56);
-      border-bottom:2px solid rgba(0,0,0,0.56);
-      transform:rotate(45deg) translateY(-1px);
-    }
-    @keyframes voyagesCueBounce{
-      0%,100%{transform:translateY(0);}
-      50%{transform:translateY(8px);}
-    }
+    .voyage-chip strong{display:block;font-family:"GPMenu", system-ui, sans-serif;font-size:11px;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:4px;}
+    .voyage-chip span{font-size:13px;color:rgba(255,255,255,0.82);}
+    .voyage-chip.is-active,.voyage-chip:hover,.voyage-chip:focus-visible{opacity:1;transform:translateY(-2px);border-color:#8ec5ff;outline:none;}
 
     .installations-scroll{
       min-height:200vh;
@@ -1828,35 +1666,13 @@
       .team-name{font-size:40px;}
       .team-photo{width:186px;}
 
-      .voyages-scroll{min-height:calc(100vh * 4.2);}
-      .voyages-stage{padding:20px 3vw;}
+      .voyages-stage{padding:18px;}
       .voyages-legend{grid-template-columns:repeat(2,minmax(0,1fr));}
       .calendar-layout{gap:10px;}
       .calendar-shell{padding:12px;gap:10px;}
       .calendar-grid{min-width:620px;}
       .calendar-detail{margin-top:2px;}
 
-      .voyages-scroll{--voyage-steps:3.4;min-height:calc(100vh * var(--voyage-steps));}
-      .voyages-sticky{
-        position:sticky;
-        top:0;
-        min-height:100vh;
-        display:grid;
-        overflow:hidden;
-      }
-      .voyages-stage{
-        min-height:100vh;
-        padding:16px 0 18px;
-      }
-      .voyages-stage__map{
-        border-radius:14px;
-        padding:10px;
-      }
-      .voyages-map{
-        aspect-ratio:16/11;
-        min-height:320px;
-      }
-      .voyages-scroll-cue{display:none;}
 
 
       .installations-scroll{min-height:auto;}
@@ -1883,17 +1699,10 @@
       .team-photo{width:170px;}
       .team-name{font-size:40px;}
       .team-bio{font-size:13px;}
-      .voyages-scroll{--voyage-steps:3.2;min-height:calc(100vh * var(--voyage-steps));}
-      .voyages-stage{min-height:100vh;padding:12px 0 16px;}
-      .voyages-stage__hud{padding:0 14px;font-size:9px;}
-      .voyages-stage__map{border-radius:0;padding:10px;border-left:0;border-right:0;}
-      .voyages-map{border-radius:0;aspect-ratio:15/10;min-height:300px;}
+      .voyages-stage{padding:14px;}
+      .voyages-stage__hud{font-size:9px;}
       .voyages-route-label{font-size:9px;}
-      .voyages-legend{padding:0 14px;grid-template-columns:1fr;}
-      .voyage-chip{padding:9px 10px;}
-
-      .voyages-scroll-cue{left:50%;right:auto;top:auto;bottom:18px;transform:translateX(-50%);}
-      .voyages-scroll-cue span:last-child{display:none;}
+      .voyages-legend{grid-template-columns:1fr;}
 
       .installations-scroll{min-height:auto;}
       .installations-sticky{position:static;height:auto;}
@@ -2241,41 +2050,61 @@
 
 
       <section class="section-surface section-surface--light section-surface--voyages reveal-on-scroll" data-reveal="up" aria-labelledby="voyages-title">
-        <div class="section-inner">
-          <h2 class="section-title" id="voyages-title" hidden>Voyage de L'APAM</h2>
-          <div class="voyages-scroll" data-voyages-scroll>
-            <div class="voyages-sticky">
-              <div class="voyages-stage" data-voyages-stage role="img" aria-label="Carte des grands trajets APAM en Europe et Afrique du Nord">
-                <div class="voyages-stage__hud" aria-hidden="true">
-                  <span>VOYAGE DE L'APAM</span>
-                  <span data-voyages-progress>Préparation des routes</span>
-                </div>
-                <div class="voyages-stage__map">
-                  <div class="voyages-map" id="voyages-map" aria-hidden="true"></div>
-                </div>
-                <div class="voyages-legend" data-voyages-legend>
-                  <article class="voyage-chip" data-voyage-chip>
-                    <strong>Norvège</strong>
-                    <span>Navigation long range vers le nord.</span>
-                  </article>
-                  <article class="voyage-chip" data-voyage-chip>
-                    <strong>Maroc</strong>
-                    <span>Traversée vers l'Afrique du Nord.</span>
-                  </article>
-                  <article class="voyage-chip" data-voyage-chip>
-                    <strong>Chypre</strong>
-                    <span>Route méditerranéenne de référence.</span>
-                  </article>
-                  <article class="voyage-chip" data-voyage-chip>
-                    <strong>Angleterre (Cornouailles)</strong>
-                    <span>Navigation ciblée vers le sud-ouest anglais, surtout en Cornouailles.</span>
-                  </article>
-                </div>
-                <button class="voyages-scroll-cue" type="button" data-voyages-next aria-label="Continuer la navigation">
-                  <span class="voyages-scroll-cue__arrow" aria-hidden="true"></span>
-                  <span>Continuer</span>
-                </button>
-              </div>
+        <div class="section-inner voyages-showcase">
+          <h2 class="section-title" id="voyages-title">Voyages de l'APAM</h2>
+          <p class="section-note">Depuis L'Aigle, nos équipages tracent des navigations club ambitieuses : Nord, Méditerranée et Atlantique. Sélectionnez un itinéraire pour le mettre en avant.</p>
+
+          <div class="voyages-stage" data-voyages-stage>
+            <div class="voyages-stage__hud" aria-hidden="true">
+              <span>VOYAGE DE L'APAM</span>
+              <span data-voyages-progress>Route active : Norvège</span>
+            </div>
+            <div class="voyages-stage__map">
+              <svg class="voyages-map" id="voyages-map" viewBox="0 0 1000 500" role="img" aria-label="Carte stylisée des trajets APAM entre L'Aigle et plusieurs destinations">
+                <defs>
+                  <linearGradient id="voyagesSea" x1="0" y1="0" x2="1" y2="1">
+                    <stop offset="0%" stop-color="#12315f"/>
+                    <stop offset="100%" stop-color="#1f4f87"/>
+                  </linearGradient>
+                </defs>
+                <rect x="0" y="0" width="1000" height="500" fill="url(#voyagesSea)"></rect>
+                <circle cx="409" cy="186" r="6" class="voyages-dot voyages-dot--base"></circle>
+
+                <path class="voyages-route" data-route="norvege" d="M 409 186 Q 510 102 706 114" />
+                <path class="voyages-route" data-route="maroc" d="M 409 186 Q 349 250 266 286" />
+                <path class="voyages-route" data-route="chypre" d="M 409 186 Q 575 278 778 298" />
+                <path class="voyages-route" data-route="angleterre" d="M 409 186 Q 343 132 202 132" />
+
+                <circle cx="706" cy="114" r="5" class="voyages-dot" data-route-dot="norvege"></circle>
+                <circle cx="266" cy="286" r="5" class="voyages-dot" data-route-dot="maroc"></circle>
+                <circle cx="778" cy="298" r="5" class="voyages-dot" data-route-dot="chypre"></circle>
+                <circle cx="202" cy="132" r="5" class="voyages-dot" data-route-dot="angleterre"></circle>
+
+                <text x="420" y="170" class="voyages-route-label">L'AIGLE</text>
+                <text x="720" y="104" class="voyages-route-label">NORVÈGE</text>
+                <text x="214" y="308" class="voyages-route-label">MAROC</text>
+                <text x="792" y="320" class="voyages-route-label">CHYPRE</text>
+                <text x="132" y="122" class="voyages-route-label">CORNOUAILLES</text>
+              </svg>
+            </div>
+
+            <div class="voyages-legend" data-voyages-legend>
+              <button class="voyage-chip is-active" type="button" data-voyage-chip data-route="norvege">
+                <strong>Norvège</strong>
+                <span>Navigation long range vers le nord.</span>
+              </button>
+              <button class="voyage-chip" type="button" data-voyage-chip data-route="maroc">
+                <strong>Maroc</strong>
+                <span>Traversée vers l'Afrique du Nord.</span>
+              </button>
+              <button class="voyage-chip" type="button" data-voyage-chip data-route="chypre">
+                <strong>Chypre</strong>
+                <span>Route méditerranéenne de référence.</span>
+              </button>
+              <button class="voyage-chip" type="button" data-voyage-chip data-route="angleterre">
+                <strong>Angleterre (Cornouailles)</strong>
+                <span>Navigation vers le sud-ouest anglais.</span>
+              </button>
             </div>
           </div>
         </div>
@@ -2349,11 +2178,6 @@
 
     </div>
   </div>
-
-  <script
-    src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-    crossorigin=""
-  ></script>
 
   <script>
     const calendarSection = document.querySelector("[data-calendar-csv]");
@@ -3109,293 +2933,59 @@
 
 
 
-    function initVoyagesSvgFallback(){
-      const scroll = document.querySelector('[data-voyages-scroll]');
+    function initVoyagesShowcase(){
       const stage = document.querySelector('[data-voyages-stage]');
       const chips = Array.from(document.querySelectorAll('[data-voyage-chip]'));
       const progressLabel = document.querySelector('[data-voyages-progress]');
       const mapNode = document.getElementById('voyages-map');
-      if (!scroll || !stage || !chips.length || !mapNode) return;
-
-      mapNode.innerHTML = `
-        <svg viewBox="0 0 1000 500" width="100%" height="100%" role="img" aria-label="Routes APAM">
-          <defs>
-            <radialGradient id="voyagesBg" cx="50%" cy="44%" r="78%">
-              <stop offset="0%" stop-color="#1f2f4f" stop-opacity="0.44" />
-              <stop offset="100%" stop-color="#05070b" stop-opacity="0.2" />
-            </radialGradient>
-          </defs>
-          <rect x="0" y="0" width="1000" height="500" fill="url(#voyagesBg)" />
-          <path class="voyages-route" d="M 409 186 Q 510 102 706 114" />
-          <path class="voyages-route" d="M 409 186 Q 349 250 266 286" />
-          <path class="voyages-route" d="M 409 186 Q 575 278 778 298" />
-          <path class="voyages-route" d="M 409 186 Q 343 132 202 132" />
-        </svg>
-      `;
+      if (!stage || !chips.length || !mapNode) return;
 
       const routes = Array.from(mapNode.querySelectorAll('.voyages-route'));
-      const lengths = routes.map((route) => (route.getTotalLength ? route.getTotalLength() : 0));
-      const setRouteDraw = (route, routeProgress, index) => {
-        const clamped = Math.max(0, Math.min(1, routeProgress));
-        const length = Number(lengths[index]) || 0;
-        if (length > 1){
-          route.style.strokeDasharray = `${length}`;
-          route.style.strokeDashoffset = `${length * (1 - clamped)}`;
+      const dots = Array.from(mapNode.querySelectorAll('[data-route-dot]'));
+
+      const setActiveRoute = (routeName) => {
+        routes.forEach((route) => route.classList.toggle('is-active', route.dataset.route === routeName));
+        dots.forEach((dot) => dot.classList.toggle('is-active', dot.dataset.routeDot === routeName));
+        chips.forEach((chip) => chip.classList.toggle('is-active', chip.dataset.route === routeName));
+        const activeChip = chips.find((chip) => chip.dataset.route === routeName);
+        if (progressLabel && activeChip){
+          const title = activeChip.querySelector('strong')?.textContent?.trim() || routeName;
+          progressLabel.textContent = `Route active : ${title}`;
         }
-        route.style.opacity = clamped <= 0.001 ? '0' : `${0.15 + (clamped * 0.82)}`;
       };
 
-      const renderProgress = (progress) => {
-        const clampedProgress = Math.max(0, Math.min(1, progress));
-        stage.style.setProperty('--voyage-progress', clampedProgress.toFixed(4));
-        const perRoute = 1 / routes.length;
-        let activeRoute = 0;
-        routes.forEach((route, index) => {
-          const routeStart = index * perRoute;
-          const routeProgress = Math.max(0, Math.min(1, (clampedProgress - routeStart) / (perRoute * 0.92)));
-          setRouteDraw(route, routeProgress, index);
-          if (routeProgress >= 0.92) activeRoute = index + 1;
-        });
-        chips.forEach((chip, index) => chip.classList.toggle('is-active', index < activeRoute));
-        if (progressLabel){
-          progressLabel.textContent = activeRoute === 0
-            ? 'Préparation des routes'
-            : `Route ${activeRoute} / ${routes.length}`;
-        }
-      };
+      chips.forEach((chip) => {
+        chip.addEventListener('click', () => setActiveRoute(chip.dataset.route || 'norvege'));
+      });
 
       const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       if (reducedMotion){
-        renderProgress(1);
+        setActiveRoute('norvege');
         return;
       }
 
-      let hasStarted = false;
-      const startAutoAnimation = () => {
-        if (hasStarted) return;
-        hasStarted = true;
-        const duration = 2600;
-        const startAt = performance.now();
-        const tick = (now) => {
-          const progress = (now - startAt) / duration;
-          renderProgress(progress);
-          if (progress < 1) requestAnimationFrame(tick);
-        };
-        requestAnimationFrame(tick);
-      };
-
-      renderProgress(0);
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting && entry.intersectionRatio >= 0.25){
-            startAutoAnimation();
-            observer.disconnect();
-          }
-        });
-      }, { threshold: [0, 0.25, 0.5] });
-      observer.observe(scroll);
-
-      const scrollRect = scroll.getBoundingClientRect();
-      const viewportHeight = window.innerHeight || document.documentElement.clientHeight || 1;
-      if (scrollRect.top < viewportHeight * 0.78 && scrollRect.bottom > viewportHeight * 0.2){
-        startAutoAnimation();
-        observer.disconnect();
-      }
-    }
-
-
-    function initVoyagesMap(){
-      const scroll = document.querySelector('[data-voyages-scroll]');
-      const stage = document.querySelector('[data-voyages-stage]');
-      const continueBtn = document.querySelector('[data-voyages-next]');
-      const chips = Array.from(document.querySelectorAll('[data-voyage-chip]'));
-      const progressLabel = document.querySelector('[data-voyages-progress]');
-      const mapNode = document.getElementById('voyages-map');
-
-      if (continueBtn){
-        continueBtn.addEventListener('click', () => {
-          const scrollStep = Math.max(320, Math.round((window.innerHeight || 900) * 0.72));
-          window.scrollBy({ top: scrollStep, left: 0, behavior: 'smooth' });
-        });
-      }
-
-      if (!scroll || !stage || !chips.length || !mapNode || typeof window.L === 'undefined') {
-        initVoyagesSvgFallback();
-        return;
-      }
-
-      const points = {
-        base: [48.7636, 0.6272],
-        norvege: [59.9139, 10.7522],
-        maroc: [33.5731, -7.5898],
-        chypre: [35.1856, 33.3823],
-        angleterre: [50.2660, -5.0527]
-      };
-
-      const map = L.map(mapNode, {
-        center: [43, 4],
-        zoom: 3,
-        minZoom: 2,
-        maxZoom: 6,
-        worldCopyJump: true,
-        zoomControl: true,
-        scrollWheelZoom: false,
-        preferCanvas: false,
-        renderer: L.svg()
-      });
-
-      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-      }).addTo(map);
-
-      const curvedLine = (start, end, curve = 0.2) => {
-        const [lat1, lng1] = start;
-        const [lat2, lng2] = end;
-        const midLat = (lat1 + lat2) / 2;
-        const midLng = (lng1 + lng2) / 2;
-        const dLat = lat2 - lat1;
-        const dLng = lng2 - lng1;
-        const bendLat = midLat + (-dLng * curve);
-        const bendLng = midLng + (dLat * curve);
-        return [start, [bendLat, bendLng], end];
-      };
-
-      const routeDefinitions = [
-        curvedLine(points.base, points.norvege, 0.14),
-        curvedLine(points.base, points.maroc, 0.16),
-        curvedLine(points.base, points.chypre, 0.12),
-        curvedLine(points.base, points.angleterre, 0.2)
-      ];
-
-      const routes = routeDefinitions.map((line) => L.polyline(line, {
-        color: '#d93030',
-        weight: 4,
-        opacity: 0,
-        lineCap: 'round',
-        lineJoin: 'round'
-      }).addTo(map));
-
-      L.circleMarker(points.base, { radius: 5.5, color: '#d93030', weight: 2, fillColor: '#ffffff', fillOpacity: 1 }).addTo(map);
-      const routeMarkers = [points.norvege, points.maroc, points.chypre, points.angleterre].map((point) => (
-        L.circleMarker(point, { radius: 5.5, color: '#d93030', weight: 2, fillColor: '#ffffff', fillOpacity: 0, opacity: 0 }).addTo(map)
-      ));
-
-      const labelIcon = (text) => L.divIcon({
-        className: 'voyages-point-label',
-        html: text,
-        iconSize: [120, 18],
-        iconAnchor: [-8, 10]
-      });
-
-      L.marker(points.base, { icon: labelIcon("L'AIGLE") }).addTo(map);
-      const destinationLabels = [
-        L.marker(points.norvege, { icon: labelIcon('NORVÈGE'), opacity: 0 }).addTo(map),
-        L.marker(points.maroc, { icon: labelIcon('MAROC'), opacity: 0 }).addTo(map),
-        L.marker(points.chypre, { icon: labelIcon('CHYPRE'), opacity: 0 }).addTo(map),
-        L.marker(points.angleterre, { icon: labelIcon('ANGLETERRE · CORNOUAILLES'), opacity: 0 }).addTo(map)
-      ];
-
-      let routeLengths = [];
-      const getPathLength = (path) => {
-        if (!path || typeof path.getTotalLength !== 'function') return 0;
-        const measured = Number(path.getTotalLength());
-        return Number.isFinite(measured) && measured > 0 ? measured : 0;
-      };
-
-      const setRouteDraw = (route, routeProgress, index) => {
-        const clamped = Math.max(0, Math.min(1, routeProgress));
-        const path = route && route._path;
-        if (path){
-          const measured = getPathLength(path);
-          const cached = Number(routeLengths[index]) || 0;
-          const length = Math.max(cached, measured);
-          if (length > 1){
-            routeLengths[index] = length;
-            path.style.strokeDasharray = `${length} ${length}`;
-            path.style.strokeDashoffset = `${length * (1 - clamped)}`;
-          } else {
-            path.style.strokeDasharray = 'none';
-            path.style.strokeDashoffset = '0';
-          }
-        }
-        route.setStyle({ opacity: clamped <= 0.001 ? 0 : (0.15 + (clamped * 0.82)) });
-        routeMarkers[index].setStyle({ opacity: clamped >= 0.98 ? 1 : 0, fillOpacity: clamped >= 0.98 ? 1 : 0 });
-        destinationLabels[index].setOpacity(clamped >= 0.98 ? 1 : 0);
-      };
-
-      const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      if (reducedMotion){
-        routes.forEach((route, index) => setRouteDraw(route, 1, index));
-        chips.forEach((chip) => chip.classList.add('is-active'));
-        if (progressLabel) progressLabel.textContent = `Route ${routes.length} / ${routes.length}`;
-        stage.style.setProperty('--voyage-progress', '1');
-        setTimeout(() => map.invalidateSize(), 100);
-        return;
-      }
-
-      const renderProgress = (progress) => {
-        const clampedProgress = Math.max(0, Math.min(1, progress));
-        stage.style.setProperty('--voyage-progress', clampedProgress.toFixed(4));
-        const perRoute = 1 / routes.length;
-        let activeRoute = 0;
-        routes.forEach((route, index) => {
-          const routeStart = index * perRoute;
-          const routeProgress = Math.max(0, Math.min(1, (clampedProgress - routeStart) / (perRoute * 0.92)));
-          setRouteDraw(route, routeProgress, index);
-          if (routeProgress >= 0.92) activeRoute = index + 1;
-        });
-
-        chips.forEach((chip, index) => chip.classList.toggle('is-active', index < activeRoute));
-        if (progressLabel){
-          progressLabel.textContent = activeRoute === 0
-            ? 'Préparation des routes'
-            : `Route ${activeRoute} / ${routes.length}`;
-        }
-      };
-
-      renderProgress(0);
-      setTimeout(() => map.invalidateSize(), 120);
-      setTimeout(() => {
-        routeLengths = routes.map((route) => {
-          const path = route && route._path;
-          return getPathLength(path);
-        });
-        renderProgress(0);
-      }, 220);
-
-      let hasStarted = false;
-      const startAutoAnimation = () => {
-        if (hasStarted) return;
-        hasStarted = true;
-        map.invalidateSize();
-        const duration = 2600;
-        const startAt = performance.now();
-        const tick = (now) => {
-          const progress = (now - startAt) / duration;
-          renderProgress(progress);
-          if (progress < 1) requestAnimationFrame(tick);
-        };
-        requestAnimationFrame(tick);
+      const order = ['norvege', 'maroc', 'chypre', 'angleterre'];
+      let index = 0;
+      let timer = null;
+      const play = () => {
+        setActiveRoute(order[index % order.length]);
+        index += 1;
+        timer = window.setTimeout(play, 1800);
       };
 
       const observer = new IntersectionObserver((entries) => {
         entries.forEach((entry) => {
-          if (entry.isIntersecting && entry.intersectionRatio >= 0.25){
-            startAutoAnimation();
-            observer.disconnect();
+          if (entry.isIntersecting){
+            if (!timer) play();
+          } else if (timer){
+            window.clearTimeout(timer);
+            timer = null;
           }
         });
-      }, { threshold: [0, 0.25, 0.5] });
-      observer.observe(scroll);
+      }, { threshold: 0.35 });
 
-      const scrollRect = scroll.getBoundingClientRect();
-      const viewportHeight = window.innerHeight || document.documentElement.clientHeight || 1;
-      if (scrollRect.top < viewportHeight * 0.78 && scrollRect.bottom > viewportHeight * 0.2){
-        startAutoAnimation();
-        observer.disconnect();
-      }
-
-      window.addEventListener('resize', () => map.invalidateSize());
+      observer.observe(stage);
+      setActiveRoute('norvege');
     }
 
 
@@ -3412,44 +3002,13 @@
       });
     }
 
-    function ensureLeafletReady(onReady){
-      if (typeof onReady !== 'function') return;
-      if (typeof window.L !== 'undefined'){
-        onReady();
-        return;
-      }
-
-      const fallbackSrc = 'https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js';
-      if (!document.querySelector(`script[data-leaflet-fallback="${fallbackSrc}"]`)){
-        const fallbackScript = document.createElement('script');
-        fallbackScript.src = fallbackSrc;
-        fallbackScript.async = true;
-        fallbackScript.dataset.leafletFallback = fallbackSrc;
-        document.head.appendChild(fallbackScript);
-      }
-
-      const timeoutAt = Date.now() + 5000;
-      const waitForLeaflet = () => {
-        if (typeof window.L !== 'undefined'){
-          onReady();
-          return;
-        }
-        if (Date.now() >= timeoutAt){
-          initVoyagesSvgFallback();
-          return;
-        }
-        window.setTimeout(waitForLeaflet, 120);
-      };
-      waitForLeaflet();
-    }
-
     // init
     (function(){
       const tb = document.getElementById("titleBox");
       requestAnimationFrame(() => tb && tb.classList.add("is-in"));
       initScrollReveal();
       initClubAnchorScroll();
-      ensureLeafletReady(initVoyagesMap);
+      initVoyagesShowcase();
       bindCalendarNav();
       initClubPhotos();
       loadEvents();

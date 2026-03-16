@@ -388,30 +388,37 @@
   box-shadow: 0 18px 30px rgba(0, 0, 0, 0.28);
 }
 
-.js #histoire .split-layout > div,
-.js #histoire .history-media,
-.js #localisation .split-layout > div,
-.js #localisation .location-card {
+.js .reveal-on-scroll [data-reveal-item] {
   opacity: 0;
-  transition: opacity 0.45s ease, transform 0.45s ease;
+  transform: translate3d(0, 28px, 0) scale(0.98);
+  filter: blur(4px);
+  transition:
+    opacity 0.62s cubic-bezier(.16, 1, .3, 1),
+    transform 0.62s cubic-bezier(.16, 1, .3, 1),
+    filter 0.62s cubic-bezier(.16, 1, .3, 1);
+  transition-delay: calc(var(--reveal-order, 0) * 55ms);
+  will-change: opacity, transform;
 }
 
-.js #histoire .split-layout > div,
-.js #localisation .split-layout > div {
-  transform: translateX(-90px);
-}
-
-.js #histoire .history-media,
-.js #localisation .location-card {
-  transform: translateX(90px);
-}
-
-#histoire.is-visible .split-layout > div,
-#histoire.is-visible .history-media,
-#localisation.is-visible .split-layout > div,
-#localisation.is-visible .location-card {
+.js .reveal-on-scroll [data-reveal-item].is-revealed {
   opacity: 1;
-  transform: translateX(0);
+  transform: translate3d(0, 0, 0) scale(1);
+  filter: blur(0);
+}
+
+.js #localisation .home-actions [data-reveal-item],
+.js #localisation .home-actions .home-btn {
+  transition-delay: calc(160ms + (var(--reveal-order, 0) * 55ms));
+}
+
+#localisation.is-visible .home-btn {
+  animation: routePulse 1.8s ease 0.25s 1;
+}
+
+@keyframes routePulse {
+  0% { box-shadow: 0 0 0 0 rgba(47, 107, 255, 0.45); }
+  70% { box-shadow: 0 0 0 10px rgba(47, 107, 255, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(47, 107, 255, 0); }
 }
 
 .history-timeline {
@@ -641,18 +648,12 @@
 @media (prefers-reduced-motion: reduce) {
   .hero-scroll-indicator,
   .home-section,
-  #histoire .split-layout > div,
-  #histoire .history-media,
-  #localisation .split-layout > div,
-  #localisation .location-card {
+  .reveal-on-scroll [data-reveal-item] {
     animation: none !important;
     transition: none !important;
   }
 
-  #histoire .split-layout > div,
-  #histoire .history-media,
-  #localisation .split-layout > div,
-  #localisation .location-card {
+  .reveal-on-scroll [data-reveal-item] {
     opacity: 1;
     transform: none;
     filter: none;
@@ -668,4 +669,145 @@
   #citation-club .club-quote__text.is-typing::after {
     display: none;
   }
+}
+
+/* ===== Localisation v2 (refonte complète du bloc voyage APAM) ===== */
+#localisation {
+  background:
+    radial-gradient(120% 80% at 0% 0%, rgba(47, 107, 255, 0.14), transparent 52%),
+    linear-gradient(180deg, #121212 0%, #0a0a0a 100%);
+}
+
+.localisation-v2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 34px;
+  align-items: stretch;
+}
+
+.localisation-v2__copy {
+  display: grid;
+  align-content: start;
+  gap: 14px;
+}
+
+.localisation-v2__actions .home-btn {
+  background: #fff;
+  color: #000;
+  border-color: #fff;
+}
+
+.localisation-v2__actions .home-btn--ghost {
+  background: transparent;
+  color: #fff;
+  border-color: rgba(255, 255, 255, 0.55);
+}
+
+.localisation-v2__actions .home-btn:hover,
+.localisation-v2__actions .home-btn:focus-visible,
+.localisation-v2__actions .home-btn--ghost:hover,
+.localisation-v2__actions .home-btn--ghost:focus-visible {
+  background: var(--apam-blue);
+  border-color: var(--apam-blue);
+  color: #fff;
+}
+
+.localisation-v2__meta {
+  margin: 8px 0 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.localisation-v2__meta li {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+  padding: 12px;
+}
+
+.localisation-v2__meta strong {
+  display: block;
+  font-family: "GPMenu", system-ui, sans-serif;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  font-size: 0.72rem;
+  color: rgba(255, 255, 255, 0.68);
+  margin-bottom: 4px;
+}
+
+.localisation-v2__meta span {
+  font-size: 1.05rem;
+  color: #fff;
+}
+
+.localisation-v2__map {
+  margin: 0;
+}
+
+.localisation-v2__map-link {
+  display: block;
+  position: relative;
+  overflow: hidden;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  box-shadow: 0 20px 36px rgba(0, 0, 0, 0.4);
+  min-height: 320px;
+  text-decoration: none;
+}
+
+.localisation-v2__map-link img {
+  width: 100%;
+  height: 100%;
+  min-height: 320px;
+  object-fit: cover;
+  filter: saturate(1.04) contrast(1.03);
+  transform: scale(1.01);
+  transition: transform .35s ease;
+}
+
+.localisation-v2__map-link:hover img,
+.localisation-v2__map-link:focus-visible img {
+  transform: scale(1.06);
+}
+
+.localisation-v2__map-link::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.08) 10%, rgba(0, 0, 0, 0.68) 100%);
+}
+
+.localisation-v2__pin {
+  position: absolute;
+  top: 42%;
+  left: 56%;
+  z-index: 1;
+  width: 18px;
+  height: 18px;
+  border-radius: 999px;
+  background: #fff;
+  border: 5px solid var(--apam-blue);
+  box-shadow: 0 0 0 10px rgba(47, 107, 255, 0.26);
+}
+
+.localisation-v2__caption {
+  position: absolute;
+  left: 16px;
+  bottom: 14px;
+  z-index: 1;
+  color: #fff;
+  font-family: "GPMenu", system-ui, sans-serif;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-size: 0.78rem;
+}
+
+@media (max-width: 980px) {
+  .localisation-v2 { grid-template-columns: 1fr; }
+  .localisation-v2__meta { grid-template-columns: 1fr; }
+  .localisation-v2__map-link,
+  .localisation-v2__map-link img { min-height: 260px; }
 }
