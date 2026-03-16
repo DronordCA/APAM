@@ -996,6 +996,7 @@
     .voyages-map{
       width:100%;
       aspect-ratio:16/8;
+      min-height:280px;
       border-radius:16px;
       display:block;
       overflow:hidden;
@@ -1773,16 +1774,35 @@
       .calendar-layout{grid-template-columns:1fr;gap:12px;}
       .calendar-shell{padding:14px;gap:12px;}
       .calendar-top{gap:10px;align-items:flex-start;}
-      .calendar-actions{width:100%;justify-content:flex-start;flex-wrap:wrap;row-gap:8px;}
+      .calendar-actions{
+        width:100%;
+        display:grid;
+        grid-template-columns:auto auto auto;
+        grid-template-areas:
+          "toggle toggle toggle"
+          "today prev next";
+        align-items:center;
+        justify-content:flex-start;
+        column-gap:8px;
+        row-gap:8px;
+      }
       .calendar-nav{width:38px;height:38px;}
-      .calendar-nav-today{min-width:auto;padding:0 12px;font-size:11px;order:2;margin-right:auto;}
+      .calendar-nav-today{
+        min-width:auto;
+        padding:0 12px;
+        font-size:11px;
+        grid-area:today;
+        margin-right:0;
+      }
       .calendar-view-btn{padding:6px 10px;font-size:11px;}
       .calendar-month{font-size:26px;}
       .calendar-subtitle{font-size:12px;}
       .calendar-actions{margin-left:auto;}
-      .calendar-view-toggle{order:1;}
-      #calendarPrev{order:3;}
-      #calendarNext{order:4;}
+      .calendar-view-toggle{grid-area:toggle;justify-self:start;}
+      #calendarPrev,
+      #calendarNext{justify-self:start;}
+      #calendarPrev{grid-area:prev;}
+      #calendarNext{grid-area:next;}
       .calendar-nav{width:40px;height:40px;}
 
       .calendar-grid-scroll{overflow-x:auto;}
@@ -1816,21 +1836,16 @@
       .calendar-grid{min-width:620px;}
       .calendar-detail{margin-top:2px;}
 
-      .voyages-scroll{
-        min-height:auto;
-        width:100%;
-        left:auto;
-        margin-left:0;
-      }
+      .voyages-scroll{--voyage-steps:3.4;min-height:calc(100vh * var(--voyage-steps));}
       .voyages-sticky{
-        position:relative;
-        top:auto;
-        min-height:auto;
-        display:block;
-        overflow:visible;
+        position:sticky;
+        top:0;
+        min-height:100vh;
+        display:grid;
+        overflow:hidden;
       }
       .voyages-stage{
-        min-height:auto;
+        min-height:100vh;
         padding:16px 0 18px;
       }
       .voyages-stage__map{
@@ -1839,6 +1854,7 @@
       }
       .voyages-map{
         aspect-ratio:16/11;
+        min-height:320px;
       }
       .voyages-scroll-cue{display:none;}
 
@@ -1867,11 +1883,11 @@
       .team-photo{width:170px;}
       .team-name{font-size:40px;}
       .team-bio{font-size:13px;}
-      .voyages-scroll{min-height:auto;}
-      .voyages-stage{padding:12px 0 16px;}
+      .voyages-scroll{--voyage-steps:3.2;min-height:calc(100vh * var(--voyage-steps));}
+      .voyages-stage{min-height:100vh;padding:12px 0 16px;}
       .voyages-stage__hud{padding:0 14px;font-size:9px;}
       .voyages-stage__map{border-radius:0;padding:10px;border-left:0;border-right:0;}
-      .voyages-map{border-radius:0;aspect-ratio:15/10;}
+      .voyages-map{border-radius:0;aspect-ratio:15/10;min-height:300px;}
       .voyages-route-label{font-size:9px;}
       .voyages-legend{padding:0 14px;grid-template-columns:1fr;}
       .voyage-chip{padding:9px 10px;}
