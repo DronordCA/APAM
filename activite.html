@@ -1183,7 +1183,7 @@
       box-shadow:0 10px 24px rgba(47,107,255,0.32);
     }
 
-    .section-surface--calendar{ background:#141417; }
+    .section-surface--calendar{ background:transparent; }
     .section-surface--calendar > .section-inner{
       width:100%;
       max-width:min(1500px, 100%);
@@ -1604,10 +1604,12 @@
     }
 
     .calendar-grid-scroll{
-      overflow-x:auto;
+      overflow-x:hidden;
       overflow-y:hidden;
       padding-bottom:4px;
       min-height:0;
+      width:100%;
+      touch-action:pan-y;
       scrollbar-width:thin;
       scrollbar-color: rgba(255,255,255,0.3) rgba(255,255,255,0.08);
     }
@@ -1673,12 +1675,12 @@
       .calendar-actions{
         width:100%;
         display:grid;
-        grid-template-columns:auto auto auto;
+        grid-template-columns:minmax(0,1fr) auto auto;
         grid-template-areas:
           "toggle toggle toggle"
           "today prev next";
         align-items:center;
-        justify-content:flex-start;
+        justify-content:stretch;
         column-gap:8px;
         row-gap:8px;
       }
@@ -1688,6 +1690,8 @@
         padding:0 12px;
         font-size:11px;
         grid-area:today;
+        justify-self:start;
+        align-self:center;
         margin-right:0;
       }
       .calendar-view-btn{padding:6px 10px;font-size:11px;}
@@ -1701,8 +1705,11 @@
       #calendarNext{grid-area:next;}
       .calendar-nav{width:40px;height:40px;}
 
-      .calendar-grid-scroll{overflow-x:auto;}
-      .calendar-grid{min-width:680px;}
+      .calendar-grid-scroll{overflow-x:hidden;}
+      .calendar-grid{
+        min-width:0;
+        width:100%;
+      }
       .calendar-weekdays,
       .calendar-board{gap:5px;}
       .calendar-day{min-height:78px;padding:8px 6px;font-size:12px;}
@@ -1728,7 +1735,7 @@
       .voyages-legend{grid-template-columns:repeat(2,minmax(0,1fr));}
       .calendar-layout{gap:10px;}
       .calendar-shell{padding:12px;gap:10px;}
-      .calendar-grid{min-width:620px;}
+      .calendar-grid{min-width:0;}
       .calendar-detail{margin-top:2px;}
 
 
@@ -1745,8 +1752,23 @@
       .reveal-on-scroll[data-reveal="up"]{ --reveal-x:0px; --reveal-y:26px; }
       .wrap,
       .section-inner{padding: 0 16px;}
+      .calendar-shell{padding:10px;gap:10px;}
+      .calendar-actions{
+        grid-template-columns:minmax(0,1fr) 40px 40px;
+      }
+      .calendar-nav-today{
+        min-height:40px;
+        line-height:1;
+      }
       .calendar-weekdays{font-size:10px;letter-spacing:0.08em;}
-      .calendar-day{min-height:84px;}
+      .calendar-weekdays,
+      .calendar-board{gap:4px;}
+      .calendar-day{
+        min-height:74px;
+        padding:7px 5px 10px;
+      }
+      .calendar-day-number{font-size:12px;}
+      .calendar-dot{left:8px;bottom:8px;}
       .social-frame{height:680px;}
       .team-grid,
       .team-grid--three,
