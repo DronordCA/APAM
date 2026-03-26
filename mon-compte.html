@@ -509,6 +509,40 @@
   </style>
 </head>
 <body>
+  <style>
+    .construction-overlay{position:fixed;inset:0;z-index:9999;display:grid;place-items:center;padding:20px;background:radial-gradient(circle at 20% 20%,rgba(47,107,255,.22),transparent 45%),radial-gradient(circle at 80% 12%,rgba(255,255,255,.15),transparent 40%),#0d101b}
+    .construction-card{width:min(720px,100%);padding:34px 26px;background:rgba(14,18,32,.93);border:1px solid rgba(130,170,255,.4);box-shadow:0 24px 60px rgba(0,0,0,.45);text-align:center}
+    .construction-logo{width:96px;height:96px;object-fit:contain;animation:logoFloat 2.3s ease-in-out infinite}
+    .construction-note{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:rgba(232,238,255,.74);margin-top:14px}
+    .construction-title{font-family:"Swiss911",sans-serif;font-size:56px;letter-spacing:-.02em;text-transform:uppercase;line-height:.86;margin:14px 0 10px}
+    .construction-sub{color:rgba(231,238,255,.88);line-height:1.55;max-width:580px;margin:0 auto 14px}
+    .construction-cta{display:inline-flex;align-items:center;justify-content:center;padding:11px 14px;border:1px solid rgba(123,166,255,.55);background:linear-gradient(135deg,#2f6bff,#183775);color:#fff;text-decoration:none;text-transform:uppercase;letter-spacing:.08em;font-size:12px}
+    .creator-box{margin-top:16px;padding:14px;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.03)}
+    .creator-box h3{font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:rgba(214,226,255,.9);margin-bottom:10px}
+    .creator-row{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+    .creator-row input{width:min(220px,100%);padding:10px 12px;border:1px solid rgba(130,170,255,.4);background:#0b1228;color:#fff;letter-spacing:.2em;text-align:center}
+    .creator-row button{padding:10px 12px;border:1px solid rgba(130,170,255,.5);background:linear-gradient(135deg,#2f6bff,#183775);color:#fff;text-transform:uppercase;letter-spacing:.08em;cursor:pointer}
+    .creator-status{margin-top:8px;font-size:12px;color:#ffccd2;min-height:16px}
+    .construction-overlay.is-hidden{display:none}
+    @keyframes logoFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+  </style>
+  <div class="construction-overlay" id="constructionOverlay" aria-live="polite">
+    <div class="construction-card">
+      <img class="construction-logo" src="assets/images/apam-logo2.png" alt="APAM" />
+      <h2 class="construction-title">Page en construction</h2>
+      <p class="construction-sub">La page <strong>Mon compte</strong> est encore en construction. Vous pouvez créer votre compte dès maintenant, et nous vous préviendrons dès son ouverture complète.</p>
+      <a class="construction-cta" href="inscription-membres.html">Créer mon compte</a>
+      <div class="construction-note">Accès créateur disponible ci-dessous</div>
+      <div class="creator-box">
+        <h3>Accès créateur</h3>
+        <div class="creator-row">
+          <input id="creatorCodeInput" type="password" inputmode="numeric" placeholder="Code d'accès" maxlength="4" />
+          <button id="creatorUnlockBtn" type="button">Entrer</button>
+        </div>
+        <div class="creator-status" id="creatorStatus"></div>
+      </div>
+    </div>
+  </div>
   <div class="page">
     <div class="content">
     <!-- ✅ HEADER MOBILE -->
@@ -846,7 +880,42 @@
       redirectToLogin();
     });
 
-    loadAccessByRole();
+    const creatorAccessEnabled = window.sessionStorage.getItem('apam_creator_access_mon_compte') === 'ok';
+    if (creatorAccessEnabled) {
+      loadAccessByRole();
+    }
+  </script>
+
+  <script>
+    (function(){
+      const ACCESS_CODE = '0318';
+      const STORAGE_KEY = 'apam_creator_access_mon_compte';
+      const overlayGate = document.getElementById('constructionOverlay');
+      const input = document.getElementById('creatorCodeInput');
+      const unlockBtn = document.getElementById('creatorUnlockBtn');
+      const status = document.getElementById('creatorStatus');
+
+      if (!overlayGate) return;
+      if (window.sessionStorage.getItem(STORAGE_KEY) === 'ok') {
+        overlayGate.classList.add('is-hidden');
+        return;
+      }
+
+      function unlock(){
+        if ((input?.value || '').trim() === ACCESS_CODE) {
+          window.sessionStorage.setItem(STORAGE_KEY, 'ok');
+          overlayGate.classList.add('is-hidden');
+          loadAccessByRole();
+          return;
+        }
+        if (status) status.textContent = 'Code incorrect.';
+      }
+
+      unlockBtn?.addEventListener('click', unlock);
+      input?.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter') unlock();
+      });
+    })();
   </script>
 
   <script>
