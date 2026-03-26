@@ -1184,7 +1184,7 @@
     }
 
     .section-surface--calendar{
-      background:linear-gradient(180deg, #0b0d12 0%, #10141d 100%);
+      background:linear-gradient(180deg, #141417 0%, #10141d 100%);
     }
     .section-surface--calendar > .section-inner{
       width:100%;
@@ -1932,10 +1932,6 @@
         <div class="title-box" id="titleBox"><span>LE CLUB</span></div>
       </div>
 
-      <p class="intro">
-        Retrouvez ici la vie du club : calendrier des activités, galerie photos, équipe et actualités sur nos réseaux sociaux.
-      </p>
-
       <section class="section-surface section-surface--dark section-surface--full section-surface--calendar reveal-on-scroll" data-reveal="up" aria-labelledby="calendar-title" data-calendar-csv="https://docs.google.com/spreadsheets/d/1mX3emh8CVdkkPyfQZj8cEg2ljwNExOZubIV2Dio0h7s/gviz/tq?tqx=out:csv&gid=1399260514">
         <div class="section-inner">
         <h2 class="section-title" id="calendar-title">Calendrier des activités</h2>
@@ -1953,8 +1949,8 @@
               </div>
               <div class="calendar-actions">
                 <div class="calendar-view-toggle" role="group" aria-label="Affichage du calendrier">
-                  <button class="calendar-view-btn" type="button" id="calendarViewMonth" data-view="month">Mois</button>
-                  <button class="calendar-view-btn is-active" type="button" id="calendarViewWeek" data-view="week">Semaine</button>
+                  <button class="calendar-view-btn is-active" type="button" id="calendarViewMonth" data-view="month">Mois</button>
+                  <button class="calendar-view-btn" type="button" id="calendarViewWeek" data-view="week">Semaine</button>
                 </div>
                 <button class="calendar-nav calendar-nav-today" type="button" id="calendarToday">Aujourd’hui</button>
                 <button class="calendar-nav" type="button" id="calendarPrev" aria-label="Mois précédent">‹</button>
@@ -2379,7 +2375,7 @@
     const calendarState = {
       currentMonth: null,
       selectedDateKey: null,
-      currentView: "week",
+      currentView: "month",
       weekAnchor: null,
       eventsByDate: new Map(),
       events: []
@@ -2614,7 +2610,7 @@
 
         calendarState.currentMonth = new Date(today.getFullYear(), today.getMonth(), 1);
         calendarState.weekAnchor = getStartOfWeek(today);
-        calendarState.currentView = "week";
+        calendarState.currentView = "month";
         calendarState.selectedDateKey = todayKey;
 
         renderCalendarMonth();
