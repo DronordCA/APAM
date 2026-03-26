@@ -176,8 +176,7 @@
 .home-section h2 {
   position: relative;
   display: inline-block;
-  padding-inline-end: 0.12em;
-  margin-inline-end: -0.12em;
+  overflow: visible;
 }
 
 .home-section h2::after {
