@@ -4,6 +4,14 @@
   <meta charset="UTF-8" />
   <title>APAM – Aéroclub L'Aigle Saint-Michel</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-VYNBMK1WPC"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-VYNBMK1WPC');
+  </script>
   <script src="assets/access-config.js"></script>
   <script src="assets/prelaunch-lock.js"></script>
   <script>document.documentElement.classList.add('js');</script>
@@ -1041,7 +1049,6 @@
                     <a class="activity-link" href="activite.html#photos-title">Photos du club</a>
                     <a class="activity-link" href="activite.html#team-title">Notre équipe</a>
                     <a class="activity-link" href="activite.html#social-title">Réseaux sociaux</a>
-                    <a class="activity-link" href="activite.html#voyages-title">Voyage de L'APAM</a>
                   </div>
                 </span>
 
@@ -1145,31 +1152,25 @@
       </div>
     </section>
 
-    <section class="home-section home-section--dark" id="localisation" aria-labelledby="localisation-title">
-      <div class="home-container localisation-v2">
-        <div class="localisation-v2__copy">
-          <p class="home-kicker">Voyage APAM</p>
-          <h2 id="localisation-title">Préparez votre route depuis APAM</h2>
-          <p class="section-intro">Depuis L’Aigle Saint-Michel, planifiez vos vols club vers la Normandie et au-delà. Tout est regroupé ici : accès rapide aux itinéraires, coordonnées terrain et aperçu de la zone.</p>
-          <p class="location-note">Aérodrome de L’Aigle Saint-Michel (LFOL) — 48.761111, 0.655556</p>
-          <div class="home-actions localisation-v2__actions">
+    <section class="home-section home-section--dark reveal-on-scroll" id="localisation" aria-labelledby="localisation-title">
+      <div class="home-container split-layout location-reveal reveal-track">
+        <div class="location-copy">
+          <p class="home-kicker location-item" data-reveal-item>LFOL</p>
+          <h2 id="localisation-title" class="location-item" data-reveal-item>Localisation — Voler en Normandie</h2>
+          <p class="location-item" data-reveal-item>Basé à L’Aigle Saint-Michel, le club offre un terrain idéal pour découvrir la Normandie vue du ciel, entre campagne, vallées et axes de navigation variés.</p>
+          <p class="location-note station-appear" data-reveal-item>Aérodrome de L’Aigle Saint-Michel, 61300 Saint-Sulpice-sur-Risle</p>
+          <div class="home-actions location-item" data-reveal-item>
             <a class="home-btn" id="plan-link" target="_blank" rel="noopener noreferrer">Plan</a>
             <a class="home-btn home-btn--ghost" id="google-link" target="_blank" rel="noopener noreferrer">Google Maps</a>
             <a class="home-btn home-btn--ghost" id="waze-link" target="_blank" rel="noopener noreferrer">Waze</a>
           </div>
-          <ul class="localisation-v2__meta" aria-label="Informations terrain">
-            <li><strong>Code OACI</strong><span>LFOL</span></li>
-            <li><strong>Fréquence</strong><span>126.855</span></li>
-            <li><strong>Piste</strong><span>06 / 24</span></li>
-          </ul>
         </div>
-
-        <aside class="localisation-v2__map" aria-label="Carte de la zone APAM">
-          <a class="localisation-v2__map-link" href="https://www.google.com/maps/place/A%C3%A9rodrome+de+L'Aigle-Saint-Michel,+61300+Saint-Sulpice-sur-Risle,+France/@48.76122,0.6555821,17z/data=!3m1!4b1!4m6!3m5!1s0x47e181b394927687:0xdcf84cef68d0147c!8m2!3d48.76122!4d0.658157!16s%2Fg%2F11h54zpqz3?entry=ttu" target="_blank" rel="noopener noreferrer" aria-label="Ouvrir la carte APAM sur Google Maps">
-            <img src="assets/images/image1.png" alt="Base APAM et environnement de vol" loading="lazy" decoding="async">
-            <span class="localisation-v2__pin" aria-hidden="true"></span>
-            <span class="localisation-v2__caption">Voir la carte interactive</span>
-          </a>
+        <aside class="location-card" data-reveal-item>
+          <h3>Normandie — Mont Saint-Michel</h3>
+          <p>Un symbole de la région, entre lumière, marées et patrimoine : une destination iconique à découvrir depuis notre base.</p>
+          <figure class="location-media">
+            <img src="https://loremflickr.com/1200/800/mont-saint-michel" alt="Mont Saint-Michel vu depuis la baie" loading="lazy" decoding="async" referrerpolicy="no-referrer">
+          </figure>
         </aside>
       </div>
     </section>
@@ -1292,7 +1293,7 @@
   <script src="assets/home.js" defer></script>
 
   <script>
-    window.COOKIE_CONSENT_CONFIG = window.COOKIE_CONSENT_CONFIG || { gaMeasurementId: "G-VYNBMK1WPC" };
+    window.COOKIE_CONSENT_CONFIG = window.COOKIE_CONSENT_CONFIG || { gaMeasurementId: "{{GA_MEASUREMENT_ID}}" };
   </script>
   <script src="assets/cookie-consent.js" defer></script>
 </body>
