@@ -119,7 +119,7 @@
 
         if (!res.ok) {
           if (res.status === 401 || res.status === 403) {
-            setStatus('Accès refusé par Apps Script (403). Vérifiez le déploiement Web App : accès "Toute personne ayant le lien".');
+            setStatus('Accès refusé. Merci de réessayer ou de contacter le club si le problème persiste.');
             return;
           }
           setStatus('Le service de connexion est indisponible pour le moment.');
@@ -135,7 +135,7 @@
         setStatus('Lien envoyé. Vérifiez votre boîte mail (et les indésirables).');
       } catch (error) {
         const reason = error && error.message ? ` (${error.message})` : '';
-        setStatus(`Impossible de contacter le serveur de connexion${reason}. Vérifiez le déploiement Apps Script (Web App publiée + accès "Toute personne ayant le lien").`);
+        setStatus(`Impossible de contacter le serveur de connexion${reason}. Merci de réessayer dans quelques instants.`);
       }
     });
 

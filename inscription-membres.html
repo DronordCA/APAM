@@ -36,7 +36,7 @@
 <body>
   <main class="panel" data-access-api="https://script.google.com/macros/s/AKfycbxmzpzMhv5wEaSajCkNYu6bpQbqwkb7klq029Yjo_3KNKMmyTtNdSEF_R0vgAUK9_-9/exec">
     <h1>Inscription membres</h1>
-    <p>Formulaire interne APAM : votre demande crée un compte en attente de validation dans le Google Sheet. Une fois vos espaces validés, vous pourrez vous connecter.</p>
+    <p>Complétez ce formulaire pour demander la création de votre compte membre. Après validation par le club, vous pourrez vous connecter.</p>
 
     <form id="signupForm" novalidate>
       <div>
@@ -183,7 +183,7 @@
 
         if (!res.ok) {
           if (res.status === 401 || res.status === 403) {
-            setStatus('Accès refusé par Apps Script (403). Vérifiez le déploiement Web App : accès "Toute personne ayant le lien".');
+            setStatus('Accès refusé. Merci de réessayer ou de contacter le club si le problème persiste.');
             return;
           }
           setStatus('Le service d’inscription est indisponible pour le moment.');
@@ -206,10 +206,10 @@
         form.reset();
         if (data.message === 'signup_created_claimed_memberid') {
           showSuccess({
-            title: 'Votre compte a bien été créé',
-            copy: 'Votre numéro de membre a été reconnu. Vous pouvez dès à présent vous connecter à votre espace membre.',
+            title: 'Demande bien prise en compte',
+            copy: 'Votre compte a bien été créé. Cependant, la page Mon compte est encore en construction. Nous vous préviendrons dès son ouverture.',
             actions: [
-              { label: 'Se connecter', href: 'connexion-membres-password.html', primary: true },
+              { label: 'Retour à l\'accueil', href: 'index.html', primary: true },
               { label: 'Retour à mon compte', href: 'mon-compte.html' }
             ]
           });
@@ -217,10 +217,11 @@
         }
 
         showSuccess({
-          title: 'Inscription enregistrée',
-          copy: 'Nous allons procéder à la vérification de vos informations. Vous recevrez un courriel dès que votre accès aura été approuvé.',
+          title: 'Demande bien prise en compte',
+          copy: 'Nous avons bien pris votre demande en compte. Cependant, la page Mon compte est encore en construction. Nous vous préviendrons dès son ouverture.',
           actions: [
-            { label: 'Retour à l\'accueil', href: 'index.html' }
+            { label: 'Retour à l\'accueil', href: 'index.html', primary: true },
+            { label: 'Retour à mon compte', href: 'mon-compte.html' }
           ]
         });
       } catch (error) {
@@ -234,11 +235,11 @@
             body: JSON.stringify(apiPayload)
           });
           const reason = error && error.message ? ` (${error.message})` : '';
-          setStatus(`Demande transmise sans confirmation serveur${reason}. Vérifiez dans le Google Sheet si une ligne a été créée avant de renvoyer le formulaire.`);
+          setStatus(`Demande transmise sans confirmation serveur${reason}. Si vous n'avez pas de retour, merci de contacter le club avant de renvoyer le formulaire.`);
           return;
         } catch {
           const reason = error && error.message ? ` (${error.message})` : '';
-          setStatus(`Impossible de transmettre la demande pour le moment${reason}. Vérifiez l'URL Apps Script active et que le Web App est publié en accès "Toute personne ayant le lien".`);
+          setStatus(`Impossible de transmettre la demande pour le moment${reason}. Merci de réessayer dans quelques instants.`);
         }
       }
     });

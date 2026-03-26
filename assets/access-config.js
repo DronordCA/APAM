@@ -7,7 +7,7 @@ window.APAM_ACCESS_API_URL = 'https://script.google.com/macros/s/AKfycbxmzpzMhv5
 // - allowedEmails: emails autorisés à voir la page même en mode bâche.
 // - allowedPermissions: permissions membres autorisées à contourner la bâche (issues de la feuille membres).
 window.APAM_PRELAUNCH_LOCK = {
-  enabled: true,
+  enabled: false,
   allowedEmails: [
     // 'votre.email@exemple.com',
     // 'proprietaire1@exemple.com',
