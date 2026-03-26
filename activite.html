@@ -1183,26 +1183,43 @@
       box-shadow:0 10px 24px rgba(47,107,255,0.32);
     }
 
+    .section-surface--calendar{
+      background:linear-gradient(180deg, #0b0d12 0%, #10141d 100%);
+    }
+    .section-surface--calendar > .section-inner{
+      width:100%;
+      max-width:min(1500px, 100%);
+    }
+    @media (min-width:981px){
+      .section-surface--calendar{
+        min-height:100vh;
+      }
+      .section-surface--calendar > .section-inner{
+        min-height:calc(100vh - 72px);
+        display:flex;
+        flex-direction:column;
+      }
+    }
     .calendar-layout{
       display:grid;
-      grid-template-columns: minmax(0, 1.3fr) minmax(300px, 0.7fr);
-      gap:20px;
-      align-items:start;
+      grid-template-columns: minmax(0, 1fr) minmax(320px, 360px);
+      gap:16px;
+      align-items:stretch;
+      flex:1;
     }
     .calendar-shell{
-      border:1px solid rgba(255,255,255,0.12);
-      background:
-        radial-gradient(circle at 8% -18%, rgba(116,153,255,0.34), transparent 50%),
-        radial-gradient(circle at 100% 2%, rgba(242,61,96,0.18), transparent 34%),
-        linear-gradient(165deg, rgba(20,20,24,0.98), rgba(10,10,14,0.96));
-      border-radius:22px;
+      border:1px solid rgba(255,255,255,0.14);
+      background:rgba(16,19,27,0.86);
+      border-radius:18px;
       padding:24px;
       display:grid;
+      grid-template-rows:auto auto 1fr;
       gap:18px;
-      box-shadow:0 30px 60px rgba(0,0,0,0.45);
+      min-height:0;
+      box-shadow:0 24px 44px rgba(0,0,0,0.34);
       position:relative;
       overflow:hidden;
-      backdrop-filter: blur(2px);
+      backdrop-filter: blur(10px);
     }
     .calendar-shell::before{
       content:"";
@@ -1216,10 +1233,10 @@
       display:inline-flex;
       align-items:center;
       border-radius:999px;
-      border:1px solid rgba(140,176,255,0.46);
-      background:linear-gradient(130deg, rgba(77,126,255,0.18), rgba(77,126,255,0.05));
-      color:rgba(236,242,255,0.95);
-      font-size:11px;
+      border:1px solid rgba(255,255,255,0.2);
+      background:rgba(255,255,255,0.04);
+      color:rgba(236,242,255,0.92);
+      font-size:10px;
       text-transform:uppercase;
       letter-spacing:0.14em;
       padding:6px 12px;
@@ -1233,13 +1250,11 @@
       flex-wrap:wrap;
     }
     .calendar-month{
-      font-family:"Swiss911",sans-serif;
+      font-family:"GPMenu",system-ui,sans-serif;
       text-transform:uppercase;
-      font-size:32px;
-      letter-spacing:-0.02em;
-      font-style:italic;
-      transform:skewX(-4deg);
-      text-shadow:0 10px 30px rgba(47,107,255,0.2);
+      font-size:30px;
+      letter-spacing:0.01em;
+      text-shadow:none;
     }
     .calendar-subtitle{
       color: rgba(255,255,255,0.72);
@@ -1279,16 +1294,16 @@
     }
     .calendar-view-btn.is-active{
       color:#fff;
-      background:linear-gradient(135deg, rgba(47,107,255,0.95), rgba(25,62,153,0.9));
-      box-shadow:0 8px 18px rgba(26,70,181,0.35);
+      background:#2f6bff;
+      box-shadow:none;
     }
     .calendar-view-btn:hover{transform:translateY(-1px);}
     .calendar-nav{
       width:42px;
       height:42px;
-      border-radius:10px;
+      border-radius:12px;
       border:1px solid rgba(255,255,255,0.16);
-      background: linear-gradient(150deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02));
+      background: rgba(255,255,255,0.04);
       color:#fff;
       font-size:20px;
       cursor:pointer;
@@ -1323,7 +1338,7 @@
       padding:8px 4px 6px;
       border-radius:999px;
       border:1px solid rgba(255,255,255,0.08);
-      background:rgba(255,255,255,0.04);
+      background:rgba(255,255,255,0.02);
     }
     .calendar-board{
       display:grid;
@@ -1332,10 +1347,10 @@
     }
     .calendar-day{
       position:relative;
-      min-height:98px;
-      border-radius:12px;
+      min-height:102px;
+      border-radius:10px;
       border:1px solid rgba(255,255,255,0.08);
-      background: linear-gradient(170deg, rgba(255,255,255,0.06), rgba(0,0,0,0.28));
+      background: rgba(7,10,16,0.62);
       color:#fff;
       padding:10px 10px 12px;
       text-align:left;
@@ -1345,7 +1360,7 @@
     }
     .calendar-day:hover{
       border-color: rgba(255,255,255,0.22);
-      background: linear-gradient(170deg, rgba(255,255,255,0.1), rgba(0,0,0,0.26));
+      background: rgba(255,255,255,0.07);
     }
     .calendar-day.is-muted{
       cursor:default;
@@ -1452,16 +1467,16 @@
     .calendar-detail{
       margin-top:0;
       display:grid;
+      align-content:start;
       gap:10px;
-      border:1px solid rgba(255,255,255,0.12);
-      border-radius:22px;
+      border:1px solid rgba(255,255,255,0.14);
+      border-radius:18px;
       padding:14px;
-      background:
-        radial-gradient(circle at 100% -15%, rgba(84,118,255,0.2), transparent 38%),
-        linear-gradient(165deg, rgba(15,15,19,0.95), rgba(10,10,14,0.92));
-      box-shadow:0 26px 50px rgba(0,0,0,0.35);
+      background:rgba(16,19,27,0.86);
+      box-shadow:0 24px 44px rgba(0,0,0,0.34);
       position:relative;
       overflow:hidden;
+      min-height:0;
     }
     .calendar-detail::before{
       content:"Programme du jour";
@@ -1479,12 +1494,12 @@
     }
     .calendar-card{
       border:1px solid rgba(255,255,255,0.1);
-      background: linear-gradient(160deg, rgba(255,255,255,0.08), rgba(0,0,0,0.22));
-      border-radius:14px;
+      background: rgba(255,255,255,0.03);
+      border-radius:12px;
       padding:14px 16px;
       display:grid;
       gap:8px;
-      box-shadow: 0 20px 40px rgba(0,0,0,0.32);
+      box-shadow:none;
     }
     .calendar-meta{
       display:flex;
@@ -1495,12 +1510,10 @@
       color: rgba(255,255,255,0.7);
     }
     .calendar-title{
-      font-family:"Swiss911",sans-serif;
+      font-family:"GPMenu",system-ui,sans-serif;
       text-transform:uppercase;
-      font-size:24px;
-      letter-spacing:-0.02em;
-      font-style:italic;
-      transform:skewX(-4deg);
+      font-size:20px;
+      letter-spacing:0.01em;
     }
     .calendar-location{
       color: rgba(255,255,255,0.75);
@@ -1596,8 +1609,16 @@
       overflow-x:auto;
       overflow-y:hidden;
       padding-bottom:4px;
+      min-height:0;
       scrollbar-width:thin;
       scrollbar-color: rgba(255,255,255,0.3) rgba(255,255,255,0.08);
+    }
+    .section-surface--calendar .calendar-detail{
+      overflow:auto;
+    }
+    .section-surface--calendar .calendar-grid-scroll{
+      overflow-y:auto;
+      max-height:60vh;
     }
     .calendar-grid-scroll::-webkit-scrollbar{height:6px;}
     .calendar-grid-scroll::-webkit-scrollbar-track{background:rgba(255,255,255,0.08);border-radius:999px;}
@@ -1915,12 +1936,12 @@
         Retrouvez ici la vie du club : calendrier des activités, galerie photos, équipe et actualités sur nos réseaux sociaux.
       </p>
 
-      <section class="section-surface section-surface--dark section-surface--full reveal-on-scroll" data-reveal="up" aria-labelledby="calendar-title" data-calendar-csv="https://docs.google.com/spreadsheets/d/1mX3emh8CVdkkPyfQZj8cEg2ljwNExOZubIV2Dio0h7s/gviz/tq?tqx=out:csv&gid=1399260514">
+      <section class="section-surface section-surface--dark section-surface--full section-surface--calendar reveal-on-scroll" data-reveal="up" aria-labelledby="calendar-title" data-calendar-csv="https://docs.google.com/spreadsheets/d/1mX3emh8CVdkkPyfQZj8cEg2ljwNExOZubIV2Dio0h7s/gviz/tq?tqx=out:csv&gid=1399260514">
         <div class="section-inner">
         <h2 class="section-title" id="calendar-title">Calendrier des activités</h2>
         <p class="section-note">
-          Le calendrier recense les événements à venir du club. Cliquez sur un jour pour découvrir le programme détaillé,
-          le lieu et les informations utiles pour participer.
+          Vue plein écran, style minimaliste et moderne : cliquez sur un jour pour afficher le programme détaillé,
+          les lieux et les informations utiles.
         </p>
         <div class="calendar-layout">
           <div class="calendar-shell">
@@ -1928,7 +1949,7 @@
               <div>
                 <div class="calendar-kicker">Expérience club</div>
                 <div class="calendar-month" id="calendarMonth">Chargement…</div>
-                <div class="calendar-subtitle">Planning premium APAM — cliquez sur un jour pour afficher les événements.</div>
+                <div class="calendar-subtitle">Planning APAM en lecture immersive — passez de la semaine au mois en un clic.</div>
               </div>
               <div class="calendar-actions">
                 <div class="calendar-view-toggle" role="group" aria-label="Affichage du calendrier">
