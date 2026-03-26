@@ -448,17 +448,9 @@
       max-width: var(--grid-max);
       margin: 10px auto 40px;
       padding: 0 var(--outer-x);
-      display:flex;
-      flex-direction:column;
+      display:grid;
       gap:16px;
     }
-
-    .contact-grid{
-      display:grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 16px;
-    }
-
     .contact-card{
       background: #fff;
       border:1px solid rgba(0,0,0,0.08);
@@ -473,148 +465,81 @@
       transform: translate3d(0,18px,0);
       opacity:0;
       filter: blur(6px);
-      transition:
-        transform .7s cubic-bezier(.16,1,.22,1),
-        opacity .7s cubic-bezier(.16,1,.22,1),
-        filter .7s ease;
+      transition: transform .7s cubic-bezier(.16,1,.22,1), opacity .7s cubic-bezier(.16,1,.22,1), filter .7s ease;
     }
     .contact-card.is-in{ transform:none; opacity:1; filter:none; }
-
     .contact-card h2{
       font-family:"Swiss911", sans-serif;
       text-transform:uppercase;
       letter-spacing:-0.02em;
       font-size:28px;
       color:#111;
+      line-height:.95;
     }
-
+    .hero-grid{
+      display:grid;
+      grid-template-columns: minmax(0,1.2fr) minmax(0,.8fr);
+      gap:16px;
+    }
     .contact-hero{
-      padding: 28px 26px;
-      background:
-        linear-gradient(140deg, rgba(47,107,255,0.14), rgba(255,255,255,0.98) 65%),
-        #fff;
+      padding: 30px 28px;
+      background: linear-gradient(135deg, rgba(47,107,255,0.16), rgba(255,255,255,1) 48%, rgba(47,107,255,0.08));
     }
-
     .hero-kicker{
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
+      display:inline-flex; align-items:center; gap:8px;
       font-family: "GPMenu", system-ui, sans-serif;
-      font-size:12px;
-      letter-spacing:0.08em;
-      text-transform:uppercase;
+      font-size:12px; letter-spacing:0.08em; text-transform:uppercase;
       color: rgba(0,0,0,0.65);
     }
-    .hero-dot{
-      width:8px;height:8px;border-radius:999px;background:var(--accent);
-      box-shadow:0 0 14px rgba(47,107,255,0.65);
+    .hero-dot{ width:8px;height:8px;border-radius:999px;background:var(--accent);box-shadow:0 0 14px rgba(47,107,255,0.65); }
+    .hero-title{ font-family:"Swiss911", sans-serif; font-size:58px; text-transform:uppercase; letter-spacing:-0.02em; line-height:0.9; color:#111; }
+    .hero-text{ color: rgba(0,0,0,0.72); font-size:15px; line-height:1.6; }
+    .hero-actions{ display:flex; flex-wrap:wrap; gap:10px; }
+    .cta-btn,.ghost-btn{
+      text-decoration:none; font-family: "GPMenu", system-ui, sans-serif; font-size:12px; letter-spacing:-0.02em;
+      text-transform:uppercase; padding: 12px 18px 10px; border-radius: 6px; display:inline-flex; align-items:center; gap:8px;
     }
-    .hero-title{
-      font-family:"Swiss911", sans-serif;
-      font-size:52px;
-      text-transform:uppercase;
-      letter-spacing:-0.02em;
-      line-height:0.92;
-      color:#111;
+    .cta-btn{ background: linear-gradient(135deg, var(--blue-top), var(--blue-bot)); color:#fff; box-shadow:0 16px 34px rgba(47,107,255,0.45); border:0; cursor:pointer; }
+    .ghost-btn{ border:1px solid rgba(0,0,0,0.14); color: rgba(0,0,0,0.72); background:#fff; }
+    .fun-card{
+      background: #0d1222;
+      color:#edf2ff;
+      border-color: rgba(139,169,255,.28);
+      box-shadow: 0 20px 44px rgba(6,10,26,.56);
     }
-    .hero-text{
-      color: rgba(0,0,0,0.7);
-      font-size:15px;
-      line-height:1.6;
-      max-width: 780px;
-    }
-    .hero-actions{
-      display:flex;
-      flex-wrap:wrap;
-      gap:12px;
-    }
-    .hero-metrics{
-      display:grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap:10px;
-      margin-top: 2px;
-    }
-    .metric{
-      background: rgba(255,255,255,0.75);
-      border:1px solid rgba(0,0,0,0.10);
-      border-radius:8px;
+    .fun-card h2{ color:#fff; }
+    .fun-badges{ display:grid; gap:8px; list-style:none; }
+    .fun-badges li{
+      border:1px solid rgba(147,176,255,.35);
+      background:rgba(255,255,255,.04);
       padding:10px 12px;
-      display:flex;
-      flex-direction:column;
-      gap:4px;
-      min-height: 70px;
+      font-size:13px;
+      color:rgba(234,241,255,.92);
     }
-    .metric strong{
-      font-family:"Swiss911", sans-serif;
-      text-transform:uppercase;
-      letter-spacing:-0.02em;
-      font-size:20px;
-      color:#111;
-      line-height:0.95;
-    }
-    .metric span{
-      color: rgba(0,0,0,0.62);
-      font-size:12px;
-      line-height:1.3;
-    }
-    .cta-btn,
-    .ghost-btn{
-      text-decoration:none;
-      font-family: "GPMenu", system-ui, sans-serif;
-      font-size:12px;
-      letter-spacing:-0.02em;
-      text-transform:uppercase;
-      padding: 12px 18px 10px;
-      border-radius: 6px;
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
-    }
-    .cta-btn{
-      background: linear-gradient(135deg, var(--blue-top), var(--blue-bot));
-      color:#fff;
-      box-shadow:0 16px 34px rgba(47,107,255,0.45);
-    }
-    .ghost-btn{
-      border:1px solid rgba(0,0,0,0.14);
-      color: rgba(0,0,0,0.72);
-      background:#fff;
-    }
-
-    .info-list{
-      list-style:none;
+    .fun-badges strong{ color:#fff; font-family:"GPMenu", system-ui, sans-serif; font-size:12px; text-transform:uppercase; letter-spacing:.06em; margin-right:6px; }
+    .quick-grid{
       display:grid;
-      gap:10px;
-      color: rgba(0,0,0,0.68);
-      font-size:14px;
-      line-height:1.5;
-    }
-    .info-list strong{ color:#111; font-weight:600; }
-
-    .contact-pill{
-      align-self:flex-start;
-      padding:6px 12px 5px;
-      border-radius:6px;
-      background: rgba(47,107,255,0.08);
-      border:1px solid rgba(47,107,255,0.25);
-      color: rgba(0,0,0,0.7);
-      font-size:12px;
-    }
-
-    .contact-card-wide{ grid-column: 1 / -1; }
-
-    .split{
-      display:grid;
-      grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+      grid-template-columns: minmax(0,1fr) minmax(0,1fr);
       gap:16px;
-      align-items:stretch;
     }
-
+    .quick-actions{ display:flex; flex-wrap:wrap; gap:8px; }
+    .quick-chip{
+      border:1px solid rgba(0,0,0,.14);
+      background:#f4f6fa;
+      color:#111;
+      padding:8px 12px;
+      border-radius:999px;
+      font-size:12px;
+      text-transform:uppercase;
+      letter-spacing:.03em;
+      cursor:pointer;
+    }
+    .quick-chip:hover{ border-color:rgba(47,107,255,0.55); color:var(--accent); }
+    .info-list{ list-style:none; display:grid; gap:10px; color: rgba(0,0,0,0.68); font-size:14px; line-height:1.5; }
+    .info-list strong{ color:#111; font-weight:600; }
+    .contact-pill{ align-self:flex-start; padding:6px 12px 5px; border-radius:6px; background: rgba(47,107,255,0.08); border:1px solid rgba(47,107,255,0.25); color: rgba(0,0,0,0.7); font-size:12px; }
     .map-embed{
-      border-radius:10px;
-      overflow:hidden;
-      border:1px solid rgba(0,0,0,0.08);
-      min-height: 240px;
+      border-radius:10px; overflow:hidden; border:1px solid rgba(0,0,0,0.08); min-height: 240px;
     }
     .map-embed iframe{
       width:100%;
@@ -623,11 +548,7 @@
       display:block;
     }
 
-    .form-wrap{
-      display:grid;
-      grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
-      gap:24px;
-    }
+    .form-wrap{ display:grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); gap:24px; }
 
     .contact-form{
       display:grid;
@@ -637,6 +558,16 @@
 
     .field{ display:flex; flex-direction:column; gap:6px; }
     .field.full{ grid-column: 1 / -1; }
+    .field.checkbox label{
+      display:flex;
+      align-items:flex-start;
+      gap:8px;
+      text-transform:none;
+      letter-spacing:0;
+      font-family:inherit;
+      font-size:13px;
+      color:rgba(0,0,0,0.68);
+    }
     .field-row{
       grid-column: 1 / -1;
       display:grid;
@@ -709,12 +640,7 @@
       color: rgba(0,0,0,0.6);
     }
     .form-note a{ color:#111; text-decoration:none; }
-    .prep-list{
-      list-style:none;
-      display:grid;
-      gap:8px;
-      margin-top:4px;
-    }
+    .prep-list{ list-style:none; display:grid; gap:8px; margin-top:4px; }
     .prep-list li{
       position:relative;
       padding-left:22px;
@@ -733,6 +659,15 @@
       background: radial-gradient(circle at 30% 30%, #8fb2ff 0%, var(--accent) 65%, #2048b8 100%);
       box-shadow: 0 0 0 2px rgba(47,107,255,0.16);
     }
+    .faq-list{ display:grid; gap:10px; }
+    .faq-item{ border:1px solid rgba(0,0,0,.12); border-radius:8px; overflow:hidden; }
+    .faq-toggle{
+      width:100%; border:0; background:#fff; text-align:left; padding:12px 14px;
+      font-family:inherit; font-size:14px; color:#111; display:flex; align-items:center; justify-content:space-between; cursor:pointer;
+    }
+    .faq-toggle span{ font-family:"GPMenu", system-ui, sans-serif; font-size:12px; text-transform:uppercase; letter-spacing:.05em; color:rgba(0,0,0,.6); }
+    .faq-content{ display:none; padding:0 14px 12px; color:rgba(0,0,0,.68); font-size:14px; line-height:1.55; }
+    .faq-item.open .faq-content{ display:block; }
 
     /* =============================== */
     /* FOOTER */
@@ -921,17 +856,16 @@
         to{ opacity:1; transform: translate3d(0,0,0); filter: blur(0px); }
       }
 
-      .contact-grid{ grid-template-columns: minmax(0,1fr); }
-      .split{ grid-template-columns: minmax(0,1fr); }
+      .hero-grid,
+      .quick-grid{ grid-template-columns: minmax(0,1fr); }
       .form-wrap{ grid-template-columns: minmax(0,1fr); }
       .contact-form{ grid-template-columns: minmax(0,1fr); }
-      .hero-metrics{ grid-template-columns: minmax(0,1fr); }
       .field-row{ grid-template-columns: minmax(0,1fr); }
     }
 
     @media (max-width: 640px){
       .title-box span{ font-size:56px; }
-      .hero-title{ font-size:40px; }
+      .hero-title{ font-size:42px; }
       .cta-btn, .ghost-btn{ width:100%; justify-content:center; }
     }
 
@@ -944,38 +878,6 @@
 </head>
 
 <body>
-  <style>
-    .construction-overlay{position:fixed;inset:0;z-index:9999;display:grid;place-items:center;padding:20px;background:radial-gradient(circle at 20% 20%,rgba(47,107,255,.22),transparent 45%),radial-gradient(circle at 80% 12%,rgba(255,255,255,.15),transparent 40%),#0d101b}
-    .construction-card{width:min(720px,100%);padding:34px 26px;background:rgba(14,18,32,.93);border:1px solid rgba(130,170,255,.4);box-shadow:0 24px 60px rgba(0,0,0,.45);text-align:center}
-    .construction-logo{width:96px;height:96px;object-fit:contain;animation:logoFloat 2.3s ease-in-out infinite}
-    .construction-note{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:rgba(232,238,255,.74);margin-top:14px}
-    .construction-title{font-family:"Swiss911",sans-serif;font-size:56px;letter-spacing:-.02em;text-transform:uppercase;line-height:.86;margin:14px 0 10px}
-    .construction-sub{color:rgba(231,238,255,.88);line-height:1.55;max-width:580px;margin:0 auto 14px}
-    .creator-box{margin-top:8px;padding:14px;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.03)}
-    .creator-box h3{font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:rgba(214,226,255,.9);margin-bottom:10px}
-    .creator-row{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
-    .creator-row input{width:min(220px,100%);padding:10px 12px;border:1px solid rgba(130,170,255,.4);background:#0b1228;color:#fff;letter-spacing:.2em;text-align:center}
-    .creator-row button{padding:10px 12px;border:1px solid rgba(130,170,255,.5);background:linear-gradient(135deg,#2f6bff,#183775);color:#fff;text-transform:uppercase;letter-spacing:.08em;cursor:pointer}
-    .creator-status{margin-top:8px;font-size:12px;color:#ffccd2;min-height:16px}
-    .construction-overlay.is-hidden{display:none}
-    @keyframes logoFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
-  </style>
-  <div class="construction-overlay" id="constructionOverlay" aria-live="polite">
-    <div class="construction-card">
-      <img class="construction-logo" src="assets/images/apam-logo2.png" alt="APAM" />
-      <h2 class="construction-title">Page en construction</h2>
-      <p class="construction-sub">La page <strong>Contact</strong> est temporairement privée le temps de finaliser la version publique.</p>
-      <div class="construction-note">Code créateur</div>
-      <div class="creator-box">
-        <h3>Accès créateur</h3>
-        <div class="creator-row">
-          <input id="creatorCodeInput" type="password" inputmode="numeric" placeholder="Code d'accès" maxlength="4" />
-          <button id="creatorUnlockBtn" type="button">Entrer</button>
-        </div>
-        <div class="creator-status" id="creatorStatus"></div>
-      </div>
-    </div>
-  </div>
   <div class="page">
     <div class="content">
 
@@ -1103,34 +1005,31 @@
 
       <!-- CONTENT -->
       <main class="contact-wrap" aria-label="Contact APAM">
-        <section class="contact-card contact-hero contact-card-wide">
-          <div class="hero-kicker"><span class="hero-dot"></span>Contact & accès</div>
-          <div class="hero-title">Parlons de votre projet</div>
-          <p class="hero-text">
-            Formation, vol découverte, adhésion : envoyez-nous l’essentiel et vos disponibilités.
-            Nous revenons vers vous rapidement.
-          </p>
-          <div class="hero-metrics" aria-label="Informations clés">
-            <div class="metric">
-              <strong>&lt; 48h</strong>
-              <span>Délai de réponse habituel par e-mail.</span>
+        <section class="hero-grid">
+          <article class="contact-card contact-hero">
+            <div class="hero-kicker"><span class="hero-dot"></span>Contact APAM</div>
+            <div class="hero-title">Un message<br>et on décolle</div>
+            <p class="hero-text">
+              Tu veux découvrir le pilotage, reprendre les vols ou rejoindre le club ? Écris-nous avec ton besoin,
+              on t’oriente vers la bonne personne rapidement.
+            </p>
+            <div class="hero-actions">
+              <a class="cta-btn" href="mailto:aeroclubapam@gmail.com">Écrire au club</a>
+              <a class="ghost-btn" href="tel:+33123456789">Appeler APAM</a>
             </div>
-            <div class="metric">
-              <strong>LFOL</strong>
-              <span>Base APAM à l’aérodrome de L’Aigle.</span>
-            </div>
-            <div class="metric">
-              <strong>7j/7</strong>
-              <span>Activité dépendante météo et réservations.</span>
-            </div>
-          </div>
-          <div class="hero-actions">
-            <a class="cta-btn" href="mailto:aeroclubapam@gmail.com">Écrire un e-mail</a>
-            <a class="ghost-btn" href="tel:+33123456789">Appeler le club</a>
-          </div>
+          </article>
+          <article class="contact-card fun-card">
+            <h2>Pourquoi c'est cool de nous écrire ?</h2>
+            <ul class="fun-badges">
+              <li><strong>Rapide</strong> Réponse habituelle sous 24 à 48h.</li>
+              <li><strong>Simple</strong> Pas de jargon, juste des infos concrètes.</li>
+              <li><strong>Humain</strong> Tu échanges avec de vrais membres du club.</li>
+              <li><strong>Flexible</strong> On adapte selon météo et disponibilités.</li>
+            </ul>
+          </article>
         </section>
 
-        <section class="contact-grid">
+        <section class="quick-grid">
           <article class="contact-card">
             <h2>Coordonnées</h2>
             <ul class="info-list">
@@ -1138,45 +1037,47 @@
               <li><strong>Téléphone :</strong> 01 23 45 67 89</li>
               <li><strong>E-mail :</strong> <a href="mailto:aeroclubapam@gmail.com">aeroclubapam@gmail.com</a></li>
             </ul>
-            <span class="contact-pill">Préférence e-mail pour un premier contact.</span>
+            <span class="contact-pill">On recommande un premier contact par e-mail.</span>
           </article>
 
           <article class="contact-card">
-            <h2>Horaires & présence</h2>
-            <ul class="info-list">
-              <li><strong>Week-ends :</strong> présence assurée en journée.</li>
-              <li><strong>Semaine :</strong> vols sur réservation.</li>
-              <li><strong>Saisons :</strong> horaires ajustés selon météo.</li>
-            </ul>
-            <span class="contact-pill">Merci de confirmer votre venue avant déplacement.</span>
-          </article>
-
-          <article class="contact-card contact-card-wide">
-            <div class="split">
-              <div>
-                <h2>Venir à l’aéroclub</h2>
-                <p class="hero-text">
-                  Aérodrome de L’Aigle Saint-Michel, parking sur place. Accès aux zones aéronautiques
-                  accompagné par un membre du club.
-                </p>
-                <p class="hero-text">Signalez votre venue avant déplacement.</p>
-              </div>
-              <div class="map-embed" aria-label="Carte d’accès">
-                <iframe
-                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2623.4319488186267!2d0.0000000!3d48.7660000!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0000000000000000%3Aaerodrome!2sA%C3%A9rodrome%20de%20L%E2%80%99Aigle!5e0!3m2!1sfr!2sfr!4v1700000000000"
-                  loading="lazy"
-                  referrerpolicy="no-referrer-when-downgrade"
-                ></iframe>
-              </div>
+            <h2>Message express</h2>
+            <p class="hero-text">Clique sur une idée et on pré-remplit le formulaire automatiquement.</p>
+            <div class="quick-actions">
+              <button type="button" class="quick-chip" data-subject="Vol découverte / baptême" data-message="Bonjour, je souhaite réserver un vol découverte.">Vol découverte</button>
+              <button type="button" class="quick-chip" data-subject="Formation LAPL / PPL" data-message="Bonjour, je souhaite des informations sur la formation LAPL / PPL.">Formation</button>
+              <button type="button" class="quick-chip" data-subject="Adhésion au club" data-message="Bonjour, je souhaite rejoindre le club et connaître les étapes d'adhésion.">Adhésion</button>
+              <button type="button" class="quick-chip" data-subject="Information générale" data-message="Bonjour, j'ai une question générale concernant vos activités et disponibilités.">Question rapide</button>
             </div>
           </article>
+        </section>
 
-          <article class="contact-card contact-card-wide">
+        <article class="contact-card">
+          <div class="form-wrap">
+            <div>
+              <h2>Venir à l'aéroclub</h2>
+              <p class="hero-text">
+                Aérodrome de L’Aigle Saint-Michel, parking sur place. L’accès aux zones aéronautiques est accompagné
+                par un membre APAM.
+              </p>
+              <p class="hero-text">Préviens-nous avant de te déplacer pour qu'on t'accueille dans les meilleures conditions.</p>
+            </div>
+            <div class="map-embed" aria-label="Carte d’accès">
+              <iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2623.4319488186267!2d0.0000000!3d48.7660000!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0000000000000000%3Aaerodrome!2sA%C3%A9rodrome%20de%20L%E2%80%99Aigle!5e0!3m2!1sfr!2sfr!4v1700000000000"
+                loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade"
+              ></iframe>
+            </div>
+          </div>
+        </article>
+
+        <article class="contact-card">
             <div class="form-wrap">
               <div>
                 <h2>Envoyer un message</h2>
                 <p class="hero-text">
-                  Indiquez l’objet de votre demande et vos disponibilités pour une réponse rapide.
+                  Décris ton projet en quelques lignes, et on revient vers toi avec la meilleure option.
                 </p>
                 <ul class="prep-list" aria-label="Conseils pour un message efficace">
                   <li>Précisez le type de projet : formation, vol découverte, adhésion…</li>
@@ -1193,7 +1094,7 @@
                 </p>
               </div>
 
-              <form class="contact-form" action="mailto:aeroclubapam@gmail.com" method="post" enctype="text/plain">
+              <form class="contact-form" action="mailto:aeroclubapam@gmail.com" method="post" enctype="text/plain" id="contactForm">
                 <div class="field">
                   <label for="nom">Nom et prénom</label>
                   <input type="text" id="nom" name="Nom" required />
@@ -1239,7 +1140,7 @@
                   <textarea id="message" name="Message" required></textarea>
                 </div>
 
-                <div class="field full">
+                <div class="field full checkbox">
                   <label for="newsletter-optin">
                     <input type="checkbox" id="newsletter-optin" name="Newsletter" value="Oui" />
                     Je souhaite recevoir la newsletter de l'association (optionnel).
@@ -1248,9 +1149,26 @@
 
                 <button class="send-btn" type="submit">Envoyer</button>
               </form>
-                      </div>
-          </article>
-        </section>
+            </div>
+        </article>
+
+        <article class="contact-card">
+          <h2>Questions fréquentes</h2>
+          <div class="faq-list">
+            <div class="faq-item">
+              <button class="faq-toggle" type="button">Faut-il déjà avoir volé pour nous contacter ? <span>ouvrir</span></button>
+              <div class="faq-content">Pas du tout. On accompagne aussi bien les débutants complets que les pilotes en reprise.</div>
+            </div>
+            <div class="faq-item">
+              <button class="faq-toggle" type="button">Peut-on planifier un échange téléphonique ? <span>ouvrir</span></button>
+              <div class="faq-content">Oui, indique simplement tes créneaux préférés dans le formulaire et ton numéro.</div>
+            </div>
+            <div class="faq-item">
+              <button class="faq-toggle" type="button">Le club est-il actif toute l'année ? <span>ouvrir</span></button>
+              <div class="faq-content">Oui, avec des ajustements selon météo et disponibilité de la flotte/instructeurs.</div>
+            </div>
+          </div>
+        </article>
       </main>
 
       <!-- FOOTER -->
@@ -1343,36 +1261,27 @@
         });
       }, { threshold: 0.12 });
       cards.forEach(c => io.observe(c));
-    })();
-  </script>
 
-  <script>
-    (function(){
-      const ACCESS_CODE = '0318';
-      const STORAGE_KEY = 'apam_creator_access_contact';
-      const overlay = document.getElementById('constructionOverlay');
-      const input = document.getElementById('creatorCodeInput');
-      const unlockBtn = document.getElementById('creatorUnlockBtn');
-      const status = document.getElementById('creatorStatus');
+      const quickChips = Array.from(document.querySelectorAll('.quick-chip'));
+      const subject = document.getElementById('sujet');
+      const message = document.getElementById('message');
+      quickChips.forEach((chip) => {
+        chip.addEventListener('click', () => {
+          if(subject && chip.dataset.subject) subject.value = chip.dataset.subject;
+          if(message && chip.dataset.message) message.value = chip.dataset.message;
+          message?.focus();
+        });
+      });
 
-      if (!overlay) return;
-      if (window.sessionStorage.getItem(STORAGE_KEY) === 'ok') {
-        overlay.classList.add('is-hidden');
-        return;
-      }
-
-      function unlock(){
-        if ((input?.value || '').trim() === ACCESS_CODE) {
-          window.sessionStorage.setItem(STORAGE_KEY, 'ok');
-          overlay.classList.add('is-hidden');
-          return;
-        }
-        if (status) status.textContent = 'Code incorrect.';
-      }
-
-      unlockBtn?.addEventListener('click', unlock);
-      input?.addEventListener('keydown', (event) => {
-        if (event.key === 'Enter') unlock();
+      const faqToggles = Array.from(document.querySelectorAll('.faq-toggle'));
+      faqToggles.forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const item = btn.closest('.faq-item');
+          if(!item) return;
+          item.classList.toggle('open');
+          const badge = btn.querySelector('span');
+          if(badge) badge.textContent = item.classList.contains('open') ? 'fermer' : 'ouvrir';
+        });
       });
     })();
   </script>
