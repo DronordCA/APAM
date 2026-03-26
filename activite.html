@@ -2718,17 +2718,7 @@
         frame.addEventListener("mouseleave", startAuto);
       }
 
-      if (!folderId){
-        help.textContent = "La galerie photos est en cours de mise à jour.";
-        return;
-      }
-
-      const folderUrl = `https://drive.google.com/drive/folders/${folderId}`;
-      if (driveImages.length){
-        help.innerHTML = `Nouvelles photos disponibles : la galerie se met à jour régulièrement. <a href="${folderUrl}" target="_blank" rel="noopener noreferrer">Voir l’album complet</a>.`;
-      } else {
-        help.innerHTML = `Une sélection de photos est déjà disponible. L’album complet est consultable ici : <a href="${folderUrl}" target="_blank" rel="noopener noreferrer">Voir l’album complet</a>.`;
-      }
+      help.textContent = "";
     }
 
     /* ===============================
