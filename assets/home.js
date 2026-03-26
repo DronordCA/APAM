@@ -97,6 +97,13 @@
     return;
   }
 
+  if (!('IntersectionObserver' in window)) {
+    sections.forEach(revealSection);
+    revealQuote();
+    runCounters();
+    return;
+  }
+
   const observer = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
       if (!entry.isIntersecting) return;
@@ -117,12 +124,4 @@
 
   revealItems.forEach((item) => observer.observe(item));
 
-  window.setTimeout(() => {
-    revealItems.forEach((item) => {
-      if (!item.classList.contains('is-revealed')) item.classList.add('is-revealed');
-    });
-    sections.forEach((section) => section.classList.add('is-visible'));
-    if (!quoteText?.closest('.club-quote')?.classList.contains('is-animated')) revealQuote();
-    runCounters();
-  }, 1800);
 })();
