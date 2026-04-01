@@ -62,7 +62,10 @@
     if (countersStarted) return;
     countersStarted = true;
 
-    const duration = reducedMotion ? 0 : 2100;
+    const statsSection = document.getElementById('chiffres-club');
+    if (statsSection) statsSection.classList.add('counters-live');
+
+    const duration = reducedMotion ? 0 : 2200;
     const startTime = performance.now();
 
     const tick = (now) => {
@@ -76,6 +79,7 @@
       });
 
       if (progress < 1) window.requestAnimationFrame(tick);
+      else if (statsSection) setTimeout(() => statsSection.classList.remove('counters-live'), 520);
     };
 
     window.requestAnimationFrame(tick);
