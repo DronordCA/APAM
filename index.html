@@ -575,9 +575,9 @@
       padding: 10px 12px 8px;
 
       opacity: 0;
-      transform: translate3d(34px, 24px, 0) scale(0.97);
-      filter: blur(8px);
-      animation: infoIn .95s cubic-bezier(.16, 1, .22, 1) forwards;
+      transform: translate3d(0, 22px, 0);
+      filter: blur(7px);
+      animation: infoIn .85s cubic-bezier(.16, 1, .22, 1) forwards;
       animation-delay: .45s;
     }
 
@@ -589,9 +589,9 @@
       padding: 12px 14px 10px;
 
       opacity: 0;
-      transform: translate3d(44px, 26px, 0) scale(0.97);
-      filter: blur(9px);
-      animation: infoIn 1.02s cubic-bezier(.16, 1, .22, 1) forwards;
+      transform: translate3d(0, 24px, 0);
+      filter: blur(8px);
+      animation: infoIn .95s cubic-bezier(.16, 1, .22, 1) forwards;
       animation-delay: .58s;
     }
 
@@ -613,8 +613,8 @@
     .info-line.small { font-size: 20px; letter-spacing: 0.04em; }
 
     @keyframes infoIn {
-      62% { opacity: 1; transform: translate3d(-6px, -3px, 0) scale(1.02); filter: blur(0px); }
-      100% { opacity: 1; transform: translate3d(0, 0, 0) scale(1); filter: blur(0px); }
+      65% { opacity: 1; transform: translate3d(0, -4px, 0); filter: blur(0px); }
+      100% { opacity: 1; transform: translate3d(0, 0, 0); filter: blur(0px); }
     }
 
     /* =============================== */
@@ -1157,9 +1157,13 @@
             <a class="home-btn home-btn--ghost" id="waze-link" target="_blank" rel="noopener noreferrer">Waze</a>
           </div>
         </div>
-        <figure class="location-media" data-reveal-item>
-          <img src="https://loremflickr.com/1200/800/mont-saint-michel" alt="Mont Saint-Michel vu depuis la baie" loading="lazy" decoding="async" referrerpolicy="no-referrer">
-        </figure>
+        <aside class="location-card" data-reveal-item>
+          <h3>Normandie — Mont Saint-Michel</h3>
+          <p>Un symbole de la région, entre lumière, marées et patrimoine : une destination iconique à découvrir depuis notre base.</p>
+          <figure class="location-media">
+            <img src="https://loremflickr.com/1200/800/mont-saint-michel" alt="Mont Saint-Michel vu depuis la baie" loading="lazy" decoding="async" referrerpolicy="no-referrer">
+          </figure>
+        </aside>
       </div>
     </section>
 
@@ -1167,20 +1171,20 @@
       <div class="home-container reveal-track">
         <p class="home-kicker" data-reveal-item>Aéroclub APAM</p>
         <h2 id="chiffres-title" data-reveal-item>Chiffres du club</h2>
-        <div class="stats-grid stats-grid--intro">
-          <article class="stat-card" data-reveal-item>
+        <div class="stats-grid stats-grid--intro" data-reveal-item>
+          <article class="stat-card">
             <p class="stat-value" data-counter-target="120" data-counter-suffix="+">120+</p>
             <p class="stat-label">Membres actifs</p>
           </article>
-          <article class="stat-card" data-reveal-item>
+          <article class="stat-card">
             <p class="stat-value" data-counter-target="3">3</p>
             <p class="stat-label">Avions</p>
           </article>
-          <article class="stat-card" data-reveal-item>
+          <article class="stat-card">
             <p class="stat-value" data-counter-target="2300" data-counter-suffix=" h">2300 h</p>
             <p class="stat-label">Heures de vol / an</p>
           </article>
-          <article class="stat-card" data-reveal-item>
+          <article class="stat-card">
             <p class="stat-value" data-counter-target="65" data-counter-suffix="+">65+</p>
             <p class="stat-label">Années d’existence</p>
           </article>
@@ -1190,16 +1194,14 @@
 
     <section class="final-cta final-cta--light reveal-on-scroll" aria-labelledby="cta-title">
       <div class="home-container final-cta__inner reveal-track">
-        <article class="final-cta-panel" data-reveal-item>
-          <div class="final-cta-text">
-            <h2 id="cta-title" class="final-cta-title">Prêt à prendre les commandes ?</h2>
-            <p>Commencez votre parcours pilote ou venez découvrir l’ambiance APAM.</p>
-          </div>
-          <div class="home-actions final-cta-actions">
-            <a class="home-btn" href="devenir-pilote.html">Devenir pilote</a>
-            <a class="home-btn home-btn--ghost" href="contact.html">Nous contacter</a>
-          </div>
-        </article>
+        <div data-reveal-item>
+          <h2 id="cta-title">Prêt à prendre les commandes ?</h2>
+          <p>Commencez votre parcours pilote ou venez découvrir l’ambiance APAM.</p>
+        </div>
+        <div class="home-actions" data-reveal-item>
+          <a class="home-btn" href="devenir-pilote.html">Devenir pilote</a>
+          <a class="home-btn home-btn--ghost" href="contact.html">Nous contacter</a>
+        </div>
       </div>
     </section>
   </main>
