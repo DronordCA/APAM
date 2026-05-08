@@ -14,7 +14,7 @@
   --bg-2:   #0b0d13;
   --bg-3:   #0e1018;
   --bg-4:   #111420;
-  --surface:#14172200;
+  --surface:#141720;
   --sf:     #141720;
   --sf2:    #191d2c;
   --accent: #2563eb;
@@ -144,43 +144,63 @@ body:has(a:hover) .cur-ring,body:has(button:hover) .cur-ring{width:48px;height:4
   animation:scline 2.4s ease-in-out 2s infinite}
 @keyframes scline{0%,100%{opacity:.3;transform:scaleY(.88)}50%{opacity:1;transform:scaleY(1.1)}}
 
-/* ── HERO STRIP (compact panel) ─────────────────────── */
-.hero-strip{position:absolute;bottom:0;left:0;right:0;z-index:4;
-  opacity:0;animation:fadeUp .8s ease 1.3s forwards;
-  border-top:1px solid rgba(255,255,255,.08)}
-.strip-inner{display:grid;grid-template-columns:2fr 1fr 1fr;background:rgba(255,255,255,.045);gap:1px}
+/* ── HERO CHIPS ─────────────────────────────────────── */
+.hero-chips-wrap{position:absolute;bottom:clamp(58px,8vh,90px);left:var(--side);right:var(--side);
+  z-index:3;opacity:0;animation:fadeUp .8s cubic-bezier(.16,1,.3,1) 1.2s forwards}
+.hero-chips{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
 
-.hs{display:flex;align-items:center;gap:14px;
-  padding:14px 22px;text-decoration:none;color:var(--white);
-  background:rgba(8,10,14,.8);backdrop-filter:blur(22px) saturate(1.4);
-  -webkit-backdrop-filter:blur(22px) saturate(1.4);
-  position:relative;overflow:hidden;cursor:none;transition:background .28s}
-.hs::before{content:'';position:absolute;top:0;left:0;right:0;height:1.5px;
-  background:linear-gradient(to right,var(--accent),var(--acc2));
-  transform:scaleX(0);transform-origin:left;transition:transform .4s cubic-bezier(.16,1,.3,1)}
-.hs:hover{background:rgba(37,99,235,.1)}
-.hs:hover::before{transform:scaleX(1)}
-.hs-icon{flex-shrink:0;opacity:.38;transition:opacity .25s}
-.hs:hover .hs-icon{opacity:.72}
-.hs-icon svg{width:18px;height:18px;fill:var(--accent)}
-.hs-body{flex:1;min-width:0}
-.hs-label{font-size:8.5px;font-weight:700;letter-spacing:.26em;text-transform:uppercase;
-  color:rgba(255,255,255,.28);margin-bottom:1px}
-.hs-main{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}
-.hs-val{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;
-  font-size:22px;letter-spacing:-.01em;line-height:1;color:var(--white)}
-.hs-data{font-size:10px;font-weight:500;letter-spacing:.07em;color:rgba(255,255,255,.28)}
-.hs-sub{font-size:9.5px;color:rgba(255,255,255,.22);letter-spacing:.05em;margin-top:2px}
-.hs-dot{width:6px;height:6px;border-radius:50%;background:#22d77a;flex-shrink:0;
+.chip{display:inline-flex;align-items:center;gap:8px;
+  font-family:'Jost',sans-serif;font-size:10px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;
+  border:1px solid var(--bds);padding:7px 13px;
+  background:rgba(8,10,14,.52);backdrop-filter:blur(16px) saturate(1.4);
+  -webkit-backdrop-filter:blur(16px) saturate(1.4);
+  color:rgba(255,255,255,.5);cursor:pointer;white-space:nowrap;
+  transition:border-color .22s,background .22s,color .22s}
+.chip:hover{border-color:rgba(37,99,235,.4);color:#fff;background:rgba(37,99,235,.09)}
+.chip.on{border-color:rgba(37,99,235,.6);background:rgba(37,99,235,.16);color:#fff}
+.chip-dot{width:6px;height:6px;border-radius:50%;background:#22d77a;display:block;flex-shrink:0;
   animation:pulse 2.6s ease-in-out infinite}
-@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(34,215,122,.5)}50%{box-shadow:0 0 0 6px transparent}}
-.hs-badge{font-size:7.5px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;
-  color:var(--accent);background:var(--acc-d);border:1px solid rgba(37,99,235,.18);
-  padding:2px 7px;border-radius:100px}
-.hs-arrow{width:24px;height:24px;border:1px solid rgba(255,255,255,.1);border-radius:50%;
-  display:flex;align-items:center;justify-content:center;font-size:11px;color:rgba(255,255,255,.25);
-  flex-shrink:0;transition:background .22s,border-color .22s,color .22s,transform .22s}
-.hs:hover .hs-arrow{background:var(--accent);border-color:var(--accent);color:#fff;transform:rotate(-45deg)}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(34,215,122,.5)}50%{box-shadow:0 0 0 5px transparent}}
+.chip-plus{font-size:12px;line-height:1;color:rgba(255,255,255,.3);
+  transition:transform .28s cubic-bezier(.16,1,.3,1),color .22s;margin-left:1px}
+.chip.on .chip-plus{transform:rotate(45deg);color:rgba(255,255,255,.6)}
+
+/* ── CHIP DETAIL PANEL ──────────────────────────────── */
+.chip-panel{position:absolute;bottom:calc(100% + 12px);left:0;z-index:20;
+  background:rgba(9,12,20,.95);
+  backdrop-filter:blur(32px) saturate(1.6);-webkit-backdrop-filter:blur(32px) saturate(1.6);
+  border:1px solid var(--bds);min-width:255px;max-width:350px;
+  opacity:0;transform:translateY(10px) scale(.98);pointer-events:none;
+  transition:opacity .28s cubic-bezier(.16,1,.3,1),transform .32s cubic-bezier(.16,1,.3,1)}
+.chip-panel.open{opacity:1;transform:none;pointer-events:auto}
+
+.cp-head{display:flex;align-items:center;justify-content:space-between;
+  padding:11px 14px 10px;border-bottom:1px solid var(--border)}
+.cp-label{font-size:8.5px;font-weight:700;letter-spacing:.26em;text-transform:uppercase;color:var(--accent)}
+.cp-x{background:none;border:1px solid var(--border);width:20px;height:20px;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;font-size:10px;
+  color:rgba(255,255,255,.35);transition:border-color .2s,color .2s;flex-shrink:0}
+.cp-x:hover{border-color:var(--accent);color:#fff}
+
+.cp-body{padding:14px 14px 16px;display:flex;flex-direction:column;gap:8px}
+.cp-val{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;
+  font-size:42px;line-height:1;letter-spacing:-.02em;color:var(--white)}
+.cp-sub{font-size:11px;color:var(--muted)}
+.cp-live{display:flex;align-items:center;gap:6px;font-size:10.5px;font-weight:600;color:#22d77a;margin-top:1px}
+.cp-live i{width:5px;height:5px;border-radius:50%;background:#22d77a;display:block;animation:pulse 2.6s ease-in-out infinite}
+.cp-rows{display:flex;flex-direction:column;border-top:1px solid var(--border);margin-top:4px}
+.cp-row{display:flex;align-items:center;justify-content:space-between;
+  padding:7px 0;border-bottom:1px solid var(--border)}
+.cp-row:last-child{border-bottom:none;padding-bottom:2px}
+.cp-rl{font-size:8.5px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
+.cp-rv{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:15px;
+  letter-spacing:.04em;color:rgba(255,255,255,.85)}
+.cp-cam{width:100%;aspect-ratio:16/9;background:rgba(255,255,255,.03);
+  border:1px solid var(--border);display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:8px;color:var(--muted);margin-top:2px}
+.cp-cam svg{opacity:.4}
+.cp-cam span{font-size:9px;letter-spacing:.16em;text-transform:uppercase}
+.cp-cam iframe,.cp-cam video{width:100%;height:100%;border:none;display:block}
 
 /* ── TICKER ─────────────────────────────────────────── */
 .ticker{overflow:hidden;background:var(--accent);padding:11px 0;border-bottom:1px solid rgba(255,255,255,.08)}
@@ -573,40 +593,27 @@ body:has(a:hover) .cur-ring,body:has(button:hover) .cur-ring{width:48px;height:4
     </a>
   </div>
 
-  <a class="scroll-cue" href="#quote"><span>Défiler</span><div class="scroll-line"></div></a>
 
-  <!-- Compact strip -->
-  <div class="hero-strip">
-    <div class="strip-inner">
-      <a class="hs" href="contact.html">
-        <span class="hs-dot"></span>
-        <div class="hs-body">
-          <div class="hs-label">Terrain actif</div>
-          <div class="hs-main">
-            <span class="hs-val">LFOL</span>
-            <span class="hs-data">07/25 · En dur 800m · 126.855 MHz</span>
-          </div>
-        </div>
-        <span class="hs-arrow">→</span>
-      </a>
-      <a class="hs" href="devenir-pilote.html">
-        <svg class="hs-icon" viewBox="0 0 20 20" fill="none"><path d="M2 13Q7 9 10 10.5Q13 12 18 6.5L17 5.5Q14 11 10 9.5Q7 8 2 12Z" fill="currentColor"/></svg>
-        <div class="hs-body">
-          <div class="hs-label">Formation</div>
-          <div class="hs-main"><span class="hs-val">PPL</span><span class="hs-badge">EASA</span></div>
-          <div class="hs-sub">Brevet pilote privé · dès 45 h</div>
-        </div>
-        <span class="hs-arrow">→</span>
-      </a>
-      <a class="hs" href="devenir-pilote.html">
-        <svg class="hs-icon" viewBox="0 0 20 20" fill="none"><path d="M2 13Q7 9 10 10.5Q13 12 18 6.5L17 5.5Q14 11 10 9.5Q7 8 2 12Z" fill="currentColor"/></svg>
-        <div class="hs-body">
-          <div class="hs-label">Formation</div>
-          <div class="hs-main"><span class="hs-val">LAPL</span><span class="hs-badge">Dès 16 ans</span></div>
-          <div class="hs-sub">Licence loisir · dès 30 h</div>
-        </div>
-        <span class="hs-arrow">→</span>
-      </a>
+  <!-- Info chips -->
+  <div class="hero-chips-wrap">
+    <!-- Detail panel (appears above chips on click) -->
+    <div class="chip-panel" id="chip-panel">
+      <div class="cp-head">
+        <span class="cp-label" id="cp-label">—</span>
+        <button class="cp-x" id="cp-close" aria-label="Fermer">✕</button>
+      </div>
+      <div class="cp-body" id="cp-body"></div>
+    </div>
+    <!-- Chips row -->
+    <div class="hero-chips">
+      <button class="chip" data-chip="terrain"><span class="chip-dot"></span>Terrain actif<span class="chip-plus">+</span></button>
+      <button class="chip" data-chip="piste">Piste 07/25<span class="chip-plus">+</span></button>
+      <button class="chip" data-chip="ppl">Formation PPL<span class="chip-plus">+</span></button>
+      <button class="chip" data-chip="lapl">Formation LAPL<span class="chip-plus">+</span></button>
+      <button class="chip" data-chip="webcam">
+        <svg width="11" height="11" viewBox="0 0 16 16" fill="currentColor" style="flex-shrink:0"><circle cx="8" cy="8" r="3"/><circle cx="8" cy="8" r="5.5" fill="none" stroke="currentColor" stroke-width="1.5"/><rect x="12" y="5.5" width="3" height="5" rx=".5"/></svg>
+        Webcam<span class="chip-plus">+</span>
+      </button>
     </div>
   </div>
 </section>
@@ -928,10 +935,91 @@ document.querySelectorAll('.split-word').forEach(word=>{
   }).join('');
 });
 
-/* Ticker */
-const items=['APAM','LFOL · L\'Aigle','Normandie','Formation PPL','Formation LAPL','Piste 07/25','Terrain actif','126.855 MHz','Cessna 152','TB200','Cirrus SR20','Dès 16 ans'];
-const track=document.getElementById('ticker-track');
-[...items,...items].forEach(t=>{const s=document.createElement('span');s.className='ticker-item';s.textContent=t;track.appendChild(s);});
+/* Ticker — METAR LFOE live */
+(async()=>{
+  const track=document.getElementById('ticker-track');
+  const STA='LFOE';
+
+  const mk=(txt,sta)=>{
+    const s=document.createElement('span');
+    s.className='ticker-item';
+    if(sta){s.style.color='#fff';s.style.fontWeight='900';s.style.letterSpacing='.28em';}
+    s.textContent=txt;
+    return s;
+  };
+
+  track.appendChild(mk('METAR · '+STA+' · Chargement…'));
+
+  const base=`https://aviationweather.gov/api/data/metar?ids=${STA}&format=json&taf=false`;
+  const urls=[
+    `https://corsproxy.io/?${encodeURIComponent(base)}`,
+    `https://api.allorigins.win/raw?url=${encodeURIComponent(base)}`,
+    `https://thingproxy.freeboard.io/fetch/${base}`,
+    base
+  ];
+
+  const race=(url)=>Promise.race([
+    fetch(url).then(r=>r.json()),
+    new Promise((_,rj)=>setTimeout(()=>rj('timeout'),6000))
+  ]);
+
+  let m=null;
+  for(const url of urls){
+    try{
+      const j=await race(url);
+      const arr=Array.isArray(j)?j:(Array.isArray(j.data)?j.data:(j.rawOb?[j]:null));
+      if(arr&&arr[0]&&arr[0].rawOb){m=arr[0];break;}
+    }catch{}
+  }
+
+  if(!m){
+    track.innerHTML='';
+    track.style.animationDuration='30s';
+    const fb=[{t:'METAR · '+STA,s:1},{t:'Météo indisponible pour l\'instant'},{t:'APAM · LFOL · L\'Aigle · Normandie'},{t:'Fréquence 126.855 MHz'},{t:'Piste 07/25 · En dur 800 m'}];
+    [...fb,...fb].forEach(({t,s})=>track.appendChild(mk(t,s)));
+    return;
+  }
+
+  const raw=m.rawOb.trim();
+  const items=[];
+
+  items.push({t:'METAR · '+STA, s:1});
+  items.push({t:raw});
+
+  const wm=raw.match(/(\d{3}|VRB)(\d{2,3})(G(\d{2,3}))?KT/);
+  if(wm){
+    const dir=wm[1]==='VRB'?'Variable':wm[1]+'°';
+    const gust=wm[4]?' rafales '+parseInt(wm[4])+' kt':'';
+    items.push({t:'Vent '+dir+' / '+parseInt(wm[2])+' kt'+gust});
+  }
+
+  if(/\bCAVOK\b/.test(raw)){
+    items.push({t:'CAVOK · Ciel dégagé'});
+  } else {
+    const vm=raw.match(/\b(\d{4})\b/);
+    if(vm) items.push({t:'Visibilité '+(parseInt(vm[1])>=9999?'≥ 10 km':vm[1]+' m')});
+  }
+
+  const cls=raw.match(/(FEW|SCT|BKN|OVC)\d{3}/g)||[];
+  if(cls.length) items.push({t:'Nuages '+cls.map(c=>c.slice(0,3)+' '+(parseInt(c.slice(-3))*100)+' ft').join(' · ')});
+
+  const tm=raw.match(/(M?\d{2})\/(M?\d{2})/);
+  if(tm) items.push({t:'T '+tm[1].replace('M','−')+'°C  ·  Td '+tm[2].replace('M','−')+'°C'});
+
+  const qm=raw.match(/Q(\d{4})/);
+  if(qm) items.push({t:'QNH '+qm[1]+' hPa'});
+
+  ['NOSIG','BECMG','TEMPO'].forEach(k=>{if(raw.includes(k)) items.push({t:'Tendance '+k});});
+
+  if(m.reportTime){
+    const dt=new Date(m.reportTime);
+    items.push({t:'Obs. '+dt.getUTCHours().toString().padStart(2,'0')+'h'+dt.getUTCMinutes().toString().padStart(2,'0')+' UTC'});
+  }
+
+  track.innerHTML='';
+  track.style.animationDuration='46s';
+  [...items,...items].forEach(({t,s})=>track.appendChild(mk(t,s)));
+})();
 
 /* Parallax hero */
 const heroBg=document.getElementById('hero-bg');
@@ -1009,6 +1097,96 @@ document.querySelectorAll('a[href^="#"]').forEach(a=>{
     const t=document.querySelector(a.getAttribute('href'));
     if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth',block:'start'});}
   });
+});
+
+/* ─ Chip detail panels ───────────────────────────── */
+const CHIPS={
+  terrain:{label:'Terrain actif',body:`
+    <div class="cp-val">LFOL</div>
+    <div class="cp-live"><i></i>Actif · Non contrôlé</div>
+    <div class="cp-rows">
+      <div class="cp-row"><span class="cp-rl">Fréquence</span><span class="cp-rv">126.855 MHz</span></div>
+      <div class="cp-row"><span class="cp-rl">Type</span><span class="cp-rv">VFR · PPR</span></div>
+      <div class="cp-row"><span class="cp-rl">Altitude</span><span class="cp-rv">597 ft · 182 m</span></div>
+      <div class="cp-row"><span class="cp-rl">Région</span><span class="cp-rv">Normandie · Orne</span></div>
+    </div>`},
+  piste:{label:'Piste 07/25',body:`
+    <div class="cp-val">07/25</div>
+    <div class="cp-sub">Piste principale en béton</div>
+    <div class="cp-rows">
+      <div class="cp-row"><span class="cp-rl">Longueur</span><span class="cp-rv">800 m</span></div>
+      <div class="cp-row"><span class="cp-rl">Largeur</span><span class="cp-rv">30 m</span></div>
+      <div class="cp-row"><span class="cp-rl">QFU</span><span class="cp-rv">072° / 252°</span></div>
+      <div class="cp-row"><span class="cp-rl">Surface</span><span class="cp-rv">Béton · En dur</span></div>
+    </div>`},
+  ppl:{label:'Formation PPL',body:`
+    <div class="cp-val">PPL</div>
+    <div class="cp-sub">Brevet pilote privé EASA</div>
+    <div class="cp-rows">
+      <div class="cp-row"><span class="cp-rl">Durée minimale</span><span class="cp-rv">45 h de vol</span></div>
+      <div class="cp-row"><span class="cp-rl">Âge minimum</span><span class="cp-rv">17 ans</span></div>
+      <div class="cp-row"><span class="cp-rl">Vol de nuit</span><span class="cp-rv">Possible</span></div>
+      <div class="cp-row"><span class="cp-rl">Validité</span><span class="cp-rv">Europe · EASA</span></div>
+    </div>`},
+  lapl:{label:'Formation LAPL',body:`
+    <div class="cp-val">LAPL</div>
+    <div class="cp-sub">Licence de pilote loisir</div>
+    <div class="cp-rows">
+      <div class="cp-row"><span class="cp-rl">Durée minimale</span><span class="cp-rv">30 h de vol</span></div>
+      <div class="cp-row"><span class="cp-rl">Âge minimum</span><span class="cp-rv">16 ans</span></div>
+      <div class="cp-row"><span class="cp-rl">Financement</span><span class="cp-rv">CPF éligible</span></div>
+      <div class="cp-row"><span class="cp-rl">Zone de vol</span><span class="cp-rv">VFR de jour</span></div>
+    </div>`},
+  webcam:{label:'Webcam LFOL',body:`
+    <div style="display:flex;flex-direction:column;gap:10px">
+      <div class="cp-rows" style="margin-top:0">
+        <div class="cp-row"><span class="cp-rl">ID virtuel</span><span class="cp-rv" style="font-size:11px;letter-spacing:.04em;font-family:'Jost',sans-serif;word-break:break-all">bf3b2814f064a7eb1dune3</span></div>
+        <div class="cp-row"><span class="cp-rl">IP</span><span class="cp-rv">89.157.0.*</span></div>
+        <div class="cp-row"><span class="cp-rl">Signal</span><span class="cp-rv">32 %</span></div>
+        <div class="cp-row"><span class="cp-rl">Fuseau</span><span class="cp-rv">Europe / Paris</span></div>
+      </div>
+      <div class="cp-cam" style="margin-top:2px">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><rect x="2" y="7" width="15" height="10" rx="1.5"/><path d="M17 9.5l5-2.5v10l-5-2.5"/></svg>
+        <span>URL de flux à configurer</span>
+      </div>
+    </div>`}
+};
+
+const cpPanel=document.getElementById('chip-panel');
+const cpLabel=document.getElementById('cp-label');
+const cpBody=document.getElementById('cp-body');
+const cpClose=document.getElementById('cp-close');
+let activeChip=null;
+
+document.querySelectorAll('.chip[data-chip]').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const d=CHIPS[btn.dataset.chip];
+    if(!d) return;
+    if(btn===activeChip){
+      cpPanel.classList.remove('open');
+      btn.classList.remove('on');
+      activeChip=null;
+    } else {
+      if(activeChip) activeChip.classList.remove('on');
+      btn.classList.add('on');
+      activeChip=btn;
+      cpLabel.textContent=d.label;
+      cpBody.innerHTML=d.body;
+      cpPanel.classList.add('open');
+    }
+  });
+});
+cpClose?.addEventListener('click',()=>{
+  cpPanel.classList.remove('open');
+  if(activeChip){activeChip.classList.remove('on');activeChip=null;}
+});
+// Close on outside click
+document.addEventListener('click',e=>{
+  if(activeChip && !e.target.closest('.hero-chips-wrap')){
+    cpPanel.classList.remove('open');
+    activeChip.classList.remove('on');
+    activeChip=null;
+  }
 });
 
 })();
