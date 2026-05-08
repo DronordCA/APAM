@@ -86,7 +86,8 @@ body:has(a:hover) .cur-ring,body:has(button:hover) .cur-ring{width:48px;height:4
   background-image:linear-gradient(rgba(37,99,235,.032) 1px,transparent 1px),linear-gradient(90deg,rgba(37,99,235,.032) 1px,transparent 1px);
   background-size:64px 64px;mask-image:linear-gradient(140deg,transparent 25%,rgba(0,0,0,.4) 60%,transparent 100%)}
 .hero-inner{position:relative;z-index:3;flex:1;display:flex;flex-direction:column;justify-content:center;
-  padding:calc(var(--nav-h)+clamp(20px,5vh,60px)) var(--side) clamp(180px,22vh,240px)}
+  padding:calc(var(--nav-h)+clamp(20px,5vh,60px)) var(--side) clamp(180px,22vh,240px);
+  padding-left:clamp(48px,9vw,130px)}
 .hero-eyebrow{font-size:10px;font-weight:700;letter-spacing:.32em;text-transform:uppercase;color:var(--accent);
   display:flex;align-items:center;gap:12px;margin-bottom:24px;opacity:0;transform:translateY(8px);animation:fadeUp .7s ease .5s forwards}
 .hero-eyebrow::before{content:'';width:28px;height:1px;background:var(--accent);flex-shrink:0}
@@ -685,7 +686,7 @@ if(destScroll){
 
 /* Chip panels */
 const CHIPS={
-  terrain:{label:'Terrain actif',body:`<div class="cp-rows"><div class="cp-row"><span class="cp-rl">Identifiant</span><span class="cp-rv">LFOL</span></div><div class="cp-row"><span class="cp-rl">Fréquence</span><span class="cp-rv">126.855 MHz</span></div><div class="cp-row"><span class="cp-rl">Altitude</span><span class="cp-rv">597 ft · 182 m</span></div><div class="cp-row"><span class="cp-rl">Type</span><span class="cp-rv">VFR · Non contrôlé</span></div></div>`},
+  terrain:{label:'Terrain actif',get body(){return window._terrainPanel||`<div class="cp-rows"><div class="cp-row"><span class="cp-rl">Identifiant</span><span class="cp-rv">LFOL</span></div><div class="cp-row"><span class="cp-rl">Fréquence</span><span class="cp-rv">126.855 MHz</span></div><div class="cp-row"><span class="cp-rl">Altitude</span><span class="cp-rv">597 ft · 182 m</span></div><div class="cp-row"><span class="cp-rl">Type</span><span class="cp-rv">VFR · Non contrôlé</span></div></div>`}},
   piste:{label:'Piste 07/25',body:`<div class="cp-val">07/25</div><div class="cp-sub">Piste principale en béton</div><div class="cp-rows"><div class="cp-row"><span class="cp-rl">Longueur</span><span class="cp-rv">800 m</span></div><div class="cp-row"><span class="cp-rl">Largeur</span><span class="cp-rv">30 m</span></div><div class="cp-row"><span class="cp-rl">QFU</span><span class="cp-rv">072° / 252°</span></div><div class="cp-row"><span class="cp-rl">Surface</span><span class="cp-rv">Béton · En dur</span></div></div>`},
   ppl:{label:'Formation PPL',body:`<div class="cp-val">PPL</div><div class="cp-sub">Brevet pilote privé EASA</div><div class="cp-rows"><div class="cp-row"><span class="cp-rl">Durée minimale</span><span class="cp-rv">45 h de vol</span></div><div class="cp-row"><span class="cp-rl">Âge minimum</span><span class="cp-rv">17 ans</span></div><div class="cp-row"><span class="cp-rl">Vol de nuit</span><span class="cp-rv">Possible</span></div><div class="cp-row"><span class="cp-rl">Validité</span><span class="cp-rv">Europe · EASA</span></div></div>`},
   lapl:{label:'Formation LAPL',body:`<div class="cp-val">LAPL</div><div class="cp-sub">Licence de pilote loisir</div><div class="cp-rows"><div class="cp-row"><span class="cp-rl">Durée minimale</span><span class="cp-rv">30 h de vol</span></div><div class="cp-row"><span class="cp-rl">Âge minimum</span><span class="cp-rv">16 ans</span></div><div class="cp-row"><span class="cp-rl">Financement</span><span class="cp-rv">CPF éligible</span></div><div class="cp-row"><span class="cp-rl">Zone de vol</span><span class="cp-rv">VFR de jour</span></div></div>`},
