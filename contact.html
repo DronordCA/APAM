@@ -1,1294 +1,529 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8" />
-  <title>APAM – Contact</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link rel="icon" type="image/png" sizes="32x32" href="assets/images/apam-logo2.png" />
-  <link rel="shortcut icon" href="assets/images/apam-logo2.png" />
+<meta charset="UTF-8"/>
+<title>Contact – APAM · L'Aigle Saint-Michel</title>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<meta name="description" content="Contactez l'APAM à L'Aigle Saint-Michel. Formulaire, coordonnées, accès au terrain LFOL et FAQ.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,400;0,600;0,700;0,900;1,400;1,700;1,900&family=Jost:wght@300;400;500;600;700&family=Lora:ital,wght@1,400;1,500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/site.css">
+<style>
+/* ───── Contact — page styles ───── */
 
-  <style>
-    /* =============================== */
-    /* FONTS */
-    /* =============================== */
-    @font-face {
-      font-family: "GPMenu";
-      src: url("assets/fonts/Helvetica Neue LT Pro 93 Black Extended.otf") format("opentype");
-      font-weight: 900;
-      font-style: normal;
-    }
-    @font-face {
-      font-family: "Swiss911";
-      src: url("assets/fonts/Swiss911-ExtraCompressed.otf") format("opentype");
-      font-weight: normal;
-      font-style: normal;
-    }
+.c-hero{position:relative;padding:calc(var(--nav-h) + clamp(80px,14vh,170px)) 0 clamp(48px,8vh,100px);overflow:hidden;border-bottom:1px solid var(--border)}
+.c-hero::before{content:'';position:absolute;inset:0;background:radial-gradient(60% 50% at 80% 20%,rgba(37,99,235,.14),transparent 65%);pointer-events:none}
+.c-hero-grid{position:absolute;inset:0;
+  background-image:linear-gradient(rgba(37,99,235,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(37,99,235,.03) 1px,transparent 1px);
+  background-size:64px 64px;
+  mask-image:linear-gradient(150deg,rgba(0,0,0,.6) 10%,transparent 70%);
+  -webkit-mask-image:linear-gradient(150deg,rgba(0,0,0,.6) 10%,transparent 70%);pointer-events:none}
+.c-hero-inner{position:relative;z-index:1;display:grid;grid-template-columns:1.2fr 1fr;gap:60px;align-items:end}
+.c-hero-l{display:flex;flex-direction:column;gap:14px}
+.c-hero-title{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:clamp(64px,11vw,170px);line-height:.84;letter-spacing:-.018em;text-transform:uppercase;color:#fff}
+.c-hero-title .ol{color:transparent;-webkit-text-stroke:1.5px rgba(255,255,255,.3)}
+.c-hero-sub{font-family:'Lora',serif;font-style:italic;font-size:clamp(17px,1.8vw,21px);line-height:1.55;color:rgba(255,255,255,.74);max-width:480px;margin-top:8px}
 
-    :root{
-      --page-side-margin: 60px;
-      --header-height: 50px;
-      --header-font-size: 15px;
-      --header-letter-spacing: 0.04em;
-      --logo-height: 100px;
-      --gap-logo-header: 62px;
-      --header-grey: #222;
+.c-hero-r{display:flex;flex-direction:column;gap:14px;padding-bottom:8px}
+.c-hero-qcard{background:rgba(255,255,255,.025);border:1px solid var(--bds);border-radius:var(--rl);padding:22px 24px;display:flex;flex-direction:column;gap:8px;transition:border-color .3s,background .3s}
+.c-hero-qcard:hover{border-color:rgba(37,99,235,.4);background:rgba(37,99,235,.04)}
+.c-hero-qcard .l{font-size:9px;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:var(--accent)}
+.c-hero-qcard .v{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:24px;color:#fff;letter-spacing:-.005em;line-height:1.1}
+.c-hero-qcard .v small{display:block;font-family:'Jost',sans-serif;font-size:12px;color:var(--muted);font-weight:400;letter-spacing:0;text-transform:none;font-style:normal;margin-top:4px}
 
-      --accent: #2f6bff;
+/* MAIN GRID — form + side info */
+.sec-main{background:var(--bg);border-bottom:1px solid var(--border)}
+.cont-grid{display:grid;grid-template-columns:1.4fr 1fr;gap:64px;align-items:start}
 
-      --panel-w: 200px;
-      --drop-card-h: 100px;
+/* Form */
+.cont-form-wrap{background:var(--sf);border:1px solid var(--border);border-radius:var(--rxl);padding:clamp(28px,4vw,48px);position:relative;overflow:hidden}
+.cont-form-wrap::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(to right,var(--accent),transparent 50%)}
+.cont-form-head{display:flex;align-items:flex-start;justify-content:space-between;gap:18px;margin-bottom:32px;padding-bottom:24px;border-bottom:1px solid var(--border)}
+.cont-form-head h3{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:clamp(28px,3vw,40px);line-height:.96;text-transform:uppercase;color:#fff;letter-spacing:-.01em}
+.cont-form-head .stamp{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);border:1px solid rgba(37,99,235,.3);background:var(--acc-d);padding:5px 10px;border-radius:4px;align-self:flex-start;white-space:nowrap}
 
-      --panel-bg: #222;
-      --panel-border: rgba(255,255,255,0.10);
-      --drop-card-bg: #2a2a2a;
-      --drop-card-border: rgba(255,255,255,0.10);
+.cont-form{display:flex;flex-direction:column;gap:18px}
+.cont-form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.subject-pills{display:flex;flex-wrap:wrap;gap:8px;margin-top:4px}
+.sub-pill{background:rgba(255,255,255,.025);border:1px solid var(--bds);color:rgba(255,255,255,.6);font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:12px;letter-spacing:.1em;text-transform:uppercase;padding:9px 16px;cursor:pointer;transition:border-color .25s,background .25s,color .25s;border-radius:100px}
+.sub-pill:hover{border-color:rgba(37,99,235,.45);color:#fff}
+.sub-pill.on{border-color:var(--accent);background:var(--acc-d);color:#fff}
 
-      --m-side: 18px;
+.cont-form-foot{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-top:14px;padding-top:24px;border-top:1px solid var(--border)}
+.cont-rgpd{font-size:11px;color:var(--muted);line-height:1.6;max-width:380px}
+.cont-rgpd a{color:var(--accent)}
 
-      /* Layout */
-      --outer-x: 26px;
-      --gap-x: 16px;
-      --gap-y: 16px;
-      --grid-max: 1200px;
+.cont-form-success{display:none;flex-direction:column;align-items:center;text-align:center;gap:14px;padding:40px 20px}
+.cont-form-success.on{display:flex}
+.cont-form-success .ic{width:64px;height:64px;border-radius:50%;background:var(--acc-d);border:1px solid rgba(37,99,235,.4);display:flex;align-items:center;justify-content:center;font-size:28px;color:var(--accent)}
+.cont-form-success h4{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:32px;text-transform:uppercase;color:#fff;letter-spacing:-.01em}
+.cont-form-success p{font-size:14px;color:var(--muted);max-width:380px;line-height:1.7}
+.cont-form.hidden{display:none}
 
-      /* Cards */
-      --card-bg: rgba(18,18,18,0.92);
-      --card-border: rgba(255,255,255,0.08);
-      --card-shadow: 0 30px 90px rgba(0,0,0,0.35);
+/* Side info */
+.cont-side{display:flex;flex-direction:column;gap:18px;position:sticky;top:100px}
+.cont-side-card{background:var(--sf);border:1px solid var(--border);border-radius:var(--rl);padding:24px 26px;transition:border-color .3s}
+.cont-side-card:hover{border-color:rgba(37,99,235,.32)}
+.cont-side-card .hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;padding-bottom:12px;border-bottom:1px solid var(--border)}
+.cont-side-card h4{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:14px;letter-spacing:.18em;text-transform:uppercase;color:#fff}
+.cont-side-card .ico{width:34px;height:34px;border:1px solid var(--bds);border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--accent)}
+.cont-side-card .ico svg{width:15px;height:15px;fill:currentColor}
+.cs-row{padding:9px 0;border-bottom:1px dashed rgba(255,255,255,.05);display:flex;align-items:baseline;justify-content:space-between;gap:14px}
+.cs-row:last-child{border-bottom:none}
+.cs-row .l{font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.45);white-space:nowrap;flex-shrink:0}
+.cs-row .v{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:15px;letter-spacing:.04em;color:#fff;text-align:right}
+.cs-row .v a{color:#fff;transition:color .2s}
+.cs-row .v a:hover{color:var(--accent)}
+.cs-row .v em{color:var(--accent);font-style:normal}
+.cs-row .v.ok{color:var(--ok)}
 
-      /* Blue band */
-      --blue-top: #2f6bff;
-      --blue-bot: #1b45e8;
-    }
+.cs-row .dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--ok);margin-right:8px;animation:pulse 2.6s ease-in-out infinite;vertical-align:middle}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(34,215,122,.5)}50%{box-shadow:0 0 0 5px transparent}}
 
-    *{ box-sizing:border-box; margin:0; padding:0; }
-    html, body{ height:100%; }
-    body{
-      background:#101012;
-      overflow-x:hidden;
-      font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
-      color:#fff;
-    }
+/* MAP / ACCESS */
+.sec-map{background:var(--bg-2);border-bottom:1px solid var(--border);position:relative;overflow:hidden}
+.map-head{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;flex-wrap:wrap;margin-bottom:48px}
+.map-grid{display:grid;grid-template-columns:1fr 1.2fr;gap:36px;align-items:stretch}
 
-    /* =============================== */
-    /* PAGE BG */
-    /* =============================== */
-    .page{
-      min-height: 100svh;
-      position: relative;
-      background: #141417;
-    }
-    .page::before{
-      content:"";
-      position:absolute; inset:0;
-      background:
-        radial-gradient(circle at 20% 18%, rgba(255,255,255,0.06) 0%, rgba(255,255,255,0) 55%),
-        radial-gradient(circle at 80% 30%, rgba(47,107,255,0.08) 0%, rgba(47,107,255,0) 52%);
-      opacity: .55;
-      pointer-events:none;
-    }
-    .content{ position: relative; z-index: 2; }
+/* Stylized chart-style map */
+.map-canvas{position:relative;border:1px solid var(--bds-2);border-radius:var(--rl);overflow:hidden;min-height:520px;background:linear-gradient(135deg,#0e1424 0%,#080a0e 100%)}
+.map-bg-grid{position:absolute;inset:0;
+  background-image:
+    linear-gradient(rgba(37,99,235,.06) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(37,99,235,.06) 1px,transparent 1px),
+    linear-gradient(rgba(37,99,235,.025) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(37,99,235,.025) 1px,transparent 1px);
+  background-size:80px 80px,80px 80px,16px 16px,16px 16px}
+.map-bg-glow{position:absolute;width:60%;height:60%;left:50%;top:50%;transform:translate(-50%,-50%);background:radial-gradient(circle,rgba(37,99,235,.18),transparent 70%);animation:rad 4s ease-in-out infinite}
+@keyframes rad{0%,100%{opacity:.6;transform:translate(-50%,-50%) scale(.95)}50%{opacity:1;transform:translate(-50%,-50%) scale(1.1)}}
+.map-radial{position:absolute;left:54%;top:46%;width:1px;height:1px;border-radius:50%;border:1px solid rgba(37,99,235,.3);box-shadow:0 0 0 60px rgba(37,99,235,.05),0 0 0 130px rgba(37,99,235,.04),0 0 0 200px rgba(37,99,235,.03)}
+.map-pin{position:absolute;left:54%;top:46%;width:20px;height:20px;border-radius:50%;background:#fff;border:5px solid var(--accent);box-shadow:0 0 0 10px rgba(37,99,235,.3),0 4px 12px rgba(0,0,0,.6);z-index:3;transform:translate(-50%,-50%)}
+.map-pin::after{content:'';position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:70px;height:70px;border:1px dashed rgba(37,99,235,.45);border-radius:50%;animation:pinRing 4s linear infinite}
+@keyframes pinRing{from{transform:translate(-50%,-50%) rotate(0deg)}to{transform:translate(-50%,-50%) rotate(360deg)}}
+.map-runway{position:absolute;left:42%;top:54%;width:260px;height:3px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.4) 20%,rgba(255,255,255,.4) 80%,transparent);transform:rotate(72deg);transform-origin:center;z-index:2}
+.map-runway-marker{position:absolute;top:-26px;font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:12px;color:rgba(255,255,255,.6);letter-spacing:.08em}
+.map-runway-marker.s{left:0}
+.map-runway-marker.e{right:0}
 
-    /* =============================== */
-    /* HEADER DESKTOP */
-    /* =============================== */
-    .site-header{ padding-top:20px; position:relative; z-index:10; }
-    .header-row{
-      display:flex;
-      align-items:center;
-      margin:0 var(--page-side-margin);
-    }
+.map-label{position:absolute;left:54%;top:46%;transform:translate(28px,-32px);background:rgba(8,10,14,.94);backdrop-filter:blur(14px);border:1px solid var(--bds-2);padding:12px 16px;z-index:4;border-left:3px solid var(--accent)}
+.map-label .nm{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:22px;line-height:1;color:#fff;text-transform:uppercase;letter-spacing:-.005em}
+.map-label .lc{font-size:9.5px;font-weight:700;letter-spacing:.22em;color:var(--accent);text-transform:uppercase;margin-top:6px}
+.map-label .co{font-size:11px;color:rgba(255,255,255,.6);margin-top:8px;letter-spacing:.04em;font-family:'JetBrains Mono','Courier New',monospace}
 
-    .header-logo{
-      position:relative;
-      display:inline-block;
-      text-decoration:none;
-    }
-    .header-logo img{
-      height: var(--logo-height);
-      display:block;
-      margin-top: 12px;
+.map-corner{position:absolute;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:10px;letter-spacing:.22em;color:rgba(255,255,255,.32);text-transform:uppercase;z-index:2}
+.map-corner.tl{top:14px;left:14px;display:flex;flex-direction:column;gap:4px}
+.map-corner.tr{top:14px;right:14px;text-align:right;display:flex;flex-direction:column;gap:4px}
+.map-corner.bl{bottom:14px;left:14px}
+.map-corner.br{bottom:14px;right:14px;text-align:right}
+.map-corner em{color:#fff;font-style:normal;font-weight:900;font-style:italic;font-size:13px;letter-spacing:.04em}
 
-      opacity:0;
-      transform: translate3d(0,-16px,0) scale(0.92);
-      filter: blur(8px);
-      transform-origin:center;
-      animation: logoPop 1.05s cubic-bezier(.16,1,.22,1) forwards;
-    }
-    .header-logo::after{
-      content:"";
-      position:absolute;
-      inset:-10px -14px -10px -14px;
-      background: radial-gradient(circle at 30% 30%, rgba(47,107,255,0.28), transparent 55%);
-      opacity: 0;
-      filter: blur(10px);
-      pointer-events:none;
-      animation: logoGlow 1.2s ease forwards;
-      animation-delay: .25s;
-    }
-    @keyframes logoPop{
-      60% { opacity: 1; transform: translate3d(0, 2px, 0) scale(1.05); filter: blur(0px); }
-      100% { opacity: 1; transform: translate3d(0, 0, 0) scale(1); filter: blur(0px); }
-    }
-    @keyframes logoGlow{
-      40% { opacity: .55; }
-      100% { opacity: 0; }
-    }
+.map-cta{position:absolute;bottom:14px;left:50%;transform:translateX(-50%);z-index:4}
 
-    .header-bar{
-      height: var(--header-height);
-      background:#fff;
-      color: var(--header-grey);
-      margin-left: var(--gap-logo-header);
-      flex:1;
+/* Access modes */
+.access-list{display:flex;flex-direction:column;gap:0}
+.access-item{padding:24px 0;border-top:1px solid var(--border);display:grid;grid-template-columns:60px 1fr auto;align-items:center;gap:20px;transition:padding .25s}
+.access-item:last-child{border-bottom:1px solid var(--border)}
+.access-item:hover{padding-left:8px}
+.access-icon{width:48px;height:48px;border:1px solid var(--bds);border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--accent);transition:border-color .25s,background .25s}
+.access-item:hover .access-icon{border-color:var(--accent);background:var(--acc-d)}
+.access-icon svg{width:20px;height:20px;fill:currentColor}
+.access-body h4{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:20px;text-transform:uppercase;color:#fff;line-height:1.1;letter-spacing:-.005em;margin-bottom:4px}
+.access-body p{font-size:13px;color:var(--muted);line-height:1.6}
+.access-dur{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:22px;color:var(--accent);letter-spacing:.02em;white-space:nowrap}
+.access-dur small{display:block;font-size:9px;font-weight:700;letter-spacing:.22em;color:rgba(255,255,255,.4);font-style:normal;margin-top:2px;text-align:right}
 
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
+/* FAQ */
+.sec-faq-c{background:var(--bg);border-bottom:1px solid var(--border)}
+.faq-head{margin-bottom:42px;max-width:680px}
+.faq-list{border-top:1px solid var(--border)}
+.faq-item{border-bottom:1px solid var(--border)}
+.faq-item.open{background:rgba(37,99,235,.025)}
+.faq-q{width:100%;padding:22px 0;display:flex;align-items:center;justify-content:space-between;gap:24px;text-align:left;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:clamp(18px,2vw,24px);line-height:1.2;color:#fff;text-transform:uppercase;letter-spacing:.01em;transition:color .25s}
+.faq-q:hover{color:var(--accent)}
+.faq-q .ic{flex-shrink:0;width:36px;height:36px;border:1px solid var(--bds);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;color:rgba(255,255,255,.5);transition:border-color .25s,color .25s,transform .35s cubic-bezier(.16,1,.3,1)}
+.faq-item.open .faq-q .ic{transform:rotate(45deg);border-color:var(--accent);color:var(--accent)}
+.faq-a{max-height:0;overflow:hidden;transition:max-height .45s cubic-bezier(.16,1,.3,1)}
+.faq-item.open .faq-a{max-height:400px}
+.faq-a-inner{padding:0 0 26px;max-width:720px}
+.faq-a-inner p{font-size:14px;line-height:1.78;color:var(--muted)}
+.faq-a-inner p a{color:var(--accent)}
 
-      padding:0 6px 0 32px;
-      position:relative;
-      z-index:10;
-      box-shadow:0 2px 0 rgba(0,0,0,0.08);
-      overflow:visible;
-    }
-
-    .header-left{ display:flex; align-items:center; gap:34px; }
-    .header-right{ display:flex; align-items:center; gap:18px; margin-left:auto; }
-
-    .nav-menu{ display:flex; align-items:center; gap:34px; }
-    .nav-item{ position:relative; display:inline-flex; align-items:center; }
-
-    .nav-link{
-      font-family: "GPMenu", system-ui, sans-serif;
-      font-weight: 400;
-      font-synthesis: none;
-      -webkit-font-smoothing: antialiased;
-      text-rendering: optimizeLegibility;
-      font-size: var(--header-font-size);
-      letter-spacing: var(--header-letter-spacing);
-      text-transform: uppercase;
-      text-decoration:none;
-      color: var(--header-grey);
-      white-space: nowrap;
-      position:relative;
-      display:inline-block;
-      line-height:1;
-      padding: 2px 0;
-    }
-    .nav-link[data-text],
-    .nav-link[data-text]:visited{
-      color: var(--header-grey);
-      -webkit-text-fill-color: currentColor;
-    }
-    .nav-link[data-text]::before,
-    .nav-link[data-text]::after{
-      content:none;
-    }
-    .nav-link:hover{ color: var(--accent); }
-    .nav-link[aria-current="page"]{ color: var(--accent); }
-    .nav-link[aria-current="page"][data-text]::before{ color: var(--accent); }
-    .nav-link[aria-current="page"][data-text]::after{ clip-path: inset(0 0 0 0); }
-
-    .nav-item.has-dropdown::before{
-      content:"";
-      position:absolute; left:-22px; right:-22px;
-      top:100%; height:18px;
-    }
-
-    .fleet-panel{
-      position:absolute;
-      top:calc(100% + 18px);
-      left:50%;
-      transform:translateX(-50%);
-      width:var(--panel-w);
-      background:var(--panel-bg);
-      border:1px solid var(--panel-border);
-      box-shadow:0 22px 40px rgba(0,0,0,0.45);
-      padding:10px;
-      display:flex;
-      flex-direction:column;
-      gap:10px;
-      opacity:0;
-      pointer-events:none;
-      transition:opacity .18s ease;
-      z-index:50;
-    }
-    .nav-item.has-dropdown:hover .fleet-panel{opacity:1;pointer-events:auto;}
-
-
-    .activity-panel{
-      display:none;
-      position:absolute;
-      top:calc(100% + 14px);
-      left:50%;
-      transform:translate(-50%, 12px);
-      min-width:220px;
-      background:var(--panel-bg);
-      border:1px solid var(--panel-border);
-      box-shadow:0 18px 34px rgba(0,0,0,0.42);
-      padding:8px;
-      grid-template-columns:1fr;
-      gap:6px;
-      opacity:0;
-      visibility:hidden;
-      pointer-events:none;
-      transition:opacity .3s ease, transform .3s cubic-bezier(.16,1,.22,1), visibility 0s linear .3s;
-      z-index:55;
-    }
-    .nav-item.has-dropdown:hover .activity-panel,
-    .nav-item.has-dropdown > .nav-link:focus-visible + .activity-panel{
-      display:grid;
-      opacity:1;
-      visibility:visible;
-      pointer-events:auto;
-      transform:translate(-50%, 0);
-      transition-delay:0s;
-    }
-    .nav-item.has-dropdown .activity-panel::before{
-      content:"";
-      position:absolute;
-      left:0;
-      right:0;
-      bottom:100%;
-      height:16px;
-    }
-    .activity-link{
-      text-decoration:none;
-      color:rgba(255,255,255,0.88);
-      border:1px solid rgba(255,255,255,0.10);
-      background:rgba(255,255,255,0.02);
-      padding:10px 12px;
-      font-family:"GPMenu", system-ui, sans-serif;
-      font-size:12px;
-      letter-spacing:0.12em;
-      text-transform:uppercase;
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:10px;
-      transition:transform .18s ease, border-color .18s ease, color .18s ease;
-    }
-    .activity-link::after{
-      content:"";
-      width:7px;
-      height:7px;
-      border-top:2px solid rgba(255,255,255,0.72);
-      border-right:2px solid rgba(255,255,255,0.72);
-      transform:rotate(45deg);
-      transition:transform .18s ease, border-color .18s ease;
-    }
-    .activity-link:hover{
-      color:#fff;
-      border-color:rgba(47,107,255,0.55);
-      transform:translateX(3px);
-    }
-    .activity-link:hover::after{
-      transform:translateX(3px) rotate(45deg);
-      border-color:var(--accent);
-    }
-
-    .fleet-card{
-      position:relative;
-      height:var(--drop-card-h);
-      background:var(--drop-card-bg);
-      border:1px solid var(--drop-card-border);
-      text-decoration:none;
-      color:#fff;
-      overflow:hidden;
-      transition:transform .18s ease,border-color .18s ease,box-shadow .18s ease;
-    }
-    .fleet-card:hover{
-      transform:translateX(6px);
-      border-color:rgba(47,107,255,0.55);
-      box-shadow:0 0 0 1px rgba(47,107,255,0.25), 0 18px 30px rgba(0,0,0,0.35);
-    }
-    .fleet-name{
-      position:absolute; top:6px; left:50%;
-      transform:translateX(-50%);
-      font-family:"Swiss911", sans-serif;
-      text-transform:uppercase;
-      font-size:18px;
-      letter-spacing:-0.02em;
-      line-height:1;
-      opacity:.95;
-      white-space:nowrap;
-      pointer-events:none;
-    }
-    .fleet-plane{
-      position:absolute; left:50%; top:52%;
-      transform:translate(-50%,-50%);
-      height:80px;
-      max-width:88%;
-      object-fit:contain;
-      pointer-events:none;
-      filter:drop-shadow(0 10px 14px rgba(0,0,0,0.35));
-    }
-    .fleet-chev{
-      position:absolute; right:14px; top:50%;
-      width:10px;height:10px;
-      border-right:2px solid rgba(255,255,255,0.7);
-      border-top:2px solid rgba(255,255,255,0.7);
-      transform:translateY(-50%) rotate(45deg);
-      transition:transform .18s ease,border-color .18s ease;
-      opacity:.9;
-    }
-    .fleet-card:hover .fleet-chev{
-      border-color:var(--accent);
-      transform:translate(4px,-50%) rotate(45deg);
-    }
-
-    .fleet-cta{margin-top:2px;padding-top:10px;border-top:1px solid rgba(255,255,255,0.10);}
-    .fleet-cta a{
-      display:flex;align-items:center;justify-content:space-between;gap:10px;
-      padding:10px 4px 2px;
-      text-decoration:none;
-      color:rgba(255,255,255,0.88);
-      font-family:"Swiss911", sans-serif;
-      text-transform:uppercase;
-      font-size:20px;
-      letter-spacing:-0.02em;
-      font-style:italic;
-    }
-    .fleet-cta a .cta-chev{
-      width:10px;height:10px;
-      border-right:2px solid rgba(255,255,255,0.65);
-      border-top:2px solid rgba(255,255,255,0.65);
-      transform:rotate(45deg);
-      transition:transform .18s ease,border-color .18s ease;
-    }
-    .fleet-cta a:hover .cta-chev{
-      transform:translateX(4px) rotate(45deg);
-      border-color:var(--accent);
-    }
-
-    .icon{
-      width:22px; height:22px;
-      display:inline-flex;
-      align-items:center; justify-content:center;
-      color: var(--header-grey);
-      text-decoration:none;
-    }
-    .icon svg{ width:22px; height:22px; fill: currentColor; }
-
-    .btn-compte{
-      position:relative;
-      overflow:hidden;
-      font-family:"Swiss911",sans-serif;
-      font-size:25px;
-      letter-spacing:-0.04em;
-      text-transform:uppercase;
-      padding:6px 12px;
-      border:2px solid var(--header-grey);
-      background:#000;
-      color:#fff;
-      text-decoration:none;
-      line-height:1;
-      transition:color .25s ease,border-color .25s ease;
-    }
-    .btn-compte::before{
-      content:"";
-      position:absolute;
-      left:0;
-      top:0;
-      width:0;
-      height:100%;
-      background:var(--accent);
-      z-index:-1;
-      transition:width .25s ease;
-    }
-    .btn-compte:hover{
-      color:#000;
-      border-color:var(--accent);
-    }
-    .btn-compte:hover::before{ width:100%; }
-
-    /* =============================== */
-    /* MOBILE HEADER + DRAWER */
-    /* =============================== */
-    .m-header,.m-overlay,.m-drawer{display:none;}
-
-    /* =============================== */
-    /* PAGE TITLE */
-    /* =============================== */
-    .page-title{
-      margin: 22px var(--page-side-margin) 10px;
-      display:flex;
-      align-items:center;
-      gap:14px;
-    }
-    .title-box{
-      background:#fff;
-      color:#000;
-      border:1px solid rgba(0,0,0,0.12);
-      box-shadow:0 18px 34px rgba(0,0,0,0.22);
-      padding:18px 22px 14px;
-
-      opacity:0;
-      transform: translate3d(0,18px,0);
-      filter: blur(6px);
-      transition: opacity .7s cubic-bezier(.16,1,.22,1), transform .7s cubic-bezier(.16,1,.22,1), filter .7s ease;
-    }
-    .title-box.is-in{ opacity:1; transform:none; filter:none; }
-    .title-box span{
-      font-family:"Swiss911", sans-serif;
-      text-transform:uppercase;
-      letter-spacing:-0.02em;
-      font-size:76px;
-      line-height:.9;
-      transform: skewX(-6deg);
-      display:block;
-      white-space:nowrap;
-    }
-
-    /* =============================== */
-    /* CONTACT LAYOUT */
-    /* =============================== */
-    .contact-wrap{
-      max-width: var(--grid-max);
-      margin: 10px auto 40px;
-      padding: 0 var(--outer-x);
-      display:grid;
-      gap:16px;
-    }
-    .contact-card{
-      background: #fff;
-      border:1px solid rgba(0,0,0,0.08);
-      box-shadow: 0 18px 34px rgba(0,0,0,0.14);
-      color: #111;
-      padding: 20px;
-      display:flex;
-      flex-direction:column;
-      gap: 14px;
-      position:relative;
-      overflow:hidden;
-      transform: translate3d(0,18px,0);
-      opacity:0;
-      filter: blur(6px);
-      transition: transform .7s cubic-bezier(.16,1,.22,1), opacity .7s cubic-bezier(.16,1,.22,1), filter .7s ease;
-    }
-    .contact-card.is-in{ transform:none; opacity:1; filter:none; }
-    .contact-card h2{
-      font-family:"Swiss911", sans-serif;
-      text-transform:uppercase;
-      letter-spacing:-0.02em;
-      font-size:28px;
-      color:#111;
-      line-height:.95;
-    }
-    .hero-grid{
-      display:grid;
-      grid-template-columns: minmax(0,1.2fr) minmax(0,.8fr);
-      gap:16px;
-    }
-    .contact-hero{
-      padding: 30px 28px;
-      background: linear-gradient(135deg, rgba(47,107,255,0.16), rgba(255,255,255,1) 48%, rgba(47,107,255,0.08));
-    }
-    .hero-kicker{
-      display:inline-flex; align-items:center; gap:8px;
-      font-family: "GPMenu", system-ui, sans-serif;
-      font-size:12px; letter-spacing:0.08em; text-transform:uppercase;
-      color: rgba(0,0,0,0.65);
-    }
-    .hero-dot{ width:8px;height:8px;border-radius:999px;background:var(--accent);box-shadow:0 0 14px rgba(47,107,255,0.65); }
-    .hero-title{ font-family:"Swiss911", sans-serif; font-size:58px; text-transform:uppercase; letter-spacing:-0.02em; line-height:0.9; color:#111; }
-    .hero-text{ color: rgba(0,0,0,0.72); font-size:15px; line-height:1.6; }
-    .hero-actions{ display:flex; flex-wrap:wrap; gap:10px; }
-    .cta-btn,.ghost-btn{
-      text-decoration:none; font-family: "GPMenu", system-ui, sans-serif; font-size:12px; letter-spacing:-0.02em;
-      text-transform:uppercase; padding: 12px 18px 10px; border-radius: 6px; display:inline-flex; align-items:center; gap:8px;
-    }
-    .cta-btn{ background: linear-gradient(135deg, var(--blue-top), var(--blue-bot)); color:#fff; box-shadow:0 16px 34px rgba(47,107,255,0.45); border:0; cursor:pointer; }
-    .ghost-btn{ border:1px solid rgba(0,0,0,0.14); color: rgba(0,0,0,0.72); background:#fff; }
-    .fun-card{
-      background: #0d1222;
-      color:#edf2ff;
-      border-color: rgba(139,169,255,.28);
-      box-shadow: 0 20px 44px rgba(6,10,26,.56);
-    }
-    .fun-card h2{ color:#fff; }
-    .fun-badges{ display:grid; gap:8px; list-style:none; }
-    .fun-badges li{
-      border:1px solid rgba(147,176,255,.35);
-      background:rgba(255,255,255,.04);
-      padding:10px 12px;
-      font-size:13px;
-      color:rgba(234,241,255,.92);
-    }
-    .fun-badges strong{ color:#fff; font-family:"GPMenu", system-ui, sans-serif; font-size:12px; text-transform:uppercase; letter-spacing:.06em; margin-right:6px; }
-    .quick-grid{
-      display:grid;
-      grid-template-columns: minmax(0,1fr) minmax(0,1fr);
-      gap:16px;
-    }
-    .quick-actions{ display:flex; flex-wrap:wrap; gap:8px; }
-    .quick-chip{
-      border:1px solid rgba(0,0,0,.14);
-      background:#f4f6fa;
-      color:#111;
-      padding:8px 12px;
-      border-radius:999px;
-      font-size:12px;
-      text-transform:uppercase;
-      letter-spacing:.03em;
-      cursor:pointer;
-    }
-    .quick-chip:hover{ border-color:rgba(47,107,255,0.55); color:var(--accent); }
-    .info-list{ list-style:none; display:grid; gap:10px; color: rgba(0,0,0,0.68); font-size:14px; line-height:1.5; }
-    .info-list strong{ color:#111; font-weight:600; }
-    .contact-pill{ align-self:flex-start; padding:6px 12px 5px; border-radius:6px; background: rgba(47,107,255,0.08); border:1px solid rgba(47,107,255,0.25); color: rgba(0,0,0,0.7); font-size:12px; }
-    .map-embed{
-      border-radius:10px; overflow:hidden; border:1px solid rgba(0,0,0,0.08); min-height: 240px;
-    }
-    .map-embed iframe{
-      width:100%;
-      height:100%;
-      border:0;
-      display:block;
-    }
-
-    .form-wrap{ display:grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); gap:24px; }
-
-    .contact-form{
-      display:grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap:12px;
-    }
-
-    .field{ display:flex; flex-direction:column; gap:6px; }
-    .field.full{ grid-column: 1 / -1; }
-    .field.checkbox label{
-      display:flex;
-      align-items:flex-start;
-      gap:8px;
-      text-transform:none;
-      letter-spacing:0;
-      font-family:inherit;
-      font-size:13px;
-      color:rgba(0,0,0,0.68);
-    }
-    .field-row{
-      grid-column: 1 / -1;
-      display:grid;
-      grid-template-columns: repeat(3, minmax(0,1fr));
-      gap:8px;
-      background:#f4f6fa;
-      border:1px solid rgba(0,0,0,0.12);
-      border-radius: 8px;
-      padding:10px;
-    }
-    .field-row label{
-      display:flex;
-      align-items:center;
-      gap:8px;
-      text-transform:none;
-      font-size:12px;
-      letter-spacing:0;
-      cursor:pointer;
-      color: rgba(0,0,0,0.72);
-    }
-    .field-row input[type="radio"]{
-      accent-color: var(--accent);
-      width:14px;
-      height:14px;
-    }
-    .field label{
-      font-size:12px;
-      font-family: "GPMenu", system-ui, sans-serif;
-      letter-spacing:-0.02em;
-      color: rgba(0,0,0,0.65);
-      text-transform: uppercase;
-    }
-    .field input,
-    .field textarea,
-    .field select{
-      background: #f4f6fa;
-      border:1px solid rgba(0,0,0,0.14);
-      color:#111;
-      border-radius: 6px;
-      padding:10px 12px;
-      font-family: inherit;
-      font-size:14px;
-    }
-    .field textarea{ min-height: 120px; resize: vertical; }
-    .field input:focus,
-    .field textarea:focus,
-    .field select:focus{
-      outline:none;
-      border-color: rgba(47,107,255,0.6);
-      box-shadow: 0 0 0 1px rgba(47,107,255,0.35);
-    }
-
-    .send-btn{
-      border:none;
-      background: linear-gradient(135deg, var(--blue-top), var(--blue-bot));
-      color:#fff;
-      font-family: "GPMenu", system-ui, sans-serif;
-      font-size:12px;
-      letter-spacing:-0.02em;
-      text-transform:uppercase;
-      padding:12px 18px 10px;
-      border-radius: 6px;
-      cursor:pointer;
-      justify-self:flex-start;
-      box-shadow:0 16px 34px rgba(47,107,255,0.45);
-    }
-
-    .form-note{
-      font-size:12px;
-      color: rgba(0,0,0,0.6);
-    }
-    .form-note a{ color:#111; text-decoration:none; }
-    .prep-list{ list-style:none; display:grid; gap:8px; margin-top:4px; }
-    .prep-list li{
-      position:relative;
-      padding-left:22px;
-      color: rgba(0,0,0,0.66);
-      font-size:14px;
-      line-height:1.5;
-    }
-    .prep-list li::before{
-      content:"";
-      position:absolute;
-      left:0;
-      top:6px;
-      width:12px;
-      height:12px;
-      border-radius:999px;
-      background: radial-gradient(circle at 30% 30%, #8fb2ff 0%, var(--accent) 65%, #2048b8 100%);
-      box-shadow: 0 0 0 2px rgba(47,107,255,0.16);
-    }
-    .faq-list{ display:grid; gap:10px; }
-    .faq-item{ border:1px solid rgba(0,0,0,.12); border-radius:8px; overflow:hidden; }
-    .faq-toggle{
-      width:100%; border:0; background:#fff; text-align:left; padding:12px 14px;
-      font-family:inherit; font-size:14px; color:#111; display:flex; align-items:center; justify-content:space-between; cursor:pointer;
-    }
-    .faq-toggle span{ font-family:"GPMenu", system-ui, sans-serif; font-size:12px; text-transform:uppercase; letter-spacing:.05em; color:rgba(0,0,0,.6); }
-    .faq-content{ display:none; padding:0 14px 12px; color:rgba(0,0,0,.68); font-size:14px; line-height:1.55; }
-    .faq-item.open .faq-content{ display:block; }
-
-    /* =============================== */
-    /* FOOTER */
-    /* =============================== */
-    footer{
-      margin-top: 22px;
-      border-top: 1px solid rgba(255,255,255,0.08);
-      background: rgba(0,0,0,0.20);
-      padding: 20px var(--page-side-margin);
-      color: rgba(255,255,255,0.78);
-    }
-    .footer-inline{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap: 12px;
-      flex-wrap: wrap;
-      font-size: 12px;
-      color: rgba(255,255,255,0.7);
-    }
-    .footer-links{
-      display:flex;
-      align-items:center;
-      gap: 16px;
-      flex-wrap: wrap;
-    }
-    .footer-links a{
-      text-decoration:none;
-      color: rgba(255,255,255,0.78);
-      font-size: 12px;
-    }
-    .footer-links a:hover{ color:#fff; }
-
-    /* =============================== */
-    /* RESPONSIVE */
-    /* =============================== */
-    @media (max-width: 980px){
-      :root{ --page-side-margin: var(--m-side); --logo-height:64px; --gap-logo-header:24px; --outer-x:18px; }
-      .site-header{display:none;}
-
-      .m-header{
-        display:flex;
-        position:sticky;
-        top:0;
-        z-index:30;
-        padding:16px var(--page-side-margin);
-        align-items:center;
-        justify-content:space-between;
-        background: linear-gradient(180deg, rgba(16,16,18,0.92) 0%, rgba(16,16,18,0.75) 60%, rgba(16,16,18,0) 100%);
-        backdrop-filter: blur(10px);
-      }
-      .m-logo img{ height: 56px; display:block; margin-top: 6px; }
-
-      .m-burger{
-        width:56px;height:56px;
-        background:#fff;
-        border:0;
-        border-radius:8px;
-        display:flex;align-items:center;justify-content:center;
-        cursor:pointer;
-        position:relative;
-        box-shadow: 0 10px 18px rgba(0,0,0,0.35);
-        overflow:hidden;
-      }
-      .m-burger span,
-      .m-burger span::before,
-      .m-burger span::after{
-        content:"";
-        width:22px;height:2px;
-        background:#111;
-        display:block;
-        position:relative;
-      }
-      .m-burger span::before{ position:absolute; top:-7px; left:0; }
-      .m-burger span::after{ position:absolute; top:7px; left:0; }
-
-      .m-overlay{
-        display:block;
-        position:fixed;
-        inset:0;
-        background: rgba(0,0,0,0.55);
-        opacity:0;
-        pointer-events:none;
-        transition:opacity .25s ease;
-        z-index:40;
-      }
-
-      .m-drawer{
-        display:block;
-        position:fixed;
-        inset:0;
-        background:#0d0d10;
-        z-index:50;
-        opacity:0;
-        pointer-events:none;
-        transform: translate3d(0,-20px,0);
-        transition: opacity .25s ease, transform .25s ease;
-      }
-      .m-drawer-top{
-        display:flex;
-        align-items:center;
-        justify-content:space-between;
-        padding:18px var(--page-side-margin) 0;
-      }
-      .m-close{
-        width:40px;height:40px;
-        border-radius:8px;
-        border:1px solid rgba(255,255,255,0.12);
-        background: rgba(255,255,255,0.08);
-        position:relative;
-        cursor:pointer;
-      }
-      .m-close::before,
-      .m-close::after{
-        content:"";
-        position:absolute;
-        top:50%; left:50%;
-        width:18px; height:2px;
-        background:#fff;
-      }
-      .m-close::before{ transform: translate(-50%, -50%) rotate(45deg); }
-      .m-close::after{ transform: translate(-50%, -50%) rotate(-45deg); }
-
-      .m-drawer-inner{
-        padding:18px var(--page-side-margin);
-        display:flex;
-        flex-direction:column;
-        gap:14px;
-      }
-      .m-sub{
-        color: rgba(255,255,255,0.55);
-        font-size:12px;
-        letter-spacing:0.18em;
-        font-family: "GPMenu", system-ui, sans-serif;
-      }
-      .m-divider{ height:1px; background: rgba(255,255,255,0.08); margin-bottom:8px; }
-      .m-nav{ display:flex; flex-direction:column; gap:12px; }
-      .m-link{
-        text-decoration:none;
-        color:#fff;
-        font-family:"Swiss911", sans-serif;
-        font-size:44px;
-        letter-spacing:-0.03em;
-        line-height:0.92;
-        font-style:italic;
-        transform:skewX(-6deg);
-        transform-origin:left center;
-        opacity:0.92;
-        text-transform:uppercase;
-      }
-      .m-cta{
-        margin-top:18px;
-        text-decoration:none;
-        color:#fff;
-        font-family:"Swiss911", sans-serif;
-        font-size:28px;
-        letter-spacing:-0.02em;
-        font-style:italic;
-        opacity:0.95;
-        display:flex; align-items:center; gap:10px;
-        text-transform:uppercase;
-      }
-      .m-cta i{
-        width:10px;height:10px;
-        border-right:2px solid rgba(255,255,255,0.70);
-        border-top:2px solid rgba(255,255,255,0.70);
-        transform: rotate(45deg);
-        transition: transform .18s ease, border-color .18s ease;
-      }
-      .m-cta:hover{ color: var(--accent); }
-      .m-cta:hover i{
-        transform: translateX(4px) rotate(45deg);
-        border-color: var(--accent);
-      }
-
-      body.m-open .m-overlay{ opacity:1; pointer-events:auto; }
-      body.m-open .m-drawer{
-        opacity:1; pointer-events:auto;
-        transform: translate3d(0,0,0);
-      }
-      body.m-open .m-drawer-inner{
-        animation: drawerIn .45s cubic-bezier(.16,1,.22,1) both;
-      }
-      @keyframes drawerIn{
-        from{ opacity:0; transform: translate3d(0,-10px,0); filter: blur(6px); }
-        to{ opacity:1; transform: translate3d(0,0,0); filter: blur(0px); }
-      }
-
-      .hero-grid,
-      .quick-grid{ grid-template-columns: minmax(0,1fr); }
-      .form-wrap{ grid-template-columns: minmax(0,1fr); }
-      .contact-form{ grid-template-columns: minmax(0,1fr); }
-      .field-row{ grid-template-columns: minmax(0,1fr); }
-    }
-
-    @media (max-width: 640px){
-      .title-box span{ font-size:56px; }
-      .hero-title{ font-size:42px; }
-      .cta-btn, .ghost-btn{ width:100%; justify-content:center; }
-    }
-
-    /* Reduce motion */
-    @media (prefers-reduced-motion: reduce){
-      *{ animation:none !important; transition:none !important; }
-      .contact-card, .title-box{ opacity:1 !important; transform:none !important; filter:none !important; }
-    }
-  </style>
+@media(max-width:980px){
+  .c-hero-inner{grid-template-columns:1fr;gap:32px}
+  .cont-grid{grid-template-columns:1fr;gap:36px}
+  .cont-side{position:static}
+  .cont-form-row{grid-template-columns:1fr}
+  .map-grid{grid-template-columns:1fr}
+  .map-canvas{min-height:380px}
+  .access-item{grid-template-columns:48px 1fr;gap:14px}
+  .access-dur{grid-column:2;text-align:left}
+  .access-dur small{text-align:left}
+}
+</style>
 </head>
-
 <body>
-  <div class="page">
-    <div class="content">
 
-      <!-- ✅ HEADER MOBILE -->
-      <div class="m-header" aria-label="Header mobile">
-        <a class="m-logo" href="index.html" aria-label="Retour accueil (logo)">
-          <img src="assets/images/apam-logo2.png" alt="Logo APAM">
+<div class="grain" aria-hidden="true"></div>
+<div class="pg-bar" id="pg-bar"></div>
+<div class="cur" id="cur-dot"><div class="cur-dot"></div></div>
+<div class="cur" id="cur-ring"><div class="cur-ring"></div></div>
+
+<!-- NAV -->
+<nav class="nav" id="nav">
+  <a class="nav-logo" href="index.html"><img src="assets/images/apam-logo2.png" alt="APAM"></a>
+  <ul class="nav-links">
+    <li class="nav-item-drop">
+      <a href="tarifs.html">Flotte</a>
+      <div class="nav-drop">
+        <a class="ndc" href="tarifs.html"><img src="assets/images/FGHKE2.png" alt="Cessna 152"><div class="ndc-name">Cessna 152</div><div class="ndc-sub">Formation · Initiation</div></a>
+        <a class="ndc" href="tarifs.html"><img src="assets/images/TB200M.png" alt="TB200"><div class="ndc-name">TB200</div><div class="ndc-sub">Perfectionnement · Voyage</div></a>
+        <a class="ndc" href="tarifs.html"><img src="assets/images/SR1.png" alt="SR20"><div class="ndc-name">Cirrus SR20</div><div class="ndc-sub">Haute performance</div></a>
+      </div>
+    </li>
+    <li><a href="activite.html">Le Club</a></li>
+    <li><a href="devenir-pilote.html">Devenir pilote</a></li>
+    <li><a href="contact.html" class="on">Contact</a></li>
+    <li><a href="boutique.html">Boutique</a></li>
+    <li><a href="https://openflyers.com/apam/" target="_blank">OpenFlyer</a></li>
+  </ul>
+  <div class="nav-icons">
+    <a class="nav-ic" href="https://www.instagram.com/apam_lfol" target="_blank" aria-label="Instagram"><svg viewBox="0 0 24 24"><path d="M7 2C4.2 2 2 4.2 2 7v10c0 2.8 2.2 5 5 5h10c2.8 0 5-2.2 5-5V7c0-2.8-2.2-5-5-5H7zm0 2h10c1.7 0 3 1.3 3 3v10c0 1.7-1.3 3-3 3H7c-1.7 0-3-1.3-3-3V7c0-1.7 1.3-3 3-3zm5 3.5a4.5 4.5 0 1 0 0 9 4.5 4.5 0 0 0 0-9zm0 2a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zm4.8-2.9a1.1 1.1 0 1 0 0 2.2 1.1 1.1 0 0 0 0-2.2z"/></svg></a>
+    <a class="nav-ic" href="/cdn-cgi/l/email-protection#adccc8dfc2cec1d8cfccddccc0edcac0ccc4c183cec2c0" aria-label="Email"><svg viewBox="0 0 24 24"><path d="M4 4h16a2 2 0 0 1 2 2v1L12 13 2 7V6a2 2 0 0 1 2-2zm18 5v9a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V9l10 6 10-6z"/></svg></a>
+  </div>
+  <a class="nav-cta" href="connexion-membres-password.html?next=mon-compte.html">Mon compte</a>
+  <button class="nav-burger" id="burger" aria-expanded="false" aria-label="Menu"><b></b><b></b><b></b></button>
+</nav>
+
+<div class="m-drawer" id="drawer" aria-hidden="true">
+  <div class="m-drawer-top"><img src="assets/images/apam-logo2.png" alt="APAM" style="height:40px"><button class="m-close" id="m-close" aria-label="Fermer">✕</button></div>
+  <nav class="m-nav">
+    <a href="tarifs.html">Flotte <span class="arr">→</span></a>
+    <a href="activite.html">Le Club <span class="arr">→</span></a>
+    <a href="devenir-pilote.html">Devenir pilote <span class="arr">→</span></a>
+    <a href="contact.html">Contact <span class="arr">→</span></a>
+    <a href="boutique.html">Boutique <span class="arr">→</span></a>
+    <a href="https://openflyers.com/apam/" target="_blank">OpenFlyer <span class="arr">↗</span></a>
+  </nav>
+  <div class="m-cta-wrap"><a class="btn btn--fill" href="connexion-membres-password.html?next=mon-compte.html">Mon compte</a></div>
+</div>
+
+<!-- HERO -->
+<section class="c-hero">
+  <div class="c-hero-grid"></div>
+  <div class="wrap">
+    <div class="c-hero-inner">
+      <div class="c-hero-l">
+        <p class="kicker">Nous écrire · Nous trouver</p>
+        <h1 class="c-hero-title">
+          On est<br><span class="ol">à votre écoute.</span>
+        </h1>
+        <p class="c-hero-sub">Une question sur la formation, un vol découverte à réserver, ou simplement envie de visiter le hangar ? Écrivez-nous — ou venez directement, c'est ouvert.</p>
+      </div>
+      <div class="c-hero-r">
+        <a class="c-hero-qcard" href="/cdn-cgi/l/email-protection#6e0f0b1c010d021b0c0f1e0f032e09030f0702400d0103">
+          <span class="l">— Par e-mail</span>
+          <span class="v"><span class="__cf_email__" data-cfemail="3f5e5a4d505c534a5d5e4f5e527f58525e5653115c5052">[email&#160;protected]</span><small>Réponse sous 24-48h</small></span>
         </a>
-        <button class="m-burger" type="button" aria-label="Ouvrir le menu" aria-expanded="false">
-          <span aria-hidden="true"></span>
-        </button>
+        <a class="c-hero-qcard" href="https://www.google.com/maps/place/Aérodrome+de+L'Aigle-Saint-Michel" target="_blank">
+          <span class="l">— Au terrain</span>
+          <span class="v">Aérodrome LFOL<small>L'Aigle Saint-Michel · 61300</small></span>
+        </a>
       </div>
-
-      <div class="m-overlay" aria-hidden="true"></div>
-
-      <!-- ✅ DRAWER FULLSCREEN -->
-      <aside class="m-drawer" id="m-drawer" aria-hidden="true" aria-label="Menu">
-        <div class="m-drawer-top">
-          <a class="m-logo" href="index.html" aria-label="Retour accueil (logo)">
-            <img src="assets/images/apam-logo2.png" alt="Logo APAM">
-          </a>
-          <button class="m-close" type="button" aria-label="Fermer le menu"></button>
-        </div>
-
-        <div class="m-drawer-inner">
-          <div class="m-sub">NAVIGATION</div>
-          <div class="m-divider"></div>
-
-          <nav class="m-nav" aria-label="Liens principaux">
-            <a class="m-link" href="tarifs.html">FLOTTE</a>
-            <a class="m-link" href="activite.html">LE CLUB</a>
-            <a class="m-link" href="devenir-pilote.html">DEVENIR PILOTE</a>
-            <a class="m-link" href="contact.html" aria-current="page">CONTACT</a>
-            <a class="m-link" href="boutique.html">BOUTIQUE</a>
-            <a class="m-link" href="https://openflyers.com/apam/" target="_blank" rel="noopener noreferrer">OPENFLYER</a>
-          </nav>
-
-          <a class="m-cta" href="connexion-membres-password.html?next=mon-compte.html" aria-label="Mon compte">
-            MON COMPTE <i aria-hidden="true"></i>
-          </a>
-        </div>
-      </aside>
-
-      <!-- ✅ HEADER DESKTOP -->
-      <header class="site-header">
-        <div class="header-row">
-          <a class="header-logo" href="index.html" aria-label="Retour accueil (logo)">
-            <img src="assets/images/apam-logo2.png" alt="Logo APAM">
-          </a>
-
-          <div class="header-bar">
-            <div class="header-left">
-              <nav class="nav-menu">
-                <span class="nav-item has-dropdown">
-                  <a href="tarifs.html" class="nav-link" data-text="FLOTTE">FLOTTE</a>
-
-                  <div class="fleet-panel" role="menu" aria-label="Menu flotte">
-                    <a class="fleet-card" href="tarifs.html#fleet" data-open="c152" aria-label="Cessna 152">
-                      <div class="fleet-name">CESSNA 152</div>
-                      <img class="fleet-plane" src="assets/images/FGHKE2.png" alt="Cessna 152">
-                      <span class="fleet-chev" aria-hidden="true"></span>
-                    </a>
-
-                    <a class="fleet-card" href="tarifs.html#fleet" data-open="tb200" aria-label="TB200">
-                      <div class="fleet-name">TB200</div>
-                      <img class="fleet-plane" src="assets/images/TB200M.png" alt="TB200">
-                      <span class="fleet-chev" aria-hidden="true"></span>
-                    </a>
-
-                    <a class="fleet-card" href="tarifs.html#fleet" data-open="sr20" aria-label="Cirrus SR20">
-                      <div class="fleet-name">CIRRUS SR20</div>
-                      <img class="fleet-plane" src="assets/images/SR1.png" alt="Cirrus SR20">
-                      <span class="fleet-chev" aria-hidden="true"></span>
-                    </a>
-
-                    <div class="fleet-cta">
-                      <a href="tarifs.html#fleet" aria-label="Voir toute la flotte">
-                        <span>VOIR TOUTE LA FLOTTE</span>
-                        <i class="cta-chev" aria-hidden="true"></i>
-                      </a>
-                    </div>
-                  </div>
-                </span>
-
-                <span class="nav-item has-dropdown">
-                  <a href="activite.html" class="nav-link" data-text="LE CLUB">LE CLUB</a>
-                  <div class="activity-panel" role="menu" aria-label="Navigation Le Club">
-                    <a class="activity-link" href="activite.html#calendar-title">Calendrier des activités</a>
-                    <a class="activity-link" href="activite.html#photos-title">Photos du club</a>
-                    <a class="activity-link" href="activite.html#team-title">Notre équipe</a>
-                    <a class="activity-link" href="activite.html#social-title">Réseaux sociaux</a>
-                    <a class="activity-link" href="activite.html#voyages-title">Voyage de L'APAM</a>
-                  </div>
-                </span>
-                <span class="nav-item"><a href="devenir-pilote.html" class="nav-link" data-text="DEVENIR PILOTE">DEVENIR PILOTE</a></span>
-                <span class="nav-item"><a href="contact.html" class="nav-link" aria-current="page" data-text="CONTACT">CONTACT</a></span>
-                <span class="nav-item"><a href="boutique.html" class="nav-link" data-text="BOUTIQUE">BOUTIQUE</a></span>
-                <span class="nav-item"><a href="https://openflyers.com/apam/" target="_blank" rel="noopener noreferrer" class="nav-link" data-text="OPENFLYER">OPENFLYER</a></span>
-              </nav>
-            </div>
-
-            <div class="header-right">
-              <a class="icon" href="https://www.instagram.com/apam_lfol?igsh=MTVnbjRtNHppMWwwcA%3D%3D&utm_source=qr" aria-label="Instagram">
-                <svg viewBox="0 0 24 24">
-                  <path d="M7 2C4.2 2 2 4.2 2 7v10c0 2.8 2.2 5 5 5h10c2.8 0 5-2.2 5-5V7c0-2.8-2.2-5-5-5H7zm10 2c1.7 0 3 1.3 3 3v10c0 1.7-1.3 3-3 3H7c-1.7 0-3-1.3-3-3V7c0-1.7 1.3-3 3-3h10zm-5 3.5A4.5 4.5 0 1 0 16.5 12 4.51 4.51 0 0 0 12 7.5zm0 7A2.5 2.5 0 1 1 14.5 12 2.5 2.5 0 0 1 12 14.5zm4.8-8.9a1.1 1.1 0 1 1-1.1 1.1c0-.6.5-1.1 1.1-1.1z"/>
-                </svg>
-              </a>
-
-              <a class="icon" href="mailto:aeroclubapam@gmail.com" aria-label="Email">
-                <svg viewBox="0 0 24 24">
-                  <path d="M4 4h16a2 2 0 0 1 2 2v1l-10 6L2 7V6a2 2 0 0 1 2-2zm18 5v9a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V9l10 6 10-6z"/>
-                </svg>
-              </a>
-
-              <a class="btn-compte" href="connexion-membres-password.html?next=mon-compte.html">MON COMPTE</a>
-            </div>
-          </div>
-        </div>
-      </header>
-
-      <!-- TITLE -->
-      <div class="page-title" aria-label="Titre page">
-        <div class="title-box"><span>CONTACT</span></div>
-      </div>
-
-      <!-- CONTENT -->
-      <main class="contact-wrap" aria-label="Contact APAM">
-        <section class="hero-grid">
-          <article class="contact-card contact-hero">
-            <div class="hero-kicker"><span class="hero-dot"></span>Contact APAM</div>
-            <div class="hero-title">Un message<br>et on décolle</div>
-            <p class="hero-text">
-              Tu veux découvrir le pilotage, reprendre les vols ou rejoindre le club ? Écris-nous avec ton besoin,
-              on t’oriente vers la bonne personne rapidement.
-            </p>
-            <div class="hero-actions">
-              <a class="cta-btn" href="mailto:aeroclubapam@gmail.com">Écrire au club</a>
-              <a class="ghost-btn" href="tel:+33123456789">Appeler APAM</a>
-            </div>
-          </article>
-          <article class="contact-card fun-card">
-            <h2>Pourquoi c'est cool de nous écrire ?</h2>
-            <ul class="fun-badges">
-              <li><strong>Rapide</strong> Réponse habituelle sous 24 à 48h.</li>
-              <li><strong>Simple</strong> Pas de jargon, juste des infos concrètes.</li>
-              <li><strong>Humain</strong> Tu échanges avec de vrais membres du club.</li>
-              <li><strong>Flexible</strong> On adapte selon météo et disponibilités.</li>
-            </ul>
-          </article>
-        </section>
-
-        <section class="quick-grid">
-          <article class="contact-card">
-            <h2>Coordonnées</h2>
-            <ul class="info-list">
-              <li><strong>Adresse :</strong> Aéroclub APAM – Aérodrome de L’Aigle Saint-Michel</li>
-              <li><strong>Téléphone :</strong> 01 23 45 67 89</li>
-              <li><strong>E-mail :</strong> <a href="mailto:aeroclubapam@gmail.com">aeroclubapam@gmail.com</a></li>
-            </ul>
-            <span class="contact-pill">On recommande un premier contact par e-mail.</span>
-          </article>
-
-          <article class="contact-card">
-            <h2>Message express</h2>
-            <p class="hero-text">Clique sur une idée et on pré-remplit le formulaire automatiquement.</p>
-            <div class="quick-actions">
-              <button type="button" class="quick-chip" data-subject="Vol découverte / baptême" data-message="Bonjour, je souhaite réserver un vol découverte.">Vol découverte</button>
-              <button type="button" class="quick-chip" data-subject="Formation LAPL / PPL" data-message="Bonjour, je souhaite des informations sur la formation LAPL / PPL.">Formation</button>
-              <button type="button" class="quick-chip" data-subject="Adhésion au club" data-message="Bonjour, je souhaite rejoindre le club et connaître les étapes d'adhésion.">Adhésion</button>
-              <button type="button" class="quick-chip" data-subject="Information générale" data-message="Bonjour, j'ai une question générale concernant vos activités et disponibilités.">Question rapide</button>
-            </div>
-          </article>
-        </section>
-
-        <article class="contact-card">
-          <div class="form-wrap">
-            <div>
-              <h2>Venir à l'aéroclub</h2>
-              <p class="hero-text">
-                Aérodrome de L’Aigle Saint-Michel, parking sur place. L’accès aux zones aéronautiques est accompagné
-                par un membre APAM.
-              </p>
-              <p class="hero-text">Préviens-nous avant de te déplacer pour qu'on t'accueille dans les meilleures conditions.</p>
-            </div>
-            <div class="map-embed" aria-label="Carte d’accès">
-              <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2623.4319488186267!2d0.0000000!3d48.7660000!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0000000000000000%3Aaerodrome!2sA%C3%A9rodrome%20de%20L%E2%80%99Aigle!5e0!3m2!1sfr!2sfr!4v1700000000000"
-                loading="lazy"
-                referrerpolicy="no-referrer-when-downgrade"
-              ></iframe>
-            </div>
-          </div>
-        </article>
-
-        <article class="contact-card">
-            <div class="form-wrap">
-              <div>
-                <h2>Envoyer un message</h2>
-                <p class="hero-text">
-                  Décris ton projet en quelques lignes, et on revient vers toi avec la meilleure option.
-                </p>
-                <ul class="prep-list" aria-label="Conseils pour un message efficace">
-                  <li>Précisez le type de projet : formation, vol découverte, adhésion…</li>
-                  <li>Ajoutez vos créneaux préférés (semaine / week-end).</li>
-                  <li>Laissez un numéro si vous souhaitez un rappel rapide.</li>
-                </ul>
-                <p class="form-note">
-                  Ce formulaire utilise votre logiciel de messagerie. Vous pouvez aussi écrire à
-                  <a href="mailto:aeroclubapam@gmail.com">aeroclubapam@gmail.com</a>.
-                </p>
-                <p class="form-note">
-                  Les informations transmises via ce formulaire sont utilisées uniquement pour répondre à votre demande.
-                  Pour en savoir plus : <a href="confidentialite.html">Politique de confidentialité</a>.
-                </p>
-              </div>
-
-              <form class="contact-form" action="mailto:aeroclubapam@gmail.com" method="post" enctype="text/plain" id="contactForm">
-                <div class="field">
-                  <label for="nom">Nom et prénom</label>
-                  <input type="text" id="nom" name="Nom" required />
-                </div>
-
-                <div class="field">
-                  <label for="email">Adresse e-mail</label>
-                  <input type="email" id="email" name="Email" required />
-                </div>
-
-                <div class="field">
-                  <label for="telephone">Téléphone (optionnel)</label>
-                  <input type="tel" id="telephone" name="Téléphone" placeholder="06 00 00 00 00" />
-                </div>
-
-                <div class="field">
-                  <label for="sujet">Sujet de la demande</label>
-                  <select id="sujet" name="Sujet">
-                    <option value="Information générale">Information générale</option>
-                    <option value="Formation LAPL / PPL">Formation LAPL / PPL</option>
-                    <option value="Vol découverte / baptême">Vol découverte / baptême</option>
-                    <option value="Adhésion au club">Adhésion au club</option>
-                    <option value="Autre">Autre demande</option>
-                  </select>
-                </div>
-
-                <div class="field">
-                  <label for="disponibilites">Disponibilités</label>
-                  <input type="text" id="disponibilites" name="Disponibilités" placeholder="Ex : samedi matin, mercredi après-midi" />
-                </div>
-
-                <div class="field full">
-                  <label>Canal de réponse préféré</label>
-                  <div class="field-row" role="radiogroup" aria-label="Canal de réponse préféré">
-                    <label for="rep-email"><input type="radio" id="rep-email" name="Réponse préférée" value="E-mail" checked /> E-mail</label>
-                    <label for="rep-tel"><input type="radio" id="rep-tel" name="Réponse préférée" value="Téléphone" /> Téléphone</label>
-                    <label for="rep-indifferent"><input type="radio" id="rep-indifferent" name="Réponse préférée" value="Indifférent" /> Indifférent</label>
-                  </div>
-                </div>
-
-                <div class="field full">
-                  <label for="message">Message</label>
-                  <textarea id="message" name="Message" required></textarea>
-                </div>
-
-                <div class="field full checkbox">
-                  <label for="newsletter-optin">
-                    <input type="checkbox" id="newsletter-optin" name="Newsletter" value="Oui" />
-                    Je souhaite recevoir la newsletter de l'association (optionnel).
-                  </label>
-                </div>
-
-                <button class="send-btn" type="submit">Envoyer</button>
-              </form>
-            </div>
-        </article>
-
-        <article class="contact-card">
-          <h2>Questions fréquentes</h2>
-          <div class="faq-list">
-            <div class="faq-item">
-              <button class="faq-toggle" type="button">Faut-il déjà avoir volé pour nous contacter ? <span>ouvrir</span></button>
-              <div class="faq-content">Pas du tout. On accompagne aussi bien les débutants complets que les pilotes en reprise.</div>
-            </div>
-            <div class="faq-item">
-              <button class="faq-toggle" type="button">Peut-on planifier un échange téléphonique ? <span>ouvrir</span></button>
-              <div class="faq-content">Oui, indique simplement tes créneaux préférés dans le formulaire et ton numéro.</div>
-            </div>
-            <div class="faq-item">
-              <button class="faq-toggle" type="button">Le club est-il actif toute l'année ? <span>ouvrir</span></button>
-              <div class="faq-content">Oui, avec des ajustements selon météo et disponibilité de la flotte/instructeurs.</div>
-            </div>
-          </div>
-        </article>
-      </main>
-
-      <!-- FOOTER -->
-      <footer>
-        <div class="footer-inline">
-          <div class="footer-links">
-            <a href="mailto:aeroclubapam@gmail.com">aeroclubapam@gmail.com</a>
-            <a href="https://www.facebook.com/profile.php?id=61585663567523" target="_blank" rel="noopener noreferrer">Facebook</a>
-            <a href="https://www.instagram.com/apam_lfol?igsh=MTVnbjRtNHppMWwwcA%3D%3D&utm_source=qr" target="_blank" rel="noopener noreferrer">Instagram</a>
-            <a href="mentions-legales.html">Mentions légales</a>
-            <a href="confidentialite.html">Confidentialité</a>
-            <a href="cookies.html">Cookies</a>
-            <a href="cgu.html">CGU</a>
-          </div>
-          <div class="footer-credit">Site conçu par Pierre Cauvin.</div>
-        </div>
-      </footer>
-
     </div>
   </div>
+</section>
 
-  <script>
-    (function(){
-      /* ===========================
-         HEADER MOBILE DRAWER
-      ============================ */
-      const openBtn = document.querySelector('.m-burger');
-      const closeBtn = document.querySelector('.m-close');
-      const drawer  = document.getElementById('m-drawer');
-      const overlay = document.querySelector('.m-overlay');
-      const drawerLinks = Array.from(document.querySelectorAll('.m-link'));
-      let scrollY = 0;
+<!-- FORM + SIDE -->
+<section class="sec sec-main sp">
+  <div class="wrap">
+    <div class="cont-grid">
+      <!-- FORM -->
+      <div class="cont-form-wrap" data-r="s">
+        <div class="cont-form-head">
+          <h3>Écrivez-nous.</h3>
+          <span class="stamp">— Réponse 24-48h</span>
+        </div>
 
-      function lockScroll(){
-        scrollY = window.scrollY || document.documentElement.scrollTop;
-        document.body.style.position = 'fixed';
-        document.body.style.top = `-${scrollY}px`;
-        document.body.style.left = '0';
-        document.body.style.right = '0';
-        document.body.style.width = '100%';
-      }
-      function unlockScroll(){
-        document.body.style.position = '';
-        document.body.style.top = '';
-        document.body.style.left = '';
-        document.body.style.right = '';
-        document.body.style.width = '';
-        window.scrollTo(0, scrollY);
-      }
+        <form class="cont-form" id="contact-form" novalidate>
+          <div class="field">
+            <label class="field-lbl">— Sujet <span class="req">●</span></label>
+            <div class="subject-pills" id="subject-pills">
+              <button type="button" class="sub-pill on" data-sub="decouverte">Vol découverte</button>
+              <button type="button" class="sub-pill" data-sub="formation">Formation</button>
+              <button type="button" class="sub-pill" data-sub="adhesion">Adhésion</button>
+              <button type="button" class="sub-pill" data-sub="visite">Visite du club</button>
+              <button type="button" class="sub-pill" data-sub="autre">Autre</button>
+            </div>
+            <input type="hidden" name="subject" id="subject-val" value="decouverte">
+          </div>
 
-      function openDrawer(){
-        document.body.classList.add('m-open');
-        if(openBtn) openBtn.setAttribute('aria-expanded', 'true');
-        if(drawer) drawer.setAttribute('aria-hidden', 'false');
-        lockScroll();
-      }
-      function closeDrawer(){
-        document.body.classList.remove('m-open');
-        if(openBtn) openBtn.setAttribute('aria-expanded', 'false');
-        if(drawer) drawer.setAttribute('aria-hidden', 'true');
-        unlockScroll();
-      }
+          <div class="cont-form-row">
+            <div class="field">
+              <label class="field-lbl" for="cf-name">— Nom & prénom <span class="req">●</span></label>
+              <input type="text" id="cf-name" name="name" placeholder="Jean Dupont" required>
+            </div>
+            <div class="field">
+              <label class="field-lbl" for="cf-phone">— Téléphone</label>
+              <input type="tel" id="cf-phone" name="phone" placeholder="06 12 34 56 78">
+            </div>
+          </div>
 
-      if(openBtn){
-        openBtn.addEventListener('click', () => {
-          if(document.body.classList.contains('m-open')) closeDrawer();
-          else openDrawer();
-        });
-      }
-      if(closeBtn) closeBtn.addEventListener('click', closeDrawer);
-      if(overlay) overlay.addEventListener('click', closeDrawer);
-      drawerLinks.forEach(a => a.addEventListener('click', closeDrawer));
+          <div class="field">
+            <label class="field-lbl" for="cf-email">— E-mail <span class="req">●</span></label>
+            <input type="email" id="cf-email" name="email" placeholder="jean.dupont@email.fr" required>
+          </div>
 
-      /* ===========================
-         ENTRY ANIMATIONS
-      ============================ */
-      const titleBox = document.querySelector('.title-box');
-      requestAnimationFrame(() => titleBox && titleBox.classList.add('is-in'));
+          <div class="field">
+            <label class="field-lbl" for="cf-msg">— Votre message <span class="req">●</span></label>
+            <textarea id="cf-msg" name="message" placeholder="Bonjour, je souhaiterais réserver un vol découverte pour mon anniversaire en juin..." required></textarea>
+            <span class="field-hint">Plus vous nous donnez de détails (préférence de date, profil, attentes), plus on peut vous orienter.</span>
+          </div>
 
-      const cards = Array.from(document.querySelectorAll('.contact-card'));
-      const io = new IntersectionObserver((entries) => {
-        entries.forEach((en) => {
-          if(en.isIntersecting){
-            const el = en.target;
-            const idx = cards.indexOf(el);
-            el.style.transitionDelay = `${Math.min(idx * 90, 240)}ms`;
-            el.classList.add('is-in');
-            io.unobserve(el);
-          }
-        });
-      }, { threshold: 0.12 });
-      cards.forEach(c => io.observe(c));
+          <div class="cont-form-foot">
+            <p class="cont-rgpd">En envoyant ce formulaire, vos données seront utilisées uniquement pour vous répondre. Voir <a href="confidentialite.html">notre politique</a>.</p>
+            <button type="submit" class="btn btn--fill btn--lg">Envoyer le message <span class="arr">→</span></button>
+          </div>
+        </form>
 
-      const quickChips = Array.from(document.querySelectorAll('.quick-chip'));
-      const subject = document.getElementById('sujet');
-      const message = document.getElementById('message');
-      quickChips.forEach((chip) => {
-        chip.addEventListener('click', () => {
-          if(subject && chip.dataset.subject) subject.value = chip.dataset.subject;
-          if(message && chip.dataset.message) message.value = chip.dataset.message;
-          message?.focus();
-        });
-      });
+        <div class="cont-form-success" id="cf-success">
+          <div class="ic">✓</div>
+          <h4>Message envoyé.</h4>
+          <p>Merci ! Un membre du bureau vous répondra sous 24 à 48h. En attendant, n'hésitez pas à consulter <a href="devenir-pilote.html" style="color:var(--accent)">notre page formation</a>.</p>
+        </div>
+      </div>
 
-      const faqToggles = Array.from(document.querySelectorAll('.faq-toggle'));
-      faqToggles.forEach((btn) => {
-        btn.addEventListener('click', () => {
-          const item = btn.closest('.faq-item');
-          if(!item) return;
-          item.classList.toggle('open');
-          const badge = btn.querySelector('span');
-          if(badge) badge.textContent = item.classList.contains('open') ? 'fermer' : 'ouvrir';
-        });
-      });
-    })();
-  </script>
+      <!-- SIDE INFO -->
+      <aside class="cont-side">
+        <div class="cont-side-card" data-r data-d="1">
+          <div class="hdr">
+            <h4>— Coordonnées</h4>
+            <div class="ico"><svg viewBox="0 0 24 24"><path d="M12 2A8 8 0 0 0 4 10c0 5.5 8 12 8 12s8-6.5 8-12a8 8 0 0 0-8-8zm0 11a3 3 0 1 1 0-6 3 3 0 0 1 0 6z"/></svg></div>
+          </div>
+          <div class="cs-row"><span class="l">E-mail</span><span class="v"><a href="/cdn-cgi/l/email-protection#59383c2b363a352c3b38293834193e34383035773a3634"><span class="__cf_email__" data-cfemail="fd9c988f929e91889f9c8d9c90bd9a909c9491d39e9290">[email&#160;protected]</span></a></span></div>
+          <div class="cs-row"><span class="l">Téléphone</span><span class="v"><a href="tel:+33233281234">02 33 28 12 34</a></span></div>
+          <div class="cs-row"><span class="l">Adresse</span><span class="v">Aérodrome de L'Aigle<br>61300 Saint-Michel-Thubeuf</span></div>
+        </div>
 
-  <script>
-    window.COOKIE_CONSENT_CONFIG = window.COOKIE_CONSENT_CONFIG || { gaMeasurementId: "G-VYNBMK1WPC" };
-  </script>
-  <script src="assets/cookie-consent.js" defer></script>
+        <div class="cont-side-card" data-r data-d="2">
+          <div class="hdr">
+            <h4>— Horaires d'ouverture</h4>
+            <div class="ico"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm.5 5h-1v6l5.2 3.2.5-.9-4.7-2.8V7z"/></svg></div>
+          </div>
+          <div class="cs-row"><span class="l">Lun – Ven</span><span class="v">Sur RDV</span></div>
+          <div class="cs-row"><span class="l">Samedi</span><span class="v"><span class="dot"></span>9h – 18h</span></div>
+          <div class="cs-row"><span class="l">Dimanche</span><span class="v"><span class="dot"></span>9h – 18h</span></div>
+          <div class="cs-row"><span class="l">Jours fériés</span><span class="v">9h – 18h</span></div>
+        </div>
+
+        <div class="cont-side-card" data-r data-d="3">
+          <div class="hdr">
+            <h4>— Infos aéro</h4>
+            <div class="ico"><svg viewBox="0 0 24 24"><path d="M22 16v-2l-8.5-5V3.5a1.5 1.5 0 0 0-3 0V9L2 14v2l8.5-2.5V19L8 20.5V22l4-1 4 1v-1.5L13.5 19v-5.5L22 16z"/></svg></div>
+          </div>
+          <div class="cs-row"><span class="l">OACI</span><span class="v">LFOL</span></div>
+          <div class="cs-row"><span class="l">Fréquence</span><span class="v">126.855 <em>MHz</em></span></div>
+          <div class="cs-row"><span class="l">Piste</span><span class="v">07/25 · 990 m</span></div>
+          <div class="cs-row"><span class="l">Coordonnées</span><span class="v">48°45'40" N<br>0°39'20" E</span></div>
+        </div>
+
+        <a class="btn btn--ghost" href="https://www.google.com/maps/place/Aérodrome+de+L'Aigle-Saint-Michel" target="_blank">Voir sur Google Maps <span class="arr">↗</span></a>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<!-- MAP / ACCESS -->
+<section class="sec sec-map sp">
+  <div class="wrap">
+    <div class="map-head">
+      <div>
+        <p class="kicker" data-r>Venir au terrain</p>
+        <h2 class="h2" data-r="clip" data-d="1">Comment<br>nous rejoindre.</h2>
+      </div>
+      <p class="body-text" data-r data-d="2" style="max-width:380px">L'aérodrome est à 1h30 de Paris, accessible par la N12 ou par le train jusqu'à L'Aigle, puis 10 min en voiture.</p>
+    </div>
+
+    <div class="map-grid">
+      <!-- Stylized map -->
+      <div class="map-canvas" data-r="s">
+        <div class="map-bg-grid"></div>
+        <div class="map-bg-glow"></div>
+        <div class="map-radial"></div>
+        <div class="map-runway">
+          <span class="map-runway-marker s">07</span>
+          <span class="map-runway-marker e">25</span>
+        </div>
+        <div class="map-pin"></div>
+        <div class="map-label">
+          <div class="nm">LFOL</div>
+          <div class="lc">L'Aigle Saint-Michel</div>
+          <div class="co">48°45'40" N · 0°39'20" E</div>
+        </div>
+        <div class="map-corner tl"><span>Région</span><em>NORMANDIE</em></div>
+        <div class="map-corner tr"><span>Élévation</span><em>700 ft</em></div>
+        <div class="map-corner bl">FRQ — 126.855</div>
+        <div class="map-corner br">RWY 07/25 · 990 m</div>
+        <div class="map-cta">
+          <a class="btn btn--fill" href="https://www.google.com/maps/place/Aérodrome+de+L'Aigle-Saint-Michel" target="_blank">Ouvrir dans Maps <span class="arr">↗</span></a>
+        </div>
+      </div>
+
+      <!-- Access modes -->
+      <div class="access-list">
+        <div class="access-item" data-r data-d="1">
+          <div class="access-icon"><svg viewBox="0 0 24 24"><path d="M5 11l1.5-4.5C6.8 5.6 7.7 5 8.7 5h6.6c1 0 1.9.6 2.2 1.5L19 11h.5a1.5 1.5 0 0 1 0 3H19v3a1 1 0 0 1-1 1h-1a1 1 0 0 1-1-1v-1H8v1a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1v-3h-.5a1.5 1.5 0 0 1 0-3H5zm2 0h10l-1.2-3.5H8.2L7 11zm.5 4a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm9 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/></svg></div>
+          <div class="access-body">
+            <h4>En voiture</h4>
+            <p>Depuis Paris : A13 → N12 direction Granville, sortie L'Aigle. Parking gratuit au terrain.</p>
+          </div>
+          <span class="access-dur">1h30<small>De Paris</small></span>
+        </div>
+        <div class="access-item" data-r data-d="2">
+          <div class="access-icon"><svg viewBox="0 0 24 24"><path d="M4 12V7a3 3 0 0 1 3-3h10a3 3 0 0 1 3 3v5l1 5v3h-3l-1-2H8l-1 2H4v-3l1-5h-1zm3 0h10V7H7v5zm-1 4a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3zm12 0a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z"/></svg></div>
+          <div class="access-body">
+            <h4>En train</h4>
+            <p>Gare de L'Aigle, ligne Paris-Granville. Taxi ou récupération au club sur RDV.</p>
+          </div>
+          <span class="access-dur">1h45<small>Paris-Mtp.</small></span>
+        </div>
+        <div class="access-item" data-r data-d="3">
+          <div class="access-icon"><svg viewBox="0 0 24 24"><path d="M22 16v-2l-8.5-5V3.5a1.5 1.5 0 0 0-3 0V9L2 14v2l8.5-2.5V19L8 20.5V22l4-1 4 1v-1.5L13.5 19v-5.5L22 16z"/></svg></div>
+          <div class="access-body">
+            <h4>En avion</h4>
+            <p>VFR contact 126.855 MHz, intégration standard. Pas de service essence sur place — Évreux à 25 NM.</p>
+          </div>
+          <span class="access-dur">VFR<small>LFOL</small></span>
+        </div>
+        <div class="access-item" data-r data-d="4">
+          <div class="access-icon"><svg viewBox="0 0 24 24"><path d="M12 1.5a4.5 4.5 0 0 0-4.5 4.5c0 3.5 4.5 9 4.5 9s4.5-5.5 4.5-9A4.5 4.5 0 0 0 12 1.5zm0 6.3a1.8 1.8 0 1 1 0-3.6 1.8 1.8 0 0 1 0 3.6zM5 16v3h14v-3l-3 1-4-1-4 1-3-1z"/></svg></div>
+          <div class="access-body">
+            <h4>Itinéraire détaillé</h4>
+            <p>Adresse précise : Route de Saint-Michel, 61300 Saint-Michel-Thubeuf. Suivre les panneaux « Aérodrome ».</p>
+          </div>
+          <span class="access-dur"><a href="https://www.google.com/maps/dir//Aérodrome+de+L'Aigle-Saint-Michel" target="_blank" style="color:var(--accent)">GO</a><small>Maps ↗</small></span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="sec sec-faq-c sp">
+  <div class="wrap">
+    <div class="faq-head">
+      <p class="kicker" data-r>FAQ</p>
+      <h2 class="h2" data-r="clip" data-d="1">Questions<br>fréquentes.</h2>
+    </div>
+    <div class="faq-list">
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">Peut-on visiter le terrain sans être pilote ?<span class="ic">+</span></button>
+        <div class="faq-a"><div class="faq-a-inner"><p>Bien sûr — le club est ouvert à tous le samedi et dimanche de 9h à 18h. Venez voir le hangar, discutez avec les pilotes, prenez un café au clubhouse. Idéal avant de se décider pour une formation.</p></div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">Comment réserver un vol découverte ?<span class="ic">+</span></button>
+        <div class="faq-a"><div class="faq-a-inner"><p>Le plus simple : envoyez le formulaire ci-dessus en sélectionnant « Vol découverte ». On vous propose 2-3 créneaux selon météo et disponibilité instructeur. Possibilité d'offrir un bon cadeau.</p></div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">Que faire en cas de mauvaise météo ?<span class="ic">+</span></button>
+        <div class="faq-a"><div class="faq-a-inner"><p>Si la météo ne le permet pas le jour J, le vol est reporté sans frais. La décision est prise par l'instructeur le matin même. Comptez 1 à 2 reports possibles par an selon les saisons.</p></div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">Y a-t-il un âge minimum pour un vol découverte ?<span class="ic">+</span></button>
+        <div class="faq-a"><div class="faq-a-inner"><p>Aucun âge minimum pour être passager. Pour un vol découverte « aux commandes », il faut être en mesure d'atteindre les commandes — généralement à partir de 8-10 ans selon la taille. Les mineurs ont besoin d'une autorisation parentale.</p></div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">Peut-on payer en plusieurs fois ?<span class="ic">+</span></button>
+        <div class="faq-a"><div class="faq-a-inner"><p>Pour les vols découverte : règlement en une fois. Pour la formation : vous payez les vols au fur et à mesure (via OpenFlyer), donc le coût est naturellement étalé sur 12-18 mois. Adhésion annuelle réglable en 1× ou 3×.</p></div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">Et le vol découverte, c'est cadeau ?<span class="ic">+</span></button>
+        <div class="faq-a"><div class="faq-a-inner"><p>Oui — on émet des bons cadeaux valables 12 mois, avec une jolie carte du club. Très demandés pour les anniversaires, départs à la retraite, ou cadeaux de fête. <a href="/cdn-cgi/l/email-protection#b4d5d1c6dbd7d8c1d6d5c4d5d9f4d3d9d5ddd89ad7dbd9">Nous contacter</a> pour le format.</p></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <img src="assets/images/apam-logo2.png" alt="APAM">
+      <p class="footer-tag">L'Aigle<br>Saint-Michel</p>
+      <p class="footer-desc">Aéroclub du Pays d'Ouche depuis 1965. Formation PPL & LAPL, vols découverte, vie associative en Normandie.</p>
+      <div class="footer-coords">
+        <span class="footer-coords-val">48°45'40" N · 0°39'20" E</span>
+        <span class="footer-coords-frq">LFOL · FRQ 126.855</span>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h5>Navigation</h5>
+      <ul>
+        <li><a href="tarifs.html">Flotte & Tarifs</a></li>
+        <li><a href="activite.html">Le Club</a></li>
+        <li><a href="devenir-pilote.html">Devenir pilote</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li><a href="boutique.html">Boutique</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h5>Membres</h5>
+      <ul>
+        <li><a href="https://openflyers.com/apam/" target="_blank">OpenFlyer ↗</a></li>
+        <li><a href="connexion-membres-password.html?next=mon-compte.html">Mon compte</a></li>
+        <li><a href="inscription-membres.html">S'inscrire</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h5>Suivez-nous</h5>
+      <ul>
+        <li><a href="https://www.instagram.com/apam_lfol" target="_blank">Instagram ↗</a></li>
+        <li><a href="https://www.facebook.com/profile.php?id=61585663567523" target="_blank">Facebook ↗</a></li>
+        <li><a href="/cdn-cgi/l/email-protection#18797d6a777b746d7a79687975587f75797174367b7775"><span class="__cf_email__" data-cfemail="7d1c180f121e11081f1c0d1c103d1a101c1411531e1210">[email&#160;protected]</span></a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="footer-legal">
+      <a href="mentions-legales.html">Mentions légales</a>
+      <a href="confidentialite.html">Confidentialité</a>
+      <a href="cgu.html">CGU</a>
+      <a href="cookies.html">Cookies</a>
+    </div>
+    <span class="footer-credit">© 2026 APAM · Aéroclub du Pays d'Ouche & des Avesnes au Mont</span>
+  </div>
+</footer>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="assets/site.js"></script>
+<script>
+// Subject pills
+const pills = document.querySelectorAll('.sub-pill');
+const subjectVal = document.getElementById('subject-val');
+pills.forEach(p => p.addEventListener('click', () => {
+  pills.forEach(x => x.classList.remove('on'));
+  p.classList.add('on');
+  if (subjectVal) subjectVal.value = p.dataset.sub;
+}));
+
+// FAQ toggle
+document.querySelectorAll('.faq-q').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const item = btn.closest('.faq-item');
+    const open = item.classList.toggle('open');
+    btn.setAttribute('aria-expanded', open);
+  });
+});
+
+// Form submit demo
+const form = document.getElementById('contact-form');
+const success = document.getElementById('cf-success');
+form?.addEventListener('submit', (e) => {
+  e.preventDefault();
+  if (!form.checkValidity()) { form.reportValidity(); return; }
+  form.classList.add('hidden');
+  success.classList.add('on');
+  form.scrollIntoView({ block: 'nearest' });
+});
+</script>
 </body>
 </html>
