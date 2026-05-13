@@ -1,114 +1,232 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Politique de confidentialité | APAM</title>
-  <style>
-    :root { --bg:#0b0b0c; --card:#17181b; --text:#f6f7fb; --muted:#c6cad8; --accent:#2f6bff; --border:#2a2c33; }
-    *{box-sizing:border-box} body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;background:linear-gradient(180deg,#050608 0%,var(--bg) 100%);color:var(--text);line-height:1.62}
-    .container{max-width:980px;margin:0 auto;padding:24px 18px 52px}.topbar{display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap}
-    .brand{font-size:.95rem;color:var(--muted)} nav a{color:var(--text);text-decoration:none;margin-right:14px} nav a:hover{color:var(--accent)}
-    h1{font-size:clamp(1.7rem,3vw,2.2rem);margin:22px 0 12px} h2{margin-top:28px;font-size:1.2rem}
-    .card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:20px;margin-top:18px}
-    .badge{display:inline-block;background:rgba(47,107,255,.12);border:1px solid rgba(47,107,255,.45);color:#99b6ff;border-radius:99px;padding:4px 10px;font-size:.84rem}
-    ul{padding-left:18px} .muted{color:var(--muted)} code{background:#111318;padding:.12rem .4rem;border-radius:4px}
-    footer{margin-top:28px;padding-top:18px;border-top:1px solid var(--border);color:var(--muted)} .footer-links a{color:var(--muted);text-decoration:none;margin-right:10px}
-    .footer-links a:hover{color:var(--accent)}
-    .back-home{color:var(--text);text-decoration:none;border:1px solid var(--border);border-radius:0;padding:8px 12px;font-size:.9rem}.back-home:hover{border-color:var(--accent);color:var(--accent)}
-  </style>
+<meta charset="UTF-8"/>
+<title>Confidentialité – APAM</title>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,400;0,600;0,700;0,900;1,400;1,700;1,900&family=Jost:wght@300;400;500;600;700&family=Lora:ital,wght@1,400;1,500&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/site.css">
+<style>
+.lp-hero{position:relative;padding:calc(var(--nav-h) + clamp(80px,14vh,160px)) 0 clamp(40px,8vh,80px);overflow:hidden;border-bottom:1px solid var(--border)}
+.lp-hero::before{content:'';position:absolute;inset:0;background:radial-gradient(50% 60% at 80% 10%,rgba(37,99,235,.1),transparent 70%);pointer-events:none}
+.lp-hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(37,99,235,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(37,99,235,.025) 1px,transparent 1px);background-size:64px 64px;mask-image:linear-gradient(160deg,rgba(0,0,0,.5) 10%,transparent 70%);-webkit-mask-image:linear-gradient(160deg,rgba(0,0,0,.5) 10%,transparent 70%)}
+.lp-hero-inner{position:relative;z-index:1}
+.lp-bcrumb{font-size:10px;font-weight:700;letter-spacing:.28em;text-transform:uppercase;color:rgba(255,255,255,.34);display:flex;align-items:center;gap:10px;margin-bottom:20px;flex-wrap:wrap}
+.lp-bcrumb a{color:rgba(255,255,255,.34);transition:color .2s}
+.lp-bcrumb a:hover{color:#fff}
+.lp-bcrumb .sep{opacity:.5}
+.lp-bcrumb .cu{color:var(--accent)}
+.lp-title{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:clamp(48px,8vw,120px);line-height:.88;letter-spacing:-.02em;text-transform:uppercase;color:#fff}
+.lp-title .ol{color:transparent;-webkit-text-stroke:1.5px rgba(255,255,255,.3)}
+.lp-meta{display:flex;flex-wrap:wrap;gap:32px;margin-top:28px;padding-top:22px;border-top:1px solid var(--border)}
+.lp-meta-it{display:flex;flex-direction:column;gap:4px}
+.lp-meta-it .l{font-size:9px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:rgba(255,255,255,.34)}
+.lp-meta-it .v{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:14px;letter-spacing:.04em;color:#fff}
+
+.sec-legal{background:var(--bg);padding:clamp(56px,8vh,90px) 0;border-bottom:1px solid var(--border)}
+.lp-grid{display:grid;grid-template-columns:240px 1fr;gap:60px;align-items:start}
+.lp-toc{position:sticky;top:100px;display:flex;flex-direction:column;gap:6px;padding:18px;background:var(--sf);border:1px solid var(--border);border-radius:var(--rl)}
+.lp-toc h4{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);margin-bottom:8px;padding-bottom:8px;border-bottom:1px solid var(--border)}
+.lp-toc a{display:flex;align-items:center;gap:8px;padding:8px 10px;font-size:12.5px;color:var(--muted);border-radius:6px;transition:background .2s,color .2s;line-height:1.4}
+.lp-toc a:hover,.lp-toc a.on{background:rgba(37,99,235,.08);color:#fff}
+.lp-toc a .nm{font-family:'JetBrains Mono','Courier New',monospace;font-size:10px;color:var(--accent);min-width:24px}
+
+.lp-body{max-width:780px}
+.lp-body section{padding:36px 0;border-bottom:1px solid var(--border)}
+.lp-body section:first-child{padding-top:0}
+.lp-body section:last-child{border-bottom:none}
+.lp-body h2{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:clamp(26px,3vw,38px);line-height:.96;text-transform:uppercase;color:#fff;letter-spacing:-.005em;margin-bottom:18px;display:flex;align-items:baseline;gap:14px}
+.lp-body h2 .nm{font-family:'JetBrains Mono','Courier New',monospace;font-size:.45em;color:var(--accent);font-weight:600;font-style:normal;letter-spacing:.1em}
+.lp-body h3{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:16px;letter-spacing:.06em;text-transform:uppercase;color:#fff;margin:24px 0 12px}
+.lp-body p{font-size:14.5px;line-height:1.8;color:rgba(255,255,255,.78);margin-bottom:14px}
+.lp-body p strong{color:#fff;font-weight:600}
+.lp-body p a{color:var(--accent);transition:color .2s}
+.lp-body p a:hover{color:#fff}
+.lp-body ul{list-style:none;display:flex;flex-direction:column;gap:8px;margin:8px 0 14px;padding:0}
+.lp-body ul li{font-size:14px;line-height:1.7;color:rgba(255,255,255,.78);display:flex;align-items:flex-start;gap:12px}
+.lp-body ul li::before{content:'';width:14px;height:1px;background:var(--accent);flex-shrink:0;margin-top:13px;opacity:.6}
+.lp-body .info-card{background:var(--sf);border:1px solid var(--border);border-left:3px solid var(--accent);border-radius:var(--r);padding:18px 22px;margin:18px 0;font-size:13.5px;line-height:1.7;color:var(--muted)}
+.lp-body .info-card strong{color:#fff;display:block;margin-bottom:4px;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:11px;letter-spacing:.18em;text-transform:uppercase}
+.lp-body table{width:100%;margin:14px 0;border-collapse:collapse;border:1px solid var(--border);border-radius:var(--r);overflow:hidden}
+.lp-body table th{background:var(--sf);text-align:left;padding:12px 14px;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#fff;border-bottom:1px solid var(--border)}
+.lp-body table td{padding:12px 14px;font-size:13px;color:var(--muted);border-bottom:1px solid var(--border)}
+.lp-body table tr:last-child td{border-bottom:none}
+.lp-body table td strong{color:#fff}
+
+@media(max-width:980px){
+  .lp-grid{grid-template-columns:1fr;gap:32px}
+  .lp-toc{position:static;display:none}
+}
+</style>
 </head>
 <body>
-  <main class="container">
-    <div class="topbar">
-      <div class="brand">Aéroclub de l'Amicale des Pilotes de l'Aigle St Michel</div>
-      <nav aria-label="Navigation légale">
-        <a href="mentions-legales.html">Mentions légales</a>
-        <a href="confidentialite.html">Confidentialité</a>
-        <a href="cookies.html">Cookies</a>
-        <a href="cgu.html">CGU</a>
-      </nav>
-      <a class="back-home" href="index.html">← Retour au site</a>
-    </div>
 
-    <h1>Politique de confidentialité (RGPD)</h1>
-    <span class="badge">Dernière mise à jour : 14/03/2026</span>
+<div class="grain" aria-hidden="true"></div>
+<div class="pg-bar" id="pg-bar"></div>
+<div class="cur" id="cur-dot"><div class="cur-dot"></div></div>
+<div class="cur" id="cur-ring"><div class="cur-ring"></div></div>
 
-    <section class="card">
-      <h2>Responsable de traitement</h2>
-      <p>
-        Association <strong>Aéroclub de l'Amicale des Pilotes de l'Aigle St Michel</strong>,
-        siège social : <strong>Aérodrome, route de Paris, 61300 Saint-Sulpice-sur-Risle</strong>,
-        SIRET : <strong>409 593 498 00028</strong>, RNA : <strong>W613000037</strong>.
-      </p>
-      <p>Contact RGPD : <a href="mailto:aeroclubapam@gmail.com">aeroclubapam@gmail.com</a> – Frédéric Regnier (02 33 24 21 52, sans permanence ; 06 08 28 83 22).</p>
-    </section>
-
-    <section class="card" id="formulaire-contact">
-      <h2>Traitement des données du formulaire de contact</h2>
-      <p>Lorsque vous utilisez le formulaire de contact du site, nous collectons :</p>
-      <ul>
-        <li><strong>Nom</strong> (si renseigné),</li>
-        <li><strong>Email</strong>,</li>
-        <li><strong>Message</strong>.</li>
-      </ul>
-      <ul>
-        <li><strong>Finalité</strong> : répondre à votre demande, assurer le suivi des échanges.</li>
-        <li><strong>Base légale</strong> : intérêt légitime de l'association à répondre aux sollicitations ;
-          consentement lorsque vous demandez explicitement un suivi spécifique.</li>
-        <li><strong>Durée de conservation</strong> : 12 mois maximum après le dernier échange,
-          sauf obligation légale contraire.</li>
-        <li><strong>Destinataires</strong> : membres habilités du bureau/administration de l'association,
-          et prestataires techniques strictement nécessaires à l'hébergement et au fonctionnement du site.</li>
-      </ul>
-      <p class="muted">Texte court à afficher près du formulaire :</p>
-      <p><em>Les informations transmises via ce formulaire sont utilisées uniquement pour répondre à votre demande. Pour en savoir plus : Politique de confidentialité.</em></p>
-    </section>
-
-    <section class="card">
-      <h2>Newsletter (future)</h2>
-      <p>
-        Une inscription newsletter pourra être proposée ultérieurement. Cette inscription reposera sur votre
-        consentement explicite (opt-in) et vous pourrez vous désinscrire à tout moment.
-      </p>
-      <p>Case à cocher optionnelle suggérée (non active pour l'instant) :</p>
-      <p><code>&lt;label&gt;&lt;input type="checkbox" name="newsletter" /&gt; Je souhaite recevoir la newsletter de l'association (optionnel).&lt;/label&gt;</code></p>
-    </section>
-
-    <section class="card">
-      <h2>Droits des personnes</h2>
-      <p>
-        Conformément au RGPD et à la loi Informatique et Libertés, vous disposez des droits d'accès,
-        de rectification, d'effacement, de limitation, d'opposition et, lorsque applicable, de portabilité.
-      </p>
-      <p>
-        Pour exercer vos droits : <a href="mailto:aeroclubapam@gmail.com">aeroclubapam@gmail.com</a>.
-        En cas de difficulté non résolue, vous pouvez introduire une réclamation auprès de la CNIL
-        (<a href="https://www.cnil.fr" target="_blank" rel="noopener noreferrer">www.cnil.fr</a>).
-      </p>
-    </section>
-
-    <section class="card">
-      <h2>Hébergement et transferts</h2>
-      <p>
-        Le site est hébergé par <strong>GitHub, Inc., 88 Colin P Kelly Jr St, San Francisco, CA 94107, USA.</strong>
-        Des transferts hors Union européenne peuvent exister selon les services techniques utilisés.
-      </p>
-    </section>
-
-    <footer>
-      <div class="footer-links">
-        <a href="https://www.instagram.com/apam_lfol?igsh=MTVnbjRtNHppMWwwcA%3D%3D&utm_source=qr" target="_blank" rel="noopener noreferrer">Instagram</a> |
-        <a href="mentions-legales.html">Mentions légales</a> |
-        <a href="confidentialite.html">Confidentialité</a> |
-        <a href="cookies.html">Cookies</a> |
-        <a href="cgu.html">CGU</a>
+<nav class="nav" id="nav">
+  <a class="nav-logo" href="index.html"><img src="assets/images/apam-logo2.png" alt="APAM"></a>
+  <ul class="nav-links">
+    <li class="nav-item-drop">
+      <a href="tarifs.html">Flotte</a>
+      <div class="nav-drop">
+        <a class="ndc" href="tarifs.html"><img src="assets/images/FGHKE2.png" alt="Cessna 152"><div class="ndc-name">Cessna 152</div><div class="ndc-sub">Formation · Initiation</div></a>
+        <a class="ndc" href="tarifs.html"><img src="assets/images/TB200M.png" alt="TB200"><div class="ndc-name">TB200</div><div class="ndc-sub">Perfectionnement · Voyage</div></a>
+        <a class="ndc" href="tarifs.html"><img src="assets/images/SR1.png" alt="SR20"><div class="ndc-name">Cirrus SR20</div><div class="ndc-sub">Haute performance</div></a>
       </div>
-    </footer>
-  </main>
-  <script>
-    window.COOKIE_CONSENT_CONFIG = { gaMeasurementId: 'G-VYNBMK1WPC' };
-  </script>
-  <script src="assets/cookie-consent.js" defer></script>
+    </li>
+    <li><a href="activite.html">Le Club</a></li>
+    <li><a href="devenir-pilote.html">Devenir pilote</a></li>
+    <li><a href="contact.html">Contact</a></li>
+    <li><a href="boutique.html">Boutique</a></li>
+    <li><a href="https://openflyers.com/apam/" target="_blank">OpenFlyer</a></li>
+  </ul>
+  <div class="nav-icons">
+    <a class="nav-ic" href="https://www.instagram.com/apam_lfol" target="_blank" aria-label="Instagram"><svg viewBox="0 0 24 24"><path d="M7 2C4.2 2 2 4.2 2 7v10c0 2.8 2.2 5 5 5h10c2.8 0 5-2.2 5-5V7c0-2.8-2.2-5-5-5H7zm0 2h10c1.7 0 3 1.3 3 3v10c0 1.7-1.3 3-3 3H7c-1.7 0-3-1.3-3-3V7c0-1.7 1.3-3 3-3zm5 3.5a4.5 4.5 0 1 0 0 9 4.5 4.5 0 0 0 0-9zm0 2a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zm4.8-2.9a1.1 1.1 0 1 0 0 2.2 1.1 1.1 0 0 0 0-2.2z"/></svg></a>
+    <a class="nav-ic" href="/cdn-cgi/l/email-protection#caabafb8a5a9a6bfa8abbaaba78aada7aba3a6e4a9a5a7" aria-label="Email"><svg viewBox="0 0 24 24"><path d="M4 4h16a2 2 0 0 1 2 2v1L12 13 2 7V6a2 2 0 0 1 2-2zm18 5v9a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V9l10 6 10-6z"/></svg></a>
+  </div>
+  <a class="nav-cta" href="connexion-membres-password.html?next=mon-compte.html">Mon compte</a>
+  <button class="nav-burger" id="burger" aria-expanded="false" aria-label="Menu"><b></b><b></b><b></b></button>
+</nav>
+
+<div class="m-drawer" id="drawer" aria-hidden="true">
+  <div class="m-drawer-top"><img src="assets/images/apam-logo2.png" alt="APAM" style="height:40px"><button class="m-close" id="m-close" aria-label="Fermer">✕</button></div>
+  <nav class="m-nav">
+    <a href="tarifs.html">Flotte <span class="arr">→</span></a>
+    <a href="activite.html">Le Club <span class="arr">→</span></a>
+    <a href="devenir-pilote.html">Devenir pilote <span class="arr">→</span></a>
+    <a href="contact.html">Contact <span class="arr">→</span></a>
+    <a href="boutique.html">Boutique <span class="arr">→</span></a>
+    <a href="https://openflyers.com/apam/" target="_blank">OpenFlyer <span class="arr">↗</span></a>
+  </nav>
+  <div class="m-cta-wrap"><a class="btn btn--fill" href="connexion-membres-password.html?next=mon-compte.html">Mon compte</a></div>
+</div>
+
+<section class="lp-hero">
+  <div class="lp-hero-grid"></div>
+  <div class="wrap">
+    <div class="lp-hero-inner">
+      <nav class="lp-bcrumb"><a href="index.html">Accueil</a><span class="sep">/</span><span class="cu">Confidentialité</span></nav>
+      <h1 class="lp-title">Politique de<br><span class="ol">confidentialité.</span></h1>
+      <div class="lp-meta">
+        <div class="lp-meta-it"><span class="l">Document</span><span class="v">Confidentialité RGPD</span></div>
+        <div class="lp-meta-it"><span class="l">Version</span><span class="v">v2.1 · 2026</span></div>
+        <div class="lp-meta-it"><span class="l">Mise à jour</span><span class="v">12 mai 2026</span></div>
+        <div class="lp-meta-it"><span class="l">Lecture</span><span class="v">≈ 6 minutes</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec-legal">
+  <div class="wrap">
+    <div class="lp-grid">
+      <aside class="lp-toc">
+        <h4>— Sommaire</h4>
+        <a href="#intro" data-toc="intro"><span class="nm">01</span> Préambule</a>
+      <a href="#donnees" data-toc="donnees"><span class="nm">02</span> Données collectées</a>
+      <a href="#finalites" data-toc="finalites"><span class="nm">03</span> Finalités du traitement</a>
+      <a href="#partage" data-toc="partage"><span class="nm">04</span> Partage des données</a>
+      <a href="#droits" data-toc="droits"><span class="nm">05</span> Vos droits</a>
+      <a href="#securite" data-toc="securite"><span class="nm">06</span> Sécurité</a>
+      <a href="#reclamation" data-toc="reclamation"><span class="nm">07</span> Réclamation</a>
+      </aside>
+      <div class="lp-body">
+        <section id="intro"><h2><span class="nm">01</span>Préambule</h2>
+    <p>L'Aéroclub APAM accorde une grande importance à la protection des données personnelles de ses membres, visiteurs et correspondants. Cette politique décrit comment nous collectons, utilisons et protégeons vos informations.</p>
+    <p>Elle s'inscrit dans le cadre du <strong>Règlement Général sur la Protection des Données (RGPD — UE 2016/679)</strong> et de la loi française « Informatique et Libertés ».</p></section>
+      <section id="donnees"><h2><span class="nm">02</span>Données collectées</h2>
+    <p>Nous collectons les données strictement nécessaires à nos activités :</p>
+    <h3>— Visiteurs du site</h3>
+    <ul>
+      <li>Cookies techniques (préférences d'affichage, panier boutique)</li>
+      <li>Données de formulaire de contact (nom, e-mail, message)</li>
+    </ul>
+    <h3>— Membres du club</h3>
+    <ul>
+      <li>État civil et coordonnées (nom, adresse, téléphone, e-mail)</li>
+      <li>Données aéronautiques (licences, qualifications, médicale, heures de vol)</li>
+      <li>Données financières (cotisations, paiements via prélèvement SEPA)</li>
+    </ul></section>
+      <section id="finalites"><h2><span class="nm">03</span>Finalités du traitement</h2>
+    <table>
+      <thead><tr><th>Finalité</th><th>Base légale</th><th>Durée</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Gestion des adhésions</strong></td><td>Exécution du contrat</td><td>Durée d'adhésion + 5 ans</td></tr>
+        <tr><td><strong>Suivi formation pilote</strong></td><td>Obligation légale</td><td>Durée de validité licence</td></tr>
+        <tr><td><strong>Newsletter & événements</strong></td><td>Consentement</td><td>Jusqu'au retrait</td></tr>
+        <tr><td><strong>Formulaire de contact</strong></td><td>Intérêt légitime</td><td>3 ans après dernier échange</td></tr>
+      </tbody>
+    </table></section>
+      <section id="partage"><h2><span class="nm">04</span>Partage des données</h2>
+    <p>Vos données ne sont jamais vendues. Elles peuvent être partagées avec :</p>
+    <ul>
+      <li><strong>OpenFlyer</strong> — pour la gestion des réservations et du carnet de vol (sous-traitant)</li>
+      <li><strong>La DGAC / EASA</strong> — dans le cadre du suivi obligatoire des licences pilotes</li>
+      <li><strong>Notre établissement bancaire</strong> — pour les prélèvements SEPA</li>
+      <li><strong>La FFA</strong> — Fédération Française Aéronautique, pour l'assurance fédérale</li>
+    </ul></section>
+      <section id="droits"><h2><span class="nm">05</span>Vos droits</h2>
+    <p>Conformément au RGPD, vous disposez des droits suivants :</p>
+    <ul>
+      <li><strong>Accès</strong> — obtenir la copie de vos données</li>
+      <li><strong>Rectification</strong> — corriger des données inexactes</li>
+      <li><strong>Effacement</strong> — supprimer vos données (sous réserve d'obligations légales)</li>
+      <li><strong>Limitation</strong> — restreindre certains traitements</li>
+      <li><strong>Opposition</strong> — refuser certains traitements (newsletter notamment)</li>
+      <li><strong>Portabilité</strong> — récupérer vos données dans un format lisible</li>
+    </ul>
+    <div class="info-card">
+      <strong>— Comment exercer vos droits</strong>
+      <p style="margin:0">Envoyez votre demande à <a href="/cdn-cgi/l/email-protection#08696d7a676b647d6a69786965486f65696164266b6765"><span class="__cf_email__" data-cfemail="c5a4a0b7aaa6a9b0a7a4b5a4a885a2a8a4aca9eba6aaa8">[email&#160;protected]</span></a> avec une copie de votre pièce d'identité. Nous répondons sous 30 jours maximum.</p>
+    </div></section>
+      <section id="securite"><h2><span class="nm">06</span>Sécurité</h2>
+    <p>Nous mettons en œuvre des mesures techniques et organisationnelles pour protéger vos données : chiffrement des connexions (HTTPS), accès restreint aux données sensibles, sauvegardes régulières, sensibilisation des membres du bureau.</p></section>
+      <section id="reclamation"><h2><span class="nm">07</span>Réclamation</h2>
+    <p>Si vous estimez que vos droits ne sont pas respectés, vous pouvez introduire une réclamation auprès de la <strong>CNIL</strong> — 3 Place de Fontenoy, 75007 Paris — <a href="https://www.cnil.fr" target="_blank">cnil.fr</a>.</p></section>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <img src="assets/images/apam-logo2.png" alt="APAM">
+      <p class="footer-tag">L'Aigle<br>Saint-Michel</p>
+      <p class="footer-desc">Aéroclub du Pays d'Ouche depuis 1965. Formation PPL & LAPL, vols découverte, vie associative en Normandie.</p>
+      <div class="footer-coords">
+        <span class="footer-coords-val">48°45'40" N · 0°39'20" E</span>
+        <span class="footer-coords-frq">LFOL · FRQ 126.855</span>
+      </div>
+    </div>
+    <div class="footer-col"><h5>Navigation</h5><ul><li><a href="tarifs.html">Flotte & Tarifs</a></li><li><a href="activite.html">Le Club</a></li><li><a href="devenir-pilote.html">Devenir pilote</a></li><li><a href="contact.html">Contact</a></li><li><a href="boutique.html">Boutique</a></li></ul></div>
+    <div class="footer-col"><h5>Membres</h5><ul><li><a href="https://openflyers.com/apam/" target="_blank">OpenFlyer ↗</a></li><li><a href="connexion-membres-password.html?next=mon-compte.html">Mon compte</a></li></ul></div>
+    <div class="footer-col"><h5>Suivez-nous</h5><ul><li><a href="https://www.instagram.com/apam_lfol" target="_blank">Instagram ↗</a></li><li><a href="https://www.facebook.com/profile.php?id=61585663567523" target="_blank">Facebook ↗</a></li><li><a href="/cdn-cgi/l/email-protection#6e0f0b1c010d021b0c0f1e0f032e09030f0702400d0103"><span class="__cf_email__" data-cfemail="b0d1d5c2dfd3dcc5d2d1c0d1ddf0d7ddd1d9dc9ed3dfdd">[email&#160;protected]</span></a></li></ul></div>
+  </div>
+  <div class="footer-bottom">
+    <div class="footer-legal"><a href="mentions-legales.html">Mentions légales</a><a href="confidentialite.html">Confidentialité</a><a href="cgu.html">CGU</a><a href="cookies.html">Cookies</a></div>
+    <span class="footer-credit">© 2026 APAM · Aéroclub du Pays d'Ouche & des Avesnes au Mont</span>
+  </div>
+</footer>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="assets/site.js"></script>
+<script>
+// Highlight active TOC link on scroll
+const sections = document.querySelectorAll('.lp-body section[id]');
+const tocLinks = document.querySelectorAll('.lp-toc a[data-toc]');
+const setActive = () => {
+  let activeId = sections[0]?.id;
+  const offset = 200;
+  sections.forEach(s => { if (s.getBoundingClientRect().top - offset <= 0) activeId = s.id; });
+  tocLinks.forEach(a => a.classList.toggle('on', a.dataset.toc === activeId));
+};
+setActive();
+addEventListener('scroll', setActive, { passive: true });
+</script>
 </body>
 </html>
