@@ -1,1144 +1,231 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link rel="icon" type="image/png" sizes="32x32" href="assets/images/apam-logo2.png" />
-  <link rel="shortcut icon" href="assets/images/apam-logo2.png" />
-  <title>APAM – Boutique</title>
+<meta charset="UTF-8"/>
+<title>Boutique – APAM · L'Aigle Saint-Michel</title>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<meta name="description" content="La boutique APAM ouvre bientôt. Polos, casquettes, écussons, accessoires officiels du club.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,400;0,600;0,700;0,900;1,400;1,700;1,900&family=Jost:wght@300;400;500;600;700&family=Lora:ital,wght@1,400;1,500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/site.css">
+<style>
+.b-hero{position:relative;min-height:100svh;display:flex;align-items:center;overflow:hidden}
+.b-hero-bg{position:absolute;inset:0;
+  background:
+    radial-gradient(60% 50% at 50% 30%,rgba(37,99,235,.18),transparent 65%),
+    linear-gradient(180deg,var(--bg) 0%,var(--bg-2) 100%)}
+.b-hero-grid{position:absolute;inset:0;
+  background-image:linear-gradient(rgba(37,99,235,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(37,99,235,.04) 1px,transparent 1px);
+  background-size:64px 64px;
+  mask-image:radial-gradient(circle at center,#000 30%,transparent 80%);
+  -webkit-mask-image:radial-gradient(circle at center,#000 30%,transparent 80%)}
 
-  <style>
-    @font-face{
-      font-family:"GPMenu";
-      src:url("assets/fonts/Helvetica Neue LT Pro 93 Black Extended.otf") format("opentype");
-      font-weight:900;
-      font-style:normal;
-    }
-    @font-face{
-      font-family:"Swiss911";
-      src:url("assets/fonts/Swiss911-ExtraCompressed.otf") format("opentype");
-      font-weight:normal;
-      font-style:normal;
-    }
+.b-inner{position:relative;z-index:2;max-width:1100px;margin:0 auto;padding:calc(var(--nav-h) + 60px) var(--side) 80px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:18px}
+.b-eye{font-size:10px;font-weight:700;letter-spacing:.32em;text-transform:uppercase;color:var(--accent);display:flex;align-items:center;gap:12px}
+.b-eye::before,.b-eye::after{content:'';width:36px;height:1px;background:var(--accent);opacity:.5}
+.b-stamp{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:14px;letter-spacing:.32em;text-transform:uppercase;color:var(--accent);border:1px solid rgba(37,99,235,.5);background:var(--acc-d);padding:8px 16px;backdrop-filter:blur(10px);position:relative}
+.b-stamp::before{content:'';position:absolute;top:-6px;left:-6px;right:-6px;bottom:-6px;border:1px dashed rgba(37,99,235,.25);pointer-events:none}
 
-    :root{
-      --page-side-margin:60px;
-      --header-height:50px;
-      --header-font-size:15px;
-      --header-letter-spacing:0.04em;
-      --logo-height:100px;
-      --gap-logo-header:62px;
-      --header-grey:#222;
-      --accent:#2f6bff;
-      --panel-w:200px;
-      --drop-card-h:100px;
-      --panel-bg:#222;
-      --panel-border:rgba(255,255,255,0.10);
-      --drop-card-bg:#2a2a2a;
-      --drop-card-border:rgba(255,255,255,0.10);
-      --m-side:18px;
-      --outer-x:26px;
-      --grid-max:1200px;
-    }
+.b-title{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:clamp(64px,12vw,200px);line-height:.84;letter-spacing:-.018em;text-transform:uppercase;color:#fff;text-wrap:balance}
+.b-title .ol{color:transparent;-webkit-text-stroke:1.5px rgba(255,255,255,.3);display:block}
+.b-sub{font-family:'Lora',serif;font-style:italic;font-size:clamp(18px,2vw,24px);line-height:1.55;color:rgba(255,255,255,.74);max-width:600px;margin-top:14px;text-wrap:balance}
 
-    *{box-sizing:border-box;margin:0;padding:0}
-    body{
-      font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
-      color:#fff;
-      background:#141417;
-      overflow-x:hidden;
-    }
+/* Countdown / launch info */
+.b-info{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:48px;max-width:760px;width:100%}
+.b-info-card{background:rgba(255,255,255,.025);border:1px solid var(--bds);border-radius:var(--rl);padding:24px;display:flex;flex-direction:column;gap:8px;transition:border-color .3s,background .3s}
+.b-info-card:hover{border-color:rgba(37,99,235,.4);background:rgba(37,99,235,.04)}
+.b-info-card .l{font-size:9px;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:var(--muted)}
+.b-info-card .v{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:30px;color:#fff;letter-spacing:-.005em;line-height:1}
+.b-info-card .v em{color:var(--accent);font-style:normal}
+.b-info-card .v small{display:block;font-family:'Jost',sans-serif;font-size:11px;color:var(--muted);font-weight:400;letter-spacing:.04em;text-transform:none;font-style:normal;margin-top:6px}
 
-    .page{min-height:100svh;position:relative;background:#141417;}
-    .page::before{
-      content:"";
-      position:absolute;
-      inset:0;
-      background:
-        radial-gradient(circle at 20% 18%, rgba(255,255,255,0.06) 0%, rgba(255,255,255,0) 55%),
-        radial-gradient(circle at 80% 30%, rgba(47,107,255,0.08) 0%, rgba(47,107,255,0) 52%);
-      opacity:.55;
-      pointer-events:none;
-    }
-    .content{position:relative;z-index:2;}
+/* Preview products */
+.b-preview{margin-top:48px;width:100%;max-width:880px}
+.b-preview-lbl{font-size:10px;font-weight:700;letter-spacing:.32em;text-transform:uppercase;color:var(--muted);margin-bottom:24px}
+.b-preview-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.b-prod{background:var(--sf);border:1px solid var(--border);border-radius:var(--rl);aspect-ratio:1;padding:20px;display:flex;flex-direction:column;justify-content:space-between;text-align:left;position:relative;overflow:hidden;transition:border-color .3s,transform .4s cubic-bezier(.16,1,.3,1)}
+.b-prod:hover{border-color:rgba(37,99,235,.32);transform:translateY(-4px)}
+.b-prod-img{flex:1;display:flex;align-items:center;justify-content:center;background:
+  repeating-linear-gradient(135deg,rgba(255,255,255,.03) 0 8px,transparent 8px 16px);
+  border-radius:var(--r);margin-bottom:14px;color:rgba(255,255,255,.4);font-family:'JetBrains Mono','Courier New',monospace;font-size:10px;letter-spacing:.06em;text-align:center;padding:8px}
+.b-prod-name{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:18px;line-height:1;text-transform:uppercase;color:#fff;letter-spacing:-.005em}
+.b-prod-cat{font-size:9px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);margin-top:4px}
+.b-prod::after{content:'BIENTÔT';position:absolute;top:10px;right:10px;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:8px;letter-spacing:.2em;color:var(--accent);background:rgba(8,10,14,.85);padding:3px 8px;border:1px solid rgba(37,99,235,.3)}
 
-    .site-header{padding-top:20px;position:relative;z-index:10;}
-    .header-row{display:flex;align-items:center;margin:0 var(--page-side-margin);}
-    .header-logo{position:relative;display:inline-block;text-decoration:none;}
-    .header-logo img{height:var(--logo-height);display:block;margin-top:12px;}
-    .header-bar{
-      height:var(--header-height);background:#fff;color:var(--header-grey);
-      margin-left:var(--gap-logo-header);flex:1;display:flex;align-items:center;
-      justify-content:space-between;padding:0 6px 0 32px;border:1px solid rgba(0,0,0,.06);
-      box-shadow:0 2px 0 rgba(0,0,0,.08);
-    }
-    .header-left{display:flex;align-items:center;gap:34px;}
-    .header-right{display:flex;align-items:center;gap:18px;margin-left:auto;}
-    .nav-menu{display:flex;align-items:center;gap:34px;}
-    .nav-item{position:relative;display:inline-flex;align-items:center;}
-    .nav-link{
-      font-family:"GPMenu",system-ui,sans-serif;
-      font-weight:400;
-      font-synthesis:none;
-      -webkit-font-smoothing:antialiased;
-      text-rendering:optimizeLegibility;
-      font-size:var(--header-font-size);
-      letter-spacing:var(--header-letter-spacing);
-      text-transform:uppercase;
-      text-decoration:none;
-      color:var(--header-grey);
-      position:relative;
-      white-space:nowrap;
-    }
-    .nav-link[data-text],
-    .nav-link[data-text]:visited{
-      color: var(--header-grey);
-      -webkit-text-fill-color: currentColor;
-    }
-    .nav-link[data-text]::before,
-    .nav-link[data-text]::after{
-      content:none;
-    }
-    .nav-link:hover{ color: var(--accent); }
-    .nav-link[aria-current="page"]{color:var(--accent);}
-    .nav-link[aria-current="page"][data-text]::before{color:var(--accent);}
-    .nav-link[aria-current="page"][data-text]::after{clip-path:inset(0 0 0 0);}
-    .icon{width:26px;height:26px;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;text-decoration:none;}
-    .icon svg{width:100%;height:100%;fill:var(--header-grey);}
+/* Newsletter notify */
+.b-notify{margin-top:48px;background:var(--sf);border:1px solid var(--border);border-radius:var(--rxl);padding:32px;max-width:560px;width:100%;display:flex;flex-direction:column;gap:14px}
+.b-notify h4{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:24px;text-transform:uppercase;color:#fff;letter-spacing:-.005em}
+.b-notify p{font-size:13px;line-height:1.7;color:var(--muted)}
+.b-notify-form{display:flex;gap:10px;margin-top:8px}
+.b-notify-form input{flex:1;background:rgba(255,255,255,.025);border:1px solid var(--bds);border-radius:var(--r);padding:14px 16px;color:#fff;font-size:14px;transition:border-color .25s,background .25s}
+.b-notify-form input:focus{outline:none;border-color:var(--accent);background:rgba(37,99,235,.04)}
+.b-notify-success{display:none;align-items:center;gap:10px;color:var(--ok);font-size:13px;font-weight:600;margin-top:8px}
+.b-notify-success.on{display:flex}
 
-    .btn-compte{
-      position:relative;overflow:hidden;
-      font-family:"Swiss911",sans-serif;font-size:25px;letter-spacing:-0.04em;text-transform:uppercase;
-      padding:6px 12px;border:2px solid var(--header-grey);background:#000;color:#fff;
-      text-decoration:none;line-height:1;transition:color .25s ease,border-color .25s ease;
-    }
-    .btn-compte::before{content:"";position:absolute;left:0;top:0;width:0;height:100%;background:var(--accent);z-index:-1;transition:width .25s ease;}
-    .btn-compte:hover{color:#000;border-color:var(--accent);}
-    .btn-compte:hover::before{width:100%;}
+.b-back{margin-top:32px}
 
-
-    .nav-item.has-dropdown::before{content:"";position:absolute;left:-22px;right:-22px;top:100%;height:18px;}
-    .fleet-panel{
-      position:absolute;top:calc(100% + 18px);left:50%;transform:translateX(-50%);
-      width:var(--panel-w);background:var(--panel-bg);border:1px solid var(--panel-border);
-      box-shadow:0 22px 40px rgba(0,0,0,.45);padding:10px;display:flex;flex-direction:column;gap:10px;
-      opacity:0;pointer-events:none;transition:opacity .18s ease;z-index:50;
-    }
-    .nav-item.has-dropdown:hover .fleet-panel{opacity:1;pointer-events:auto;}
-
-
-    .activity-panel{
-      display:none;
-      position:absolute;
-      top:calc(100% + 14px);
-      left:50%;
-      transform:translate(-50%, 12px);
-      min-width:220px;
-      background:var(--panel-bg);
-      border:1px solid var(--panel-border);
-      box-shadow:0 18px 34px rgba(0,0,0,0.42);
-      padding:8px;
-      grid-template-columns:1fr;
-      gap:6px;
-      opacity:0;
-      visibility:hidden;
-      pointer-events:none;
-      transition:opacity .3s ease, transform .3s cubic-bezier(.16,1,.22,1), visibility 0s linear .3s;
-      z-index:55;
-    }
-    .nav-item.has-dropdown:hover .activity-panel,
-    .nav-item.has-dropdown > .nav-link:focus-visible + .activity-panel{
-      display:grid;
-      opacity:1;
-      visibility:visible;
-      pointer-events:auto;
-      transform:translate(-50%, 0);
-      transition-delay:0s;
-    }
-    .nav-item.has-dropdown .activity-panel::before{
-      content:"";
-      position:absolute;
-      left:0;
-      right:0;
-      bottom:100%;
-      height:16px;
-    }
-    .activity-link{
-      text-decoration:none;
-      color:rgba(255,255,255,0.88);
-      border:1px solid rgba(255,255,255,0.10);
-      background:rgba(255,255,255,0.02);
-      padding:10px 12px;
-      font-family:"GPMenu", system-ui, sans-serif;
-      font-size:12px;
-      letter-spacing:0.12em;
-      text-transform:uppercase;
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:10px;
-      transition:transform .18s ease, border-color .18s ease, color .18s ease;
-    }
-    .activity-link::after{
-      content:"";
-      width:7px;
-      height:7px;
-      border-top:2px solid rgba(255,255,255,0.72);
-      border-right:2px solid rgba(255,255,255,0.72);
-      transform:rotate(45deg);
-      transition:transform .18s ease, border-color .18s ease;
-    }
-    .activity-link:hover{
-      color:#fff;
-      border-color:rgba(47,107,255,0.55);
-      transform:translateX(3px);
-    }
-    .activity-link:hover::after{
-      transform:translateX(3px) rotate(45deg);
-      border-color:var(--accent);
-    }
-    .fleet-card{position:relative;height:var(--drop-card-h);background:var(--drop-card-bg);border:1px solid var(--drop-card-border);text-decoration:none;color:#fff;overflow:hidden;}
-    .fleet-name{position:absolute;top:6px;left:50%;transform:translateX(-50%);font-family:"Swiss911",sans-serif;font-size:18px;white-space:nowrap;}
-    .fleet-plane{position:absolute;left:50%;top:52%;transform:translate(-50%,-50%);height:80px;max-width:88%;object-fit:contain;}
-    .fleet-chev{position:absolute;right:12px;top:50%;width:8px;height:8px;border-right:2px solid rgba(255,255,255,.9);border-top:2px solid rgba(255,255,255,.9);transform:translateY(-50%) rotate(45deg);opacity:.9;}
-    .fleet-cta{margin-top:2px;padding-top:10px;border-top:1px solid rgba(255,255,255,0.10);}
-    .fleet-cta a{display:flex;align-items:center;justify-content:center;gap:8px;text-decoration:none;font-family:"GPMenu",system-ui,sans-serif;font-size:13px;letter-spacing:0.02em;text-transform:uppercase;color:#fff;}
-    .cta-chev{width:8px;height:8px;border-right:2px solid rgba(255,255,255,.9);border-top:2px solid rgba(255,255,255,.9);transform:rotate(45deg);}
-
-    .m-header,.m-overlay,.m-drawer{display:none;}
-    @media (max-width:980px){
-      :root{--page-side-margin:var(--m-side);--logo-height:64px;--gap-logo-header:24px;--outer-x:18px;}
-      .site-header{display:none;}
-      .m-header{
-        display:flex;
-        position:sticky;
-        top:0;
-        z-index:30;
-        padding:16px var(--page-side-margin);
-        align-items:center;
-        justify-content:space-between;
-        background: linear-gradient(180deg, rgba(16,16,18,0.92) 0%, rgba(16,16,18,0.75) 60%, rgba(16,16,18,0) 100%);
-        backdrop-filter: blur(10px);
-      }
-      .m-logo img{height:56px;display:block;margin-top:6px;}
-
-      .m-burger{
-        width:56px;height:56px;
-        background:#fff;
-        border:0;
-        border-radius:8px;
-        display:flex;align-items:center;justify-content:center;
-        cursor:pointer;
-        position:relative;
-        box-shadow: 0 10px 18px rgba(0,0,0,0.35);
-        overflow:hidden;
-      }
-      .m-burger span,
-      .m-burger span::before,
-      .m-burger span::after{
-        content:"";
-        width:22px;height:2px;
-        background:#111;
-        display:block;
-        position:relative;
-      }
-      .m-burger span::before{ position:absolute; top:-7px; left:0; }
-      .m-burger span::after{ position:absolute; top:7px; left:0; }
-
-      .m-close{
-        width:40px;height:40px;
-        border-radius:8px;
-        border:1px solid rgba(255,255,255,0.12);
-        background: rgba(255,255,255,0.08);
-        position:relative;
-        cursor:pointer;
-      }
-      .m-close::before,
-      .m-close::after{
-        content:"";
-        position:absolute;
-        top:50%; left:50%;
-        width:18px; height:2px;
-        background:#fff;
-      }
-      .m-close::before{ transform: translate(-50%, -50%) rotate(45deg); }
-      .m-close::after{ transform: translate(-50%, -50%) rotate(-45deg); }
-
-      .m-overlay{display:block;position:fixed;inset:0;background:rgba(0,0,0,.55);opacity:0;pointer-events:none;transition:opacity .2s;z-index:40;}
-      .m-drawer{display:block;position:fixed;inset:0;background:#0d0d10;z-index:50;opacity:0;pointer-events:none;transform:translateY(-14px);transition:.25s ease;}
-      body.m-open .m-overlay{opacity:1;pointer-events:auto;}
-      body.m-open .m-drawer{opacity:1;pointer-events:auto;transform:none;}
-      .m-drawer-top{display:flex;justify-content:space-between;align-items:center;padding:18px var(--page-side-margin) 0;}
-      .m-drawer-inner{padding:18px var(--page-side-margin);}
-      .m-nav{display:flex;flex-direction:column;gap:12px;padding-top:0;}
-      .m-sub{font-family:"GPMenu",system-ui,sans-serif;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:rgba(255,255,255,.62);margin-bottom:6px;}
-      .m-divider{height:1px;background:rgba(255,255,255,.10);margin:8px 0 6px;}
-      .m-link{text-decoration:none;color:#fff;font-family:"Swiss911",sans-serif;font-size:44px;letter-spacing:-0.03em;line-height:0.92;font-style:italic;transform:skewX(-6deg);transform-origin:left center;opacity:0.92;text-transform:uppercase;}
-      .m-cta{margin-top:18px;text-decoration:none;color:#fff;font-family:"Swiss911",sans-serif;font-size:28px;letter-spacing:-0.02em;font-style:italic;opacity:0.95;display:flex;align-items:center;gap:10px;text-transform:uppercase;}
-      .m-cta i{width:10px;height:10px;border-right:2px solid rgba(255,255,255,0.70);border-top:2px solid rgba(255,255,255,0.70);transform:rotate(45deg);transition: transform .18s ease, border-color .18s ease;}
-      .m-cta:hover{ color: var(--accent); }
-      .m-cta:hover i{transform: translateX(4px) rotate(45deg);border-color: var(--accent);}
-    }
-
-    .title-bar{margin:24px var(--page-side-margin) 10px;}
-    .title-box{display:inline-block;background:#fff;color:#000;padding:18px 22px 14px;box-shadow:0 18px 34px rgba(0,0,0,.22);}
-    .title-box span{font-family:"Swiss911",sans-serif;text-transform:uppercase;font-size:74px;line-height:.9;display:block;transform:skewX(-6deg);}
-
-    .intro{margin:10px var(--page-side-margin) 24px;max-width:900px;color:rgba(255,255,255,.78);line-height:1.6;}
-    .section-wrap{max-width:var(--grid-max);margin:0 auto 40px;padding:0 var(--outer-x);}
-
-    .showcase-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin:18px 0 24px;}
-    .showcase-card{position:relative;aspect-ratio:3/4;border-radius:10px;perspective:1400px;}
-    .card-flip{position:relative;width:100%;height:100%;transform-style:preserve-3d;transition:transform .72s cubic-bezier(.22,.61,.36,1);}
-    .showcase-card.is-flipped .card-flip{transform:rotateY(180deg);}
-    .card-face{position:absolute;inset:0;backface-visibility:hidden;border:1px solid rgba(255,255,255,.16);background:rgba(14,16,22,.74);overflow:hidden;border-radius:10px;}
-    .card-face.back{transform:rotateY(180deg);display:flex;flex-direction:column;padding:16px;gap:12px;background:linear-gradient(165deg,rgba(12,17,30,.96),rgba(9,13,23,.95));border-color:rgba(102,143,255,.42);box-shadow:inset 0 0 0 1px rgba(255,255,255,.06),0 22px 34px rgba(0,0,0,.35);}
-    .showcase-photo{width:100%;height:100%;object-fit:cover;object-position:center;display:block;filter:saturate(1.05) contrast(1.04);}
-    .showcase-meta{position:absolute;left:0;right:0;bottom:0;padding:10px 12px;background:linear-gradient(180deg,rgba(0,0,0,0),rgba(0,0,0,.82));}
-    .showcase-price-badge{position:absolute;right:12px;bottom:12px;display:inline-flex;align-items:center;gap:6px;background:linear-gradient(135deg,#2f6bff,#1b3f8f);border:1px solid rgba(141,179,255,.72);color:#fff;padding:5px 9px;border-radius:999px;font-size:12px;font-weight:800;letter-spacing:.03em;box-shadow:0 8px 16px rgba(0,0,0,.28);}
-    .showcase-price-badge::before{content:"";width:14px;height:14px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#dce8ff 0 35%,#7ea5ff 36% 100%);box-shadow:inset 0 0 0 2px rgba(24,55,117,.45);}
-    .showcase-meta h3{font-size:16px;letter-spacing:.02em;margin-bottom:4px;}
-    .showcase-meta p{font-size:12px;color:rgba(255,255,255,.86);line-height:1.35;}
-    .showcase-meta .order-btn{margin-top:8px;background:linear-gradient(135deg,#2f6bff,#183775);border-color:rgba(123,166,255,.55);font-weight:800;letter-spacing:.08em;}
-
-    .card-back-head{display:flex;align-items:center;justify-content:space-between;gap:8px;}
-    .card-back-head h4{font-size:15px;letter-spacing:.04em;text-transform:uppercase;color:#dce7ff;}
-    .flip-back-btn{border:1px solid rgba(255,255,255,.28);background:rgba(255,255,255,.08);color:#fff;padding:6px 10px;cursor:pointer;font-size:11px;text-transform:uppercase;letter-spacing:.07em;border-radius:999px;transition:background .2s ease,border-color .2s ease;}
-    .flip-back-btn:hover{background:rgba(47,107,255,.28);border-color:rgba(124,165,255,.8);}
-    .card-order-form{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;overflow:auto;padding-right:2px;}
-    .card-order-form .order-field{display:grid;gap:5px;}
-    .card-order-form .order-field.is-hidden{display:none;}
-    .card-order-form .order-field.full-width,.card-order-form .order-actions{grid-column:1/-1;}
-    .card-order-form .order-field label{font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:rgba(255,255,255,.78);}
-    .card-order-form input,.card-order-form select,.card-order-form textarea{width:100%;padding:9px 10px;background:rgba(255,255,255,.06);border:1px solid rgba(159,186,255,.24);color:#fff;font:inherit;font-size:13px;border-radius:8px;transition:border-color .2s ease,box-shadow .2s ease,background .2s ease;}
-    .card-order-form input:focus,.card-order-form select:focus,.card-order-form textarea:focus{outline:none;border-color:rgba(129,169,255,.9);box-shadow:0 0 0 3px rgba(47,107,255,.2);background:rgba(255,255,255,.09);}
-    .card-order-form textarea{min-height:58px;resize:vertical;}
-    .order-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:2px;}
-    .order-btn{cursor:pointer;border:1px solid rgba(255,255,255,.24);padding:10px 14px;background:#1a1c24;color:#fff;text-transform:uppercase;letter-spacing:.06em;font-size:12px;border-radius:10px;font-weight:700;}
-    .order-btn.primary{background:linear-gradient(135deg,#2f6bff,#183775);border-color:rgba(123,166,255,.55);}
-    .order-btn.primary.is-submitted{background:linear-gradient(135deg,#1a9656,#0c5f35);border-color:rgba(75,212,141,.65);box-shadow:0 0 0 2px rgba(79,214,145,.2);}
-    .order-confirm h3{font-family:"GPMenu",system-ui,sans-serif;font-size:20px;line-height:1.1;text-transform:uppercase;color:#fff;margin-bottom:8px;}
-    .order-confirm{border:1px solid rgba(123,166,255,.46);background:rgba(25,43,86,.28);padding:10px;color:#d3e2ff;line-height:1.4;display:none;font-size:12px;}
-    .order-confirm.is-visible{display:block;}
-    .order-mail-link{display:none;width:fit-content;text-decoration:none;color:#fff;border-bottom:1px solid rgba(255,255,255,.6);font-size:12px;}
-    .order-mail-link.is-visible{display:inline-block;}
-
-    footer{margin-top:22px;border-top:1px solid rgba(255,255,255,0.08);background:rgba(0,0,0,0.20);padding:20px var(--page-side-margin);color:rgba(255,255,255,0.78);}
-    .footer-inner{max-width:var(--grid-max);margin:0 auto;padding:0 var(--outer-x);}
-    .footer-inline{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;font-size:12px;color:rgba(255,255,255,0.7);}
-    .footer-links{display:flex;align-items:center;gap:16px;flex-wrap:wrap;}
-    .footer-links a{text-decoration:none;color:rgba(255,255,255,0.78);font-size:12px;}
-
-    @media (max-width:980px){
-      .title-bar{margin-top:18px;}
-      .title-box{padding:14px 16px 10px;}
-      .title-box span{font-size:56px;}
-      .intro{margin:10px var(--page-side-margin) 20px;font-size:15px;}
-      .showcase-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;}
-      .showcase-card{aspect-ratio:3/4.2;}
-      .card-face.back{padding:12px;}
-      .card-order-form{grid-template-columns:1fr;}
-      .order-btn{padding:11px 12px;}
-    }
-
-    @media (max-width:680px){
-      :root{--page-side-margin:var(--m-side);--outer-x:16px;}
-      .m-header{padding:16px var(--page-side-margin);}
-      .m-logo img{height:56px;display:block;margin-top:6px;}
-      .m-burger{width:56px;height:56px;}
-      .m-close{width:40px;height:40px;}
-      .m-link{font-size:34px;}
-
-      .title-bar{margin-top:12px;}
-      .title-box span{font-size:48px;}
-      .intro{font-size:14px;line-height:1.5;margin-bottom:16px;}
-      .section-wrap{margin-bottom:30px;}
-      .showcase-grid{grid-template-columns:1fr;gap:14px;margin-top:14px;}
-      .showcase-card{aspect-ratio:4/5;}
-      .showcase-meta{padding:10px;}
-      .showcase-meta h3{font-size:17px;}
-      .showcase-meta p{font-size:13px;}
-
-      .card-back-head h4{font-size:14px;}
-      .flip-back-btn{padding:6px 9px;font-size:10px;}
-      .card-order-form input,
-      .card-order-form select,
-      .card-order-form textarea{font-size:16px;}
-      .card-order-form textarea{min-height:84px;}
-      .order-actions{display:grid;grid-template-columns:1fr;}
-      .order-btn{width:100%;justify-content:center;text-align:center;}
-      .order-confirm{font-size:13px;}
-      .order-confirm h3{font-size:18px;}
-      .order-mail-link{font-size:13px;}
-
-      footer{margin-top:12px;padding:18px var(--page-side-margin);}
-      .footer-inline,.footer-links a{font-size:11px;}
-    }
-  </style>
+@media(max-width:980px){
+  .b-info{grid-template-columns:1fr 1fr}
+  .b-preview-grid{grid-template-columns:1fr 1fr}
+  .b-notify-form{flex-direction:column}
+}
+@media(max-width:600px){
+  .b-info{grid-template-columns:1fr}
+}
+</style>
 </head>
 <body>
-  <style>
-    .construction-overlay{position:fixed;inset:0;z-index:9999;display:grid;place-items:center;padding:20px;background:radial-gradient(circle at 20% 20%,rgba(47,107,255,.22),transparent 45%),radial-gradient(circle at 80% 12%,rgba(255,255,255,.15),transparent 40%),#0d101b}
-    .construction-card{width:min(680px,100%);padding:34px 26px;background:rgba(14,18,32,.93);border:1px solid rgba(130,170,255,.4);box-shadow:0 24px 60px rgba(0,0,0,.45);text-align:center}
-    .construction-logo{width:96px;height:96px;object-fit:contain;animation:logoFloat 2.3s ease-in-out infinite}
-    .construction-zone{margin:20px auto 18px;display:grid;gap:12px;max-width:520px}
-    .barrier{height:44px;border:2px solid rgba(255,255,255,.25);border-radius:10px;background:repeating-linear-gradient(-45deg,#f6b200 0 18px,#1d1d1d 18px 36px);position:relative;overflow:hidden;box-shadow:inset 0 0 0 1px rgba(0,0,0,.25)}
-    .barrier::after{content:"";position:absolute;inset:0;background:linear-gradient(120deg,transparent 20%,rgba(255,255,255,.35) 45%,transparent 70%);transform:translateX(-120%);animation:barrierSweep 1.8s linear infinite}
-    .barrier:nth-child(2){animation:barrierTilt 1.4s ease-in-out infinite alternate}
-    .construction-note{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:rgba(232,238,255,.74)}
-    .construction-title{font-family:"Swiss911",sans-serif;font-size:56px;letter-spacing:-.02em;text-transform:uppercase;line-height:.86;margin:14px 0 10px}
-    .construction-sub{color:rgba(231,238,255,.88);line-height:1.55;max-width:520px;margin:0 auto}
-.creator-box{margin-top:8px;padding:14px;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.03)}
-    .creator-box h3{font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:rgba(214,226,255,.9);margin-bottom:10px}
-    .creator-row{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
-    .creator-row input{width:min(220px,100%);padding:10px 12px;border:1px solid rgba(130,170,255,.4);background:#0b1228;color:#fff;letter-spacing:.2em;text-align:center}
-    .creator-row button{padding:10px 12px;border:1px solid rgba(130,170,255,.5);background:linear-gradient(135deg,#2f6bff,#183775);color:#fff;text-transform:uppercase;letter-spacing:.08em;cursor:pointer}
-    .creator-status{margin-top:8px;font-size:12px;color:#ffccd2;min-height:16px}
-    .construction-overlay.is-hidden{display:none}
-    @keyframes logoFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
-    @keyframes barrierSweep{to{transform:translateX(120%)}}
-    @keyframes barrierTilt{0%{transform:rotate(-1.2deg)}100%{transform:rotate(1.2deg)}}
-  </style>
-  <div class="construction-overlay" id="constructionOverlay" aria-live="polite">
-    <div class="construction-card">
-      <img class="construction-logo" src="assets/images/apam-logo2.png" alt="APAM" />
-      <h2 class="construction-title">Page en construction</h2>
-      <p class="construction-sub">La page <strong>Boutique</strong> est actuellement en construction. Merci pour votre patience ✈️</p>
-      <div class="construction-zone" aria-hidden="true">
-        <div class="barrier"></div>
-        <div class="barrier"></div>
-        <div class="construction-note">Zone de travaux en cours</div>
+
+<div class="grain" aria-hidden="true"></div>
+<div class="pg-bar" id="pg-bar"></div>
+<div class="cur" id="cur-dot"><div class="cur-dot"></div></div>
+<div class="cur" id="cur-ring"><div class="cur-ring"></div></div>
+
+<!-- NAV -->
+<nav class="nav" id="nav">
+  <a class="nav-logo" href="index.html"><img src="assets/images/apam-logo2.png" alt="APAM"></a>
+  <ul class="nav-links">
+    <li class="nav-item-drop">
+      <a href="tarifs.html">Flotte</a>
+      <div class="nav-drop">
+        <a class="ndc" href="tarifs.html"><img src="assets/images/FGHKE2.png" alt="Cessna 152"><div class="ndc-name">Cessna 152</div><div class="ndc-sub">Formation · Initiation</div></a>
+        <a class="ndc" href="tarifs.html"><img src="assets/images/TB200M.png" alt="TB200"><div class="ndc-name">TB200</div><div class="ndc-sub">Perfectionnement · Voyage</div></a>
+        <a class="ndc" href="tarifs.html"><img src="assets/images/SR1.png" alt="SR20"><div class="ndc-name">Cirrus SR20</div><div class="ndc-sub">Haute performance</div></a>
       </div>
-      <div class="creator-box">
-        <h3>Accès créateur</h3>
-        <div class="creator-row">
-          <input id="creatorCodeInput" type="password" inputmode="numeric" placeholder="Code d'accès" maxlength="4" />
-          <button id="creatorUnlockBtn" type="button">Entrer</button>
-        </div>
-        <div class="creator-status" id="creatorStatus"></div>
-      </div>
-    </div>
+    </li>
+    <li><a href="activite.html">Le Club</a></li>
+    <li><a href="devenir-pilote.html">Devenir pilote</a></li>
+    <li><a href="contact.html">Contact</a></li>
+    <li><a href="boutique.html" class="on">Boutique</a></li>
+    <li><a href="https://openflyers.com/apam/" target="_blank">OpenFlyer</a></li>
+  </ul>
+  <div class="nav-icons">
+    <a class="nav-ic" href="https://www.instagram.com/apam_lfol" target="_blank" aria-label="Instagram"><svg viewBox="0 0 24 24"><path d="M7 2C4.2 2 2 4.2 2 7v10c0 2.8 2.2 5 5 5h10c2.8 0 5-2.2 5-5V7c0-2.8-2.2-5-5-5H7zm0 2h10c1.7 0 3 1.3 3 3v10c0 1.7-1.3 3-3 3H7c-1.7 0-3-1.3-3-3V7c0-1.7 1.3-3 3-3zm5 3.5a4.5 4.5 0 1 0 0 9 4.5 4.5 0 0 0 0-9zm0 2a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zm4.8-2.9a1.1 1.1 0 1 0 0 2.2 1.1 1.1 0 0 0 0-2.2z"/></svg></a>
+    <a class="nav-ic" href="/cdn-cgi/l/email-protection#e786829588848b92858697868aa7808a868e8bc984888a" aria-label="Email"><svg viewBox="0 0 24 24"><path d="M4 4h16a2 2 0 0 1 2 2v1L12 13 2 7V6a2 2 0 0 1 2-2zm18 5v9a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V9l10 6 10-6z"/></svg></a>
   </div>
-  <div class="page">
-    <div class="content">
-    <!-- ✅ HEADER MOBILE -->
-    <div class="m-header" aria-label="Header mobile">
-      <a class="m-logo" href="index.html" aria-label="Retour accueil (logo)">
-        <img src="assets/images/apam-logo2.png" alt="Logo APAM">
-      </a>
+  <a class="nav-cta" href="connexion-membres-password.html?next=mon-compte.html">Mon compte</a>
+  <button class="nav-burger" id="burger" aria-expanded="false" aria-label="Menu"><b></b><b></b><b></b></button>
+</nav>
 
-      <button class="m-burger" type="button" aria-label="Ouvrir le menu" aria-expanded="false">
-        <span aria-hidden="true"></span>
-      </button>
+<div class="m-drawer" id="drawer" aria-hidden="true">
+  <div class="m-drawer-top"><img src="assets/images/apam-logo2.png" alt="APAM" style="height:40px"><button class="m-close" id="m-close" aria-label="Fermer">✕</button></div>
+  <nav class="m-nav">
+    <a href="tarifs.html">Flotte <span class="arr">→</span></a>
+    <a href="activite.html">Le Club <span class="arr">→</span></a>
+    <a href="devenir-pilote.html">Devenir pilote <span class="arr">→</span></a>
+    <a href="contact.html">Contact <span class="arr">→</span></a>
+    <a href="boutique.html">Boutique <span class="arr">→</span></a>
+    <a href="https://openflyers.com/apam/" target="_blank">OpenFlyer <span class="arr">↗</span></a>
+  </nav>
+  <div class="m-cta-wrap"><a class="btn btn--fill" href="connexion-membres-password.html?next=mon-compte.html">Mon compte</a></div>
+</div>
+
+<section class="b-hero">
+  <div class="b-hero-bg"></div>
+  <div class="b-hero-grid"></div>
+  <div class="b-inner">
+    <p class="b-eye">Boutique du club · APAM Store</p>
+    <span class="b-stamp">— Bientôt en ligne</span>
+
+    <h1 class="b-title">
+      Boutique<br><span class="ol">en préparation.</span>
+    </h1>
+    <p class="b-sub">On finalise les visuels, les tailles, les couleurs. La collection officielle APAM — polos, casquettes, écussons, mugs — sera disponible début 2026.</p>
+
+    <div class="b-info" data-r data-d="1">
+      <div class="b-info-card">
+        <span class="l">— Lancement</span>
+        <span class="v">Q2 <em>2026</em><small>Pré-commandes au printemps</small></span>
+      </div>
+      <div class="b-info-card">
+        <span class="l">— Articles</span>
+        <span class="v">~ 12<small>Polos · Casquettes · Écussons · Mugs · Stickers</small></span>
+      </div>
+      <div class="b-info-card">
+        <span class="l">— Retrait</span>
+        <span class="v">Au club<small>Ou envoi postal France</small></span>
+      </div>
     </div>
 
-    <div class="m-overlay" aria-hidden="true"></div>
-
-    <!-- ✅ DRAWER FULLSCREEN -->
-    <aside class="m-drawer" id="m-drawer" aria-hidden="true" aria-label="Menu">
-      <div class="m-drawer-top">
-        <a class="m-logo" href="index.html" aria-label="Retour accueil (logo)">
-          <img src="assets/images/apam-logo2.png" alt="Logo APAM">
-        </a>
-        <button class="m-close" type="button" aria-label="Fermer le menu"></button>
-      </div>
-
-      <div class="m-drawer-inner">
-        <div class="m-sub">NAVIGATION</div>
-        <div class="m-divider"></div>
-
-        <nav class="m-nav" aria-label="Liens principaux">
-          <a class="m-link" href="tarifs.html">FLOTTE</a>
-          <a class="m-link" href="activite.html">LE CLUB</a>
-          <a class="m-link" href="devenir-pilote.html">DEVENIR PILOTE</a>
-          <a class="m-link" href="contact.html">CONTACT</a>
-          <a class="m-link" href="boutique.html" aria-current="page">BOUTIQUE</a>
-          <a class="m-link" href="https://openflyers.com/apam/" target="_blank" rel="noopener noreferrer">OPENFLYER</a>
-        </nav>
-
-        <a class="m-cta" href="connexion-membres-password.html?next=mon-compte.html" aria-label="Mon compte">
-          MON COMPTE <i aria-hidden="true"></i>
-        </a>
-      </div>
-    </aside>
-
-    <!-- ✅ HEADER DESKTOP -->
-    <header class="site-header">
-      <div class="header-row">
-
-        <a class="header-logo" href="index.html" aria-label="Retour accueil (logo)">
-          <img src="assets/images/apam-logo2.png" alt="Logo APAM">
-        </a>
-
-        <div class="header-bar">
-
-          <div class="header-left">
-            <nav class="nav-menu">
-
-              <span class="nav-item has-dropdown">
-                <a href="tarifs.html" class="nav-link" data-text="FLOTTE">FLOTTE</a>
-
-                <div class="fleet-panel" role="menu" aria-label="Menu flotte">
-
-                  <a class="fleet-card" href="tarifs.html" aria-label="Cessna 152">
-                    <div class="fleet-name">CESSNA 152</div>
-                    <img class="fleet-plane" src="assets/images/FGHKE2.png" alt="Cessna 152">
-                    <span class="fleet-chev" aria-hidden="true"></span>
-                  </a>
-
-                  <a class="fleet-card" href="tarifs.html" aria-label="TB200">
-                    <div class="fleet-name">TB200</div>
-                    <img class="fleet-plane" src="assets/images/TB200M.png" alt="TB200">
-                    <span class="fleet-chev" aria-hidden="true"></span>
-                  </a>
-
-                  <a class="fleet-card" href="tarifs.html" aria-label="Cirrus SR20">
-                    <div class="fleet-name">CIRRUS SR20</div>
-                    <img class="fleet-plane" src="assets/images/SR1.png" alt="Cirrus SR20">
-                    <span class="fleet-chev" aria-hidden="true"></span>
-                  </a>
-
-                  <div class="fleet-cta">
-                    <a href="tarifs.html" aria-label="Voir toute la flotte">
-                      <span>VOIR TOUTE LA FLOTTE </span>
-                      <i class="cta-chev" aria-hidden="true"></i>
-                    </a>
-                  </div>
-
-                </div>
-              </span>
-
-              <span class="nav-item has-dropdown">
-                  <a href="activite.html" class="nav-link" data-text="LE CLUB">LE CLUB</a>
-                  <div class="activity-panel" role="menu" aria-label="Navigation Le Club">
-                    <a class="activity-link" href="activite.html#calendar-title">Calendrier des activités</a>
-                    <a class="activity-link" href="activite.html#photos-title">Photos du club</a>
-                    <a class="activity-link" href="activite.html#team-title">Notre équipe</a>
-                    <a class="activity-link" href="activite.html#social-title">Réseaux sociaux</a>
-                    <a class="activity-link" href="activite.html#voyages-title">Voyage de L'APAM</a>
-                  </div>
-                </span>
-
-              <span class="nav-item">
-                <a href="devenir-pilote.html" class="nav-link" data-text="DEVENIR PILOTE">DEVENIR PILOTE</a>
-              </span>
-
-              <span class="nav-item">
-                <a href="contact.html" class="nav-link" data-text="CONTACT">CONTACT</a>
-              </span>
-
-              <span class="nav-item">
-                <a href="boutique.html" class="nav-link" aria-current="page" data-text="BOUTIQUE">BOUTIQUE</a>
-              </span>
-
-              <span class="nav-item">
-                <a href="https://openflyers.com/apam/" target="_blank" rel="noopener noreferrer"
-                   class="nav-link" data-text="OPENFLYER">OPENFLYER</a>
-              </span>
-
-            </nav>
-          </div>
-
-          <div class="header-right">
-            <a class="icon" href="https://www.instagram.com/apam_lfol?igsh=MTVnbjRtNHppMWwwcA%3D%3D&utm_source=qr" aria-label="Instagram">
-              <svg viewBox="0 0 24 24">
-                <path d="M7 2C4.2 2 2 4.2 2 7v10c0 2.8 2.2 5 5 5h10c2.8 0 5-2.2 5-5V7c0-2.8-2.2-5-5-5H7zm10 2c1.7 0 3 1.3 3 3v10c0 1.7-1.3 3-3 3H7c-1.7 0-3-1.3-3-3V7c0-1.7 1.3-3 3-3h10zm-5 3.5A4.5 4.5 0 1 0 16.5 12 4.51 4.51 0 0 0 12 7.5zm0 7A2.5 2.5 0 1 1 14.5 12 2.5 2.5 0 0 1 12 14.5zm4.8-8.9a1.1 1.1 0 1 1-1.1 1.1c0-.6.5-1.1 1.1-1.1z"/>
-              </svg>
-            </a>
-
-            <a class="icon" href="mailto:aeroclubapam@gmail.com" aria-label="Email">
-              <svg viewBox="0 0 24 24">
-                <path d="M4 4h16a2 2 0 0 1 2 2v1l-10 6L2 7V6a2 2 0 0 1 2-2zm18 5v9a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V9l10 6 10-6z"/>
-              </svg>
-            </a>
-
-            <a class="btn-compte" href="connexion-membres-password.html?next=mon-compte.html">MON COMPTE</a>
-          </div>
-
-        </div>
-      </div>
-    </header>
-
-      <main>
-        <div class="title-bar"><div class="title-box"><span>Boutique APAM</span></div></div>
-
-        <section class="section-wrap" aria-label="Sélection boutique APAM">
-          <div class="showcase-grid">
-            <article class="showcase-card" data-sheet-key="photo_1" data-product-key="vol-decouverte">
-              <img class="showcase-photo" src="https://images.pexels.com/photos/46148/aircraft-jet-landing-cloud-46148.jpeg?auto=compress&cs=tinysrgb&w=1400" alt="Petit avion en approche" loading="lazy" />
-              <div class="showcase-meta">
-                <h3 data-sheet-field="titre">Vol découverte</h3>
-                <p data-sheet-field="description">Une première immersion en vol avec un pilote APAM pour découvrir les sensations et la vue depuis le cockpit.</p>
-                <button class="order-btn" type="button" data-product="Vol découverte">Commander</button>
-                <span class="showcase-price-badge">169 €</span>
-              </div>
-            </article>
-            <article class="showcase-card" data-sheet-key="photo_2" data-product-key="carte-cadeau-vol">
-              <img class="showcase-photo" src="https://images.pexels.com/photos/912050/pexels-photo-912050.jpeg?auto=compress&cs=tinysrgb&w=1400" alt="Cockpit avec horizon" loading="lazy" />
-              <div class="showcase-meta">
-                <h3 data-sheet-field="titre">Carte cadeau APAM</h3>
-                <p data-sheet-field="description">Le cadeau idéal pour faire plaisir à un proche et lui offrir une expérience inoubliable dans le ciel.</p>
-                <button class="order-btn" type="button" data-product="Carte cadeau vol">Commander</button>
-                <span class="showcase-price-badge">149 €</span>
-              </div>
-            </article>
-            <article class="showcase-card" data-sheet-key="photo_3" data-product-key="bapteme-air">
-              <img class="showcase-photo" src="https://images.pexels.com/photos/358319/pexels-photo-358319.jpeg?auto=compress&cs=tinysrgb&w=1400" alt="Pilote devant un avion au soleil" loading="lazy" />
-              <div class="showcase-meta">
-                <h3 data-sheet-field="titre">Baptême de l'air</h3>
-                <p data-sheet-field="description">Partagez un moment unique avec un vol encadré par nos pilotes, accessible dès la première réservation.</p>
-                <button class="order-btn" type="button" data-product="Baptême de l'air">Commander</button>
-                <span class="showcase-price-badge">119 €</span>
-              </div>
-            </article>
-            <article class="showcase-card" data-sheet-key="photo_4" data-product-key="casquette-apam">
-              <img class="showcase-photo" src="https://images.pexels.com/photos/1040945/pexels-photo-1040945.jpeg?auto=compress&cs=tinysrgb&w=1400" alt="Casquette posée sur une aile d'avion" loading="lazy" />
-              <div class="showcase-meta">
-                <h3 data-sheet-field="titre">Casquette APAM</h3>
-                <p data-sheet-field="description">La casquette officielle APAM, parfaite pour représenter le club sur le terrain comme au quotidien.</p>
-                <button class="order-btn" type="button" data-product="Casquette APAM">Commander</button>
-                <span class="showcase-price-badge">29 €</span>
-              </div>
-            </article>
-            <article class="showcase-card" data-sheet-key="photo_5" data-product-key="polo-apam">
-              <img class="showcase-photo" src="https://images.pexels.com/photos/3782143/pexels-photo-3782143.jpeg?auto=compress&cs=tinysrgb&w=1400" alt="Polo à APAM sur ordinateur portable" loading="lazy" />
-              <div class="showcase-meta">
-                <h3 data-sheet-field="titre">Polo APAM</h3>
-                <p data-sheet-field="description">Un polo confortable et élégant aux couleurs APAM, disponible en plusieurs tailles.</p>
-                <button class="order-btn" type="button" data-product="Polo à APAM">Commander</button>
-                <span class="showcase-price-badge">39 €</span>
-              </div>
-            </article>
-            <article class="showcase-card" data-sheet-key="photo_6" data-product-key="support-boutique">
-              <img class="showcase-photo" src="https://images.pexels.com/photos/3183197/pexels-photo-3183197.jpeg?auto=compress&cs=tinysrgb&w=1400" alt="Support boutique APAM" loading="lazy" />
-              <div class="showcase-meta">
-                <h3 data-sheet-field="titre">Support boutique</h3>
-                <p data-sheet-field="description">Besoin d'aide sur une commande ? Le support boutique vous répond rapidement.</p>
-                <button class="order-btn" type="button" data-product="Support boutique">Commander</button>
-                <span class="showcase-price-badge">Gratuit</span>
-              </div>
-            </article>
-          </div>
-        </section>
-
-
-
-        <template id="cardOrderTemplate">
-          <div class="card-face back">
-            <div class="card-back-head">
-              <h4>Formulaire de commande</h4>
-              <button class="flip-back-btn" type="button">Retour</button>
-            </div>
-            <form class="card-order-form">
-              <div class="order-field full-width">
-                <label>Produit</label>
-                <input name="product" type="text" required readonly />
-              </div>
-              <div class="order-field purchase-field">
-                <label>Mode de paiement</label>
-                <select name="paymentMode" required>
-                  <option value="virement">Virement bancaire</option>
-                  <option value="cb">Carte bancaire (paiement au club)</option>
-                </select>
-              </div>
-              <div class="order-field purchase-field amount-field is-hidden">
-                <label>Montant carte cadeau (€)</label>
-                <input name="amount" type="number" min="1" step="1" value="100" required />
-              </div>
-              <div class="order-field purchase-field quantity-field">
-                <label>Quantité</label>
-                <input name="quantity" type="number" min="1" step="1" value="1" required />
-              </div>
-              <div class="order-field purchase-field aircraft-field is-hidden">
-                <label>Choix de l'avion</label>
-                <select name="aircraftChoice" required>
-                  <option value="">Sélectionner</option>
-                  <option value="cessna-152">Cessna 152</option>
-                  <option value="tb200">TB200</option>
-                  <option value="sr20">SR20</option>
-                </select>
-              </div>
-              <div class="order-field size-field purchase-field is-hidden">
-                <label>Taille polo</label>
-                <select name="size">
-                  <option value="">Sélectionner</option>
-                  <option value="XS">XS</option>
-                  <option value="S">S</option>
-                  <option value="M">M</option>
-                  <option value="L">L</option>
-                  <option value="XL">XL</option>
-                  <option value="XXL">XXL</option>
-                </select>
-              </div>
-              <div class="order-field support-field is-hidden">
-                <label>Order ID (optionnel)</label>
-                <input name="supportOrderId" type="text" placeholder="Ex : APAM-20260226-001" />
-              </div>
-              <div class="order-field">
-                <label>Prénom</label>
-                <input name="firstName" type="text" required />
-              </div>
-              <div class="order-field">
-                <label>Nom</label>
-                <input name="lastName" type="text" required />
-              </div>
-              <div class="order-field">
-                <label>Email</label>
-                <input name="email" type="email" required />
-              </div>
-              <div class="order-field">
-                <label>Téléphone</label>
-                <input name="phone" type="tel" required />
-              </div>
-              <div class="order-field purchase-field full-width">
-                <label>Adresse</label>
-                <textarea name="address" required></textarea>
-              </div>
-              <div class="order-field support-field full-width is-hidden">
-                <label>Message support</label>
-                <textarea name="supportMessage" placeholder="Expliquez votre problème, où ça bloque, ce qui s'est passé..." ></textarea>
-              </div>
-              <div class="order-actions">
-                <button class="order-btn primary submit-order-btn" type="submit">Valider</button>
-                <button class="order-btn copy-summary-btn" type="button">Copier</button>
-              </div>
-            </form>
-            <div class="order-confirm" aria-live="polite"></div>
-            <a class="order-mail-link" href="mailto:aeroclubapam@gmail.com">Envoyer la demande à APAM</a>
-          </div>
-        </template>
-
-
-      <footer>
-        <div class="footer-inner">
-          <div class="footer-inline">
-            <div class="footer-links">
-              <a href="mailto:aeroclubapam@gmail.com">aeroclubapam@gmail.com</a>
-              <a href="https://www.facebook.com/profile.php?id=61585663567523" target="_blank" rel="noopener noreferrer">Facebook</a>
-            
-            <a href="mentions-legales.html">Mentions légales</a>
-            <a href="confidentialite.html">Confidentialité</a>
-            <a href="cookies.html">Cookies</a>
-            <a href="cgu.html">CGU</a>
-          </div>
-            <div>Site conçu par Pierre Cauvin.</div>
+    <div class="b-preview" data-r data-d="2">
+      <p class="b-preview-lbl">— Aperçu de la collection</p>
+      <div class="b-preview-grid">
+        <div class="b-prod">
+          <div class="b-prod-img">[ Polo brodé APAM<br>marine · blanc ]</div>
+          <div>
+            <div class="b-prod-cat">— Textile</div>
+            <div class="b-prod-name">Polo Club</div>
           </div>
         </div>
-      </footer>
+        <div class="b-prod">
+          <div class="b-prod-img">[ Casquette<br>logo brodé ]</div>
+          <div>
+            <div class="b-prod-cat">— Textile</div>
+            <div class="b-prod-name">Casquette</div>
+          </div>
+        </div>
+        <div class="b-prod">
+          <div class="b-prod-img">[ Écusson<br>thermocollant ]</div>
+          <div>
+            <div class="b-prod-cat">— Accessoire</div>
+            <div class="b-prod-name">Écusson</div>
+          </div>
+        </div>
+        <div class="b-prod">
+          <div class="b-prod-img">[ Mug<br>céramique 33 cl ]</div>
+          <div>
+            <div class="b-prod-cat">— Accessoire</div>
+            <div class="b-prod-name">Mug</div>
+          </div>
+        </div>
+      </div>
     </div>
+
+    <div class="b-notify" data-r data-d="3">
+      <h4>— Soyez prévenu</h4>
+      <p>Laissez-nous votre e-mail : on vous écrit au lancement (un seul mail, pas de spam).</p>
+      <form class="b-notify-form" id="b-notify-form" novalidate>
+        <input type="email" placeholder="votre.email@exemple.fr" required>
+        <button type="submit" class="btn btn--fill">M'avertir <span class="arr">→</span></button>
+      </form>
+      <div class="b-notify-success" id="b-notify-success"><span style="color:var(--ok);font-size:16px">✓</span><span>Merci ! On vous tient au courant.</span></div>
+    </div>
+
+    <a class="btn btn--ghost b-back" href="index.html">← Retour à l'accueil</a>
   </div>
+</section>
 
-  <script>
-    const BOUTIQUE_WEBAPP_URL = 'https://script.google.com/macros/s/AKfycbyfT8N8KZNp5qwc2oUz1ERCyFXkd6S4pBzRSfZpCUa2dkSvQQJ-Xe5a5Ee62j0AMZIk/exec';
-    const PRODUCT_KEY_BY_NAME = {
-      'Carte cadeau vol': 'carte-cadeau-vol',
-      'Vol découverte': 'vol-decouverte',
-      "Baptême de l'air": 'bapteme-air',
-      'Casquette APAM': 'casquette-apam',
-      'Polo APAM': 'polo-apam',
-      'Polo à APAM': 'polo-apam',
-      'Support boutique': 'support-boutique'
-    };
-    const BOUTIQUE_PRICES_ENDPOINT = `${BOUTIQUE_WEBAPP_URL}?action=list_products`;
-    const PRODUCT_META_BY_KEY = new Map();
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <img src="assets/images/apam-logo2.png" alt="APAM">
+      <p class="footer-tag">L'Aigle<br>Saint-Michel</p>
+      <p class="footer-desc">Aéroclub du Pays d'Ouche depuis 1965. Formation PPL & LAPL, vols découverte, vie associative en Normandie.</p>
+      <div class="footer-coords">
+        <span class="footer-coords-val">48°45'40" N · 0°39'20" E</span>
+        <span class="footer-coords-frq">LFOL · FRQ 126.855</span>
+      </div>
+    </div>
+    <div class="footer-col"><h5>Navigation</h5><ul><li><a href="tarifs.html">Flotte & Tarifs</a></li><li><a href="activite.html">Le Club</a></li><li><a href="devenir-pilote.html">Devenir pilote</a></li><li><a href="contact.html">Contact</a></li><li><a href="boutique.html">Boutique</a></li></ul></div>
+    <div class="footer-col"><h5>Membres</h5><ul><li><a href="https://openflyers.com/apam/" target="_blank">OpenFlyer ↗</a></li><li><a href="connexion-membres-password.html?next=mon-compte.html">Mon compte</a></li></ul></div>
+    <div class="footer-col"><h5>Suivez-nous</h5><ul><li><a href="https://www.instagram.com/apam_lfol" target="_blank">Instagram ↗</a></li><li><a href="https://www.facebook.com/profile.php?id=61585663567523" target="_blank">Facebook ↗</a></li><li><a href="/cdn-cgi/l/email-protection#9bfafee9f4f8f7eef9faebfaf6dbfcf6faf2f7b5f8f4f6"><span class="__cf_email__" data-cfemail="630206110c000f16010213020e23040e020a0f4d000c0e">[email&#160;protected]</span></a></li></ul></div>
+  </div>
+  <div class="footer-bottom">
+    <div class="footer-legal"><a href="mentions-legales.html">Mentions légales</a><a href="confidentialite.html">Confidentialité</a><a href="cgu.html">CGU</a><a href="cookies.html">Cookies</a></div>
+    <span class="footer-credit">© 2026 APAM</span>
+  </div>
+</footer>
 
-    const body = document.body;
-    const burger = document.querySelector('.m-burger');
-    const closeBtn = document.querySelector('.m-close');
-    const overlay = document.querySelector('.m-overlay');
-    let localOrderCounter = 0;
-
-    const setOpen = (open) => {
-      body.classList.toggle('m-open', open);
-      burger?.setAttribute('aria-expanded', open ? 'true' : 'false');
-    };
-
-    function buildSummary(values) {
-      if (values.isSupport) {
-        return [
-          `Type : Ticket support boutique`,
-          `Sujet : ${values.product}`,
-          values.supportOrderId ? `Order ID : ${values.supportOrderId}` : null,
-          `Nom : ${values.firstName} ${values.lastName}`,
-          `Email : ${values.email}`,
-          `Contact : ${values.phone}`,
-          `Message : ${values.supportMessage || 'Non renseigné'}`
-        ].filter(Boolean).join('\n');
-      }
-
-      return [
-        `Produit : ${values.product}`,
-        values.amount ? `Montant carte cadeau : ${values.amount} €` : null,
-        !values.amount ? `Quantité : ${values.quantity}` : null,
-        values.aircraftChoiceLabel ? `Avion : ${values.aircraftChoiceLabel}` : null,
-        `Mode de paiement : ${values.paymentLabel}`,
-        `Nom : ${values.firstName} ${values.lastName}`,
-        `Email : ${values.email}`,
-        `Contact : ${values.phone}`,
-        `Adresse : ${values.address}`,
-        values.size ? `Taille polo : ${values.size}` : null
-      ].filter(Boolean).join('\n');
-    }
-
-    function buildConfirmation(values) {
-      if (values.isSupport) {
-        return `<h3>Ticket support envoyé ✅</h3>Votre demande d'assistance boutique a bien été prise en compte.<br>L'équipe APAM vous répondra rapidement avec le suivi de votre ticket.`;
-      }
-      if (values.paymentMode === 'cb') {
-        return `<h3>Nous avons bien reçu votre demande ✅</h3><strong>Paiement carte bancaire :</strong> règlement directement au club (Aérodrome de L'Aigle Saint-Michel).<br>Votre produit sera remis sur place ou expédié après validation APAM.`;
-      }
-      return `<h3>Nous avons bien reçu votre demande ✅</h3><strong>Paiement par virement :</strong> utilisez le RIB APAM transmis dans l'email de suivi.<br>Une fois le virement reçu, la commande est préparée puis livrée sous 2 à 3 jours ouvrés.`;
-    }
-
-    function generateOrderId() {
-      localOrderCounter += 1;
-      const stamp = new Date().toISOString().replace(/[-:TZ.]/g, '').slice(0, 12);
-      return `APAM-${stamp}-${String(localOrderCounter).padStart(3, '0')}`;
-    }
-
-    function updateMailto(link, summary, product) {
-      const subject = encodeURIComponent(`Commande Boutique APAM - ${product}`);
-      const bodyMessage = encodeURIComponent(`Bonjour APAM,\n\nNouvelle demande de commande :\n${summary}\n\nMerci.`);
-      link.href = `mailto:aeroclubapam@gmail.com?subject=${subject}&body=${bodyMessage}`;
-      link.classList.add('is-visible');
-    }
-
-    function normalizePriceValue(value) {
-      if (typeof value === 'number') return value;
-      const cleaned = String(value ?? '')
-        .replace(/\s+/g, '')
-        .replace(/€/g, '')
-        .replace(',', '.');
-      return Number(cleaned);
-    }
-
-    function formatEuroPrice(value) {
-      const amount = normalizePriceValue(value);
-      if (!Number.isFinite(amount) || amount <= 0) return 'Gratuit';
-      return `${amount.toLocaleString('fr-FR')} €`;
-    }
-
-    function setPricePlaceholders() {
-      const cards = document.querySelectorAll('.showcase-card[data-product-key]');
-      cards.forEach((card) => {
-        const priceNode = card.querySelector('.showcase-price-badge');
-        if (!priceNode) return;
-        priceNode.textContent = 'Tarif en chargement…';
-      });
-    }
-
-    async function syncPricesFromSheet() {
-      const cards = document.querySelectorAll('.showcase-card[data-product-key]');
-      if (!cards.length) return;
-
-      try {
-        const endpointUrl = new URL(BOUTIQUE_PRICES_ENDPOINT);
-        endpointUrl.searchParams.set('t', Date.now().toString());
-        const response = await fetch(endpointUrl.toString(), {
-          method: 'GET',
-          cache: 'no-store'
-        });
-        if (!response.ok) {
-          throw new Error(`HTTP ${response.status}`);
-        }
-        const result = await response.json();
-        const products = Array.isArray(result?.products) ? result.products : [];
-        PRODUCT_META_BY_KEY.clear();
-
-        products.forEach((product) => {
-          const key = String(product.product_key || '').trim();
-          const name = String(product.product_name || '').trim();
-          if (!key) return;
-
-          PRODUCT_META_BY_KEY.set(key, {
-            name,
-            description: String(product.description || '').trim(),
-            imageUrl: String(product.image_url || '').trim(),
-            price: product.price_eur ?? product.unit_price_eur ?? product.price
-          });
-
-          if (name && PRODUCT_KEY_BY_NAME[name]) {
-            PRODUCT_META_BY_KEY.set(PRODUCT_KEY_BY_NAME[name], PRODUCT_META_BY_KEY.get(key));
-          }
-        });
-
-        cards.forEach((card) => {
-          const key = String(card.dataset.productKey || '');
-          const meta = PRODUCT_META_BY_KEY.get(key);
-          if (!meta) return;
-
-          const titleNode = card.querySelector('[data-sheet-field="titre"]');
-          const descriptionNode = card.querySelector('[data-sheet-field="description"]');
-          const imageNode = card.querySelector('.showcase-photo');
-          const openBtn = card.querySelector('[data-product]');
-          const priceNode = card.querySelector('.showcase-price-badge');
-
-          if (meta.name) {
-            if (titleNode) titleNode.textContent = meta.name;
-            if (openBtn) openBtn.dataset.product = meta.name;
-          }
-
-          if (meta.description && descriptionNode) {
-            descriptionNode.textContent = meta.description;
-          }
-
-          if (meta.imageUrl && imageNode) {
-            imageNode.src = meta.imageUrl;
-          }
-
-          if (priceNode) {
-            priceNode.textContent = formatEuroPrice(meta.price);
-          }
-        });
-      } catch (error) {
-        console.warn('Synchronisation des prix indisponible.', error);
-      }
-    }
-
-    function setupCardOrders() {
-      const template = document.getElementById('cardOrderTemplate');
-      document.querySelectorAll('.showcase-card').forEach((card) => {
-        const setGroupVisibility = (fields, visible) => {
-          fields.forEach((field) => {
-            field.classList.toggle('is-hidden', !visible);
-            field.querySelectorAll('input, select, textarea').forEach((control) => {
-              if (!control.dataset.initialRequired) {
-                control.dataset.initialRequired = control.required ? 'true' : 'false';
-              }
-              if (visible) {
-                control.disabled = false;
-                control.required = control.dataset.initialRequired === 'true';
-              } else {
-                control.disabled = true;
-                control.required = false;
-              }
-            });
-          });
-        };
-
-        const flip = document.createElement('div');
-        flip.className = 'card-flip';
-
-        const front = document.createElement('div');
-        front.className = 'card-face front';
-        while (card.firstChild) {
-          front.appendChild(card.firstChild);
-        }
-
-        const back = template.content.firstElementChild.cloneNode(true);
-        flip.appendChild(front);
-        flip.appendChild(back);
-        card.appendChild(flip);
-
-        const productKey = String(card.dataset.productKey || '').trim();
-        const fallbackProduct = card.querySelector('[data-product]')?.dataset.product || '';
-        const openBtn = card.querySelector('[data-product]');
-        const closeFormBtn = card.querySelector('.flip-back-btn');
-        const form = card.querySelector('.card-order-form');
-        const productInput = form.querySelector('input[name="product"]');
-        const paymentMode = form.querySelector('select[name="paymentMode"]');
-        const purchaseFields = form.querySelectorAll('.purchase-field');
-        const supportFields = form.querySelectorAll('.support-field');
-        const amountField = form.querySelector('.amount-field');
-        const quantityField = form.querySelector('.quantity-field');
-        const aircraftField = form.querySelector('.aircraft-field');
-        const aircraftSelect = form.querySelector('select[name="aircraftChoice"]');
-        const sizeField = form.querySelector('.size-field');
-        const sizeSelect = form.querySelector('select[name="size"]');
-        const supportMessageInput = form.querySelector('textarea[name="supportMessage"]');
-        const submitBtn = form.querySelector('.submit-order-btn');
-        const copyBtn = form.querySelector('.copy-summary-btn');
-        const orderConfirm = card.querySelector('.order-confirm');
-        const orderMailLink = card.querySelector('.order-mail-link');
-        let latestSummary = '';
-        let isSubmitting = false;
-        let isSubmitted = false;
-
-        const getProductName = () => openBtn?.dataset.product || fallbackProduct;
-        productInput.value = getProductName();
-        const isPolo = productKey === 'polo-apam';
-        const isSupport = productKey === 'support-boutique';
-        const isGiftCard = productKey === 'carte-cadeau-vol';
-        const requiresAircraftChoice = productKey === 'vol-decouverte' || productKey === 'bapteme-air';
-        setGroupVisibility(purchaseFields, !isSupport);
-        setGroupVisibility(supportFields, isSupport);
-        setGroupVisibility(amountField ? [amountField] : [], !isSupport && isGiftCard);
-        setGroupVisibility(quantityField ? [quantityField] : [], !isSupport && !isGiftCard);
-        setGroupVisibility(aircraftField ? [aircraftField] : [], !isSupport && requiresAircraftChoice);
-        if (supportMessageInput) {
-          supportMessageInput.required = isSupport;
-        }
-        if (sizeField && sizeSelect) {
-          sizeField.classList.toggle('is-hidden', !isPolo);
-          sizeSelect.required = isPolo;
-        }
-
-        openBtn?.addEventListener('click', () => {
-          productInput.value = getProductName();
-          setGroupVisibility(purchaseFields, !isSupport);
-          setGroupVisibility(supportFields, isSupport);
-          setGroupVisibility(amountField ? [amountField] : [], !isSupport && isGiftCard);
-          setGroupVisibility(quantityField ? [quantityField] : [], !isSupport && !isGiftCard);
-          setGroupVisibility(aircraftField ? [aircraftField] : [], !isSupport && requiresAircraftChoice);
-          if (supportMessageInput) {
-            supportMessageInput.required = isSupport;
-          }
-          if (sizeField && sizeSelect) {
-            sizeField.classList.toggle('is-hidden', !isPolo);
-            sizeSelect.required = isPolo;
-          }
-          card.classList.add('is-flipped');
-        });
-
-        closeFormBtn?.addEventListener('click', () => card.classList.remove('is-flipped'));
-
-        form?.addEventListener('submit', async (event) => {
-          event.preventDefault();
-          if (isSubmitting || isSubmitted) return;
-          isSubmitting = true;
-
-          const formData = new FormData(form);
-          const values = {
-            product: String(formData.get('product') || ''),
-            paymentMode: String(formData.get('paymentMode') || ''),
-            paymentLabel: paymentMode?.selectedOptions?.[0]?.textContent || '',
-            amount: String(formData.get('amount') || ''),
-            quantity: String(formData.get('quantity') || ''),
-            aircraftChoice: String(formData.get('aircraftChoice') || ''),
-            aircraftChoiceLabel: aircraftSelect?.selectedOptions?.[0]?.textContent || '',
-            firstName: String(formData.get('firstName') || ''),
-            lastName: String(formData.get('lastName') || ''),
-            email: String(formData.get('email') || ''),
-            phone: String(formData.get('phone') || ''),
-            address: String(formData.get('address') || '').trim().replace(/\s+/g, ' '),
-            size: String(formData.get('size') || ''),
-            supportOrderId: String(formData.get('supportOrderId') || '').trim(),
-            supportMessage: String(formData.get('supportMessage') || '').trim(),
-            isSupport
-          };
-
-          latestSummary = buildSummary(values);
-          let orderId = generateOrderId();
-          let confirmationText = buildConfirmation(values);
-
-          orderConfirm.innerHTML = `<h3>Nous avons bien reçu votre demande ✅</h3>Nous vous enverrons un email dans les prochaines minutes.<br><br>Traitement en cours...`;
-          orderConfirm.classList.add('is-visible');
-          if (submitBtn) {
-            submitBtn.disabled = true;
-            submitBtn.textContent = 'Validation en cours...';
-          }
-
-          const payload = {
-            action: 'create_order',
-            source: 'WEB_INTERNAL_FORM',
-            product_key: productKey || PRODUCT_KEY_BY_NAME[values.product] || values.product,
-            quantity: values.isSupport ? 1 : Number(values.quantity || 1),
-            payment_mode: values.isSupport ? 'support' : values.paymentMode,
-            first_name: values.firstName,
-            last_name: values.lastName,
-            email: values.email,
-            phone: values.phone,
-            address: values.isSupport ? 'Support boutique - ticket client' : values.address,
-            notes: values.isSupport
-              ? `Ticket support\nOrder ID: ${values.supportOrderId || 'non renseigné'}\nMessage: ${values.supportMessage || 'non renseigné'}`
-              : [
-                values.amount ? `Montant carte cadeau : ${values.amount} €` : null,
-                values.size ? `Taille polo : ${values.size}` : null,
-                values.aircraftChoiceLabel && values.aircraftChoice ? `Avion : ${values.aircraftChoiceLabel} (${values.aircraftChoice})` : null
-              ].filter(Boolean).join('\n'),
-            aircraft_choice: values.aircraftChoice || ''
-          };
-
-          try {
-            const response = await fetch(BOUTIQUE_WEBAPP_URL, {
-              method: 'POST',
-              headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-              body: JSON.stringify(payload)
-            });
-            const result = await response.json();
-            if (response.ok && result?.ok) {
-              orderId = result.order_id || orderId;
-              confirmationText = `${confirmationText}<br><br>Votre demande a bien été transmise à la boutique APAM.`;
-            } else {
-              confirmationText = `${confirmationText}<br><br>⚠️ Envoi automatique indisponible. Utilisez le lien email ci-dessous.`;
-            }
-          } catch {
-            confirmationText = `${confirmationText}<br><br>⚠️ Envoi automatique indisponible. Utilisez le lien email ci-dessous.`;
-          }
-
-          const orderIdBlock = `<br><strong>Numéro de commande :</strong> ${orderId}`;
-          orderConfirm.innerHTML = `${confirmationText}${orderIdBlock}<br><br><strong>Récapitulatif :</strong><br>${latestSummary.replace(/\n/g, '<br>')}`;
-          orderConfirm.classList.add('is-visible');
-          submitBtn?.classList.add('is-submitted');
-          if (submitBtn) submitBtn.textContent = 'Demande validée';
-          isSubmitting = false;
-          isSubmitted = true;
-          updateMailto(orderMailLink, `${latestSummary}\nNuméro de commande : ${orderId}`, values.product);
-        });
-
-        copyBtn?.addEventListener('click', async () => {
-          if (!latestSummary) return;
-          try {
-            await navigator.clipboard.writeText(latestSummary);
-            copyBtn.textContent = 'Récapitulatif copié';
-            window.setTimeout(() => {
-              copyBtn.textContent = 'Copier';
-            }, 1800);
-          } catch {
-            copyBtn.textContent = 'Copie impossible';
-          }
-        });
-      });
-    }
-
-    setPricePlaceholders();
-    syncPricesFromSheet();
-    window.setInterval(syncPricesFromSheet, 60000);
-    document.addEventListener('visibilitychange', () => {
-      if (document.visibilityState === 'visible') {
-        syncPricesFromSheet();
-      }
-    });
-    setupCardOrders();
-    burger?.addEventListener('click', () => setOpen(true));
-    closeBtn?.addEventListener('click', () => setOpen(false));
-    overlay?.addEventListener('click', () => setOpen(false));
-  </script>
-
-  <script>
-    (function(){
-      const ACCESS_CODE = '0318';
-      const STORAGE_KEY = 'apam_creator_access_boutique';
-      const overlay = document.getElementById('constructionOverlay');
-      const input = document.getElementById('creatorCodeInput');
-      const unlockBtn = document.getElementById('creatorUnlockBtn');
-      const status = document.getElementById('creatorStatus');
-
-      if (!overlay) return;
-      if (window.sessionStorage.getItem(STORAGE_KEY) === 'ok') {
-        overlay.classList.add('is-hidden');
-        return;
-      }
-
-      function unlock(){
-        if ((input?.value || '').trim() === ACCESS_CODE) {
-          window.sessionStorage.setItem(STORAGE_KEY, 'ok');
-          overlay.classList.add('is-hidden');
-          return;
-        }
-        if (status) status.textContent = 'Code incorrect.';
-      }
-
-      unlockBtn?.addEventListener('click', unlock);
-      input?.addEventListener('keydown', (event) => {
-        if (event.key === 'Enter') unlock();
-      });
-    })();
-  </script>
-
-  <script>
-    window.COOKIE_CONSENT_CONFIG = window.COOKIE_CONSENT_CONFIG || { gaMeasurementId: "G-VYNBMK1WPC" };
-  </script>
-  <script src="assets/cookie-consent.js" defer></script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="assets/site.js"></script>
+<script>
+document.getElementById('b-notify-form')?.addEventListener('submit', (e) => {
+  e.preventDefault();
+  if (!e.target.checkValidity()) { e.target.reportValidity(); return; }
+  e.target.style.display = 'none';
+  document.getElementById('b-notify-success').classList.add('on');
+});
+</script>
 </body>
 </html>
