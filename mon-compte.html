@@ -4,401 +4,508 @@
 <meta charset="UTF-8"/>
 <title>Mon compte – APAM</title>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,400;0,600;0,700;0,900;1,400;1,700;1,900&family=Jost:wght@300;400;500;600;700&family=Lora:ital,wght@1,400;1,500&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/site.css">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&family=Jost:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
 <style>
-body{background:var(--bg-2)}
+:root{
+  --bg:#080a0e;--bg-2:#0b0d13;--bg-3:#0e1018;
+  --sf:#141720;--sf2:#191d2c;
+  --accent:#2563eb;--acc2:#818cf8;--acc-d:rgba(37,99,235,.14);
+  --muted:#7a8399;--dim:#32384f;
+  --border:rgba(255,255,255,.07);--bds:rgba(255,255,255,.11);
+  --ok:#22d77a;--warn:#f5a524;--err:#ef4444;
+  --white:#fff;--nav-h:66px;--side:clamp(16px,4.5vw,72px);--rl:12px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg-2);color:var(--white);font-family:'Jost',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+img{max-width:100%;display:block}
+::-webkit-scrollbar{width:2px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:var(--accent)}
 
-/* Dashboard hero */
-.dh{padding:calc(var(--nav-h) + 50px) 0 28px;border-bottom:1px solid var(--border);position:relative;overflow:hidden;background:var(--bg)}
-.dh::before{content:'';position:absolute;inset:0;background:radial-gradient(50% 80% at 90% 0%,rgba(37,99,235,.12),transparent 60%);pointer-events:none}
-.dh-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(37,99,235,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(37,99,235,.03) 1px,transparent 1px);background-size:64px 64px;mask-image:linear-gradient(140deg,rgba(0,0,0,.5) 10%,transparent 70%);-webkit-mask-image:linear-gradient(140deg,rgba(0,0,0,.5) 10%,transparent 70%)}
+/* NAV */
+.nav{position:sticky;top:0;z-index:100;height:var(--nav-h);display:flex;align-items:center;
+  padding:0 var(--side);gap:24px;background:rgba(8,10,14,.92);
+  border-bottom:1px solid var(--border);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px)}
+.nav-logo{display:flex;align-items:center;gap:12px}
+.nav-logo img{height:38px}
+.nav-logo-text{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:22px;text-transform:uppercase;color:var(--white)}
+.nav-links{list-style:none;display:flex;align-items:center;gap:22px;margin-left:auto}
+.nav-links a{font-size:10.5px;font-weight:600;letter-spacing:.17em;text-transform:uppercase;color:rgba(255,255,255,.4);transition:color .2s}
+.nav-links a:hover{color:#fff}
+.nav-out{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:13px;letter-spacing:.12em;
+  text-transform:uppercase;padding:7px 16px;border:1.5px solid rgba(255,255,255,.2);color:rgba(255,255,255,.55);
+  cursor:pointer;background:none;transition:color .2s,border-color .2s}
+.nav-out:hover{color:#fff;border-color:rgba(255,255,255,.5)}
 
-.dh-inner{position:relative;z-index:1;display:flex;align-items:flex-end;justify-content:space-between;gap:32px;flex-wrap:wrap}
-.dh-greet{display:flex;flex-direction:column;gap:8px}
-.dh-eye{font-size:10px;font-weight:700;letter-spacing:.32em;text-transform:uppercase;color:var(--accent);display:flex;align-items:center;gap:10px}
-.dh-eye::before{content:'';width:22px;height:1px;background:var(--accent)}
-.dh-name{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:clamp(42px,5.5vw,72px);line-height:.94;text-transform:uppercase;color:#fff;letter-spacing:-.015em}
-.dh-name em{color:var(--accent);font-style:italic;font-weight:900}
-.dh-sub{font-size:14px;color:var(--muted);line-height:1.6;margin-top:4px}
-
-.dh-status{display:flex;flex-direction:column;gap:14px;align-items:flex-end}
-.dh-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(34,215,122,.08);border:1px solid rgba(34,215,122,.3);padding:6px 12px;border-radius:100px;font-size:10px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--ok)}
-.dh-badge .dot{width:7px;height:7px;border-radius:50%;background:var(--ok);animation:pulse 2.6s ease-in-out infinite}
+/* HERO */
+.dh{background:var(--bg);border-bottom:1px solid var(--border);padding:36px 0 28px;position:relative;overflow:hidden}
+.dh::before{content:'';position:absolute;inset:0;background:radial-gradient(55% 70% at 95% 0%,rgba(37,99,235,.1),transparent 60%);pointer-events:none}
+.dh-grid{position:absolute;inset:0;pointer-events:none;
+  background-image:linear-gradient(rgba(37,99,235,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(37,99,235,.025) 1px,transparent 1px);
+  background-size:64px 64px;mask-image:linear-gradient(135deg,rgba(0,0,0,.38) 10%,transparent 62%)}
+.dh-inner{position:relative;z-index:1;display:flex;align-items:flex-end;justify-content:space-between;gap:20px;flex-wrap:wrap}
+.dh-eye{font-size:9px;font-weight:700;letter-spacing:.32em;text-transform:uppercase;color:var(--accent);display:flex;align-items:center;gap:9px;margin-bottom:12px}
+.dh-eye::before{content:'';width:20px;height:1px;background:var(--accent)}
+.dh-name{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:clamp(38px,5.5vw,68px);line-height:.94;text-transform:uppercase}
+.dh-name em{color:var(--accent);font-style:inherit}
+.dh-sub{font-size:13.5px;color:var(--muted);margin-top:6px}
+.dh-meta{display:flex;flex-direction:column;gap:10px;align-items:flex-end}
+.badge{display:inline-flex;align-items:center;gap:7px;padding:5px 12px;border-radius:100px;font-size:9.5px;font-weight:700;letter-spacing:.15em;text-transform:uppercase}
+.badge.ok{background:rgba(34,215,122,.08);border:1px solid rgba(34,215,122,.25);color:var(--ok)}
+.badge.pres{background:rgba(37,99,235,.12);border:1px solid rgba(37,99,235,.28);color:#8aabff}
+.badge .dot{width:6px;height:6px;border-radius:50%;background:currentColor;animation:pulse 2.6s ease-in-out infinite}
 @keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(34,215,122,.5)}50%{box-shadow:0 0 0 5px transparent}}
-.dh-id{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);letter-spacing:.04em}
-.dh-id em{color:#fff;font-style:normal}
+.dh-id{font-family:'JetBrains Mono',monospace;font-size:10.5px;color:var(--muted);letter-spacing:.04em}
 
-/* Tabs */
-.tabs{display:flex;gap:0;padding:0 var(--side);border-bottom:1px solid var(--border);overflow-x:auto;background:var(--bg);position:sticky;top:var(--nav-h);z-index:99;backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px)}
-.tab{flex-shrink:0;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:13px;letter-spacing:.16em;text-transform:uppercase;padding:18px 22px;color:rgba(255,255,255,.4);position:relative;transition:color .25s;cursor:pointer;border:none;background:none}
-.tab:hover{color:#fff}
-.tab.on{color:#fff}
-.tab.on::after{content:'';position:absolute;bottom:-1px;left:22px;right:22px;height:2px;background:var(--accent)}
-.tab .bdg{display:inline-block;margin-left:6px;background:var(--acc-d);border:1px solid rgba(37,99,235,.3);color:var(--accent);font-size:9px;padding:2px 6px;border-radius:100px;letter-spacing:.1em}
+/* WRAP */
+.wrap{max-width:1260px;margin:0 auto;padding:0 var(--side)}
+.dash{padding:28px 0 56px;background:var(--bg-2)}
 
-.dash-body{padding:36px 0;background:var(--bg-2)}
-
-/* KPI cards */
-.kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:24px}
-.kpi{background:var(--sf);border:1px solid var(--border);border-radius:var(--rl);padding:22px;display:flex;flex-direction:column;gap:8px;position:relative;overflow:hidden;transition:border-color .3s,transform .4s cubic-bezier(.16,1,.3,1)}
-.kpi:hover{border-color:rgba(37,99,235,.3);transform:translateY(-3px)}
-.kpi::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(to right,var(--accent),transparent);opacity:0;transition:opacity .3s}
+/* KPI */
+.kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:11px;margin-bottom:18px}
+.kpi{background:var(--sf);border:1px solid var(--border);border-radius:var(--rl);padding:18px;position:relative;overflow:hidden;transition:border-color .3s,transform .4s cubic-bezier(.16,1,.3,1)}
+.kpi:hover{border-color:rgba(37,99,235,.28);transform:translateY(-3px)}
+.kpi::before{content:'';position:absolute;top:0;left:0;right:0;height:1.5px;background:linear-gradient(to right,var(--accent),transparent);opacity:0;transition:opacity .3s}
 .kpi:hover::before{opacity:1}
-.kpi .l{display:flex;align-items:center;justify-content:space-between}
-.kpi .l span{font-size:10px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
-.kpi .l .ic{width:30px;height:30px;border:1px solid var(--bds);border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--accent)}
-.kpi .l .ic svg{width:13px;height:13px;fill:currentColor}
-.kpi .v{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:36px;line-height:1;color:#fff;letter-spacing:-.02em}
-.kpi .v em{color:var(--accent);font-style:normal;font-size:.5em;margin-left:4px}
-.kpi .tr{font-size:11px;color:var(--muted);display:flex;align-items:center;gap:6px}
-.kpi .tr.up{color:var(--ok)}
-.kpi .tr.dn{color:var(--danger)}
+.kpi-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+.kpi-top span{font-size:9px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
+.kpi-ic{width:26px;height:26px;border:1px solid var(--bds);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px}
+.kpi-val{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:32px;line-height:1;color:#fff;letter-spacing:-.02em;margin-bottom:4px}
+.kpi-val em{color:var(--accent);font-style:normal;font-size:.5em;margin-left:3px}
+.kpi-tr{font-size:10.5px;color:var(--muted)}.kpi-tr.up{color:var(--ok)}.kpi-tr.dn{color:var(--warn)}
 
-/* 2-col layout */
-.row-2{display:grid;grid-template-columns:1.4fr 1fr;gap:16px;margin-bottom:24px}
+/* GRID */
+.row2{display:grid;grid-template-columns:1.4fr 1fr;gap:13px;margin-bottom:18px}
+.row2b{display:grid;grid-template-columns:1fr 1fr;gap:13px;margin-bottom:18px}
 
-/* Card panel */
-.panel{background:var(--sf);border:1px solid var(--border);border-radius:var(--rl);overflow:hidden}
-.panel-head{display:flex;align-items:center;justify-content:space-between;padding:18px 22px;border-bottom:1px solid var(--border);background:rgba(255,255,255,.015)}
-.panel-head h3{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:14px;letter-spacing:.18em;text-transform:uppercase;color:#fff}
-.panel-head a{font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--accent)}
-.panel-body{padding:0}
+/* PANEL */
+.panel{background:var(--sf);border:1px solid var(--border);border-radius:var(--rl);overflow:hidden;margin-bottom:18px}
+.ph{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;border-bottom:1px solid var(--border);background:rgba(255,255,255,.012)}
+.ph h3{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:12.5px;letter-spacing:.18em;text-transform:uppercase;color:#fff}
+.ph a,.ph-btn{font-size:10.5px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);background:none;border:none;cursor:pointer}
 
-/* Reservations list */
-.res{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:18px 22px;border-bottom:1px solid var(--border);transition:background .25s}
+/* Reservations */
+.res{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 18px;border-bottom:1px solid var(--border);transition:background .2s}
 .res:last-child{border-bottom:none}
 .res:hover{background:rgba(37,99,235,.04)}
-.res-l{display:flex;align-items:center;gap:18px;min-width:0}
-.res-date{display:flex;flex-direction:column;gap:2px;flex-shrink:0;min-width:60px;align-items:center;padding:8px;background:rgba(37,99,235,.06);border:1px solid rgba(37,99,235,.15);border-radius:8px}
-.res-date .d{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:22px;line-height:1;color:#fff}
-.res-date .m{font-size:9px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--accent)}
-.res-info{min-width:0}
-.res-info h4{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:15px;letter-spacing:.04em;text-transform:uppercase;color:#fff;line-height:1.2}
-.res-info p{font-size:11px;color:var(--muted);margin-top:3px;letter-spacing:.04em}
-.res-meta{display:flex;align-items:center;gap:14px;flex-shrink:0}
-.res-tag{font-size:9px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;padding:4px 9px;border-radius:100px;border:1px solid}
-.res-tag.confirmed{color:var(--ok);background:rgba(34,215,122,.08);border-color:rgba(34,215,122,.3)}
-.res-tag.pending{color:var(--warn);background:rgba(245,165,36,.08);border-color:rgba(245,165,36,.3)}
-.res-tag.cancelled{color:var(--muted);background:rgba(255,255,255,.04);border-color:var(--bds)}
+.res-l{display:flex;align-items:center;gap:14px;min-width:0}
+.res-date{display:flex;flex-direction:column;align-items:center;gap:1px;flex-shrink:0;width:50px;padding:6px;background:rgba(37,99,235,.06);border:1px solid rgba(37,99,235,.14);border-radius:7px}
+.res-date .d{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:18px;line-height:1;color:#fff}
+.res-date .m{font-size:8px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--accent)}
+.res-info h4{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:13.5px;letter-spacing:.04em;text-transform:uppercase;color:#fff}
+.res-info p{font-size:11px;color:var(--muted);margin-top:2px}
+.tag{font-size:8px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;padding:3px 8px;border-radius:100px;border:1px solid;flex-shrink:0}
+.tag.ok{color:var(--ok);background:rgba(34,215,122,.08);border-color:rgba(34,215,122,.25)}
+.tag.warn{color:var(--warn);background:rgba(245,165,36,.08);border-color:rgba(245,165,36,.25)}
+
+/* Account */
+.acc-sum{padding:18px;display:flex;flex-direction:column;gap:10px}
+.acc-bal{display:flex;align-items:flex-end;justify-content:space-between;padding-bottom:14px;border-bottom:1px solid var(--border)}
+.acc-bal .lbl{font-size:9px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--muted)}
+.acc-bal .v{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:40px;line-height:1;color:#fff;letter-spacing:-.02em;margin-top:3px}
+.acc-bal .v em{color:var(--accent);font-style:normal}
+.acc-row{display:flex;align-items:center;justify-content:space-between;padding:7px 0;border-bottom:1px dashed rgba(255,255,255,.04);font-size:12px}
+.acc-row:last-child{border-bottom:none}
+.acc-row .l{color:var(--muted)}.acc-row .v{font-family:'Barlow Condensed',sans-serif;font-weight:700;color:#fff;letter-spacing:.04em}
+.btn-sm{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:12px;letter-spacing:.1em;text-transform:uppercase;padding:7px 14px;background:var(--accent);color:#fff;border:none;cursor:pointer}
 
 /* Quick actions */
 .qac{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border)}
-.qac a{background:var(--sf);padding:18px 20px;display:flex;flex-direction:column;gap:6px;color:#fff;transition:background .25s}
+.qac a{background:var(--sf);padding:14px 16px;display:flex;flex-direction:column;gap:4px;color:#fff;transition:background .2s}
 .qac a:hover{background:var(--bg-3)}
-.qac a .lbl{font-size:9px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--accent)}
-.qac a .nm{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:20px;text-transform:uppercase;letter-spacing:-.005em;line-height:1}
-.qac a .ar{font-size:14px;color:rgba(255,255,255,.3);align-self:flex-end;margin-top:-22px}
-
-/* Logbook */
-.lb-row{display:grid;grid-template-columns:90px 1fr 1fr 80px 60px;gap:12px;padding:14px 22px;border-bottom:1px solid var(--border);align-items:center;font-size:12.5px}
-.lb-row.head{background:rgba(255,255,255,.02);font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted)}
-.lb-row:not(.head):hover{background:rgba(37,99,235,.03)}
-.lb-row:last-child{border-bottom:none}
-.lb-date{font-family:'JetBrains Mono',monospace;color:rgba(255,255,255,.8)}
-.lb-route{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:14px;color:#fff;letter-spacing:.04em}
-.lb-route em{color:var(--accent);font-style:normal;margin:0 4px}
-.lb-ac{font-size:11.5px;color:var(--muted)}
-.lb-h{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:16px;color:#fff;text-align:right}
-.lb-type{text-align:right;font-size:9px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--accent)}
-
-/* Account summary */
-.acc-sum{padding:22px;display:flex;flex-direction:column;gap:14px}
-.acc-balance{display:flex;align-items:flex-end;justify-content:space-between;padding-bottom:18px;border-bottom:1px solid var(--border)}
-.acc-balance .l{font-size:10px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--muted)}
-.acc-balance .v{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:48px;line-height:1;color:#fff;letter-spacing:-.02em;margin-top:6px}
-.acc-balance .v em{color:var(--accent);font-style:normal}
-.acc-row{display:flex;align-items:center;justify-content:space-between;padding:9px 0;border-bottom:1px dashed rgba(255,255,255,.05);font-size:12.5px}
-.acc-row:last-child{border-bottom:none}
-.acc-row .l{color:var(--muted)}
-.acc-row .v{font-family:'Barlow Condensed',sans-serif;font-weight:700;color:#fff;letter-spacing:.04em}
+.qac .ql{font-size:8.5px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--accent)}
+.qac .qn{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:17px;text-transform:uppercase;line-height:1}
 
 /* Currency */
-.cur-it{padding:14px 22px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:14px}
+.cur-it{padding:12px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:10px}
 .cur-it:last-child{border-bottom:none}
-.cur-it h4{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:#fff}
-.cur-it p{font-size:11px;color:var(--muted);margin-top:3px}
-.cur-bar{position:relative;height:5px;width:130px;border-radius:100px;background:rgba(255,255,255,.05);overflow:hidden}
-.cur-bar-fill{position:absolute;top:0;left:0;bottom:0;border-radius:100px;background:linear-gradient(to right,var(--accent),var(--acc-2))}
-.cur-pct{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:16px;color:#fff;min-width:42px;text-align:right}
-.cur-pct em{color:var(--accent);font-style:normal}
+.cur-it h4{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:12.5px;letter-spacing:.05em;text-transform:uppercase;color:#fff}
+.cur-it p{font-size:10.5px;color:var(--muted);margin-top:2px}
+.bar{position:relative;height:4px;width:110px;border-radius:100px;background:rgba(255,255,255,.05);overflow:hidden;flex-shrink:0}
+.bar-fill{position:absolute;top:0;left:0;bottom:0;border-radius:100px;background:linear-gradient(to right,var(--accent),var(--acc2))}
+.bar-pct{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:14px;color:#fff;min-width:34px;text-align:right;flex-shrink:0}
+.bar-pct em{color:var(--accent);font-style:normal}
 
-@media(max-width:980px){
-  .dh-inner{flex-direction:column;align-items:flex-start;gap:14px}
-  .dh-status{align-items:flex-start}
-  .kpi-grid{grid-template-columns:1fr 1fr}
-  .row-2{grid-template-columns:1fr}
-  .lb-row{grid-template-columns:60px 1fr 60px;gap:8px}
-  .lb-row .lb-ac,.lb-row .lb-type{display:none}
+/* Logbook */
+.lb{display:grid;grid-template-columns:78px 1fr 1fr 64px;gap:8px;padding:12px 18px;border-bottom:1px solid var(--border);align-items:center;font-size:12px}
+.lb.hd{background:rgba(255,255,255,.02);font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted)}
+.lb:last-child{border-bottom:none}
+.lb:not(.hd):hover{background:rgba(37,99,235,.03)}
+.lb-d{font-family:'JetBrains Mono',monospace;font-size:11px;color:rgba(255,255,255,.72)}
+.lb-r{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:13px;color:#fff}
+.lb-r em{color:var(--accent);font-style:normal;margin:0 3px}
+.lb-a{font-size:11px;color:var(--muted)}
+.lb-h{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:14px;color:#fff;text-align:right}
+
+/* ════════════════════════════════════════
+   CALENDRIER
+════════════════════════════════════════ */
+.ev-list{display:flex;flex-direction:column}
+.ev{display:flex;align-items:flex-start;gap:14px;padding:14px 18px;border-bottom:1px solid var(--border);transition:background .2s;position:relative}
+.ev:last-child{border-bottom:none}.ev:hover{background:rgba(37,99,235,.035)}
+.ev-date{display:flex;flex-direction:column;align-items:center;gap:1px;flex-shrink:0;width:46px;padding:6px;border-radius:8px;border:1px solid var(--border)}
+.ev-date .d{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:20px;line-height:1;color:#fff}
+.ev-date .m{font-size:8px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
+.ev-body{flex:1;min-width:0}
+.ev-body h4{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:14px;letter-spacing:.04em;text-transform:uppercase;color:#fff;line-height:1.2}
+.ev-body p{font-size:12px;color:var(--muted);margin-top:3px;line-height:1.5}
+.ev-tags{display:flex;gap:7px;margin-top:7px;flex-wrap:wrap}
+.ev-tag{font-size:8px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;padding:3px 8px;border-radius:100px;border:1px solid;white-space:nowrap}
+.ev-tag.vol{color:#8aabff;background:rgba(37,99,235,.1);border-color:rgba(37,99,235,.22)}
+.ev-tag.social{color:var(--ok);background:rgba(34,215,122,.08);border-color:rgba(34,215,122,.22)}
+.ev-tag.formation{color:#f5a524;background:rgba(245,165,36,.08);border-color:rgba(245,165,36,.22)}
+.ev-tag.initiation{color:#818cf8;background:rgba(129,140,248,.1);border-color:rgba(129,140,248,.22)}
+.ev-tag.admin{color:var(--muted);background:rgba(255,255,255,.04);border-color:var(--bds)}
+.ev-del{background:none;border:1px solid var(--border);color:rgba(255,255,255,.28);
+  width:24px;height:24px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;
+  font-size:11px;flex-shrink:0;align-self:center;transition:border-color .2s,color .2s;line-height:1}
+.ev-del:hover{border-color:var(--err);color:var(--err)}
+.ev-empty{padding:20px 18px;font-size:13px;color:var(--muted);text-align:center}
+
+/* ════════════════════════════════════════
+   PANNEAU PRÉSIDENT
+════════════════════════════════════════ */
+#pres-panel{
+  margin-bottom:18px;border-radius:var(--rl);overflow:hidden;
+  border:1.5px solid rgba(37,99,235,.32);background:var(--sf);
 }
-@media(max-width:600px){
+.pres-hd{padding:14px 18px;border-bottom:1px solid rgba(37,99,235,.2);
+  background:rgba(37,99,235,.06);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px}
+.pres-hd h3{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:17px;text-transform:uppercase;display:flex;align-items:center;gap:10px}
+.pres-pill{font-family:'Jost',sans-serif;font-weight:700;font-style:normal;font-size:8.5px;letter-spacing:.2em;text-transform:uppercase;color:#8aabff;background:rgba(37,99,235,.2);border:1px solid rgba(37,99,235,.28);padding:3px 8px;border-radius:100px}
+.pres-body{padding:18px;display:flex;flex-direction:column;gap:18px}
+.sec-lbl{font-size:9.5px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);display:flex;align-items:center;gap:8px}
+.sec-lbl::after{content:'';flex:1;height:1px;background:rgba(37,99,235,.2)}
+
+/* Form */
+.form-g{display:grid;grid-template-columns:1fr 1fr;gap:11px}
+.field{display:flex;flex-direction:column;gap:5px}
+.field label{font-size:9.5px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.4)}
+.field input,.field textarea,.field select{
+  background:var(--bg-2);border:1.5px solid var(--bds);color:#fff;
+  padding:11px 12px;font-family:'Jost',sans-serif;font-size:13.5px;
+  outline:none;transition:border-color .22s;border-radius:6px;width:100%}
+.field input:focus,.field textarea:focus,.field select:focus{border-color:var(--accent)}
+.field textarea{resize:vertical;min-height:75px}
+.field select option{background:var(--sf)}
+.form-footer{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-top:4px}
+.form-ok{font-size:12px;color:var(--ok);opacity:0;transition:opacity .3s}
+.form-ok.show{opacity:1}
+.btn-pub{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:14px;letter-spacing:.12em;text-transform:uppercase;padding:12px 22px;background:var(--accent);color:#fff;border:none;cursor:pointer;border-radius:6px;transition:opacity .2s}
+.btn-pub:hover{opacity:.85}
+.pres-events-wrap{border:1px solid var(--border);border-radius:8px;overflow:hidden}
+
+/* Toggle */
+.toggle-btn{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:12px;letter-spacing:.14em;text-transform:uppercase;padding:7px 14px;border:1.5px solid rgba(37,99,235,.3);color:#8aabff;background:rgba(37,99,235,.08);cursor:pointer;border-radius:6px;transition:background .2s}
+.toggle-btn:hover{background:rgba(37,99,235,.15)}
+
+/* Footer */
+.foot{background:var(--bg);border-top:1px solid var(--border);padding:18px var(--side)}
+.foot-inner{max-width:1260px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px}
+.foot-links{display:flex;gap:14px;flex-wrap:wrap}
+.foot-links a{font-size:11px;color:var(--muted);transition:color .2s}.foot-links a:hover{color:#fff}
+.foot-cr{font-size:11px;color:var(--dim)}
+
+/* Responsive */
+@media(max-width:900px){
+  .nav-links{display:none}
   .kpi-grid{grid-template-columns:1fr 1fr}
-  .qac{grid-template-columns:1fr}
+  .row2,.row2b{grid-template-columns:1fr}
+  .dh-inner{flex-direction:column;align-items:flex-start}
+  .dh-meta{align-items:flex-start}
+  .lb{grid-template-columns:64px 1fr 52px}
+  .lb .lb-a{display:none}
+}
+@media(max-width:560px){
+  .kpi-grid{grid-template-columns:1fr 1fr}
+  .form-g{grid-template-columns:1fr}
 }
 </style>
 </head>
 <body>
 
-<div class="grain" aria-hidden="true"></div>
-<div class="pg-bar" id="pg-bar"></div>
-<div class="cur" id="cur-dot"><div class="cur-dot"></div></div>
-<div class="cur" id="cur-ring"><div class="cur-ring"></div></div>
-
-<!-- NAV (member version) -->
-<nav class="nav" id="nav">
-  <a class="nav-logo" href="index.html"><img src="assets/images/apam-logo2.png" alt="APAM"></a>
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-logo">
+    <img src="assets/images/apam-logo2.png" alt="APAM" onerror="this.style.display='none'">
+    <span class="nav-logo-text" id="nav-logo-text" style="display:none">APAM</span>
+  </div>
   <ul class="nav-links">
     <li><a href="index.html">Site public</a></li>
     <li><a href="tarifs.html">Flotte</a></li>
     <li><a href="activite.html">Le Club</a></li>
     <li><a href="https://openflyers.com/apam/" target="_blank">OpenFlyer ↗</a></li>
   </ul>
-  <div class="nav-icons">
-    <a class="nav-ic" href="https://www.instagram.com/apam_lfol" target="_blank" aria-label="Instagram"><svg viewBox="0 0 24 24"><path d="M7 2C4.2 2 2 4.2 2 7v10c0 2.8 2.2 5 5 5h10c2.8 0 5-2.2 5-5V7c0-2.8-2.2-5-5-5H7zm0 2h10c1.7 0 3 1.3 3 3v10c0 1.7-1.3 3-3 3H7c-1.7 0-3-1.3-3-3V7c0-1.7 1.3-3 3-3zm5 3.5a4.5 4.5 0 1 0 0 9 4.5 4.5 0 0 0 0-9zm0 2a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zm4.8-2.9a1.1 1.1 0 1 0 0 2.2 1.1 1.1 0 0 0 0-2.2z"/></svg></a>
-  </div>
-  <a class="nav-cta" href="connexion-membres.html">Se déconnecter</a>
-  <button class="nav-burger" id="burger" aria-expanded="false" aria-label="Menu"><b></b><b></b><b></b></button>
+  <button class="nav-out" id="nav-logout">Se déconnecter</button>
 </nav>
 
-<div class="m-drawer" id="drawer" aria-hidden="true">
-  <div class="m-drawer-top"><img src="assets/images/apam-logo2.png" alt="APAM" style="height:40px"><button class="m-close" id="m-close" aria-label="Fermer">✕</button></div>
-  <nav class="m-nav">
-    <a href="#vols">Mes vols <span class="arr">→</span></a>
-    <a href="#carnet">Carnet <span class="arr">→</span></a>
-    <a href="#compte">Compte <span class="arr">→</span></a>
-    <a href="https://openflyers.com/apam/" target="_blank">OpenFlyer <span class="arr">↗</span></a>
-    <a href="connexion-membres.html">Se déconnecter <span class="arr">→</span></a>
-  </nav>
-</div>
-
-<!-- DASH HERO -->
+<!-- HERO -->
 <section class="dh">
-  <div class="dh-grid"></div>
+  <div class="dh-grid" aria-hidden="true"></div>
   <div class="wrap">
     <div class="dh-inner">
-      <div class="dh-greet">
+      <div>
         <p class="dh-eye">Espace membres · APAM</p>
-        <h1 class="dh-name">Bonjour,<br><em>Jean Dupont</em></h1>
-        <p class="dh-sub">Bienvenue dans votre espace. Voici un aperçu de votre activité pilote.</p>
+        <h1 class="dh-name">Bonjour,<br><em id="user-label">Membre</em></h1>
+        <p class="dh-sub">Bienvenue dans votre espace. Voici un aperçu de votre activité.</p>
       </div>
-      <div class="dh-status">
-        <span class="dh-badge"><span class="dot"></span>Adhésion à jour · 2026</span>
-        <span class="dh-id">ID Membre · <em>APAM-2018-0042</em></span>
-        <span class="dh-id">Médicale Classe 2 · <em>Valide jusqu'au 14/07/2026</em></span>
+      <div class="dh-meta">
+        <span class="badge ok"><span class="dot"></span>Adhésion à jour · 2026</span>
+        <span class="badge pres" id="pres-badge" style="display:none">
+          <span class="dot" style="animation:none;background:var(--accent)"></span>Accès président
+        </span>
+        <span class="dh-id" id="session-id">—</span>
       </div>
     </div>
   </div>
 </section>
 
-<!-- TABS -->
-<div class="tabs">
-  <button class="tab on">— Tableau de bord</button>
-  <button class="tab">Mes vols <span class="bdg">3</span></button>
-  <button class="tab">Carnet de vol</button>
-  <button class="tab">Compte & paiements</button>
-  <button class="tab">Documents</button>
-  <button class="tab">Mon profil</button>
-</div>
-
 <!-- BODY -->
-<main class="dash-body">
+<main class="dash">
   <div class="wrap">
 
-    <!-- KPIs -->
-    <div class="kpi-grid">
-      <div class="kpi" data-r>
-        <div class="l"><span>Heures cette année</span><span class="ic"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm.5 5h-1v6l5.2 3.2.5-.9-4.7-2.8V7z"/></svg></span></div>
-        <div class="v">42<em> h 30</em></div>
-        <div class="tr up">▲ +8h depuis mai</div>
+    <!-- ══ PANNEAU PRÉSIDENT ══ -->
+    <div id="pres-panel" style="display:none">
+      <div class="pres-hd">
+        <h3>Calendrier du club <span class="pres-pill">Président</span></h3>
+        <button class="toggle-btn" id="toggle-btn" onclick="toggleForm()">+ Ajouter un événement</button>
       </div>
-      <div class="kpi" data-r data-d="1">
-        <div class="l"><span>Heures totales</span><span class="ic"><svg viewBox="0 0 24 24"><path d="M22 16v-2l-8.5-5V3.5a1.5 1.5 0 0 0-3 0V9L2 14v2l8.5-2.5V19L8 20.5V22l4-1 4 1v-1.5L13.5 19v-5.5L22 16z"/></svg></span></div>
-        <div class="v">386<em> h</em></div>
-        <div class="tr">— Depuis 2018</div>
-      </div>
-      <div class="kpi" data-r data-d="2">
-        <div class="l"><span>Vols planifiés</span><span class="ic"><svg viewBox="0 0 24 24"><path d="M19 4h-1V2h-2v2H8V2H6v2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2zm0 16H5V10h14v10zm0-12H5V6h14v2z"/></svg></span></div>
-        <div class="v">3</div>
-        <div class="tr">— Cette semaine</div>
-      </div>
-      <div class="kpi" data-r data-d="3">
-        <div class="l"><span>Solde compte</span><span class="ic"><svg viewBox="0 0 24 24"><path d="M19 7H5a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2zm-7 7a2 2 0 1 1 0-4 2 2 0 0 1 0 4z"/></svg></span></div>
-        <div class="v">+ 124<em> €</em></div>
-        <div class="tr up">▲ Provisionné</div>
+      <div class="pres-body">
+
+        <!-- Formulaire -->
+        <div id="ev-form" style="display:none">
+          <span class="sec-lbl">Nouvel événement</span>
+          <div class="form-g">
+            <div class="field"><label for="ev-t">Titre</label><input id="ev-t" type="text" placeholder="Ex : Méchoui annuel"></div>
+            <div class="field"><label for="ev-d">Date</label><input id="ev-d" type="date"></div>
+          </div>
+          <div class="field" style="margin-top:10px"><label for="ev-desc">Description</label><textarea id="ev-desc" placeholder="Détails, horaires, lieu…"></textarea></div>
+          <div class="form-g" style="margin-top:10px;align-items:flex-end">
+            <div class="field">
+              <label for="ev-type">Type</label>
+              <select id="ev-type">
+                <option value="vol">✈ Vol groupé / Rallye</option>
+                <option value="social">🍖 Événement social</option>
+                <option value="formation">📚 Formation / Briefing</option>
+                <option value="initiation">🌟 Portes ouvertes</option>
+                <option value="admin">📋 Administratif / AG</option>
+              </select>
+            </div>
+            <div class="form-footer">
+              <span class="form-ok" id="form-ok">✓ Événement publié !</span>
+              <button class="btn-pub" onclick="createEvent()">Publier →</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Gestion événements existants -->
+        <div>
+          <span class="sec-lbl">Tous les événements</span>
+          <div class="pres-events-wrap">
+            <div id="pres-ev-list" class="ev-list"></div>
+          </div>
+        </div>
       </div>
     </div>
 
-    <!-- Row: reservations + account -->
-    <div class="row-2">
+    <!-- ══ KPI ══ -->
+    <div class="kpi-grid">
+      <div class="kpi"><div class="kpi-top"><span>Heures cette année</span><span class="kpi-ic">🕐</span></div><div class="kpi-val">42<em>h30</em></div><div class="kpi-tr up">▲ +8h depuis mai</div></div>
+      <div class="kpi"><div class="kpi-top"><span>Heures totales</span><span class="kpi-ic">✈️</span></div><div class="kpi-val">386<em>h</em></div><div class="kpi-tr">— Depuis 2018</div></div>
+      <div class="kpi"><div class="kpi-top"><span>Vols planifiés</span><span class="kpi-ic">📅</span></div><div class="kpi-val">3</div><div class="kpi-tr">— Cette semaine</div></div>
+      <div class="kpi"><div class="kpi-top"><span>Solde</span><span class="kpi-ic">💳</span></div><div class="kpi-val">+124<em>€</em></div><div class="kpi-tr up">▲ Provisionné</div></div>
+    </div>
 
-      <!-- Reservations -->
-      <div class="panel" data-r>
-        <div class="panel-head">
-          <h3>— Mes prochains vols</h3>
-          <a href="https://openflyers.com/apam/" target="_blank">Voir tout sur OpenFlyer ↗</a>
-        </div>
-        <div class="panel-body">
-          <div class="res">
-            <div class="res-l">
-              <div class="res-date"><span class="d">17</span><span class="m">Mai</span></div>
-              <div class="res-info">
-                <h4>Cessna 152 · F-GHKE</h4>
-                <p>14h00 – 15h30 · Vol local · Inst. Marc D.</p>
-              </div>
-            </div>
-            <div class="res-meta">
-              <span class="res-tag confirmed">● Confirmé</span>
-            </div>
-          </div>
-          <div class="res">
-            <div class="res-l">
-              <div class="res-date"><span class="d">22</span><span class="m">Mai</span></div>
-              <div class="res-info">
-                <h4>TB200 · F-GBVK</h4>
-                <p>09h00 – 12h00 · Voyage Deauville · Solo</p>
-              </div>
-            </div>
-            <div class="res-meta">
-              <span class="res-tag pending">● En attente</span>
-            </div>
-          </div>
-          <div class="res">
-            <div class="res-l">
-              <div class="res-date"><span class="d">04</span><span class="m">Juin</span></div>
-              <div class="res-info">
-                <h4>Cirrus SR20 · F-HCFA</h4>
-                <p>10h00 – 12h00 · Familiarisation · Inst. Sophie L.</p>
-              </div>
-            </div>
-            <div class="res-meta">
-              <span class="res-tag confirmed">● Confirmé</span>
-            </div>
-          </div>
+    <!-- ══ ROW 1 ══ -->
+    <div class="row2">
+      <div class="panel" style="margin-bottom:0">
+        <div class="ph"><h3>— Prochains vols</h3><a href="https://openflyers.com/apam/" target="_blank">OpenFlyer ↗</a></div>
+        <div>
+          <div class="res"><div class="res-l"><div class="res-date"><span class="d">17</span><span class="m">Mai</span></div><div class="res-info"><h4>Cessna 152 · F-GHKE</h4><p>14h00–15h30 · Vol local · Inst. Marc D.</p></div></div><span class="tag ok">● Confirmé</span></div>
+          <div class="res"><div class="res-l"><div class="res-date"><span class="d">22</span><span class="m">Mai</span></div><div class="res-info"><h4>TB200 · F-GBVK</h4><p>09h00–12h00 · Voyage Deauville · Solo</p></div></div><span class="tag warn">● En attente</span></div>
+          <div class="res"><div class="res-l"><div class="res-date"><span class="d">04</span><span class="m">Jun</span></div><div class="res-info"><h4>Cirrus SR20 · F-HCFA</h4><p>10h00–12h00 · Familiarisation</p></div></div><span class="tag ok">● Confirmé</span></div>
         </div>
       </div>
-
-      <!-- Account -->
-      <div class="panel" data-r data-d="1">
-        <div class="panel-head">
-          <h3>— Mon compte</h3>
-          <a href="#">Détails</a>
-        </div>
+      <div class="panel" style="margin-bottom:0">
+        <div class="ph"><h3>— Mon compte</h3><a href="#">Détails</a></div>
         <div class="acc-sum">
-          <div class="acc-balance">
-            <div><span class="l">Solde disponible</span><div class="v">+ 124<em>,00 €</em></div></div>
-            <a class="btn btn--outline" href="#">+ Recharger</a>
-          </div>
+          <div class="acc-bal"><div><div class="lbl">Solde</div><div class="v">+124<em>,00 €</em></div></div><button class="btn-sm">+ Recharger</button></div>
           <div class="acc-row"><span class="l">Cotisation 2026</span><span class="v">280 € · Réglée</span></div>
           <div class="acc-row"><span class="l">Heures réservées</span><span class="v">3h00 · 540 €</span></div>
-          <div class="acc-row"><span class="l">Facturation mensuelle</span><span class="v">→ 30 mai</span></div>
-          <div class="acc-row"><span class="l">Mode de paiement</span><span class="v">Prélèvement · IBAN…1234</span></div>
+          <div class="acc-row"><span class="l">Facturation</span><span class="v">→ 30 mai</span></div>
         </div>
       </div>
     </div>
 
-    <!-- Row: quick actions + currency -->
-    <div class="row-2">
-      <div class="panel" data-r>
-        <div class="panel-head"><h3>— Accès rapides</h3></div>
+    <!-- ══ ROW 2 ══ -->
+    <div class="row2b">
+      <div class="panel" style="margin-bottom:0">
+        <div class="ph"><h3>— Accès rapides</h3></div>
         <div class="qac">
-          <a href="https://openflyers.com/apam/" target="_blank"><span class="lbl">— OpenFlyer</span><span class="nm">Réserver un vol</span><span class="ar">↗</span></a>
-          <a href="#"><span class="lbl">— Carnet de vol</span><span class="nm">Saisir un vol</span><span class="ar">→</span></a>
-          <a href="#"><span class="lbl">— Documents</span><span class="nm">Mes licences</span><span class="ar">→</span></a>
-          <a href="contact.html"><span class="lbl">— Bureau</span><span class="nm">Contacter</span><span class="ar">→</span></a>
+          <a href="https://openflyers.com/apam/" target="_blank"><span class="ql">OpenFlyer</span><span class="qn">Réserver un vol</span></a>
+          <a href="#"><span class="ql">Carnet</span><span class="qn">Saisir un vol</span></a>
+          <a href="#"><span class="ql">Documents</span><span class="qn">Mes licences</span></a>
+          <a href="contact.html"><span class="ql">Bureau</span><span class="qn">Contacter</span></a>
         </div>
       </div>
-
-      <div class="panel" data-r data-d="1">
-        <div class="panel-head"><h3>— Maintien des compétences</h3><a href="#">Détails</a></div>
-        <div class="panel-body">
-          <div class="cur-it">
-            <div><h4>SEP terre (PPL)</h4><p>12 h sur les 24 derniers mois — minimum 6 h</p></div>
-            <div style="display:flex;align-items:center;gap:10px"><div class="cur-bar"><div class="cur-bar-fill" style="width:90%"></div></div><span class="cur-pct">90<em>%</em></span></div>
-          </div>
-          <div class="cur-it">
-            <div><h4>Emport passagers</h4><p>3 décollages/atterrissages dans les 90 jours</p></div>
-            <div style="display:flex;align-items:center;gap:10px"><div class="cur-bar"><div class="cur-bar-fill" style="width:100%"></div></div><span class="cur-pct">OK</span></div>
-          </div>
-          <div class="cur-it">
-            <div><h4>Vol de nuit</h4><p>1 vol dans les 12 mois — à renouveler</p></div>
-            <div style="display:flex;align-items:center;gap:10px"><div class="cur-bar"><div class="cur-bar-fill" style="width:40%;background:linear-gradient(to right,var(--warn),var(--warn))"></div></div><span class="cur-pct" style="color:var(--warn)">!</span></div>
-          </div>
+      <div class="panel" style="margin-bottom:0">
+        <div class="ph"><h3>— Compétences</h3></div>
+        <div>
+          <div class="cur-it"><div><h4>SEP terre (PPL)</h4><p>12h / 24 derniers mois</p></div><div style="display:flex;align-items:center;gap:8px"><div class="bar"><div class="bar-fill" style="width:90%"></div></div><span class="bar-pct">90<em>%</em></span></div></div>
+          <div class="cur-it"><div><h4>Emport passagers</h4><p>3 att. / 90 jours</p></div><div style="display:flex;align-items:center;gap:8px"><div class="bar"><div class="bar-fill" style="width:100%"></div></div><span class="bar-pct">OK</span></div></div>
+          <div class="cur-it"><div><h4>Vol de nuit</h4><p>1 vol / 12 mois — à renouveler</p></div><div style="display:flex;align-items:center;gap:8px"><div class="bar"><div class="bar-fill" style="width:38%;background:var(--warn)"></div></div><span class="bar-pct" style="color:var(--warn)">!</span></div></div>
         </div>
       </div>
     </div>
 
-    <!-- Logbook recent -->
-    <div class="panel" data-r>
-      <div class="panel-head">
-        <h3>— Carnet de vol · 5 derniers vols</h3>
-        <a href="#">Voir tout le carnet</a>
-      </div>
-      <div class="panel-body">
-        <div class="lb-row head">
-          <span>Date</span>
-          <span>Trajet</span>
-          <span>Avion · Type</span>
-          <span style="text-align:right">Durée</span>
-          <span style="text-align:right">Type</span>
-        </div>
-        <div class="lb-row">
-          <span class="lb-date">12.05.26</span>
-          <span class="lb-route">LFOL <em>→</em> LFOL</span>
-          <span class="lb-ac">F-GHKE · Cessna 152</span>
-          <span class="lb-h">1:30</span>
-          <span class="lb-type">Local</span>
-        </div>
-        <div class="lb-row">
-          <span class="lb-date">07.05.26</span>
-          <span class="lb-route">LFOL <em>→</em> LFRT <em>→</em> LFOL</span>
-          <span class="lb-ac">F-GBVK · TB200</span>
-          <span class="lb-h">2:45</span>
-          <span class="lb-type">Voyage</span>
-        </div>
-        <div class="lb-row">
-          <span class="lb-date">30.04.26</span>
-          <span class="lb-route">LFOL <em>→</em> LFOL</span>
-          <span class="lb-ac">F-GHKE · Cessna 152</span>
-          <span class="lb-h">1:15</span>
-          <span class="lb-type">Local</span>
-        </div>
-        <div class="lb-row">
-          <span class="lb-date">23.04.26</span>
-          <span class="lb-route">LFOL <em>→</em> LFRD <em>→</em> LFOL</span>
-          <span class="lb-ac">F-HCFA · Cirrus SR20</span>
-          <span class="lb-h">2:10</span>
-          <span class="lb-type">Famil.</span>
-        </div>
-        <div class="lb-row">
-          <span class="lb-date">15.04.26</span>
-          <span class="lb-route">LFOL <em>→</em> LFOJ <em>→</em> LFOL</span>
-          <span class="lb-ac">F-GBVK · TB200</span>
-          <span class="lb-h">1:55</span>
-          <span class="lb-type">Voyage</span>
-        </div>
+    <!-- ══ CALENDRIER ══ -->
+    <div class="panel">
+      <div class="ph"><h3>— Calendrier du club</h3><a href="activite.html#calendrier">Voir sur le site</a></div>
+      <div id="ev-list" class="ev-list"></div>
+    </div>
+
+    <!-- ══ CARNET ══ -->
+    <div class="panel">
+      <div class="ph"><h3>— Carnet · 5 derniers vols</h3><a href="#">Tout le carnet</a></div>
+      <div>
+        <div class="lb hd"><span>Date</span><span>Trajet</span><span>Avion</span><span style="text-align:right">Durée</span></div>
+        <div class="lb"><span class="lb-d">12.05.26</span><span class="lb-r">LFOL <em>→</em> LFOL</span><span class="lb-a">F-GHKE · C152</span><span class="lb-h">1:30</span></div>
+        <div class="lb"><span class="lb-d">07.05.26</span><span class="lb-r">LFOL <em>→</em> LFRT <em>→</em> LFOL</span><span class="lb-a">F-GBVK · TB200</span><span class="lb-h">2:45</span></div>
+        <div class="lb"><span class="lb-d">30.04.26</span><span class="lb-r">LFOL <em>→</em> LFOL</span><span class="lb-a">F-GHKE · C152</span><span class="lb-h">1:15</span></div>
+        <div class="lb"><span class="lb-d">23.04.26</span><span class="lb-r">LFOL <em>→</em> LFRD <em>→</em> LFOL</span><span class="lb-a">F-HCFA · SR20</span><span class="lb-h">2:10</span></div>
+        <div class="lb"><span class="lb-d">15.04.26</span><span class="lb-r">LFOL <em>→</em> LFOJ <em>→</em> LFOL</span><span class="lb-a">F-GBVK · TB200</span><span class="lb-h">1:55</span></div>
       </div>
     </div>
 
   </div>
 </main>
 
-<!-- FOOTER -->
-<footer class="footer">
-  <div class="footer-bottom" style="border-top:none;padding-top:0">
-    <div class="footer-legal"><a href="index.html">Site public</a><a href="mentions-legales.html">Mentions légales</a><a href="confidentialite.html">Confidentialité</a><a href="contact.html">Aide</a></div>
-    <span class="footer-credit">© 2026 APAM · Espace membres</span>
+<footer class="foot">
+  <div class="foot-inner">
+    <div class="foot-links">
+      <a href="index.html">Site public</a>
+      <a href="mentions-legales.html">Mentions légales</a>
+      <a href="contact.html">Aide</a>
+    </div>
+    <span class="foot-cr">© 2026 APAM · Espace membres</span>
   </div>
 </footer>
 
-<script src="assets/site.js"></script>
 <script>
-// Tab switching (visual only — would route to anchors / fetched panes in real app)
-document.querySelectorAll('.tab').forEach(t => t.addEventListener('click', () => {
-  document.querySelectorAll('.tab').forEach(x => x.classList.remove('on'));
-  t.classList.add('on');
-}));
+'use strict';
+
+/* ── Logo fallback ─────────────────────────────── */
+document.querySelector('.nav-logo img')?.addEventListener('error',function(){
+  this.style.display='none';
+  document.getElementById('nav-logo-text').style.display='block';
+});
+
+/* ── Session ────────────────────────────────────── */
+const role = localStorage.getItem('apam_role');
+const code = localStorage.getItem('apam_code');
+
+// Rediriger si pas connecté
+if(!code || !role){
+  window.location.href = 'connexion-membres-password.html?next=mon-compte.html';
+}
+
+// Affichage selon rôle
+document.getElementById('user-label').textContent = role==='president' ? 'Président' : 'Membre';
+document.getElementById('session-id').textContent  = 'Saison 2026 · ' + (role==='president' ? 'Accès étendu' : 'Membre actif');
+
+if(role==='president'){
+  document.getElementById('pres-badge').style.display = 'inline-flex';
+  document.getElementById('pres-panel').style.display = 'block';
+}
+
+// Déconnexion
+document.getElementById('nav-logout').addEventListener('click', () => {
+  localStorage.removeItem('apam_role');
+  localStorage.removeItem('apam_code');
+  window.location.href = 'connexion-membres-password.html';
+});
+
+/* ════════════════════════════════════════════════
+   CALENDRIER DES ÉVÉNEMENTS
+════════════════════════════════════════════════ */
+const EV_KEY = 'apam_events_v1';
+const MONTHS = ['Jan','Fév','Mar','Avr','Mai','Jun','Jul','Aoû','Sep','Oct','Nov','Déc'];
+const EV_LABELS = {vol:'✈ Vol groupé',social:'🍖 Social',formation:'📚 Formation',initiation:'🌟 Initiation',admin:'📋 Admin'};
+
+const DEFAULT_EVENTS = [
+  {id:'d1',date:'2026-06-21',title:'Méchoui annuel',desc:'Repas convivial de fin juin sur le terrain. Ouvert à tous les membres et leurs familles.',type:'social'},
+  {id:'d2',date:'2026-07-14',title:'Vol de la Bastille',desc:'Vol groupé tradition du 14 juillet. Départ LFOL 10h00. Inscription souhaitée.',type:'vol'},
+  {id:'d3',date:'2026-08-22',title:'Rallye navigation VFR',desc:'Rallye ouvert aux membres PPL et plus. Circuit à découvrir sur place.',type:'vol'},
+  {id:'d4',date:'2026-09-06',title:'Journée portes ouvertes',desc:'Initiations et baptêmes de l\'air pour le grand public. Toute la journée.',type:'initiation'},
+  {id:'d5',date:'2026-10-11',title:'Assemblée générale',desc:'AG annuelle APAM. Bilan, élections, projets 2027. Présence souhaitée.',type:'admin'},
+];
+
+function getCustom(){ try{ return JSON.parse(localStorage.getItem(EV_KEY)||'[]'); }catch{ return []; } }
+function saveCustom(a){ localStorage.setItem(EV_KEY, JSON.stringify(a)); }
+function getAll(){ return [...DEFAULT_EVENTS,...getCustom()].sort((a,b)=>new Date(a.date)-new Date(b.date)); }
+function upcoming(){ return getAll().filter(e=>new Date(e.date)>=new Date(new Date().toDateString())); }
+function fmt(s){ const d=new Date(s+'T00:00:00'); return {d:String(d.getDate()).padStart(2,'0'),m:MONTHS[d.getMonth()]}; }
+function isDefault(id){ return id.startsWith('d'); }
+
+function evHtml(ev, showDel){
+  const {d,m}=fmt(ev.date);
+  const del = showDel && !isDefault(ev.id)
+    ? `<button class="ev-del" onclick="delEvent('${ev.id}')" title="Supprimer">✕</button>` : '';
+  return `<div class="ev" id="ev-${ev.id}">
+    <div class="ev-date"><span class="d">${d}</span><span class="m">${m}</span></div>
+    <div class="ev-body">
+      <h4>${ev.title}</h4><p>${ev.desc}</p>
+      <div class="ev-tags"><span class="ev-tag ${ev.type}">${EV_LABELS[ev.type]||ev.type}</span></div>
+    </div>${del}</div>`;
+}
+
+function render(){
+  // Calendrier membre (à venir uniquement)
+  const up = upcoming();
+  const el = document.getElementById('ev-list');
+  el.innerHTML = up.length ? up.map(e=>evHtml(e,false)).join('') : '<div class="ev-empty">Aucun événement à venir</div>';
+
+  // Panneau président (tous)
+  const pl = document.getElementById('pres-ev-list');
+  if(!pl) return;
+  const all = getAll();
+  pl.innerHTML = all.length ? all.map(e=>evHtml(e,true)).join('') : '<div class="ev-empty">Aucun événement</div>';
+}
+
+window.delEvent = id => {
+  if(!confirm('Supprimer cet événement ?')) return;
+  saveCustom(getCustom().filter(e=>e.id!==id));
+  render();
+};
+
+/* ── Formulaire ──────────────────────────────── */
+window.toggleForm = function(){
+  const f=document.getElementById('ev-form');
+  const btn=document.getElementById('toggle-btn');
+  const open = f.style.display==='none';
+  f.style.display = open ? 'flex' : 'none';
+  if(open) f.style.flexDirection='column', f.style.gap='12px';
+  btn.textContent = open ? '— Fermer' : '+ Ajouter un événement';
+};
+
+window.createEvent = function(){
+  const title = document.getElementById('ev-t').value.trim();
+  const date  = document.getElementById('ev-d').value;
+  const desc  = document.getElementById('ev-desc').value.trim();
+  const type  = document.getElementById('ev-type').value;
+  const ok    = document.getElementById('form-ok');
+  if(!title||!date||!desc){ alert('Merci de remplir tous les champs.'); return; }
+  const custom = getCustom();
+  custom.push({id:'u'+Date.now(),date,title,desc,type});
+  saveCustom(custom);
+  document.getElementById('ev-t').value='';
+  document.getElementById('ev-d').value='';
+  document.getElementById('ev-desc').value='';
+  ok.classList.add('show');
+  setTimeout(()=>ok.classList.remove('show'),3000);
+  render();
+};
+
+render();
 </script>
 </body>
 </html>
