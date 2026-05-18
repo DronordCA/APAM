@@ -4,212 +4,428 @@
 <meta charset="UTF-8"/>
 <title>Le Club – APAM · L'Aigle Saint-Michel</title>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
-<meta name="description" content="Découvrez l'APAM, aéroclub du Pays d'Ouche depuis 1965. 120 membres, 3 avions, une famille de passionnés à L'Aigle Saint-Michel.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,400;0,600;0,700;0,900;1,400;1,700;1,900&family=Jost:wght@300;400;500;600;700&family=Lora:ital,wght@1,400;1,500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/site.css">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,400;0,700;0,900;1,700;1,900&family=Jost:wght@300;400;500;600;700&family=Lora:ital,wght@1,400;1,500&display=swap" rel="stylesheet">
 <style>
-/* ───── Le Club — page styles ───── */
+:root{
+  --bg:#080a0e;--bg-2:#0b0d13;--bg-3:#0e1018;
+  --sf:#141720;--sf2:#191d2c;
+  --accent:#2563eb;--acc2:#818cf8;--acc-d:rgba(37,99,235,.14);
+  --muted:#7a8399;--dim:#32384f;
+  --border:rgba(255,255,255,.07);--bds:rgba(255,255,255,.11);
+  --ok:#22d77a;--warn:#f5a524;
+  --fb:#1877f2;
+  --white:#fff;--nav-h:70px;--side:clamp(18px,5.5vw,88px);--rl:14px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--white);font-family:'Jost',system-ui,sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden;cursor:none}
+a{color:inherit;text-decoration:none}
+img{max-width:100%;display:block}
+::-webkit-scrollbar{width:2px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:var(--accent)}
+@media(hover:none){body{cursor:auto}*{cursor:auto}}
 
-/* Hero parallax stage */
-.club-hero{position:relative;height:100svh;min-height:640px;display:flex;align-items:flex-end;overflow:hidden;border-bottom:1px solid var(--border)}
-.club-hero-bg{position:absolute;inset:0;will-change:transform}
-.club-hero-bg img{width:100%;height:118%;object-fit:cover;object-position:center 38%;filter:saturate(.92) contrast(1.04)}
-.club-hero-veil{position:absolute;inset:0;
-  background:
-    linear-gradient(105deg,rgba(8,10,14,.96) 0%,rgba(8,10,14,.7) 38%,rgba(8,10,14,.18) 68%,transparent 88%),
-    linear-gradient(to top,rgba(8,10,14,1) 0%,rgba(8,10,14,.5) 26%,transparent 60%)}
-.club-hero-grid{position:absolute;inset:0;pointer-events:none;
-  background-image:linear-gradient(rgba(37,99,235,.028) 1px,transparent 1px),linear-gradient(90deg,rgba(37,99,235,.028) 1px,transparent 1px);
-  background-size:64px 64px;
-  mask-image:linear-gradient(140deg,transparent 30%,rgba(0,0,0,.5) 70%,transparent 100%);
-  -webkit-mask-image:linear-gradient(140deg,transparent 30%,rgba(0,0,0,.5) 70%,transparent 100%)}
-.club-hero-inner{position:relative;z-index:2;padding:0 var(--side) clamp(60px,10vh,110px);max-width:1320px;margin:0 auto;width:100%}
-.club-hero-eye{font-size:10px;font-weight:700;letter-spacing:.32em;text-transform:uppercase;color:var(--accent);display:flex;align-items:center;gap:12px;margin-bottom:24px}
-.club-hero-eye::before{content:'';width:28px;height:1px;background:var(--accent);flex-shrink:0}
-.club-hero-title{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:clamp(64px,11vw,180px);line-height:.84;letter-spacing:-.018em;text-transform:uppercase;color:#fff;max-width:1100px}
-.club-hero-title .it{display:block;color:transparent;-webkit-text-stroke:1.5px rgba(255,255,255,.28)}
-.club-hero-foot{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;flex-wrap:wrap;margin-top:36px}
-.club-hero-sub{font-family:'Lora',serif;font-style:italic;font-size:clamp(16px,1.6vw,20px);line-height:1.6;color:rgba(255,255,255,.7);max-width:480px}
-.club-hero-quick{display:flex;gap:32px;flex-wrap:wrap}
-.club-hero-quick > div{display:flex;flex-direction:column;gap:5px}
-.club-hero-quick .l{font-size:9px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:rgba(255,255,255,.34)}
-.club-hero-quick .v{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:clamp(28px,3vw,40px);line-height:1;color:#fff}
-.club-hero-quick .v em{color:var(--accent);font-style:normal;font-size:.6em;margin-left:4px}
+/* Cursor */
+.cur{position:fixed;pointer-events:none;z-index:9999;top:0;left:0;transform:translate(-50%,-50%)}
+.cur-dot{width:5px;height:5px;background:var(--accent);border-radius:50%}
+.cur-ring{width:28px;height:28px;border:1px solid rgba(37,99,235,.35);border-radius:50%;transition:width .22s,height .22s}
+body:has(a:hover) .cur-ring,body:has(button:hover) .cur-ring{width:44px;height:44px;border-color:rgba(37,99,235,.6)}
 
-.club-hero-scroll{position:absolute;bottom:24px;left:50%;transform:translateX(-50%);z-index:3;display:flex;flex-direction:column;align-items:center;gap:6px;color:rgba(255,255,255,.32)}
-.club-hero-scroll .lbl{font-size:8.5px;font-weight:700;letter-spacing:.32em;text-transform:uppercase}
-.club-hero-scroll .ln{width:1px;height:36px;background:linear-gradient(to bottom,rgba(255,255,255,.4),transparent);animation:scl 2.2s ease-in-out infinite}
-@keyframes scl{0%,100%{opacity:.3;transform:scaleY(.85)}50%{opacity:1;transform:scaleY(1.15)}}
+/* Grain */
+.grain{position:fixed;inset:0;z-index:9990;pointer-events:none;opacity:.022;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='512' height='512' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size:180px}
 
-/* Intro / manifesto */
+/* Progress bar */
+.pg-bar{position:fixed;top:0;left:0;height:2px;z-index:10000;width:0%;background:linear-gradient(90deg,var(--accent),var(--acc2))}
+
+/* NAV */
+.nav{position:fixed;top:0;left:0;right:0;height:var(--nav-h);z-index:100;display:flex;align-items:center;padding:0 var(--side);gap:28px;border-bottom:1px solid transparent;transition:background .4s,border-color .4s}
+.nav.s{background:rgba(8,10,14,.9);border-color:var(--border);backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px)}
+.nav-logo-img{height:42px}
+.nav-logo-txt{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:24px;text-transform:uppercase;display:none}
+.nav-links{list-style:none;display:flex;align-items:center;gap:26px;margin-left:auto}
+.nav-links a{font-size:11px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:rgba(255,255,255,.42);transition:color .2s;position:relative}
+.nav-links a::after{content:'';position:absolute;bottom:-2px;left:0;width:0;height:1px;background:var(--accent);transition:width .25s}
+.nav-links a:hover,.nav-links a.on{color:#fff}
+.nav-links a:hover::after,.nav-links a.on::after{width:100%}
+.nav-icons{display:flex;gap:10px}
+.nav-icon{width:32px;height:32px;display:inline-flex;align-items:center;justify-content:center;border:1px solid var(--bds);border-radius:50%;transition:border-color .2s,background .2s}
+.nav-icon:hover{border-color:var(--accent);background:var(--acc-d)}
+.nav-icon svg{width:13px;height:13px;fill:rgba(255,255,255,.55)}
+.nav-cta{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:13.5px;letter-spacing:.12em;text-transform:uppercase;padding:7px 18px;border:1.5px solid var(--accent);color:var(--white);position:relative;overflow:hidden;transition:color .25s}
+.nav-cta::before{content:'';position:absolute;inset:0;background:var(--accent);transform:translateX(-101%);transition:transform .25s cubic-bezier(.16,1,.3,1);z-index:-1}
+.nav-cta:hover::before{transform:translateX(0)}
+.nav-burger{display:none;flex-direction:column;gap:5px;padding:8px;background:none;border:none;cursor:pointer;margin-left:auto}
+.nav-burger b{display:block;width:20px;height:1.5px;background:rgba(255,255,255,.72)}
+
+/* Drawer */
+.m-drawer{position:fixed;inset:0;background:rgba(8,10,14,.97);backdrop-filter:blur(28px);z-index:200;opacity:0;pointer-events:none;transform:translateY(-8px);transition:opacity .35s,transform .35s cubic-bezier(.16,1,.3,1)}
+.m-drawer.open{opacity:1;pointer-events:auto;transform:none}
+.m-drawer-top{display:flex;align-items:center;justify-content:space-between;padding:18px var(--side);border-bottom:1px solid var(--border)}
+.m-close{width:42px;height:42px;display:inline-flex;align-items:center;justify-content:center;border:1px solid var(--bds);border-radius:var(--rl);background:none;cursor:pointer;color:rgba(255,255,255,.6);font-size:18px}
+.m-close:hover{border-color:var(--accent);color:#fff}
+.m-nav{padding:28px var(--side);display:flex;flex-direction:column;gap:2px}
+.m-nav a{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:clamp(38px,8vw,56px);line-height:1;text-transform:uppercase;padding:9px 0;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;color:rgba(255,255,255,.8);transition:color .2s}
+.m-nav a:hover{color:var(--accent)}
+.m-nav a .arr{font-size:18px;opacity:.3;transition:transform .2s,opacity .2s}
+.m-nav a:hover .arr{transform:translateX(6px);opacity:.7}
+.m-cta-wrap{padding:20px var(--side)}
+.btn{display:inline-flex;align-items:center;gap:9px;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:14px;letter-spacing:.12em;text-transform:uppercase;padding:11px 22px;position:relative;overflow:hidden;transition:color .25s}
+.btn--fill{background:var(--accent);color:#fff;border:1.5px solid var(--accent)}
+.btn--fill::before{content:'';position:absolute;inset:0;background:#fff;transform:translateX(-101%);transition:transform .25s cubic-bezier(.16,1,.3,1);z-index:-1}
+.btn--fill:hover{color:var(--accent)}.btn--fill:hover::before{transform:translateX(0)}
+.btn--ghost{background:transparent;color:rgba(255,255,255,.58);border:1.5px solid var(--bds)}
+.btn--ghost:hover{color:#fff;border-color:rgba(255,255,255,.3)}
+.btn--fb{background:var(--fb);color:#fff;border:1.5px solid var(--fb)}
+.btn--fb:hover{background:#1665d1;border-color:#1665d1}
+.btn--ig{background:transparent;color:#fff;border:1.5px solid transparent;background-image:linear-gradient(var(--bg-3),var(--bg-3)),linear-gradient(45deg,#f09433 0%,#dc2743 50%,#bc1888 100%);background-origin:border-box;background-clip:padding-box,border-box}
+.btn--ig:hover{background-image:linear-gradient(45deg,#f09433 0%,#dc2743 50%,#bc1888 100%),linear-gradient(45deg,#f09433 0%,#dc2743 50%,#bc1888 100%)}
+
+/* Commons */
+.sec{position:relative}
+.wrap{max-width:1300px;margin:0 auto;padding:0 var(--side)}
+.sp{padding:clamp(72px,11vh,130px) 0}
+.sp-sm{padding:clamp(44px,6vh,78px) 0}
+.kicker{font-size:9.5px;font-weight:700;letter-spacing:.28em;text-transform:uppercase;color:var(--accent);display:flex;align-items:center;gap:10px;margin-bottom:16px}
+.kicker::before{content:'';width:22px;height:1px;background:var(--accent);flex-shrink:0}
+.h2{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:clamp(42px,5.5vw,78px);line-height:.92;text-transform:uppercase;letter-spacing:-.01em;color:var(--white)}
+.body-text{font-size:15px;line-height:1.78;color:var(--muted)}
+.btns{display:flex;flex-wrap:wrap;gap:12px}
+
+/* Reveals */
+[data-r]{opacity:0;transform:translateY(32px);transition:opacity .9s cubic-bezier(.16,1,.3,1),transform .9s cubic-bezier(.16,1,.3,1)}
+[data-r].on{opacity:1;transform:none}
+[data-r="s"]{opacity:0;transform:scale(.93);filter:blur(10px);transition:opacity 1s cubic-bezier(.16,1,.3,1),transform 1s,filter 1s}[data-r="s"].on{opacity:1;transform:none;filter:blur(0)}
+[data-r="blur"]{opacity:0;filter:blur(14px);transform:translateY(10px);transition:opacity 1s,filter 1s,transform 1s}[data-r="blur"].on{opacity:1;filter:blur(0);transform:none}
+[data-d="1"]{transition-delay:.12s}[data-d="2"]{transition-delay:.24s}[data-d="3"]{transition-delay:.36s}[data-d="4"]{transition-delay:.48s}[data-d="5"]{transition-delay:.6s}[data-d="6"]{transition-delay:.72s}
+
+/* HERO */
+.hero{position:relative;height:100svh;min-height:640px;display:flex;align-items:flex-end;overflow:hidden}
+.hero-bg{position:absolute;inset:0;will-change:transform}
+.hero-bg img{width:100%;height:115%;object-fit:cover;object-position:center 32%}
+.hero-overlay{position:absolute;inset:0;
+  background:linear-gradient(108deg,rgba(8,10,14,.95) 0%,rgba(8,10,14,.65) 38%,rgba(8,10,14,.12) 70%,transparent 88%),
+  linear-gradient(to top,rgba(8,10,14,1) 0%,rgba(8,10,14,.55) 24%,transparent 58%)}
+.hero-grid{position:absolute;inset:0;pointer-events:none;
+  background-image:linear-gradient(rgba(37,99,235,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(37,99,235,.03) 1px,transparent 1px);
+  background-size:64px 64px;mask-image:linear-gradient(140deg,transparent 28%,rgba(0,0,0,.4) 65%,transparent 100%)}
+.hero-inner{position:relative;z-index:2;padding:0 var(--side) clamp(60px,10vh,110px);width:100%}
+.hero-eye{font-size:10px;font-weight:700;letter-spacing:.32em;text-transform:uppercase;color:var(--accent);display:flex;align-items:center;gap:12px;margin-bottom:22px;opacity:0;animation:fadeUp .7s ease .4s forwards}
+.hero-eye::before{content:'';width:28px;height:1px;background:var(--accent)}
+.hero-title{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:clamp(60px,10vw,160px);line-height:.84;letter-spacing:-.018em;text-transform:uppercase;color:#fff;opacity:0;transform:translateX(-32px);animation:slideIn 1s cubic-bezier(.16,1,.3,1) .1s forwards}
+.hero-title .ol{display:block;color:transparent;-webkit-text-stroke:1.5px rgba(255,255,255,.3)}
+.hero-stats{display:flex;gap:clamp(28px,5vw,64px);margin-top:32px;opacity:0;animation:fadeUp .7s ease .8s forwards;flex-wrap:wrap}
+.hero-stat .l{font-size:9px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:rgba(255,255,255,.35)}
+.hero-stat .v{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:clamp(26px,3.2vw,40px);line-height:1;color:#fff;margin-top:4px}
+.hero-stat .v em{color:var(--accent);font-style:normal;font-size:.6em;margin-left:3px}
+@keyframes fadeUp{to{opacity:1;transform:none}}
+@keyframes slideIn{to{opacity:1;transform:none}}
+
+/* Ticker */
+.ticker{overflow:hidden;background:var(--accent);padding:10px 0;border-bottom:1px solid rgba(255,255,255,.08)}
+.ticker-track{display:flex;width:max-content;animation:tick 38s linear infinite}
+.ticker:hover .ticker-track{animation-play-state:paused}
+.ticker-item{font-family:'Barlow Condensed',sans-serif;font-weight:600;font-style:italic;font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.86);padding:0 22px;white-space:nowrap;display:flex;align-items:center;gap:22px}
+.ticker-item::after{content:'✦';opacity:.35;font-size:8px}
+@keyframes tick{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* ══ AGENDA ══ */
+.sec-agenda{background:var(--bg-2);border-bottom:1px solid var(--border)}
+.agenda-head{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;flex-wrap:wrap;margin-bottom:44px}
+.agenda-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+
+.ev-card{background:var(--sf);border:1px solid var(--border);border-radius:var(--rl);padding:22px;display:flex;flex-direction:column;gap:14px;position:relative;overflow:hidden;transition:border-color .3s,transform .45s cubic-bezier(.16,1,.3,1),box-shadow .35s}
+.ev-card:hover{border-color:rgba(37,99,235,.38);transform:translateY(-5px);box-shadow:0 24px 52px rgba(0,0,0,.5)}
+.ev-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(to right,var(--accent),var(--acc2));opacity:0;transition:opacity .3s}
+.ev-card:hover::before{opacity:1}
+.ev-card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
+.ev-day{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:52px;line-height:1;letter-spacing:-.02em;color:var(--accent)}
+.ev-mth{font-size:10px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--muted);margin-top:3px}
+.ev-type-badge{font-size:8.5px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;padding:4px 10px;border-radius:100px;border:1px solid;flex-shrink:0;margin-top:4px}
+.ev-type-badge.vol{color:#8aabff;background:rgba(37,99,235,.1);border-color:rgba(37,99,235,.25)}
+.ev-type-badge.social{color:var(--ok);background:rgba(34,215,122,.08);border-color:rgba(34,215,122,.25)}
+.ev-type-badge.formation{color:var(--warn);background:rgba(245,165,36,.08);border-color:rgba(245,165,36,.25)}
+.ev-type-badge.initiation{color:#818cf8;background:rgba(129,140,248,.1);border-color:rgba(129,140,248,.25)}
+.ev-type-badge.admin{color:var(--muted);background:rgba(255,255,255,.04);border-color:var(--bds)}
+.ev-card-title{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:22px;text-transform:uppercase;color:#fff;line-height:1.1}
+.ev-card-desc{font-size:13px;color:var(--muted);line-height:1.6;flex:1}
+.ev-card-foot{border-top:1px solid var(--border);padding-top:11px;font-size:9.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.28)}
+.ev-empty{grid-column:1/-1;padding:40px;text-align:center;background:var(--sf);border:1px solid var(--border);border-radius:var(--rl);font-size:14px;color:var(--muted)}
+
+/* ══ MANIFESTO ══ */
 .sec-manifest{background:var(--bg);border-bottom:1px solid var(--border)}
-.manifest-grid{display:grid;grid-template-columns:1fr 1.4fr;gap:clamp(36px,6vw,96px);align-items:start}
-.manifest-l{position:sticky;top:120px;display:flex;flex-direction:column;gap:18px}
-.manifest-num{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:clamp(60px,8vw,120px);line-height:.9;color:rgba(255,255,255,.05);letter-spacing:-.03em}
-.manifest-r p{font-size:clamp(20px,2.4vw,32px);line-height:1.45;color:#fff;font-weight:300;text-wrap:pretty}
-.manifest-r p + p{margin-top:32px;color:var(--muted);font-size:16px;line-height:1.8;font-weight:400;max-width:600px}
-.manifest-r .sig{margin-top:48px;display:flex;align-items:center;gap:18px;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-style:italic;font-size:14px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent)}
-.manifest-r .sig::before{content:'';width:36px;height:1px;background:var(--accent)}
+.manifest-grid{display:grid;grid-template-columns:380px 1fr;gap:clamp(36px,6vw,96px);align-items:start}
+.manifest-l{position:sticky;top:100px;display:flex;flex-direction:column;gap:12px}
+.manifest-num{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:clamp(60px,8vw,120px);line-height:.9;color:rgba(255,255,255,.04);letter-spacing:-.03em;user-select:none}
+.manifest-body p{font-size:clamp(16px,2vw,22px);line-height:1.55;color:#fff;font-weight:300;margin-bottom:24px;text-wrap:pretty}
+.manifest-body p.small{font-size:15px;color:var(--muted);font-weight:400}
+.sig{display:flex;align-items:center;gap:14px;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-style:italic;font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin-top:16px}
+.sig::before{content:'';width:32px;height:1px;background:var(--accent)}
 
-/* Stats large band */
+/* ══ STATS ══ */
 .sec-stats{background:var(--bg-2);border-bottom:1px solid var(--border)}
-.stats-grid-4{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid var(--border);background:var(--border);gap:1px}
-.stat{background:var(--bg-2);padding:clamp(36px,5vw,58px) clamp(22px,4vw,44px);position:relative;overflow:hidden;transition:background .3s}
+.stats-4{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid var(--border);background:var(--border);gap:1px}
+.stat{background:var(--bg-2);padding:clamp(32px,5vw,54px) clamp(20px,4vw,42px);position:relative;overflow:hidden;transition:background .3s}
 .stat::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(to right,var(--accent),transparent);opacity:0;transition:opacity .3s}
 .stat:hover{background:var(--bg-3)}.stat:hover::before{opacity:1}
-.stat-val{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:clamp(56px,5.8vw,90px);line-height:1;letter-spacing:-.03em;color:#fff;margin-bottom:6px;white-space:nowrap}
+.stat-val{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:clamp(52px,5.8vw,86px);line-height:1;letter-spacing:-.03em;color:#fff;margin-bottom:5px;white-space:nowrap}
 .stat-val em{color:var(--accent);font-style:normal}
 .stat-lbl{font-size:11px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
 
-/* Histoire timeline scroll */
-.sec-history{background:var(--bg);border-bottom:1px solid var(--border);position:relative}
-.history-head{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;flex-wrap:wrap;margin-bottom:60px}
-.history-stages{position:relative;display:grid;grid-template-columns:1fr;gap:0}
-.history-stage{display:grid;grid-template-columns:140px 1fr 1fr;gap:clamp(20px,3vw,60px);padding:clamp(36px,5vh,68px) 0;border-top:1px solid var(--border);position:relative}
-.history-stage:last-child{border-bottom:1px solid var(--border)}
-.history-stage:hover{background:rgba(37,99,235,.025)}
-.history-year{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:clamp(38px,4vw,58px);line-height:1;color:var(--accent);letter-spacing:-.02em}
-.history-year small{display:block;font-size:.4em;color:rgba(255,255,255,.4);letter-spacing:.14em;margin-top:8px;font-style:normal;font-weight:600}
-.history-content h3{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:clamp(28px,3.2vw,44px);line-height:.96;text-transform:uppercase;color:#fff;letter-spacing:-.01em;margin-bottom:14px}
-.history-content p{font-size:14px;line-height:1.75;color:var(--muted);max-width:520px}
-.history-media{position:relative;border-radius:var(--rl);overflow:hidden;background:var(--sf);min-height:200px;border:1px solid var(--border)}
-.history-media img{width:100%;height:100%;object-fit:cover;min-height:200px;transition:transform .8s cubic-bezier(.16,1,.3,1)}
-.history-stage:hover .history-media img{transform:scale(1.06)}
-.history-media-tag{position:absolute;bottom:12px;left:12px;font-size:9px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:#fff;background:rgba(8,10,14,.7);backdrop-filter:blur(10px);padding:5px 10px;border:1px solid rgba(255,255,255,.15)}
+/* ══ ACTIVITÉS ══ */
+.sec-activites{background:var(--bg);border-bottom:1px solid var(--border)}
+.act-head{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;flex-wrap:wrap;margin-bottom:48px}
+.act-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
 
-/* Valeurs / pillars */
-.sec-values{background:var(--bg-3);border-bottom:1px solid var(--border);overflow:hidden;position:relative}
-.values-head{text-align:center;margin-bottom:60px;max-width:760px;margin-left:auto;margin-right:auto}
-.values-head .kicker{justify-content:center}
-.values-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border:1px solid var(--border)}
-.value{padding:clamp(36px,4vw,52px) clamp(24px,3vw,40px);border-right:1px solid var(--border);position:relative;display:flex;flex-direction:column;gap:18px;transition:background .35s}
-.value:last-child{border-right:none}
-.value:hover{background:rgba(37,99,235,.04)}
-.value-num{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:14px;letter-spacing:.16em;color:var(--accent)}
-.value-title{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:clamp(32px,3vw,42px);line-height:.96;text-transform:uppercase;color:#fff;letter-spacing:-.005em}
-.value-text{font-size:14px;line-height:1.75;color:var(--muted)}
-.value-icon{position:absolute;top:36px;right:28px;font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:90px;color:rgba(37,99,235,.05);line-height:1;letter-spacing:-.04em;pointer-events:none}
+.act-card{background:var(--sf);border:1px solid var(--border);border-radius:var(--rl);padding:28px;display:flex;flex-direction:column;gap:16px;position:relative;overflow:hidden;transition:border-color .3s,transform .45s cubic-bezier(.16,1,.3,1)}
+.act-card:hover{border-color:rgba(37,99,235,.38);transform:translateY(-5px)}
+.act-card::after{content:'';position:absolute;top:0;left:0;right:0;height:1.5px;background:linear-gradient(to right,var(--accent),var(--acc2));opacity:0;transition:opacity .3s}
+.act-card:hover::after{opacity:1}
 
-/* Vie du club / photo gallery */
-.sec-life{background:var(--bg-2);border-bottom:1px solid var(--border);overflow:hidden}
-.life-head{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;flex-wrap:wrap;margin-bottom:48px}
-.life-grid{display:grid;grid-template-columns:repeat(12,1fr);grid-auto-rows:120px;gap:8px}
-.life-cell{position:relative;overflow:hidden;border-radius:8px;border:1px solid var(--border);background:var(--sf);transition:transform .55s cubic-bezier(.16,1,.3,1),border-color .35s}
-.life-cell:hover{transform:translateY(-4px);border-color:rgba(37,99,235,.4)}
-.life-cell img{width:100%;height:100%;object-fit:cover;transition:transform .8s cubic-bezier(.16,1,.3,1)}
-.life-cell:hover img{transform:scale(1.06)}
-.life-cell::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(8,10,14,.6),transparent 50%);opacity:0;transition:opacity .3s}
-.life-cell:hover::after{opacity:1}
-.life-caption{position:absolute;bottom:12px;left:14px;right:14px;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-style:italic;font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:#fff;opacity:0;transform:translateY(8px);transition:opacity .3s,transform .3s}
-.life-cell:hover .life-caption{opacity:1;transform:none}
-.life-cell.l-1{grid-column:span 5;grid-row:span 3}
-.life-cell.l-2{grid-column:span 4;grid-row:span 2}
-.life-cell.l-3{grid-column:span 3;grid-row:span 2}
-.life-cell.l-4{grid-column:span 4;grid-row:span 2}
-.life-cell.l-5{grid-column:span 3;grid-row:span 3}
-.life-cell.l-6{grid-column:span 5;grid-row:span 2}
-.life-cell.l-7{grid-column:span 4;grid-row:span 2}
+.act-icon{width:48px;height:48px;border:1px solid rgba(37,99,235,.25);border-radius:12px;display:flex;align-items:center;justify-content:center;background:var(--acc-d);font-size:22px;flex-shrink:0}
+.act-num{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:13px;letter-spacing:.16em;color:var(--accent)}
+.act-title{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:28px;text-transform:uppercase;color:#fff;line-height:.96;letter-spacing:-.005em}
+.act-desc{font-size:13.5px;color:var(--muted);line-height:1.7;flex:1}
+.act-detail{display:flex;flex-wrap:wrap;gap:7px;padding-top:14px;border-top:1px solid var(--border)}
+.act-pill{font-size:9px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;padding:4px 9px;border-radius:100px;border:1px solid var(--border);color:rgba(255,255,255,.5)}
 
-.life-placeholder{width:100%;height:100%;display:flex;align-items:center;justify-content:center;
-  background:
-    repeating-linear-gradient(135deg,rgba(255,255,255,.022) 0 14px,transparent 14px 28px),
-    linear-gradient(135deg,var(--sf),var(--sf-2));
-  color:rgba(255,255,255,.4);font-family:'JetBrains Mono','Courier New',monospace;font-size:11px;letter-spacing:.06em;text-align:center;padding:14px}
+/* ══ FLOTTE BRIEF ══ */
+.sec-flotte{background:var(--bg-2);border-bottom:1px solid var(--border)}
+.flotte-head{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;flex-wrap:wrap;margin-bottom:40px}
+.flotte-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
 
-/* Équipe / team */
-.sec-team{background:var(--bg);border-bottom:1px solid var(--border)}
-.team-head{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;flex-wrap:wrap;margin-bottom:48px}
-.team-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
-.team-card{background:var(--sf);border:1px solid var(--border);border-radius:var(--rl);padding:24px;display:flex;flex-direction:column;gap:14px;transition:border-color .3s,transform .4s cubic-bezier(.16,1,.3,1)}
-.team-card:hover{border-color:rgba(37,99,235,.32);transform:translateY(-4px)}
-.team-avatar{width:64px;height:64px;border-radius:50%;background:
-  repeating-linear-gradient(135deg,rgba(255,255,255,.04) 0 6px,transparent 6px 12px),
-  linear-gradient(135deg,var(--accent),var(--acc-2));display:flex;align-items:center;justify-content:center;font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:22px;color:#fff;text-transform:uppercase;letter-spacing:-.02em;border:1px solid var(--bds-2)}
-.team-name{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:22px;line-height:1;text-transform:uppercase;color:#fff;letter-spacing:-.01em}
-.team-role{font-size:9.5px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);margin-top:-6px}
-.team-bio{font-size:12.5px;line-height:1.65;color:var(--muted);margin-top:4px}
-.team-meta{display:flex;gap:14px;flex-wrap:wrap;padding-top:14px;border-top:1px solid var(--border);margin-top:auto}
-.team-meta span{font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.35)}
-.team-meta span em{color:#fff;font-style:normal;margin-left:4px}
+.fc{display:block;text-decoration:none;color:var(--white);background:var(--sf);border:1px solid var(--border);border-radius:var(--rl);overflow:hidden;transition:border-color .3s,box-shadow .35s,transform .5s cubic-bezier(.16,1,.3,1);cursor:none}
+.fc:hover{border-color:rgba(37,99,235,.38);box-shadow:0 28px 60px rgba(0,0,0,.55);transform:translateY(-6px)}
+.fc-inner{padding:24px 22px 20px;display:flex;flex-direction:column;min-height:280px}
+.fc-tag{font-size:8.5px;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:var(--accent);background:var(--acc-d);border:1px solid rgba(37,99,235,.18);padding:3px 9px;border-radius:100px;display:inline-block;width:fit-content;margin-bottom:10px}
+.fc-name{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:34px;letter-spacing:-.01em;text-transform:uppercase;line-height:1}
+.fc-img-wrap{flex:1;display:flex;align-items:center;justify-content:center;padding:16px 0 12px}
+.fc-img{max-height:120px;max-width:100%;width:auto;object-fit:contain;filter:drop-shadow(0 14px 24px rgba(0,0,0,.6));transition:transform .5s cubic-bezier(.16,1,.3,1)}
+.fc:hover .fc-img{transform:translateY(-10px) scale(1.07)}
+.fc-foot{display:flex;align-items:center;justify-content:space-between;padding-top:13px;border-top:1px solid var(--border)}
+.fc-sub{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.fc-arr{width:26px;height:26px;border:1px solid var(--bds);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;color:rgba(255,255,255,.3);transition:background .22s,border-color .22s,color .22s,transform .22s}
+.fc:hover .fc-arr{background:var(--accent);border-color:var(--accent);color:#fff;transform:rotate(45deg)}
 
-/* Quote band */
-.sec-quote{background:var(--bg-2);border-bottom:1px solid var(--border);position:relative;overflow:hidden}
-.sec-quote::before{content:'"';position:absolute;top:-50px;left:50%;transform:translateX(-50%);font-family:'Lora',serif;font-style:italic;font-size:480px;line-height:1;color:rgba(37,99,235,.04);pointer-events:none;user-select:none}
-.quote-inner{position:relative;z-index:1;text-align:center;max-width:880px;margin:0 auto}
-.quote-text{font-family:'Lora',serif;font-style:italic;font-size:clamp(24px,3.2vw,40px);line-height:1.46;color:rgba(255,255,255,.92);text-wrap:balance}
-.quote-cite{margin-top:32px;font-size:11px;font-weight:700;letter-spacing:.28em;text-transform:uppercase;color:var(--accent);display:flex;align-items:center;justify-content:center;gap:14px}
-.quote-cite::before,.quote-cite::after{content:'';width:36px;height:1px;background:var(--accent);opacity:.5}
+/* ══ GALERIE ══ */
+.sec-gallery{background:var(--bg-3);border-bottom:1px solid var(--border);overflow:hidden}
+.gallery-head{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;flex-wrap:wrap;margin-bottom:40px}
+.gallery-grid{display:grid;grid-template-columns:repeat(12,1fr);grid-auto-rows:130px;gap:8px}
+.gc{position:relative;overflow:hidden;border-radius:8px;background:var(--sf);border:1px solid var(--border);transition:border-color .3s,transform .45s cubic-bezier(.16,1,.3,1)}
+.gc:hover{border-color:rgba(37,99,235,.38);transform:translateY(-3px)}
+.gc img{width:100%;height:100%;object-fit:cover;transition:transform .7s cubic-bezier(.16,1,.3,1)}
+.gc:hover img{transform:scale(1.08)}
+.gc-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(8,10,14,.82),transparent 55%);opacity:0;transition:opacity .3s;display:flex;align-items:flex-end;padding:12px 14px}
+.gc:hover .gc-overlay{opacity:1}
+.gc-caption{font-size:11px;color:rgba(255,255,255,.9);letter-spacing:.04em;font-weight:500}
+.gc-placeholder{width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:repeating-linear-gradient(135deg,rgba(255,255,255,.02) 0 10px,transparent 10px 20px);color:rgba(255,255,255,.2);font-size:11px;letter-spacing:.06em;text-align:center;padding:8px}
+.gc.s-5-3{grid-column:span 5;grid-row:span 3}.gc.s-4-2{grid-column:span 4;grid-row:span 2}.gc.s-3-2{grid-column:span 3;grid-row:span 2}
+.gc.s-4-3{grid-column:span 4;grid-row:span 3}.gc.s-5-2{grid-column:span 5;grid-row:span 2}.gc.s-3-3{grid-column:span 3;grid-row:span 3}
 
-/* Localisation */
+/* ══ SOCIAL — Facebook + Instagram ══ */
+.sec-social{background:var(--bg);border-bottom:1px solid var(--border);position:relative;overflow:hidden}
+.sec-social::before{content:'';position:absolute;inset:0;background:
+  radial-gradient(45% 50% at 14% 14%,rgba(24,119,242,.06),transparent 65%),
+  radial-gradient(45% 50% at 86% 86%,rgba(220,39,67,.05),transparent 65%);
+  pointer-events:none}
+.social-head{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;flex-wrap:wrap;margin-bottom:44px;position:relative;z-index:1}
+.social-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;position:relative;z-index:1}
+
+/* Generic social card frame */
+.sn{background:var(--sf);border:1px solid var(--border);border-radius:var(--rl);overflow:hidden;display:flex;flex-direction:column;transition:border-color .3s,transform .45s cubic-bezier(.16,1,.3,1),box-shadow .35s}
+.sn:hover{transform:translateY(-5px);box-shadow:0 24px 52px rgba(0,0,0,.5)}
+.sn.fb:hover{border-color:rgba(24,119,242,.4)}
+.sn.ig:hover{border-color:rgba(220,39,67,.4)}
+
+.sn-head{display:flex;align-items:center;gap:14px;padding:18px 20px;border-bottom:1px solid var(--border);background:rgba(255,255,255,.015)}
+.sn-ic{width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 6px 16px rgba(0,0,0,.4)}
+.sn.fb .sn-ic{background:var(--fb)}
+.sn.ig .sn-ic{background:linear-gradient(45deg,#f09433 0%,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888 100%)}
+.sn-ic svg{width:22px;height:22px;fill:#fff}
+.sn-id{flex:1;min-width:0}
+.sn-name{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:20px;text-transform:uppercase;color:#fff;line-height:1;letter-spacing:-.005em}
+.sn-handle{font-size:10.5px;font-weight:600;letter-spacing:.04em;color:var(--muted);margin-top:5px;display:flex;align-items:center;gap:6px}
+.sn-handle .dot{width:6px;height:6px;border-radius:50%;background:var(--ok);animation:pulse 2.6s ease-in-out infinite}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(34,215,122,.5)}50%{box-shadow:0 0 0 5px transparent}}
+.sn-follow{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:11px;letter-spacing:.14em;text-transform:uppercase;padding:8px 14px;flex-shrink:0;color:#fff;border-radius:6px;transition:transform .2s,filter .2s}
+.sn.fb .sn-follow{background:var(--fb)}.sn.fb .sn-follow:hover{background:#1665d1;transform:translateY(-1px)}
+.sn.ig .sn-follow{background:linear-gradient(45deg,#f09433 0%,#dc2743 50%,#bc1888 100%)}.sn.ig .sn-follow:hover{filter:brightness(1.1);transform:translateY(-1px)}
+
+.sn-stats{display:grid;grid-template-columns:repeat(3,1fr);border-bottom:1px solid var(--border);background:rgba(255,255,255,.012)}
+.sn-stat{padding:14px 18px;border-right:1px solid var(--border);display:flex;flex-direction:column;gap:3px}
+.sn-stat:last-child{border-right:none}
+.sn-stat .l{font-size:8.5px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--muted)}
+.sn-stat .v{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:22px;line-height:1;color:#fff;letter-spacing:-.01em}
+.sn-stat .v em{color:var(--accent);font-style:normal;font-size:.55em;margin-left:3px}
+.sn.ig .sn-stat .v em{background:linear-gradient(45deg,#f09433,#dc2743);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+
+/* Facebook embed */
+.sn-fb-embed{flex:1;background:#0e1018;position:relative;min-height:420px;display:flex;align-items:stretch;justify-content:center;overflow:hidden}
+.sn-fb-embed iframe{width:100%;border:none;flex:1;min-height:420px;background:transparent}
+.sn-fb-fallback{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:40px 24px;text-align:center;z-index:0;pointer-events:none}
+.sn-fb-fallback .ic{width:54px;height:54px;border-radius:50%;background:var(--fb);display:flex;align-items:center;justify-content:center;box-shadow:0 8px 20px rgba(24,119,242,.4);pointer-events:auto}
+.sn-fb-fallback .ic svg{width:26px;height:26px;fill:#fff}
+.sn-fb-fallback h4{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:20px;text-transform:uppercase;color:#fff;letter-spacing:-.005em}
+.sn-fb-fallback p{font-size:12.5px;line-height:1.6;color:var(--muted);max-width:280px}
+.sn-fb-fallback a{pointer-events:auto}
+
+/* Instagram preview grid */
+.sn-ig-grid{flex:1;display:grid;grid-template-columns:repeat(3,1fr);gap:2px;background:#0e1018;padding:2px}
+.ig-tile{position:relative;aspect-ratio:1;overflow:hidden;background:linear-gradient(135deg,#1a2030,#0e1018);cursor:none}
+.ig-tile img{width:100%;height:100%;object-fit:cover;transition:transform .6s cubic-bezier(.16,1,.3,1)}
+.ig-tile img.contain{object-fit:contain;padding:14px}
+.ig-tile:hover img{transform:scale(1.1)}
+.ig-tile-placeholder{width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:repeating-linear-gradient(135deg,rgba(255,255,255,.02) 0 8px,transparent 8px 16px);color:rgba(255,255,255,.25);font-size:10px;letter-spacing:.04em;text-align:center;padding:8px;line-height:1.4}
+.ig-tile-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.78),transparent 50%);opacity:0;transition:opacity .3s;display:flex;flex-direction:column;justify-content:flex-end;padding:10px 12px;gap:6px}
+.ig-tile:hover .ig-tile-overlay{opacity:1}
+.ig-tile-stats{display:flex;gap:14px;align-items:center}
+.ig-tile-stats span{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:12px;color:#fff;display:inline-flex;align-items:center;gap:5px;letter-spacing:.04em}
+.ig-tile-stats svg{width:13px;height:13px;fill:#fff}
+.ig-tile-cap{font-size:10px;color:rgba(255,255,255,.85);line-height:1.4;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.ig-tile-corner{position:absolute;top:8px;right:8px;font-size:10px;color:rgba(255,255,255,.6);background:rgba(0,0,0,.5);padding:3px 7px;border-radius:4px;backdrop-filter:blur(8px);font-family:'Barlow Condensed',sans-serif;font-weight:700;letter-spacing:.06em}
+
+.sn-foot{padding:14px 18px;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:10px;background:rgba(255,255,255,.015)}
+.sn-foot .lbl{font-size:10px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
+.sn-foot .lnk{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#fff;display:inline-flex;align-items:center;gap:6px;transition:gap .2s}
+.sn-foot .lnk:hover{gap:10px}
+
+/* ══ ÉQUIPE ══ */
+.sec-team{background:var(--bg-2);border-bottom:1px solid var(--border)}
+.team-head{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;flex-wrap:wrap;margin-bottom:44px}
+.team-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+
+.team-card{background:var(--sf);border:1px solid var(--border);border-radius:var(--rl);padding:22px;display:flex;flex-direction:column;gap:14px;position:relative;overflow:hidden;transition:border-color .3s,transform .4s cubic-bezier(.16,1,.3,1),box-shadow .35s}
+.team-card:hover{border-color:rgba(37,99,235,.32);transform:translateY(-5px);box-shadow:0 22px 48px rgba(0,0,0,.45)}
+.team-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(to right,var(--accent),var(--acc2));opacity:0;transition:opacity .3s}
+.team-card:hover::before{opacity:1}
+
+.team-hd{display:flex;align-items:center;gap:14px}
+.team-avatar{width:52px;height:52px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:17px;color:#fff;text-transform:uppercase;background:linear-gradient(135deg,var(--accent),var(--acc2));border:1px solid rgba(37,99,235,.3);flex-shrink:0;letter-spacing:-.01em}
+.team-id{display:flex;flex-direction:column;gap:5px;min-width:0;flex:1}
+.team-name{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:19px;text-transform:uppercase;color:#fff;line-height:1.05;letter-spacing:-.005em;text-wrap:balance}
+.team-role{font-size:9.5px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);line-height:1}
+.team-bio{font-size:13px;color:var(--muted);line-height:1.65;flex:1}
+.team-tag{display:inline-flex;align-items:center;gap:7px;align-self:flex-start;font-size:9px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.55);background:rgba(255,255,255,.04);border:1px solid var(--border);padding:5px 10px;border-radius:100px}
+.team-tag .pin{width:5px;height:5px;border-radius:50%;background:var(--accent)}
+.team-tag.formation .pin{background:var(--ok)}
+.team-tag.ops .pin{background:var(--warn)}
+.team-tag.digital .pin{background:var(--acc2)}
+
+/* ══ QUOTE ══ */
+.sec-quote{background:var(--bg);border-bottom:1px solid var(--border);position:relative;overflow:hidden}
+.sec-quote::before{content:'"';position:absolute;top:-40px;left:50%;transform:translateX(-50%);font-family:'Lora',serif;font-style:italic;font-size:500px;line-height:1;color:rgba(37,99,235,.036);pointer-events:none;user-select:none}
+.quote-inner{position:relative;z-index:1;text-align:center;max-width:860px;margin:0 auto}
+.qt{font-family:'Lora',serif;font-style:italic;font-size:clamp(22px,3vw,38px);line-height:1.46;color:rgba(255,255,255,.9);text-wrap:balance}
+.qt-cite{margin-top:28px;font-size:11px;font-weight:700;letter-spacing:.28em;text-transform:uppercase;color:var(--accent);display:flex;align-items:center;justify-content:center;gap:12px}
+.qt-cite::before,.qt-cite::after{content:'';width:32px;height:1px;background:var(--accent);opacity:.5}
+
+/* ══ LOCALISATION ══ */
 .sec-loc{background:var(--bg-3);border-bottom:1px solid var(--border);position:relative;overflow:hidden}
-.sec-loc::before{content:'';position:absolute;inset:0;background:radial-gradient(120% 80% at 0% 0%,rgba(37,99,235,.1),transparent 52%);pointer-events:none}
-.loc-grid{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:stretch;position:relative;z-index:1}
-.loc-info{display:flex;flex-direction:column;gap:18px}
-.loc-meta{margin-top:12px;display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
-.loc-meta-it{background:rgba(255,255,255,.03);border:1px solid var(--bds);border-radius:var(--r);padding:14px 16px}
-.loc-meta-it .l{font-size:9px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:rgba(255,255,255,.45);display:block;margin-bottom:5px}
-.loc-meta-it .v{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:18px;letter-spacing:.04em;color:#fff}
-.loc-map{position:relative;border-radius:var(--rl);overflow:hidden;border:1px solid var(--bds-2);min-height:420px;background:linear-gradient(135deg,#1a2030 0%,#0e1018 100%)}
-.loc-map-grid{position:absolute;inset:0;
-  background-image:linear-gradient(rgba(37,99,235,.08) 1px,transparent 1px),linear-gradient(90deg,rgba(37,99,235,.08) 1px,transparent 1px);
-  background-size:32px 32px}
-.loc-map-rad{position:absolute;width:60%;height:60%;left:50%;top:50%;transform:translate(-50%,-50%);
-  background:radial-gradient(circle,rgba(37,99,235,.18),transparent 70%);animation:rad 4s ease-in-out infinite}
-@keyframes rad{0%,100%{opacity:.6;transform:translate(-50%,-50%) scale(1)}50%{opacity:1;transform:translate(-50%,-50%) scale(1.1)}}
-.loc-map-pin{position:absolute;left:54%;top:48%;width:18px;height:18px;border-radius:50%;background:#fff;border:5px solid var(--accent);box-shadow:0 0 0 10px rgba(37,99,235,.26),0 4px 12px rgba(0,0,0,.5);z-index:2}
-.loc-map-pin::after{content:'';position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:60px;height:60px;border:1px dashed rgba(37,99,235,.4);border-radius:50%;animation:pinRing 3s linear infinite}
-@keyframes pinRing{from{transform:translate(-50%,-50%) rotate(0deg)}to{transform:translate(-50%,-50%) rotate(360deg)}}
-.loc-map-label{position:absolute;left:54%;top:48%;transform:translate(20px,-12px);background:rgba(8,10,14,.92);backdrop-filter:blur(12px);border:1px solid var(--bds);padding:10px 14px;z-index:2}
-.loc-map-label .nm{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:18px;color:#fff;text-transform:uppercase;line-height:1}
-.loc-map-label .id{font-size:9px;font-weight:700;letter-spacing:.22em;color:var(--accent);margin-top:4px}
-.loc-map-runway{position:absolute;left:35%;top:55%;width:220px;height:2px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.32),transparent);transform:rotate(70deg);transform-origin:center}
-.loc-map-runway::before{content:'07';position:absolute;left:-4px;top:-22px;font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:11px;color:rgba(255,255,255,.5);letter-spacing:.1em}
-.loc-map-runway::after{content:'25';position:absolute;right:-4px;top:-22px;font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:11px;color:rgba(255,255,255,.5);letter-spacing:.1em}
-.loc-map-corner{position:absolute;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:10px;letter-spacing:.22em;color:rgba(255,255,255,.32);text-transform:uppercase}
-.loc-map-corner.tl{top:14px;left:14px}
-.loc-map-corner.tr{top:14px;right:14px}
-.loc-map-corner.bl{bottom:14px;left:14px}
-.loc-map-corner.br{bottom:14px;right:14px}
+.sec-loc::before{content:'';position:absolute;inset:0;background:radial-gradient(80% 60% at 50% 0%,rgba(37,99,235,.08),transparent 60%);pointer-events:none}
+.loc-head{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;flex-wrap:wrap;margin-bottom:36px;position:relative;z-index:1}
+.loc-info-row{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);border:1px solid var(--border);margin-bottom:20px;position:relative;z-index:1;border-radius:var(--rl);overflow:hidden}
+.loc-cell{background:var(--sf);padding:18px 22px;display:flex;flex-direction:column;gap:5px;transition:background .3s}
+.loc-cell:hover{background:var(--bg-3)}
+.loc-cell .l{font-size:9px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:rgba(255,255,255,.4)}
+.loc-cell .v{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:24px;letter-spacing:-.005em;color:#fff;line-height:1}
+.loc-cell .v em{color:var(--accent);font-style:normal;font-size:.55em;margin-left:4px;font-weight:700;letter-spacing:.1em}
 
-/* Final CTA */
-.sec-cta{background:var(--bg);position:relative;overflow:hidden}
-.sec-cta::before{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:760px;height:760px;border-radius:50%;background:radial-gradient(circle,rgba(37,99,235,.07) 0%,transparent 70%);pointer-events:none}
-.cta-inner{position:relative;z-index:1;text-align:center;max-width:920px;margin:0 auto}
-.cta-h{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:clamp(50px,7.5vw,108px);line-height:.9;text-transform:uppercase;letter-spacing:-.02em;color:#fff;text-wrap:balance}
-.cta-h .ol{color:transparent;-webkit-text-stroke:1.5px rgba(255,255,255,.26)}
-.cta-sub{font-size:15px;color:var(--muted);max-width:480px;line-height:1.75;margin:24px auto 0}
-.cta-btns{display:flex;justify-content:center;flex-wrap:wrap;gap:14px;margin-top:36px}
+.loc-map-wrap{position:relative;border-radius:var(--rl);overflow:hidden;border:1px solid var(--border);background:var(--sf);height:clamp(360px,55vh,520px);z-index:1}
+.loc-map-wrap iframe{width:100%;height:100%;border:0;display:block;filter:saturate(.78) contrast(1.05) brightness(.92);transition:filter .35s}
+.loc-map-wrap:hover iframe{filter:saturate(.95) contrast(1.05) brightness(1)}
+.loc-overlay{position:absolute;left:18px;bottom:18px;display:flex;flex-direction:column;gap:10px;z-index:2;pointer-events:none;max-width:calc(100% - 36px)}
+.loc-overlay > *{pointer-events:auto}
+.loc-card{background:rgba(8,10,14,.92);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:1px solid var(--bds);border-left:3px solid var(--accent);padding:14px 18px;display:flex;flex-direction:column;gap:6px}
+.loc-card .nm{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:22px;color:#fff;text-transform:uppercase;letter-spacing:-.005em;line-height:1}
+.loc-card .id{font-size:10px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--accent)}
+.loc-card .co{font-size:11px;color:rgba(255,255,255,.7);letter-spacing:.04em;font-family:'Jost',monospace}
+.loc-cta{display:inline-flex;align-items:center;gap:8px;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#fff;background:var(--accent);padding:11px 18px;width:fit-content;border:1.5px solid var(--accent);transition:transform .25s,box-shadow .25s}
+.loc-cta:hover{transform:translateY(-2px);box-shadow:0 10px 20px rgba(37,99,235,.4)}
+.loc-corner-stamp{position:absolute;top:14px;right:14px;background:rgba(8,10,14,.85);backdrop-filter:blur(10px);border:1px solid var(--bds);padding:7px 12px;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:#fff;z-index:2;display:flex;align-items:center;gap:8px}
+.loc-corner-stamp .dot{width:7px;height:7px;border-radius:50%;background:var(--ok);animation:pulse 2.6s ease-in-out infinite}
 
+/* ══ CTA ══ */
+.sec-cta{background:var(--bg);overflow:hidden;position:relative}
+.sec-cta::before{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:700px;height:700px;border-radius:50%;background:radial-gradient(circle,rgba(37,99,235,.06) 0%,transparent 70%);pointer-events:none}
+.cta-inner{position:relative;z-index:1;text-align:center;max-width:900px;margin:0 auto}
+.cta-h{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:clamp(48px,7.5vw,106px);line-height:.9;text-transform:uppercase;letter-spacing:-.02em;color:#fff}
+.cta-h .ol{color:transparent;-webkit-text-stroke:1.5px rgba(255,255,255,.28)}
+.cta-sub{font-size:15px;color:var(--muted);max-width:460px;line-height:1.7;margin:22px auto 0}
+.cta-btns{display:flex;justify-content:center;flex-wrap:wrap;gap:12px;margin-top:32px}
+
+/* FOOTER */
+.footer{background:var(--bg-2);border-top:1px solid var(--border);padding:22px var(--side)}
+.footer-in{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
+.footer-links{display:flex;gap:14px;flex-wrap:wrap}
+.footer-links a{font-size:11.5px;color:rgba(255,255,255,.3);transition:color .2s}.footer-links a:hover{color:rgba(255,255,255,.7)}
+.footer-links .sep{color:var(--dim);font-size:10px}
+.footer-cr{font-size:11.5px;color:var(--dim)}
+
+/* RESPONSIVE */
 @media(max-width:980px){
-  .manifest-grid{grid-template-columns:1fr;gap:24px}
-  .manifest-l{position:static}
-  .stats-grid-4{grid-template-columns:1fr 1fr}
-  .history-stage{grid-template-columns:80px 1fr;gap:18px}
-  .history-media{grid-column:1 / -1;margin-top:14px}
-  .values-grid{grid-template-columns:1fr}
-  .value{border-right:none;border-bottom:1px solid var(--border)}
-  .value:last-child{border-bottom:none}
-  .life-grid{grid-template-columns:repeat(6,1fr);grid-auto-rows:90px}
-  .life-cell.l-1{grid-column:span 6;grid-row:span 3}
-  .life-cell.l-2,.life-cell.l-3,.life-cell.l-4,.life-cell.l-5,.life-cell.l-6,.life-cell.l-7{grid-column:span 3;grid-row:span 2}
-  .team-grid{grid-template-columns:1fr 1fr}
-  .loc-grid{grid-template-columns:1fr}
-  .loc-meta{grid-template-columns:1fr 1fr}
-  .loc-map{min-height:340px}
+  .nav-links,.nav-icons,.nav-cta{display:none}.nav-burger{display:flex}
+  .agenda-grid,.act-grid,.team-grid{grid-template-columns:1fr 1fr}
+  .manifest-grid{grid-template-columns:1fr;gap:24px}.manifest-l{position:static}
+  .gallery-grid{grid-template-columns:repeat(6,1fr);grid-auto-rows:110px}
+  .gc.s-5-3,.gc.s-4-3{grid-column:span 6;grid-row:span 3}
+  .gc.s-4-2,.gc.s-3-2,.gc.s-5-2,.gc.s-3-3{grid-column:span 3;grid-row:span 2}
+  .social-grid{grid-template-columns:1fr}
+  .sn-fb-embed,.sn-fb-embed iframe{min-height:480px}
+  .loc-info-row{grid-template-columns:1fr 1fr}
+  .loc-map-wrap{height:clamp(320px,50vh,460px)}
+  .hero{min-height:540px}
+  .hero-title{font-size:clamp(54px,11vw,90px)}
+  .hero-stats{gap:20px 24px}
+  .hero-stat .v{font-size:clamp(22px,4vw,30px)}
 }
 @media(max-width:600px){
-  .stats-grid-4{grid-template-columns:1fr 1fr}
-  .team-grid{grid-template-columns:1fr}
-  .life-grid{grid-template-columns:repeat(4,1fr)}
-  .life-cell.l-1{grid-column:span 4}
-  .life-cell.l-2,.life-cell.l-3,.life-cell.l-4,.life-cell.l-5,.life-cell.l-6,.life-cell.l-7{grid-column:span 2}
+  :root{--side:clamp(16px,4.5vw,28px)}
+  .agenda-grid,.act-grid{grid-template-columns:1fr}
+  .team-grid{grid-template-columns:1fr 1fr;gap:10px}
+  .team-card{padding:16px;gap:11px}
+  .team-avatar{width:44px;height:44px;font-size:14px}
+  .team-name{font-size:16px}
+  .team-bio{font-size:12px;line-height:1.55;-webkit-line-clamp:4;display:-webkit-box;-webkit-box-orient:vertical;overflow:hidden}
+  .team-hd{gap:11px}
+  .team-tag{font-size:8px;padding:4px 8px;letter-spacing:.14em}
+  .gallery-grid{grid-template-columns:repeat(4,1fr);grid-auto-rows:90px}
+  .gc.s-5-3,.gc.s-4-3{grid-column:span 4}
+  .gc.s-4-2,.gc.s-3-2,.gc.s-5-2,.gc.s-3-3{grid-column:span 2;grid-row:span 2}
+  .loc-info-row{grid-template-columns:1fr;gap:1px}
+  .loc-cell{padding:14px 18px}.loc-cell .v{font-size:20px}
+  .loc-map-wrap{height:340px}
+  .loc-overlay{left:12px;bottom:12px;right:12px;max-width:none}
+  .loc-card{padding:12px 14px}.loc-card .nm{font-size:18px}
+  .loc-corner-stamp{top:10px;right:10px;font-size:9px;padding:5px 9px}
+  .sn-stats .sn-stat{padding:10px 12px}
+  .sn-stat .v{font-size:18px}
+  .sn-head{padding:14px 16px;gap:10px}
+  .sn-name{font-size:16px}
+  .sn-handle{font-size:9px}
+  .sn-follow{padding:6px 10px;font-size:10px}
+  .sn-ig-grid{grid-template-columns:repeat(3,1fr)}
+  .ig-tile-cap{display:none}
+  .ev-day{font-size:42px}
+  .ev-card{padding:18px;gap:11px}
+  .ev-card-title{font-size:19px}
+  .ev-card-desc{font-size:12.5px}
+  .act-card{padding:22px}
+  .act-title{font-size:24px}
+  .sec.sp{padding:clamp(56px,9vh,90px) 0}
+  .h2{font-size:clamp(36px,9vw,58px)}
+  .hero-title{font-size:clamp(48px,13vw,80px)}
+  .hero-stats{gap:16px 22px}
+  .hero-stat .l{font-size:8.5px}
+  .hero-stat .v{font-size:22px}
+  .hero-eye{font-size:9px;letter-spacing:.24em;margin-bottom:14px}
+  .ticker-item{font-size:10px;padding:0 14px;gap:14px}
+  .footer-in{flex-direction:column;align-items:flex-start;gap:14px;text-align:left}
+  .footer-links{gap:10px}
+  .footer-links a{font-size:11px}
 }
 </style>
 </head>
 <body>
-
 <div class="grain" aria-hidden="true"></div>
 <div class="pg-bar" id="pg-bar"></div>
 <div class="cur" id="cur-dot"><div class="cur-dot"></div></div>
@@ -217,16 +433,12 @@
 
 <!-- NAV -->
 <nav class="nav" id="nav">
-  <a class="nav-logo" href="index.html"><img src="assets/images/apam-logo2.png" alt="APAM"></a>
+  <a href="index.html">
+    <img class="nav-logo-img" src="assets/images/apam-logo2.png" alt="APAM" onerror="this.style.display='none';document.querySelector('.nav-logo-txt').style.display='block'">
+    <span class="nav-logo-txt">APAM</span>
+  </a>
   <ul class="nav-links">
-    <li class="nav-item-drop">
-      <a href="tarifs.html">Flotte</a>
-      <div class="nav-drop">
-        <a class="ndc" href="tarifs.html"><img src="assets/images/FGHKE2.png" alt="Cessna 152"><div class="ndc-name">Cessna 152</div><div class="ndc-sub">Formation · Initiation</div></a>
-        <a class="ndc" href="tarifs.html"><img src="assets/images/TB200M.png" alt="TB200"><div class="ndc-name">TB200</div><div class="ndc-sub">Perfectionnement · Voyage</div></a>
-        <a class="ndc" href="tarifs.html"><img src="assets/images/SR1.png" alt="SR20"><div class="ndc-name">Cirrus SR20</div><div class="ndc-sub">Haute performance</div></a>
-      </div>
-    </li>
+    <li><a href="tarifs.html">Flotte</a></li>
     <li><a href="activite.html" class="on">Le Club</a></li>
     <li><a href="devenir-pilote.html">Devenir pilote</a></li>
     <li><a href="contact.html">Contact</a></li>
@@ -234,255 +446,469 @@
     <li><a href="https://openflyers.com/apam/" target="_blank">OpenFlyer</a></li>
   </ul>
   <div class="nav-icons">
-    <a class="nav-ic" href="https://www.instagram.com/apam_lfol" target="_blank" aria-label="Instagram"><svg viewBox="0 0 24 24"><path d="M7 2C4.2 2 2 4.2 2 7v10c0 2.8 2.2 5 5 5h10c2.8 0 5-2.2 5-5V7c0-2.8-2.2-5-5-5H7zm0 2h10c1.7 0 3 1.3 3 3v10c0 1.7-1.3 3-3 3H7c-1.7 0-3-1.3-3-3V7c0-1.7 1.3-3 3-3zm5 3.5a4.5 4.5 0 1 0 0 9 4.5 4.5 0 0 0 0-9zm0 2a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zm4.8-2.9a1.1 1.1 0 1 0 0 2.2 1.1 1.1 0 0 0 0-2.2z"/></svg></a>
-    <a class="nav-ic" href="/cdn-cgi/l/email-protection#0f6e6a7d606c637a6d6e7f6e624f68626e6663216c6062" aria-label="Email"><svg viewBox="0 0 24 24"><path d="M4 4h16a2 2 0 0 1 2 2v1L12 13 2 7V6a2 2 0 0 1 2-2zm18 5v9a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V9l10 6 10-6z"/></svg></a>
+    <a class="nav-icon" href="https://www.instagram.com/apam_lfol" target="_blank"><svg viewBox="0 0 24 24"><path d="M7 2C4.2 2 2 4.2 2 7v10c0 2.8 2.2 5 5 5h10c2.8 0 5-2.2 5-5V7c0-2.8-2.2-5-5-5H7zm0 2h10c1.7 0 3 1.3 3 3v10c0 1.7-1.3 3-3 3H7c-1.7 0-3-1.3-3-3V7c0-1.7 1.3-3 3-3zm5 3.5a4.5 4.5 0 1 0 0 9 4.5 4.5 0 0 0 0-9zm0 2a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zm4.8-2.9a1.1 1.1 0 1 0 0 2.2 1.1 1.1 0 0 0 0-2.2z"/></svg></a>
+    <a class="nav-icon" href="/cdn-cgi/l/email-protection#84e5e1f6ebe7e8f1e6e5f4e5e9c4e3e9e5ede8aae7ebe9"><svg viewBox="0 0 24 24"><path d="M4 4h16a2 2 0 0 1 2 2v1L12 13 2 7V6a2 2 0 0 1 2-2zm18 5v9a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V9l10 6 10-6z"/></svg></a>
   </div>
   <a class="nav-cta" href="connexion-membres-password.html?next=mon-compte.html">Mon compte</a>
-  <button class="nav-burger" id="burger" aria-expanded="false" aria-label="Menu"><b></b><b></b><b></b></button>
+  <button class="nav-burger" id="burger"><b></b><b></b><b></b></button>
 </nav>
 
+<!-- DRAWER -->
 <div class="m-drawer" id="drawer" aria-hidden="true">
-  <div class="m-drawer-top"><img src="assets/images/apam-logo2.png" alt="APAM" style="height:40px"><button class="m-close" id="m-close" aria-label="Fermer">✕</button></div>
+  <div class="m-drawer-top">
+    <img src="assets/images/apam-logo2.png" alt="APAM" style="height:38px" onerror="this.style.display='none'">
+    <button class="m-close" id="m-close">✕</button>
+  </div>
   <nav class="m-nav">
     <a href="tarifs.html">Flotte <span class="arr">→</span></a>
     <a href="activite.html">Le Club <span class="arr">→</span></a>
     <a href="devenir-pilote.html">Devenir pilote <span class="arr">→</span></a>
     <a href="contact.html">Contact <span class="arr">→</span></a>
-    <a href="boutique.html">Boutique <span class="arr">→</span></a>
     <a href="https://openflyers.com/apam/" target="_blank">OpenFlyer <span class="arr">↗</span></a>
   </nav>
   <div class="m-cta-wrap"><a class="btn btn--fill" href="connexion-membres-password.html?next=mon-compte.html">Mon compte</a></div>
 </div>
 
 <!-- HERO -->
-<section class="club-hero">
-  <div class="club-hero-bg" id="club-hero-bg"><img src="assets/images/image1.png" alt="APAM L'Aigle"></div>
-  <div class="club-hero-veil"></div>
-  <div class="club-hero-grid"></div>
-  <div class="club-hero-inner">
-    <p class="club-hero-eye">Aéroclub · LFOL · Depuis 1965</p>
-    <h1 class="club-hero-title">
-      Le Club<br><span class="it">depuis 1965.</span>
-    </h1>
-    <div class="club-hero-foot">
-      <p class="club-hero-sub">« Un club, une famille » — 120 membres, trois avions, soixante ans d'aviation amateur en Normandie. Voici l'histoire et le présent de l'APAM.</p>
-      <div class="club-hero-quick">
-        <div><span class="l">Fondé</span><span class="v">1965</span></div>
-        <div><span class="l">Membres</span><span class="v">120<em>+</em></span></div>
-        <div><span class="l">Heures / an</span><span class="v">2 300</span></div>
-      </div>
-    </div>
-  </div>
-  <div class="club-hero-scroll">
-    <span class="lbl">Scroll</span>
-    <span class="ln"></span>
+<section class="hero">
+  <div class="hero-bg" id="hero-bg"><img src="assets/images/image1.png" alt="APAM Le Club" fetchpriority="high"></div>
+  <div class="hero-overlay" aria-hidden="true"></div>
+  <div class="hero-grid" aria-hidden="true"></div>
+  <div class="hero-inner">
+    <p class="hero-eye">Aéroclub · LFOL · Normandie</p>
+    <h1 class="hero-title">Le Club<br><span class="ol">depuis 1965.</span></h1>
   </div>
 </section>
 
 <!-- TICKER -->
-<div class="ticker" aria-hidden="true">
-  <div class="ticker-track" id="ticker-track"></div>
-</div>
+<div class="ticker" aria-hidden="true"><div class="ticker-track" id="ticker-track"></div></div>
 
-<!-- MANIFESTO -->
+<!-- ══ AGENDA ══ -->
+<section class="sec sec-agenda sp" id="calendrier">
+  <div class="wrap">
+    <div class="agenda-head">
+      <div>
+        <p class="kicker" data-r>Agenda du club</p>
+        <h2 class="h2" data-r data-d="1">Événements<br>à venir.</h2>
+      </div>
+      <p class="body-text" data-r data-d="2" style="max-width:360px">Vols groupés, sorties sociales, formations, assemblées — retrouvez ici ce qui anime la vie du club.</p>
+    </div>
+    <div class="agenda-grid" id="agenda-grid"></div>
+  </div>
+</section>
+
+<!-- ══ MANIFESTO ══ -->
 <section class="sec sec-manifest sp">
   <div class="wrap">
     <div class="manifest-grid">
       <div class="manifest-l">
         <p class="kicker" data-r>L'esprit du club</p>
-        <span class="manifest-num">01</span>
+        <span class="manifest-num">APAM</span>
       </div>
-      <div class="manifest-r">
+      <div class="manifest-body">
         <p data-r="blur">L'APAM n'est pas un prestataire. C'est une <em style="color:var(--accent);font-style:normal">association</em> de passionnés où chacun met la main à la pâte — au hangar, sur la piste, autour d'un café après le vol.</p>
-        <p data-r data-d="2">Ici, on apprend à piloter sans pression commerciale, à son rythme, avec des instructeurs bénévoles qui ont fait le même chemin avant nous. La progression est continue, du premier vol d'initiation au voyage VFR vers les côtes anglaises. Les avions sont entretenus avec soin, les coûts maîtrisés par la mutualisation, et l'ambiance — celle d'une vraie famille aéronautique.</p>
-        <p data-r data-d="3" class="sig">Le bureau APAM</p>
+        <p class="small" data-r data-d="2">Ici, on apprend à piloter sans pression commerciale, à son rythme, avec des instructeurs bénévoles qui ont fait le même chemin. Les avions sont entretenus avec soin, les coûts maîtrisés par la mutualisation. L'ambiance ? Celle d'une vraie famille aéronautique normande.</p>
+        <p class="sig" data-r data-d="3">Le bureau APAM · Saison 2026</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- STATS -->
-<section class="sec sec-stats sp-sm">
+<!-- ══ ACTIVITÉS ══ -->
+<section class="sec sec-activites sp">
   <div class="wrap">
-    <p class="kicker" data-r style="margin-bottom:28px">APAM en chiffres</p>
-    <div class="stats-grid-4">
-      <div class="stat" data-r><div class="stat-val"><span data-cnt="120">0</span><em>+</em></div><div class="stat-lbl">Membres actifs</div></div>
-      <div class="stat" data-r data-d="1"><div class="stat-val"><span data-cnt="3">0</span></div><div class="stat-lbl">Avions en flotte</div></div>
-      <div class="stat" data-r data-d="2"><div class="stat-val"><span data-cnt="2300">0</span><em> h</em></div><div class="stat-lbl">Heures de vol / an</div></div>
-      <div class="stat" data-r data-d="3"><div class="stat-val"><span data-cnt="60">0</span><em>+</em></div><div class="stat-lbl">Années d'existence</div></div>
-    </div>
-  </div>
-</section>
-
-<!-- HISTORY -->
-<section class="sec sec-history sp">
-  <div class="wrap">
-    <div class="history-head">
+    <div class="act-head">
       <div>
-        <p class="kicker" data-r>Notre histoire</p>
-        <h2 class="h2" data-r="clip" data-d="1">Soixante ans<br>en six chapitres.</h2>
+        <p class="kicker" data-r>Ce qu'on fait ensemble</p>
+        <h2 class="h2" data-r data-d="1">La vie<br>du pilote APAM.</h2>
       </div>
-      <p class="body-text" data-r data-d="2" style="max-width:420px">De quatorze pionniers à 120 membres, l'aventure d'un aéroclub normand racontée par ses dates-clés.</p>
+      <p class="body-text" data-r data-d="2" style="max-width:360px">Du premier vol d'initiation aux rallyes inter-clubs, l'APAM propose une gamme complète d'activités pour tous les niveaux.</p>
     </div>
+    <div class="act-grid">
 
-    <div class="history-stages">
-      <article class="history-stage" data-r>
-        <div class="history-year">1955<small>Pré-fondation</small></div>
-        <div class="history-content">
-          <h3>Quatorze pionniers</h3>
-          <p>Quatorze passionnés d'aviation se mobilisent pour créer le premier aéroclub de L'Aigle — l'« Aéroclub de la région de L'Aigle ». Le rêve prend forme dans le bocage normand.</p>
+      <div class="act-card" data-r data-d="1">
+        <div class="act-icon">✈️</div>
+        <span class="act-num">— 01</span>
+        <h3 class="act-title">Formation<br>PPL</h3>
+        <p class="act-desc">Le brevet pilote privé EASA vous ouvre toute l'Europe. Sous la supervision de nos instructeurs FI(A) bénévoles, la progression est structurée et individualisée.</p>
+        <div class="act-detail">
+          <span class="act-pill">45 h minimum</span>
+          <span class="act-pill">Dès 17 ans</span>
+          <span class="act-pill">Vol de nuit</span>
+          <span class="act-pill">Europe entière</span>
         </div>
-        <div class="history-media"><div class="life-placeholder">[ Photo d'archive · 1955 ]</div><span class="history-media-tag">Archive</span></div>
-      </article>
-
-      <article class="history-stage" data-r>
-        <div class="history-year">1958<small>Naissance officielle</small></div>
-        <div class="history-content">
-          <h3>L'aéroclub<br>est déclaré</h3>
-          <p>Le 9 avril 1958, l'association naît officiellement. Premiers vols, premiers brevets, premier hangar — l'aviation amateur s'installe pour de bon à L'Aigle.</p>
-        </div>
-        <div class="history-media"><div class="life-placeholder">[ Photo · Hangar d'origine ]</div><span class="history-media-tag">1958</span></div>
-      </article>
-
-      <article class="history-stage" data-r>
-        <div class="history-year">1965<small>Naissance de l'APAM</small></div>
-        <div class="history-content">
-          <h3>L'APAM<br>émerge</h3>
-          <p>Suite à une divergence politique, la scission est inéluctable. L'APAM émerge en mai 1965 autour de Harment, Pellerey, Pichot, Blondel et Ligier. Reconnu officiellement le 25 juin 1965.</p>
-        </div>
-        <div class="history-media"><img src="assets/images/image1.png" alt="L'Aigle Saint-Michel"><span class="history-media-tag">Mai 1965</span></div>
-      </article>
-
-      <article class="history-stage" data-r>
-        <div class="history-year">1966<small>L'école s'envole</small></div>
-        <div class="history-content">
-          <h3>Première<br>promo</h3>
-          <p>L'école de pilotage débute le 7 août 1965 avec un D112 et un SIPA. Yvon Harment, premier pilote à se poser sur la piste en herbe, assure l'instruction pendant 33 ans. Le logo du club est créé en 1966 par Pierre Blondel.</p>
-        </div>
-        <div class="history-media"><img src="assets/images/FGHKE2.png" alt="Premier avion-école" style="object-fit:contain;background:radial-gradient(circle at center,rgba(37,99,235,.15),transparent 70%);padding:20px"><span class="history-media-tag">D112 · SIPA</span></div>
-      </article>
-
-      <article class="history-stage" data-r>
-        <div class="history-year">2016<small>Hommage</small></div>
-        <div class="history-content">
-          <h3>Dernier envol<br>d'Yvon</h3>
-          <p>Yvon Harment, instructeur de toujours, prend son dernier envol en 2016 à l'âge de 92 ans. Toute une génération de pilotes lui doit son brevet. Sa mémoire reste celle d'une transmission patiente, exigeante, humaine.</p>
-        </div>
-        <div class="history-media"><div class="life-placeholder">[ Portrait · Yvon Harment ]</div><span class="history-media-tag">In memoriam</span></div>
-      </article>
-
-      <article class="history-stage" data-r>
-        <div class="history-year">2026<small>Aujourd'hui</small></div>
-        <div class="history-content">
-          <h3>Trois avions,<br>une famille</h3>
-          <p>Sous la présidence de Pierre Gandelin, succédant à Jacky Pichot, l'APAM compte 120 membres actifs, trois avions modernes (Cessna 152, TB200, Cirrus SR20) et accueille la plus jeune PPL de France à l'époque, Émilie, autour d'un gâteau d'anniversaire.</p>
-        </div>
-        <div class="history-media"><img src="assets/images/SR1.png" alt="Cirrus SR20" style="object-fit:contain;background:radial-gradient(circle at center,rgba(37,99,235,.15),transparent 70%);padding:20px"><span class="history-media-tag">Présent</span></div>
-      </article>
-    </div>
-  </div>
-</section>
-
-<!-- VALEURS -->
-<section class="sec sec-values sp">
-  <div class="wrap">
-    <div class="values-head">
-      <p class="kicker" data-r style="justify-content:center">Ce qui nous porte</p>
-      <h2 class="h2" data-r="clip" data-d="1">Trois piliers,<br>une seule passion.</h2>
-    </div>
-
-    <div class="values-grid">
-      <div class="value" data-r data-d="1">
-        <span class="value-icon">01</span>
-        <span class="value-num">— Pilier 01</span>
-        <h3 class="value-title">Transmission</h3>
-        <p class="value-text">Les instructeurs sont bénévoles, formés au club, attentifs au temps long. Le brevet n'est pas une course — c'est un apprentissage qui s'ancre, vol après vol, jusqu'à devenir un réflexe.</p>
       </div>
-      <div class="value" data-r data-d="2">
-        <span class="value-icon">02</span>
-        <span class="value-num">— Pilier 02</span>
-        <h3 class="value-title">Sécurité</h3>
-        <p class="value-text">Trois avions entretenus selon les standards EASA, briefings systématiques, météo passée au peigne fin. Voler avec rigueur pour voler longtemps — c'est notre culture.</p>
+
+      <div class="act-card" data-r data-d="2">
+        <div class="act-icon">🎯</div>
+        <span class="act-num">— 02</span>
+        <h3 class="act-title">Formation<br>LAPL</h3>
+        <p class="act-desc">La licence loisir est la voie la plus directe vers le brevet de pilote. Idéale pour ceux qui veulent voler pour le plaisir sans contrainte de carrière.</p>
+        <div class="act-detail">
+          <span class="act-pill">30 h minimum</span>
+          <span class="act-pill">Dès 16 ans</span>
+          <span class="act-pill">CPF éligible</span>
+          <span class="act-pill">VFR de jour</span>
+        </div>
       </div>
-      <div class="value" data-r data-d="3">
-        <span class="value-icon">03</span>
-        <span class="value-num">— Pilier 03</span>
-        <h3 class="value-title">Famille</h3>
-        <p class="value-text">Le terrain est ouvert, le café est chaud, les anciens partagent leurs récits, les nouveaux s'intègrent. On célèbre les premières solo, les promotions, et parfois on pleure ensemble.</p>
+
+      <div class="act-card" data-r data-d="3">
+        <div class="act-icon">🗺️</div>
+        <span class="act-num">— 03</span>
+        <h3 class="act-title">Vols de<br>voyage</h3>
+        <p class="act-desc">Deauville, Étretat, Mont Saint-Michel, Bretagne, Angleterre… Les membres PPL organisent régulièrement des vols de campagne en groupe ou en solo.</p>
+        <div class="act-detail">
+          <span class="act-pill">PPL requis</span>
+          <span class="act-pill">TB200 · SR20</span>
+          <span class="act-pill">Navigation VFR</span>
+        </div>
       </div>
+
+      <div class="act-card" data-r data-d="1">
+        <div class="act-icon">🌟</div>
+        <span class="act-num">— 04</span>
+        <h3 class="act-title">Baptêmes<br>&amp; découverte</h3>
+        <p class="act-desc">Offrir un vol est l'une des plus belles façons de faire découvrir la Normandie depuis les airs. Baptêmes individuels et journées portes ouvertes organisées chaque année.</p>
+        <div class="act-detail">
+          <span class="act-pill">Dès 8 ans</span>
+          <span class="act-pill">~30 min</span>
+          <span class="act-pill">Sur réservation</span>
+        </div>
+      </div>
+
+      <div class="act-card" data-r data-d="2">
+        <div class="act-icon">🏆</div>
+        <span class="act-num">— 05</span>
+        <h3 class="act-title">Rallyes &amp;<br>navigation</h3>
+        <p class="act-desc">L'APAM participe à des rallyes de navigation VFR et organise ses propres épreuves conviviales. Compétition amicale, esprit d'équipage, paysages normands à basse altitude.</p>
+        <div class="act-detail">
+          <span class="act-pill">PPL requis</span>
+          <span class="act-pill">Été · Automne</span>
+          <span class="act-pill">Toute la flotte</span>
+        </div>
+      </div>
+
+      <div class="act-card" data-r data-d="3">
+        <div class="act-icon">🍖</div>
+        <span class="act-num">— 06</span>
+        <h3 class="act-title">Vie<br>associative</h3>
+        <p class="act-desc">Méchoui annuel, repas de fin de saison, assemblée générale, soirées entre pilotes… Chez l'APAM, le club ne s'arrête pas quand le moteur s'éteint.</p>
+        <div class="act-detail">
+          <span class="act-pill">Méchoui · Juin</span>
+          <span class="act-pill">AG · Octobre</span>
+          <span class="act-pill">Ouvert à tous</span>
+        </div>
+      </div>
+
     </div>
   </div>
 </section>
 
-<!-- VIE DU CLUB -->
-<section class="sec sec-life sp">
+<!-- ══ GALERIE ══ -->
+<section class="sec sec-gallery sp" id="galerie">
   <div class="wrap">
-    <div class="life-head">
+    <div class="gallery-head">
+      <div><p class="kicker" data-r>La vie au terrain</p><h2 class="h2" data-r data-d="1">Le club,<br>en images.</h2></div>
+      <a class="btn btn--ghost" href="https://www.instagram.com/apam_lfol" target="_blank" data-r data-d="2">Instagram ↗</a>
+    </div>
+    <div class="gallery-grid" id="gallery-grid"></div>
+  </div>
+</section>
+
+<!-- ══ SOCIAL — Facebook + Instagram ══ -->
+<section class="sec sec-social sp" id="reseaux">
+  <div class="wrap">
+    <div class="social-head">
       <div>
-        <p class="kicker" data-r>La vie au terrain</p>
-        <h2 class="h2" data-r="clip" data-d="1">Le club,<br>au quotidien.</h2>
+        <p class="kicker" data-r>Nous suivre · Réseaux sociaux</p>
+        <h2 class="h2" data-r data-d="1">Le club,<br>en direct.</h2>
       </div>
-      <a class="btn btn--ghost" href="https://www.instagram.com/apam_lfol" target="_blank">Instagram <span class="arr">↗</span></a>
+      <p class="body-text" data-r data-d="2" style="max-width:380px">Photos en vol, événements, baptêmes, sorties — la communauté APAM partage son quotidien aéro sur Facebook et Instagram.</p>
     </div>
 
-    <div class="life-grid">
-      <div class="life-cell l-1" data-r="s"><img src="assets/images/image1.png" alt="Vol Normandie"><span class="life-caption">Au-dessus du Pays d'Ouche</span></div>
-      <div class="life-cell l-2" data-r="s" data-d="1"><div class="life-placeholder">[ Briefing matinal · clubhouse ]</div></div>
-      <div class="life-cell l-3" data-r="s" data-d="2"><img src="assets/images/FGHKE2.png" alt="Cessna 152" style="object-fit:contain;background:linear-gradient(135deg,#1a2030,#0e1018);padding:20px"><span class="life-caption">F-GHKE · Cessna 152</span></div>
-      <div class="life-cell l-4" data-r="s" data-d="2"><div class="life-placeholder">[ Premier solo · jet d'eau ]</div></div>
-      <div class="life-cell l-5" data-r="s" data-d="3"><img src="assets/images/TB200M.png" alt="TB200" style="object-fit:contain;background:linear-gradient(135deg,#1a2030,#0e1018);padding:20px"><span class="life-caption">TB200 · Voyage</span></div>
-      <div class="life-cell l-6" data-r="s" data-d="3"><div class="life-placeholder">[ Méchoui annuel · juin ]</div></div>
-      <div class="life-cell l-7" data-r="s" data-d="4"><img src="assets/images/SR1.png" alt="SR20" style="object-fit:contain;background:linear-gradient(135deg,#1a2030,#0e1018);padding:20px"><span class="life-caption">Cirrus SR20</span></div>
+    <div class="social-grid">
+
+      <!-- FACEBOOK CARD -->
+      <article class="sn fb" data-r="s" data-d="1">
+        <header class="sn-head">
+          <div class="sn-ic"><svg viewBox="0 0 24 24"><path d="M22 12a10 10 0 1 0-11.6 9.9v-7H8v-2.9h2.4V9.8c0-2.4 1.4-3.7 3.6-3.7 1 0 2.1.2 2.1.2v2.3h-1.2c-1.2 0-1.5.7-1.5 1.5V12h2.6l-.4 2.9h-2.2v7A10 10 0 0 0 22 12z"/></svg></div>
+          <div class="sn-id">
+            <div class="sn-name">Aéroclub APAM</div>
+            <div class="sn-handle"><span class="dot"></span>Page officielle · Facebook</div>
+          </div>
+          <a class="sn-follow" href="https://www.facebook.com/profile.php?id=61585663567523" target="_blank" rel="noopener">J'aime ↗</a>
+        </header>
+        <div class="sn-stats">
+          <div class="sn-stat"><span class="l">Abonnés</span><span class="v"><span data-cnt="480">0</span><em>+</em></span></div>
+          <div class="sn-stat"><span class="l">Publications</span><span class="v"><span data-cnt="245">0</span></span></div>
+          <div class="sn-stat"><span class="l">Note</span><span class="v">4.9<em>/5</em></span></div>
+        </div>
+        <div class="sn-fb-embed">
+          <div class="sn-fb-fallback" aria-hidden="true">
+            <div class="ic"><svg viewBox="0 0 24 24"><path d="M22 12a10 10 0 1 0-11.6 9.9v-7H8v-2.9h2.4V9.8c0-2.4 1.4-3.7 3.6-3.7 1 0 2.1.2 2.1.2v2.3h-1.2c-1.2 0-1.5.7-1.5 1.5V12h2.6l-.4 2.9h-2.2v7A10 10 0 0 0 22 12z"/></svg></div>
+            <h4>Chargement du fil Facebook…</h4>
+            <p>Si le flux n'apparaît pas (bloqueur, cookies tiers), ouvrez la page directement sur Facebook.</p>
+            <a class="btn btn--fb" href="https://www.facebook.com/profile.php?id=61585663567523" target="_blank" rel="noopener">Ouvrir Facebook ↗</a>
+          </div>
+          <iframe
+            src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2Fprofile.php%3Fid%3D61585663567523&tabs=timeline&width=500&height=540&small_header=true&adapt_container_width=true&hide_cover=false&show_facepile=true"
+            scrolling="no" frameborder="0" allowfullscreen="true"
+            allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
+            title="Page Facebook APAM" loading="lazy"
+            style="position:relative;z-index:1"
+          ></iframe>
+        </div>
+        <footer class="sn-foot">
+          <span class="lbl">— @apam.lfol</span>
+          <a class="lnk" href="https://www.facebook.com/profile.php?id=61585663567523" target="_blank" rel="noopener">Voir le fil complet <span>↗</span></a>
+        </footer>
+      </article>
+
+      <!-- INSTAGRAM CARD -->
+      <article class="sn ig" data-r="s" data-d="2">
+        <header class="sn-head">
+          <div class="sn-ic"><svg viewBox="0 0 24 24"><path d="M7 2C4.2 2 2 4.2 2 7v10c0 2.8 2.2 5 5 5h10c2.8 0 5-2.2 5-5V7c0-2.8-2.2-5-5-5H7zm0 2h10c1.7 0 3 1.3 3 3v10c0 1.7-1.3 3-3 3H7c-1.7 0-3-1.3-3-3V7c0-1.7 1.3-3 3-3zm5 3.5a4.5 4.5 0 1 1 0 9 4.5 4.5 0 0 1 0-9zm0 2a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zm4.8-2.9a1.1 1.1 0 1 1 0 2.2 1.1 1.1 0 0 1 0-2.2z"/></svg></div>
+          <div class="sn-id">
+            <div class="sn-name">apam_lfol</div>
+            <div class="sn-handle"><span class="dot"></span>Compte officiel · Instagram</div>
+          </div>
+          <a class="sn-follow" href="https://www.instagram.com/apam_lfol" target="_blank" rel="noopener">Suivre ↗</a>
+        </header>
+        <div class="sn-stats">
+          <div class="sn-stat"><span class="l">Followers</span><span class="v"><span data-cnt="320">0</span><em>+</em></span></div>
+          <div class="sn-stat"><span class="l">Posts</span><span class="v"><span data-cnt="186">0</span></span></div>
+          <div class="sn-stat"><span class="l">Reels / mois</span><span class="v">~ 4</span></div>
+        </div>
+        <div class="sn-ig-grid">
+
+          <a class="ig-tile" href="https://www.instagram.com/apam_lfol" target="_blank" rel="noopener">
+            <img src="assets/images/image1.png" alt="Vol Normandie" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+            <div class="ig-tile-placeholder" style="display:none">Vol au-dessus du Pays d'Ouche</div>
+            <span class="ig-tile-corner">1/9</span>
+            <div class="ig-tile-overlay">
+              <div class="ig-tile-stats">
+                <span><svg viewBox="0 0 24 24"><path d="M12 21s-7-4.5-9-9.5C1.5 7 5 4 8 4c1.5 0 3 .8 4 2 1-1.2 2.5-2 4-2 3 0 6.5 3 5 7.5-2 5-9 9.5-9 9.5z"/></svg>148</span>
+                <span><svg viewBox="0 0 24 24"><path d="M21 12a8 8 0 0 1-12 6.9L3 21l2.1-6A8 8 0 1 1 21 12z" fill="none" stroke="currentColor" stroke-width="2"/></svg>9</span>
+              </div>
+              <div class="ig-tile-cap">Survol du Pays d'Ouche · golden hour #apam #vfr</div>
+            </div>
+          </a>
+
+          <a class="ig-tile" href="https://www.instagram.com/apam_lfol" target="_blank" rel="noopener">
+            <img class="contain" src="assets/images/SR1.png" alt="Cirrus SR20" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+            <div class="ig-tile-placeholder" style="display:none">Cirrus SR20 · F-HCFA</div>
+            <span class="ig-tile-corner">2/9</span>
+            <div class="ig-tile-overlay">
+              <div class="ig-tile-stats">
+                <span><svg viewBox="0 0 24 24"><path d="M12 21s-7-4.5-9-9.5C1.5 7 5 4 8 4c1.5 0 3 .8 4 2 1-1.2 2.5-2 4-2 3 0 6.5 3 5 7.5-2 5-9 9.5-9 9.5z"/></svg>92</span>
+                <span><svg viewBox="0 0 24 24"><path d="M21 12a8 8 0 0 1-12 6.9L3 21l2.1-6A8 8 0 1 1 21 12z" fill="none" stroke="currentColor" stroke-width="2"/></svg>7</span>
+              </div>
+              <div class="ig-tile-cap">Notre Cirrus prêt au départ · CAPS check OK</div>
+            </div>
+          </a>
+
+          <a class="ig-tile" href="https://www.instagram.com/apam_lfol" target="_blank" rel="noopener">
+            <div class="ig-tile-placeholder">Briefing matinal au clubhouse</div>
+            <span class="ig-tile-corner">3/9</span>
+            <div class="ig-tile-overlay">
+              <div class="ig-tile-stats">
+                <span><svg viewBox="0 0 24 24"><path d="M12 21s-7-4.5-9-9.5C1.5 7 5 4 8 4c1.5 0 3 .8 4 2 1-1.2 2.5-2 4-2 3 0 6.5 3 5 7.5-2 5-9 9.5-9 9.5z"/></svg>64</span>
+                <span><svg viewBox="0 0 24 24"><path d="M21 12a8 8 0 0 1-12 6.9L3 21l2.1-6A8 8 0 1 1 21 12z" fill="none" stroke="currentColor" stroke-width="2"/></svg>4</span>
+              </div>
+              <div class="ig-tile-cap">Briefing avant le fly-out · café & cartes VAC</div>
+            </div>
+          </a>
+
+          <a class="ig-tile" href="https://www.instagram.com/apam_lfol" target="_blank" rel="noopener">
+            <img class="contain" src="assets/images/TB200M.png" alt="TB200" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+            <div class="ig-tile-placeholder" style="display:none">TB200 · F-GBVK</div>
+            <span class="ig-tile-corner">4/9</span>
+            <div class="ig-tile-overlay">
+              <div class="ig-tile-stats">
+                <span><svg viewBox="0 0 24 24"><path d="M12 21s-7-4.5-9-9.5C1.5 7 5 4 8 4c1.5 0 3 .8 4 2 1-1.2 2.5-2 4-2 3 0 6.5 3 5 7.5-2 5-9 9.5-9 9.5z"/></svg>108</span>
+                <span><svg viewBox="0 0 24 24"><path d="M21 12a8 8 0 0 1-12 6.9L3 21l2.1-6A8 8 0 1 1 21 12z" fill="none" stroke="currentColor" stroke-width="2"/></svg>11</span>
+              </div>
+              <div class="ig-tile-cap">TB200 voyage Deauville · 8 pilotes du club</div>
+            </div>
+          </a>
+
+          <a class="ig-tile" href="https://www.instagram.com/apam_lfol" target="_blank" rel="noopener">
+            <div class="ig-tile-placeholder">Premier solo · Thomas</div>
+            <span class="ig-tile-corner">5/9 · Reel</span>
+            <div class="ig-tile-overlay">
+              <div class="ig-tile-stats">
+                <span><svg viewBox="0 0 24 24"><path d="M12 21s-7-4.5-9-9.5C1.5 7 5 4 8 4c1.5 0 3 .8 4 2 1-1.2 2.5-2 4-2 3 0 6.5 3 5 7.5-2 5-9 9.5-9 9.5z"/></svg>284</span>
+                <span><svg viewBox="0 0 24 24"><path d="M21 12a8 8 0 0 1-12 6.9L3 21l2.1-6A8 8 0 1 1 21 12z" fill="none" stroke="currentColor" stroke-width="2"/></svg>32</span>
+              </div>
+              <div class="ig-tile-cap">Premier solo de Thomas — bravo champion ! 🎉</div>
+            </div>
+          </a>
+
+          <a class="ig-tile" href="https://www.instagram.com/apam_lfol" target="_blank" rel="noopener">
+            <img class="contain" src="assets/images/FGHKE2.png" alt="Cessna 152" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+            <div class="ig-tile-placeholder" style="display:none">F-GHKE Cessna 152</div>
+            <span class="ig-tile-corner">6/9</span>
+            <div class="ig-tile-overlay">
+              <div class="ig-tile-stats">
+                <span><svg viewBox="0 0 24 24"><path d="M12 21s-7-4.5-9-9.5C1.5 7 5 4 8 4c1.5 0 3 .8 4 2 1-1.2 2.5-2 4-2 3 0 6.5 3 5 7.5-2 5-9 9.5-9 9.5z"/></svg>76</span>
+                <span><svg viewBox="0 0 24 24"><path d="M21 12a8 8 0 0 1-12 6.9L3 21l2.1-6A8 8 0 1 1 21 12z" fill="none" stroke="currentColor" stroke-width="2"/></svg>3</span>
+              </div>
+              <div class="ig-tile-cap">Cessna 152 · l'avion-école par excellence</div>
+            </div>
+          </a>
+
+          <a class="ig-tile" href="https://www.instagram.com/apam_lfol" target="_blank" rel="noopener">
+            <div class="ig-tile-placeholder">Méchoui annuel 2025</div>
+            <span class="ig-tile-corner">7/9</span>
+            <div class="ig-tile-overlay">
+              <div class="ig-tile-stats">
+                <span><svg viewBox="0 0 24 24"><path d="M12 21s-7-4.5-9-9.5C1.5 7 5 4 8 4c1.5 0 3 .8 4 2 1-1.2 2.5-2 4-2 3 0 6.5 3 5 7.5-2 5-9 9.5-9 9.5z"/></svg>134</span>
+                <span><svg viewBox="0 0 24 24"><path d="M21 12a8 8 0 0 1-12 6.9L3 21l2.1-6A8 8 0 1 1 21 12z" fill="none" stroke="currentColor" stroke-width="2"/></svg>18</span>
+              </div>
+              <div class="ig-tile-cap">Méchoui annuel · l'esprit APAM en photo</div>
+            </div>
+          </a>
+
+          <a class="ig-tile" href="https://www.instagram.com/apam_lfol" target="_blank" rel="noopener">
+            <div class="ig-tile-placeholder">Coucher de soleil · LFOL</div>
+            <span class="ig-tile-corner">8/9</span>
+            <div class="ig-tile-overlay">
+              <div class="ig-tile-stats">
+                <span><svg viewBox="0 0 24 24"><path d="M12 21s-7-4.5-9-9.5C1.5 7 5 4 8 4c1.5 0 3 .8 4 2 1-1.2 2.5-2 4-2 3 0 6.5 3 5 7.5-2 5-9 9.5-9 9.5z"/></svg>198</span>
+                <span><svg viewBox="0 0 24 24"><path d="M21 12a8 8 0 0 1-12 6.9L3 21l2.1-6A8 8 0 1 1 21 12z" fill="none" stroke="currentColor" stroke-width="2"/></svg>12</span>
+              </div>
+              <div class="ig-tile-cap">Dernier vol de la journée · #sunsetflight</div>
+            </div>
+          </a>
+
+          <a class="ig-tile" href="https://www.instagram.com/apam_lfol" target="_blank" rel="noopener">
+            <div class="ig-tile-placeholder">Maintenance · Hangar APAM</div>
+            <span class="ig-tile-corner">9/9</span>
+            <div class="ig-tile-overlay">
+              <div class="ig-tile-stats">
+                <span><svg viewBox="0 0 24 24"><path d="M12 21s-7-4.5-9-9.5C1.5 7 5 4 8 4c1.5 0 3 .8 4 2 1-1.2 2.5-2 4-2 3 0 6.5 3 5 7.5-2 5-9 9.5-9 9.5z"/></svg>52</span>
+                <span><svg viewBox="0 0 24 24"><path d="M21 12a8 8 0 0 1-12 6.9L3 21l2.1-6A8 8 0 1 1 21 12z" fill="none" stroke="currentColor" stroke-width="2"/></svg>5</span>
+              </div>
+              <div class="ig-tile-cap">100h annuel · merci aux mécanos bénévoles</div>
+            </div>
+          </a>
+
+        </div>
+        <footer class="sn-foot">
+          <span class="lbl">— @apam_lfol</span>
+          <a class="lnk" href="https://www.instagram.com/apam_lfol" target="_blank" rel="noopener">Voir le profil <span>↗</span></a>
+        </footer>
+      </article>
+
     </div>
   </div>
 </section>
 
-<!-- ÉQUIPE -->
+<!-- ══ ÉQUIPE ══ -->
 <section class="sec sec-team sp">
   <div class="wrap">
     <div class="team-head">
-      <div>
-        <p class="kicker" data-r>Le bureau & les instructeurs</p>
-        <h2 class="h2" data-r="clip" data-d="1">Les visages<br>de l'APAM.</h2>
-      </div>
-      <p class="body-text" data-r data-d="2" style="max-width:380px">Une équipe bénévole de pilotes confirmés qui font vivre le club, semaine après semaine.</p>
+      <div><p class="kicker" data-r>Bureau &amp; instructeurs</p><h2 class="h2" data-r data-d="1">Les visages<br>de l'APAM.</h2></div>
+      <p class="body-text" data-r data-d="2" style="max-width:340px">Une équipe de pilotes bénévoles qui font vivre le club semaine après semaine.</p>
     </div>
-
     <div class="team-grid">
-      <div class="team-card" data-r data-d="1">
-        <div class="team-avatar">PG</div>
-        <div><h4 class="team-name">Pierre Gandelin</h4><p class="team-role">— Président</p></div>
-        <p class="team-bio">Pilote PPL & vol de nuit. À la tête du club depuis 2022. Vol d'attache : TB200.</p>
-        <div class="team-meta"><span>Heures <em>1 800+</em></span><span>Depuis <em>2008</em></span></div>
-      </div>
-      <div class="team-card" data-r data-d="2">
-        <div class="team-avatar">JP</div>
-        <div><h4 class="team-name">Jacky Pichot</h4><p class="team-role">— Président d'honneur</p></div>
-        <p class="team-bio">Cofondateur, ancien président, mémoire vivante du club et de son histoire depuis 1965.</p>
-        <div class="team-meta"><span>Membre fondateur</span></div>
-      </div>
-      <div class="team-card" data-r data-d="3">
-        <div class="team-avatar">MD</div>
-        <div><h4 class="team-name">Marc D.</h4><p class="team-role">— Instructeur PPL</p></div>
-        <p class="team-bio">Instructeur FI(A) depuis 2014. Spécialiste de la formation initiale et du vol de campagne.</p>
-        <div class="team-meta"><span>Heures <em>3 200+</em></span><span>Vols / mois <em>~25</em></span></div>
-      </div>
-      <div class="team-card" data-r data-d="4">
-        <div class="team-avatar">SL</div>
-        <div><h4 class="team-name">Sophie L.</h4><p class="team-role">— Instructrice LAPL</p></div>
-        <p class="team-bio">Instructrice LAPL et vol découverte. Mène les baptêmes et l'initiation des plus jeunes.</p>
-        <div class="team-meta"><span>Heures <em>2 100+</em></span><span>Depuis <em>2017</em></span></div>
-      </div>
-    </div>
-  </div>
-</section>
 
-<!-- QUOTE -->
-<section class="sec sec-quote sp">
-  <div class="wrap">
-    <div class="quote-inner">
-      <p class="quote-text" data-r="blur">Voler, ce n'est pas seulement se déplacer. C'est revoir sa région d'en haut, retrouver des amis au-dessus de la Manche, partager un café avec quelqu'un qu'on ne connaissait pas la semaine dernière. C'est ça, l'APAM.</p>
-      <p class="quote-cite" data-r data-d="3">Pierre Gandelin, président</p>
+      <article class="team-card" data-r data-d="1">
+        <header class="team-hd">
+          <div class="team-avatar">FR</div>
+          <div class="team-id">
+            <h4 class="team-name">Frédéric Regnier</h4>
+            <p class="team-role">Président</p>
+          </div>
+        </header>
+        <p class="team-bio">À la tête du club, il en porte la vision et les projets. Référent du bureau, des AG et des relations avec la FFA.</p>
+        <span class="team-tag"><span class="pin"></span>Bureau · Élu</span>
+      </article>
+
+      <article class="team-card" data-r data-d="2">
+        <header class="team-hd">
+          <div class="team-avatar">DJ</div>
+          <div class="team-id">
+            <h4 class="team-name">Dominique Jouandet</h4>
+            <p class="team-role">Trésorier</p>
+          </div>
+        </header>
+        <p class="team-bio">Garant des comptes du club. Suivi des cotisations, des heures facturées et du budget annuel de l'association.</p>
+        <span class="team-tag"><span class="pin"></span>Bureau · Élu</span>
+      </article>
+
+      <article class="team-card" data-r data-d="3">
+        <header class="team-hd">
+          <div class="team-avatar">MT</div>
+          <div class="team-id">
+            <h4 class="team-name">Marianne Tocanne</h4>
+            <p class="team-role">Secrétaire</p>
+          </div>
+        </header>
+        <p class="team-bio">Pilier administratif du club. Coordonne les inscriptions, les courriers et l'organisation des événements internes.</p>
+        <span class="team-tag"><span class="pin"></span>Bureau · Élu</span>
+      </article>
+
+      <article class="team-card" data-r data-d="4">
+        <header class="team-hd">
+          <div class="team-avatar">LW</div>
+          <div class="team-id">
+            <h4 class="team-name">Luc Welsing</h4>
+            <p class="team-role">Gestionnaire</p>
+          </div>
+        </header>
+        <p class="team-bio">Opérations au quotidien : planning OpenFlyer, gestion des appareils, suivi maintenance et accueil des nouveaux.</p>
+        <span class="team-tag ops"><span class="pin"></span>Opérations</span>
+      </article>
+
+      <article class="team-card" data-r data-d="1">
+        <header class="team-hd">
+          <div class="team-avatar">SA</div>
+          <div class="team-id">
+            <h4 class="team-name">Sébastien Anquetil</h4>
+            <p class="team-role">Resp. pédagogique</p>
+          </div>
+        </header>
+        <p class="team-bio">Pilote le contenu et la qualité de la formation. Encadre l'équipe d'instructeurs et valide les progressions élèves.</p>
+        <span class="team-tag formation"><span class="pin"></span>Formation</span>
+      </article>
+
+      <article class="team-card" data-r data-d="2">
+        <header class="team-hd">
+          <div class="team-avatar">YL</div>
+          <div class="team-id">
+            <h4 class="team-name">Yannick Le Collen</h4>
+            <p class="team-role">Instructeur</p>
+          </div>
+        </header>
+        <p class="team-bio">Accompagne les élèves pilotes du premier vol au lâcher, puis sur les phases de navigation et de préparation au brevet.</p>
+        <span class="team-tag formation"><span class="pin"></span>Formation</span>
+      </article>
+
+      <article class="team-card" data-r data-d="3">
+        <header class="team-hd">
+          <div class="team-avatar">FR</div>
+          <div class="team-id">
+            <h4 class="team-name">Frédéric Regnier</h4>
+            <p class="team-role">Instructeur</p>
+          </div>
+        </header>
+        <p class="team-bio">Outre la présidence, Frédéric assure aussi des heures d'instruction au club, partageant son expérience.</p>
+        <span class="team-tag formation"><span class="pin"></span>Formation</span>
+      </article>
+
+      <article class="team-card" data-r data-d="4">
+        <header class="team-hd">
+          <div class="team-avatar">PC</div>
+          <div class="team-id">
+            <h4 class="team-name">Pierre Cauvin</h4>
+            <p class="team-role">Développement web</p>
+          </div>
+        </header>
+        <p class="team-bio">Conception, design et développement du site web APAM. Maintient la plateforme, l'espace membres et l'identité numérique.</p>
+        <span class="team-tag digital"><span class="pin"></span>Digital</span>
+      </article>
+
     </div>
   </div>
 </section>
@@ -490,128 +916,186 @@
 <!-- LOCALISATION -->
 <section class="sec sec-loc sp">
   <div class="wrap">
-    <div class="loc-grid">
-      <div class="loc-info">
+    <div class="loc-head">
+      <div>
         <p class="kicker" data-r>Nous trouver</p>
-        <h2 class="h2" data-r="clip" data-d="1">Aérodrome<br>de L'Aigle<br>Saint-Michel.</h2>
-        <p class="body-text" data-r data-d="2" style="margin-top:6px">Piste 07/25 en bitume, 990 m. Tour radio FRQ 126.855 MHz. À 1h30 de Paris, en plein bocage normand, entre Évreux et Argentan.</p>
-        <div class="loc-meta" data-r data-d="3">
-          <div class="loc-meta-it"><span class="l">Code OACI</span><span class="v">LFOL</span></div>
-          <div class="loc-meta-it"><span class="l">Fréquence</span><span class="v">126.855</span></div>
-          <div class="loc-meta-it"><span class="l">Coordonnées</span><span class="v">48°45'40" N · 0°39'20" E</span></div>
-          <div class="loc-meta-it"><span class="l">Piste</span><span class="v">07/25 · 990 m</span></div>
-        </div>
-        <div class="btns" data-r data-d="4">
-          <a class="btn btn--fill" href="https://www.google.com/maps/place/Aérodrome+de+L'Aigle-Saint-Michel" target="_blank">Itinéraire <span class="arr">→</span></a>
-          <a class="btn btn--ghost" href="contact.html">Nous contacter</a>
-        </div>
+        <h2 class="h2" data-r data-d="1">Aérodrome<br>L'Aigle Saint-Michel.</h2>
       </div>
-      <div class="loc-map" data-r="s" data-d="2">
-        <div class="loc-map-grid"></div>
-        <div class="loc-map-rad"></div>
-        <div class="loc-map-runway"></div>
-        <div class="loc-map-pin"></div>
-        <div class="loc-map-label"><div class="nm">LFOL</div><div class="id">L'Aigle Saint-Michel</div></div>
-        <div class="loc-map-corner tl">N 48°45'</div>
-        <div class="loc-map-corner tr">E 0°39'</div>
-        <div class="loc-map-corner bl">RWY 07/25</div>
-        <div class="loc-map-corner br">FRQ 126.855</div>
+      <p class="body-text" data-r data-d="2" style="max-width:340px">À 1h30 de Paris au cœur du bocage normand. Piste 07/25 béton de 800 m, fréquence 126.855 MHz.</p>
+    </div>
+
+    <div class="loc-info-row" data-r>
+      <div class="loc-cell"><span class="l">— Code OACI</span><span class="v">LFOL</span></div>
+      <div class="loc-cell"><span class="l">— Fréquence</span><span class="v">126.855<em>MHz</em></span></div>
+      <div class="loc-cell"><span class="l">— Piste</span><span class="v">07/25<em>800 m</em></span></div>
+      <div class="loc-cell"><span class="l">— Coordonnées</span><span class="v">48°45'N · 0°39'E</span></div>
+    </div>
+
+    <div class="loc-map-wrap" data-r="s">
+      <iframe
+        src="https://maps.google.com/maps?q=A%C3%A9rodrome+de+L%27Aigle+Saint-Michel&hl=fr&z=14&output=embed"
+        loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen=""
+        title="Carte LFOL — Aérodrome L'Aigle Saint-Michel"></iframe>
+      <span class="loc-corner-stamp"><span class="dot"></span>Terrain actif</span>
+      <div class="loc-overlay">
+        <div class="loc-card">
+          <div class="nm">LFOL</div>
+          <div class="id">Aérodrome · L'Aigle Saint-Michel</div>
+          <div class="co">48°45'40" N · 0°39'20" E</div>
+        </div>
+        <a class="loc-cta" href="https://www.google.com/maps/dir//A%C3%A9rodrome+de+L%27Aigle-Saint-Michel" target="_blank" rel="noopener">Itinéraire <span>↗</span></a>
       </div>
     </div>
   </div>
 </section>
 
-<!-- FINAL CTA -->
+<!-- CTA -->
 <section class="sec sec-cta sp">
-  <div class="wrap">
-    <div class="cta-inner">
-      <p class="kicker" data-r style="justify-content:center">Rejoindre l'APAM</p>
-      <h2 class="cta-h" data-r="clip" data-d="1">
-        Soixante ans plus tard,<br>
-        <span class="ol">l'aventure continue.</span>
-      </h2>
-      <p class="cta-sub" data-r data-d="2">Vol découverte, formation PPL ou LAPL, simple adhésion pour rejoindre un club familial — il y a une porte d'entrée pour chacun.</p>
-      <div class="cta-btns" data-r data-d="3">
-        <a class="btn btn--fill btn--lg" href="devenir-pilote.html">Devenir pilote <span class="arr">→</span></a>
-        <a class="btn btn--ghost btn--lg" href="contact.html">Nous contacter</a>
-      </div>
+  <div class="wrap"><div class="cta-inner">
+    <p class="kicker" data-r style="justify-content:center">Rejoindre l'APAM</p>
+    <h2 class="cta-h" data-r data-d="1">Soixante ans,<br><span class="ol">l'aventure continue.</span></h2>
+    <p class="cta-sub" data-r data-d="2">Vol découverte, formation PPL ou LAPL, adhésion — une porte d'entrée pour chacun.</p>
+    <div class="cta-btns" data-r data-d="3">
+      <a class="btn btn--fill" href="devenir-pilote.html">Devenir pilote →</a>
+      <a class="btn btn--ghost" href="contact.html">Nous contacter</a>
     </div>
-  </div>
+  </div></div>
 </section>
 
 <!-- FOOTER -->
 <footer class="footer">
-  <div class="footer-grid">
-    <div class="footer-brand">
-      <img src="assets/images/apam-logo2.png" alt="APAM">
-      <p class="footer-tag">L'Aigle<br>Saint-Michel</p>
-      <p class="footer-desc">Aéroclub du Pays d'Ouche depuis 1965. Formation PPL & LAPL, vols découverte, vie associative en Normandie.</p>
-      <div class="footer-coords">
-        <span class="footer-coords-val">48°45'40" N · 0°39'20" E</span>
-        <span class="footer-coords-frq">LFOL · FRQ 126.855</span>
-      </div>
-    </div>
-    <div class="footer-col">
-      <h5>Navigation</h5>
-      <ul>
-        <li><a href="tarifs.html">Flotte & Tarifs</a></li>
-        <li><a href="activite.html">Le Club</a></li>
-        <li><a href="devenir-pilote.html">Devenir pilote</a></li>
-        <li><a href="contact.html">Contact</a></li>
-        <li><a href="boutique.html">Boutique</a></li>
-      </ul>
-    </div>
-    <div class="footer-col">
-      <h5>Membres</h5>
-      <ul>
-        <li><a href="https://openflyers.com/apam/" target="_blank">OpenFlyer ↗</a></li>
-        <li><a href="connexion-membres-password.html?next=mon-compte.html">Mon compte</a></li>
-        <li><a href="inscription-membres.html">S'inscrire</a></li>
-      </ul>
-    </div>
-    <div class="footer-col">
-      <h5>Suivez-nous</h5>
-      <ul>
-        <li><a href="https://www.instagram.com/apam_lfol" target="_blank">Instagram ↗</a></li>
-        <li><a href="https://www.facebook.com/profile.php?id=61585663567523" target="_blank">Facebook ↗</a></li>
-        <li><a href="/cdn-cgi/l/email-protection#543531263b3738213635243539143339353d387a373b39"><span class="__cf_email__" data-cfemail="abcaced9c4c8c7dec9cadbcac6ebccc6cac2c785c8c4c6">[email&#160;protected]</span></a></li>
-      </ul>
-    </div>
-  </div>
-  <div class="footer-bottom">
-    <div class="footer-legal">
+  <div class="footer-in">
+    <div class="footer-links">
+      <a href="/cdn-cgi/l/email-protection#4726223528242b32252637262a07202a262e2b6924282a"><span class="__cf_email__" data-cfemail="badbdfc8d5d9d6cfd8dbcadbd7faddd7dbd3d694d9d5d7">[email&#160;protected]</span></a><span class="sep">·</span>
+      <a href="https://www.facebook.com/profile.php?id=61585663567523" target="_blank">Facebook</a>
+      <a href="https://www.instagram.com/apam_lfol" target="_blank">Instagram</a><span class="sep">·</span>
       <a href="mentions-legales.html">Mentions légales</a>
       <a href="confidentialite.html">Confidentialité</a>
       <a href="cgu.html">CGU</a>
-      <a href="cookies.html">Cookies</a>
     </div>
-    <span class="footer-credit">© 2026 APAM · Aéroclub du Pays d'Ouche & des Avesnes au Mont</span>
+    <span class="footer-cr">© 2026 APAM · Aéroclub du Pays d'Ouche</span>
   </div>
 </footer>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="assets/site.js"></script>
-<script>
-// Parallax hero
-const bg = document.getElementById('club-hero-bg');
-if (bg) {
-  let raf;
-  addEventListener('scroll', () => {
-    if (raf) return;
-    raf = requestAnimationFrame(() => {
-      const y = scrollY * 0.4;
-      bg.style.transform = `translateY(${y}px)`;
-      raf = null;
-    });
-  }, { passive: true });
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+'use strict';
+
+/* ── Cursor ──────────────────────────── */
+const dotEl=document.getElementById('cur-dot'),ringEl=document.getElementById('cur-ring');
+if(window.matchMedia('(hover:hover)').matches){
+  let mx=-200,my=-200,rx=-200,ry=-200;
+  window.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;dotEl.style.cssText=`left:${mx}px;top:${my}px`;},{passive:true});
+  (function loop(){rx+=(mx-rx)*.085;ry+=(my-ry)*.085;ringEl.style.cssText=`left:${rx}px;top:${ry}px`;requestAnimationFrame(loop);})();
 }
 
-// Ticker
-const tick = document.getElementById('ticker-track');
-if (tick) {
-  const items = ['LFOL · L\'Aigle Saint-Michel','FRQ 126.855','Piste 07/25 · 990 m','120 membres actifs','3 avions · Cessna 152 · TB200 · Cirrus SR20','Formation PPL · LAPL','Vols découverte sur demande','Depuis 1965'];
-  const html = items.map(t => `<span class="ticker-item">${t}</span>`).join('');
-  tick.innerHTML = html + html;
+/* ── Progress bar ────────────────────── */
+const pgBar=document.getElementById('pg-bar');
+window.addEventListener('scroll',()=>{const h=document.documentElement;pgBar.style.width=(h.scrollTop/(h.scrollHeight-h.clientHeight)*100)+'%';},{passive:true});
+
+/* ── Nav ─────────────────────────────── */
+const nav=document.getElementById('nav');
+window.addEventListener('scroll',()=>nav.classList.toggle('s',scrollY>60),{passive:true});
+
+/* ── Drawer ──────────────────────────── */
+const drawer=document.getElementById('drawer'),burger=document.getElementById('burger'),mClose=document.getElementById('m-close');
+burger.addEventListener('click',()=>{drawer.classList.add('open');drawer.setAttribute('aria-hidden','false');document.body.style.overflow='hidden'});
+mClose.addEventListener('click',()=>{drawer.classList.remove('open');drawer.setAttribute('aria-hidden','true');document.body.style.overflow=''});
+drawer.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{drawer.classList.remove('open');document.body.style.overflow=''}));
+
+/* ── Reveals ─────────────────────────── */
+const ro=new IntersectionObserver(e=>{e.forEach(e=>{if(e.isIntersecting){e.target.classList.add('on');ro.unobserve(e.target)}});},{threshold:.08,rootMargin:'0px 0px -40px 0px'});
+document.querySelectorAll('[data-r]').forEach(el=>ro.observe(el));
+
+/* ── Counters ────────────────────────── */
+const co=new IntersectionObserver(e=>{e.forEach(e=>{if(!e.isIntersecting)return;const el=e.target,end=+el.dataset.cnt,dur=1800,t0=performance.now();const tick=t=>{const p=Math.min((t-t0)/dur,1);el.textContent=Math.round((1-Math.pow(1-p,4))*end);p<1?requestAnimationFrame(tick):el.textContent=end;};requestAnimationFrame(tick);co.unobserve(el);});},{threshold:.5});
+document.querySelectorAll('[data-cnt]').forEach(el=>co.observe(el));
+
+/* ── Hero parallax ───────────────────── */
+const heroBg=document.getElementById('hero-bg');
+let raf=false;
+window.addEventListener('scroll',()=>{if(raf)return;raf=true;requestAnimationFrame(()=>{if(heroBg)heroBg.style.transform=`translateY(${scrollY*.28}px)`;raf=false;});},{passive:true});
+
+/* ── Fleet 3D tilt ───────────────────── */
+document.querySelectorAll('.fc').forEach(card=>{
+  card.addEventListener('mousemove',e=>{card.style.transition='none';const r=card.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;card.style.transform=`perspective(1000px) rotateY(${x*8}deg) rotateX(${-y*8}deg) translateZ(10px) translateY(-6px)`;});
+  card.addEventListener('mouseleave',()=>{card.style.transition='transform .6s cubic-bezier(.16,1,.3,1)';card.style.transform='';});
+});
+
+/* ── Ticker ──────────────────────────── */
+const track=document.getElementById('ticker-track');
+const TICKS=['LFOL · L\'Aigle Saint-Michel','FRQ 126.855 MHz','Piste 07/25 · 800 m','Formation PPL · LAPL','120 membres actifs','Cessna 152 · TB200 · Cirrus SR20','Baptêmes sur réservation','Depuis 1965 · Normandie'];
+[...TICKS,...TICKS].forEach(t=>{const s=document.createElement('span');s.className='ticker-item';s.textContent=t;track.appendChild(s);});
+
+/* ══════════════════════════════════════
+   AGENDA — depuis localStorage
+══════════════════════════════════════ */
+const EV_KEY='apam_events_v1';
+const MONTHS=['Jan','Fév','Mar','Avr','Mai','Jun','Jul','Aoû','Sep','Oct','Nov','Déc'];
+const EV_LABELS={vol:'✈ Vol groupé',social:'🍖 Social',formation:'📚 Formation',initiation:'🌟 Initiation',admin:'📋 Admin'};
+
+const DEFAULT_EVENTS=[
+  {id:'d1',date:'2026-06-21',title:'Méchoui annuel',desc:'Repas convivial de fin juin sur le terrain. Ouvert à tous les membres et leurs familles.',type:'social'},
+  {id:'d2',date:'2026-07-14',title:'Vol de la Bastille',desc:'Vol groupé tradition du 14 juillet. Départ LFOL 10h00. Inscription souhaitée.',type:'vol'},
+  {id:'d3',date:'2026-08-22',title:'Rallye navigation VFR',desc:'Rallye ouvert aux membres PPL et plus. Circuit à découvrir sur place.',type:'vol'},
+  {id:'d4',date:'2026-09-06',title:'Journées portes ouvertes',desc:'Initiations et baptêmes de l\'air pour le grand public. Toute la journée.',type:'initiation'},
+  {id:'d5',date:'2026-10-11',title:'Assemblée générale',desc:'AG annuelle APAM. Bilan 2026, projets 2027. Présence souhaitée.',type:'admin'},
+];
+
+function getCustomEvents(){try{return JSON.parse(localStorage.getItem(EV_KEY)||'[]');}catch{return[];}}
+function getUpcoming(){
+  const now=new Date(new Date().toDateString());
+  return [...DEFAULT_EVENTS,...getCustomEvents()].sort((a,b)=>new Date(a.date)-new Date(b.date)).filter(e=>new Date(e.date)>=now);
 }
+
+function renderAgenda(){
+  const grid=document.getElementById('agenda-grid');
+  const evs=getUpcoming();
+  if(!evs.length){grid.innerHTML='<div class="ev-empty">Aucun événement programmé · Revenez bientôt !</div>';return;}
+  grid.innerHTML=evs.map(ev=>{
+    const d=new Date(ev.date+'T00:00:00');
+    return `<div class="ev-card">
+      <div class="ev-card-top">
+        <div><div class="ev-day">${String(d.getDate()).padStart(2,'0')}</div><div class="ev-mth">${MONTHS[d.getMonth()]} ${d.getFullYear()}</div></div>
+        <span class="ev-type-badge ${ev.type}">${EV_LABELS[ev.type]||ev.type}</span>
+      </div>
+      <div class="ev-card-title">${ev.title}</div>
+      <div class="ev-card-desc">${ev.desc}</div>
+      <div class="ev-card-foot">${MONTHS[d.getMonth()]} ${d.getDate()}, ${d.getFullYear()}</div>
+    </div>`;
+  }).join('');
+}
+renderAgenda();
+
+/* ══════════════════════════════════════
+   GALERIE — depuis localStorage
+══════════════════════════════════════ */
+const PHOTO_KEY='apam_photos_v1';
+const DEFAULT_PHOTOS=[
+  {id:'dp1',src:'assets/images/image1.png',caption:'Au-dessus du Pays d\'Ouche',span:'s-5-3'},
+  {id:'dp2',src:'',caption:'Briefing matinal · Clubhouse',span:'s-4-2'},
+  {id:'dp3',src:'assets/images/FGHKE2.png',caption:'F-GHKE · Cessna 152',span:'s-3-2'},
+  {id:'dp4',src:'',caption:'Premier solo · Jet d\'eau',span:'s-4-2'},
+  {id:'dp5',src:'assets/images/TB200M.png',caption:'TB200 · Voyage Deauville',span:'s-3-3'},
+  {id:'dp6',src:'',caption:'Méchoui annuel · Juin',span:'s-5-2'},
+  {id:'dp7',src:'assets/images/SR1.png',caption:'Cirrus SR20',span:'s-4-2'},
+];
+const SPANS=['s-5-3','s-4-2','s-3-2','s-4-2','s-3-3','s-5-2','s-4-2'];
+
+function getPhotos(){try{return JSON.parse(localStorage.getItem(PHOTO_KEY)||'[]');}catch{return[];}}
+function renderGallery(){
+  const grid=document.getElementById('gallery-grid');
+  const custom=getPhotos();
+  const photos=[...custom,...DEFAULT_PHOTOS].slice(0,10);
+  grid.innerHTML=photos.map((ph,i)=>{
+    const span=ph.span||SPANS[i%SPANS.length];
+    const content=ph.src
+      ? `<img src="${ph.src}" alt="${ph.caption||''}" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">`
+      : '';
+    const ph2=!ph.src?`<div class="gc-placeholder">${ph.caption||''}</div>`:'<div class="gc-placeholder" style="display:none"></div>';
+    return `<div class="gc ${span}">${content}${ph2}<div class="gc-overlay"><span class="gc-caption">${ph.caption||''}</span></div></div>`;
+  }).join('');
+}
+renderGallery();
 </script>
 </body>
 </html>
