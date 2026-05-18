@@ -2,9 +2,9 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8"/>
-<title>Le Club – APAM · L'Aigle Saint-Michel</title>
+<title>Mon compte – APAM</title>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
-<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,400;0,700;0,900;1,700;1,900&family=Jost:wght@300;400;500;600;700&family=Lora:ital,wght@1,400;1,500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&family=Jost:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
 <style>
 :root{
   --bg:#080a0e;--bg-2:#0b0d13;--bg-3:#0e1018;
@@ -12,668 +12,619 @@
   --accent:#2563eb;--acc2:#818cf8;--acc-d:rgba(37,99,235,.14);
   --muted:#7a8399;--dim:#32384f;
   --border:rgba(255,255,255,.07);--bds:rgba(255,255,255,.11);
-  --ok:#22d77a;--warn:#f5a524;
-  --white:#fff;--nav-h:70px;--side:clamp(18px,5.5vw,88px);--rl:14px;
+  --ok:#22d77a;--warn:#f5a524;--err:#ef4444;
+  --white:#fff;--nav-h:66px;--side:clamp(16px,4.5vw,72px);--rl:12px;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth}
-body{background:var(--bg);color:var(--white);font-family:'Jost',system-ui,sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden;cursor:none}
+body{background:var(--bg-2);color:var(--white);font-family:'Jost',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
 a{color:inherit;text-decoration:none}
 img{max-width:100%;display:block}
 ::-webkit-scrollbar{width:2px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:var(--accent)}
-@media(hover:none){body{cursor:auto}*{cursor:auto}}
-
-/* Cursor */
-.cur{position:fixed;pointer-events:none;z-index:9999;top:0;left:0;transform:translate(-50%,-50%)}
-.cur-dot{width:5px;height:5px;background:var(--accent);border-radius:50%}
-.cur-ring{width:28px;height:28px;border:1px solid rgba(37,99,235,.35);border-radius:50%;transition:width .22s,height .22s}
-body:has(a:hover) .cur-ring,body:has(button:hover) .cur-ring{width:44px;height:44px;border-color:rgba(37,99,235,.6)}
-
-/* Grain */
-.grain{position:fixed;inset:0;z-index:9990;pointer-events:none;opacity:.022;
-  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='512' height='512' filter='url(%23n)'/%3E%3C/svg%3E");
-  background-size:180px}
 
 /* NAV */
-.nav{position:fixed;top:0;left:0;right:0;height:var(--nav-h);z-index:100;display:flex;align-items:center;padding:0 var(--side);gap:28px;border-bottom:1px solid transparent;transition:background .4s,border-color .4s}
-.nav.s{background:rgba(8,10,14,.9);border-color:var(--border);backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px)}
-.nav-logo-img{height:42px;display:block}
-.nav-logo-img[src=""],img[data-fallback]:not([src]){display:none}
-.nav-logo-txt{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:24px;text-transform:uppercase;display:none}
-.nav-links{list-style:none;display:flex;align-items:center;gap:26px;margin-left:auto}
-.nav-links a{font-size:11px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:rgba(255,255,255,.42);transition:color .2s;position:relative}
-.nav-links a::after{content:'';position:absolute;bottom:-2px;left:0;width:0;height:1px;background:var(--accent);transition:width .25s}
-.nav-links a:hover{color:#fff}.nav-links a:hover::after,.nav-links a.on::after{width:100%}
-.nav-links a.on{color:#fff}
-.nav-icons{display:flex;gap:10px}
-.nav-icon{width:32px;height:32px;display:inline-flex;align-items:center;justify-content:center;border:1px solid var(--bds);border-radius:50%;transition:border-color .2s,background .2s}
-.nav-icon:hover{border-color:var(--accent);background:var(--acc-d)}
-.nav-icon svg{width:13px;height:13px;fill:rgba(255,255,255,.55)}
-.nav-cta{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:13.5px;letter-spacing:.12em;text-transform:uppercase;padding:7px 18px;border:1.5px solid var(--accent);color:var(--white);position:relative;overflow:hidden;transition:color .25s}
-.nav-cta::before{content:'';position:absolute;inset:0;background:var(--accent);transform:translateX(-101%);transition:transform .25s cubic-bezier(.16,1,.3,1);z-index:-1}
-.nav-cta:hover::before{transform:translateX(0)}
-.nav-burger{display:none;flex-direction:column;gap:5px;padding:8px;background:none;border:none;cursor:pointer;margin-left:auto}
-.nav-burger b{display:block;width:20px;height:1.5px;background:rgba(255,255,255,.72)}
-
-/* DRAWER */
-.m-drawer{position:fixed;inset:0;background:rgba(8,10,14,.97);backdrop-filter:blur(28px);z-index:200;opacity:0;pointer-events:none;transform:translateY(-8px);transition:opacity .35s,transform .35s cubic-bezier(.16,1,.3,1)}
-.m-drawer.open{opacity:1;pointer-events:auto;transform:none}
-.m-drawer-top{display:flex;align-items:center;justify-content:space-between;padding:18px var(--side);border-bottom:1px solid var(--border)}
-.m-close{width:42px;height:42px;display:inline-flex;align-items:center;justify-content:center;border:1px solid var(--bds);border-radius:var(--rl);background:none;cursor:pointer;color:rgba(255,255,255,.6);font-size:18px}
-.m-close:hover{border-color:var(--accent);color:#fff}
-.m-nav{padding:28px var(--side);display:flex;flex-direction:column;gap:2px}
-.m-nav a{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:clamp(38px,8vw,56px);line-height:1;text-transform:uppercase;padding:9px 0;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;color:rgba(255,255,255,.8);transition:color .2s}
-.m-nav a:hover{color:var(--accent)}
-.m-nav a .arr{font-size:18px;opacity:.3;transition:transform .2s,opacity .2s}
-.m-nav a:hover .arr{transform:translateX(6px);opacity:.7}
-.m-cta-wrap{padding:20px var(--side)}
-.btn{display:inline-flex;align-items:center;gap:9px;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:14px;letter-spacing:.12em;text-transform:uppercase;padding:11px 22px;position:relative;overflow:hidden;transition:color .25s}
-.btn--fill{background:var(--accent);color:#fff;border:1.5px solid var(--accent)}
-.btn--fill::before{content:'';position:absolute;inset:0;background:#fff;transform:translateX(-101%);transition:transform .25s cubic-bezier(.16,1,.3,1);z-index:-1}
-.btn--fill:hover{color:var(--accent)}.btn--fill:hover::before{transform:translateX(0)}
-.btn--ghost{background:transparent;color:rgba(255,255,255,.58);border:1.5px solid var(--bds)}
-.btn--ghost:hover{color:#fff;border-color:rgba(255,255,255,.3)}
-
-/* COMMONS */
-.sec{position:relative}
-.wrap{max-width:1300px;margin:0 auto;padding:0 var(--side)}
-.sp{padding:clamp(72px,11vh,130px) 0}
-.sp-sm{padding:clamp(48px,7vh,84px) 0}
-.kicker{font-size:9.5px;font-weight:700;letter-spacing:.28em;text-transform:uppercase;color:var(--accent);display:flex;align-items:center;gap:10px;margin-bottom:16px}
-.kicker::before{content:'';width:22px;height:1px;background:var(--accent);flex-shrink:0}
-.h2{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:clamp(42px,5.5vw,78px);line-height:.92;text-transform:uppercase;letter-spacing:-.01em;color:var(--white)}
-.body-text{font-size:15px;line-height:1.78;color:var(--muted)}
-.btns{display:flex;flex-wrap:wrap;gap:12px}
-
-/* Reveals */
-[data-r]{opacity:0;transform:translateY(32px);transition:opacity .9s cubic-bezier(.16,1,.3,1),transform .9s cubic-bezier(.16,1,.3,1)}
-[data-r].on{opacity:1;transform:none}
-[data-r="s"]{opacity:0;transform:scale(.93);filter:blur(10px);transition:opacity 1s cubic-bezier(.16,1,.3,1),transform 1s cubic-bezier(.16,1,.3,1),filter 1s}
-[data-r="s"].on{opacity:1;transform:none;filter:blur(0)}
-[data-r="blur"]{opacity:0;filter:blur(14px);transform:translateY(10px);transition:opacity 1s,filter 1s,transform 1s}
-[data-r="blur"].on{opacity:1;filter:blur(0);transform:none}
-[data-d="1"]{transition-delay:.12s}[data-d="2"]{transition-delay:.24s}[data-d="3"]{transition-delay:.36s}[data-d="4"]{transition-delay:.48s}
+.nav{position:sticky;top:0;z-index:100;height:var(--nav-h);display:flex;align-items:center;
+  padding:0 var(--side);gap:24px;background:rgba(8,10,14,.92);
+  border-bottom:1px solid var(--border);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px)}
+.nav-logo{display:flex;align-items:center;gap:12px}
+.nav-logo img{height:38px}
+.nav-logo-text{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:22px;text-transform:uppercase;color:var(--white)}
+.nav-links{list-style:none;display:flex;align-items:center;gap:22px;margin-left:auto}
+.nav-links a{font-size:10.5px;font-weight:600;letter-spacing:.17em;text-transform:uppercase;color:rgba(255,255,255,.4);transition:color .2s}
+.nav-links a:hover{color:#fff}
+.nav-out{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:13px;letter-spacing:.12em;
+  text-transform:uppercase;padding:7px 16px;border:1.5px solid rgba(255,255,255,.2);color:rgba(255,255,255,.55);
+  cursor:pointer;background:none;transition:color .2s,border-color .2s}
+.nav-out:hover{color:#fff;border-color:rgba(255,255,255,.5)}
 
 /* HERO */
-.hero{position:relative;height:100svh;min-height:640px;display:flex;align-items:flex-end;overflow:hidden}
-.hero-bg{position:absolute;inset:0;will-change:transform}
-.hero-bg img{width:100%;height:115%;object-fit:cover;object-position:center 32%}
-.hero-overlay{position:absolute;inset:0;
-  background:linear-gradient(108deg,rgba(8,10,14,.95) 0%,rgba(8,10,14,.65) 38%,rgba(8,10,14,.12) 70%,transparent 88%),
-  linear-gradient(to top,rgba(8,10,14,1) 0%,rgba(8,10,14,.55) 24%,transparent 58%)}
-.hero-grid{position:absolute;inset:0;pointer-events:none;
-  background-image:linear-gradient(rgba(37,99,235,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(37,99,235,.03) 1px,transparent 1px);
-  background-size:64px 64px;mask-image:linear-gradient(140deg,transparent 28%,rgba(0,0,0,.4) 65%,transparent 100%)}
-.hero-inner{position:relative;z-index:2;padding:0 var(--side) clamp(60px,10vh,110px);width:100%}
-.hero-eye{font-size:10px;font-weight:700;letter-spacing:.32em;text-transform:uppercase;color:var(--accent);display:flex;align-items:center;gap:12px;margin-bottom:22px;opacity:0;animation:fadeUp .7s ease .4s forwards}
-.hero-eye::before{content:'';width:28px;height:1px;background:var(--accent)}
-.hero-title{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:clamp(60px,10vw,160px);line-height:.84;letter-spacing:-.018em;text-transform:uppercase;color:#fff;opacity:0;transform:translateX(-32px);animation:slideIn 1s cubic-bezier(.16,1,.3,1) .1s forwards}
-.hero-title .ol{display:block;color:transparent;-webkit-text-stroke:1.5px rgba(255,255,255,.3)}
-.hero-stats{display:flex;gap:clamp(28px,5vw,64px);margin-top:32px;opacity:0;animation:fadeUp .7s ease .8s forwards}
-.hero-stat .l{font-size:9px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:rgba(255,255,255,.35)}
-.hero-stat .v{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:clamp(26px,3.2vw,40px);line-height:1;color:#fff;margin-top:4px}
-.hero-stat .v em{color:var(--accent);font-style:normal;font-size:.6em;margin-left:3px}
-@keyframes fadeUp{to{opacity:1;transform:none}}
-@keyframes slideIn{to{opacity:1;transform:none}}
+.dh{background:var(--bg);border-bottom:1px solid var(--border);padding:36px 0 28px;position:relative;overflow:hidden}
+.dh::before{content:'';position:absolute;inset:0;background:radial-gradient(55% 70% at 95% 0%,rgba(37,99,235,.1),transparent 60%);pointer-events:none}
+.dh-grid{position:absolute;inset:0;pointer-events:none;
+  background-image:linear-gradient(rgba(37,99,235,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(37,99,235,.025) 1px,transparent 1px);
+  background-size:64px 64px;mask-image:linear-gradient(135deg,rgba(0,0,0,.38) 10%,transparent 62%)}
+.dh-inner{position:relative;z-index:1;display:flex;align-items:flex-end;justify-content:space-between;gap:20px;flex-wrap:wrap}
+.dh-eye{font-size:9px;font-weight:700;letter-spacing:.32em;text-transform:uppercase;color:var(--accent);display:flex;align-items:center;gap:9px;margin-bottom:12px}
+.dh-eye::before{content:'';width:20px;height:1px;background:var(--accent)}
+.dh-name{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:clamp(38px,5.5vw,68px);line-height:.94;text-transform:uppercase}
+.dh-name em{color:var(--accent);font-style:inherit}
+.dh-sub{font-size:13.5px;color:var(--muted);margin-top:6px}
+.dh-meta{display:flex;flex-direction:column;gap:10px;align-items:flex-end}
+.badge{display:inline-flex;align-items:center;gap:7px;padding:5px 12px;border-radius:100px;font-size:9.5px;font-weight:700;letter-spacing:.15em;text-transform:uppercase}
+.badge.ok{background:rgba(34,215,122,.08);border:1px solid rgba(34,215,122,.25);color:var(--ok)}
+.badge.pres{background:rgba(37,99,235,.12);border:1px solid rgba(37,99,235,.28);color:#8aabff}
+.badge .dot{width:6px;height:6px;border-radius:50%;background:currentColor;animation:pulse 2.6s ease-in-out infinite}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(34,215,122,.5)}50%{box-shadow:0 0 0 5px transparent}}
+.dh-id{font-family:'JetBrains Mono',monospace;font-size:10.5px;color:var(--muted);letter-spacing:.04em}
 
-/* TICKER */
-.ticker{overflow:hidden;background:var(--accent);padding:10px 0;border-bottom:1px solid rgba(255,255,255,.08)}
-.ticker-track{display:flex;width:max-content;animation:tick 38s linear infinite}
-.ticker:hover .ticker-track{animation-play-state:paused}
-.ticker-item{font-family:'Barlow Condensed',sans-serif;font-weight:600;font-style:italic;font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.86);padding:0 22px;white-space:nowrap;display:flex;align-items:center;gap:22px}
-.ticker-item::after{content:'✦';opacity:.35;font-size:8px}
-@keyframes tick{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+/* WRAP */
+.wrap{max-width:1260px;margin:0 auto;padding:0 var(--side)}
+.dash{padding:28px 0 56px;background:var(--bg-2)}
 
-/* ══════════════════════════════════
-   AGENDA (EVENTS CALENDAR)
-══════════════════════════════════ */
-.sec-agenda{background:var(--bg-2);border-bottom:1px solid var(--border)}
-.agenda-head{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;flex-wrap:wrap;margin-bottom:44px}
-.agenda-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
-#no-events{grid-column:1/-1;padding:36px;text-align:center;background:var(--sf);border:1px solid var(--border);border-radius:var(--rl)}
-#no-events p{font-size:14px;color:var(--muted)}
+/* KPI */
+.kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:11px;margin-bottom:18px}
+.kpi{background:var(--sf);border:1px solid var(--border);border-radius:var(--rl);padding:18px;position:relative;overflow:hidden;transition:border-color .3s,transform .4s cubic-bezier(.16,1,.3,1)}
+.kpi:hover{border-color:rgba(37,99,235,.28);transform:translateY(-3px)}
+.kpi::before{content:'';position:absolute;top:0;left:0;right:0;height:1.5px;background:linear-gradient(to right,var(--accent),transparent);opacity:0;transition:opacity .3s}
+.kpi:hover::before{opacity:1}
+.kpi-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+.kpi-top span{font-size:9px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
+.kpi-ic{width:26px;height:26px;border:1px solid var(--bds);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px}
+.kpi-val{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:32px;line-height:1;color:#fff;letter-spacing:-.02em;margin-bottom:4px}
+.kpi-val em{color:var(--accent);font-style:normal;font-size:.5em;margin-left:3px}
+.kpi-tr{font-size:10.5px;color:var(--muted)}.kpi-tr.up{color:var(--ok)}.kpi-tr.dn{color:var(--warn)}
 
-/* Event card */
-.ev-card{background:var(--sf);border:1px solid var(--border);border-radius:var(--rl);padding:22px;display:flex;flex-direction:column;gap:14px;position:relative;overflow:hidden;transition:border-color .3s,transform .45s cubic-bezier(.16,1,.3,1),box-shadow .35s}
-.ev-card:hover{border-color:rgba(37,99,235,.38);transform:translateY(-5px);box-shadow:0 24px 52px rgba(0,0,0,.5)}
-.ev-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(to right,var(--accent),var(--acc2));opacity:0;transition:opacity .3s}
-.ev-card:hover::before{opacity:1}
-.ev-card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
-.ev-card-date{display:flex;flex-direction:column;gap:2px}
-.ev-day{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:52px;line-height:1;letter-spacing:-.02em;color:var(--accent)}
-.ev-mth{font-size:10px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--muted)}
-.ev-type-badge{font-size:8.5px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;padding:4px 10px;border-radius:100px;border:1px solid;flex-shrink:0}
-.ev-type-badge.vol{color:#8aabff;background:rgba(37,99,235,.1);border-color:rgba(37,99,235,.25)}
-.ev-type-badge.social{color:var(--ok);background:rgba(34,215,122,.08);border-color:rgba(34,215,122,.25)}
-.ev-type-badge.formation{color:var(--warn);background:rgba(245,165,36,.08);border-color:rgba(245,165,36,.25)}
-.ev-type-badge.initiation{color:#818cf8;background:rgba(129,140,248,.1);border-color:rgba(129,140,248,.25)}
-.ev-type-badge.admin{color:var(--muted);background:rgba(255,255,255,.04);border-color:var(--bds)}
-.ev-card-title{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:22px;text-transform:uppercase;color:#fff;line-height:1.1}
-.ev-card-desc{font-size:13px;color:var(--muted);line-height:1.6;flex:1}
-.ev-card-foot{border-top:1px solid var(--border);padding-top:12px;font-size:10px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.28)}
+/* GRID */
+.row2{display:grid;grid-template-columns:1.4fr 1fr;gap:13px;margin-bottom:18px}
+.row2b{display:grid;grid-template-columns:1fr 1fr;gap:13px;margin-bottom:18px}
 
-/* ══════════════════════════════════
-   MANIFESTE
-══════════════════════════════════ */
-.sec-manifest{background:var(--bg);border-bottom:1px solid var(--border)}
-.manifest-grid{display:grid;grid-template-columns:1fr 1.5fr;gap:clamp(36px,6vw,96px);align-items:start}
-.manifest-l{position:sticky;top:100px}
-.manifest-num{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:clamp(60px,8vw,120px);line-height:.9;color:rgba(255,255,255,.04);letter-spacing:-.03em}
-.manifest-lead{font-size:clamp(20px,2.4vw,30px);line-height:1.45;color:#fff;font-weight:300;text-wrap:pretty;margin-bottom:28px}
-.manifest-body{font-size:15.5px;line-height:1.8;color:var(--muted)}
-.sig{margin-top:40px;display:flex;align-items:center;gap:14px;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-style:italic;font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent)}
-.sig::before{content:'';width:32px;height:1px;background:var(--accent)}
+/* PANEL */
+.panel{background:var(--sf);border:1px solid var(--border);border-radius:var(--rl);overflow:hidden;margin-bottom:18px}
+.ph{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;border-bottom:1px solid var(--border);background:rgba(255,255,255,.012)}
+.ph h3{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:12.5px;letter-spacing:.18em;text-transform:uppercase;color:#fff}
+.ph a,.ph-btn{font-size:10.5px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);background:none;border:none;cursor:pointer}
 
-/* STATS */
-.sec-stats{background:var(--bg-2);border-bottom:1px solid var(--border)}
-.stats-4{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid var(--border);background:var(--border);gap:1px}
-.stat{background:var(--bg-2);padding:clamp(36px,5vw,58px) clamp(22px,4vw,44px);position:relative;overflow:hidden;transition:background .3s}
-.stat::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(to right,var(--accent),transparent);opacity:0;transition:opacity .3s}
-.stat:hover{background:var(--bg-3)}.stat:hover::before{opacity:1}
-.stat-val{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:clamp(54px,5.8vw,88px);line-height:1;letter-spacing:-.03em;color:#fff;margin-bottom:5px;white-space:nowrap}
-.stat-val em{color:var(--accent);font-style:normal}
-.stat-lbl{font-size:11px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+/* Reservations */
+.res{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 18px;border-bottom:1px solid var(--border);transition:background .2s}
+.res:last-child{border-bottom:none}
+.res:hover{background:rgba(37,99,235,.04)}
+.res-l{display:flex;align-items:center;gap:14px;min-width:0}
+.res-date{display:flex;flex-direction:column;align-items:center;gap:1px;flex-shrink:0;width:50px;padding:6px;background:rgba(37,99,235,.06);border:1px solid rgba(37,99,235,.14);border-radius:7px}
+.res-date .d{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:18px;line-height:1;color:#fff}
+.res-date .m{font-size:8px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--accent)}
+.res-info h4{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:13.5px;letter-spacing:.04em;text-transform:uppercase;color:#fff}
+.res-info p{font-size:11px;color:var(--muted);margin-top:2px}
+.tag{font-size:8px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;padding:3px 8px;border-radius:100px;border:1px solid;flex-shrink:0}
+.tag.ok{color:var(--ok);background:rgba(34,215,122,.08);border-color:rgba(34,215,122,.25)}
+.tag.warn{color:var(--warn);background:rgba(245,165,36,.08);border-color:rgba(245,165,36,.25)}
 
-/* HISTORY */
-.sec-history{background:var(--bg);border-bottom:1px solid var(--border)}
-.hist-head{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;flex-wrap:wrap;margin-bottom:52px}
-.hist-stage{display:grid;grid-template-columns:120px 1fr 1fr;gap:clamp(18px,3vw,52px);padding:clamp(32px,5vh,60px) 0;border-top:1px solid var(--border);position:relative;transition:background .25s}
-.hist-stage:last-child{border-bottom:1px solid var(--border)}
-.hist-stage:hover{background:rgba(37,99,235,.02)}
-.hist-year{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:clamp(34px,4vw,54px);line-height:1;color:var(--accent);letter-spacing:-.02em}
-.hist-year small{display:block;font-size:.38em;color:rgba(255,255,255,.35);letter-spacing:.14em;margin-top:7px;font-style:normal;font-weight:600}
-.hist-content h3{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:clamp(26px,3vw,40px);line-height:.96;text-transform:uppercase;color:#fff;margin-bottom:12px}
-.hist-content p{font-size:13.5px;line-height:1.75;color:var(--muted);max-width:480px}
-.hist-media{border-radius:var(--rl);overflow:hidden;background:var(--sf);min-height:180px;border:1px solid var(--border)}
-.hist-media img{width:100%;height:100%;object-fit:cover;min-height:180px;transition:transform .8s cubic-bezier(.16,1,.3,1)}
-.hist-stage:hover .hist-media img{transform:scale(1.06)}
-.hist-placeholder{width:100%;height:180px;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.3);font-size:11px;letter-spacing:.08em;background:repeating-linear-gradient(135deg,rgba(255,255,255,.018) 0 10px,transparent 10px 20px)}
+/* Account */
+.acc-sum{padding:18px;display:flex;flex-direction:column;gap:10px}
+.acc-bal{display:flex;align-items:flex-end;justify-content:space-between;padding-bottom:14px;border-bottom:1px solid var(--border)}
+.acc-bal .lbl{font-size:9px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--muted)}
+.acc-bal .v{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:40px;line-height:1;color:#fff;letter-spacing:-.02em;margin-top:3px}
+.acc-bal .v em{color:var(--accent);font-style:normal}
+.acc-row{display:flex;align-items:center;justify-content:space-between;padding:7px 0;border-bottom:1px dashed rgba(255,255,255,.04);font-size:12px}
+.acc-row:last-child{border-bottom:none}
+.acc-row .l{color:var(--muted)}.acc-row .v{font-family:'Barlow Condensed',sans-serif;font-weight:700;color:#fff;letter-spacing:.04em}
+.btn-sm{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:12px;letter-spacing:.1em;text-transform:uppercase;padding:7px 14px;background:var(--accent);color:#fff;border:none;cursor:pointer}
 
-/* VALUES */
-.sec-values{background:var(--bg-3);border-bottom:1px solid var(--border)}
-.values-head{text-align:center;max-width:720px;margin:0 auto clamp(40px,5vh,60px)}
-.values-head .kicker{justify-content:center}
-.values-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border:1px solid var(--border)}
-.value{padding:clamp(32px,4vw,48px) clamp(22px,3vw,36px);border-right:1px solid var(--border);display:flex;flex-direction:column;gap:16px;transition:background .3s;position:relative}
-.value:last-child{border-right:none}
-.value:hover{background:rgba(37,99,235,.04)}
-.value-num{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:13.5px;letter-spacing:.16em;color:var(--accent)}
-.value-title{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:clamp(30px,3vw,42px);line-height:.96;text-transform:uppercase;color:#fff}
-.value-text{font-size:13.5px;line-height:1.75;color:var(--muted)}
-.value-bg-num{position:absolute;top:28px;right:22px;font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:90px;color:rgba(37,99,235,.048);line-height:1;pointer-events:none}
+/* Quick actions */
+.qac{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border)}
+.qac a{background:var(--sf);padding:14px 16px;display:flex;flex-direction:column;gap:4px;color:#fff;transition:background .2s}
+.qac a:hover{background:var(--bg-3)}
+.qac .ql{font-size:8.5px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--accent)}
+.qac .qn{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:17px;text-transform:uppercase;line-height:1}
 
-/* ══════════════════════════════════
-   GALERIE PHOTO
-══════════════════════════════════ */
-.sec-gallery{background:var(--bg-2);border-bottom:1px solid var(--border);overflow:hidden}
-.gallery-head{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;flex-wrap:wrap;margin-bottom:40px}
-.gallery-grid{display:grid;grid-template-columns:repeat(12,1fr);grid-auto-rows:130px;gap:8px}
-.gc{position:relative;overflow:hidden;border-radius:8px;background:var(--sf);border:1px solid var(--border);cursor:none;transition:border-color .3s,transform .45s cubic-bezier(.16,1,.3,1)}
-.gc:hover{border-color:rgba(37,99,235,.38);transform:translateY(-3px)}
-.gc img{width:100%;height:100%;object-fit:cover;transition:transform .7s cubic-bezier(.16,1,.3,1)}
-.gc:hover img{transform:scale(1.08)}
-.gc-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(8,10,14,.84),transparent 55%);opacity:0;transition:opacity .3s;display:flex;align-items:flex-end;padding:12px 14px}
-.gc:hover .gc-overlay{opacity:1}
-.gc-caption{font-size:11px;color:rgba(255,255,255,.92);letter-spacing:.04em;font-weight:500}
-.gc-placeholder{width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:repeating-linear-gradient(135deg,rgba(255,255,255,.02) 0 10px,transparent 10px 20px);color:rgba(255,255,255,.2);font-size:11px;letter-spacing:.08em;text-align:center;padding:8px}
+/* Currency */
+.cur-it{padding:12px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:10px}
+.cur-it:last-child{border-bottom:none}
+.cur-it h4{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:12.5px;letter-spacing:.05em;text-transform:uppercase;color:#fff}
+.cur-it p{font-size:10.5px;color:var(--muted);margin-top:2px}
+.bar{position:relative;height:4px;width:110px;border-radius:100px;background:rgba(255,255,255,.05);overflow:hidden;flex-shrink:0}
+.bar-fill{position:absolute;top:0;left:0;bottom:0;border-radius:100px;background:linear-gradient(to right,var(--accent),var(--acc2))}
+.bar-pct{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:14px;color:#fff;min-width:34px;text-align:right;flex-shrink:0}
+.bar-pct em{color:var(--accent);font-style:normal}
 
-/* Grid span presets */
-.gc.s-5-3{grid-column:span 5;grid-row:span 3}
-.gc.s-4-2{grid-column:span 4;grid-row:span 2}
-.gc.s-3-2{grid-column:span 3;grid-row:span 2}
-.gc.s-4-3{grid-column:span 4;grid-row:span 3}
-.gc.s-5-2{grid-column:span 5;grid-row:span 2}
-.gc.s-4-2b{grid-column:span 4;grid-row:span 2}
-.gc.s-3-3{grid-column:span 3;grid-row:span 3}
+/* Logbook */
+.lb{display:grid;grid-template-columns:78px 1fr 1fr 64px;gap:8px;padding:12px 18px;border-bottom:1px solid var(--border);align-items:center;font-size:12px}
+.lb.hd{background:rgba(255,255,255,.02);font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted)}
+.lb:last-child{border-bottom:none}
+.lb:not(.hd):hover{background:rgba(37,99,235,.03)}
+.lb-d{font-family:'JetBrains Mono',monospace;font-size:11px;color:rgba(255,255,255,.72)}
+.lb-r{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:13px;color:#fff}
+.lb-r em{color:var(--accent);font-style:normal;margin:0 3px}
+.lb-a{font-size:11px;color:var(--muted)}
+.lb-h{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:14px;color:#fff;text-align:right}
 
-.gallery-empty{grid-column:1/-1;padding:48px;text-align:center;background:var(--sf);border:1px solid var(--border);border-radius:var(--rl);display:none}
-.gallery-empty.show{display:flex;flex-direction:column;align-items:center;gap:12px}
-.gallery-empty svg{opacity:.25;width:40px;height:40px}
-.gallery-empty p{font-size:13px;color:var(--muted)}
+/* ════════════════════════════════════════
+   CALENDRIER
+════════════════════════════════════════ */
+.ev-list{display:flex;flex-direction:column}
+.ev{display:flex;align-items:flex-start;gap:14px;padding:14px 18px;border-bottom:1px solid var(--border);transition:background .2s;position:relative}
+.ev:last-child{border-bottom:none}.ev:hover{background:rgba(37,99,235,.035)}
+.ev-date{display:flex;flex-direction:column;align-items:center;gap:1px;flex-shrink:0;width:46px;padding:6px;border-radius:8px;border:1px solid var(--border)}
+.ev-date .d{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:20px;line-height:1;color:#fff}
+.ev-date .m{font-size:8px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
+.ev-body{flex:1;min-width:0}
+.ev-body h4{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:14px;letter-spacing:.04em;text-transform:uppercase;color:#fff;line-height:1.2}
+.ev-body p{font-size:12px;color:var(--muted);margin-top:3px;line-height:1.5}
+.ev-tags{display:flex;gap:7px;margin-top:7px;flex-wrap:wrap}
+.ev-tag{font-size:8px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;padding:3px 8px;border-radius:100px;border:1px solid;white-space:nowrap}
+.ev-tag.vol{color:#8aabff;background:rgba(37,99,235,.1);border-color:rgba(37,99,235,.22)}
+.ev-tag.social{color:var(--ok);background:rgba(34,215,122,.08);border-color:rgba(34,215,122,.22)}
+.ev-tag.formation{color:#f5a524;background:rgba(245,165,36,.08);border-color:rgba(245,165,36,.22)}
+.ev-tag.initiation{color:#818cf8;background:rgba(129,140,248,.1);border-color:rgba(129,140,248,.22)}
+.ev-tag.admin{color:var(--muted);background:rgba(255,255,255,.04);border-color:var(--bds)}
+.ev-del{background:none;border:1px solid var(--border);color:rgba(255,255,255,.28);
+  width:24px;height:24px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;
+  font-size:11px;flex-shrink:0;align-self:center;transition:border-color .2s,color .2s;line-height:1}
+.ev-del:hover{border-color:var(--err);color:var(--err)}
+.ev-empty{padding:20px 18px;font-size:13px;color:var(--muted);text-align:center}
 
-/* TEAM */
-.sec-team{background:var(--bg);border-bottom:1px solid var(--border)}
-.team-head{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;flex-wrap:wrap;margin-bottom:40px}
-.team-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
-.team-card{background:var(--sf);border:1px solid var(--border);border-radius:var(--rl);padding:22px;display:flex;flex-direction:column;gap:12px;transition:border-color .3s,transform .4s cubic-bezier(.16,1,.3,1)}
-.team-card:hover{border-color:rgba(37,99,235,.32);transform:translateY(-4px)}
-.team-avatar{width:60px;height:60px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:20px;color:#fff;text-transform:uppercase;background:linear-gradient(135deg,var(--accent),var(--acc2));border:1px solid rgba(37,99,235,.3)}
-.team-name{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:21px;text-transform:uppercase;color:#fff;line-height:1}
-.team-role{font-size:9px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);margin-top:-4px}
-.team-bio{font-size:12.5px;color:var(--muted);line-height:1.65;flex:1}
-.team-meta{display:flex;gap:12px;flex-wrap:wrap;padding-top:12px;border-top:1px solid var(--border)}
-.team-meta span{font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.3)}
-.team-meta span em{color:#fff;font-style:normal;margin-left:3px}
-
-/* QUOTE */
-.sec-quote{background:var(--bg-3);border-bottom:1px solid var(--border);position:relative;overflow:hidden}
-.sec-quote::before{content:'"';position:absolute;top:-40px;left:50%;transform:translateX(-50%);font-family:'Lora',serif;font-style:italic;font-size:500px;line-height:1;color:rgba(37,99,235,.036);pointer-events:none;user-select:none}
-.quote-inner{position:relative;z-index:1;text-align:center;max-width:860px;margin:0 auto}
-.qt{font-family:'Lora',serif;font-style:italic;font-size:clamp(22px,3vw,38px);line-height:1.46;color:rgba(255,255,255,.9);text-wrap:balance}
-.qt-cite{margin-top:28px;font-size:11px;font-weight:700;letter-spacing:.28em;text-transform:uppercase;color:var(--accent);display:flex;align-items:center;justify-content:center;gap:12px}
-.qt-cite::before,.qt-cite::after{content:'';width:32px;height:1px;background:var(--accent);opacity:.5}
-
-/* LOCATION */
-.sec-loc{background:var(--bg-2);border-bottom:1px solid var(--border);position:relative;overflow:hidden}
-.sec-loc::before{content:'';position:absolute;inset:0;background:radial-gradient(120% 80% at 0% 0%,rgba(37,99,235,.09),transparent 52%);pointer-events:none}
-.loc-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(36px,6vw,80px);align-items:stretch;position:relative;z-index:1}
-.loc-info{display:flex;flex-direction:column;gap:18px}
-.loc-meta{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:4px}
-.loc-meta-it{background:rgba(255,255,255,.03);border:1px solid var(--bds);border-radius:var(--rl);padding:13px 15px}
-.loc-meta-it .l{font-size:9px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:rgba(255,255,255,.4);display:block;margin-bottom:4px}
-.loc-meta-it .v{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:17px;letter-spacing:.04em;color:#fff}
-.loc-map{position:relative;border-radius:var(--rl);overflow:hidden;border:1px solid var(--bds);min-height:380px;background:linear-gradient(135deg,#1a2030 0%,#0e1018 100%)}
-.loc-map-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(37,99,235,.07) 1px,transparent 1px),linear-gradient(90deg,rgba(37,99,235,.07) 1px,transparent 1px);background-size:32px 32px}
-.loc-map-rad{position:absolute;width:60%;height:60%;left:50%;top:50%;transform:translate(-50%,-50%);background:radial-gradient(circle,rgba(37,99,235,.17),transparent 70%);animation:rad 4s ease-in-out infinite}
-@keyframes rad{0%,100%{opacity:.6;transform:translate(-50%,-50%) scale(1)}50%{opacity:1;transform:translate(-50%,-50%) scale(1.1)}}
-.loc-map-pin{position:absolute;left:54%;top:48%;width:18px;height:18px;border-radius:50%;background:#fff;border:5px solid var(--accent);box-shadow:0 0 0 10px rgba(37,99,235,.26),0 4px 12px rgba(0,0,0,.5);z-index:2}
-.loc-map-label{position:absolute;left:54%;top:48%;transform:translate(20px,-12px);background:rgba(8,10,14,.92);backdrop-filter:blur(12px);border:1px solid var(--bds);padding:10px 14px;z-index:2}
-.loc-map-label .nm{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:18px;color:#fff;text-transform:uppercase;line-height:1}
-.loc-map-label .id{font-size:9px;font-weight:700;letter-spacing:.22em;color:var(--accent);margin-top:4px}
-.loc-map-runway{position:absolute;left:35%;top:55%;width:200px;height:2px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.28),transparent);transform:rotate(70deg);transform-origin:center}
-.loc-corner{position:absolute;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:9.5px;letter-spacing:.2em;color:rgba(255,255,255,.28);text-transform:uppercase}
-.loc-corner.tl{top:14px;left:14px}.loc-corner.tr{top:14px;right:14px}
-.loc-corner.bl{bottom:14px;left:14px}.loc-corner.br{bottom:14px;right:14px}
-
-/* CTA */
-.sec-cta{background:var(--bg);overflow:hidden;position:relative}
-.sec-cta::before{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:700px;height:700px;border-radius:50%;background:radial-gradient(circle,rgba(37,99,235,.06) 0%,transparent 70%);pointer-events:none}
-.cta-inner{position:relative;z-index:1;text-align:center;max-width:900px;margin:0 auto}
-.cta-h{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:clamp(48px,7.5vw,106px);line-height:.9;text-transform:uppercase;letter-spacing:-.02em;color:#fff}
-.cta-h .ol{color:transparent;-webkit-text-stroke:1.5px rgba(255,255,255,.28)}
-.cta-sub{font-size:15px;color:var(--muted);max-width:460px;line-height:1.7;margin:22px auto 0}
-.cta-btns{display:flex;justify-content:center;flex-wrap:wrap;gap:12px;margin-top:32px}
-
-/* FOOTER */
-.footer{background:var(--bg-3);border-top:1px solid var(--border);padding:24px var(--side)}
-.footer-in{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
-.footer-links{display:flex;gap:14px;flex-wrap:wrap}
-.footer-links a{font-size:11.5px;color:rgba(255,255,255,.3);transition:color .2s}.footer-links a:hover{color:rgba(255,255,255,.72)}
-.footer-links .sep{color:var(--dim);font-size:10px}
-.footer-cr{font-size:11.5px;color:var(--dim)}
-
-/* Progress bar */
-.pg-bar{position:fixed;top:0;left:0;height:2px;z-index:9999;width:0%;background:linear-gradient(90deg,var(--accent),var(--acc2))}
-
-/* RESPONSIVE */
-@media(max-width:980px){
-  .nav-links,.nav-icons,.nav-cta{display:none}.nav-burger{display:flex}
-  .agenda-grid{grid-template-columns:1fr 1fr}
-  .manifest-grid{grid-template-columns:1fr;gap:24px}.manifest-l{position:static}
-  .stats-4{grid-template-columns:1fr 1fr}
-  .hist-stage{grid-template-columns:80px 1fr;gap:16px}.hist-media{grid-column:1/-1;margin-top:10px}
-  .values-grid{grid-template-columns:1fr}.value{border-right:none;border-bottom:1px solid var(--border)}.value:last-child{border-bottom:none}
-  .gallery-grid{grid-template-columns:repeat(6,1fr);grid-auto-rows:110px}
-  .gc.s-5-3{grid-column:span 6;grid-row:span 3}.gc.s-4-2,.gc.s-3-2,.gc.s-5-2,.gc.s-4-2b{grid-column:span 3;grid-row:span 2}.gc.s-4-3,.gc.s-3-3{grid-column:span 3;grid-row:span 3}
-  .team-grid{grid-template-columns:1fr 1fr}
-  .loc-grid{grid-template-columns:1fr}.loc-map{min-height:320px}
+/* ════════════════════════════════════════
+   PANNEAU PRÉSIDENT
+════════════════════════════════════════ */
+#pres-panel{
+  margin-bottom:18px;border-radius:var(--rl);overflow:hidden;
+  border:1.5px solid rgba(37,99,235,.32);background:var(--sf);
 }
-@media(max-width:600px){
-  .agenda-grid{grid-template-columns:1fr}
-  .stats-4{grid-template-columns:1fr 1fr}
-  .team-grid{grid-template-columns:1fr}
-  .gallery-grid{grid-template-columns:repeat(4,1fr);grid-auto-rows:90px}
-  .gc.s-5-3{grid-column:span 4}.gc.s-4-2,.gc.s-3-2,.gc.s-5-2,.gc.s-4-2b,.gc.s-4-3,.gc.s-3-3{grid-column:span 2;grid-row:span 2}
-  .loc-meta{grid-template-columns:1fr}
+.pres-hd{padding:14px 18px;border-bottom:1px solid rgba(37,99,235,.2);
+  background:rgba(37,99,235,.06);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px}
+.pres-hd h3{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:17px;text-transform:uppercase;display:flex;align-items:center;gap:10px}
+.pres-pill{font-family:'Jost',sans-serif;font-weight:700;font-style:normal;font-size:8.5px;letter-spacing:.2em;text-transform:uppercase;color:#8aabff;background:rgba(37,99,235,.2);border:1px solid rgba(37,99,235,.28);padding:3px 8px;border-radius:100px}
+.pres-body{padding:18px;display:flex;flex-direction:column;gap:18px}
+.sec-lbl{font-size:9.5px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);display:flex;align-items:center;gap:8px}
+.sec-lbl::after{content:'';flex:1;height:1px;background:rgba(37,99,235,.2)}
+
+/* Form */
+.form-g{display:grid;grid-template-columns:1fr 1fr;gap:11px}
+.field{display:flex;flex-direction:column;gap:5px}
+.field label{font-size:9.5px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.4)}
+.field input,.field textarea,.field select{
+  background:var(--bg-2);border:1.5px solid var(--bds);color:#fff;
+  padding:11px 12px;font-family:'Jost',sans-serif;font-size:13.5px;
+  outline:none;transition:border-color .22s;border-radius:6px;width:100%}
+.field input:focus,.field textarea:focus,.field select:focus{border-color:var(--accent)}
+.field textarea{resize:vertical;min-height:75px}
+.field select option{background:var(--sf)}
+.form-footer{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-top:4px}
+.form-ok{font-size:12px;color:var(--ok);opacity:0;transition:opacity .3s}
+.form-ok.show{opacity:1}
+.btn-pub{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:14px;letter-spacing:.12em;text-transform:uppercase;padding:12px 22px;background:var(--accent);color:#fff;border:none;cursor:pointer;border-radius:6px;transition:opacity .2s}
+.btn-pub:hover{opacity:.85}
+.pres-events-wrap{border:1px solid var(--border);border-radius:8px;overflow:hidden}
+
+/* Photos grid */
+.ph-thumb{position:relative;aspect-ratio:4/3;overflow:hidden;border-radius:7px;border:1px solid var(--border);background:var(--bg-2)}
+.ph-thumb img{width:100%;height:100%;object-fit:cover}
+.ph-thumb-del{position:absolute;top:5px;right:5px;width:22px;height:22px;border:1px solid rgba(255,255,255,.25);background:rgba(8,10,14,.75);color:rgba(255,255,255,.7);border-radius:50%;font-size:11px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:border-color .2s,color .2s;line-height:1}
+.ph-thumb-del:hover{border-color:var(--err);color:var(--err)}
+.ph-thumb-cap{position:absolute;bottom:0;left:0;right:0;padding:6px 8px;background:linear-gradient(to top,rgba(8,10,14,.85),transparent);font-size:10px;color:rgba(255,255,255,.8);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:12px;letter-spacing:.14em;text-transform:uppercase;padding:7px 14px;border:1.5px solid rgba(37,99,235,.3);color:#8aabff;background:rgba(37,99,235,.08);cursor:pointer;border-radius:6px;transition:background .2s}
+.toggle-btn:hover{background:rgba(37,99,235,.15)}
+
+/* Footer */
+.foot{background:var(--bg);border-top:1px solid var(--border);padding:18px var(--side)}
+.foot-inner{max-width:1260px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px}
+.foot-links{display:flex;gap:14px;flex-wrap:wrap}
+.foot-links a{font-size:11px;color:var(--muted);transition:color .2s}.foot-links a:hover{color:#fff}
+.foot-cr{font-size:11px;color:var(--dim)}
+
+/* Responsive */
+@media(max-width:900px){
+  .nav-links{display:none}
+  .kpi-grid{grid-template-columns:1fr 1fr}
+  .row2,.row2b{grid-template-columns:1fr}
+  .dh-inner{flex-direction:column;align-items:flex-start}
+  .dh-meta{align-items:flex-start}
+  .lb{grid-template-columns:64px 1fr 52px}
+  .lb .lb-a{display:none}
+}
+@media(max-width:560px){
+  .kpi-grid{grid-template-columns:1fr 1fr}
+  .form-g{grid-template-columns:1fr}
 }
 </style>
 </head>
 <body>
-<div class="grain" aria-hidden="true"></div>
-<div class="pg-bar" id="pg-bar"></div>
-<div class="cur" id="cur-dot"><div class="cur-dot"></div></div>
-<div class="cur" id="cur-ring"><div class="cur-ring"></div></div>
 
 <!-- NAV -->
-<nav class="nav" id="nav">
-  <a href="index.html">
-    <img class="nav-logo-img" src="assets/images/apam-logo2.png" alt="APAM" onerror="this.style.display='none';document.querySelector('.nav-logo-txt').style.display='block'">
-    <span class="nav-logo-txt">APAM</span>
-  </a>
-  <ul class="nav-links">
-    <li><a href="tarifs.html">Flotte</a></li>
-    <li><a href="activite.html" class="on">Le Club</a></li>
-    <li><a href="devenir-pilote.html">Devenir pilote</a></li>
-    <li><a href="contact.html">Contact</a></li>
-    <li><a href="boutique.html">Boutique</a></li>
-    <li><a href="https://openflyers.com/apam/" target="_blank">OpenFlyer</a></li>
-  </ul>
-  <div class="nav-icons">
-    <a class="nav-icon" href="https://www.instagram.com/apam_lfol" target="_blank"><svg viewBox="0 0 24 24"><path d="M7 2C4.2 2 2 4.2 2 7v10c0 2.8 2.2 5 5 5h10c2.8 0 5-2.2 5-5V7c0-2.8-2.2-5-5-5H7zm0 2h10c1.7 0 3 1.3 3 3v10c0 1.7-1.3 3-3 3H7c-1.7 0-3-1.3-3-3V7c0-1.7 1.3-3 3-3zm5 3.5a4.5 4.5 0 1 0 0 9 4.5 4.5 0 0 0 0-9zm0 2a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zm4.8-2.9a1.1 1.1 0 1 0 0 2.2 1.1 1.1 0 0 0 0-2.2z"/></svg></a>
+<nav class="nav">
+  <div class="nav-logo">
+    <img src="assets/images/apam-logo2.png" alt="APAM" onerror="this.style.display='none'">
+    <span class="nav-logo-text" id="nav-logo-text" style="display:none">APAM</span>
   </div>
-  <a class="nav-cta" href="connexion-membres-password.html?next=mon-compte.html">Mon compte</a>
-  <button class="nav-burger" id="burger"><b></b><b></b><b></b></button>
+  <ul class="nav-links">
+    <li><a href="index.html">Site public</a></li>
+    <li><a href="tarifs.html">Flotte</a></li>
+    <li><a href="activite.html">Le Club</a></li>
+    <li><a href="https://openflyers.com/apam/" target="_blank">OpenFlyer ↗</a></li>
+  </ul>
+  <button class="nav-out" id="nav-logout">Se déconnecter</button>
 </nav>
 
-<!-- DRAWER -->
-<div class="m-drawer" id="drawer" aria-hidden="true">
-  <div class="m-drawer-top">
-    <img src="assets/images/apam-logo2.png" alt="APAM" style="height:38px" onerror="this.style.display='none'">
-    <button class="m-close" id="m-close">✕</button>
-  </div>
-  <nav class="m-nav">
-    <a href="tarifs.html">Flotte <span class="arr">→</span></a>
-    <a href="activite.html">Le Club <span class="arr">→</span></a>
-    <a href="devenir-pilote.html">Devenir pilote <span class="arr">→</span></a>
-    <a href="contact.html">Contact <span class="arr">→</span></a>
-    <a href="https://openflyers.com/apam/" target="_blank">OpenFlyer <span class="arr">↗</span></a>
-  </nav>
-  <div class="m-cta-wrap"><a class="btn btn--fill" href="connexion-membres-password.html?next=mon-compte.html">Mon compte</a></div>
-</div>
-
 <!-- HERO -->
-<section class="hero">
-  <div class="hero-bg" id="hero-bg"><img src="assets/images/image1.png" alt="APAM" fetchpriority="high"></div>
-  <div class="hero-overlay" aria-hidden="true"></div>
-  <div class="hero-grid" aria-hidden="true"></div>
-  <div class="hero-inner">
-    <p class="hero-eye">Aéroclub · LFOL · Depuis 1965</p>
-    <h1 class="hero-title">Le Club<br><span class="ol">depuis 1965.</span></h1>
-    <div class="hero-stats">
-      <div class="hero-stat"><div class="l">Fondé</div><div class="v">1965</div></div>
-      <div class="hero-stat"><div class="l">Membres</div><div class="v">120<em>+</em></div></div>
-      <div class="hero-stat"><div class="l">Avions</div><div class="v">3</div></div>
-      <div class="hero-stat"><div class="l">Heures / an</div><div class="v">2 300</div></div>
-    </div>
-  </div>
-</section>
-
-<!-- TICKER -->
-<div class="ticker" aria-hidden="true"><div class="ticker-track" id="ticker-track"></div></div>
-
-<!-- ══ AGENDA ══ -->
-<section class="sec sec-agenda sp" id="calendrier">
+<section class="dh">
+  <div class="dh-grid" aria-hidden="true"></div>
   <div class="wrap">
-    <div class="agenda-head">
+    <div class="dh-inner">
       <div>
-        <p class="kicker" data-r>Agenda du club</p>
-        <h2 class="h2" data-r data-d="1">Événements<br>à venir.</h2>
+        <p class="dh-eye">Espace membres · APAM</p>
+        <h1 class="dh-name">Bonjour,<br><em id="user-label">Membre</em></h1>
+        <p class="dh-sub">Bienvenue dans votre espace. Voici un aperçu de votre activité.</p>
       </div>
-      <p class="body-text" data-r data-d="2" style="max-width:360px">Retrouvez ici les prochains événements organisés par l'APAM — vols groupés, sorties sociales, formations et assemblées.</p>
-    </div>
-    <div class="agenda-grid" id="agenda-grid">
-      <!-- Rempli par JS depuis localStorage -->
-    </div>
-  </div>
-</section>
-
-<!-- ══ MANIFESTE ══ -->
-<section class="sec sec-manifest sp">
-  <div class="wrap">
-    <div class="manifest-grid">
-      <div class="manifest-l">
-        <p class="kicker" data-r>L'esprit du club</p>
-        <span class="manifest-num">01</span>
-      </div>
-      <div>
-        <p class="manifest-lead" data-r="blur">L'APAM n'est pas un prestataire. C'est une <em style="color:var(--accent);font-style:normal">association</em> de passionnés où chacun met la main à la pâte — au hangar, sur la piste, autour d'un café après le vol.</p>
-        <p class="manifest-body" data-r data-d="2">Ici, on apprend à piloter sans pression commerciale, à son rythme, avec des instructeurs bénévoles qui ont fait le même chemin avant nous. Les avions sont entretenus avec soin, les coûts maîtrisés par la mutualisation, et l'ambiance — celle d'une vraie famille aéronautique.</p>
-        <p class="sig" data-r data-d="3">Le bureau APAM</p>
+      <div class="dh-meta">
+        <span class="badge ok"><span class="dot"></span>Adhésion à jour · 2026</span>
+        <span class="badge pres" id="pres-badge" style="display:none">
+          <span class="dot" style="animation:none;background:var(--accent)"></span>Accès président
+        </span>
+        <span class="dh-id" id="session-id">—</span>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ══ STATS ══ -->
-<section class="sec sec-stats sp-sm">
+<!-- BODY -->
+<main class="dash">
   <div class="wrap">
-    <div class="stats-4">
-      <div class="stat" data-r><div class="stat-val"><span data-cnt="120">0</span><em>+</em></div><div class="stat-lbl">Membres actifs</div></div>
-      <div class="stat" data-r data-d="1"><div class="stat-val"><span data-cnt="3">0</span></div><div class="stat-lbl">Avions en flotte</div></div>
-      <div class="stat" data-r data-d="2"><div class="stat-val"><span data-cnt="2300">0</span><em> h</em></div><div class="stat-lbl">Heures de vol / an</div></div>
-      <div class="stat" data-r data-d="3"><div class="stat-val"><span data-cnt="60">0</span><em>+</em></div><div class="stat-lbl">Années d'existence</div></div>
-    </div>
-  </div>
-</section>
 
-<!-- ══ HISTOIRE ══ -->
-<section class="sec sec-history sp">
-  <div class="wrap">
-    <div class="hist-head">
-      <div><p class="kicker" data-r>Notre histoire</p><h2 class="h2" data-r data-d="1">Soixante ans<br>en six dates.</h2></div>
-      <p class="body-text" data-r data-d="2" style="max-width:380px">De quatorze pionniers à 120 membres, l'aventure d'un aéroclub normand racontée par ses jalons.</p>
-    </div>
-    <div>
-      <article class="hist-stage" data-r><div class="hist-year">1955<small>Pré-fondation</small></div><div class="hist-content"><h3>Quatorze pionniers</h3><p>Quatorze passionnés d'aviation se mobilisent pour créer le premier aéroclub de L'Aigle.</p></div><div class="hist-media"><div class="hist-placeholder">Archive · 1955</div></div></article>
-      <article class="hist-stage" data-r><div class="hist-year">1958<small>Naissance</small></div><div class="hist-content"><h3>L'aéroclub<br>est déclaré</h3><p>Le 9 avril 1958, l'association naît officiellement. Premiers vols, premiers brevets.</p></div><div class="hist-media"><div class="hist-placeholder">Archive · 1958</div></div></article>
-      <article class="hist-stage" data-r><div class="hist-year">1965<small>L'APAM naît</small></div><div class="hist-content"><h3>La scission,<br>une nouvelle aventure</h3><p>Suite à une divergence politique, l'APAM émerge en mai 1965. Reconnu officiellement le 25 juin 1965.</p></div><div class="hist-media"><img src="assets/images/image1.png" alt="APAM 1965" onerror="this.parentElement.innerHTML='<div class=hist-placeholder>Photo · 1965</div>'"></div></article>
-      <article class="hist-stage" data-r><div class="hist-year">1966<small>L'école</small></div><div class="hist-content"><h3>Premiers<br>brevets APAM</h3><p>L'école débute le 7 août 1965. Yvon Harment, instructeur pendant 33 ans, prend son dernier envol en 2016 à 92 ans. Logo créé en 1966 par Pierre Blondel.</p></div><div class="hist-media"><img src="assets/images/FGHKE2.png" alt="D112" style="object-fit:contain;background:radial-gradient(circle at center,rgba(37,99,235,.12),transparent);padding:18px" onerror="this.parentElement.innerHTML='<div class=hist-placeholder>D112 · SIPA</div>'"></div></article>
-      <article class="hist-stage" data-r><div class="hist-year">2016<small>Hommage</small></div><div class="hist-content"><h3>Dernier envol<br>d'Yvon Harment</h3><p>À 92 ans, Yvon Harment prend son dernier envol. Sa transmission patiente reste le modèle de l'APAM.</p></div><div class="hist-media"><div class="hist-placeholder">Portrait · Yvon Harment</div></div></article>
-      <article class="hist-stage" data-r><div class="hist-year">2026<small>Aujourd'hui</small></div><div class="hist-content"><h3>120 membres,<br>trois avions</h3><p>Pierre Gandelin préside un club de 120 membres actifs avec le Cessna 152, TB200 et Cirrus SR20. Émilie, plus jeune PPL de France à l'époque, fait partie de la famille.</p></div><div class="hist-media"><img src="assets/images/SR1.png" alt="SR20" style="object-fit:contain;background:radial-gradient(circle at center,rgba(37,99,235,.12),transparent);padding:18px" onerror="this.parentElement.innerHTML='<div class=hist-placeholder>Cirrus SR20</div>'"></div></article>
-    </div>
-  </div>
-</section>
+    <!-- ══ PANNEAU PRÉSIDENT ══ -->
+    <div id="pres-panel" style="display:none">
+      <div class="pres-hd">
+        <h3>Calendrier du club <span class="pres-pill">Président</span></h3>
+        <button class="toggle-btn" id="toggle-btn" onclick="toggleForm()">+ Ajouter un événement</button>
+      </div>
+      <div class="pres-body">
 
-<!-- ══ VALEURS ══ -->
-<section class="sec sec-values sp">
-  <div class="wrap">
-    <div class="values-head"><p class="kicker" data-r>Ce qui nous porte</p><h2 class="h2" data-r data-d="1">Trois piliers.</h2></div>
-    <div class="values-grid">
-      <div class="value" data-r data-d="1"><span class="value-bg-num">01</span><span class="value-num">— Pilier 01</span><h3 class="value-title">Transmission</h3><p class="value-text">Les instructeurs sont bénévoles, formés au club, attentifs au temps long. Le brevet n'est pas une course — c'est un apprentissage qui s'ancre vol après vol.</p></div>
-      <div class="value" data-r data-d="2"><span class="value-bg-num">02</span><span class="value-num">— Pilier 02</span><h3 class="value-title">Sécurité</h3><p class="value-text">Trois avions selon les standards EASA, briefings systématiques, météo passée au peigne fin. Voler avec rigueur pour voler longtemps.</p></div>
-      <div class="value" data-r data-d="3"><span class="value-bg-num">03</span><span class="value-num">— Pilier 03</span><h3 class="value-title">Famille</h3><p class="value-text">Le terrain est ouvert, le café est chaud. On célèbre les premiers solos, les promotions, et parfois on pleure ensemble. C'est ça, l'APAM.</p></div>
-    </div>
-  </div>
-</section>
-
-<!-- ══ GALERIE PHOTO ══ -->
-<section class="sec sec-gallery sp" id="galerie">
-  <div class="wrap">
-    <div class="gallery-head">
-      <div><p class="kicker" data-r>La vie au terrain</p><h2 class="h2" data-r data-d="1">Le club,<br>en images.</h2></div>
-      <a class="btn btn--ghost" href="https://www.instagram.com/apam_lfol" target="_blank" data-r data-d="2">Instagram ↗</a>
-    </div>
-    <div class="gallery-grid" id="gallery-grid">
-      <!-- Rempli par JS depuis localStorage -->
-    </div>
-  </div>
-</section>
-
-<!-- ══ ÉQUIPE ══ -->
-<section class="sec sec-team sp">
-  <div class="wrap">
-    <div class="team-head">
-      <div><p class="kicker" data-r>Bureau & instructeurs</p><h2 class="h2" data-r data-d="1">Les visages<br>de l'APAM.</h2></div>
-      <p class="body-text" data-r data-d="2" style="max-width:360px">Une équipe bénévole qui fait vivre le club semaine après semaine.</p>
-    </div>
-    <div class="team-grid">
-      <div class="team-card" data-r data-d="1"><div class="team-avatar">PG</div><div><h4 class="team-name">Pierre Gandelin</h4><p class="team-role">— Président</p></div><p class="team-bio">Pilote PPL & vol de nuit. À la tête du club depuis 2022. Vol d'attache : TB200.</p><div class="team-meta"><span>Heures <em>1 800+</em></span><span>Depuis <em>2008</em></span></div></div>
-      <div class="team-card" data-r data-d="2"><div class="team-avatar">JP</div><div><h4 class="team-name">Jacky Pichot</h4><p class="team-role">— Président d'honneur</p></div><p class="team-bio">Cofondateur, ancien président, mémoire vivante du club depuis 1965.</p><div class="team-meta"><span>Membre fondateur</span></div></div>
-      <div class="team-card" data-r data-d="3"><div class="team-avatar">MD</div><div><h4 class="team-name">Marc D.</h4><p class="team-role">— Instructeur FI(A)</p></div><p class="team-bio">Instructeur depuis 2014. Spécialiste de la formation initiale et du vol de campagne.</p><div class="team-meta"><span>Heures <em>3 200+</em></span></div></div>
-      <div class="team-card" data-r data-d="4"><div class="team-avatar">SL</div><div><h4 class="team-name">Sophie L.</h4><p class="team-role">— Instructrice LAPL</p></div><p class="team-bio">Baptêmes, initiations, formation LAPL. Référence pour les plus jeunes.</p><div class="team-meta"><span>Heures <em>2 100+</em></span></div></div>
-    </div>
-  </div>
-</section>
-
-<!-- QUOTE -->
-<section class="sec sec-quote sp"><div class="wrap"><div class="quote-inner"><p class="qt" data-r="blur">Voler, ce n'est pas seulement se déplacer. C'est revoir sa région d'en haut, retrouver des amis au-dessus de la Manche, partager un café avec quelqu'un qu'on ne connaissait pas la semaine dernière. C'est ça, l'APAM.</p><p class="qt-cite" data-r data-d="3">Pierre Gandelin, président</p></div></div></section>
-
-<!-- LOCATION -->
-<section class="sec sec-loc sp">
-  <div class="wrap">
-    <div class="loc-grid">
-      <div class="loc-info">
-        <p class="kicker" data-r>Nous trouver</p>
-        <h2 class="h2" data-r data-d="1">Aérodrome<br>L'Aigle<br>Saint-Michel.</h2>
-        <p class="body-text" data-r data-d="2">Piste 07/25 en béton. FRQ 126.855 MHz. À 1h30 de Paris, au cœur du bocage normand.</p>
-        <div class="loc-meta" data-r data-d="3">
-          <div class="loc-meta-it"><span class="l">OACI</span><span class="v">LFOL</span></div>
-          <div class="loc-meta-it"><span class="l">Fréquence</span><span class="v">126.855</span></div>
-          <div class="loc-meta-it"><span class="l">Coordonnées</span><span class="v">48°45'40" N · 0°39'20" E</span></div>
-          <div class="loc-meta-it"><span class="l">Piste</span><span class="v">07/25 · 800 m</span></div>
+        <!-- Formulaire -->
+        <div id="ev-form" style="display:none">
+          <span class="sec-lbl">Nouvel événement</span>
+          <div class="form-g">
+            <div class="field"><label for="ev-t">Titre</label><input id="ev-t" type="text" placeholder="Ex : Méchoui annuel"></div>
+            <div class="field"><label for="ev-d">Date</label><input id="ev-d" type="date"></div>
+          </div>
+          <div class="field" style="margin-top:10px"><label for="ev-desc">Description</label><textarea id="ev-desc" placeholder="Détails, horaires, lieu…"></textarea></div>
+          <div class="form-g" style="margin-top:10px;align-items:flex-end">
+            <div class="field">
+              <label for="ev-type">Type</label>
+              <select id="ev-type">
+                <option value="vol">✈ Vol groupé / Rallye</option>
+                <option value="social">🍖 Événement social</option>
+                <option value="formation">📚 Formation / Briefing</option>
+                <option value="initiation">🌟 Portes ouvertes</option>
+                <option value="admin">📋 Administratif / AG</option>
+              </select>
+            </div>
+            <div class="form-footer">
+              <span class="form-ok" id="form-ok">✓ Événement publié !</span>
+              <button class="btn-pub" onclick="createEvent()">Publier →</button>
+            </div>
+          </div>
         </div>
-        <div class="btns" data-r data-d="4">
-          <a class="btn btn--fill" href="https://www.google.com/maps/place/Aérodrome+de+L'Aigle-Saint-Michel" target="_blank">Itinéraire →</a>
-          <a class="btn btn--ghost" href="contact.html">Nous contacter</a>
+
+        <!-- Gestion événements existants -->
+        <div>
+          <span class="sec-lbl">Tous les événements</span>
+          <div class="pres-events-wrap">
+            <div id="pres-ev-list" class="ev-list"></div>
+          </div>
+        </div>
+
+        <!-- ── GALERIE PHOTOS ── -->
+        <div style="border-top:1px solid rgba(37,99,235,.15);padding-top:18px">
+          <span class="sec-lbl">Galerie photos du club</span>
+          <p style="font-size:12px;color:var(--muted);margin-bottom:14px">Les photos ajoutées ici apparaissent sur la page <a href="activite.html#galerie" style="color:var(--accent)">Le Club → Galerie</a>. Taille recommandée : &lt; 1 Mo. JPEG/PNG.</p>
+
+          <!-- Formulaire ajout photo -->
+          <div style="display:flex;flex-direction:column;gap:12px;padding:16px;background:var(--bg-2);border:1px solid var(--border);border-radius:8px;margin-bottom:14px">
+            <div class="form-g">
+              <div class="field">
+                <label for="ph-file">Photo (fichier local)</label>
+                <input id="ph-file" type="file" accept="image/*" style="font-size:12px;padding:8px 10px">
+              </div>
+              <div class="field">
+                <label for="ph-caption">Légende</label>
+                <input id="ph-caption" type="text" placeholder="Ex : Premier solo de Pierre">
+              </div>
+            </div>
+            <!-- Preview -->
+            <img id="ph-preview" style="display:none;max-height:100px;max-width:200px;border-radius:6px;border:1px solid var(--border);object-fit:cover">
+            <div class="form-g" style="align-items:flex-end">
+              <div class="field">
+                <label for="ph-cat">Catégorie</label>
+                <select id="ph-cat">
+                  <option value="terrain">✈ En vol · Terrain</option>
+                  <option value="avions">🛩 Avions du club</option>
+                  <option value="social">🍖 Vie sociale</option>
+                  <option value="formation">📚 Formation</option>
+                </select>
+              </div>
+              <div style="display:flex;align-items:center;gap:10px">
+                <span id="ph-ok" style="font-size:11.5px;color:var(--ok);opacity:0;transition:opacity .3s">✓ Photo ajoutée !</span>
+                <button class="btn-pub" onclick="addPhoto()">Ajouter →</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Grid photos existantes -->
+          <div id="pres-photo-grid" style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px">
+            <!-- Rempli par JS -->
+          </div>
         </div>
       </div>
-      <div class="loc-map" data-r="s" data-d="2">
-        <div class="loc-map-grid"></div>
-        <div class="loc-map-rad"></div>
-        <div class="loc-map-runway"></div>
-        <div class="loc-map-pin"></div>
-        <div class="loc-map-label"><div class="nm">LFOL</div><div class="id">L'Aigle Saint-Michel</div></div>
-        <div class="loc-corner tl">N 48°45'</div><div class="loc-corner tr">E 0°39'</div>
-        <div class="loc-corner bl">RWY 07/25</div><div class="loc-corner br">FRQ 126.855</div>
+    </div>
+
+    <!-- ══ KPI ══ -->
+    <div class="kpi-grid">
+      <div class="kpi"><div class="kpi-top"><span>Heures cette année</span><span class="kpi-ic">🕐</span></div><div class="kpi-val">42<em>h30</em></div><div class="kpi-tr up">▲ +8h depuis mai</div></div>
+      <div class="kpi"><div class="kpi-top"><span>Heures totales</span><span class="kpi-ic">✈️</span></div><div class="kpi-val">386<em>h</em></div><div class="kpi-tr">— Depuis 2018</div></div>
+      <div class="kpi"><div class="kpi-top"><span>Vols planifiés</span><span class="kpi-ic">📅</span></div><div class="kpi-val">3</div><div class="kpi-tr">— Cette semaine</div></div>
+      <div class="kpi"><div class="kpi-top"><span>Solde</span><span class="kpi-ic">💳</span></div><div class="kpi-val">+124<em>€</em></div><div class="kpi-tr up">▲ Provisionné</div></div>
+    </div>
+
+    <!-- ══ ROW 1 ══ -->
+    <div class="row2">
+      <div class="panel" style="margin-bottom:0">
+        <div class="ph"><h3>— Prochains vols</h3><a href="https://openflyers.com/apam/" target="_blank">OpenFlyer ↗</a></div>
+        <div>
+          <div class="res"><div class="res-l"><div class="res-date"><span class="d">17</span><span class="m">Mai</span></div><div class="res-info"><h4>Cessna 152 · F-GHKE</h4><p>14h00–15h30 · Vol local · Inst. Marc D.</p></div></div><span class="tag ok">● Confirmé</span></div>
+          <div class="res"><div class="res-l"><div class="res-date"><span class="d">22</span><span class="m">Mai</span></div><div class="res-info"><h4>TB200 · F-GBVK</h4><p>09h00–12h00 · Voyage Deauville · Solo</p></div></div><span class="tag warn">● En attente</span></div>
+          <div class="res"><div class="res-l"><div class="res-date"><span class="d">04</span><span class="m">Jun</span></div><div class="res-info"><h4>Cirrus SR20 · F-HCFA</h4><p>10h00–12h00 · Familiarisation</p></div></div><span class="tag ok">● Confirmé</span></div>
+        </div>
+      </div>
+      <div class="panel" style="margin-bottom:0">
+        <div class="ph"><h3>— Mon compte</h3><a href="#">Détails</a></div>
+        <div class="acc-sum">
+          <div class="acc-bal"><div><div class="lbl">Solde</div><div class="v">+124<em>,00 €</em></div></div><button class="btn-sm">+ Recharger</button></div>
+          <div class="acc-row"><span class="l">Cotisation 2026</span><span class="v">280 € · Réglée</span></div>
+          <div class="acc-row"><span class="l">Heures réservées</span><span class="v">3h00 · 540 €</span></div>
+          <div class="acc-row"><span class="l">Facturation</span><span class="v">→ 30 mai</span></div>
+        </div>
       </div>
     </div>
-  </div>
-</section>
 
-<!-- CTA -->
-<section class="sec sec-cta sp">
-  <div class="wrap"><div class="cta-inner">
-    <p class="kicker" data-r style="justify-content:center">Rejoindre l'APAM</p>
-    <h2 class="cta-h" data-r data-d="1">Soixante ans,<br><span class="ol">l'aventure continue.</span></h2>
-    <p class="cta-sub" data-r data-d="2">Vol découverte, formation PPL ou LAPL, simple adhésion — il y a une porte d'entrée pour chacun.</p>
-    <div class="cta-btns" data-r data-d="3">
-      <a class="btn btn--fill" href="devenir-pilote.html">Devenir pilote →</a>
-      <a class="btn btn--ghost" href="contact.html">Nous contacter</a>
+    <!-- ══ ROW 2 ══ -->
+    <div class="row2b">
+      <div class="panel" style="margin-bottom:0">
+        <div class="ph"><h3>— Accès rapides</h3></div>
+        <div class="qac">
+          <a href="https://openflyers.com/apam/" target="_blank"><span class="ql">OpenFlyer</span><span class="qn">Réserver un vol</span></a>
+          <a href="#"><span class="ql">Carnet</span><span class="qn">Saisir un vol</span></a>
+          <a href="#"><span class="ql">Documents</span><span class="qn">Mes licences</span></a>
+          <a href="contact.html"><span class="ql">Bureau</span><span class="qn">Contacter</span></a>
+        </div>
+      </div>
+      <div class="panel" style="margin-bottom:0">
+        <div class="ph"><h3>— Compétences</h3></div>
+        <div>
+          <div class="cur-it"><div><h4>SEP terre (PPL)</h4><p>12h / 24 derniers mois</p></div><div style="display:flex;align-items:center;gap:8px"><div class="bar"><div class="bar-fill" style="width:90%"></div></div><span class="bar-pct">90<em>%</em></span></div></div>
+          <div class="cur-it"><div><h4>Emport passagers</h4><p>3 att. / 90 jours</p></div><div style="display:flex;align-items:center;gap:8px"><div class="bar"><div class="bar-fill" style="width:100%"></div></div><span class="bar-pct">OK</span></div></div>
+          <div class="cur-it"><div><h4>Vol de nuit</h4><p>1 vol / 12 mois — à renouveler</p></div><div style="display:flex;align-items:center;gap:8px"><div class="bar"><div class="bar-fill" style="width:38%;background:var(--warn)"></div></div><span class="bar-pct" style="color:var(--warn)">!</span></div></div>
+        </div>
+      </div>
     </div>
-  </div></div>
-</section>
 
-<!-- FOOTER -->
-<footer class="footer">
-  <div class="footer-in">
-    <div class="footer-links">
-      <a href="mailto:aeroclubapam@gmail.com">aeroclubapam@gmail.com</a><span class="sep">·</span>
-      <a href="https://www.facebook.com/profile.php?id=61585663567523" target="_blank">Facebook</a>
-      <a href="https://www.instagram.com/apam_lfol" target="_blank">Instagram</a><span class="sep">·</span>
+    <!-- ══ CALENDRIER ══ -->
+    <div class="panel">
+      <div class="ph"><h3>— Calendrier du club</h3><a href="activite.html#calendrier">Voir sur le site</a></div>
+      <div id="ev-list" class="ev-list"></div>
+    </div>
+
+    <!-- ══ CARNET ══ -->
+    <div class="panel">
+      <div class="ph"><h3>— Carnet · 5 derniers vols</h3><a href="#">Tout le carnet</a></div>
+      <div>
+        <div class="lb hd"><span>Date</span><span>Trajet</span><span>Avion</span><span style="text-align:right">Durée</span></div>
+        <div class="lb"><span class="lb-d">12.05.26</span><span class="lb-r">LFOL <em>→</em> LFOL</span><span class="lb-a">F-GHKE · C152</span><span class="lb-h">1:30</span></div>
+        <div class="lb"><span class="lb-d">07.05.26</span><span class="lb-r">LFOL <em>→</em> LFRT <em>→</em> LFOL</span><span class="lb-a">F-GBVK · TB200</span><span class="lb-h">2:45</span></div>
+        <div class="lb"><span class="lb-d">30.04.26</span><span class="lb-r">LFOL <em>→</em> LFOL</span><span class="lb-a">F-GHKE · C152</span><span class="lb-h">1:15</span></div>
+        <div class="lb"><span class="lb-d">23.04.26</span><span class="lb-r">LFOL <em>→</em> LFRD <em>→</em> LFOL</span><span class="lb-a">F-HCFA · SR20</span><span class="lb-h">2:10</span></div>
+        <div class="lb"><span class="lb-d">15.04.26</span><span class="lb-r">LFOL <em>→</em> LFOJ <em>→</em> LFOL</span><span class="lb-a">F-GBVK · TB200</span><span class="lb-h">1:55</span></div>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<footer class="foot">
+  <div class="foot-inner">
+    <div class="foot-links">
+      <a href="index.html">Site public</a>
       <a href="mentions-legales.html">Mentions légales</a>
-      <a href="confidentialite.html">Confidentialité</a>
-      <a href="cgu.html">CGU</a>
+      <a href="contact.html">Aide</a>
     </div>
-    <span class="footer-cr">© 2026 APAM · Aéroclub du Pays d'Ouche</span>
+    <span class="foot-cr">© 2026 APAM · Espace membres</span>
   </div>
 </footer>
 
 <script>
 'use strict';
 
-/* ── Cursor ───────────────────────────── */
-const dotEl=document.getElementById('cur-dot'),ringEl=document.getElementById('cur-ring');
-if(window.matchMedia('(hover:hover)').matches){
-  let mx=-200,my=-200,rx=-200,ry=-200;
-  window.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;dotEl.style.cssText=`left:${mx}px;top:${my}px`;},{passive:true});
-  (function loop(){rx+=(mx-rx)*.085;ry+=(my-ry)*.085;ringEl.style.cssText=`left:${rx}px;top:${ry}px`;requestAnimationFrame(loop);})();
+/* ── Logo fallback ─────────────────────────────── */
+document.querySelector('.nav-logo img')?.addEventListener('error',function(){
+  this.style.display='none';
+  document.getElementById('nav-logo-text').style.display='block';
+});
+
+/* ── Session ────────────────────────────────────── */
+const role = localStorage.getItem('apam_role');
+const code = localStorage.getItem('apam_code');
+
+// Rediriger si pas connecté
+if(!code || !role){
+  window.location.href = 'connexion-membres-password.html?next=mon-compte.html';
 }
 
-/* ── Progress ─────────────────────────── */
-const pgBar=document.getElementById('pg-bar');
-window.addEventListener('scroll',()=>{const h=document.documentElement;pgBar.style.width=(h.scrollTop/(h.scrollHeight-h.clientHeight)*100)+'%';},{passive:true});
+// Affichage selon rôle
+document.getElementById('user-label').textContent = role==='president' ? 'Président' : 'Membre';
+document.getElementById('session-id').textContent  = 'Saison 2026 · ' + (role==='president' ? 'Accès étendu' : 'Membre actif');
 
-/* ── Nav ──────────────────────────────── */
-const nav=document.getElementById('nav');
-window.addEventListener('scroll',()=>nav.classList.toggle('s',scrollY>60),{passive:true});
+if(role==='president'){
+  document.getElementById('pres-badge').style.display = 'inline-flex';
+  document.getElementById('pres-panel').style.display = 'block';
+}
 
-/* ── Drawer ───────────────────────────── */
-const drawer=document.getElementById('drawer'),burger=document.getElementById('burger'),mClose=document.getElementById('m-close');
-burger.addEventListener('click',()=>{drawer.classList.add('open');drawer.setAttribute('aria-hidden','false');document.body.style.overflow='hidden'});
-mClose.addEventListener('click',()=>{drawer.classList.remove('open');drawer.setAttribute('aria-hidden','true');document.body.style.overflow=''});
-drawer.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{drawer.classList.remove('open');document.body.style.overflow=''}));
+// Déconnexion
+document.getElementById('nav-logout').addEventListener('click', () => {
+  localStorage.removeItem('apam_role');
+  localStorage.removeItem('apam_code');
+  window.location.href = 'connexion-membres-password.html';
+});
 
-/* ── Reveals ──────────────────────────── */
-const ro=new IntersectionObserver(e=>{e.forEach(e=>{if(e.isIntersecting){e.target.classList.add('on');ro.unobserve(e.target)}});},{threshold:.08,rootMargin:'0px 0px -40px 0px'});
-document.querySelectorAll('[data-r]').forEach(el=>ro.observe(el));
+/* ════════════════════════════════════════════════
+   CALENDRIER DES ÉVÉNEMENTS
+════════════════════════════════════════════════ */
+const EV_KEY = 'apam_events_v1';
+const MONTHS = ['Jan','Fév','Mar','Avr','Mai','Jun','Jul','Aoû','Sep','Oct','Nov','Déc'];
+const EV_LABELS = {vol:'✈ Vol groupé',social:'🍖 Social',formation:'📚 Formation',initiation:'🌟 Initiation',admin:'📋 Admin'};
 
-/* ── Counters ─────────────────────────── */
-const co=new IntersectionObserver(e=>{e.forEach(e=>{if(!e.isIntersecting)return;const el=e.target,end=+el.dataset.cnt,dur=1800,t0=performance.now();const tick=t=>{const p=Math.min((t-t0)/dur,1);el.textContent=Math.round((1-Math.pow(1-p,4))*end);p<1?requestAnimationFrame(tick):el.textContent=end;};requestAnimationFrame(tick);co.unobserve(el);});},{threshold:.5});
-document.querySelectorAll('[data-cnt]').forEach(el=>co.observe(el));
-
-/* ── Hero parallax ────────────────────── */
-const heroBg=document.getElementById('hero-bg');
-let raf=false;
-window.addEventListener('scroll',()=>{if(raf)return;raf=true;requestAnimationFrame(()=>{if(heroBg)heroBg.style.transform=`translateY(${scrollY*.28}px)`;raf=false;});},{passive:true});
-
-/* ── Ticker ───────────────────────────── */
-const track=document.getElementById('ticker-track');
-const TICK_ITEMS=['LFOL · L\'Aigle Saint-Michel','FRQ 126.855','Piste 07/25 · 800 m','120 membres actifs','Cessna 152 · TB200 · Cirrus SR20','Formation PPL · LAPL','Depuis 1965','Normandie'];
-[...TICK_ITEMS,...TICK_ITEMS].forEach(t=>{const s=document.createElement('span');s.className='ticker-item';s.textContent=t;track.appendChild(s);});
-
-/* ══════════════════════════════════════════
-   AGENDA — lecture localStorage
-══════════════════════════════════════════ */
-const EV_KEY='apam_events_v1';
-const MONTHS=['Jan','Fév','Mar','Avr','Mai','Jun','Jul','Aoû','Sep','Oct','Nov','Déc'];
-const EV_TYPE_LABEL={vol:'✈ Vol groupé',social:'🍖 Social',formation:'📚 Formation',initiation:'🌟 Initiation',admin:'📋 Admin'};
-
-const DEFAULT_EVENTS=[
+const DEFAULT_EVENTS = [
   {id:'d1',date:'2026-06-21',title:'Méchoui annuel',desc:'Repas convivial de fin juin sur le terrain. Ouvert à tous les membres et leurs familles.',type:'social'},
   {id:'d2',date:'2026-07-14',title:'Vol de la Bastille',desc:'Vol groupé tradition du 14 juillet. Départ LFOL 10h00. Inscription souhaitée.',type:'vol'},
   {id:'d3',date:'2026-08-22',title:'Rallye navigation VFR',desc:'Rallye ouvert aux membres PPL et plus. Circuit à découvrir sur place.',type:'vol'},
-  {id:'d4',date:'2026-09-06',title:'Journées portes ouvertes',desc:'Initiations et baptêmes de l\'air pour le grand public. Toute la journée.',type:'initiation'},
-  {id:'d5',date:'2026-10-11',title:'Assemblée générale',desc:'AG annuelle APAM. Bilan 2026, projets 2027. Présence souhaitée.',type:'admin'},
+  {id:'d4',date:'2026-09-06',title:'Journée portes ouvertes',desc:'Initiations et baptêmes de l\'air pour le grand public. Toute la journée.',type:'initiation'},
+  {id:'d5',date:'2026-10-11',title:'Assemblée générale',desc:'AG annuelle APAM. Bilan, élections, projets 2027. Présence souhaitée.',type:'admin'},
 ];
 
-function getCustomEvents(){try{return JSON.parse(localStorage.getItem(EV_KEY)||'[]');}catch{return[];}}
-function getUpcomingEvents(){
-  const now=new Date(new Date().toDateString());
-  return [...DEFAULT_EVENTS,...getCustomEvents()].sort((a,b)=>new Date(a.date)-new Date(b.date)).filter(e=>new Date(e.date)>=now);
+function getCustom(){ try{ return JSON.parse(localStorage.getItem(EV_KEY)||'[]'); }catch{ return []; } }
+function saveCustom(a){ localStorage.setItem(EV_KEY, JSON.stringify(a)); }
+function getAll(){ return [...DEFAULT_EVENTS,...getCustom()].sort((a,b)=>new Date(a.date)-new Date(b.date)); }
+function upcoming(){ return getAll().filter(e=>new Date(e.date)>=new Date(new Date().toDateString())); }
+function fmt(s){ const d=new Date(s+'T00:00:00'); return {d:String(d.getDate()).padStart(2,'0'),m:MONTHS[d.getMonth()]}; }
+function isDefault(id){ return id.startsWith('d'); }
+
+function evHtml(ev, showDel){
+  const {d,m}=fmt(ev.date);
+  const del = showDel && !isDefault(ev.id)
+    ? `<button class="ev-del" onclick="delEvent('${ev.id}')" title="Supprimer">✕</button>` : '';
+  return `<div class="ev" id="ev-${ev.id}">
+    <div class="ev-date"><span class="d">${d}</span><span class="m">${m}</span></div>
+    <div class="ev-body">
+      <h4>${ev.title}</h4><p>${ev.desc}</p>
+      <div class="ev-tags"><span class="ev-tag ${ev.type}">${EV_LABELS[ev.type]||ev.type}</span></div>
+    </div>${del}</div>`;
 }
 
-function renderAgenda(){
-  const grid=document.getElementById('agenda-grid');
-  const evs=getUpcomingEvents();
-  if(!evs.length){
-    grid.innerHTML='<div id="no-events"><p>Aucun événement programmé pour le moment.<br>Revenez bientôt !</p></div>';
+function render(){
+  // Calendrier membre (à venir uniquement)
+  const up = upcoming();
+  const el = document.getElementById('ev-list');
+  el.innerHTML = up.length ? up.map(e=>evHtml(e,false)).join('') : '<div class="ev-empty">Aucun événement à venir</div>';
+
+  // Panneau président (tous)
+  const pl = document.getElementById('pres-ev-list');
+  if(!pl) return;
+  const all = getAll();
+  pl.innerHTML = all.length ? all.map(e=>evHtml(e,true)).join('') : '<div class="ev-empty">Aucun événement</div>';
+}
+
+window.delEvent = id => {
+  if(!confirm('Supprimer cet événement ?')) return;
+  saveCustom(getCustom().filter(e=>e.id!==id));
+  /* ════════════════════════════════════════
+   PHOTOS
+════════════════════════════════════════ */
+const PHOTO_KEY='apam_photos_v1';
+function getPhotos(){try{return JSON.parse(localStorage.getItem(PHOTO_KEY)||'[]');}catch{return[];}}
+function savePhotos(a){localStorage.setItem(PHOTO_KEY,JSON.stringify(a));}
+
+/* Compression image → base64 (max 800px, JPEG 75%) */
+async function toBase64(file){
+  return new Promise(resolve=>{
+    const img=new Image();
+    const url=URL.createObjectURL(file);
+    img.onload=()=>{
+      const MAX=800;
+      let w=img.width,h=img.height;
+      if(w>MAX){h=Math.round(h*(MAX/w));w=MAX;}
+      const c=document.createElement('canvas');c.width=w;c.height=h;
+      c.getContext('2d').drawImage(img,0,0,w,h);
+      resolve(c.toDataURL('image/jpeg',.75));
+      URL.revokeObjectURL(url);
+    };
+    img.src=url;
+  });
+}
+
+/* Preview on file select */
+document.getElementById('ph-file')?.addEventListener('change',async e=>{
+  const f=e.target.files[0];if(!f)return;
+  const src=await toBase64(f);
+  const prev=document.getElementById('ph-preview');
+  prev.src=src;prev.style.display='block';
+  prev._base64=src;
+});
+
+window.addPhoto=async function(){
+  const prev=document.getElementById('ph-preview');
+  const caption=document.getElementById('ph-caption').value.trim();
+  const cat=document.getElementById('ph-cat').value;
+  const ok=document.getElementById('ph-ok');
+  if(!prev._base64||!caption){alert('Merci d\'ajouter une photo et une légende.');return;}
+  const photos=getPhotos();
+  photos.unshift({id:'p'+Date.now(),src:prev._base64,caption,cat});
+  savePhotos(photos);
+  document.getElementById('ph-caption').value='';
+  document.getElementById('ph-file').value='';
+  prev.src='';prev.style.display='none';delete prev._base64;
+  ok.style.opacity='1';setTimeout(()=>ok.style.opacity='0',3000);
+  renderPhotos();
+};
+
+window.delPhoto=id=>{
+  if(!confirm('Supprimer cette photo ?'))return;
+  savePhotos(getPhotos().filter(p=>p.id!==id));
+  renderPhotos();
+};
+
+function renderPhotos(){
+  const grid=document.getElementById('pres-photo-grid');
+  if(!grid)return;
+  const photos=getPhotos();
+  if(!photos.length){
+    grid.innerHTML='<p style="grid-column:1/-1;font-size:13px;color:var(--muted);text-align:center;padding:16px">Aucune photo ajoutée</p>';
     return;
   }
-  grid.innerHTML=evs.map(ev=>{
-    const d=new Date(ev.date+'T00:00:00');
-    const day=String(d.getDate()).padStart(2,'0');
-    const mth=MONTHS[d.getMonth()];
-    const yr=d.getFullYear();
-    return `<div class="ev-card">
-      <div class="ev-card-top">
-        <div class="ev-card-date"><div class="ev-day">${day}</div><div class="ev-mth">${mth} ${yr}</div></div>
-        <span class="ev-type-badge ${ev.type}">${EV_TYPE_LABEL[ev.type]||ev.type}</span>
-      </div>
-      <div class="ev-card-title">${ev.title}</div>
-      <div class="ev-card-desc">${ev.desc}</div>
-      <div class="ev-card-foot">${mth} ${day}, ${yr}</div>
-    </div>`;
-  }).join('');
+  grid.innerHTML=photos.map(p=>`
+    <div class="ph-thumb">
+      <img src="${p.src}" alt="${p.caption}">
+      <button class="ph-thumb-del" onclick="delPhoto('${p.id}')" title="Supprimer">✕</button>
+      <div class="ph-thumb-cap">${p.caption}</div>
+    </div>`).join('');
 }
-renderAgenda();
+renderPhotos();
 
-/* ══════════════════════════════════════════
-   GALERIE — lecture localStorage + defaults
-══════════════════════════════════════════ */
-const PHOTO_KEY='apam_photos_v1';
+render();
+};
 
-const DEFAULT_PHOTOS=[
-  {id:'dp1',src:'assets/images/image1.png',caption:'Au-dessus du Pays d\'Ouche',cat:'vol',span:'s-5-3'},
-  {id:'dp2',src:'',caption:'Briefing matinal · Clubhouse',cat:'terrain',span:'s-4-2'},
-  {id:'dp3',src:'assets/images/FGHKE2.png',caption:'F-GHKE · Cessna 152',cat:'avions',span:'s-3-2'},
-  {id:'dp4',src:'',caption:'Premier solo · Jet d\'eau',cat:'social',span:'s-4-2'},
-  {id:'dp5',src:'assets/images/TB200M.png',caption:'TB200 · Voyage Deauville',cat:'avions',span:'s-3-3'},
-  {id:'dp6',src:'',caption:'Méchoui annuel · Juin',cat:'social',span:'s-5-2'},
-  {id:'dp7',src:'assets/images/SR1.png',caption:'Cirrus SR20 · Départ',cat:'avions',span:'s-4-2b'},
-];
+/* ── Formulaire ──────────────────────────────── */
+window.toggleForm = function(){
+  const f=document.getElementById('ev-form');
+  const btn=document.getElementById('toggle-btn');
+  const open = f.style.display==='none';
+  f.style.display = open ? 'flex' : 'none';
+  if(open) f.style.flexDirection='column', f.style.gap='12px';
+  btn.textContent = open ? '— Fermer' : '+ Ajouter un événement';
+};
 
-function getPhotos(){try{return JSON.parse(localStorage.getItem(PHOTO_KEY)||'[]');}catch{return[];}}
+window.createEvent = function(){
+  const title = document.getElementById('ev-t').value.trim();
+  const date  = document.getElementById('ev-d').value;
+  const desc  = document.getElementById('ev-desc').value.trim();
+  const type  = document.getElementById('ev-type').value;
+  const ok    = document.getElementById('form-ok');
+  if(!title||!date||!desc){ alert('Merci de remplir tous les champs.'); return; }
+  const custom = getCustom();
+  custom.push({id:'u'+Date.now(),date,title,desc,type});
+  saveCustom(custom);
+  document.getElementById('ev-t').value='';
+  document.getElementById('ev-d').value='';
+  document.getElementById('ev-desc').value='';
+  ok.classList.add('show');
+  setTimeout(()=>ok.classList.remove('show'),3000);
+  render();
+};
 
-function renderGallery(){
-  const grid=document.getElementById('gallery-grid');
-  const custom=getPhotos();
-  // Merge: custom first, then fill with defaults
-  const photos=[...custom,...DEFAULT_PHOTOS].slice(0,12);
-  const spans=['s-5-3','s-4-2','s-3-2','s-4-2','s-3-3','s-5-2','s-4-2b','s-4-2','s-3-2','s-5-2','s-4-2','s-3-3'];
-
-  grid.innerHTML=photos.map((ph,i)=>{
-    const span=ph.span||spans[i%spans.length];
-    const inner=ph.src
-      ? `<img src="${ph.src}" alt="${ph.caption||''}" loading="lazy" onerror="this.parentElement.querySelector('.gc-placeholder').style.display='flex';this.style.display='none'">`
-      : '';
-    const placeholder=!ph.src?`<div class="gc-placeholder">${ph.caption||''}</div>`:'<div class="gc-placeholder" style="display:none"></div>';
-    return `<div class="gc ${span}">
-      ${inner}${placeholder}
-      <div class="gc-overlay"><span class="gc-caption">${ph.caption||''}</span></div>
-    </div>`;
-  }).join('');
-}
-renderGallery();
+render();
 </script>
 </body>
 </html>
