@@ -99,17 +99,71 @@ body:has(a:hover) .cur-ring,body:has(button:hover) .cur-ring{width:44px;height:4
 [data-r="blur"]{opacity:0;filter:blur(14px);transform:translateY(10px);transition:opacity 1s,filter 1s,transform 1s}[data-r="blur"].on{opacity:1;filter:blur(0);transform:none}
 [data-d="1"]{transition-delay:.12s}[data-d="2"]{transition-delay:.24s}[data-d="3"]{transition-delay:.36s}[data-d="4"]{transition-delay:.48s}[data-d="5"]{transition-delay:.6s}[data-d="6"]{transition-delay:.72s}
 
+/* === Magnetic / tilt support === */
+.btn,.sn-follow,.sn-ig-cta,.loc-cta{transition:transform .35s cubic-bezier(.2,.9,.3,1.2),background .25s,color .25s,box-shadow .25s,border-color .25s !important}
+.ev-feat{transform-style:preserve-3d;transition:transform .5s cubic-bezier(.2,.8,.2,1),border-color .3s,box-shadow .35s}
+.ev-feat>*{transform:translateZ(20px)}
+
+/* === Section reveal sweep === */
+.sec{position:relative}
+.sec[data-sweep]::after{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--accent) 50%,transparent);transform:scaleX(0);transform-origin:left;opacity:.7}
+.sec[data-sweep].swept::after{animation:sweep 1.6s cubic-bezier(.16,1,.3,1) forwards}
+@keyframes sweep{0%{transform:scaleX(0);opacity:1}80%{transform:scaleX(1);opacity:1}100%{transform:scaleX(1);opacity:0}}
+
+/* === Marquee on activities header === */
+.h2[data-stripe]{position:relative;display:inline-block}
+.h2[data-stripe]::before{content:attr(data-stripe);position:absolute;left:0;top:50%;transform:translateY(-50%);font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:1em;color:transparent;-webkit-text-stroke:1px rgba(37,99,235,.2);opacity:.4;animation:strobe 6s ease-in-out infinite;pointer-events:none;letter-spacing:-.01em}
+@keyframes strobe{0%,100%{opacity:.15;transform:translate(0,-50%)}50%{opacity:.4;transform:translate(10px,-50%)}}
+
+/* === Gallery zoom-on-scroll === */
+.gc img{transform-origin:center}
+
+/* === Live KPI strip === */
+.sec-agenda{position:relative}
+.live-strip{position:relative;z-index:1;display:flex;align-items:center;justify-content:space-between;gap:14px;padding:14px 22px;margin-bottom:18px;border:1px solid var(--border);border-radius:var(--rl);background:linear-gradient(135deg,rgba(37,99,235,.08),rgba(255,255,255,.02));overflow:hidden}
+.live-strip::before{content:'';position:absolute;left:-100%;top:0;bottom:0;width:50%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.06),transparent);animation:liveStripeSweep 5s linear infinite}
+@keyframes liveStripeSweep{to{left:200%}}
+.live-strip-l{display:flex;align-items:center;gap:10px;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--accent)}
+.live-strip-l .dot{width:8px;height:8px;border-radius:50%;background:var(--ok);box-shadow:0 0 0 4px rgba(34,215,122,.25);animation:pulse 2.6s ease-in-out infinite}
+.live-strip-r{display:flex;align-items:center;gap:24px;flex-wrap:wrap;font-family:'JetBrains Mono','Courier New',monospace;font-size:11px;color:rgba(255,255,255,.7);letter-spacing:.04em}
+.live-strip-r span em{color:#fff;font-style:normal;font-weight:600}
+.live-strip-r span{display:inline-flex;align-items:center;gap:6px}
+
+/* === Tilt cards (team) === */
+.team-card{transition:transform .55s cubic-bezier(.2,.8,.2,1),border-color .3s,box-shadow .35s}
+
 /* HERO */
 .hero{position:relative;height:100svh;min-height:640px;display:flex;align-items:flex-end;overflow:hidden}
 .hero-bg{position:absolute;inset:0;will-change:transform}
-.hero-bg img{width:100%;height:115%;object-fit:cover;object-position:center 32%}
+.hero-bg img{width:100%;height:115%;object-fit:cover;object-position:center 32%;will-change:transform;transition:transform .15s ease-out}
 .hero-overlay{position:absolute;inset:0;
   background:linear-gradient(108deg,rgba(8,10,14,.95) 0%,rgba(8,10,14,.65) 38%,rgba(8,10,14,.12) 70%,transparent 88%),
   linear-gradient(to top,rgba(8,10,14,1) 0%,rgba(8,10,14,.55) 24%,transparent 58%)}
 .hero-grid{position:absolute;inset:0;pointer-events:none;
   background-image:linear-gradient(rgba(37,99,235,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(37,99,235,.03) 1px,transparent 1px);
   background-size:64px 64px;mask-image:linear-gradient(140deg,transparent 28%,rgba(0,0,0,.4) 65%,transparent 100%)}
-.hero-inner{position:relative;z-index:2;padding:0 var(--side) clamp(60px,10vh,110px);width:100%}
+
+/* === Hero aurora + spotlight === */
+.hero-aurora{position:absolute;inset:0;pointer-events:none;z-index:1;mix-blend-mode:screen;opacity:.7}
+.hero-aurora::before,.hero-aurora::after{content:'';position:absolute;border-radius:50%;filter:blur(80px);will-change:transform,opacity}
+.hero-aurora::before{width:55vw;height:55vw;left:-20%;top:-15%;background:radial-gradient(circle,rgba(37,99,235,.45),transparent 65%);animation:aurora1 18s ease-in-out infinite}
+.hero-aurora::after{width:48vw;height:48vw;right:-15%;top:35%;background:radial-gradient(circle,rgba(129,140,248,.35),transparent 65%);animation:aurora2 22s ease-in-out infinite}
+@keyframes aurora1{0%,100%{transform:translate(0,0) scale(1);opacity:.45}50%{transform:translate(20vw,10vh) scale(1.15);opacity:.7}}
+@keyframes aurora2{0%,100%{transform:translate(0,0) scale(1);opacity:.35}50%{transform:translate(-15vw,-8vh) scale(1.2);opacity:.6}}
+.hero-spot{position:absolute;inset:0;pointer-events:none;z-index:2;opacity:0;transition:opacity .4s;
+  background:radial-gradient(380px circle at var(--mx,50%) var(--my,50%),rgba(255,255,255,.1),transparent 60%)}
+.hero:hover .hero-spot{opacity:1}
+.hero-noise{position:absolute;inset:0;pointer-events:none;z-index:2;opacity:.5;mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85'/%3E%3CfeColorMatrix values='0 0 0 0 .15 0 0 0 0 .25 0 0 0 0 .9 0 0 0 .15 0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size:240px;animation:noise 8s steps(8) infinite}
+@keyframes noise{0%{transform:translate(0,0)}10%{transform:translate(-3%,-2%)}20%{transform:translate(2%,3%)}30%{transform:translate(-1%,2%)}40%{transform:translate(3%,-1%)}50%{transform:translate(-2%,2%)}60%{transform:translate(2%,1%)}70%{transform:translate(-3%,2%)}80%{transform:translate(2%,-2%)}90%{transform:translate(-1%,3%)}100%{transform:translate(0,0)}}
+
+/* Flying drift particles in hero */
+.hero-drift{position:absolute;inset:0;pointer-events:none;z-index:1;overflow:hidden}
+.hero-drift span{position:absolute;width:2px;height:2px;border-radius:50%;background:rgba(255,255,255,.6);box-shadow:0 0 8px rgba(255,255,255,.5);animation:drift linear infinite;opacity:0}
+@keyframes drift{0%{transform:translate(0,0);opacity:0}10%{opacity:.7}90%{opacity:.4}100%{transform:translate(140vw,-30vh);opacity:0}}
+
+.hero-inner{position:relative;z-index:3;padding:0 var(--side) clamp(60px,10vh,110px);width:100%}
 .hero-eye{font-size:10px;font-weight:700;letter-spacing:.32em;text-transform:uppercase;color:var(--accent);display:flex;align-items:center;gap:12px;margin-bottom:22px;opacity:0;animation:fadeUp .7s ease .4s forwards}
 .hero-eye::before{content:'';width:28px;height:1px;background:var(--accent)}
 .hero-title{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:clamp(60px,10vw,160px);line-height:.84;letter-spacing:-.018em;text-transform:uppercase;color:#fff;opacity:0;transform:translateX(-32px);animation:slideIn 1s cubic-bezier(.16,1,.3,1) .1s forwards}
@@ -129,28 +183,66 @@ body:has(a:hover) .cur-ring,body:has(button:hover) .cur-ring{width:44px;height:4
 .ticker-item::after{content:'✦';opacity:.35;font-size:8px}
 @keyframes tick{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 
-/* ══ AGENDA ══ */
-.sec-agenda{background:var(--bg-2);border-bottom:1px solid var(--border)}
-.agenda-head{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;flex-wrap:wrap;margin-bottom:44px}
-.agenda-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
-
-.ev-card{background:var(--sf);border:1px solid var(--border);border-radius:var(--rl);padding:22px;display:flex;flex-direction:column;gap:14px;position:relative;overflow:hidden;transition:border-color .3s,transform .45s cubic-bezier(.16,1,.3,1),box-shadow .35s}
-.ev-card:hover{border-color:rgba(37,99,235,.38);transform:translateY(-5px);box-shadow:0 24px 52px rgba(0,0,0,.5)}
-.ev-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(to right,var(--accent),var(--acc2));opacity:0;transition:opacity .3s}
-.ev-card:hover::before{opacity:1}
-.ev-card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
-.ev-day{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:52px;line-height:1;letter-spacing:-.02em;color:var(--accent)}
-.ev-mth{font-size:10px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--muted);margin-top:3px}
-.ev-type-badge{font-size:8.5px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;padding:4px 10px;border-radius:100px;border:1px solid;flex-shrink:0;margin-top:4px}
+/* ══ AGENDA — featured + upcoming ══ */
+.sec-agenda{background:var(--bg-2);border-bottom:1px solid var(--border);position:relative;overflow:hidden}
+.sec-agenda::before{content:'';position:absolute;inset:0;background:radial-gradient(40% 60% at 90% 10%,rgba(37,99,235,.08),transparent 60%);pointer-events:none}
+.agenda-head{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;flex-wrap:wrap;margin-bottom:44px;position:relative;z-index:1}
+.agenda-layout{display:grid;grid-template-columns:1.7fr 1fr;gap:14px;position:relative;z-index:1}
+.ev-feat{background:linear-gradient(135deg,#171b29 0%,#0f1320 100%);border:1px solid var(--border);border-radius:var(--rl);padding:clamp(28px,4vw,44px);position:relative;overflow:hidden;min-height:340px;display:flex;flex-direction:column;justify-content:space-between;gap:24px;transition:border-color .3s,transform .45s cubic-bezier(.16,1,.3,1),box-shadow .35s}
+.ev-feat:hover{border-color:rgba(37,99,235,.4);box-shadow:0 30px 60px rgba(0,0,0,.5);transform:translateY(-3px)}
+.ev-feat::before{content:'';position:absolute;right:-50px;top:-50px;width:300px;height:300px;border-radius:50%;background:radial-gradient(circle,rgba(37,99,235,.18),transparent 65%);pointer-events:none}
+.ev-feat::after{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:linear-gradient(to bottom,var(--accent),var(--acc2));opacity:.7}
+.ev-feat-top{display:flex;align-items:flex-start;justify-content:space-between;gap:18px;position:relative;z-index:1}
+.ev-feat-meta{display:flex;flex-direction:column;gap:6px}
+.ev-feat-lbl{display:inline-flex;align-items:center;gap:7px;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:10px;letter-spacing:.28em;text-transform:uppercase;color:var(--accent)}
+.ev-feat-lbl .dot{width:6px;height:6px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 3px rgba(37,99,235,.2);animation:pulse 2.6s ease-in-out infinite}
+.ev-feat-countdown{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-style:italic;font-size:13px;color:rgba(255,255,255,.6);letter-spacing:.04em}
+.ev-feat-countdown em{color:var(--accent);font-style:normal;font-weight:900;font-size:1.4em;margin-right:4px}
+.ev-feat-icon{width:72px;height:72px;border-radius:18px;background:rgba(37,99,235,.1);border:1px solid rgba(37,99,235,.25);display:flex;align-items:center;justify-content:center;font-size:34px;flex-shrink:0;position:relative;z-index:1}
+.ev-feat-body{display:flex;flex-direction:column;gap:14px;position:relative;z-index:1}
+.ev-feat-date{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap}
+.ev-feat-day{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:clamp(64px,9vw,110px);line-height:.9;color:#fff;letter-spacing:-.03em}
+.ev-feat-mth{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:24px;color:var(--accent);text-transform:uppercase;letter-spacing:.02em}
+.ev-feat-mth small{display:block;font-family:'Jost',sans-serif;font-size:11px;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-top:2px}
+.ev-feat-title{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:clamp(28px,3.2vw,42px);line-height:.96;text-transform:uppercase;color:#fff;letter-spacing:-.01em;text-wrap:balance}
+.ev-feat-desc{font-size:14px;color:var(--muted);line-height:1.7;max-width:480px}
+.ev-feat-foot{display:flex;align-items:center;gap:14px;flex-wrap:wrap;padding-top:18px;border-top:1px solid var(--border);position:relative;z-index:1}
+.ev-feat-when{font-size:11px;color:var(--muted);font-family:'Jost',sans-serif;letter-spacing:.04em}
+.ev-type-badge{font-size:9px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;padding:5px 11px;border-radius:100px;border:1px solid;display:inline-flex;align-items:center;gap:6px;flex-shrink:0}
 .ev-type-badge.vol{color:#8aabff;background:rgba(37,99,235,.1);border-color:rgba(37,99,235,.25)}
 .ev-type-badge.social{color:var(--ok);background:rgba(34,215,122,.08);border-color:rgba(34,215,122,.25)}
 .ev-type-badge.formation{color:var(--warn);background:rgba(245,165,36,.08);border-color:rgba(245,165,36,.25)}
 .ev-type-badge.initiation{color:#818cf8;background:rgba(129,140,248,.1);border-color:rgba(129,140,248,.25)}
 .ev-type-badge.admin{color:var(--muted);background:rgba(255,255,255,.04);border-color:var(--bds)}
-.ev-card-title{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:22px;text-transform:uppercase;color:#fff;line-height:1.1}
-.ev-card-desc{font-size:13px;color:var(--muted);line-height:1.6;flex:1}
-.ev-card-foot{border-top:1px solid var(--border);padding-top:11px;font-size:9.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.28)}
-.ev-empty{grid-column:1/-1;padding:40px;text-align:center;background:var(--sf);border:1px solid var(--border);border-radius:var(--rl);font-size:14px;color:var(--muted)}
+.ev-up{display:flex;flex-direction:column;gap:10px;position:relative}
+.ev-up.expanded{max-height:520px;overflow-y:auto;padding-right:6px;scrollbar-width:thin;scrollbar-color:rgba(37,99,235,.4) rgba(255,255,255,.04);scroll-behavior:smooth;mask-image:linear-gradient(to bottom,#000 calc(100% - 28px),transparent);-webkit-mask-image:linear-gradient(to bottom,#000 calc(100% - 28px),transparent)}
+.ev-up.expanded::-webkit-scrollbar{width:5px}
+.ev-up.expanded::-webkit-scrollbar-track{background:rgba(255,255,255,.04);border-radius:100px}
+.ev-up.expanded::-webkit-scrollbar-thumb{background:linear-gradient(to bottom,var(--accent),var(--acc2));border-radius:100px}
+.ev-mini{background:var(--sf);border:1px solid var(--border);border-radius:var(--rl);padding:0;display:block;width:100%;text-align:left;color:inherit;font:inherit;cursor:pointer;position:relative;overflow:hidden;transition:border-color .3s,transform .35s cubic-bezier(.16,1,.3,1),background .25s}
+.ev-mini:hover{border-color:rgba(37,99,235,.36);transform:translateX(4px);background:rgba(37,99,235,.04)}
+.ev-mini.open{transform:none;border-color:rgba(37,99,235,.42);background:rgba(37,99,235,.04)}
+.ev-mini::before{content:'';position:absolute;left:0;top:0;bottom:0;width:2px;background:linear-gradient(to bottom,var(--accent),transparent);opacity:0;transition:opacity .3s}
+.ev-mini:hover::before,.ev-mini.open::before{opacity:1}
+.ev-mini-hd{padding:16px 18px;display:grid;grid-template-columns:54px 1fr auto;gap:14px;align-items:center}
+.ev-mini-date{background:rgba(37,99,235,.08);border:1px solid rgba(37,99,235,.18);border-radius:10px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:8px 4px}
+.ev-mini-date .d{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:22px;color:#fff;line-height:1}
+.ev-mini-date .m{font-size:8.5px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);margin-top:1px}
+.ev-mini-body{display:flex;flex-direction:column;gap:5px;min-width:0}
+.ev-mini-top{display:flex;align-items:center;gap:10px}
+.ev-mini-icon{font-size:13px;flex-shrink:0}
+.ev-mini-cat{font-size:8.5px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--accent)}
+.ev-mini-title{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:15px;color:#fff;line-height:1.15;text-transform:uppercase;letter-spacing:.01em;text-overflow:ellipsis;overflow:hidden;white-space:nowrap}
+.ev-mini-chev{width:22px;height:22px;border:1px solid var(--bds);border-radius:50%;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.55);font-size:14px;line-height:1;flex-shrink:0;transition:transform .35s cubic-bezier(.16,1,.3,1),border-color .25s,background .25s,color .25s}
+.ev-mini:hover .ev-mini-chev{border-color:var(--accent);background:var(--acc-d);color:var(--accent);transform:translateX(3px)}
+.ev-feat,.ev-mini{animation:swapFade .55s cubic-bezier(.16,1,.3,1)}
+@keyframes swapFade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.ev-up-foot{margin-top:4px;padding:14px 18px;background:var(--sf);border:1px dashed var(--border);border-radius:var(--rl);text-align:center;font-size:11.5px;color:var(--muted);font-family:'Barlow Condensed',sans-serif;font-weight:700;letter-spacing:.14em;text-transform:uppercase;width:100%;cursor:pointer;transition:border-color .25s,color .25s,background .25s;display:flex;align-items:center;justify-content:center;gap:10px}
+.ev-up-foot:hover{border-color:rgba(37,99,235,.5);color:#fff;background:rgba(37,99,235,.05)}
+.ev-up-foot .arr{display:inline-flex;align-items:center;justify-content:center;width:18px;height:18px;border:1px solid currentColor;border-radius:50%;font-size:12px;transition:transform .35s cubic-bezier(.16,1,.3,1)}
+.ev-up-foot.open .arr{transform:rotate(180deg)}
+.ev-up-foot.open{border-style:solid;border-color:rgba(37,99,235,.4);color:var(--accent);background:rgba(37,99,235,.06)}
+.ev-empty{padding:40px;text-align:center;background:var(--sf);border:1px solid var(--border);border-radius:var(--rl);font-size:14px;color:var(--muted)}
 
 /* ══ MANIFESTO ══ */
 .sec-manifest{background:var(--bg);border-bottom:1px solid var(--border)}
@@ -172,22 +264,47 @@ body:has(a:hover) .cur-ring,body:has(button:hover) .cur-ring{width:44px;height:4
 .stat-val em{color:var(--accent);font-style:normal}
 .stat-lbl{font-size:11px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
 
-/* ══ ACTIVITÉS ══ */
-.sec-activites{background:var(--bg);border-bottom:1px solid var(--border)}
-.act-head{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;flex-wrap:wrap;margin-bottom:48px}
-.act-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
-
-.act-card{background:var(--sf);border:1px solid var(--border);border-radius:var(--rl);padding:28px;display:flex;flex-direction:column;gap:16px;position:relative;overflow:hidden;transition:border-color .3s,transform .45s cubic-bezier(.16,1,.3,1)}
-.act-card:hover{border-color:rgba(37,99,235,.38);transform:translateY(-5px)}
-.act-card::after{content:'';position:absolute;top:0;left:0;right:0;height:1.5px;background:linear-gradient(to right,var(--accent),var(--acc2));opacity:0;transition:opacity .3s}
-.act-card:hover::after{opacity:1}
-
-.act-icon{width:48px;height:48px;border:1px solid rgba(37,99,235,.25);border-radius:12px;display:flex;align-items:center;justify-content:center;background:var(--acc-d);font-size:22px;flex-shrink:0}
-.act-num{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:13px;letter-spacing:.16em;color:var(--accent)}
-.act-title{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:28px;text-transform:uppercase;color:#fff;line-height:.96;letter-spacing:-.005em}
-.act-desc{font-size:13.5px;color:var(--muted);line-height:1.7;flex:1}
-.act-detail{display:flex;flex-wrap:wrap;gap:7px;padding-top:14px;border-top:1px solid var(--border)}
-.act-pill{font-size:9px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;padding:4px 9px;border-radius:100px;border:1px solid var(--border);color:rgba(255,255,255,.5)}
+/* ══ ACTIVITÉS — immersive scenes ══ */
+.sec-activites{background:var(--bg);border-bottom:1px solid var(--border);overflow:hidden;position:relative}
+.sec-activites::before{content:'';position:absolute;inset:0;background:radial-gradient(50% 40% at 80% 90%,rgba(37,99,235,.06),transparent 60%);pointer-events:none}
+.act-head{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;flex-wrap:wrap;margin-bottom:48px;position:relative;z-index:1}
+.act-stage{display:grid;grid-template-columns:340px 1fr;gap:0;background:var(--sf);border:1px solid var(--border);border-radius:var(--rl);overflow:hidden;position:relative;z-index:1;min-height:540px}
+.act-nav{display:flex;flex-direction:column;background:rgba(0,0,0,.18);border-right:1px solid var(--border)}
+.act-nav-item{position:relative;padding:18px 22px;text-align:left;background:none;border:none;border-bottom:1px solid var(--border);cursor:none;transition:background .3s,padding .3s;display:flex;align-items:center;gap:14px;color:inherit;font:inherit}
+.act-nav-item:last-child{border-bottom:none}
+.act-nav-item::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:linear-gradient(to bottom,var(--accent),var(--acc2));transform:scaleY(0);transform-origin:top;transition:transform .35s cubic-bezier(.16,1,.3,1)}
+.act-nav-item.on::before{transform:scaleY(1)}
+.act-nav-item:hover{background:rgba(37,99,235,.06)}
+.act-nav-item.on{background:rgba(37,99,235,.08);padding-left:26px}
+.act-nav-num{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:20px;color:rgba(255,255,255,.25);letter-spacing:-.02em;line-height:1;width:34px;flex-shrink:0;transition:color .3s}
+.act-nav-item.on .act-nav-num{color:var(--accent)}
+.act-nav-info{display:flex;flex-direction:column;gap:3px;flex:1;min-width:0}
+.act-nav-title{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:18px;text-transform:uppercase;color:rgba(255,255,255,.7);line-height:1.05;letter-spacing:-.005em;transition:color .3s}
+.act-nav-item.on .act-nav-title{color:#fff}
+.act-nav-sub{font-size:9.5px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.34);transition:color .3s}
+.act-nav-item.on .act-nav-sub{color:var(--accent)}
+.act-nav-arr{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;color:rgba(255,255,255,.2);font-size:18px;transition:transform .3s,color .3s;flex-shrink:0}
+.act-nav-item.on .act-nav-arr,.act-nav-item:hover .act-nav-arr{color:var(--accent);transform:translateX(4px)}
+.act-scene-wrap{position:relative;overflow:hidden;background:linear-gradient(135deg,#0e1320 0%,#0b0d13 100%);display:flex;min-height:540px}
+.act-scene{position:absolute;inset:0;padding:clamp(28px,4vw,52px);display:flex;flex-direction:column;justify-content:space-between;gap:24px;opacity:0;pointer-events:none;transform:translateY(20px);transition:opacity .55s cubic-bezier(.16,1,.3,1),transform .55s cubic-bezier(.16,1,.3,1)}
+.act-scene.on{opacity:1;pointer-events:auto;transform:none}
+.act-scene::before{content:'';position:absolute;right:-100px;top:-100px;width:420px;height:420px;border-radius:50%;background:radial-gradient(circle,rgba(37,99,235,.18),transparent 65%);pointer-events:none}
+.act-scene-grid-bg{position:absolute;inset:0;background-image:linear-gradient(rgba(37,99,235,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(37,99,235,.04) 1px,transparent 1px);background-size:42px 42px;mask-image:linear-gradient(140deg,rgba(0,0,0,.4) 10%,transparent 70%);-webkit-mask-image:linear-gradient(140deg,rgba(0,0,0,.4) 10%,transparent 70%);pointer-events:none}
+.act-scene-head{position:relative;z-index:1;display:flex;align-items:flex-start;justify-content:space-between;gap:20px}
+.act-scene-num{display:flex;flex-direction:column;gap:8px;min-width:0}
+.act-scene-num .l{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:10px;letter-spacing:.28em;text-transform:uppercase;color:var(--accent)}
+.act-scene-num .v{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:clamp(80px,11vw,160px);line-height:.85;color:rgba(255,255,255,.05);letter-spacing:-.04em;user-select:none;margin-top:-12px}
+.act-scene-icon{width:84px;height:84px;border-radius:20px;background:linear-gradient(135deg,rgba(37,99,235,.16),rgba(129,140,248,.06));border:1px solid rgba(37,99,235,.3);display:flex;align-items:center;justify-content:center;font-size:40px;flex-shrink:0;box-shadow:0 20px 40px rgba(0,0,0,.4),inset 0 1px 0 rgba(255,255,255,.06)}
+.act-scene-body{position:relative;z-index:1;display:flex;flex-direction:column;gap:14px;max-width:600px}
+.act-scene-title{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:clamp(38px,4.5vw,64px);line-height:.95;text-transform:uppercase;color:#fff;letter-spacing:-.018em;text-wrap:balance}
+.act-scene-desc{font-size:15px;line-height:1.78;color:rgba(255,255,255,.78);max-width:560px}
+.act-scene-foot{position:relative;z-index:1;display:flex;flex-direction:column;gap:18px}
+.act-scene-pills{display:flex;flex-wrap:wrap;gap:8px}
+.act-scene-pill{font-size:10px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;padding:6px 12px;border-radius:100px;border:1px solid var(--bds);color:rgba(255,255,255,.78);background:rgba(255,255,255,.02)}
+.act-scene-pill.hi{color:var(--accent);background:rgba(37,99,235,.08);border-color:rgba(37,99,235,.3)}
+.act-progress{position:absolute;left:0;right:0;bottom:0;height:2px;background:rgba(255,255,255,.04);z-index:3}
+.act-progress-fill{position:absolute;top:0;left:0;bottom:0;width:0%;background:linear-gradient(to right,var(--accent),var(--acc2));transition:width .25s linear}
+.act-progress-fill.no-tr{transition:none}
 
 /* ══ FLOTTE BRIEF ══ */
 .sec-flotte{background:var(--bg-2);border-bottom:1px solid var(--border)}
@@ -252,16 +369,29 @@ body:has(a:hover) .cur-ring,body:has(button:hover) .cur-ring{width:44px;height:4
 .sn.ig .sn-follow{background:linear-gradient(45deg,#f09433 0%,#dc2743 50%,#bc1888 100%)}.sn.ig .sn-follow:hover{filter:brightness(1.1);transform:translateY(-1px)}
 
 .sn-stats{display:grid;grid-template-columns:repeat(3,1fr);border-bottom:1px solid var(--border);background:rgba(255,255,255,.012)}
-.sn-stat{padding:14px 18px;border-right:1px solid var(--border);display:flex;flex-direction:column;gap:3px}
+.sn-stat{padding:14px 18px;border-right:1px solid var(--border);display:flex;align-items:center;gap:11px}
 .sn-stat:last-child{border-right:none}
-.sn-stat .l{font-size:8.5px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--muted)}
-.sn-stat .v{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:22px;line-height:1;color:#fff;letter-spacing:-.01em}
-.sn-stat .v em{color:var(--accent);font-style:normal;font-size:.55em;margin-left:3px}
-.sn.ig .sn-stat .v em{background:linear-gradient(45deg,#f09433,#dc2743);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.sn-stat-ico{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;background:rgba(255,255,255,.04);border:1px solid var(--border)}
+.sn fb .sn-stat-ico,.sn.fb .sn-stat-ico{background:rgba(24,119,242,.12);border-color:rgba(24,119,242,.3)}
+.sn.ig .sn-stat-ico{background:rgba(220,39,67,.1);border-color:rgba(220,39,67,.3)}
+.sn-stat-ico svg{width:14px;height:14px;fill:#fff;opacity:.85}
+.sn-stat-tx{display:flex;flex-direction:column;gap:2px;min-width:0}
+.sn-stat-tx .l{font-size:8.5px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);line-height:1}
+.sn-stat-tx .v{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:16px;color:#fff;letter-spacing:-.005em;line-height:1.05;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sn-stat.live .v{color:var(--ok)}
+.sn-stat.live .sn-stat-ico{background:rgba(34,215,122,.1);border-color:rgba(34,215,122,.3)}
+.sn-stat.live .sn-stat-ico svg{fill:var(--ok)}
+.sn-stat-tx .v .dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--ok);margin-right:4px;animation:pulse 2.6s ease-in-out infinite;vertical-align:middle}
 
 /* Facebook embed */
-.sn-fb-embed{flex:1;background:#0e1018;position:relative;min-height:420px;display:flex;align-items:stretch;justify-content:center;overflow:hidden}
-.sn-fb-embed iframe{width:100%;border:none;flex:1;min-height:420px;background:transparent}
+.sn-fb-embed{flex:1;position:relative;min-height:540px;display:flex;align-items:stretch;justify-content:center;overflow:hidden;
+  background:
+    radial-gradient(circle at 50% 50%,rgba(24,119,242,.08),transparent 65%),
+    repeating-linear-gradient(135deg,rgba(255,255,255,.012) 0 14px,transparent 14px 28px),
+    #0e1018}
+.sn-fb-embed::before{content:'';position:absolute;left:0;right:0;top:0;height:50px;background:linear-gradient(to bottom,rgba(24,119,242,.08),transparent);pointer-events:none;z-index:2}
+.sn-fb-embed::after{content:'';position:absolute;left:0;right:0;bottom:0;height:60px;background:linear-gradient(to top,#0e1018 0%,rgba(14,16,24,.6) 60%,transparent);pointer-events:none;z-index:2}
+.sn-fb-embed iframe{width:100%;max-width:500px;border:none;min-height:540px;background:transparent;position:relative;z-index:1}
 .sn-fb-fallback{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:40px 24px;text-align:center;z-index:0;pointer-events:none}
 .sn-fb-fallback .ic{width:54px;height:54px;border-radius:50%;background:var(--fb);display:flex;align-items:center;justify-content:center;box-shadow:0 8px 20px rgba(24,119,242,.4);pointer-events:auto}
 .sn-fb-fallback .ic svg{width:26px;height:26px;fill:#fff}
@@ -270,7 +400,8 @@ body:has(a:hover) .cur-ring,body:has(button:hover) .cur-ring{width:44px;height:4
 .sn-fb-fallback a{pointer-events:auto}
 
 /* Instagram preview grid */
-.sn-ig-grid{flex:1;display:grid;grid-template-columns:repeat(3,1fr);gap:2px;background:#0e1018;padding:2px}
+.sn-ig-wrap{flex:1;position:relative;background:#0e1018;overflow:hidden;min-height:540px;display:flex;flex-direction:column}
+.sn-ig-grid{flex:1;display:grid;grid-template-columns:repeat(3,1fr);gap:2px;background:rgba(255,255,255,.04);padding:2px}
 .ig-tile{position:relative;aspect-ratio:1;overflow:hidden;background:linear-gradient(135deg,#1a2030,#0e1018);cursor:none}
 .ig-tile img{width:100%;height:100%;object-fit:cover;transition:transform .6s cubic-bezier(.16,1,.3,1)}
 .ig-tile img.contain{object-fit:contain;padding:14px}
@@ -284,6 +415,38 @@ body:has(a:hover) .cur-ring,body:has(button:hover) .cur-ring{width:44px;height:4
 .ig-tile-cap{font-size:10px;color:rgba(255,255,255,.85);line-height:1.4;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 .ig-tile-corner{position:absolute;top:8px;right:8px;font-size:10px;color:rgba(255,255,255,.6);background:rgba(0,0,0,.5);padding:3px 7px;border-radius:4px;backdrop-filter:blur(8px);font-family:'Barlow Condensed',sans-serif;font-weight:700;letter-spacing:.06em}
 
+/* IG floating profile CTA */
+.ig-profile-cta{position:absolute;bottom:16px;left:50%;transform:translateX(-50%);z-index:5;display:inline-flex;align-items:center;gap:10px;background:rgba(8,10,14,.92);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:1px solid var(--bds);padding:10px 18px;border-radius:100px;text-decoration:none;color:#fff;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:12px;letter-spacing:.14em;text-transform:uppercase;transition:transform .25s,border-color .25s,padding .25s,box-shadow .25s;box-shadow:0 8px 24px rgba(0,0,0,.5)}
+.ig-profile-cta:hover{border-color:#dc2743;transform:translateX(-50%) translateY(-3px);padding:10px 24px;box-shadow:0 12px 28px rgba(220,39,67,.35)}
+.ig-profile-cta::before{content:'';width:18px;height:18px;border-radius:50%;background:linear-gradient(45deg,#f09433 0%,#dc2743 50%,#bc1888 100%);flex-shrink:0;box-shadow:0 0 0 2px #0e1018,0 0 0 3px rgba(220,39,67,.5)}
+
+/* Instagram hero — simple link card */
+.sn-ig-hero{flex:1;position:relative;overflow:hidden;min-height:540px;display:flex;align-items:center;justify-content:center;padding:48px 32px;
+  background:
+    radial-gradient(60% 70% at 30% 20%,rgba(240,148,51,.22),transparent 60%),
+    radial-gradient(60% 70% at 75% 78%,rgba(188,24,136,.28),transparent 65%),
+    radial-gradient(55% 60% at 50% 50%,rgba(220,39,67,.18),transparent 70%),
+    #0e1018}
+.sn-ig-hero::before{content:'';position:absolute;inset:0;background-image:repeating-linear-gradient(45deg,rgba(255,255,255,.02) 0 18px,transparent 18px 36px);pointer-events:none;mix-blend-mode:overlay}
+.sn-ig-hero-inner{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;text-align:center;gap:18px;max-width:380px}
+.sn-ig-hero-icon{width:88px;height:88px;border-radius:24px;display:flex;align-items:center;justify-content:center;background:linear-gradient(45deg,#f09433 0%,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888 100%);box-shadow:0 16px 40px rgba(220,39,67,.5),0 0 0 4px rgba(8,10,14,.92),0 0 0 5px rgba(255,255,255,.12);position:relative}
+.sn-ig-hero-icon::after{content:'';position:absolute;inset:-12px;border-radius:32px;border:1px dashed rgba(255,255,255,.18);animation:igRing 8s linear infinite}
+@keyframes igRing{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+.sn-ig-hero-icon svg{width:42px;height:42px;fill:#fff}
+.sn-ig-hero h4{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:32px;text-transform:uppercase;color:#fff;letter-spacing:-.012em;line-height:1;text-wrap:balance}
+.sn-ig-hero p{font-size:13.5px;line-height:1.6;color:rgba(255,255,255,.78);max-width:320px}
+.sn-ig-handle{display:inline-flex;align-items:center;gap:10px;padding:10px 18px;background:rgba(8,10,14,.7);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.16);border-radius:100px;margin-top:4px}
+.sn-ig-handle .ring{width:14px;height:14px;border-radius:50%;background:linear-gradient(45deg,#f09433,#dc2743);box-shadow:0 0 0 2px #0e1018,0 0 0 3px rgba(255,255,255,.25)}
+.sn-ig-handle strong{font-family:'Jost',sans-serif;font-weight:600;font-size:14px;color:#fff;letter-spacing:.02em}
+.sn-ig-cta{display:inline-flex;align-items:center;gap:10px;padding:14px 28px;background:#fff;color:#0e1018;font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:14px;letter-spacing:.12em;text-transform:uppercase;border-radius:6px;text-decoration:none;transition:transform .25s,box-shadow .25s,background .25s;margin-top:6px}
+.sn-ig-cta:hover{transform:translateY(-3px);box-shadow:0 14px 32px rgba(220,39,67,.45);background:linear-gradient(45deg,#f09433 0%,#dc2743 50%,#bc1888 100%);color:#fff}
+.sn-ig-cta .arr{font-style:normal;transition:transform .2s}
+.sn-ig-cta:hover .arr{transform:translateX(4px)}
+.sn-ig-tags{display:flex;flex-wrap:wrap;justify-content:center;gap:6px;margin-top:6px;max-width:300px}
+.sn-ig-tag{font-family:'Jost',sans-serif;font-size:11px;color:rgba(255,255,255,.6);padding:3px 9px;border:1px solid rgba(255,255,255,.15);background:rgba(255,255,255,.04);border-radius:100px;font-weight:500;letter-spacing:.02em}
+.sn-ig-corner{position:absolute;top:14px;right:14px;display:flex;align-items:center;gap:7px;background:rgba(8,10,14,.7);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.14);padding:5px 11px;border-radius:100px;font-size:10px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:#fff;z-index:2}
+.sn-ig-corner .dot{width:6px;height:6px;border-radius:50%;background:var(--ok);animation:pulse 2.6s ease-in-out infinite}
+
 .sn-foot{padding:14px 18px;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:10px;background:rgba(255,255,255,.015)}
 .sn-foot .lbl{font-size:10px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
 .sn-foot .lnk{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#fff;display:inline-flex;align-items:center;gap:6px;transition:gap .2s}
@@ -294,22 +457,39 @@ body:has(a:hover) .cur-ring,body:has(button:hover) .cur-ring{width:44px;height:4
 .team-head{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;flex-wrap:wrap;margin-bottom:44px}
 .team-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
 
-.team-card{background:var(--sf);border:1px solid var(--border);border-radius:var(--rl);padding:22px;display:flex;flex-direction:column;gap:14px;position:relative;overflow:hidden;transition:border-color .3s,transform .4s cubic-bezier(.16,1,.3,1),box-shadow .35s}
-.team-card:hover{border-color:rgba(37,99,235,.32);transform:translateY(-5px);box-shadow:0 22px 48px rgba(0,0,0,.45)}
-.team-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(to right,var(--accent),var(--acc2));opacity:0;transition:opacity .3s}
+.team-card{background:var(--sf);border:1px solid var(--border);border-radius:var(--rl);padding:28px 22px 22px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:14px;position:relative;overflow:hidden;transition:border-color .3s,transform .4s cubic-bezier(.16,1,.3,1),box-shadow .35s}
+.team-card:hover{border-color:rgba(37,99,235,.42);transform:translateY(-6px);box-shadow:0 28px 52px rgba(0,0,0,.5)}
+.team-card::before{content:'';position:absolute;top:0;left:0;right:0;height:110px;background:radial-gradient(80% 100% at 50% 0%,rgba(37,99,235,.16),transparent 70%);pointer-events:none;opacity:.75;transition:opacity .35s}
 .team-card:hover::before{opacity:1}
+.team-card::after{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:60%;height:2px;background:linear-gradient(to right,transparent,var(--accent),transparent);opacity:0;transition:opacity .35s}
+.team-card:hover::after{opacity:1}
 
-.team-hd{display:flex;align-items:center;gap:14px}
-.team-avatar{width:52px;height:52px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:17px;color:#fff;text-transform:uppercase;background:linear-gradient(135deg,var(--accent),var(--acc2));border:1px solid rgba(37,99,235,.3);flex-shrink:0;letter-spacing:-.01em}
-.team-id{display:flex;flex-direction:column;gap:5px;min-width:0;flex:1}
-.team-name{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:19px;text-transform:uppercase;color:#fff;line-height:1.05;letter-spacing:-.005em;text-wrap:balance}
-.team-role{font-size:9.5px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);line-height:1}
-.team-bio{font-size:13px;color:var(--muted);line-height:1.65;flex:1}
-.team-tag{display:inline-flex;align-items:center;gap:7px;align-self:flex-start;font-size:9px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.55);background:rgba(255,255,255,.04);border:1px solid var(--border);padding:5px 10px;border-radius:100px}
+.team-portrait{position:relative;width:96px;height:96px;flex-shrink:0;margin-top:6px;z-index:1}
+.team-portrait::before{content:'';position:absolute;inset:-8px;border-radius:50%;border:1px dashed rgba(37,99,235,.3);animation:teamRing 14s linear infinite}
+@keyframes teamRing{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+.team-avatar{width:100%;height:100%;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:34px;color:#fff;text-transform:uppercase;background:linear-gradient(135deg,var(--accent),var(--acc2));border:2px solid rgba(255,255,255,.16);box-shadow:0 14px 28px rgba(0,0,0,.45),inset 0 2px 0 rgba(255,255,255,.18);letter-spacing:-.01em;flex-shrink:0;position:relative}
+.team-card[data-cat="bureau"] .team-avatar{background:linear-gradient(135deg,#2563eb,#818cf8)}
+.team-card[data-cat="ops"] .team-avatar{background:linear-gradient(135deg,#f5a524,#dc7e0a)}
+.team-card[data-cat="formation"] .team-avatar{background:linear-gradient(135deg,#22d77a,#0a8c4b)}
+.team-card[data-cat="digital"] .team-avatar{background:linear-gradient(135deg,#a855f7,#6b21a8)}
+.team-portrait-corner{position:absolute;bottom:-4px;right:-4px;width:28px;height:28px;border-radius:50%;background:var(--sf);border:3px solid var(--sf);display:flex;align-items:center;justify-content:center;font-size:13px;z-index:2}
+.team-card[data-cat="bureau"] .team-portrait-corner{background:#2563eb;color:#fff}
+.team-card[data-cat="ops"] .team-portrait-corner{background:#f5a524;color:#1a1a1a}
+.team-card[data-cat="formation"] .team-portrait-corner{background:#22d77a;color:#0a3320}
+.team-card[data-cat="digital"] .team-portrait-corner{background:#a855f7;color:#fff}
+
+.team-id{display:flex;flex-direction:column;gap:5px;align-items:center;position:relative;z-index:1}
+.team-name{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:21px;text-transform:uppercase;color:#fff;line-height:1.05;letter-spacing:-.005em;text-wrap:balance}
+.team-role{font-size:9.5px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);line-height:1}
+.team-card[data-cat="ops"] .team-role{color:#f5a524}
+.team-card[data-cat="formation"] .team-role{color:#22d77a}
+.team-card[data-cat="digital"] .team-role{color:#a855f7}
+.team-bio{font-size:12.5px;color:var(--muted);line-height:1.65;flex:1;position:relative;z-index:1}
+.team-tag{display:inline-flex;align-items:center;gap:7px;font-size:9px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.55);background:rgba(255,255,255,.04);border:1px solid var(--border);padding:5px 11px;border-radius:100px;margin-top:auto;position:relative;z-index:1}
 .team-tag .pin{width:5px;height:5px;border-radius:50%;background:var(--accent)}
-.team-tag.formation .pin{background:var(--ok)}
-.team-tag.ops .pin{background:var(--warn)}
-.team-tag.digital .pin{background:var(--acc2)}
+.team-card[data-cat="ops"] .team-tag .pin{background:#f5a524}
+.team-card[data-cat="formation"] .team-tag .pin{background:#22d77a}
+.team-card[data-cat="digital"] .team-tag .pin{background:#a855f7}
 
 /* ══ QUOTE ══ */
 .sec-quote{background:var(--bg);border-bottom:1px solid var(--border);position:relative;overflow:hidden}
@@ -365,12 +545,21 @@ body:has(a:hover) .cur-ring,body:has(button:hover) .cur-ring{width:44px;height:4
 @media(max-width:980px){
   .nav-links,.nav-icons,.nav-cta{display:none}.nav-burger{display:flex}
   .agenda-grid,.act-grid,.team-grid{grid-template-columns:1fr 1fr}
+  .agenda-layout{grid-template-columns:1fr}
+  .act-stage{grid-template-columns:1fr;min-height:auto}
+  .act-nav{flex-direction:row;overflow-x:auto;border-right:none;border-bottom:1px solid var(--border);scrollbar-width:none}
+  .act-nav::-webkit-scrollbar{display:none}
+  .act-nav-item{flex-shrink:0;min-width:220px;border-bottom:none;border-right:1px solid var(--border)}
+  .act-nav-item::before{left:0;top:auto;bottom:0;width:100%;height:3px;background:linear-gradient(to right,var(--accent),var(--acc2));transform:scaleX(0);transform-origin:left}
+  .act-nav-item.on::before{transform:scaleX(1)}
+  .act-nav-item.on{padding-left:22px}
+  .act-scene-wrap,.act-scene{min-height:460px}
   .manifest-grid{grid-template-columns:1fr;gap:24px}.manifest-l{position:static}
   .gallery-grid{grid-template-columns:repeat(6,1fr);grid-auto-rows:110px}
   .gc.s-5-3,.gc.s-4-3{grid-column:span 6;grid-row:span 3}
   .gc.s-4-2,.gc.s-3-2,.gc.s-5-2,.gc.s-3-3{grid-column:span 3;grid-row:span 2}
   .social-grid{grid-template-columns:1fr}
-  .sn-fb-embed,.sn-fb-embed iframe{min-height:480px}
+  .sn-fb-embed,.sn-fb-embed iframe,.sn-ig-wrap{min-height:480px}
   .loc-info-row{grid-template-columns:1fr 1fr}
   .loc-map-wrap{height:clamp(320px,50vh,460px)}
   .hero{min-height:540px}
@@ -381,12 +570,24 @@ body:has(a:hover) .cur-ring,body:has(button:hover) .cur-ring{width:44px;height:4
 @media(max-width:600px){
   :root{--side:clamp(16px,4.5vw,28px)}
   .agenda-grid,.act-grid{grid-template-columns:1fr}
+  .ev-feat{padding:24px 22px;min-height:auto}
+  .ev-feat-day{font-size:clamp(54px,16vw,80px)}
+  .ev-feat-title{font-size:clamp(24px,7vw,32px)}
+  .ev-feat-icon{width:54px;height:54px;font-size:26px;border-radius:14px}
+  .act-nav-item{min-width:180px;padding:14px 18px}
+  .act-nav-title{font-size:15px}
+  .act-nav-sub{font-size:8.5px}
+  .act-scene{padding:24px 22px;gap:18px}
+  .act-scene-wrap,.act-scene{min-height:auto}
+  .act-scene-title{font-size:clamp(28px,8vw,40px)}
+  .act-scene-icon{width:60px;height:60px;font-size:30px;border-radius:14px}
   .team-grid{grid-template-columns:1fr 1fr;gap:10px}
-  .team-card{padding:16px;gap:11px}
-  .team-avatar{width:44px;height:44px;font-size:14px}
-  .team-name{font-size:16px}
-  .team-bio{font-size:12px;line-height:1.55;-webkit-line-clamp:4;display:-webkit-box;-webkit-box-orient:vertical;overflow:hidden}
-  .team-hd{gap:11px}
+  .team-card{padding:22px 14px 16px;gap:11px}
+  .team-portrait{width:80px;height:80px}
+  .team-avatar{font-size:28px}
+  .team-portrait-corner{width:24px;height:24px;font-size:11px}
+  .team-name{font-size:17px}
+  .team-bio{font-size:11.5px;line-height:1.55;-webkit-line-clamp:4;display:-webkit-box;-webkit-box-orient:vertical;overflow:hidden}
   .team-tag{font-size:8px;padding:4px 8px;letter-spacing:.14em}
   .gallery-grid{grid-template-columns:repeat(4,1fr);grid-auto-rows:90px}
   .gc.s-5-3,.gc.s-4-3{grid-column:span 4}
@@ -447,7 +648,7 @@ body:has(a:hover) .cur-ring,body:has(button:hover) .cur-ring{width:44px;height:4
   </ul>
   <div class="nav-icons">
     <a class="nav-icon" href="https://www.instagram.com/apam_lfol" target="_blank"><svg viewBox="0 0 24 24"><path d="M7 2C4.2 2 2 4.2 2 7v10c0 2.8 2.2 5 5 5h10c2.8 0 5-2.2 5-5V7c0-2.8-2.2-5-5-5H7zm0 2h10c1.7 0 3 1.3 3 3v10c0 1.7-1.3 3-3 3H7c-1.7 0-3-1.3-3-3V7c0-1.7 1.3-3 3-3zm5 3.5a4.5 4.5 0 1 0 0 9 4.5 4.5 0 0 0 0-9zm0 2a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zm4.8-2.9a1.1 1.1 0 1 0 0 2.2 1.1 1.1 0 0 0 0-2.2z"/></svg></a>
-    <a class="nav-icon" href="/cdn-cgi/l/email-protection#84e5e1f6ebe7e8f1e6e5f4e5e9c4e3e9e5ede8aae7ebe9"><svg viewBox="0 0 24 24"><path d="M4 4h16a2 2 0 0 1 2 2v1L12 13 2 7V6a2 2 0 0 1 2-2zm18 5v9a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V9l10 6 10-6z"/></svg></a>
+    <a class="nav-icon" href="/cdn-cgi/l/email-protection#4a2b2f382529263f282b3a2b270a2d272b232664292527"><svg viewBox="0 0 24 24"><path d="M4 4h16a2 2 0 0 1 2 2v1L12 13 2 7V6a2 2 0 0 1 2-2zm18 5v9a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V9l10 6 10-6z"/></svg></a>
   </div>
   <a class="nav-cta" href="connexion-membres-password.html?next=mon-compte.html">Mon compte</a>
   <button class="nav-burger" id="burger"><b></b><b></b><b></b></button>
@@ -471,12 +672,21 @@ body:has(a:hover) .cur-ring,body:has(button:hover) .cur-ring{width:44px;height:4
 
 <!-- HERO -->
 <section class="hero">
-  <div class="hero-bg" id="hero-bg"><img src="assets/images/image1.png" alt="APAM Le Club" fetchpriority="high"></div>
+  <div class="hero-bg" id="hero-bg"><img id="hero-img" src="assets/images/image1.png" alt="APAM Le Club" fetchpriority="high"></div>
   <div class="hero-overlay" aria-hidden="true"></div>
+  <div class="hero-aurora" aria-hidden="true"></div>
   <div class="hero-grid" aria-hidden="true"></div>
+  <div class="hero-drift" id="hero-drift" aria-hidden="true"></div>
+  <div class="hero-noise" aria-hidden="true"></div>
+  <div class="hero-spot" id="hero-spot" aria-hidden="true"></div>
   <div class="hero-inner">
     <p class="hero-eye">Aéroclub · LFOL · Normandie</p>
     <h1 class="hero-title">Le Club<br><span class="ol">depuis 1965.</span></h1>
+      <div class="hero-stats">
+        <div class="hero-stat"><div class="l">Fondé</div><div class="v">1965</div></div>
+        <div class="hero-stat"><div class="l">Membres</div><div class="v">60<em>+</em></div></div>
+        <div class="hero-stat"><div class="l">Heures / an</div><div class="v">1 500<em>h</em></div></div>
+      </div>
   </div>
 </section>
 
@@ -489,11 +699,19 @@ body:has(a:hover) .cur-ring,body:has(button:hover) .cur-ring{width:44px;height:4
     <div class="agenda-head">
       <div>
         <p class="kicker" data-r>Agenda du club</p>
-        <h2 class="h2" data-r data-d="1">Événements<br>à venir.</h2>
+        <h2 class="h2" data-r data-d="1" data-stripe="AGENDA">Événements<br>à venir.</h2>
       </div>
       <p class="body-text" data-r data-d="2" style="max-width:360px">Vols groupés, sorties sociales, formations, assemblées — retrouvez ici ce qui anime la vie du club.</p>
     </div>
-    <div class="agenda-grid" id="agenda-grid"></div>
+    <div class="live-strip">
+      <span class="live-strip-l"><span class="dot"></span>Saison 2026 · En cours</span>
+      <span class="live-strip-r">
+        <span id="clock-lfol">— LFOL <em>--:--</em></span>
+        <span>SAISON <em>2026</em></span>
+        <span id="jours-feat">PROCHAIN <em>—</em></span>
+      </span>
+    </div>
+    <div class="agenda-layout" id="agenda-layout"></div>
   </div>
 </section>
 
@@ -524,82 +742,152 @@ body:has(a:hover) .cur-ring,body:has(button:hover) .cur-ring{width:44px;height:4
       </div>
       <p class="body-text" data-r data-d="2" style="max-width:360px">Du premier vol d'initiation aux rallyes inter-clubs, l'APAM propose une gamme complète d'activités pour tous les niveaux.</p>
     </div>
-    <div class="act-grid">
+    <div class="act-stage" id="act-stage">
+      <nav class="act-nav" id="act-nav">
+        <button class="act-nav-item on" data-scene="0" type="button">
+          <span class="act-nav-num">01</span>
+          <span class="act-nav-info"><span class="act-nav-title">Formation PPL</span><span class="act-nav-sub">Brevet · Europe</span></span>
+          <span class="act-nav-arr">›</span>
+        </button>
+        <button class="act-nav-item" data-scene="1" type="button">
+          <span class="act-nav-num">02</span>
+          <span class="act-nav-info"><span class="act-nav-title">Formation LAPL</span><span class="act-nav-sub">Loisir · Accédéé</span></span>
+          <span class="act-nav-arr">›</span>
+        </button>
+        <button class="act-nav-item" data-scene="2" type="button">
+          <span class="act-nav-num">03</span>
+          <span class="act-nav-info"><span class="act-nav-title">Vols de voyage</span><span class="act-nav-sub">VFR · Europe</span></span>
+          <span class="act-nav-arr">›</span>
+        </button>
+        <button class="act-nav-item" data-scene="3" type="button">
+          <span class="act-nav-num">04</span>
+          <span class="act-nav-info"><span class="act-nav-title">Baptêmes</span><span class="act-nav-sub">Découverte</span></span>
+          <span class="act-nav-arr">›</span>
+        </button>
+        <button class="act-nav-item" data-scene="4" type="button">
+          <span class="act-nav-num">05</span>
+          <span class="act-nav-info"><span class="act-nav-title">Rallyes · Navigation</span><span class="act-nav-sub">Compétition amicale</span></span>
+          <span class="act-nav-arr">›</span>
+        </button>
+        <button class="act-nav-item" data-scene="5" type="button">
+          <span class="act-nav-num">06</span>
+          <span class="act-nav-info"><span class="act-nav-title">Vie associative</span><span class="act-nav-sub">Méchoui · AG · soirées</span></span>
+          <span class="act-nav-arr">›</span>
+        </button>
+      </nav>
+      <div class="act-scene-wrap" id="act-scene-wrap">
+        <div class="act-scene-grid-bg"></div>
+        <article class="act-scene on" data-scene="0">
+          <header class="act-scene-head">
+            <div class="act-scene-num"><span class="l">— Scène 01 / 06</span><span class="v">01</span></div>
+            <div class="act-scene-icon">✈️</div>
+          </header>
+          <div class="act-scene-body">
+            <h3 class="act-scene-title">Formation PPL.</h3>
+            <p class="act-scene-desc">Le brevet pilote privé EASA vous ouvre toute l'Europe. Sous la supervision de nos instructeurs FI(A) bénévoles, la progression est structurée et individualisée — pas de pression commerciale, juste votre rythme et celui de la météo.</p>
+          </div>
+          <footer class="act-scene-foot">
+            <div class="act-scene-pills">
+              <span class="act-scene-pill hi">45 h minimum</span>
+              <span class="act-scene-pill">Dès 17 ans</span>
+              <span class="act-scene-pill">Vol de nuit possible</span>
+              <span class="act-scene-pill">Europe entière</span>
+            </div>
+          </footer>
+        </article>
 
-      <div class="act-card" data-r data-d="1">
-        <div class="act-icon">✈️</div>
-        <span class="act-num">— 01</span>
-        <h3 class="act-title">Formation<br>PPL</h3>
-        <p class="act-desc">Le brevet pilote privé EASA vous ouvre toute l'Europe. Sous la supervision de nos instructeurs FI(A) bénévoles, la progression est structurée et individualisée.</p>
-        <div class="act-detail">
-          <span class="act-pill">45 h minimum</span>
-          <span class="act-pill">Dès 17 ans</span>
-          <span class="act-pill">Vol de nuit</span>
-          <span class="act-pill">Europe entière</span>
-        </div>
+        <article class="act-scene" data-scene="1">
+          <header class="act-scene-head">
+            <div class="act-scene-num"><span class="l">— Scène 02 / 06</span><span class="v">02</span></div>
+            <div class="act-scene-icon">🎯</div>
+          </header>
+          <div class="act-scene-body">
+            <h3 class="act-scene-title">Formation LAPL.</h3>
+            <p class="act-scene-desc">La licence loisir est la voie la plus directe vers le brevet de pilote. Idéale pour ceux qui veulent voler pour le plaisir sans contrainte de carrière. Accès plus rapide, même esprit sérieux à bord.</p>
+          </div>
+          <footer class="act-scene-foot">
+            <div class="act-scene-pills">
+              <span class="act-scene-pill hi">30 h minimum</span>
+              <span class="act-scene-pill">Dès 16 ans</span>
+              <span class="act-scene-pill">CPF éligible</span>
+              <span class="act-scene-pill">VFR de jour</span>
+            </div>
+          </footer>
+        </article>
+
+        <article class="act-scene" data-scene="2">
+          <header class="act-scene-head">
+            <div class="act-scene-num"><span class="l">— Scène 03 / 06</span><span class="v">03</span></div>
+            <div class="act-scene-icon">🗺️</div>
+          </header>
+          <div class="act-scene-body">
+            <h3 class="act-scene-title">Vols de voyage.</h3>
+            <p class="act-scene-desc">Deauville, Étretat, Mont Saint-Michel, Bretagne, Angleterre… Les membres PPL organisent régulièrement des vols de campagne en groupe ou en solo. La carte VAC à la main, le café à l'arrivée.</p>
+          </div>
+          <footer class="act-scene-foot">
+            <div class="act-scene-pills">
+              <span class="act-scene-pill hi">PPL requis</span>
+              <span class="act-scene-pill">TB200 · SR20</span>
+              <span class="act-scene-pill">Navigation VFR</span>
+            </div>
+          </footer>
+        </article>
+
+        <article class="act-scene" data-scene="3">
+          <header class="act-scene-head">
+            <div class="act-scene-num"><span class="l">— Scène 04 / 06</span><span class="v">04</span></div>
+            <div class="act-scene-icon">🌟</div>
+          </header>
+          <div class="act-scene-body">
+            <h3 class="act-scene-title">Baptêmes & découverte.</h3>
+            <p class="act-scene-desc">Offrir un vol est l'une des plus belles façons de faire découvrir la Normandie depuis les airs. Baptêmes individuels et journées portes ouvertes organisées chaque année pour le grand public.</p>
+          </div>
+          <footer class="act-scene-foot">
+            <div class="act-scene-pills">
+              <span class="act-scene-pill hi">Dès 8 ans</span>
+              <span class="act-scene-pill">~ 30 min</span>
+              <span class="act-scene-pill">Sur réservation</span>
+            </div>
+          </footer>
+        </article>
+
+        <article class="act-scene" data-scene="4">
+          <header class="act-scene-head">
+            <div class="act-scene-num"><span class="l">— Scène 05 / 06</span><span class="v">05</span></div>
+            <div class="act-scene-icon">🏆</div>
+          </header>
+          <div class="act-scene-body">
+            <h3 class="act-scene-title">Rallyes & navigation.</h3>
+            <p class="act-scene-desc">L'APAM participe à des rallyes de navigation VFR et organise ses propres épreuves conviviales. Compétition amicale, esprit d'équipage, paysages normands à basse altitude.</p>
+          </div>
+          <footer class="act-scene-foot">
+            <div class="act-scene-pills">
+              <span class="act-scene-pill hi">PPL requis</span>
+              <span class="act-scene-pill">Été · Automne</span>
+              <span class="act-scene-pill">Toute la flotte</span>
+            </div>
+          </footer>
+        </article>
+
+        <article class="act-scene" data-scene="5">
+          <header class="act-scene-head">
+            <div class="act-scene-num"><span class="l">— Scène 06 / 06</span><span class="v">06</span></div>
+            <div class="act-scene-icon">🍖</div>
+          </header>
+          <div class="act-scene-body">
+            <h3 class="act-scene-title">Vie associative.</h3>
+            <p class="act-scene-desc">Méchoui annuel, repas de fin de saison, assemblée générale, soirées entre pilotes… Chez l'APAM, le club ne s'arrête pas quand le moteur s'éteint. C'est aussi pour ça qu'on vient.</p>
+          </div>
+          <footer class="act-scene-foot">
+            <div class="act-scene-pills">
+              <span class="act-scene-pill hi">Méchoui · Juin</span>
+              <span class="act-scene-pill">AG · Octobre</span>
+              <span class="act-scene-pill">Ouvert à tous</span>
+            </div>
+          </footer>
+        </article>
+        <div class="act-progress"><div class="act-progress-fill" id="act-progress"></div></div>
       </div>
-
-      <div class="act-card" data-r data-d="2">
-        <div class="act-icon">🎯</div>
-        <span class="act-num">— 02</span>
-        <h3 class="act-title">Formation<br>LAPL</h3>
-        <p class="act-desc">La licence loisir est la voie la plus directe vers le brevet de pilote. Idéale pour ceux qui veulent voler pour le plaisir sans contrainte de carrière.</p>
-        <div class="act-detail">
-          <span class="act-pill">30 h minimum</span>
-          <span class="act-pill">Dès 16 ans</span>
-          <span class="act-pill">CPF éligible</span>
-          <span class="act-pill">VFR de jour</span>
-        </div>
-      </div>
-
-      <div class="act-card" data-r data-d="3">
-        <div class="act-icon">🗺️</div>
-        <span class="act-num">— 03</span>
-        <h3 class="act-title">Vols de<br>voyage</h3>
-        <p class="act-desc">Deauville, Étretat, Mont Saint-Michel, Bretagne, Angleterre… Les membres PPL organisent régulièrement des vols de campagne en groupe ou en solo.</p>
-        <div class="act-detail">
-          <span class="act-pill">PPL requis</span>
-          <span class="act-pill">TB200 · SR20</span>
-          <span class="act-pill">Navigation VFR</span>
-        </div>
-      </div>
-
-      <div class="act-card" data-r data-d="1">
-        <div class="act-icon">🌟</div>
-        <span class="act-num">— 04</span>
-        <h3 class="act-title">Baptêmes<br>&amp; découverte</h3>
-        <p class="act-desc">Offrir un vol est l'une des plus belles façons de faire découvrir la Normandie depuis les airs. Baptêmes individuels et journées portes ouvertes organisées chaque année.</p>
-        <div class="act-detail">
-          <span class="act-pill">Dès 8 ans</span>
-          <span class="act-pill">~30 min</span>
-          <span class="act-pill">Sur réservation</span>
-        </div>
-      </div>
-
-      <div class="act-card" data-r data-d="2">
-        <div class="act-icon">🏆</div>
-        <span class="act-num">— 05</span>
-        <h3 class="act-title">Rallyes &amp;<br>navigation</h3>
-        <p class="act-desc">L'APAM participe à des rallyes de navigation VFR et organise ses propres épreuves conviviales. Compétition amicale, esprit d'équipage, paysages normands à basse altitude.</p>
-        <div class="act-detail">
-          <span class="act-pill">PPL requis</span>
-          <span class="act-pill">Été · Automne</span>
-          <span class="act-pill">Toute la flotte</span>
-        </div>
-      </div>
-
-      <div class="act-card" data-r data-d="3">
-        <div class="act-icon">🍖</div>
-        <span class="act-num">— 06</span>
-        <h3 class="act-title">Vie<br>associative</h3>
-        <p class="act-desc">Méchoui annuel, repas de fin de saison, assemblée générale, soirées entre pilotes… Chez l'APAM, le club ne s'arrête pas quand le moteur s'éteint.</p>
-        <div class="act-detail">
-          <span class="act-pill">Méchoui · Juin</span>
-          <span class="act-pill">AG · Octobre</span>
-          <span class="act-pill">Ouvert à tous</span>
-        </div>
-      </div>
-
     </div>
   </div>
 </section>
@@ -639,9 +927,9 @@ body:has(a:hover) .cur-ring,body:has(button:hover) .cur-ring{width:44px;height:4
           <a class="sn-follow" href="https://www.facebook.com/profile.php?id=61585663567523" target="_blank" rel="noopener">J'aime ↗</a>
         </header>
         <div class="sn-stats">
-          <div class="sn-stat"><span class="l">Abonnés</span><span class="v"><span data-cnt="480">0</span><em>+</em></span></div>
-          <div class="sn-stat"><span class="l">Publications</span><span class="v"><span data-cnt="245">0</span></span></div>
-          <div class="sn-stat"><span class="l">Note</span><span class="v">4.9<em>/5</em></span></div>
+          <div class="sn-stat live"><div class="sn-stat-ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/></svg></div><div class="sn-stat-tx"><span class="l">Statut</span><span class="v"><span class="dot"></span>Actif</span></div></div>
+          <div class="sn-stat"><div class="sn-stat-ico"><svg viewBox="0 0 24 24"><path d="M19 4h-1V2h-2v2H8V2H6v2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2zm0 16H5V10h14v10z"/></svg></div><div class="sn-stat-tx"><span class="l">Mise à jour</span><span class="v">Hebdo</span></div></div>
+          <div class="sn-stat"><div class="sn-stat-ico"><svg viewBox="0 0 24 24"><path d="M5 4h14a1 1 0 0 1 1 1v14l-4-4H5a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1z"/></svg></div><div class="sn-stat-tx"><span class="l">Lang.</span><span class="v">FR · EN</span></div></div>
         </div>
         <div class="sn-fb-embed">
           <div class="sn-fb-fallback" aria-hidden="true">
@@ -675,124 +963,28 @@ body:has(a:hover) .cur-ring,body:has(button:hover) .cur-ring{width:44px;height:4
           <a class="sn-follow" href="https://www.instagram.com/apam_lfol" target="_blank" rel="noopener">Suivre ↗</a>
         </header>
         <div class="sn-stats">
-          <div class="sn-stat"><span class="l">Followers</span><span class="v"><span data-cnt="320">0</span><em>+</em></span></div>
-          <div class="sn-stat"><span class="l">Posts</span><span class="v"><span data-cnt="186">0</span></span></div>
-          <div class="sn-stat"><span class="l">Reels / mois</span><span class="v">~ 4</span></div>
+          <div class="sn-stat live"><div class="sn-stat-ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/></svg></div><div class="sn-stat-tx"><span class="l">Statut</span><span class="v"><span class="dot"></span>Live</span></div></div>
+          <div class="sn-stat"><div class="sn-stat-ico"><svg viewBox="0 0 24 24"><path d="M12 2l3 6 7 1-5 5 1 7-6-3-6 3 1-7-5-5 7-1z"/></svg></div><div class="sn-stat-tx"><span class="l">Type</span><span class="v">Photos · Reels</span></div></div>
+          <div class="sn-stat"><div class="sn-stat-ico"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm0 2c4.4 0 8 3.6 8 8s-3.6 8-8 8-8-3.6-8-8 3.6-8 8-8zm-1 4v5l4 2 .5-1-3.5-2V8z"/></svg></div><div class="sn-stat-tx"><span class="l">Tempo</span><span class="v">Hebdo</span></div></div>
         </div>
-        <div class="sn-ig-grid">
-
-          <a class="ig-tile" href="https://www.instagram.com/apam_lfol" target="_blank" rel="noopener">
-            <img src="assets/images/image1.png" alt="Vol Normandie" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-            <div class="ig-tile-placeholder" style="display:none">Vol au-dessus du Pays d'Ouche</div>
-            <span class="ig-tile-corner">1/9</span>
-            <div class="ig-tile-overlay">
-              <div class="ig-tile-stats">
-                <span><svg viewBox="0 0 24 24"><path d="M12 21s-7-4.5-9-9.5C1.5 7 5 4 8 4c1.5 0 3 .8 4 2 1-1.2 2.5-2 4-2 3 0 6.5 3 5 7.5-2 5-9 9.5-9 9.5z"/></svg>148</span>
-                <span><svg viewBox="0 0 24 24"><path d="M21 12a8 8 0 0 1-12 6.9L3 21l2.1-6A8 8 0 1 1 21 12z" fill="none" stroke="currentColor" stroke-width="2"/></svg>9</span>
-              </div>
-              <div class="ig-tile-cap">Survol du Pays d'Ouche · golden hour #apam #vfr</div>
+        <div class="sn-ig-hero">
+          <span class="sn-ig-corner"><span class="dot"></span>En ligne</span>
+          <div class="sn-ig-hero-inner">
+            <div class="sn-ig-hero-icon">
+              <svg viewBox="0 0 24 24"><path d="M7 2C4.2 2 2 4.2 2 7v10c0 2.8 2.2 5 5 5h10c2.8 0 5-2.2 5-5V7c0-2.8-2.2-5-5-5H7zm0 2h10c1.7 0 3 1.3 3 3v10c0 1.7-1.3 3-3 3H7c-1.7 0-3-1.3-3-3V7c0-1.7 1.3-3 3-3zm5 3.5a4.5 4.5 0 1 0 0 9 4.5 4.5 0 0 0 0-9zm0 2a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zm4.8-2.9a1.1 1.1 0 1 0 0 2.2 1.1 1.1 0 0 0 0-2.2z"/></svg>
             </div>
-          </a>
-
-          <a class="ig-tile" href="https://www.instagram.com/apam_lfol" target="_blank" rel="noopener">
-            <img class="contain" src="assets/images/SR1.png" alt="Cirrus SR20" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-            <div class="ig-tile-placeholder" style="display:none">Cirrus SR20 · F-HCFA</div>
-            <span class="ig-tile-corner">2/9</span>
-            <div class="ig-tile-overlay">
-              <div class="ig-tile-stats">
-                <span><svg viewBox="0 0 24 24"><path d="M12 21s-7-4.5-9-9.5C1.5 7 5 4 8 4c1.5 0 3 .8 4 2 1-1.2 2.5-2 4-2 3 0 6.5 3 5 7.5-2 5-9 9.5-9 9.5z"/></svg>92</span>
-                <span><svg viewBox="0 0 24 24"><path d="M21 12a8 8 0 0 1-12 6.9L3 21l2.1-6A8 8 0 1 1 21 12z" fill="none" stroke="currentColor" stroke-width="2"/></svg>7</span>
-              </div>
-              <div class="ig-tile-cap">Notre Cirrus prêt au départ · CAPS check OK</div>
+            <h4>Le club vu d'en haut.</h4>
+            <p>Photos en vol, baptêmes, événements et coulisses du hangar — partagés presque chaque semaine.</p>
+            <span class="sn-ig-handle"><span class="ring"></span><strong>@apam_lfol</strong></span>
+            <a class="sn-ig-cta" href="https://www.instagram.com/apam_lfol" target="_blank" rel="noopener">Ouvrir Instagram <span class="arr">↗</span></a>
+            <div class="sn-ig-tags">
+              <span class="sn-ig-tag">#apam</span>
+              <span class="sn-ig-tag">#lfol</span>
+              <span class="sn-ig-tag">#vfr</span>
+              <span class="sn-ig-tag">#pilotlife</span>
+              <span class="sn-ig-tag">#normandie</span>
             </div>
-          </a>
-
-          <a class="ig-tile" href="https://www.instagram.com/apam_lfol" target="_blank" rel="noopener">
-            <div class="ig-tile-placeholder">Briefing matinal au clubhouse</div>
-            <span class="ig-tile-corner">3/9</span>
-            <div class="ig-tile-overlay">
-              <div class="ig-tile-stats">
-                <span><svg viewBox="0 0 24 24"><path d="M12 21s-7-4.5-9-9.5C1.5 7 5 4 8 4c1.5 0 3 .8 4 2 1-1.2 2.5-2 4-2 3 0 6.5 3 5 7.5-2 5-9 9.5-9 9.5z"/></svg>64</span>
-                <span><svg viewBox="0 0 24 24"><path d="M21 12a8 8 0 0 1-12 6.9L3 21l2.1-6A8 8 0 1 1 21 12z" fill="none" stroke="currentColor" stroke-width="2"/></svg>4</span>
-              </div>
-              <div class="ig-tile-cap">Briefing avant le fly-out · café & cartes VAC</div>
-            </div>
-          </a>
-
-          <a class="ig-tile" href="https://www.instagram.com/apam_lfol" target="_blank" rel="noopener">
-            <img class="contain" src="assets/images/TB200M.png" alt="TB200" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-            <div class="ig-tile-placeholder" style="display:none">TB200 · F-GBVK</div>
-            <span class="ig-tile-corner">4/9</span>
-            <div class="ig-tile-overlay">
-              <div class="ig-tile-stats">
-                <span><svg viewBox="0 0 24 24"><path d="M12 21s-7-4.5-9-9.5C1.5 7 5 4 8 4c1.5 0 3 .8 4 2 1-1.2 2.5-2 4-2 3 0 6.5 3 5 7.5-2 5-9 9.5-9 9.5z"/></svg>108</span>
-                <span><svg viewBox="0 0 24 24"><path d="M21 12a8 8 0 0 1-12 6.9L3 21l2.1-6A8 8 0 1 1 21 12z" fill="none" stroke="currentColor" stroke-width="2"/></svg>11</span>
-              </div>
-              <div class="ig-tile-cap">TB200 voyage Deauville · 8 pilotes du club</div>
-            </div>
-          </a>
-
-          <a class="ig-tile" href="https://www.instagram.com/apam_lfol" target="_blank" rel="noopener">
-            <div class="ig-tile-placeholder">Premier solo · Thomas</div>
-            <span class="ig-tile-corner">5/9 · Reel</span>
-            <div class="ig-tile-overlay">
-              <div class="ig-tile-stats">
-                <span><svg viewBox="0 0 24 24"><path d="M12 21s-7-4.5-9-9.5C1.5 7 5 4 8 4c1.5 0 3 .8 4 2 1-1.2 2.5-2 4-2 3 0 6.5 3 5 7.5-2 5-9 9.5-9 9.5z"/></svg>284</span>
-                <span><svg viewBox="0 0 24 24"><path d="M21 12a8 8 0 0 1-12 6.9L3 21l2.1-6A8 8 0 1 1 21 12z" fill="none" stroke="currentColor" stroke-width="2"/></svg>32</span>
-              </div>
-              <div class="ig-tile-cap">Premier solo de Thomas — bravo champion ! 🎉</div>
-            </div>
-          </a>
-
-          <a class="ig-tile" href="https://www.instagram.com/apam_lfol" target="_blank" rel="noopener">
-            <img class="contain" src="assets/images/FGHKE2.png" alt="Cessna 152" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-            <div class="ig-tile-placeholder" style="display:none">F-GHKE Cessna 152</div>
-            <span class="ig-tile-corner">6/9</span>
-            <div class="ig-tile-overlay">
-              <div class="ig-tile-stats">
-                <span><svg viewBox="0 0 24 24"><path d="M12 21s-7-4.5-9-9.5C1.5 7 5 4 8 4c1.5 0 3 .8 4 2 1-1.2 2.5-2 4-2 3 0 6.5 3 5 7.5-2 5-9 9.5-9 9.5z"/></svg>76</span>
-                <span><svg viewBox="0 0 24 24"><path d="M21 12a8 8 0 0 1-12 6.9L3 21l2.1-6A8 8 0 1 1 21 12z" fill="none" stroke="currentColor" stroke-width="2"/></svg>3</span>
-              </div>
-              <div class="ig-tile-cap">Cessna 152 · l'avion-école par excellence</div>
-            </div>
-          </a>
-
-          <a class="ig-tile" href="https://www.instagram.com/apam_lfol" target="_blank" rel="noopener">
-            <div class="ig-tile-placeholder">Méchoui annuel 2025</div>
-            <span class="ig-tile-corner">7/9</span>
-            <div class="ig-tile-overlay">
-              <div class="ig-tile-stats">
-                <span><svg viewBox="0 0 24 24"><path d="M12 21s-7-4.5-9-9.5C1.5 7 5 4 8 4c1.5 0 3 .8 4 2 1-1.2 2.5-2 4-2 3 0 6.5 3 5 7.5-2 5-9 9.5-9 9.5z"/></svg>134</span>
-                <span><svg viewBox="0 0 24 24"><path d="M21 12a8 8 0 0 1-12 6.9L3 21l2.1-6A8 8 0 1 1 21 12z" fill="none" stroke="currentColor" stroke-width="2"/></svg>18</span>
-              </div>
-              <div class="ig-tile-cap">Méchoui annuel · l'esprit APAM en photo</div>
-            </div>
-          </a>
-
-          <a class="ig-tile" href="https://www.instagram.com/apam_lfol" target="_blank" rel="noopener">
-            <div class="ig-tile-placeholder">Coucher de soleil · LFOL</div>
-            <span class="ig-tile-corner">8/9</span>
-            <div class="ig-tile-overlay">
-              <div class="ig-tile-stats">
-                <span><svg viewBox="0 0 24 24"><path d="M12 21s-7-4.5-9-9.5C1.5 7 5 4 8 4c1.5 0 3 .8 4 2 1-1.2 2.5-2 4-2 3 0 6.5 3 5 7.5-2 5-9 9.5-9 9.5z"/></svg>198</span>
-                <span><svg viewBox="0 0 24 24"><path d="M21 12a8 8 0 0 1-12 6.9L3 21l2.1-6A8 8 0 1 1 21 12z" fill="none" stroke="currentColor" stroke-width="2"/></svg>12</span>
-              </div>
-              <div class="ig-tile-cap">Dernier vol de la journée · #sunsetflight</div>
-            </div>
-          </a>
-
-          <a class="ig-tile" href="https://www.instagram.com/apam_lfol" target="_blank" rel="noopener">
-            <div class="ig-tile-placeholder">Maintenance · Hangar APAM</div>
-            <span class="ig-tile-corner">9/9</span>
-            <div class="ig-tile-overlay">
-              <div class="ig-tile-stats">
-                <span><svg viewBox="0 0 24 24"><path d="M12 21s-7-4.5-9-9.5C1.5 7 5 4 8 4c1.5 0 3 .8 4 2 1-1.2 2.5-2 4-2 3 0 6.5 3 5 7.5-2 5-9 9.5-9 9.5z"/></svg>52</span>
-                <span><svg viewBox="0 0 24 24"><path d="M21 12a8 8 0 0 1-12 6.9L3 21l2.1-6A8 8 0 1 1 21 12z" fill="none" stroke="currentColor" stroke-width="2"/></svg>5</span>
-              </div>
-              <div class="ig-tile-cap">100h annuel · merci aux mécanos bénévoles</div>
-            </div>
-          </a>
-
+          </div>
         </div>
         <footer class="sn-foot">
           <span class="lbl">— @apam_lfol</span>
@@ -813,100 +1005,108 @@ body:has(a:hover) .cur-ring,body:has(button:hover) .cur-ring{width:44px;height:4
     </div>
     <div class="team-grid">
 
-      <article class="team-card" data-r data-d="1">
-        <header class="team-hd">
+      <article class="team-card" data-cat="bureau" data-r data-d="1">
+        <div class="team-portrait">
           <div class="team-avatar">FR</div>
-          <div class="team-id">
-            <h4 class="team-name">Frédéric Regnier</h4>
-            <p class="team-role">Président</p>
-          </div>
-        </header>
+          <span class="team-portrait-corner">★</span>
+        </div>
+        <div class="team-id">
+          <h4 class="team-name">Frédéric Regnier</h4>
+          <p class="team-role">Président</p>
+        </div>
         <p class="team-bio">À la tête du club, il en porte la vision et les projets. Référent du bureau, des AG et des relations avec la FFA.</p>
         <span class="team-tag"><span class="pin"></span>Bureau · Élu</span>
       </article>
 
-      <article class="team-card" data-r data-d="2">
-        <header class="team-hd">
+      <article class="team-card" data-cat="bureau" data-r data-d="2">
+        <div class="team-portrait">
           <div class="team-avatar">DJ</div>
-          <div class="team-id">
-            <h4 class="team-name">Dominique Jouandet</h4>
-            <p class="team-role">Trésorier</p>
-          </div>
-        </header>
+          <span class="team-portrait-corner">€</span>
+        </div>
+        <div class="team-id">
+          <h4 class="team-name">Dominique Jouandet</h4>
+          <p class="team-role">Trésorier</p>
+        </div>
         <p class="team-bio">Garant des comptes du club. Suivi des cotisations, des heures facturées et du budget annuel de l'association.</p>
         <span class="team-tag"><span class="pin"></span>Bureau · Élu</span>
       </article>
 
-      <article class="team-card" data-r data-d="3">
-        <header class="team-hd">
+      <article class="team-card" data-cat="bureau" data-r data-d="3">
+        <div class="team-portrait">
           <div class="team-avatar">MT</div>
-          <div class="team-id">
-            <h4 class="team-name">Marianne Tocanne</h4>
-            <p class="team-role">Secrétaire</p>
-          </div>
-        </header>
+          <span class="team-portrait-corner">✎</span>
+        </div>
+        <div class="team-id">
+          <h4 class="team-name">Marianne Tocanne</h4>
+          <p class="team-role">Secrétaire</p>
+        </div>
         <p class="team-bio">Pilier administratif du club. Coordonne les inscriptions, les courriers et l'organisation des événements internes.</p>
         <span class="team-tag"><span class="pin"></span>Bureau · Élu</span>
       </article>
 
-      <article class="team-card" data-r data-d="4">
-        <header class="team-hd">
+      <article class="team-card" data-cat="ops" data-r data-d="4">
+        <div class="team-portrait">
           <div class="team-avatar">LW</div>
-          <div class="team-id">
-            <h4 class="team-name">Luc Welsing</h4>
-            <p class="team-role">Gestionnaire</p>
-          </div>
-        </header>
+          <span class="team-portrait-corner">⚙</span>
+        </div>
+        <div class="team-id">
+          <h4 class="team-name">Luc Welsing</h4>
+          <p class="team-role">Gestionnaire</p>
+        </div>
         <p class="team-bio">Opérations au quotidien : planning OpenFlyer, gestion des appareils, suivi maintenance et accueil des nouveaux.</p>
-        <span class="team-tag ops"><span class="pin"></span>Opérations</span>
+        <span class="team-tag"><span class="pin"></span>Opérations</span>
       </article>
 
-      <article class="team-card" data-r data-d="1">
-        <header class="team-hd">
+      <article class="team-card" data-cat="formation" data-r data-d="1">
+        <div class="team-portrait">
           <div class="team-avatar">SA</div>
-          <div class="team-id">
-            <h4 class="team-name">Sébastien Anquetil</h4>
-            <p class="team-role">Resp. pédagogique</p>
-          </div>
-        </header>
+          <span class="team-portrait-corner">★</span>
+        </div>
+        <div class="team-id">
+          <h4 class="team-name">Sébastien Anquetil</h4>
+          <p class="team-role">Resp. pédagogique</p>
+        </div>
         <p class="team-bio">Pilote le contenu et la qualité de la formation. Encadre l'équipe d'instructeurs et valide les progressions élèves.</p>
-        <span class="team-tag formation"><span class="pin"></span>Formation</span>
+        <span class="team-tag"><span class="pin"></span>Formation</span>
       </article>
 
-      <article class="team-card" data-r data-d="2">
-        <header class="team-hd">
+      <article class="team-card" data-cat="formation" data-r data-d="2">
+        <div class="team-portrait">
           <div class="team-avatar">YL</div>
-          <div class="team-id">
-            <h4 class="team-name">Yannick Le Collen</h4>
-            <p class="team-role">Instructeur</p>
-          </div>
-        </header>
+          <span class="team-portrait-corner">✈</span>
+        </div>
+        <div class="team-id">
+          <h4 class="team-name">Yannick Le Collen</h4>
+          <p class="team-role">Instructeur</p>
+        </div>
         <p class="team-bio">Accompagne les élèves pilotes du premier vol au lâcher, puis sur les phases de navigation et de préparation au brevet.</p>
-        <span class="team-tag formation"><span class="pin"></span>Formation</span>
+        <span class="team-tag"><span class="pin"></span>Formation</span>
       </article>
 
-      <article class="team-card" data-r data-d="3">
-        <header class="team-hd">
+      <article class="team-card" data-cat="formation" data-r data-d="3">
+        <div class="team-portrait">
           <div class="team-avatar">FR</div>
-          <div class="team-id">
-            <h4 class="team-name">Frédéric Regnier</h4>
-            <p class="team-role">Instructeur</p>
-          </div>
-        </header>
+          <span class="team-portrait-corner">✈</span>
+        </div>
+        <div class="team-id">
+          <h4 class="team-name">Frédéric Regnier</h4>
+          <p class="team-role">Instructeur</p>
+        </div>
         <p class="team-bio">Outre la présidence, Frédéric assure aussi des heures d'instruction au club, partageant son expérience.</p>
-        <span class="team-tag formation"><span class="pin"></span>Formation</span>
+        <span class="team-tag"><span class="pin"></span>Formation</span>
       </article>
 
-      <article class="team-card" data-r data-d="4">
-        <header class="team-hd">
+      <article class="team-card" data-cat="digital" data-r data-d="4">
+        <div class="team-portrait">
           <div class="team-avatar">PC</div>
-          <div class="team-id">
-            <h4 class="team-name">Pierre Cauvin</h4>
-            <p class="team-role">Développement web</p>
-          </div>
-        </header>
+          <span class="team-portrait-corner">‹›</span>
+        </div>
+        <div class="team-id">
+          <h4 class="team-name">Pierre Cauvin</h4>
+          <p class="team-role">Développement web</p>
+        </div>
         <p class="team-bio">Conception, design et développement du site web APAM. Maintient la plateforme, l'espace membres et l'identité numérique.</p>
-        <span class="team-tag digital"><span class="pin"></span>Digital</span>
+        <span class="team-tag"><span class="pin"></span>Digital</span>
       </article>
 
     </div>
@@ -966,7 +1166,7 @@ body:has(a:hover) .cur-ring,body:has(button:hover) .cur-ring{width:44px;height:4
 <footer class="footer">
   <div class="footer-in">
     <div class="footer-links">
-      <a href="/cdn-cgi/l/email-protection#4726223528242b32252637262a07202a262e2b6924282a"><span class="__cf_email__" data-cfemail="badbdfc8d5d9d6cfd8dbcadbd7faddd7dbd3d694d9d5d7">[email&#160;protected]</span></a><span class="sep">·</span>
+      <a href="/cdn-cgi/l/email-protection#49282c3b262a253c2b28392824092e24282025672a2624"><span class="__cf_email__" data-cfemail="bddcd8cfd2ded1c8dfdccddcd0fddad0dcd4d193ded2d0">[email&#160;protected]</span></a><span class="sep">·</span>
       <a href="https://www.facebook.com/profile.php?id=61585663567523" target="_blank">Facebook</a>
       <a href="https://www.instagram.com/apam_lfol" target="_blank">Instagram</a><span class="sep">·</span>
       <a href="mentions-legales.html">Mentions légales</a>
@@ -1032,6 +1232,8 @@ const TICKS=['LFOL · L\'Aigle Saint-Michel','FRQ 126.855 MHz','Piste 07/25 · 8
 const EV_KEY='apam_events_v1';
 const MONTHS=['Jan','Fév','Mar','Avr','Mai','Jun','Jul','Aoû','Sep','Oct','Nov','Déc'];
 const EV_LABELS={vol:'✈ Vol groupé',social:'🍖 Social',formation:'📚 Formation',initiation:'🌟 Initiation',admin:'📋 Admin'};
+const EV_ICONS={vol:'✈️',social:'🍖',formation:'📚',initiation:'🌟',admin:'📋'};
+const EV_LBL_SHORT={vol:'Vol groupé',social:'Social',formation:'Formation',initiation:'Initiation',admin:'Admin'};
 
 const DEFAULT_EVENTS=[
   {id:'d1',date:'2026-06-21',title:'Méchoui annuel',desc:'Repas convivial de fin juin sur le terrain. Ouvert à tous les membres et leurs familles.',type:'social'},
@@ -1047,24 +1249,217 @@ function getUpcoming(){
   return [...DEFAULT_EVENTS,...getCustomEvents()].sort((a,b)=>new Date(a.date)-new Date(b.date)).filter(e=>new Date(e.date)>=now);
 }
 
+let _agendaFeatured=0;
+let _agendaShowAll=false;
 function renderAgenda(){
-  const grid=document.getElementById('agenda-grid');
+  const wrap=document.getElementById('agenda-layout');
+  if(!wrap)return;
   const evs=getUpcoming();
-  if(!evs.length){grid.innerHTML='<div class="ev-empty">Aucun événement programmé · Revenez bientôt !</div>';return;}
-  grid.innerHTML=evs.map(ev=>{
-    const d=new Date(ev.date+'T00:00:00');
-    return `<div class="ev-card">
-      <div class="ev-card-top">
-        <div><div class="ev-day">${String(d.getDate()).padStart(2,'0')}</div><div class="ev-mth">${MONTHS[d.getMonth()]} ${d.getFullYear()}</div></div>
-        <span class="ev-type-badge ${ev.type}">${EV_LABELS[ev.type]||ev.type}</span>
+  if(!evs.length){wrap.innerHTML='<div class="ev-empty" style="grid-column:1/-1">Aucun événement programmé · Revenez bientôt !</div>';return;}
+  const fi=Math.min(_agendaFeatured,evs.length-1);
+  const feat=evs[fi];
+  const rest=evs.filter((_,i)=>i!==fi);
+  const fd=new Date(feat.date+'T00:00:00');
+  const upcoming=_agendaShowAll?rest:rest.slice(0,3);
+  const hidden=Math.max(0,rest.length-3);
+  const cd=Math.round((fd-new Date(new Date().toDateString()))/86400000);
+  const cdLabel=cd<=0?'Aujourd\'hui':cd===1?'Demain':cd<7?`Dans ${cd} jours`:cd<31?`Dans ${Math.ceil(cd/7)} semaines`:`Dans ${Math.ceil(cd/30)} mois`;
+  const featLabel=fi===0?'Prochain événement':'Événement sélectionné';
+  const featHtml=`<article class="ev-feat" key="${feat.id||fi}">
+    <div class="ev-feat-top">
+      <div class="ev-feat-meta">
+        <span class="ev-feat-lbl"><span class="dot"></span>${featLabel}</span>
+        <span class="ev-feat-countdown"><em>${cd<=0?'!':cd}</em>${cdLabel}</span>
       </div>
-      <div class="ev-card-title">${ev.title}</div>
-      <div class="ev-card-desc">${ev.desc}</div>
-      <div class="ev-card-foot">${MONTHS[d.getMonth()]} ${d.getDate()}, ${d.getFullYear()}</div>
-    </div>`;
+      <div class="ev-feat-icon">${EV_ICONS[feat.type]||'✨'}</div>
+    </div>
+    <div class="ev-feat-body">
+      <div class="ev-feat-date">
+        <span class="ev-feat-day">${String(fd.getDate()).padStart(2,'0')}</span>
+        <span class="ev-feat-mth">${MONTHS[fd.getMonth()]}<small>${fd.getFullYear()}</small></span>
+      </div>
+      <h3 class="ev-feat-title">${feat.title}</h3>
+      <p class="ev-feat-desc">${feat.desc}</p>
+    </div>
+    <div class="ev-feat-foot">
+      <span class="ev-type-badge ${feat.type}">${EV_ICONS[feat.type]||''} ${EV_LBL_SHORT[feat.type]||feat.type}</span>
+      <span class="ev-feat-when">${fd.toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long',year:'numeric'})}</span>
+    </div>
+  </article>`;
+  const miniHtml=upcoming.map(ev=>{
+    const d=new Date(ev.date+'T00:00:00');
+    const realIdx=evs.indexOf(ev);
+    return `<button type="button" class="ev-mini" data-idx="${realIdx}" aria-label="Mettre en avant : ${ev.title}">
+      <span class="ev-mini-hd">
+        <span class="ev-mini-date"><span class="d">${String(d.getDate()).padStart(2,'0')}</span><span class="m">${MONTHS[d.getMonth()]}</span></span>
+        <span class="ev-mini-body">
+          <span class="ev-mini-top"><span class="ev-mini-icon">${EV_ICONS[ev.type]||''}</span><span class="ev-mini-cat">${EV_LBL_SHORT[ev.type]||ev.type}</span></span>
+          <span class="ev-mini-title">${ev.title}</span>
+        </span>
+        <span class="ev-mini-chev">→</span>
+      </span>
+    </button>`;
   }).join('');
+  let footHtml='';
+  if(_agendaShowAll&&rest.length>3){
+    footHtml=`<button type="button" class="ev-up-foot open" id="toggle-all">Réduire la liste <span class="arr">↓</span></button>`;
+  }else if(hidden>0){
+    footHtml=`<button type="button" class="ev-up-foot" id="toggle-all">Voir les ${rest.length} événements <span class="arr">↓</span></button>`;
+  }
+  wrap.innerHTML=featHtml+`<div class="ev-up${_agendaShowAll?' expanded':''}">${miniHtml||'<div class="ev-empty" style="padding:24px;font-size:13px">Seul événement à venir pour l\'instant.</div>'}${footHtml}</div>`;
+
+  wrap.querySelectorAll('.ev-mini').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      const idx=parseInt(btn.dataset.idx,10);
+      if(!isNaN(idx)){_agendaFeatured=idx;renderAgenda();window.scrollTo({top:document.getElementById('calendrier').offsetTop-80,behavior:'smooth'});}
+    });
+  });
+  const tog=wrap.querySelector('#toggle-all');
+  if(tog)tog.addEventListener('click',()=>{_agendaShowAll=!_agendaShowAll;renderAgenda();});
 }
 renderAgenda();
+
+/* ══ IMMERSIVE EFFECTS ══ */
+(function liveClock(){
+  const el=document.getElementById('clock-lfol');
+  if(!el)return;
+  const fmt=()=>{
+    const d=new Date();
+    const h=String(d.getUTCHours()).padStart(2,'0');
+    const m=String(d.getUTCMinutes()).padStart(2,'0');
+    el.innerHTML=`— LFOL UTC <em>${h}:${m}</em>`;
+  };
+  fmt();setInterval(fmt,30000);
+})();
+
+const swepIo=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('swept');swepIo.unobserve(e.target);}}),{threshold:.15});
+document.querySelectorAll('.sec').forEach(s=>{s.setAttribute('data-sweep','1');swepIo.observe(s);});
+
+(function immersive(){
+  const reduced=window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+  if(reduced)return;
+
+  /* Drift particles in hero */
+  const drift=document.getElementById('hero-drift');
+  if(drift){
+    for(let i=0;i<14;i++){
+      const s=document.createElement('span');
+      const y=Math.random()*100;
+      const dur=18+Math.random()*22;
+      const delay=Math.random()*-20;
+      const size=1+Math.random()*2.5;
+      s.style.cssText=`top:${y}%;left:-5%;width:${size}px;height:${size}px;animation-duration:${dur}s;animation-delay:${delay}s;opacity:0`;
+      drift.appendChild(s);
+    }
+  }
+
+  /* Hero spotlight follows cursor */
+  const hero=document.querySelector('.hero');
+  const spot=document.getElementById('hero-spot');
+  const heroImg=document.getElementById('hero-img');
+  if(hero&&spot){
+    let raf;
+    hero.addEventListener('pointermove',(e)=>{
+      if(raf)return;raf=requestAnimationFrame(()=>{
+        const r=hero.getBoundingClientRect();
+        const x=((e.clientX-r.left)/r.width*100).toFixed(1);
+        const y=((e.clientY-r.top)/r.height*100).toFixed(1);
+        spot.style.setProperty('--mx',x+'%');
+        spot.style.setProperty('--my',y+'%');
+        if(heroImg){
+          const tx=((e.clientX/innerWidth)-.5)*-14;
+          const ty=((e.clientY/innerHeight)-.5)*-10;
+          heroImg.style.transform=`scale(1.05) translate3d(${tx}px,${ty}px,0)`;
+        }
+        raf=null;
+      });
+    });
+    hero.addEventListener('pointerleave',()=>{if(heroImg)heroImg.style.transform='';});
+  }
+
+  /* Magnetic buttons */
+  document.querySelectorAll('.btn,.sn-follow,.sn-ig-cta,.loc-cta').forEach(btn=>{
+    btn.addEventListener('pointermove',(e)=>{
+      const r=btn.getBoundingClientRect();
+      const x=(e.clientX-r.left-r.width/2)*.18;
+      const y=(e.clientY-r.top-r.height/2)*.18;
+      btn.style.transform=`translate(${x}px,${y}px)`;
+    });
+    btn.addEventListener('pointerleave',()=>{btn.style.transform='';});
+  });
+
+  /* 3D tilt on featured event */
+  document.addEventListener('mouseover',(e)=>{
+    const card=e.target.closest('.ev-feat');
+    if(!card||card.dataset.tilt)return;
+    card.dataset.tilt='1';
+    card.addEventListener('pointermove',(ev)=>{
+      const r=card.getBoundingClientRect();
+      const rx=((ev.clientY-r.top)/r.height-.5)*-6;
+      const ry=((ev.clientX-r.left)/r.width-.5)*8;
+      card.style.transform=`perspective(1100px) rotateX(${rx}deg) rotateY(${ry}deg) translateY(-3px)`;
+    });
+    card.addEventListener('pointerleave',()=>{card.style.transform='';});
+  });
+
+  /* Word reveal on hero title (text nodes only, preserves <br> and <span class="ol">) */
+  const ht=document.querySelector('.hero-title');
+  if(ht&&!ht.dataset.split){
+    ht.dataset.split='1';
+    const wrapTextNodes=(node)=>{
+      [...node.childNodes].forEach(n=>{
+        if(n.nodeType===3){
+          const words=n.textContent.split(/(\s+)/);
+          const frag=document.createDocumentFragment();
+          words.forEach(w=>{
+            if(/^\s+$/.test(w))frag.appendChild(document.createTextNode(w));
+            else if(w){const s=document.createElement('span');s.className='hw';s.textContent=w;frag.appendChild(s);}
+          });
+          n.replaceWith(frag);
+        }else if(n.nodeType===1&&n.tagName!=='BR'){
+          wrapTextNodes(n);
+        }
+      });
+    };
+    wrapTextNodes(ht);
+    ht.querySelectorAll('.hw').forEach((w,i)=>{w.style.cssText=`display:inline-block;opacity:0;transform:translateY(110%);transition:opacity .8s cubic-bezier(.16,1,.3,1) ${0.15+i*0.08}s,transform .9s cubic-bezier(.16,1,.3,1) ${0.15+i*0.08}s`;});
+    requestAnimationFrame(()=>ht.querySelectorAll('.hw').forEach(w=>{w.style.opacity='1';w.style.transform='none';}));
+  }
+})();
+(function actScenes(){
+  const nav=document.getElementById('act-nav');
+  const wrap=document.getElementById('act-scene-wrap');
+  if(!nav||!wrap)return;
+  const items=nav.querySelectorAll('.act-nav-item');
+  const scenes=wrap.querySelectorAll('.act-scene');
+  const fill=document.getElementById('act-progress');
+  const DUR=6500;
+  let idx=0, paused=false, pgStart=performance.now();
+
+  function setScene(n){
+    idx=n;
+    items.forEach((it,i)=>it.classList.toggle('on',i===n));
+    scenes.forEach((sc,i)=>sc.classList.toggle('on',i===n));
+    pgStart=performance.now();
+    if(fill){fill.classList.add('no-tr');fill.style.width='0%';void fill.offsetWidth;fill.classList.remove('no-tr');}
+  }
+  function tick(t){
+    const elapsed=t-pgStart;
+    if(!paused){
+      const p=Math.min(elapsed/DUR,1)*100;
+      if(fill)fill.style.width=p+'%';
+      if(elapsed>=DUR){setScene((idx+1)%scenes.length);}
+    }else{pgStart=t-(parseFloat(fill?.style.width||'0')/100)*DUR;}
+    requestAnimationFrame(tick);
+  }
+  items.forEach((it,i)=>it.addEventListener('click',()=>setScene(i)));
+  const stage=document.getElementById('act-stage');
+  if(stage){
+    stage.addEventListener('mouseenter',()=>{paused=true;});
+    stage.addEventListener('mouseleave',()=>{paused=false;});
+  }
+  requestAnimationFrame(tick);
+})();
 
 /* ══════════════════════════════════════
    GALERIE — depuis localStorage
