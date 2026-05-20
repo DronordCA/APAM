@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<title>Espace Président – APAM</title>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,400;0,700;0,900;1,700;1,900&family=Jost:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#080a0e;--bg-2:#0b0d13;--bg-3:#0e1018;
+  --sf:#141720;--sf2:#191d2c;
+  --accent:#2563eb;--acc2:#818cf8;--acc-d:rgba(37,99,235,.14);
+  --muted:#7a8399;--dim:#32384f;
+  --border:rgba(255,255,255,.07);--bds:rgba(255,255,255,.11);
+  --ok:#22d77a;--warn:#f5a524;--err:#ef4444;
+  --white:#fff;--nav-h:66px;--side:clamp(16px,4.5vw,72px);--rl:12px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg-2);color:var(--white);font-family:'Jost',system-ui,sans-serif;-webkit-font-smoothing:antialiased;min-height:100svh}
+a{color:inherit;text-decoration:none}
+img{max-width:100%;display:block}
+::-webkit-scrollbar{width:2px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:var(--accent)}
+
+/* ── NAV ── */
+.nav{position:sticky;top:0;z-index:100;height:var(--nav-h);display:flex;align-items:center;
+  padding:0 var(--side);gap:20px;background:rgba(8,10,14,.94);
+  border-bottom:1px solid var(--border);backdrop-filter:blur(20px)}
+.nav-logo{display:flex;align-items:center;gap:12px}
+.nav-logo img{height:38px}
+.nav-logo-text{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:22px;text-transform:uppercase}
+.nav-center{flex:1;display:flex;align-items:center;justify-content:center;gap:10px}
+.nav-pill{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:11px;letter-spacing:.18em;text-transform:uppercase;padding:5px 13px;border-radius:100px;background:rgba(37,99,235,.14);border:1px solid rgba(37,99,235,.3);color:#8aabff;display:flex;align-items:center;gap:7px}
+.nav-pill .dot{width:6px;height:6px;border-radius:50%;background:var(--ok);animation:pulse 2.6s ease-in-out infinite}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(34,215,122,.5)}50%{box-shadow:0 0 0 5px transparent}}
+.nav-right{display:flex;align-items:center;gap:12px;margin-left:auto}
+.nav-site{font-size:10.5px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:rgba(255,255,255,.35);transition:color .2s}
+.nav-site:hover{color:rgba(255,255,255,.7)}
+.nav-out{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:13px;letter-spacing:.12em;
+  text-transform:uppercase;padding:7px 16px;border:1.5px solid rgba(255,255,255,.18);color:rgba(255,255,255,.5);
+  cursor:pointer;background:none;transition:color .2s,border-color .2s}
+.nav-out:hover{color:#fff;border-color:rgba(255,255,255,.45)}
+
+/* ── HERO ── */
+.dh{background:var(--bg);border-bottom:1px solid var(--border);padding:40px 0 32px;position:relative;overflow:hidden}
+.dh::before{content:'';position:absolute;inset:0;background:radial-gradient(55% 70% at 95% 0%,rgba(37,99,235,.12),transparent 60%);pointer-events:none}
+.dh-grid{position:absolute;inset:0;pointer-events:none;
+  background-image:linear-gradient(rgba(37,99,235,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(37,99,235,.03) 1px,transparent 1px);
+  background-size:64px 64px;mask-image:linear-gradient(135deg,rgba(0,0,0,.4) 10%,transparent 65%)}
+.dh-inner{position:relative;z-index:1}
+.dh-eye{font-size:9px;font-weight:700;letter-spacing:.32em;text-transform:uppercase;color:var(--accent);display:flex;align-items:center;gap:9px;margin-bottom:14px}
+.dh-eye::before{content:'';width:20px;height:1px;background:var(--accent)}
+.dh-name{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:clamp(44px,6vw,76px);line-height:.9;text-transform:uppercase;letter-spacing:-.015em}
+.dh-name em{color:var(--accent);font-style:inherit}
+.dh-sub{font-size:14px;color:var(--muted);margin-top:10px;max-width:520px;line-height:1.65}
+
+/* ── WRAP / LAYOUT ── */
+.wrap{max-width:1060px;margin:0 auto;padding:0 var(--side)}
+.main{padding:32px 0 64px}
+.sections{display:flex;flex-direction:column;gap:20px}
+
+/* ── PANEL ── */
+.panel{background:var(--sf);border:1.5px solid rgba(37,99,235,.28);border-radius:var(--rl);overflow:hidden}
+.panel-hd{padding:16px 20px;border-bottom:1px solid rgba(37,99,235,.18);background:rgba(37,99,235,.06);display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.panel-hd h2{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:20px;text-transform:uppercase;letter-spacing:-.005em;display:flex;align-items:center;gap:10px}
+.panel-hd p{font-size:12px;color:var(--muted);line-height:1.5;max-width:480px}
+.panel-body{padding:22px}
+
+/* ── FORM ── */
+.sec-lbl{font-size:9.5px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);display:flex;align-items:center;gap:8px;margin-bottom:14px}
+.sec-lbl::after{content:'';flex:1;height:1px;background:rgba(37,99,235,.2)}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.field{display:flex;flex-direction:column;gap:5px}
+.field label{font-size:9.5px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.38)}
+.field input,.field textarea,.field select{
+  background:var(--bg-2);border:1.5px solid var(--bds);color:#fff;
+  padding:11px 13px;font-family:'Jost',sans-serif;font-size:13.5px;
+  outline:none;transition:border-color .22s;border-radius:7px;width:100%}
+.field input:focus,.field textarea:focus,.field select:focus{border-color:var(--accent)}
+.field textarea{resize:vertical;min-height:96px;line-height:1.6}
+.field select option{background:var(--sf)}
+.field.full{grid-column:1/-1}
+
+/* Mot de passe */
+.pwd-bar{display:flex;align-items:center;gap:10px;padding:10px 14px;background:rgba(37,99,235,.05);border:1px solid rgba(37,99,235,.2);border-radius:8px;margin-bottom:18px}
+.pwd-bar label{font-size:9px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);white-space:nowrap}
+.pwd-bar input{flex:1;background:transparent;border:none;color:#fff;font-family:'JetBrains Mono',monospace;font-size:13px;outline:none;letter-spacing:.06em}
+
+/* Footer form */
+.form-foot{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-top:14px}
+.form-status{font-size:12px;min-height:18px;transition:color .2s}
+.btn-pub{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:14px;letter-spacing:.12em;text-transform:uppercase;padding:12px 26px;background:var(--accent);color:#fff;border:none;cursor:pointer;border-radius:7px;transition:opacity .2s,transform .2s}
+.btn-pub:hover{opacity:.88;transform:translateY(-1px)}
+.btn-pub:disabled{opacity:.4;cursor:not-allowed;transform:none}
+
+/* ── LISTE NEWS ── */
+.news-list{border:1px solid var(--border);border-radius:8px;overflow:hidden;margin-top:18px}
+.news-item{display:flex;align-items:flex-start;gap:14px;padding:14px 16px;border-bottom:1px solid var(--border);transition:background .2s}
+.news-item:last-child{border-bottom:none}
+.news-item:hover{background:rgba(37,99,235,.03)}
+.news-item-body{flex:1;min-width:0}
+.news-item-body h4{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:15px;text-transform:uppercase;color:#fff;letter-spacing:.03em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.news-item-body p{font-size:12px;color:var(--muted);margin-top:4px;line-height:1.5;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.news-meta{display:flex;align-items:center;gap:8px;margin-top:6px;flex-wrap:wrap}
+.news-meta-date{font-size:9px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
+.news-meta-cat{font-size:8.5px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;padding:2px 8px;border-radius:100px;background:var(--acc-d);border:1px solid rgba(37,99,235,.2);color:var(--accent)}
+.news-del{width:28px;height:28px;border:1px solid var(--border);border-radius:50%;background:none;color:rgba(255,255,255,.28);cursor:pointer;font-size:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:border-color .2s,color .2s;line-height:1}
+.news-del:hover{border-color:var(--err);color:var(--err)}
+.news-empty,.news-loading{padding:24px 18px;font-size:12.5px;color:var(--muted);text-align:center;letter-spacing:.04em}
+
+/* ── PHOTOS ── */
+.ph-thumb{position:relative;aspect-ratio:4/3;overflow:hidden;border-radius:8px;border:1px solid var(--border);background:var(--bg-2)}
+.ph-thumb img{width:100%;height:100%;object-fit:cover}
+.ph-thumb-del{position:absolute;top:6px;right:6px;width:24px;height:24px;border:1px solid rgba(255,255,255,.25);background:rgba(8,10,14,.75);color:rgba(255,255,255,.7);border-radius:50%;font-size:11px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:border-color .2s,color .2s;line-height:1}
+.ph-thumb-del:hover{border-color:var(--err);color:var(--err)}
+.ph-thumb-cap{position:absolute;bottom:0;left:0;right:0;padding:6px 9px;background:linear-gradient(to top,rgba(8,10,14,.88),transparent);font-size:10px;color:rgba(255,255,255,.8);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ph-preview{display:none;max-height:90px;max-width:180px;border-radius:6px;border:1px solid var(--border);object-fit:cover}
+
+/* ── FOOTER ── */
+.foot{background:var(--bg);border-top:1px solid var(--border);padding:16px var(--side);margin-top:auto}
+.foot-inner{max-width:1060px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px}
+.foot-links{display:flex;gap:14px;flex-wrap:wrap}
+.foot-links a{font-size:11px;color:var(--muted);transition:color .2s}.foot-links a:hover{color:#fff}
+.foot-cr{font-size:11px;color:var(--dim)}
+
+@media(max-width:680px){
+  .form-grid{grid-template-columns:1fr}
+  .nav-center{display:none}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-logo">
+    <img src="assets/images/apam-logo2.png" alt="APAM" id="nav-img" onerror="this.style.display='none';document.getElementById('nav-txt').style.display='block'">
+    <span id="nav-txt" style="display:none" class="nav-logo-text">APAM</span>
+  </div>
+  <div class="nav-center">
+    <span class="nav-pill"><span class="dot"></span>Accès Président · Saison 2026</span>
+  </div>
+  <div class="nav-right">
+    <a class="nav-site" href="activite.html" target="_blank">Voir le site ↗</a>
+    <button class="nav-out" id="btn-logout">Se déconnecter</button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="dh">
+  <div class="dh-grid" aria-hidden="true"></div>
+  <div class="wrap">
+    <div class="dh-inner">
+      <p class="dh-eye">Espace réservé · Président APAM</p>
+      <h1 class="dh-name">Interface<br><em>Président.</em></h1>
+      <p class="dh-sub">Publiez des actualités sur le site du club et gérez la galerie photos directement depuis cette interface.</p>
+    </div>
+  </div>
+</section>
+
+<!-- MAIN -->
+<main class="main">
+  <div class="wrap">
+    <div class="sections">
+
+      <!-- ══ ACTUALITÉS ══ -->
+      <div class="panel">
+        <div class="panel-hd">
+          <h2>📢 Publier une actualité</h2>
+          <p>L'actualité apparaîtra immédiatement sur la page <a href="activite.html#actualites" target="_blank" style="color:var(--accent)">Le Club → Dernières nouvelles</a>.</p>
+        </div>
+        <div class="panel-body">
+
+          <!-- Mot de passe API -->
+          <div class="pwd-bar">
+            <label>🔑 Mot de passe</label>
+            <input type="password" id="news-pwd" placeholder="Mot de passe admin" autocomplete="current-password">
+          </div>
+
+          <span class="sec-lbl">Nouvelle publication</span>
+          <div class="form-grid">
+            <div class="field"><label for="news-titre">Titre *</label><input id="news-titre" type="text" placeholder="Ex : Méchoui 2026 — inscriptions ouvertes"></div>
+            <div class="field"><label for="news-cat">Catégorie</label>
+              <select id="news-cat">
+                <option value="Annonce">📢 Annonce</option>
+                <option value="Événement">📅 Événement</option>
+                <option value="Formation">📚 Formation</option>
+                <option value="Vol">✈ Vol / Rallye</option>
+                <option value="Info pratique">ℹ Info pratique</option>
+                <option value="Résultat">🏆 Résultat</option>
+              </select>
+            </div>
+            <div class="field full"><label for="news-texte">Texte *</label><textarea id="news-texte" placeholder="Corps de l'actualité…"></textarea></div>
+            <div class="field"><label for="news-image">URL image (optionnel)</label><input id="news-image" type="url" placeholder="https://…/photo.jpg"></div>
+            <div class="field"><label for="news-auteur">Auteur</label><input id="news-auteur" type="text" value="Le Président" placeholder="Le Président"></div>
+          </div>
+          <div class="form-foot">
+            <span class="form-status" id="news-status"></span>
+            <button class="btn-pub" id="btn-pub-news" onclick="publierNews()">Publier →</button>
+          </div>
+
+          <!-- Liste des news publiées -->
+          <span class="sec-lbl" style="margin-top:28px">Actualités publiées</span>
+          <div class="news-list" id="news-list">
+            <div class="news-loading">Chargement…</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══ PHOTOS ══ -->
+      <div class="panel">
+        <div class="panel-hd">
+          <h2>🖼 Galerie photos</h2>
+          <p>Les photos ajoutées apparaissent dans la <a href="activite.html#galerie" target="_blank" style="color:var(--accent)">galerie du site</a>. Format recommandé : JPEG, moins de 1 Mo.</p>
+        </div>
+        <div class="panel-body">
+          <span class="sec-lbl">Ajouter une photo</span>
+          <div style="display:flex;flex-direction:column;gap:12px;padding:16px;background:var(--bg-2);border:1px solid var(--border);border-radius:8px;margin-bottom:18px">
+            <div class="form-grid">
+              <div class="field"><label for="ph-file">Photo (fichier local)</label><input id="ph-file" type="file" accept="image/*" style="font-size:12px;padding:8px 10px"></div>
+              <div class="field"><label for="ph-caption">Légende *</label><input id="ph-caption" type="text" placeholder="Ex : Méchoui 2026 · Terrain LFOL"></div>
+            </div>
+            <img id="ph-preview" class="ph-preview" alt="Aperçu">
+            <div class="form-grid" style="align-items:flex-end">
+              <div class="field"><label for="ph-cat">Catégorie</label>
+                <select id="ph-cat">
+                  <option value="terrain">✈ En vol · Terrain</option>
+                  <option value="avions">🛩 Avions du club</option>
+                  <option value="social">🍖 Vie sociale</option>
+                  <option value="formation">📚 Formation</option>
+                </select>
+              </div>
+              <div style="display:flex;align-items:center;gap:10px;justify-content:flex-end">
+                <span id="ph-status" style="font-size:11.5px;color:var(--ok);opacity:0;transition:opacity .3s"></span>
+                <button class="btn-pub" onclick="addPhoto()">Ajouter →</button>
+              </div>
+            </div>
+          </div>
+
+          <span class="sec-lbl">Photos en ligne</span>
+          <div id="ph-grid" style="display:grid;grid-template-columns:repeat(4,1fr);gap:9px">
+            <p style="grid-column:1/-1;font-size:12.5px;color:var(--muted);text-align:center;padding:14px">Chargement…</p>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /sections -->
+  </div>
+</main>
+
+<footer class="foot">
+  <div class="foot-inner">
+    <div class="foot-links">
+      <a href="index.html">Site public</a>
+      <a href="activite.html">Le Club</a>
+      <a href="contact.html">Aide</a>
+    </div>
+    <span class="foot-cr">© 2026 APAM · Espace Président</span>
+  </div>
+</footer>
+
+<script>
+'use strict';
+
+/* ── Auth guard ─────────────────────────────── */
+const role = localStorage.getItem('apam_role');
+if(role !== 'president'){
+  window.location.href = 'connexion-membres-password.html';
+}
+
+document.getElementById('btn-logout').addEventListener('click', () => {
+  localStorage.removeItem('apam_role');
+  localStorage.removeItem('apam_code');
+  window.location.href = 'connexion-membres-password.html';
+});
+
+/* ── API ─────────────────────────────────────── */
+const API = 'https://script.google.com/macros/s/AKfycbxae9y3NHqDyAkbEI5rDVRappI-aAWoA0jcHqR8NBUgm3t5SCB1Hq8nebY5t23cV1Je/exec';
+const getPwd = () => document.getElementById('news-pwd').value.trim();
+
+function fmtDate(iso){
+  if(!iso) return '';
+  const [y,m,d] = iso.split('-');
+  const mo = ['jan.','fév.','mars','avr.','mai','juin','juil.','août','sep.','oct.','nov.','déc.'];
+  return `${+d} ${mo[+m-1]} ${y}`;
+}
+
+function setStatus(id, txt, color){
+  const el = document.getElementById(id);
+  if(!el) return;
+  el.textContent = txt;
+  el.style.color = color || 'var(--muted)';
+}
+
+/* ── ACTUALITÉS ─────────────────────────────── */
+async function chargerNews(){
+  const list = document.getElementById('news-list');
+  list.innerHTML = '<div class="news-loading">Chargement…</div>';
+  try {
+    const data = await (await fetch(`${API}?action=news`)).json();
+    const news = data.news || [];
+    if(!news.length){ list.innerHTML = '<div class="news-empty">Aucune actualité publiée.</div>'; return; }
+    list.innerHTML = news.map(n => `
+      <div class="news-item">
+        <div class="news-item-body">
+          <h4>${esc(n.titre)}</h4>
+          <p>${esc(n.texte)}</p>
+          <div class="news-meta">
+            <span class="news-meta-date">${fmtDate(n.date)}</span>
+            ${n.categorie ? `<span class="news-meta-cat">${esc(n.categorie)}</span>` : ''}
+            <span style="font-size:9px;color:var(--muted)">— ${esc(n.auteur)}</span>
+          </div>
+        </div>
+        <button class="news-del" onclick="supprimerNews(${n._row})" title="Supprimer">✕</button>
+      </div>`).join('');
+  } catch(e) {
+    list.innerHTML = '<div class="news-empty">Impossible de contacter l\'API.</div>';
+  }
+}
+
+window.publierNews = async function(){
+  const titre  = document.getElementById('news-titre').value.trim();
+  const texte  = document.getElementById('news-texte').value.trim();
+  const cat    = document.getElementById('news-cat').value;
+  const image  = document.getElementById('news-image').value.trim();
+  const auteur = document.getElementById('news-auteur').value.trim() || 'Le Président';
+  const pwd    = getPwd();
+  const btn    = document.getElementById('btn-pub-news');
+
+  if(!titre || !texte){ setStatus('news-status','⚠ Titre et texte obligatoires','var(--warn)'); return; }
+  if(!pwd){ setStatus('news-status','⚠ Mot de passe requis','var(--warn)'); return; }
+
+  btn.disabled = true;
+  setStatus('news-status','⏳ Publication…','var(--muted)');
+
+  const date = new Date().toISOString().split('T')[0];
+  const url  = `${API}?action=addNews&pwd=${enc(pwd)}&titre=${enc(titre)}&texte=${enc(texte)}&categorie=${enc(cat)}&image=${enc(image)}&auteur=${enc(auteur)}&date=${date}`;
+
+  try {
+    const data = await (await fetch(url)).json();
+    if(data.error){
+      setStatus('news-status','✗ ' + data.error,'var(--err)');
+    } else {
+      setStatus('news-status','✓ Actualité publiée !','var(--ok)');
+      document.getElementById('news-titre').value = '';
+      document.getElementById('news-texte').value = '';
+      document.getElementById('news-image').value = '';
+      setTimeout(chargerNews, 700);
+    }
+  } catch(e) {
+    setStatus('news-status','✗ Erreur réseau','var(--err)');
+  }
+  btn.disabled = false;
+  setTimeout(() => setStatus('news-status',''), 5000);
+};
+
+window.supprimerNews = async function(row){
+  if(!confirm('Supprimer cette actualité définitivement ?')) return;
+  const pwd = getPwd();
+  if(!pwd){ alert('Entrez le mot de passe d\'abord.'); return; }
+  try {
+    const data = await (await fetch(`${API}?action=deleteNews&pwd=${enc(pwd)}&row=${row}`)).json();
+    if(data.error){ alert('Erreur : ' + data.error); return; }
+    chargerNews();
+  } catch(e) { alert('Erreur réseau.'); }
+};
+
+/* ── PHOTOS (localStorage) ──────────────────── */
+const PH_KEY = 'apam_photos_v1';
+function getPhotos(){ try{ return JSON.parse(localStorage.getItem(PH_KEY)||'[]'); }catch{ return []; } }
+function savePhotos(a){ localStorage.setItem(PH_KEY, JSON.stringify(a)); }
+
+async function toBase64(file){
+  return new Promise(resolve => {
+    const img = new Image(), url = URL.createObjectURL(file);
+    img.onload = () => {
+      const MAX=800; let w=img.width, h=img.height;
+      if(w>MAX){ h=Math.round(h*(MAX/w)); w=MAX; }
+      const c=document.createElement('canvas'); c.width=w; c.height=h;
+      c.getContext('2d').drawImage(img,0,0,w,h);
+      resolve(c.toDataURL('image/jpeg',.75));
+      URL.revokeObjectURL(url);
+    };
+    img.src = url;
+  });
+}
+
+document.getElementById('ph-file').addEventListener('change', async e => {
+  const f = e.target.files[0]; if(!f) return;
+  const b64 = await toBase64(f);
+  const prev = document.getElementById('ph-preview');
+  prev.src = b64; prev.style.display = 'block'; prev._b64 = b64;
+});
+
+window.addPhoto = async function(){
+  const prev    = document.getElementById('ph-preview');
+  const caption = document.getElementById('ph-caption').value.trim();
+  const cat     = document.getElementById('ph-cat').value;
+  const st      = document.getElementById('ph-status');
+  if(!prev._b64 || !caption){ alert('Merci d\'ajouter une photo et une légende.'); return; }
+  const photos = getPhotos();
+  photos.unshift({ id:'p'+Date.now(), src:prev._b64, caption, cat });
+  savePhotos(photos);
+  document.getElementById('ph-caption').value = '';
+  document.getElementById('ph-file').value = '';
+  prev.src=''; prev.style.display='none'; delete prev._b64;
+  st.textContent='✓ Photo ajoutée !'; st.style.opacity='1';
+  setTimeout(()=>st.style.opacity='0',3000);
+  renderPhotos();
+};
+
+window.delPhoto = id => {
+  if(!confirm('Supprimer cette photo ?')) return;
+  savePhotos(getPhotos().filter(p=>p.id!==id));
+  renderPhotos();
+};
+
+function renderPhotos(){
+  const grid = document.getElementById('ph-grid');
+  const photos = getPhotos();
+  if(!photos.length){
+    grid.innerHTML = '<p style="grid-column:1/-1;font-size:12.5px;color:var(--muted);text-align:center;padding:20px">Aucune photo ajoutée.</p>';
+    return;
+  }
+  grid.innerHTML = photos.map(p=>`
+    <div class="ph-thumb">
+      <img src="${p.src}" alt="${esc(p.caption)}">
+      <button class="ph-thumb-del" onclick="delPhoto('${p.id}')" title="Supprimer">✕</button>
+      <div class="ph-thumb-cap">${esc(p.caption)}</div>
+    </div>`).join('');
+}
+
+/* ── Utils ──────────────────────────────────── */
+function esc(s){ return String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+function enc(s){ return encodeURIComponent(s); }
+
+/* ── Init ───────────────────────────────────── */
+chargerNews();
+renderPhotos();
+</script>
+</body>
+</html>
