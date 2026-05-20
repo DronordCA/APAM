@@ -297,40 +297,6 @@ img{max-width:100%;display:block}
       </div>
       <div class="pres-body">
 
-        <!-- Formulaire -->
-        <div id="ev-form" style="display:none">
-          <span class="sec-lbl">Nouvel événement</span>
-          <div class="form-g">
-            <div class="field"><label for="ev-t">Titre</label><input id="ev-t" type="text" placeholder="Ex : Méchoui annuel"></div>
-            <div class="field"><label for="ev-d">Date</label><input id="ev-d" type="date"></div>
-          </div>
-          <div class="field" style="margin-top:10px"><label for="ev-desc">Description</label><textarea id="ev-desc" placeholder="Détails, horaires, lieu…"></textarea></div>
-          <div class="form-g" style="margin-top:10px;align-items:flex-end">
-            <div class="field">
-              <label for="ev-type">Type</label>
-              <select id="ev-type">
-                <option value="vol">✈ Vol groupé / Rallye</option>
-                <option value="social">🍖 Événement social</option>
-                <option value="formation">📚 Formation / Briefing</option>
-                <option value="initiation">🌟 Portes ouvertes</option>
-                <option value="admin">📋 Administratif / AG</option>
-              </select>
-            </div>
-            <div class="form-footer">
-              <span class="form-ok" id="form-ok">✓ Événement publié !</span>
-              <button class="btn-pub" onclick="createEvent()">Publier →</button>
-            </div>
-          </div>
-        </div>
-
-        <!-- Gestion événements existants -->
-        <div>
-          <span class="sec-lbl">Tous les événements</span>
-          <div class="pres-events-wrap">
-            <div id="pres-ev-list" class="ev-list"></div>
-          </div>
-        </div>
-
         <!-- ── ACTUALITÉS ── -->
         <div id="news-panel-wrap">
           <span class="sec-lbl">Publier une actualité</span>
@@ -372,6 +338,42 @@ img{max-width:100%;display:block}
           <span class="sec-lbl" style="margin-bottom:10px;display:flex">Actualités publiées</span>
           <div class="news-api-list" id="news-api-list">
             <div class="news-api-loading">Chargement…</div>
+          </div>
+        </div>
+
+
+
+        <!-- Formulaire -->
+        <div id="ev-form" style="display:none">
+          <span class="sec-lbl">Nouvel événement</span>
+          <div class="form-g">
+            <div class="field"><label for="ev-t">Titre</label><input id="ev-t" type="text" placeholder="Ex : Méchoui annuel"></div>
+            <div class="field"><label for="ev-d">Date</label><input id="ev-d" type="date"></div>
+          </div>
+          <div class="field" style="margin-top:10px"><label for="ev-desc">Description</label><textarea id="ev-desc" placeholder="Détails, horaires, lieu…"></textarea></div>
+          <div class="form-g" style="margin-top:10px;align-items:flex-end">
+            <div class="field">
+              <label for="ev-type">Type</label>
+              <select id="ev-type">
+                <option value="vol">✈ Vol groupé / Rallye</option>
+                <option value="social">🍖 Événement social</option>
+                <option value="formation">📚 Formation / Briefing</option>
+                <option value="initiation">🌟 Portes ouvertes</option>
+                <option value="admin">📋 Administratif / AG</option>
+              </select>
+            </div>
+            <div class="form-footer">
+              <span class="form-ok" id="form-ok">✓ Événement publié !</span>
+              <button class="btn-pub" onclick="createEvent()">Publier →</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Gestion événements existants -->
+        <div>
+          <span class="sec-lbl">Tous les événements</span>
+          <div class="pres-events-wrap">
+            <div id="pres-ev-list" class="ev-list"></div>
           </div>
         </div>
 
