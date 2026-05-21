@@ -103,10 +103,10 @@ body:has(a:hover) .cur-ring,body:has(button:hover) .cur-ring{width:44px;height:4
 [data-d="1"]{transition-delay:.12s}[data-d="2"]{transition-delay:.24s}[data-d="3"]{transition-delay:.36s}[data-d="4"]{transition-delay:.48s}
 
 /* ══ HERO ══ */
-.t-hero{position:relative;padding:calc(var(--nav-h) + clamp(110px,18vh,200px)) 0 clamp(80px,12vh,140px);min-height:88svh;overflow:hidden;border-bottom:1px solid var(--border);display:flex;align-items:center}
+.t-hero{position:relative;padding:calc(var(--nav-h) + clamp(110px,18vh,200px)) 0 clamp(80px,12vh,140px);min-height:100svh;overflow:hidden;border-bottom:1px solid var(--border);display:flex;align-items:center}
 .t-hero::before{content:'';position:absolute;inset:0;background:radial-gradient(60% 60% at 80% 30%,rgba(37,99,235,.16),transparent 65%);pointer-events:none}
 .t-hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(37,99,235,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(37,99,235,.03) 1px,transparent 1px);background-size:64px 64px;mask-image:linear-gradient(150deg,rgba(0,0,0,.5) 10%,transparent 70%);-webkit-mask-image:linear-gradient(150deg,rgba(0,0,0,.5) 10%,transparent 70%);pointer-events:none}
-.t-hero-inner{position:relative;z-index:1;display:grid;grid-template-columns:1.2fr 1fr;gap:48px;align-items:end;width:100%}
+.t-hero-inner{position:relative;z-index:1;display:grid;grid-template-columns:1.2fr 1fr;gap:48px;align-items:end;width:100%;padding:0 var(--side)}
 .t-hero-l{display:flex;flex-direction:column;gap:12px;position:relative;z-index:3}
 .t-hero-eye{font-size:10px;font-weight:700;letter-spacing:.32em;text-transform:uppercase;color:var(--accent);display:flex;align-items:center;gap:12px}
 .t-hero-eye::before{content:'';width:28px;height:1px;background:var(--accent)}
@@ -275,9 +275,9 @@ body:has(a:hover) .cur-ring,body:has(button:hover) .cur-ring{width:44px;height:4
 @media(max-width:980px){
   .nav-links,.nav-icons,.nav-cta{display:none}
   .nav-burger{display:flex}
-  .t-hero{min-height:auto;padding:calc(var(--nav-h) + 60px) 0 60px}
-  .t-hero-plane{position:relative;top:auto;right:auto;width:min(82%,440px);margin:0 auto 24px;display:block}
-  .t-hero-inner{grid-template-columns:1fr;gap:32px}
+  .t-hero{min-height:100svh;padding:calc(var(--nav-h) + 50px) 0 50px;display:block}
+  .t-hero-plane{position:absolute;top:calc(var(--nav-h) + 30px);right:clamp(12px,4vw,32px);width:clamp(150px,38vw,260px);margin:0;animation:planeFloat 7s ease-in-out infinite}
+  .t-hero-inner{grid-template-columns:1fr;gap:24px;margin-top:clamp(140px,30vw,200px)}
   .t-hero-r{grid-template-columns:1fr 1fr}
   .fleet-stage{grid-template-columns:1fr;min-height:auto}
   .fleet-detail{border-right:none;border-bottom:1px solid var(--border)}
@@ -297,6 +297,9 @@ body:has(a:hover) .cur-ring,body:has(button:hover) .cur-ring{width:44px;height:4
 }
 @media(max-width:600px){
   :root{--side:clamp(16px,4.5vw,28px)}
+  .t-hero{padding:calc(var(--nav-h) + 40px) 0 40px}
+  .t-hero-plane{top:calc(var(--nav-h) + 14px);right:10px;width:clamp(120px,40vw,200px)}
+  .t-hero-inner{margin-top:clamp(110px,32vw,170px)}
   .t-hero-r{grid-template-columns:1fr 1fr;gap:8px}
   .t-hero-stat{padding:14px 16px}
   .t-hero-stat .v{font-size:22px}
@@ -367,7 +370,7 @@ body:has(a:hover) .cur-ring,body:has(button:hover) .cur-ring{width:44px;height:4
   </ul>
   <div class="nav-icons">
     <a class="nav-icon" href="https://www.instagram.com/apam_lfol" target="_blank" aria-label="Instagram"><svg viewBox="0 0 24 24"><path d="M7 2C4.2 2 2 4.2 2 7v10c0 2.8 2.2 5 5 5h10c2.8 0 5-2.2 5-5V7c0-2.8-2.2-5-5-5H7zm0 2h10c1.7 0 3 1.3 3 3v10c0 1.7-1.3 3-3 3H7c-1.7 0-3-1.3-3-3V7c0-1.7 1.3-3 3-3zm5 3.5a4.5 4.5 0 1 0 0 9 4.5 4.5 0 0 0 0-9zm0 2a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zm4.8-2.9a1.1 1.1 0 1 0 0 2.2 1.1 1.1 0 0 0 0-2.2z"/></svg></a>
-    <a class="nav-icon" href="/cdn-cgi/l/email-protection#e18084938e828d94838091808ca1868c80888dcf828e8c" aria-label="Email"><svg viewBox="0 0 24 24"><path d="M4 4h16a2 2 0 0 1 2 2v1L12 13 2 7V6a2 2 0 0 1 2-2zm18 5v9a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V9l10 6 10-6z"/></svg></a>
+    <a class="nav-icon" href="/cdn-cgi/l/email-protection#9bfafee9f4f8f7eef9faebfaf6dbfcf6faf2f7b5f8f4f6" aria-label="Email"><svg viewBox="0 0 24 24"><path d="M4 4h16a2 2 0 0 1 2 2v1L12 13 2 7V6a2 2 0 0 1 2-2zm18 5v9a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V9l10 6 10-6z"/></svg></a>
   </div>
   <a class="nav-cta" href="connexion-membres-password.html?next=mon-compte.html">Mon compte</a>
   <button class="nav-burger" id="burger" aria-label="Menu"><b></b><b></b><b></b></button>
@@ -392,19 +395,17 @@ body:has(a:hover) .cur-ring,body:has(button:hover) .cur-ring{width:44px;height:4
     <div class="t-hero-plane-glow"></div>
     <img src="assets/images/FGHKE2.png" alt="">
   </div>
-  <div class="wrap">
-    <div class="t-hero-inner">
-      <div class="t-hero-l">
-        <p class="kicker">Flotte · Tarifs · LFOL</p>
-        <h1 class="t-hero-title">Notre<br><span class="ol">flotte.</span></h1>
-        <p class="t-hero-sub">Trois avions, trois caractères. Du Cessna 152 pour vos premiers vols au Cirrus SR20 pour les voyages — choisissez votre machine.</p>
-      </div>
-      <div class="t-hero-r">
-        <div class="t-hero-stat"><span class="l">Appareils</span><span class="v">3</span></div>
-        <div class="t-hero-stat"><span class="l">Heures / an</span><span class="v">1 500<em>h</em></span></div>
-        <div class="t-hero-stat"><span class="l">Réservation</span><span class="v">OpenFlyer</span></div>
-        <div class="t-hero-stat"><span class="l">Saison</span><span class="v">2026</span></div>
-      </div>
+  <div class="t-hero-inner">
+    <div class="t-hero-l">
+      <p class="kicker">Flotte · Tarifs · LFOL</p>
+      <h1 class="t-hero-title">Notre<br><span class="ol">flotte.</span></h1>
+      <p class="t-hero-sub">Trois avions, trois caractères. Du Cessna 152 pour vos premiers vols au Cirrus SR20 pour les voyages — choisissez votre machine.</p>
+    </div>
+    <div class="t-hero-r">
+      <div class="t-hero-stat"><span class="l">Appareils</span><span class="v">3</span></div>
+      <div class="t-hero-stat"><span class="l">Heures / an</span><span class="v">1 500<em>h</em></span></div>
+      <div class="t-hero-stat"><span class="l">Réservation</span><span class="v">OpenFlyer</span></div>
+      <div class="t-hero-stat"><span class="l">Saison</span><span class="v">2026</span></div>
     </div>
   </div>
 </section>
@@ -718,7 +719,7 @@ body:has(a:hover) .cur-ring,body:has(button:hover) .cur-ring{width:44px;height:4
 <footer class="footer">
   <div class="footer-in">
     <div class="footer-links">
-      <a href="/cdn-cgi/l/email-protection#d3b2b6a1bcb0bfa6b1b2a3b2be93b4beb2babffdb0bcbe"><span class="__cf_email__" data-cfemail="f59490879a9699809794859498b59298949c99db969a98">[email&#160;protected]</span></a><span class="sep">·</span>
+      <a href="/cdn-cgi/l/email-protection#3756524558545b42555647565a77505a565e5b1954585a"><span class="__cf_email__" data-cfemail="f49591869b9798819695849599b49399959d98da979b99">[email&#160;protected]</span></a><span class="sep">·</span>
       <a href="https://www.facebook.com/profile.php?id=61585663567523" target="_blank">Facebook</a>
       <a href="https://www.instagram.com/apam_lfol" target="_blank">Instagram</a><span class="sep">·</span>
       <a href="mentions-legales.html">Mentions légales</a>
