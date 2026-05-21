@@ -5,139 +5,310 @@
 <title>Contact – APAM · L'Aigle Saint-Michel</title>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
 <meta name="description" content="Contactez l'APAM à L'Aigle Saint-Michel. Formulaire, coordonnées, accès au terrain LFOL et FAQ.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,400;0,600;0,700;0,900;1,400;1,700;1,900&family=Jost:wght@300;400;500;600;700&family=Lora:ital,wght@1,400;1,500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/site.css">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,400;0,700;0,900;1,700;1,900&family=Jost:wght@300;400;500;600;700&family=Lora:ital,wght@1,400;1,500&display=swap" rel="stylesheet">
 <style>
-/* ───── Contact — page styles ───── */
+:root{
+  --bg:#080a0e;--bg-2:#0b0d13;--bg-3:#0e1018;
+  --sf:#141720;--sf2:#191d2c;
+  --accent:#2563eb;--acc2:#818cf8;--acc-d:rgba(37,99,235,.14);
+  --muted:#7a8399;--dim:#32384f;
+  --border:rgba(255,255,255,.07);--bds:rgba(255,255,255,.11);
+  --ok:#22d77a;--warn:#f5a524;
+  --white:#fff;--nav-h:70px;--side:clamp(18px,5.5vw,88px);--rl:14px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--white);font-family:'Jost',system-ui,sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden;cursor:none}
+a{color:inherit;text-decoration:none}
+img{max-width:100%;display:block}
+button{font:inherit;color:inherit;background:none;border:none;cursor:none}
+input,textarea,select{font:inherit;color:inherit}
+::-webkit-scrollbar{width:2px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:var(--accent)}
+@media(hover:none){body,input,textarea,select{cursor:auto}*{cursor:auto}}
 
-.c-hero{position:relative;padding:calc(var(--nav-h) + clamp(80px,14vh,170px)) 0 clamp(48px,8vh,100px);overflow:hidden;border-bottom:1px solid var(--border)}
-.c-hero::before{content:'';position:absolute;inset:0;background:radial-gradient(60% 50% at 80% 20%,rgba(37,99,235,.14),transparent 65%);pointer-events:none}
-.c-hero-grid{position:absolute;inset:0;
-  background-image:linear-gradient(rgba(37,99,235,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(37,99,235,.03) 1px,transparent 1px);
-  background-size:64px 64px;
-  mask-image:linear-gradient(150deg,rgba(0,0,0,.6) 10%,transparent 70%);
-  -webkit-mask-image:linear-gradient(150deg,rgba(0,0,0,.6) 10%,transparent 70%);pointer-events:none}
-.c-hero-inner{position:relative;z-index:1;display:grid;grid-template-columns:1.2fr 1fr;gap:60px;align-items:end}
+.cur{position:fixed;pointer-events:none;z-index:9999;top:0;left:0;transform:translate(-50%,-50%)}
+.cur-dot{width:5px;height:5px;background:var(--accent);border-radius:50%}
+.cur-ring{width:28px;height:28px;border:1px solid rgba(37,99,235,.35);border-radius:50%;transition:width .22s,height .22s}
+body:has(a:hover) .cur-ring,body:has(button:hover) .cur-ring,body:has(input:focus) .cur-ring,body:has(textarea:focus) .cur-ring{width:44px;height:44px;border-color:rgba(37,99,235,.6)}
+
+.grain{position:fixed;inset:0;z-index:9990;pointer-events:none;opacity:.022;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='512' height='512' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size:180px}
+.pg-bar{position:fixed;top:0;left:0;height:2px;z-index:10000;width:0%;background:linear-gradient(90deg,var(--accent),var(--acc2))}
+
+/* NAV */
+.nav{position:fixed;top:0;left:0;right:0;height:var(--nav-h);z-index:100;display:flex;align-items:center;padding:0 var(--side);gap:28px;border-bottom:1px solid transparent;transition:background .4s,border-color .4s}
+.nav.s{background:rgba(8,10,14,.9);border-color:var(--border);backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px)}
+.nav-logo-img{height:42px}
+.nav-links{list-style:none;display:flex;align-items:center;gap:26px;margin-left:auto}
+.nav-links a{font-size:11px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:rgba(255,255,255,.42);transition:color .2s;position:relative}
+.nav-links a::after{content:'';position:absolute;bottom:-2px;left:0;width:0;height:1px;background:var(--accent);transition:width .25s}
+.nav-links a:hover,.nav-links a.on{color:#fff}
+.nav-links a:hover::after,.nav-links a.on::after{width:100%}
+.nav-item-drop{position:relative}
+.nav-drop{position:absolute;top:calc(100% + 14px);left:50%;transform:translateX(-50%) translateY(-8px);min-width:420px;background:rgba(9,12,20,.97);backdrop-filter:blur(28px);-webkit-backdrop-filter:blur(28px);border:1px solid var(--bds);padding:10px;display:flex;gap:8px;opacity:0;pointer-events:none;transition:opacity .24s,transform .28s;z-index:200}
+.nav-drop::before{content:'';position:absolute;top:-5px;left:50%;transform:translateX(-50%) rotate(45deg);width:9px;height:9px;background:rgba(9,12,20,.97);border-left:1px solid var(--bds);border-top:1px solid var(--bds)}
+.nav-item-drop:hover .nav-drop{opacity:1;pointer-events:auto;transform:translateX(-50%) translateY(0)}
+.ndc{display:flex;flex-direction:column;align-items:center;gap:8px;flex:1;color:#fff;padding:12px 10px;border:1px solid var(--border);background:var(--sf);transition:border-color .2s,background .2s}
+.ndc:hover{border-color:rgba(37,99,235,.4);background:rgba(37,99,235,.08)}
+.ndc img{height:52px;width:100%;object-fit:contain;filter:drop-shadow(0 6px 14px rgba(0,0,0,.55));transition:transform .38s}
+.ndc:hover img{transform:translateY(-5px) scale(1.07)}
+.ndc-name{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:17px;text-transform:uppercase;letter-spacing:-.01em}
+.ndc-sub{font-size:8px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--accent)}
+.nav-icons{display:flex;gap:10px}
+.nav-icon{width:32px;height:32px;display:inline-flex;align-items:center;justify-content:center;border:1px solid var(--bds);border-radius:50%;transition:border-color .2s,background .2s}
+.nav-icon:hover{border-color:var(--accent);background:var(--acc-d)}
+.nav-icon svg{width:13px;height:13px;fill:rgba(255,255,255,.55)}
+.nav-cta{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:13.5px;letter-spacing:.12em;text-transform:uppercase;padding:7px 18px;border:1.5px solid var(--accent);color:#fff;position:relative;overflow:hidden;transition:color .25s}
+.nav-cta::before{content:'';position:absolute;inset:0;background:var(--accent);transform:translateX(-101%);transition:transform .25s cubic-bezier(.16,1,.3,1);z-index:-1}
+.nav-cta:hover::before{transform:translateX(0)}
+.nav-burger{display:none;flex-direction:column;gap:5px;padding:8px;margin-left:auto}
+.nav-burger b{display:block;width:20px;height:1.5px;background:rgba(255,255,255,.72)}
+
+.m-drawer{position:fixed;inset:0;background:rgba(8,10,14,.97);backdrop-filter:blur(28px);z-index:200;opacity:0;pointer-events:none;transform:translateY(-8px);transition:opacity .35s,transform .35s cubic-bezier(.16,1,.3,1)}
+.m-drawer.open{opacity:1;pointer-events:auto;transform:none}
+.m-drawer-top{display:flex;align-items:center;justify-content:space-between;padding:18px var(--side);border-bottom:1px solid var(--border)}
+.m-close{width:42px;height:42px;display:inline-flex;align-items:center;justify-content:center;border:1px solid var(--bds);border-radius:var(--rl);font-size:18px;color:rgba(255,255,255,.6)}
+.m-close:hover{border-color:var(--accent);color:#fff}
+.m-nav{padding:28px var(--side);display:flex;flex-direction:column;gap:2px}
+.m-nav a{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:clamp(38px,8vw,56px);line-height:1;text-transform:uppercase;padding:9px 0;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;color:rgba(255,255,255,.8);transition:color .2s}
+.m-nav a:hover{color:var(--accent)}
+.m-nav a .arr{font-size:18px;opacity:.3}
+.m-cta-wrap{padding:20px var(--side)}
+
+.btn{display:inline-flex;align-items:center;gap:9px;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:14px;letter-spacing:.12em;text-transform:uppercase;padding:11px 22px;position:relative;overflow:hidden;transition:color .25s,transform .25s,background .25s,border-color .25s}
+.btn--fill{background:var(--accent);color:#fff;border:1.5px solid var(--accent)}
+.btn--fill::before{content:'';position:absolute;inset:0;background:#fff;transform:translateX(-101%);transition:transform .25s cubic-bezier(.16,1,.3,1);z-index:-1}
+.btn--fill:hover{color:var(--accent)}.btn--fill:hover::before{transform:translateX(0)}
+.btn--ghost{background:transparent;color:rgba(255,255,255,.58);border:1.5px solid var(--bds)}
+.btn--ghost:hover{color:#fff;border-color:rgba(255,255,255,.3)}
+
+.sec{position:relative}
+.wrap{max-width:1300px;margin:0 auto;padding:0 var(--side)}
+.sp{padding:clamp(72px,11vh,130px) 0}
+.kicker{font-size:9.5px;font-weight:700;letter-spacing:.28em;text-transform:uppercase;color:var(--accent);display:flex;align-items:center;gap:10px;margin-bottom:16px}
+.kicker::before{content:'';width:22px;height:1px;background:var(--accent);flex-shrink:0}
+.h2{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:clamp(42px,5.5vw,78px);line-height:.92;text-transform:uppercase;letter-spacing:-.01em;color:#fff}
+.body-text{font-size:15px;line-height:1.78;color:var(--muted)}
+
+[data-r]{opacity:0;transform:translateY(32px);transition:opacity .9s cubic-bezier(.16,1,.3,1),transform .9s cubic-bezier(.16,1,.3,1)}
+[data-r].on{opacity:1;transform:none}
+[data-r="s"]{opacity:0;transform:scale(.93);filter:blur(10px);transition:opacity 1s,transform 1s,filter 1s}[data-r="s"].on{opacity:1;transform:none;filter:blur(0)}
+[data-d="1"]{transition-delay:.12s}[data-d="2"]{transition-delay:.24s}[data-d="3"]{transition-delay:.36s}[data-d="4"]{transition-delay:.48s}
+
+/* ══ HERO ══ */
+.c-hero{position:relative;padding:calc(var(--nav-h) + clamp(110px,18vh,180px)) 0 clamp(60px,10vh,110px);min-height:100svh;overflow:hidden;border-bottom:1px solid var(--border);display:flex;align-items:center}
+.c-hero::before{content:'';position:absolute;inset:0;background:radial-gradient(60% 50% at 80% 20%,rgba(37,99,235,.16),transparent 65%);pointer-events:none}
+.c-hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(37,99,235,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(37,99,235,.03) 1px,transparent 1px);background-size:64px 64px;mask-image:linear-gradient(150deg,rgba(0,0,0,.5) 10%,transparent 70%);-webkit-mask-image:linear-gradient(150deg,rgba(0,0,0,.5) 10%,transparent 70%);pointer-events:none}
+
+.c-hero-inner{position:relative;z-index:2;display:grid;grid-template-columns:1.2fr 1fr;gap:48px;align-items:end;padding:0 var(--side);width:100%}
 .c-hero-l{display:flex;flex-direction:column;gap:14px}
-.c-hero-title{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:clamp(64px,11vw,170px);line-height:.84;letter-spacing:-.018em;text-transform:uppercase;color:#fff}
+.c-hero-title{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:clamp(60px,11vw,160px);line-height:.84;letter-spacing:-.018em;text-transform:uppercase;color:#fff}
 .c-hero-title .ol{color:transparent;-webkit-text-stroke:1.5px rgba(255,255,255,.3)}
-.c-hero-sub{font-family:'Lora',serif;font-style:italic;font-size:clamp(17px,1.8vw,21px);line-height:1.55;color:rgba(255,255,255,.74);max-width:480px;margin-top:8px}
+.c-hero-sub{font-family:'Lora',serif;font-style:italic;font-size:clamp(16px,1.7vw,21px);line-height:1.55;color:rgba(255,255,255,.74);max-width:520px;margin-top:6px}
 
-.c-hero-r{display:flex;flex-direction:column;gap:14px;padding-bottom:8px}
-.c-hero-qcard{background:rgba(255,255,255,.025);border:1px solid var(--bds);border-radius:var(--rl);padding:22px 24px;display:flex;flex-direction:column;gap:8px;transition:border-color .3s,background .3s}
-.c-hero-qcard:hover{border-color:rgba(37,99,235,.4);background:rgba(37,99,235,.04)}
-.c-hero-qcard .l{font-size:9px;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:var(--accent)}
-.c-hero-qcard .v{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:24px;color:#fff;letter-spacing:-.005em;line-height:1.1}
-.c-hero-qcard .v small{display:block;font-family:'Jost',sans-serif;font-size:12px;color:var(--muted);font-weight:400;letter-spacing:0;text-transform:none;font-style:normal;margin-top:4px}
+.c-hero-r{display:flex;flex-direction:column;gap:10px}
+.c-hero-card{background:rgba(8,10,14,.55);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid var(--bds);border-radius:var(--rl);padding:18px 22px;display:flex;align-items:center;gap:14px;transition:border-color .3s,background .3s,transform .35s}
+.c-hero-card:hover{border-color:rgba(37,99,235,.4);background:rgba(37,99,235,.06);transform:translateY(-3px)}
+.c-hero-card-ic{width:42px;height:42px;border-radius:50%;background:rgba(37,99,235,.12);border:1px solid rgba(37,99,235,.3);display:flex;align-items:center;justify-content:center;flex-shrink:0;color:var(--accent)}
+.c-hero-card-ic svg{width:16px;height:16px;fill:currentColor}
+.c-hero-card-tx{display:flex;flex-direction:column;gap:3px;min-width:0;flex:1}
+.c-hero-card-tx .l{font-size:9px;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:var(--accent)}
+.c-hero-card-tx .v{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:18px;color:#fff;line-height:1.15;letter-spacing:-.005em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.c-hero-card-tx small{display:block;font-family:'Jost',sans-serif;font-size:11px;font-weight:400;color:var(--muted);font-style:normal;letter-spacing:.02em;margin-top:2px}
+.c-hero-card-arr{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:18px;color:rgba(255,255,255,.3);transition:transform .25s,color .25s}
+.c-hero-card:hover .c-hero-card-arr{color:var(--accent);transform:translateX(4px)}
 
-/* MAIN GRID — form + side info */
-.sec-main{background:var(--bg);border-bottom:1px solid var(--border)}
-.cont-grid{display:grid;grid-template-columns:1.4fr 1fr;gap:64px;align-items:start}
+/* ══ FORM + SIDE ══ */
+.sec-main{background:var(--bg-2);border-bottom:1px solid var(--border);position:relative;overflow:hidden}
+.sec-main::before{content:'';position:absolute;inset:0;background:radial-gradient(40% 60% at 10% 10%,rgba(37,99,235,.06),transparent 60%);pointer-events:none}
+.cont-grid{display:grid;grid-template-columns:1.5fr 1fr;gap:32px;align-items:start;position:relative;z-index:1}
 
-/* Form */
-.cont-form-wrap{background:var(--sf);border:1px solid var(--border);border-radius:var(--rxl);padding:clamp(28px,4vw,48px);position:relative;overflow:hidden}
-.cont-form-wrap::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(to right,var(--accent),transparent 50%)}
-.cont-form-head{display:flex;align-items:flex-start;justify-content:space-between;gap:18px;margin-bottom:32px;padding-bottom:24px;border-bottom:1px solid var(--border)}
+/* Plane picker */
+.field-lbl .opt{color:rgba(255,255,255,.32);font-weight:500;letter-spacing:.08em;text-transform:none;font-size:10.5px}
+.plane-pick{transition:max-height .55s cubic-bezier(.16,1,.3,1),opacity .35s,margin .35s}
+.plane-pick.hide{max-height:0;opacity:0;overflow:hidden;margin:0;pointer-events:none}
+.plane-options{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.plane-opt{background:rgba(255,255,255,.025);border:1px solid var(--bds);border-radius:12px;padding:12px 10px 11px;cursor:none;transition:border-color .25s,background .25s,transform .25s,box-shadow .25s;display:flex;flex-direction:column;align-items:center;gap:7px;position:relative;overflow:hidden}
+.plane-opt::before{content:'';position:absolute;inset:0;background:radial-gradient(80% 60% at 50% 0%,rgba(37,99,235,.16),transparent 70%);opacity:0;transition:opacity .3s;pointer-events:none}
+.plane-opt:hover{border-color:rgba(37,99,235,.45);transform:translateY(-3px)}
+.plane-opt:hover::before{opacity:1}
+.plane-opt.on{border-color:var(--accent);background:rgba(37,99,235,.08);box-shadow:0 8px 22px rgba(37,99,235,.25)}
+.plane-opt.on::before{opacity:1}
+.plane-opt-img{height:38px;width:auto;max-width:90%;object-fit:contain;filter:drop-shadow(0 4px 10px rgba(0,0,0,.5));transition:transform .35s}
+.plane-opt:hover .plane-opt-img,.plane-opt.on .plane-opt-img{transform:translateY(-2px) scale(1.06)}
+.plane-opt-ic{height:38px;width:38px;display:flex;align-items:center;justify-content:center;font-size:20px}
+.plane-opt-tx{display:flex;flex-direction:column;gap:2px;align-items:center;text-align:center;position:relative;z-index:1}
+.plane-opt-tx .v{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:13px;text-transform:uppercase;color:#fff;letter-spacing:-.005em;line-height:1}
+.plane-opt-tx .l{font-size:8.5px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+.plane-opt.on .plane-opt-tx .l{color:var(--accent)}
+
+/* Date picker */
+.date-pick{transition:max-height .55s cubic-bezier(.16,1,.3,1),opacity .35s,margin .35s}
+.date-pick.hide{max-height:0;opacity:0;overflow:hidden;margin:0;pointer-events:none}
+.date-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.fi-date{position:relative}
+.fi-date input,.fi-date select{width:100%;background:rgba(255,255,255,.03);border:1px solid var(--bds);border-radius:12px;padding:20px 48px 12px 18px;color:#fff;font-size:14.5px;font-family:inherit;cursor:none;color-scheme:dark;transition:border-color .25s,background .25s,box-shadow .25s}
+.fi-date select{appearance:none;-webkit-appearance:none;padding-right:42px;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='rgba(255,255,255,.4)'><path d='M7 10l5 5 5-5z'/></svg>");background-repeat:no-repeat;background-position:right 14px center;background-size:18px}
+.fi-date input::-webkit-calendar-picker-indicator{filter:invert(.7) sepia(1) hue-rotate(190deg) saturate(5);cursor:none;opacity:.6;transition:opacity .25s}
+.fi-date input:hover,.fi-date select:hover{border-color:rgba(255,255,255,.22);background:rgba(255,255,255,.045)}
+.fi-date input:hover::-webkit-calendar-picker-indicator{opacity:1}
+.fi-date input:focus,.fi-date select:focus{outline:none;border-color:var(--accent);background:rgba(37,99,235,.06);box-shadow:0 0 0 4px rgba(37,99,235,.14)}
+.fi-date-lbl{position:absolute;left:14px;top:0;transform:translateY(-50%);font-size:9.5px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);background:var(--sf);padding:0 6px;pointer-events:none}
+.fi-date-ic{position:absolute;right:16px;top:50%;transform:translateY(-50%);color:rgba(255,255,255,.4);pointer-events:none;transition:color .25s}
+.fi-date-ic svg{width:18px;height:18px;fill:currentColor}
+.fi-date input:focus ~ .fi-date-ic{color:var(--accent)}
+
+.date-chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.date-chip{background:rgba(255,255,255,.025);border:1px solid var(--bds);color:rgba(255,255,255,.62);font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;padding:6px 12px;cursor:none;transition:border-color .25s,background .25s,color .25s,transform .2s;border-radius:100px}
+.date-chip:hover{border-color:rgba(37,99,235,.5);color:#fff;transform:translateY(-2px)}
+.date-chip.on{border-color:var(--accent);background:var(--acc-d);color:#fff}
+.cont-form-wrap{background:var(--sf);border:1px solid var(--border);border-radius:var(--rl);padding:clamp(28px,4vw,44px);position:relative;overflow:hidden;transition:border-color .35s}
+.cont-form-wrap::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(to right,var(--accent),var(--acc2) 50%,transparent)}
+.cont-form-wrap::after{content:'';position:absolute;inset:-2px;background:conic-gradient(from var(--ang,0deg),rgba(37,99,235,0) 0%,rgba(37,99,235,.18) 20%,rgba(37,99,235,0) 40%);opacity:0;transition:opacity .5s;pointer-events:none;border-radius:inherit;animation:sweep 8s linear infinite}
+.cont-form-wrap:focus-within::after{opacity:1}
+@property --ang{syntax:'<angle>';initial-value:0deg;inherits:false}
+@keyframes sweep{to{--ang:360deg}}
+.cont-form-inner{position:relative;z-index:1;background:var(--sf);border-radius:calc(var(--rl) - 1px)}
+.cont-form-head{display:flex;align-items:flex-start;justify-content:space-between;gap:18px;margin-bottom:28px;padding-bottom:22px;border-bottom:1px solid var(--border)}
 .cont-form-head h3{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:clamp(28px,3vw,40px);line-height:.96;text-transform:uppercase;color:#fff;letter-spacing:-.01em}
-.cont-form-head .stamp{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);border:1px solid rgba(37,99,235,.3);background:var(--acc-d);padding:5px 10px;border-radius:4px;align-self:flex-start;white-space:nowrap}
+.cont-form-head h3 small{display:block;font-family:'Jost',sans-serif;font-size:13px;font-weight:400;font-style:normal;color:var(--muted);text-transform:none;letter-spacing:0;margin-top:8px;line-height:1.5}
+.cont-form-stamp{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--ok);background:rgba(34,215,122,.08);border:1px solid rgba(34,215,122,.3);padding:6px 11px;border-radius:100px;align-self:flex-start;white-space:nowrap;display:inline-flex;align-items:center;gap:7px}
+.cont-form-stamp .dot{width:6px;height:6px;border-radius:50%;background:var(--ok);box-shadow:0 0 0 3px rgba(34,215,122,.2);animation:pulse 2.6s ease-in-out infinite}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(34,215,122,.5)}50%{box-shadow:0 0 0 5px transparent}}
 
-.cont-form{display:flex;flex-direction:column;gap:18px}
-.cont-form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-.subject-pills{display:flex;flex-wrap:wrap;gap:8px;margin-top:4px}
-.sub-pill{background:rgba(255,255,255,.025);border:1px solid var(--bds);color:rgba(255,255,255,.6);font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:12px;letter-spacing:.1em;text-transform:uppercase;padding:9px 16px;cursor:pointer;transition:border-color .25s,background .25s,color .25s;border-radius:100px}
-.sub-pill:hover{border-color:rgba(37,99,235,.45);color:#fff}
-.sub-pill.on{border-color:var(--accent);background:var(--acc-d);color:#fff}
+.cont-form{display:flex;flex-direction:column;gap:22px}
+.field{display:flex;flex-direction:column;gap:10px;position:relative}
+.field-lbl{font-size:9.5px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:rgba(255,255,255,.55);display:flex;align-items:center;gap:8px}
+.field-lbl .req{color:var(--accent);font-size:8px}
 
-.cont-form-foot{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-top:14px;padding-top:24px;border-top:1px solid var(--border)}
-.cont-rgpd{font-size:11px;color:var(--muted);line-height:1.6;max-width:380px}
+/* Floating input */
+.fi{position:relative}
+.fi input,.fi textarea{width:100%;background:rgba(255,255,255,.03);border:1px solid var(--bds);border-radius:12px;padding:20px 18px 12px;color:#fff;font-size:14.5px;font-family:inherit;transition:border-color .25s,background .25s,box-shadow .25s,padding .25s}
+.fi input:hover,.fi textarea:hover{border-color:rgba(255,255,255,.22);background:rgba(255,255,255,.045)}
+.fi input:focus,.fi textarea:focus{outline:none;border-color:var(--accent);background:rgba(37,99,235,.06);box-shadow:0 0 0 4px rgba(37,99,235,.14)}
+.fi textarea{resize:vertical;min-height:140px;padding-top:24px}
+.fi-lbl{position:absolute;left:18px;top:50%;transform:translateY(-50%);font-size:13.5px;color:rgba(255,255,255,.42);pointer-events:none;transition:all .25s cubic-bezier(.16,1,.3,1);background:transparent;padding:0 4px}
+.fi.textarea .fi-lbl{top:18px;transform:none}
+.fi input:focus + .fi-lbl,.fi input:not(:placeholder-shown) + .fi-lbl,
+.fi textarea:focus + .fi-lbl,.fi textarea:not(:placeholder-shown) + .fi-lbl{
+  top:0;transform:translateY(-50%);font-size:9.5px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);background:var(--sf)}
+.fi-ic{position:absolute;right:16px;top:50%;transform:translateY(-50%);color:rgba(255,255,255,.28);pointer-events:none;transition:color .25s}
+.fi-ic svg{width:16px;height:16px;fill:currentColor}
+.fi input:focus ~ .fi-ic,.fi textarea:focus ~ .fi-ic{color:var(--accent)}
+.fi.textarea .fi-ic{top:24px;transform:none}
+.fi-help{font-size:11px;color:var(--muted);line-height:1.5;margin-top:7px;padding-left:4px;display:flex;align-items:flex-start;gap:7px}
+.fi-help::before{content:'';display:inline-block;width:4px;height:4px;border-radius:50%;background:var(--accent);opacity:.6;margin-top:7px;flex-shrink:0}
+
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.field-hint{font-size:11px;color:var(--muted);line-height:1.5}
+
+.subject-pills{display:flex;flex-wrap:wrap;gap:8px;margin-top:2px}
+.sub-pill{background:rgba(255,255,255,.025);border:1px solid var(--bds);color:rgba(255,255,255,.62);font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:12px;letter-spacing:.12em;text-transform:uppercase;padding:10px 16px;cursor:none;transition:border-color .25s,background .25s,color .25s,transform .25s,box-shadow .25s;border-radius:100px;display:inline-flex;align-items:center;gap:8px;position:relative;overflow:hidden}
+.sub-pill::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(37,99,235,.15),rgba(129,140,248,.08));opacity:0;transition:opacity .3s;pointer-events:none}
+.sub-pill:hover{border-color:rgba(37,99,235,.5);color:#fff;transform:translateY(-2px)}
+.sub-pill:hover::before{opacity:1}
+.sub-pill.on{border-color:var(--accent);background:var(--acc-d);color:#fff;box-shadow:0 6px 18px rgba(37,99,235,.25)}
+.sub-pill.on::before{opacity:1}
+.sub-pill .ic{font-size:14px;line-height:1;position:relative;z-index:1}
+.sub-pill > span:not(.ic){position:relative;z-index:1}
+
+.cont-form-foot{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;margin-top:8px;padding-top:22px;border-top:1px solid var(--border)}
+.cont-rgpd{font-size:11px;color:var(--muted);line-height:1.6;max-width:380px;flex:1;min-width:200px}
 .cont-rgpd a{color:var(--accent)}
 
-.cont-form-success{display:none;flex-direction:column;align-items:center;text-align:center;gap:14px;padding:40px 20px}
+.cont-form-success{display:none;flex-direction:column;align-items:center;text-align:center;gap:16px;padding:40px 20px;animation:fadeUp .55s cubic-bezier(.16,1,.3,1)}
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
 .cont-form-success.on{display:flex}
-.cont-form-success .ic{width:64px;height:64px;border-radius:50%;background:var(--acc-d);border:1px solid rgba(37,99,235,.4);display:flex;align-items:center;justify-content:center;font-size:28px;color:var(--accent)}
+.cont-form-success .ic{width:72px;height:72px;border-radius:50%;background:var(--acc-d);border:1px solid rgba(37,99,235,.4);display:flex;align-items:center;justify-content:center;font-size:32px;color:var(--accent)}
 .cont-form-success h4{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:32px;text-transform:uppercase;color:#fff;letter-spacing:-.01em}
 .cont-form-success p{font-size:14px;color:var(--muted);max-width:380px;line-height:1.7}
+.cont-form-success p a{color:var(--accent)}
 .cont-form.hidden{display:none}
 
-/* Side info */
-.cont-side{display:flex;flex-direction:column;gap:18px;position:sticky;top:100px}
-.cont-side-card{background:var(--sf);border:1px solid var(--border);border-radius:var(--rl);padding:24px 26px;transition:border-color .3s}
+/* SIDE */
+.cont-side{display:flex;flex-direction:column;gap:14px;position:sticky;top:90px}
+.cont-side-card{background:var(--sf);border:1px solid var(--border);border-radius:var(--rl);padding:22px 24px;transition:border-color .3s}
 .cont-side-card:hover{border-color:rgba(37,99,235,.32)}
 .cont-side-card .hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;padding-bottom:12px;border-bottom:1px solid var(--border)}
-.cont-side-card h4{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:14px;letter-spacing:.18em;text-transform:uppercase;color:#fff}
-.cont-side-card .ico{width:34px;height:34px;border:1px solid var(--bds);border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--accent)}
-.cont-side-card .ico svg{width:15px;height:15px;fill:currentColor}
+.cont-side-card h4{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:13px;letter-spacing:.18em;text-transform:uppercase;color:#fff}
+.cont-side-card .ico{width:32px;height:32px;border:1px solid var(--bds);border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--accent)}
+.cont-side-card .ico svg{width:14px;height:14px;fill:currentColor}
 .cs-row{padding:9px 0;border-bottom:1px dashed rgba(255,255,255,.05);display:flex;align-items:baseline;justify-content:space-between;gap:14px}
 .cs-row:last-child{border-bottom:none}
-.cs-row .l{font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.45);white-space:nowrap;flex-shrink:0}
-.cs-row .v{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:15px;letter-spacing:.04em;color:#fff;text-align:right}
-.cs-row .v a{color:#fff;transition:color .2s}
+.cs-row .l{font-size:10px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.45);white-space:nowrap;flex-shrink:0}
+.cs-row .v{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:14.5px;letter-spacing:.04em;color:#fff;text-align:right}
 .cs-row .v a:hover{color:var(--accent)}
 .cs-row .v em{color:var(--accent);font-style:normal}
 .cs-row .v.ok{color:var(--ok)}
+.cs-row .dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--ok);margin-right:7px;animation:pulse 2.6s ease-in-out infinite;vertical-align:middle}
 
-.cs-row .dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--ok);margin-right:8px;animation:pulse 2.6s ease-in-out infinite;vertical-align:middle}
-@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(34,215,122,.5)}50%{box-shadow:0 0 0 5px transparent}}
+/* ══ MAP SECTION ══ */
+.sec-map{background:var(--bg);border-bottom:1px solid var(--border);position:relative;overflow:hidden}
+.map-head{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;flex-wrap:wrap;margin-bottom:36px}
+.map-head .body-text{max-width:380px}
 
-/* MAP / ACCESS */
-.sec-map{background:var(--bg-2);border-bottom:1px solid var(--border);position:relative;overflow:hidden}
-.map-head{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;flex-wrap:wrap;margin-bottom:48px}
-.map-grid{display:grid;grid-template-columns:1fr 1.2fr;gap:36px;align-items:stretch}
+/* Info row above map */
+.map-info-row{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-radius:var(--rl);overflow:hidden;margin-bottom:20px}
+.map-cell{background:var(--sf);padding:18px 22px;display:flex;flex-direction:column;gap:5px;transition:background .3s}
+.map-cell:hover{background:var(--bg-3)}
+.map-cell .l{font-size:9px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:rgba(255,255,255,.4)}
+.map-cell .v{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:24px;letter-spacing:-.005em;color:#fff;line-height:1}
+.map-cell .v em{color:var(--accent);font-style:normal;font-size:.55em;margin-left:4px;font-weight:700;letter-spacing:.1em}
 
-/* Stylized chart-style map */
-.map-canvas{position:relative;border:1px solid var(--bds-2);border-radius:var(--rl);overflow:hidden;min-height:520px;background:linear-gradient(135deg,#0e1424 0%,#080a0e 100%)}
-.map-bg-grid{position:absolute;inset:0;
-  background-image:
-    linear-gradient(rgba(37,99,235,.06) 1px,transparent 1px),
-    linear-gradient(90deg,rgba(37,99,235,.06) 1px,transparent 1px),
-    linear-gradient(rgba(37,99,235,.025) 1px,transparent 1px),
-    linear-gradient(90deg,rgba(37,99,235,.025) 1px,transparent 1px);
-  background-size:80px 80px,80px 80px,16px 16px,16px 16px}
-.map-bg-glow{position:absolute;width:60%;height:60%;left:50%;top:50%;transform:translate(-50%,-50%);background:radial-gradient(circle,rgba(37,99,235,.18),transparent 70%);animation:rad 4s ease-in-out infinite}
-@keyframes rad{0%,100%{opacity:.6;transform:translate(-50%,-50%) scale(.95)}50%{opacity:1;transform:translate(-50%,-50%) scale(1.1)}}
-.map-radial{position:absolute;left:54%;top:46%;width:1px;height:1px;border-radius:50%;border:1px solid rgba(37,99,235,.3);box-shadow:0 0 0 60px rgba(37,99,235,.05),0 0 0 130px rgba(37,99,235,.04),0 0 0 200px rgba(37,99,235,.03)}
-.map-pin{position:absolute;left:54%;top:46%;width:20px;height:20px;border-radius:50%;background:#fff;border:5px solid var(--accent);box-shadow:0 0 0 10px rgba(37,99,235,.3),0 4px 12px rgba(0,0,0,.6);z-index:3;transform:translate(-50%,-50%)}
-.map-pin::after{content:'';position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:70px;height:70px;border:1px dashed rgba(37,99,235,.45);border-radius:50%;animation:pinRing 4s linear infinite}
-@keyframes pinRing{from{transform:translate(-50%,-50%) rotate(0deg)}to{transform:translate(-50%,-50%) rotate(360deg)}}
-.map-runway{position:absolute;left:42%;top:54%;width:260px;height:3px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.4) 20%,rgba(255,255,255,.4) 80%,transparent);transform:rotate(72deg);transform-origin:center;z-index:2}
-.map-runway-marker{position:absolute;top:-26px;font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:12px;color:rgba(255,255,255,.6);letter-spacing:.08em}
-.map-runway-marker.s{left:0}
-.map-runway-marker.e{right:0}
+/* Map iframe wrapper */
+.map-wrap{position:relative;border-radius:var(--rl);overflow:hidden;border:1px solid var(--border);background:var(--sf);height:clamp(420px,60vh,600px)}
+.map-wrap iframe{width:100%;height:100%;border:0;display:block;filter:saturate(.78) contrast(1.05) brightness(.92);transition:filter .35s}
+.map-wrap:hover iframe{filter:saturate(.95) contrast(1.05) brightness(1)}
 
-.map-label{position:absolute;left:54%;top:46%;transform:translate(28px,-32px);background:rgba(8,10,14,.94);backdrop-filter:blur(14px);border:1px solid var(--bds-2);padding:12px 16px;z-index:4;border-left:3px solid var(--accent)}
-.map-label .nm{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:22px;line-height:1;color:#fff;text-transform:uppercase;letter-spacing:-.005em}
-.map-label .lc{font-size:9.5px;font-weight:700;letter-spacing:.22em;color:var(--accent);text-transform:uppercase;margin-top:6px}
-.map-label .co{font-size:11px;color:rgba(255,255,255,.6);margin-top:8px;letter-spacing:.04em;font-family:'JetBrains Mono','Courier New',monospace}
+.map-overlay{position:absolute;left:20px;bottom:20px;z-index:2;background:rgba(8,10,14,.94);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:1px solid var(--bds);border-left:3px solid var(--accent);padding:18px 22px;max-width:300px;pointer-events:none}
+.map-overlay .nm{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:24px;color:#fff;text-transform:uppercase;letter-spacing:-.005em;line-height:1}
+.map-overlay .id{font-size:10px;font-weight:700;letter-spacing:.22em;color:var(--accent);text-transform:uppercase;margin-top:6px}
+.map-overlay .co{font-size:12px;color:rgba(255,255,255,.65);margin-top:8px;letter-spacing:.04em;line-height:1.5}
 
-.map-corner{position:absolute;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:10px;letter-spacing:.22em;color:rgba(255,255,255,.32);text-transform:uppercase;z-index:2}
-.map-corner.tl{top:14px;left:14px;display:flex;flex-direction:column;gap:4px}
-.map-corner.tr{top:14px;right:14px;text-align:right;display:flex;flex-direction:column;gap:4px}
-.map-corner.bl{bottom:14px;left:14px}
-.map-corner.br{bottom:14px;right:14px;text-align:right}
-.map-corner em{color:#fff;font-style:normal;font-weight:900;font-style:italic;font-size:13px;letter-spacing:.04em}
+.map-stamp{position:absolute;top:16px;right:16px;background:rgba(8,10,14,.85);backdrop-filter:blur(10px);border:1px solid var(--bds);padding:7px 12px;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:#fff;z-index:2;display:flex;align-items:center;gap:8px;border-radius:4px}
+.map-stamp .dot{width:7px;height:7px;border-radius:50%;background:var(--ok);animation:pulse 2.6s ease-in-out infinite}
 
-.map-cta{position:absolute;bottom:14px;left:50%;transform:translateX(-50%);z-index:4}
+/* Itinerary buttons */
+.map-routes{margin-top:20px;display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.route-btn{display:flex;align-items:center;gap:14px;padding:16px 20px;background:var(--sf);border:1px solid var(--border);border-radius:var(--rl);transition:border-color .3s,background .3s,transform .35s;position:relative;overflow:hidden}
+.route-btn:hover{transform:translateY(-3px)}
+.route-btn.gmaps:hover{border-color:#4285f4;background:rgba(66,133,244,.06)}
+.route-btn.apple:hover{border-color:rgba(255,255,255,.45);background:rgba(255,255,255,.04)}
+.route-btn.waze:hover{border-color:#33ccff;background:rgba(51,204,255,.06)}
+.route-btn-ic{width:44px;height:44px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:transform .3s}
+.route-btn:hover .route-btn-ic{transform:scale(1.08)}
+.route-btn.gmaps .route-btn-ic{background:#fff}
+.route-btn.apple .route-btn-ic{background:linear-gradient(135deg,#3478f6,#34c759)}
+.route-btn.waze .route-btn-ic{background:#33ccff}
+.route-btn-ic svg{width:22px;height:22px}
+.route-btn-tx{display:flex;flex-direction:column;gap:2px;flex:1;min-width:0}
+.route-btn-tx .l{font-size:9px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:rgba(255,255,255,.45)}
+.route-btn-tx .v{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:18px;color:#fff;line-height:1;letter-spacing:-.005em}
+.route-btn-arr{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;color:rgba(255,255,255,.3);font-size:16px;transition:transform .25s,color .25s;flex-shrink:0}
+.route-btn:hover .route-btn-arr{transform:translateX(4px);color:#fff}
 
-/* Access modes */
-.access-list{display:flex;flex-direction:column;gap:0}
-.access-item{padding:24px 0;border-top:1px solid var(--border);display:grid;grid-template-columns:60px 1fr auto;align-items:center;gap:20px;transition:padding .25s}
-.access-item:last-child{border-bottom:1px solid var(--border)}
-.access-item:hover{padding-left:8px}
-.access-icon{width:48px;height:48px;border:1px solid var(--bds);border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--accent);transition:border-color .25s,background .25s}
-.access-item:hover .access-icon{border-color:var(--accent);background:var(--acc-d)}
-.access-icon svg{width:20px;height:20px;fill:currentColor}
-.access-body h4{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:20px;text-transform:uppercase;color:#fff;line-height:1.1;letter-spacing:-.005em;margin-bottom:4px}
-.access-body p{font-size:13px;color:var(--muted);line-height:1.6}
-.access-dur{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:22px;color:var(--accent);letter-spacing:.02em;white-space:nowrap}
-.access-dur small{display:block;font-size:9px;font-weight:700;letter-spacing:.22em;color:rgba(255,255,255,.4);font-style:normal;margin-top:2px;text-align:right}
+/* ══ ACCESS modes ══ */
+.sec-access{background:var(--bg-2);border-bottom:1px solid var(--border)}
+.access-head{margin-bottom:36px}
+.access-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.access-card{background:var(--sf);border:1px solid var(--border);border-radius:var(--rl);padding:26px;display:flex;flex-direction:column;gap:14px;transition:border-color .3s,transform .4s,box-shadow .35s;position:relative;overflow:hidden}
+.access-card:hover{border-color:rgba(37,99,235,.36);transform:translateY(-5px);box-shadow:0 22px 48px rgba(0,0,0,.45)}
+.access-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(to right,var(--accent),var(--acc2));opacity:0;transition:opacity .3s}
+.access-card:hover::before{opacity:1}
+.access-card-hd{display:flex;align-items:center;justify-content:space-between;gap:14px}
+.access-icon{width:48px;height:48px;border:1px solid rgba(37,99,235,.25);border-radius:12px;display:flex;align-items:center;justify-content:center;background:var(--acc-d);font-size:22px;color:var(--accent);flex-shrink:0}
+.access-icon svg{width:22px;height:22px;fill:currentColor}
+.access-card-dur{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:22px;color:var(--accent);letter-spacing:.02em;text-align:right;line-height:1}
+.access-card-dur small{display:block;font-family:'Jost',sans-serif;font-size:9px;font-weight:700;letter-spacing:.22em;color:rgba(255,255,255,.4);font-style:normal;margin-top:3px;text-transform:uppercase}
+.access-card h4{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:22px;text-transform:uppercase;color:#fff;line-height:1.05;letter-spacing:-.005em}
+.access-card p{font-size:13px;color:var(--muted);line-height:1.65;flex:1}
 
-/* FAQ */
-.sec-faq-c{background:var(--bg);border-bottom:1px solid var(--border)}
-.faq-head{margin-bottom:42px;max-width:680px}
+/* ══ FAQ ══ */
+.sec-faq{background:var(--bg);border-bottom:1px solid var(--border)}
+.faq-head{margin-bottom:36px;max-width:680px}
 .faq-list{border-top:1px solid var(--border)}
-.faq-item{border-bottom:1px solid var(--border)}
+.faq-item{border-bottom:1px solid var(--border);transition:background .25s}
 .faq-item.open{background:rgba(37,99,235,.025)}
 .faq-q{width:100%;padding:22px 0;display:flex;align-items:center;justify-content:space-between;gap:24px;text-align:left;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:clamp(18px,2vw,24px);line-height:1.2;color:#fff;text-transform:uppercase;letter-spacing:.01em;transition:color .25s}
 .faq-q:hover{color:var(--accent)}
@@ -145,25 +316,50 @@
 .faq-item.open .faq-q .ic{transform:rotate(45deg);border-color:var(--accent);color:var(--accent)}
 .faq-a{max-height:0;overflow:hidden;transition:max-height .45s cubic-bezier(.16,1,.3,1)}
 .faq-item.open .faq-a{max-height:400px}
-.faq-a-inner{padding:0 0 26px;max-width:720px}
+.faq-a-inner{padding:0 0 26px;max-width:760px}
 .faq-a-inner p{font-size:14px;line-height:1.78;color:var(--muted)}
 .faq-a-inner p a{color:var(--accent)}
 
+/* FOOTER */
+.footer{background:var(--bg-2);border-top:1px solid var(--border);padding:22px var(--side)}
+.footer-in{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
+.footer-links{display:flex;gap:14px;flex-wrap:wrap}
+.footer-links a{font-size:11.5px;color:rgba(255,255,255,.3);transition:color .2s}.footer-links a:hover{color:rgba(255,255,255,.7)}
+.footer-links .sep{color:var(--dim);font-size:10px}
+.footer-cr{font-size:11.5px;color:var(--dim)}
+
 @media(max-width:980px){
-  .c-hero-inner{grid-template-columns:1fr;gap:32px}
-  .cont-grid{grid-template-columns:1fr;gap:36px}
+  .nav-links,.nav-icons,.nav-cta{display:none}
+  .nav-burger{display:flex}
+  .c-hero{min-height:auto;padding:calc(var(--nav-h) + 50px) 0 50px;display:block}
+  .c-hero-inner{grid-template-columns:1fr;gap:28px}
+  .cont-grid{grid-template-columns:1fr;gap:24px}
   .cont-side{position:static}
-  .cont-form-row{grid-template-columns:1fr}
-  .map-grid{grid-template-columns:1fr}
-  .map-canvas{min-height:380px}
-  .access-item{grid-template-columns:48px 1fr;gap:14px}
-  .access-dur{grid-column:2;text-align:left}
-  .access-dur small{text-align:left}
+  .field-row{grid-template-columns:1fr}
+  .plane-options{grid-template-columns:1fr 1fr}
+  .date-row{grid-template-columns:1fr}
+  .map-info-row{grid-template-columns:1fr 1fr}
+  .map-routes{grid-template-columns:1fr}
+  .access-grid{grid-template-columns:1fr}
+  .map-wrap{height:clamp(340px,55vh,460px)}
+}
+@media(max-width:600px){
+  :root{--side:clamp(16px,4.5vw,28px)}
+  .c-hero{min-height:100svh}
+  .map-info-row{grid-template-columns:1fr}
+  .map-overlay{left:12px;bottom:12px;right:12px;max-width:none;padding:14px 16px}
+  .map-overlay .nm{font-size:20px}
+  .map-stamp{top:10px;right:10px;font-size:9px;padding:5px 9px}
+  .cont-form-wrap{padding:24px 22px}
+  .cont-form-foot{flex-direction:column;align-items:stretch}
+  .cont-form-foot .btn{width:100%;justify-content:center}
+  .sec.sp{padding:clamp(56px,9vh,90px) 0}
+  .h2{font-size:clamp(34px,8.5vw,56px)}
+  .footer-in{flex-direction:column;align-items:flex-start;gap:14px}
 }
 </style>
 </head>
 <body>
-
 <div class="grain" aria-hidden="true"></div>
 <div class="pg-bar" id="pg-bar"></div>
 <div class="cur" id="cur-dot"><div class="cur-dot"></div></div>
@@ -171,14 +367,14 @@
 
 <!-- NAV -->
 <nav class="nav" id="nav">
-  <a class="nav-logo" href="index.html"><img src="assets/images/apam-logo2.png" alt="APAM"></a>
+  <a href="index.html"><img class="nav-logo-img" src="assets/images/apam-logo2.png" alt="APAM"></a>
   <ul class="nav-links">
     <li class="nav-item-drop">
       <a href="tarifs.html">Flotte</a>
       <div class="nav-drop">
-        <a class="ndc" href="tarifs.html"><img src="assets/images/FGHKE2.png" alt="Cessna 152"><div class="ndc-name">Cessna 152</div><div class="ndc-sub">Formation · Initiation</div></a>
-        <a class="ndc" href="tarifs.html"><img src="assets/images/TB200M.png" alt="TB200"><div class="ndc-name">TB200</div><div class="ndc-sub">Perfectionnement · Voyage</div></a>
-        <a class="ndc" href="tarifs.html"><img src="assets/images/SR1.png" alt="SR20"><div class="ndc-name">Cirrus SR20</div><div class="ndc-sub">Haute performance</div></a>
+        <a class="ndc" href="tarifs.html#plane-152"><img src="assets/images/FGHKE2.png" alt="Cessna 152"><div class="ndc-name">Cessna 152</div><div class="ndc-sub">Formation · Initiation</div></a>
+        <a class="ndc" href="tarifs.html#plane-tb200"><img src="assets/images/TB200M.png" alt="TB200"><div class="ndc-name">TB200</div><div class="ndc-sub">Voyage · 4 places</div></a>
+        <a class="ndc" href="tarifs.html#plane-sr20"><img src="assets/images/SR1.png" alt="SR20"><div class="ndc-name">Cirrus SR20</div><div class="ndc-sub">Premium · CAPS</div></a>
       </div>
     </li>
     <li><a href="activite.html">Le Club</a></li>
@@ -188,15 +384,15 @@
     <li><a href="https://openflyers.com/apam/" target="_blank">OpenFlyer</a></li>
   </ul>
   <div class="nav-icons">
-    <a class="nav-ic" href="https://www.instagram.com/apam_lfol" target="_blank" aria-label="Instagram"><svg viewBox="0 0 24 24"><path d="M7 2C4.2 2 2 4.2 2 7v10c0 2.8 2.2 5 5 5h10c2.8 0 5-2.2 5-5V7c0-2.8-2.2-5-5-5H7zm0 2h10c1.7 0 3 1.3 3 3v10c0 1.7-1.3 3-3 3H7c-1.7 0-3-1.3-3-3V7c0-1.7 1.3-3 3-3zm5 3.5a4.5 4.5 0 1 0 0 9 4.5 4.5 0 0 0 0-9zm0 2a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zm4.8-2.9a1.1 1.1 0 1 0 0 2.2 1.1 1.1 0 0 0 0-2.2z"/></svg></a>
-    <a class="nav-ic" href="/cdn-cgi/l/email-protection#adccc8dfc2cec1d8cfccddccc0edcac0ccc4c183cec2c0" aria-label="Email"><svg viewBox="0 0 24 24"><path d="M4 4h16a2 2 0 0 1 2 2v1L12 13 2 7V6a2 2 0 0 1 2-2zm18 5v9a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V9l10 6 10-6z"/></svg></a>
+    <a class="nav-icon" href="https://www.instagram.com/apam_lfol" target="_blank" aria-label="Instagram"><svg viewBox="0 0 24 24"><path d="M7 2C4.2 2 2 4.2 2 7v10c0 2.8 2.2 5 5 5h10c2.8 0 5-2.2 5-5V7c0-2.8-2.2-5-5-5H7zm0 2h10c1.7 0 3 1.3 3 3v10c0 1.7-1.3 3-3 3H7c-1.7 0-3-1.3-3-3V7c0-1.7 1.3-3 3-3zm5 3.5a4.5 4.5 0 1 0 0 9 4.5 4.5 0 0 0 0-9zm0 2a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zm4.8-2.9a1.1 1.1 0 1 0 0 2.2 1.1 1.1 0 0 0 0-2.2z"/></svg></a>
+    <a class="nav-icon" href="/cdn-cgi/l/email-protection#137263727e2522537c61727d74763d7561" aria-label="Email"><svg viewBox="0 0 24 24"><path d="M4 4h16a2 2 0 0 1 2 2v1L12 13 2 7V6a2 2 0 0 1 2-2zm18 5v9a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V9l10 6 10-6z"/></svg></a>
   </div>
   <a class="nav-cta" href="connexion-membres-password.html?next=mon-compte.html">Mon compte</a>
-  <button class="nav-burger" id="burger" aria-expanded="false" aria-label="Menu"><b></b><b></b><b></b></button>
+  <button class="nav-burger" id="burger" aria-label="Menu"><b></b><b></b><b></b></button>
 </nav>
 
 <div class="m-drawer" id="drawer" aria-hidden="true">
-  <div class="m-drawer-top"><img src="assets/images/apam-logo2.png" alt="APAM" style="height:40px"><button class="m-close" id="m-close" aria-label="Fermer">✕</button></div>
+  <div class="m-drawer-top"><img src="assets/images/apam-logo2.png" alt="APAM" style="height:38px"><button class="m-close" id="m-close">✕</button></div>
   <nav class="m-nav">
     <a href="tarifs.html">Flotte <span class="arr">→</span></a>
     <a href="activite.html">Le Club <span class="arr">→</span></a>
@@ -211,25 +407,28 @@
 <!-- HERO -->
 <section class="c-hero">
   <div class="c-hero-grid"></div>
-  <div class="wrap">
-    <div class="c-hero-inner">
-      <div class="c-hero-l">
-        <p class="kicker">Nous écrire · Nous trouver</p>
-        <h1 class="c-hero-title">
-          On est<br><span class="ol">à votre écoute.</span>
-        </h1>
-        <p class="c-hero-sub">Une question sur la formation, un vol découverte à réserver, ou simplement envie de visiter le hangar ? Écrivez-nous — ou venez directement, c'est ouvert.</p>
-      </div>
-      <div class="c-hero-r">
-        <a class="c-hero-qcard" href="/cdn-cgi/l/email-protection#6e0f0b1c010d021b0c0f1e0f032e09030f0702400d0103">
-          <span class="l">— Par e-mail</span>
-          <span class="v"><span class="__cf_email__" data-cfemail="3f5e5a4d505c534a5d5e4f5e527f58525e5653115c5052">[email&#160;protected]</span><small>Réponse sous 24-48h</small></span>
-        </a>
-        <a class="c-hero-qcard" href="https://www.google.com/maps/place/Aérodrome+de+L'Aigle-Saint-Michel" target="_blank">
-          <span class="l">— Au terrain</span>
-          <span class="v">Aérodrome LFOL<small>L'Aigle Saint-Michel · 61300</small></span>
-        </a>
-      </div>
+  <div class="c-hero-inner">
+    <div class="c-hero-l">
+      <p class="kicker">Nous écrire · Nous trouver</p>
+      <h1 class="c-hero-title">On est<br><span class="ol">à votre écoute.</span></h1>
+      <p class="c-hero-sub">Une question sur la formation, un vol découverte à réserver, ou simplement envie de visiter le hangar ? Écrivez-nous — ou venez directement, c'est ouvert.</p>
+    </div>
+    <div class="c-hero-r">
+      <a class="c-hero-card" href="/cdn-cgi/l/email-protection#c3a2b3a2aef5f283acb1a2ada4a6eda5b1">
+        <span class="c-hero-card-ic"><svg viewBox="0 0 24 24"><path d="M4 4h16a2 2 0 0 1 2 2v1L12 13 2 7V6a2 2 0 0 1 2-2zm18 5v9a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V9l10 6 10-6z"/></svg></span>
+        <span class="c-hero-card-tx"><span class="l">— Par e-mail</span><span class="v"><span class="__cf_email__" data-cfemail="7a1b0a1b174c4b3a15081b141d1f541c08">[email&#160;protected]</span><small>Réponse sous 24-48h</small></span></span>
+        <span class="c-hero-card-arr">↗</span>
+      </a>
+      <a class="c-hero-card" href="https://www.google.com/maps/place/Aérodrome+de+L'Aigle-Saint-Michel" target="_blank">
+        <span class="c-hero-card-ic"><svg viewBox="0 0 24 24"><path d="M12 2A8 8 0 0 0 4 10c0 5.5 8 12 8 12s8-6.5 8-12a8 8 0 0 0-8-8zm0 11a3 3 0 1 1 0-6 3 3 0 0 1 0 6z"/></svg></span>
+        <span class="c-hero-card-tx"><span class="l">— Au terrain</span><span class="v">Aérodrome LFOL<small>L'Aigle Saint-Michel · 61300</small></span></span>
+        <span class="c-hero-card-arr">↗</span>
+      </a>
+      <a class="c-hero-card" href="tel:+33233281234">
+        <span class="c-hero-card-ic"><svg viewBox="0 0 24 24"><path d="M6.6 10.8a16 16 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.7 11.7 0 0 0 3.7.6 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.3.2 2.5.6 3.7a1 1 0 0 1-.25 1z"/></svg></span>
+        <span class="c-hero-card-tx"><span class="l">— Par téléphone</span><span class="v">02 33 28 12 34<small>Lun-Ven sur RDV</small></span></span>
+        <span class="c-hero-card-arr">↗</span>
+      </a>
     </div>
   </div>
 </section>
@@ -238,76 +437,123 @@
 <section class="sec sec-main sp">
   <div class="wrap">
     <div class="cont-grid">
-      <!-- FORM -->
-      <div class="cont-form-wrap" data-r="s">
+
+      <div class="cont-form-wrap" data-r="s" id="cont-form-anchor">
         <div class="cont-form-head">
-          <h3>Écrivez-nous.</h3>
-          <span class="stamp">— Réponse 24-48h</span>
+          <h3>Écrivez-nous.<small>On répond sous 24 à 48 heures, du fond du hangar normand.</small></h3>
+          <span class="cont-form-stamp"><span class="dot"></span>Bureau actif</span>
         </div>
 
         <form class="cont-form" id="contact-form" novalidate>
           <div class="field">
-            <label class="field-lbl">— Sujet <span class="req">●</span></label>
+            <label class="field-lbl">— Sujet du message <span class="req">●</span></label>
             <div class="subject-pills" id="subject-pills">
-              <button type="button" class="sub-pill on" data-sub="decouverte">Vol découverte</button>
-              <button type="button" class="sub-pill" data-sub="formation">Formation</button>
-              <button type="button" class="sub-pill" data-sub="adhesion">Adhésion</button>
-              <button type="button" class="sub-pill" data-sub="visite">Visite du club</button>
-              <button type="button" class="sub-pill" data-sub="autre">Autre</button>
+              <button type="button" class="sub-pill on" data-sub="decouverte"><span class="ic">✈</span>Vol découverte</button>
+              <button type="button" class="sub-pill" data-sub="formation"><span class="ic">📚</span>Formation</button>
+              <button type="button" class="sub-pill" data-sub="adhesion"><span class="ic">📝</span>Adhésion</button>
+              <button type="button" class="sub-pill" data-sub="visite"><span class="ic">🏠</span>Visite du club</button>
+              <button type="button" class="sub-pill" data-sub="reservation"><span class="ic">🗓</span>Réservation</button>
+              <button type="button" class="sub-pill" data-sub="autre"><span class="ic">💬</span>Autre</button>
             </div>
             <input type="hidden" name="subject" id="subject-val" value="decouverte">
           </div>
 
-          <div class="cont-form-row">
-            <div class="field">
-              <label class="field-lbl" for="cf-name">— Nom & prénom <span class="req">●</span></label>
-              <input type="text" id="cf-name" name="name" placeholder="Jean Dupont" required>
+          <!-- Plane selection (shown when relevant) -->
+          <div class="field plane-pick" id="plane-pick">
+            <label class="field-lbl">— Avion souhaité <span class="opt">(optionnel)</span></label>
+            <div class="plane-options" id="plane-options">
+              <button type="button" class="plane-opt on" data-plane="any">
+                <span class="plane-opt-ic">🔀</span>
+                <span class="plane-opt-tx"><span class="v">Au choix</span><span class="l">Selon dispo</span></span>
+              </button>
+              <button type="button" class="plane-opt" data-plane="cessna">
+                <img src="assets/images/FGHKE2.png" alt="" class="plane-opt-img">
+                <span class="plane-opt-tx"><span class="v">Cessna 152</span><span class="l">F-GHKE · 2 pl.</span></span>
+              </button>
+              <button type="button" class="plane-opt" data-plane="tb200">
+                <img src="assets/images/TB200M.png" alt="" class="plane-opt-img">
+                <span class="plane-opt-tx"><span class="v">TB200</span><span class="l">Socata · 4 pl.</span></span>
+              </button>
+              <button type="button" class="plane-opt" data-plane="sr20">
+                <img src="assets/images/SR1.png" alt="" class="plane-opt-img">
+                <span class="plane-opt-tx"><span class="v">Cirrus SR20</span><span class="l">Premium · 4 pl.</span></span>
+              </button>
             </div>
-            <div class="field">
-              <label class="field-lbl" for="cf-phone">— Téléphone</label>
-              <input type="tel" id="cf-phone" name="phone" placeholder="06 12 34 56 78">
+            <input type="hidden" name="plane" id="plane-val" value="any">
+          </div>
+
+          <!-- Date picker -->
+          <div class="field date-pick" id="date-pick">
+            <label class="field-lbl">— Date souhaitée <span class="opt">(optionnel)</span></label>
+            <div class="date-row">
+              <div class="fi-date">
+                <input type="date" id="cf-date" name="date">
+                <label class="fi-date-lbl" for="cf-date">Date</label>
+                <span class="fi-date-ic"><svg viewBox="0 0 24 24"><path d="M19 4h-1V2h-2v2H8V2H6v2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2zm0 16H5V10h14v10zm0-12H5V6h14v2z"/></svg></span>
+              </div>
+              <div class="fi-date">
+                <select id="cf-time" name="timeslot">
+                  <option value="">— Créneau</option>
+                  <option value="matin">Matin (9h-12h)</option>
+                  <option value="midi">Midi (12h-14h)</option>
+                  <option value="apres-midi">Après-midi (14h-18h)</option>
+                  <option value="flexible">Flexible</option>
+                </select>
+                <label class="fi-date-lbl">Créneau</label>
+              </div>
+            </div>
+            <div class="date-chips" id="date-chips">
+              <button type="button" class="date-chip" data-when="weekend">Ce week-end</button>
+              <button type="button" class="date-chip" data-when="next-weekend">Week-end prochain</button>
+              <button type="button" class="date-chip" data-when="week">Cette semaine</button>
+              <button type="button" class="date-chip" data-when="2weeks">Dans 2 semaines</button>
+              <button type="button" class="date-chip" data-when="month">Le mois prochain</button>
             </div>
           </div>
 
-          <div class="field">
-            <label class="field-lbl" for="cf-email">— E-mail <span class="req">●</span></label>
-            <input type="email" id="cf-email" name="email" placeholder="jean.dupont@email.fr" required>
+          <div class="field-row">
+            <div class="fi">
+              <input type="text" id="cf-name" name="name" placeholder=" " required>
+              <label class="fi-lbl" for="cf-name">Nom & prénom *</label>
+              <span class="fi-ic"><svg viewBox="0 0 24 24"><path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zm0 2c-4 0-8 2-8 6v2h16v-2c0-4-4-6-8-6z"/></svg></span>
+            </div>
+            <div class="fi">
+              <input type="tel" id="cf-phone" name="phone" placeholder=" ">
+              <label class="fi-lbl" for="cf-phone">Téléphone</label>
+              <span class="fi-ic"><svg viewBox="0 0 24 24"><path d="M6.6 10.8a16 16 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.7 11.7 0 0 0 3.7.6 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.3.2 2.5.6 3.7a1 1 0 0 1-.25 1z"/></svg></span>
+            </div>
           </div>
 
-          <div class="field">
-            <label class="field-lbl" for="cf-msg">— Votre message <span class="req">●</span></label>
-            <textarea id="cf-msg" name="message" placeholder="Bonjour, je souhaiterais réserver un vol découverte pour mon anniversaire en juin..." required></textarea>
-            <span class="field-hint">Plus vous nous donnez de détails (préférence de date, profil, attentes), plus on peut vous orienter.</span>
+          <div class="fi">
+            <input type="email" id="cf-email" name="email" placeholder=" " required>
+            <label class="fi-lbl" for="cf-email">Adresse e-mail *</label>
+            <span class="fi-ic"><svg viewBox="0 0 24 24"><path d="M4 4h16a2 2 0 0 1 2 2v1L12 13 2 7V6a2 2 0 0 1 2-2zm18 5v9a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V9l10 6 10-6z"/></svg></span>
+          </div>
+
+          <div class="fi textarea">
+            <textarea id="cf-msg" name="message" placeholder=" " required></textarea>
+            <label class="fi-lbl" for="cf-msg">Votre message *</label>
+            <span class="fi-ic"><svg viewBox="0 0 24 24"><path d="M21 6a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6zm-2 2-7 4-7-4V6l7 4 7-4v2z"/></svg></span>
+            <span class="fi-help">Plus vous nous donnez de détails (préférence de date, profil, attentes), plus on peut vous orienter.</span>
           </div>
 
           <div class="cont-form-foot">
             <p class="cont-rgpd">En envoyant ce formulaire, vos données seront utilisées uniquement pour vous répondre. Voir <a href="confidentialite.html">notre politique</a>.</p>
-            <button type="submit" class="btn btn--fill btn--lg">Envoyer le message <span class="arr">→</span></button>
+            <button type="submit" class="btn btn--fill">Envoyer le message <span>→</span></button>
           </div>
         </form>
 
         <div class="cont-form-success" id="cf-success">
           <div class="ic">✓</div>
           <h4>Message envoyé.</h4>
-          <p>Merci ! Un membre du bureau vous répondra sous 24 à 48h. En attendant, n'hésitez pas à consulter <a href="devenir-pilote.html" style="color:var(--accent)">notre page formation</a>.</p>
+          <p>Merci ! Un membre du bureau vous répondra sous 24 à 48h. En attendant, n'hésitez pas à consulter <a href="devenir-pilote.html">notre page formation</a>.</p>
         </div>
       </div>
 
-      <!-- SIDE INFO -->
       <aside class="cont-side">
         <div class="cont-side-card" data-r data-d="1">
           <div class="hdr">
-            <h4>— Coordonnées</h4>
-            <div class="ico"><svg viewBox="0 0 24 24"><path d="M12 2A8 8 0 0 0 4 10c0 5.5 8 12 8 12s8-6.5 8-12a8 8 0 0 0-8-8zm0 11a3 3 0 1 1 0-6 3 3 0 0 1 0 6z"/></svg></div>
-          </div>
-          <div class="cs-row"><span class="l">E-mail</span><span class="v"><a href="/cdn-cgi/l/email-protection#59383c2b363a352c3b38293834193e34383035773a3634"><span class="__cf_email__" data-cfemail="fd9c988f929e91889f9c8d9c90bd9a909c9491d39e9290">[email&#160;protected]</span></a></span></div>
-          <div class="cs-row"><span class="l">Téléphone</span><span class="v"><a href="tel:+33233281234">02 33 28 12 34</a></span></div>
-          <div class="cs-row"><span class="l">Adresse</span><span class="v">Aérodrome de L'Aigle<br>61300 Saint-Michel-Thubeuf</span></div>
-        </div>
-
-        <div class="cont-side-card" data-r data-d="2">
-          <div class="hdr">
-            <h4>— Horaires d'ouverture</h4>
+            <h4>— Horaires</h4>
             <div class="ico"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm.5 5h-1v6l5.2 3.2.5-.9-4.7-2.8V7z"/></svg></div>
           </div>
           <div class="cs-row"><span class="l">Lun – Ven</span><span class="v">Sur RDV</span></div>
@@ -316,104 +562,137 @@
           <div class="cs-row"><span class="l">Jours fériés</span><span class="v">9h – 18h</span></div>
         </div>
 
-        <div class="cont-side-card" data-r data-d="3">
+        <div class="cont-side-card" data-r data-d="2">
           <div class="hdr">
             <h4>— Infos aéro</h4>
             <div class="ico"><svg viewBox="0 0 24 24"><path d="M22 16v-2l-8.5-5V3.5a1.5 1.5 0 0 0-3 0V9L2 14v2l8.5-2.5V19L8 20.5V22l4-1 4 1v-1.5L13.5 19v-5.5L22 16z"/></svg></div>
           </div>
           <div class="cs-row"><span class="l">OACI</span><span class="v">LFOL</span></div>
           <div class="cs-row"><span class="l">Fréquence</span><span class="v">126.855 <em>MHz</em></span></div>
-          <div class="cs-row"><span class="l">Piste</span><span class="v">07/25 · 990 m</span></div>
-          <div class="cs-row"><span class="l">Coordonnées</span><span class="v">48°45'40" N<br>0°39'20" E</span></div>
+          <div class="cs-row"><span class="l">Piste</span><span class="v">07/25 · 800 m</span></div>
+          <div class="cs-row"><span class="l">Coordonnées</span><span class="v">48°45'N · 0°39'E</span></div>
         </div>
 
-        <a class="btn btn--ghost" href="https://www.google.com/maps/place/Aérodrome+de+L'Aigle-Saint-Michel" target="_blank">Voir sur Google Maps <span class="arr">↗</span></a>
+        <div class="cont-side-card" data-r data-d="3">
+          <div class="hdr">
+            <h4>— Suivez-nous</h4>
+            <div class="ico"><svg viewBox="0 0 24 24"><path d="M12 2C6.5 2 2 6.5 2 12c0 5 3.7 9.1 8.4 9.9v-7H8v-2.9h2.4V9.8c0-2.4 1.4-3.7 3.6-3.7 1 0 2.1.2 2.1.2v2.3h-1.2c-1.2 0-1.5.7-1.5 1.5v1.8h2.6l-.4 2.9h-2.2v7c4.7-.8 8.4-4.9 8.4-9.9 0-5.5-4.5-10-10-10z"/></svg></div>
+          </div>
+          <div class="cs-row"><span class="l">Facebook</span><span class="v"><a href="https://www.facebook.com/profile.php?id=61585663567523" target="_blank">@apam.lfol ↗</a></span></div>
+          <div class="cs-row"><span class="l">Instagram</span><span class="v"><a href="https://www.instagram.com/apam_lfol" target="_blank">@apam_lfol ↗</a></span></div>
+        </div>
       </aside>
+
     </div>
   </div>
 </section>
 
-<!-- MAP / ACCESS -->
-<section class="sec sec-map sp">
+<!-- MAP -->
+<section class="sec sec-map sp" id="carte">
   <div class="wrap">
     <div class="map-head">
       <div>
-        <p class="kicker" data-r>Venir au terrain</p>
-        <h2 class="h2" data-r="clip" data-d="1">Comment<br>nous rejoindre.</h2>
+        <p class="kicker" data-r>Nous trouver</p>
+        <h2 class="h2" data-r data-d="1">Aérodrome<br>L'Aigle Saint-Michel.</h2>
       </div>
-      <p class="body-text" data-r data-d="2" style="max-width:380px">L'aérodrome est à 1h30 de Paris, accessible par la N12 ou par le train jusqu'à L'Aigle, puis 10 min en voiture.</p>
+      <p class="body-text" data-r data-d="2">À 1h30 de Paris au cœur du bocage normand. Piste 07/25 de 800 m, fréquence 126.855 MHz.</p>
     </div>
 
-    <div class="map-grid">
-      <!-- Stylized map -->
-      <div class="map-canvas" data-r="s">
-        <div class="map-bg-grid"></div>
-        <div class="map-bg-glow"></div>
-        <div class="map-radial"></div>
-        <div class="map-runway">
-          <span class="map-runway-marker s">07</span>
-          <span class="map-runway-marker e">25</span>
-        </div>
-        <div class="map-pin"></div>
-        <div class="map-label">
-          <div class="nm">LFOL</div>
-          <div class="lc">L'Aigle Saint-Michel</div>
-          <div class="co">48°45'40" N · 0°39'20" E</div>
-        </div>
-        <div class="map-corner tl"><span>Région</span><em>NORMANDIE</em></div>
-        <div class="map-corner tr"><span>Élévation</span><em>700 ft</em></div>
-        <div class="map-corner bl">FRQ — 126.855</div>
-        <div class="map-corner br">RWY 07/25 · 990 m</div>
-        <div class="map-cta">
-          <a class="btn btn--fill" href="https://www.google.com/maps/place/Aérodrome+de+L'Aigle-Saint-Michel" target="_blank">Ouvrir dans Maps <span class="arr">↗</span></a>
-        </div>
-      </div>
+    <div class="map-info-row" data-r>
+      <div class="map-cell"><span class="l">— Code OACI</span><span class="v">LFOL</span></div>
+      <div class="map-cell"><span class="l">— Fréquence</span><span class="v">126.855<em>MHz</em></span></div>
+      <div class="map-cell"><span class="l">— Piste</span><span class="v">07/25<em>800 m</em></span></div>
+      <div class="map-cell"><span class="l">— Coordonnées</span><span class="v">48°45'N · 0°39'E</span></div>
+    </div>
 
-      <!-- Access modes -->
-      <div class="access-list">
-        <div class="access-item" data-r data-d="1">
-          <div class="access-icon"><svg viewBox="0 0 24 24"><path d="M5 11l1.5-4.5C6.8 5.6 7.7 5 8.7 5h6.6c1 0 1.9.6 2.2 1.5L19 11h.5a1.5 1.5 0 0 1 0 3H19v3a1 1 0 0 1-1 1h-1a1 1 0 0 1-1-1v-1H8v1a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1v-3h-.5a1.5 1.5 0 0 1 0-3H5zm2 0h10l-1.2-3.5H8.2L7 11zm.5 4a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm9 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/></svg></div>
-          <div class="access-body">
-            <h4>En voiture</h4>
-            <p>Depuis Paris : A13 → N12 direction Granville, sortie L'Aigle. Parking gratuit au terrain.</p>
+    <div class="map-wrap" data-r="s">
+      <iframe
+        src="https://maps.google.com/maps?q=A%C3%A9rodrome+de+L%27Aigle+Saint-Michel&hl=fr&z=14&output=embed"
+        loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen=""
+        title="Carte LFOL — Aérodrome L'Aigle Saint-Michel"></iframe>
+      <span class="map-stamp"><span class="dot"></span>Terrain actif</span>
+      <div class="map-overlay">
+        <div class="nm">LFOL</div>
+        <div class="id">Aérodrome · L'Aigle Saint-Michel</div>
+        <div class="co">48°45'40" N · 0°39'20" E</div>
+      </div>
+    </div>
+
+    <!-- Itinerary buttons -->
+    <div class="map-routes" data-r data-d="2">
+      <a class="route-btn gmaps" href="https://www.google.com/maps/dir/?api=1&destination=A%C3%A9rodrome+de+L%27Aigle-Saint-Michel&travelmode=driving" target="_blank" rel="noopener">
+        <span class="route-btn-ic">
+          <svg viewBox="0 0 24 24"><path d="M12 2C8.1 2 5 5.1 5 9c0 5.2 7 13 7 13s7-7.8 7-13c0-3.9-3.1-7-7-7z" fill="#4285f4"/><circle cx="12" cy="9" r="2.5" fill="#fff"/></svg>
+        </span>
+        <span class="route-btn-tx"><span class="l">— Itinéraire</span><span class="v">Google Maps</span></span>
+        <span class="route-btn-arr">↗</span>
+      </a>
+      <a class="route-btn apple" href="https://maps.apple.com/?daddr=A%C3%A9rodrome+de+L%27Aigle-Saint-Michel&dirflg=d" target="_blank" rel="noopener">
+        <span class="route-btn-ic">
+          <svg viewBox="0 0 24 24"><path d="M12 3c-3 0-5.5 2.5-5.5 5.5 0 4.5 5.5 11 5.5 11s5.5-6.5 5.5-11C17.5 5.5 15 3 12 3z" fill="#fff"/><circle cx="12" cy="8.5" r="2" fill="#3478f6"/></svg>
+        </span>
+        <span class="route-btn-tx"><span class="l">— Itinéraire</span><span class="v">Apple Plans</span></span>
+        <span class="route-btn-arr">↗</span>
+      </a>
+      <a class="route-btn waze" href="https://www.waze.com/ul?ll=48.7611,0.6556&navigate=yes&q=A%C3%A9rodrome+L%27Aigle+Saint-Michel" target="_blank" rel="noopener">
+        <span class="route-btn-ic">
+          <svg viewBox="0 0 24 24"><path d="M12 4c-4.4 0-8 3.1-8 7 0 1.5.5 2.9 1.4 4 .3.4-.1 1-.1 1.5 0 .7.5 1.3 1.2 1.3.5 0 1-.3 1.2-.7.6.2 1.3.4 2 .5.2.7.9 1.2 1.7 1.2.9 0 1.6-.6 1.8-1.4h.5c.5.7 1.3 1.2 2.3 1.2 1.5 0 2.7-1.1 2.7-2.5 0-.4-.1-.7-.2-1A6 6 0 0 0 20 11c0-3.9-3.6-7-8-7z" fill="#fff"/><circle cx="9.5" cy="10" r="1" fill="#33ccff"/><circle cx="14.5" cy="10" r="1" fill="#33ccff"/></svg>
+        </span>
+        <span class="route-btn-tx"><span class="l">— Itinéraire</span><span class="v">Waze</span></span>
+        <span class="route-btn-arr">↗</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ACCESS -->
+<section class="sec sec-access sp">
+  <div class="wrap">
+    <div class="access-head">
+      <p class="kicker" data-r>Venir au terrain</p>
+      <h2 class="h2" data-r data-d="1">Comment<br>nous rejoindre.</h2>
+    </div>
+    <div class="access-grid">
+      <div class="access-card" data-r data-d="1">
+        <div class="access-card-hd">
+          <div class="access-icon">
+            <svg viewBox="0 0 24 24"><path d="M5 11l1.5-4.5C6.8 5.6 7.7 5 8.7 5h6.6c1 0 1.9.6 2.2 1.5L19 11h.5a1.5 1.5 0 0 1 0 3H19v3a1 1 0 0 1-1 1h-1a1 1 0 0 1-1-1v-1H8v1a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1v-3h-.5a1.5 1.5 0 0 1 0-3H5zm2 0h10l-1.2-3.5H8.2L7 11z"/></svg>
           </div>
-          <span class="access-dur">1h30<small>De Paris</small></span>
+          <span class="access-card-dur">1h30<small>De Paris</small></span>
         </div>
-        <div class="access-item" data-r data-d="2">
-          <div class="access-icon"><svg viewBox="0 0 24 24"><path d="M4 12V7a3 3 0 0 1 3-3h10a3 3 0 0 1 3 3v5l1 5v3h-3l-1-2H8l-1 2H4v-3l1-5h-1zm3 0h10V7H7v5zm-1 4a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3zm12 0a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z"/></svg></div>
-          <div class="access-body">
-            <h4>En train</h4>
-            <p>Gare de L'Aigle, ligne Paris-Granville. Taxi ou récupération au club sur RDV.</p>
+        <h4>En voiture</h4>
+        <p>Depuis Paris : A13 → N12 direction Granville, sortie L'Aigle. Parking gratuit au terrain.</p>
+      </div>
+      <div class="access-card" data-r data-d="2">
+        <div class="access-card-hd">
+          <div class="access-icon">
+            <svg viewBox="0 0 24 24"><path d="M4 12V7a3 3 0 0 1 3-3h10a3 3 0 0 1 3 3v5l1 5v3h-3l-1-2H8l-1 2H4v-3l1-5h-1zm3 0h10V7H7v5zm-1 4a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3zm12 0a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z"/></svg>
           </div>
-          <span class="access-dur">1h45<small>Paris-Mtp.</small></span>
+          <span class="access-card-dur">1h45<small>Paris-Mtp</small></span>
         </div>
-        <div class="access-item" data-r data-d="3">
-          <div class="access-icon"><svg viewBox="0 0 24 24"><path d="M22 16v-2l-8.5-5V3.5a1.5 1.5 0 0 0-3 0V9L2 14v2l8.5-2.5V19L8 20.5V22l4-1 4 1v-1.5L13.5 19v-5.5L22 16z"/></svg></div>
-          <div class="access-body">
-            <h4>En avion</h4>
-            <p>VFR contact 126.855 MHz, intégration standard. Pas de service essence sur place — Évreux à 25 NM.</p>
+        <h4>En train</h4>
+        <p>Gare de L'Aigle, ligne Paris-Granville. Taxi ou récupération au club sur RDV.</p>
+      </div>
+      <div class="access-card" data-r data-d="3">
+        <div class="access-card-hd">
+          <div class="access-icon">
+            <svg viewBox="0 0 24 24"><path d="M22 16v-2l-8.5-5V3.5a1.5 1.5 0 0 0-3 0V9L2 14v2l8.5-2.5V19L8 20.5V22l4-1 4 1v-1.5L13.5 19v-5.5L22 16z"/></svg>
           </div>
-          <span class="access-dur">VFR<small>LFOL</small></span>
+          <span class="access-card-dur">VFR<small>LFOL</small></span>
         </div>
-        <div class="access-item" data-r data-d="4">
-          <div class="access-icon"><svg viewBox="0 0 24 24"><path d="M12 1.5a4.5 4.5 0 0 0-4.5 4.5c0 3.5 4.5 9 4.5 9s4.5-5.5 4.5-9A4.5 4.5 0 0 0 12 1.5zm0 6.3a1.8 1.8 0 1 1 0-3.6 1.8 1.8 0 0 1 0 3.6zM5 16v3h14v-3l-3 1-4-1-4 1-3-1z"/></svg></div>
-          <div class="access-body">
-            <h4>Itinéraire détaillé</h4>
-            <p>Adresse précise : Route de Saint-Michel, 61300 Saint-Michel-Thubeuf. Suivre les panneaux « Aérodrome ».</p>
-          </div>
-          <span class="access-dur"><a href="https://www.google.com/maps/dir//Aérodrome+de+L'Aigle-Saint-Michel" target="_blank" style="color:var(--accent)">GO</a><small>Maps ↗</small></span>
-        </div>
+        <h4>En avion</h4>
+        <p>VFR contact 126.855 MHz, intégration standard. Pas de service essence sur place — Évreux à 25 NM.</p>
       </div>
     </div>
   </div>
 </section>
 
 <!-- FAQ -->
-<section class="sec sec-faq-c sp">
+<section class="sec sec-faq sp">
   <div class="wrap">
     <div class="faq-head">
       <p class="kicker" data-r>FAQ</p>
-      <h2 class="h2" data-r="clip" data-d="1">Questions<br>fréquentes.</h2>
+      <h2 class="h2" data-r data-d="1">Questions<br>fréquentes.</h2>
     </div>
     <div class="faq-list">
       <div class="faq-item">
@@ -433,12 +712,8 @@
         <div class="faq-a"><div class="faq-a-inner"><p>Aucun âge minimum pour être passager. Pour un vol découverte « aux commandes », il faut être en mesure d'atteindre les commandes — généralement à partir de 8-10 ans selon la taille. Les mineurs ont besoin d'une autorisation parentale.</p></div></div>
       </div>
       <div class="faq-item">
-        <button class="faq-q" aria-expanded="false">Peut-on payer en plusieurs fois ?<span class="ic">+</span></button>
-        <div class="faq-a"><div class="faq-a-inner"><p>Pour les vols découverte : règlement en une fois. Pour la formation : vous payez les vols au fur et à mesure (via OpenFlyer), donc le coût est naturellement étalé sur 12-18 mois. Adhésion annuelle réglable en 1× ou 3×.</p></div></div>
-      </div>
-      <div class="faq-item">
         <button class="faq-q" aria-expanded="false">Et le vol découverte, c'est cadeau ?<span class="ic">+</span></button>
-        <div class="faq-a"><div class="faq-a-inner"><p>Oui — on émet des bons cadeaux valables 12 mois, avec une jolie carte du club. Très demandés pour les anniversaires, départs à la retraite, ou cadeaux de fête. <a href="/cdn-cgi/l/email-protection#b4d5d1c6dbd7d8c1d6d5c4d5d9f4d3d9d5ddd89ad7dbd9">Nous contacter</a> pour le format.</p></div></div>
+        <div class="faq-a"><div class="faq-a-inner"><p>Oui — on émet des bons cadeaux valables 12 mois, avec une jolie carte du club. Très demandés pour les anniversaires, départs à la retraite, ou cadeaux de fête. <a href="/cdn-cgi/l/email-protection#d7b6a7b6bae1e697b8a5b6b9b0b2f9b1a5">Nous contacter</a> pour le format.</p></div></div>
       </div>
     </div>
   </div>
@@ -446,83 +721,135 @@
 
 <!-- FOOTER -->
 <footer class="footer">
-  <div class="footer-grid">
-    <div class="footer-brand">
-      <img src="assets/images/apam-logo2.png" alt="APAM">
-      <p class="footer-tag">L'Aigle<br>Saint-Michel</p>
-      <p class="footer-desc">Aéroclub du Pays d'Ouche depuis 1965. Formation PPL & LAPL, vols découverte, vie associative en Normandie.</p>
-      <div class="footer-coords">
-        <span class="footer-coords-val">48°45'40" N · 0°39'20" E</span>
-        <span class="footer-coords-frq">LFOL · FRQ 126.855</span>
-      </div>
-    </div>
-    <div class="footer-col">
-      <h5>Navigation</h5>
-      <ul>
-        <li><a href="tarifs.html">Flotte & Tarifs</a></li>
-        <li><a href="activite.html">Le Club</a></li>
-        <li><a href="devenir-pilote.html">Devenir pilote</a></li>
-        <li><a href="contact.html">Contact</a></li>
-        <li><a href="boutique.html">Boutique</a></li>
-      </ul>
-    </div>
-    <div class="footer-col">
-      <h5>Membres</h5>
-      <ul>
-        <li><a href="https://openflyers.com/apam/" target="_blank">OpenFlyer ↗</a></li>
-        <li><a href="connexion-membres-password.html?next=mon-compte.html">Mon compte</a></li>
-        <li><a href="inscription-membres.html">S'inscrire</a></li>
-      </ul>
-    </div>
-    <div class="footer-col">
-      <h5>Suivez-nous</h5>
-      <ul>
-        <li><a href="https://www.instagram.com/apam_lfol" target="_blank">Instagram ↗</a></li>
-        <li><a href="https://www.facebook.com/profile.php?id=61585663567523" target="_blank">Facebook ↗</a></li>
-        <li><a href="/cdn-cgi/l/email-protection#18797d6a777b746d7a79687975587f75797174367b7775"><span class="__cf_email__" data-cfemail="7d1c180f121e11081f1c0d1c103d1a101c1411531e1210">[email&#160;protected]</span></a></li>
-      </ul>
-    </div>
-  </div>
-  <div class="footer-bottom">
-    <div class="footer-legal">
+  <div class="footer-in">
+    <div class="footer-links">
+      <a href="/cdn-cgi/l/email-protection#c5a4b5a4a8f3f485aab7a4aba2a0eba3b7"><span class="__cf_email__" data-cfemail="274657464a111667485546494042094155">[email&#160;protected]</span></a><span class="sep">·</span>
+      <a href="https://www.facebook.com/profile.php?id=61585663567523" target="_blank">Facebook</a>
+      <a href="https://www.instagram.com/apam_lfol" target="_blank">Instagram</a><span class="sep">·</span>
       <a href="mentions-legales.html">Mentions légales</a>
       <a href="confidentialite.html">Confidentialité</a>
       <a href="cgu.html">CGU</a>
-      <a href="cookies.html">Cookies</a>
     </div>
-    <span class="footer-credit">© 2026 APAM · Aéroclub du Pays d'Ouche & des Avesnes au Mont</span>
+    <span class="footer-cr">© 2026 APAM · Site conçu par Pierre Cauvin</span>
   </div>
 </footer>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="assets/site.js"></script>
-<script>
-// Subject pills
-const pills = document.querySelectorAll('.sub-pill');
-const subjectVal = document.getElementById('subject-val');
-pills.forEach(p => p.addEventListener('click', () => {
-  pills.forEach(x => x.classList.remove('on'));
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+'use strict';
+
+const dotEl=document.getElementById('cur-dot'),ringEl=document.getElementById('cur-ring');
+if(window.matchMedia('(hover:hover)').matches){
+  let mx=-200,my=-200,rx=-200,ry=-200;
+  addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;dotEl.style.cssText=`left:${mx}px;top:${my}px`;},{passive:true});
+  (function loop(){rx+=(mx-rx)*.085;ry+=(my-ry)*.085;ringEl.style.cssText=`left:${rx}px;top:${ry}px`;requestAnimationFrame(loop);})();
+}
+
+const pgBar=document.getElementById('pg-bar');
+addEventListener('scroll',()=>{const h=document.documentElement;pgBar.style.width=(h.scrollTop/(h.scrollHeight-h.clientHeight)*100)+'%';},{passive:true});
+
+const nav=document.getElementById('nav');
+addEventListener('scroll',()=>nav.classList.toggle('s',scrollY>60),{passive:true});
+
+const drawer=document.getElementById('drawer'),burger=document.getElementById('burger'),mClose=document.getElementById('m-close');
+burger.addEventListener('click',()=>{drawer.classList.add('open');drawer.setAttribute('aria-hidden','false');document.body.style.overflow='hidden'});
+mClose.addEventListener('click',()=>{drawer.classList.remove('open');drawer.setAttribute('aria-hidden','true');document.body.style.overflow=''});
+drawer.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{drawer.classList.remove('open');document.body.style.overflow=''}));
+
+const ro=new IntersectionObserver(e=>{e.forEach(e=>{if(e.isIntersecting){e.target.classList.add('on');ro.unobserve(e.target)}});},{threshold:.08,rootMargin:'0px 0px -40px 0px'});
+document.querySelectorAll('[data-r]').forEach(el=>ro.observe(el));
+
+// Subject pills + plane visibility + preset messages
+const SUBJ_PRESETS={
+  decouverte:`Bonjour,\n\nJe souhaiterais réserver un vol découverte. Voici quelques détails :\n• Date / créneau préféré : \n• Nombre de passagers : \n• Occasion (anniversaire, cadeau, simple envie) : \n\nMerci pour votre retour !`,
+  formation:`Bonjour,\n\nJe suis intéressé(e) par votre formation au brevet de pilote. Quelques infos sur moi :\n• Âge : \n• Brevet visé (PPL ou LAPL) : \n• Rythme souhaité (week-end, hebdo…) : \n• Expérience aviation : \n\nPourriez-vous me communiquer la démarche pour démarrer ? Merci.`,
+  adhesion:`Bonjour,\n\nJe souhaiterais adhérer à l'APAM pour la saison en cours. Pourriez-vous m'envoyer le dossier d'inscription et m'indiquer les modalités de cotisation ?\n\nMerci d'avance.`,
+  visite:`Bonjour,\n\nJe souhaiterais visiter le club et l'aérodrome pour mieux découvrir vos activités. Quel jour / créneau serait idéal ?\n\nMerci !`,
+  reservation:`Bonjour,\n\nJe souhaiterais réserver un vol :\n• Date et créneau : \n• Avion souhaité : \n• Vol solo ou avec instructeur : \n• Type de vol (local, voyage…) : \n\nMerci.`,
+  autre:''
+};
+const PLANE_VISIBLE=['decouverte','reservation','formation'];
+const DATE_VISIBLE=['decouverte','reservation','visite'];
+
+const pills=document.querySelectorAll('.sub-pill');
+const subjectVal=document.getElementById('subject-val');
+const msgEl=document.getElementById('cf-msg');
+const planePick=document.getElementById('plane-pick');
+const planeOpts=document.querySelectorAll('.plane-opt');
+const planeVal=document.getElementById('plane-val');
+const datePick=document.getElementById('date-pick');
+const dateInput=document.getElementById('cf-date');
+const dateChips=document.querySelectorAll('.date-chip');
+
+function applySubject(sub){
+  if(subjectVal)subjectVal.value=sub;
+  // Toggle plane picker visibility
+  if(planePick)planePick.classList.toggle('hide',!PLANE_VISIBLE.includes(sub));
+  if(datePick)datePick.classList.toggle('hide',!DATE_VISIBLE.includes(sub));
+  // Inject preset only if message is empty or matches another preset
+  if(msgEl){
+    const presets=Object.values(SUBJ_PRESETS);
+    const cur=msgEl.value.trim();
+    if(!cur||presets.some(p=>p.trim()===cur)){
+      msgEl.value=SUBJ_PRESETS[sub]||'';
+      msgEl.dispatchEvent(new Event('input'));
+    }
+  }
+}
+pills.forEach(p=>p.addEventListener('click',()=>{
+  pills.forEach(x=>x.classList.remove('on'));
   p.classList.add('on');
-  if (subjectVal) subjectVal.value = p.dataset.sub;
+  applySubject(p.dataset.sub);
 }));
+planeOpts.forEach(p=>p.addEventListener('click',()=>{
+  planeOpts.forEach(x=>x.classList.remove('on'));
+  p.classList.add('on');
+  if(planeVal)planeVal.value=p.dataset.plane;
+}));
+// Init with default subject's preset
+applySubject('decouverte');
+
+if(dateInput){
+  const t=new Date();
+  dateInput.min=t.toISOString().slice(0,10);
+}
+function setDateFromChip(when){
+  if(!dateInput)return;
+  const d=new Date();
+  const dow=d.getDay();
+  switch(when){
+    case 'weekend':{const add=dow===0?0:dow===6?0:(6-dow);d.setDate(d.getDate()+add);break;}
+    case 'next-weekend':{const add=dow===0?6:dow===6?7:(6-dow+7);d.setDate(d.getDate()+add);break;}
+    case 'week':d.setDate(d.getDate()+3);break;
+    case '2weeks':d.setDate(d.getDate()+14);break;
+    case 'month':{d.setMonth(d.getMonth()+1);d.setDate(15);break;}
+  }
+  dateInput.value=d.toISOString().slice(0,10);
+}
+dateChips.forEach(c=>c.addEventListener('click',()=>{
+  dateChips.forEach(x=>x.classList.remove('on'));
+  c.classList.add('on');
+  setDateFromChip(c.dataset.when);
+}));
+dateInput?.addEventListener('input',()=>dateChips.forEach(c=>c.classList.remove('on')));
 
 // FAQ toggle
-document.querySelectorAll('.faq-q').forEach(btn => {
-  btn.addEventListener('click', () => {
-    const item = btn.closest('.faq-item');
-    const open = item.classList.toggle('open');
-    btn.setAttribute('aria-expanded', open);
+document.querySelectorAll('.faq-q').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const item=btn.closest('.faq-item');
+    const open=item.classList.toggle('open');
+    btn.setAttribute('aria-expanded',open);
   });
 });
 
 // Form submit demo
-const form = document.getElementById('contact-form');
-const success = document.getElementById('cf-success');
-form?.addEventListener('submit', (e) => {
+const form=document.getElementById('contact-form');
+const success=document.getElementById('cf-success');
+form?.addEventListener('submit',(e)=>{
   e.preventDefault();
-  if (!form.checkValidity()) { form.reportValidity(); return; }
+  if(!form.checkValidity()){form.reportValidity();return;}
   form.classList.add('hidden');
   success.classList.add('on');
-  form.scrollIntoView({ block: 'nearest' });
+  form.scrollIntoView({block:'nearest'});
 });
 </script>
 </body>
