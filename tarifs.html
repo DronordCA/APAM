@@ -4,430 +4,361 @@
 <meta charset="UTF-8"/>
 <title>Flotte & Tarifs – APAM · L'Aigle Saint-Michel</title>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,400;0,600;0,700;0,900;1,400;1,700;1,900&family=Jost:wght@300;400;500;600;700&family=Lora:ital,wght@1,400&display=swap" rel="stylesheet">
+<meta name="description" content="Découvrez la flotte de l'APAM — Cessna 152, TB200 Goldstar, Cirrus SR20. Tarifs et conditions de réservation.">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,400;0,700;0,900;1,700;1,900&family=Jost:wght@300;400;500;600;700&family=Lora:ital,wght@1,400;1,500&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#080a0e;--bg2:#0b0d13;--bg3:#0e1018;
+  --bg:#080a0e;--bg-2:#0b0d13;--bg-3:#0e1018;
   --sf:#141720;--sf2:#191d2c;
-  --accent:#2563eb;--acc2:#818cf8;--acc-d:rgba(37,99,235,.13);
-  --text:#e4e8f2;--muted:#7a8399;--dim:#32384f;
-  --border:rgba(255,255,255,.06);--bds:rgba(255,255,255,.10);
-  --nav-h:72px;--side:clamp(20px,5.5vw,88px);
+  --accent:#2563eb;--acc2:#818cf8;--acc-d:rgba(37,99,235,.14);
+  --muted:#7a8399;--dim:#32384f;
+  --border:rgba(255,255,255,.07);--bds:rgba(255,255,255,.11);
+  --ok:#22d77a;--warn:#f5a524;
+  --white:#fff;--nav-h:70px;--side:clamp(18px,5.5vw,88px);--rl:14px;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
-body{background:var(--bg);color:var(--text);font-family:'Jost',sans-serif;overflow-x:hidden;-webkit-font-smoothing:antialiased;cursor:none}
+body{background:var(--bg);color:var(--white);font-family:'Jost',system-ui,sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden;cursor:none}
 a{color:inherit;text-decoration:none}
 img{max-width:100%;display:block}
-::-webkit-scrollbar{width:2px}
-::-webkit-scrollbar-track{background:var(--bg)}
-::-webkit-scrollbar-thumb{background:var(--accent)}
-@media(hover:none){body,*{cursor:auto}}
+button{font:inherit;color:inherit;background:none;border:none;cursor:none}
+::-webkit-scrollbar{width:2px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:var(--accent)}
+@media(hover:none){body{cursor:auto}*{cursor:auto}}
 
-/* CURSOR */
-.cur{position:fixed;pointer-events:none;z-index:9999;top:0;left:0;transform:translate(-50%,-50%);will-change:transform}
-.cur-d{width:5px;height:5px;background:var(--accent);border-radius:50%}
-.cur-r{width:28px;height:28px;border:1px solid rgba(37,99,235,.4);border-radius:50%;transition:width .2s,height .2s,border-color .2s,transform .2s}
-body:has(a:hover) .cur-r,body:has(button:hover) .cur-r{width:44px;height:44px;border-color:rgba(37,99,235,.7)}
+/* Cursor */
+.cur{position:fixed;pointer-events:none;z-index:9999;top:0;left:0;transform:translate(-50%,-50%)}
+.cur-dot{width:5px;height:5px;background:var(--accent);border-radius:50%}
+.cur-ring{width:28px;height:28px;border:1px solid rgba(37,99,235,.35);border-radius:50%;transition:width .22s,height .22s}
+body:has(a:hover) .cur-ring,body:has(button:hover) .cur-ring{width:44px;height:44px;border-color:rgba(37,99,235,.6)}
 
-/* GRAIN */
+/* Grain */
 .grain{position:fixed;inset:0;z-index:9990;pointer-events:none;opacity:.022;
   background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='512' height='512' filter='url(%23n)'/%3E%3C/svg%3E");
   background-size:180px}
 
-/* PROGRESS */
-.pgb{position:fixed;top:0;left:0;height:2px;z-index:9999;width:0%;
-  background:linear-gradient(90deg,var(--accent),var(--acc2));transition:width .05s linear}
+/* Progress bar */
+.pg-bar{position:fixed;top:0;left:0;height:2px;z-index:10000;width:0%;background:linear-gradient(90deg,var(--accent),var(--acc2))}
 
 /* NAV */
-.nav{position:fixed;top:0;left:0;right:0;height:var(--nav-h);z-index:200;
-  display:flex;align-items:center;padding:0 var(--side);gap:28px;
-  border-bottom:1px solid transparent;transition:background .4s,border-color .4s}
-.nav.s{background:rgba(8,10,14,.92);border-color:var(--border);backdrop-filter:blur(24px) saturate(1.5)}
-.nav-logo img{height:44px;opacity:0;animation:fadeD .8s ease .1s forwards}
-.nav-links{list-style:none;display:flex;gap:28px;margin-left:auto}
-.nav-links a{font-size:11px;font-weight:600;letter-spacing:.17em;text-transform:uppercase;
-  color:rgba(255,255,255,.4);transition:color .2s;position:relative}
+.nav{position:fixed;top:0;left:0;right:0;height:var(--nav-h);z-index:100;display:flex;align-items:center;padding:0 var(--side);gap:28px;border-bottom:1px solid transparent;transition:background .4s,border-color .4s}
+.nav.s{background:rgba(8,10,14,.9);border-color:var(--border);backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px)}
+.nav-logo-img{height:42px}
+.nav-links{list-style:none;display:flex;align-items:center;gap:26px;margin-left:auto}
+.nav-links a{font-size:11px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:rgba(255,255,255,.42);transition:color .2s;position:relative}
 .nav-links a::after{content:'';position:absolute;bottom:-2px;left:0;width:0;height:1px;background:var(--accent);transition:width .25s}
 .nav-links a:hover,.nav-links a.on{color:#fff}
 .nav-links a:hover::after,.nav-links a.on::after{width:100%}
+
+/* Dropdown */
+.nav-item-drop{position:relative}
+.nav-drop{position:absolute;top:calc(100% + 14px);left:50%;transform:translateX(-50%) translateY(-8px);min-width:420px;background:rgba(9,12,20,.97);backdrop-filter:blur(28px);-webkit-backdrop-filter:blur(28px);border:1px solid var(--bds);padding:10px;display:flex;gap:8px;opacity:0;pointer-events:none;transition:opacity .24s cubic-bezier(.16,1,.3,1),transform .28s cubic-bezier(.16,1,.3,1);z-index:200}
+.nav-drop::before{content:'';position:absolute;top:-5px;left:50%;transform:translateX(-50%) rotate(45deg);width:9px;height:9px;background:rgba(9,12,20,.97);border-left:1px solid var(--bds);border-top:1px solid var(--bds)}
+.nav-item-drop:hover .nav-drop,.nav-item-drop:focus-within .nav-drop{opacity:1;pointer-events:auto;transform:translateX(-50%) translateY(0)}
+.ndc{display:flex;flex-direction:column;align-items:center;gap:8px;flex:1;color:#fff;padding:12px 10px;border:1px solid var(--border);background:var(--sf);transition:border-color .2s,background .2s;cursor:none}
+.ndc:hover{border-color:rgba(37,99,235,.4);background:rgba(37,99,235,.08)}
+.ndc img{height:52px;width:100%;object-fit:contain;filter:drop-shadow(0 6px 14px rgba(0,0,0,.55));transition:transform .38s cubic-bezier(.16,1,.3,1)}
+.ndc:hover img{transform:translateY(-5px) scale(1.07)}
+.ndc-name{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:17px;text-transform:uppercase;letter-spacing:-.01em}
+.ndc-sub{font-size:8px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--accent)}
 .nav-icons{display:flex;gap:10px}
-.nav-ic{width:34px;height:34px;display:flex;align-items:center;justify-content:center;
-  border:1px solid var(--bds);border-radius:50%;transition:border-color .2s,background .2s}
-.nav-ic:hover{border-color:var(--accent);background:var(--acc-d)}
-.nav-ic svg{width:14px;height:14px;fill:rgba(255,255,255,.5)}
-.nav-cta{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:14px;
-  letter-spacing:.12em;text-transform:uppercase;color:#fff;
-  border:1.5px solid var(--accent);padding:7px 20px;position:relative;overflow:hidden;transition:color .25s}
-.nav-cta::before{content:'';position:absolute;inset:0;background:var(--accent);
-  transform:translateX(-101%);transition:transform .25s cubic-bezier(.16,1,.3,1);z-index:-1}
-.nav-cta:hover::before{transform:none}
-.nav-burger{display:none;flex-direction:column;gap:5px;padding:8px;background:none;border:none;cursor:pointer;margin-left:auto}
-.nav-burger b{display:block;width:22px;height:1.5px;background:rgba(255,255,255,.75)}
+.nav-icon{width:32px;height:32px;display:inline-flex;align-items:center;justify-content:center;border:1px solid var(--bds);border-radius:50%;transition:border-color .2s,background .2s}
+.nav-icon:hover{border-color:var(--accent);background:var(--acc-d)}
+.nav-icon svg{width:13px;height:13px;fill:rgba(255,255,255,.55)}
+.nav-cta{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:13.5px;letter-spacing:.12em;text-transform:uppercase;padding:7px 18px;border:1.5px solid var(--accent);color:var(--white);position:relative;overflow:hidden;transition:color .25s}
+.nav-cta::before{content:'';position:absolute;inset:0;background:var(--accent);transform:translateX(-101%);transition:transform .25s cubic-bezier(.16,1,.3,1);z-index:-1}
+.nav-cta:hover::before{transform:translateX(0)}
+.nav-burger{display:none;flex-direction:column;gap:5px;padding:8px;margin-left:auto}
+.nav-burger b{display:block;width:20px;height:1.5px;background:rgba(255,255,255,.72)}
 
-/* DRAWER */
-.drawer{position:fixed;inset:0;background:rgba(8,10,14,.97);backdrop-filter:blur(28px);
-  z-index:300;opacity:0;pointer-events:none;transform:translateY(-8px);
-  transition:opacity .35s,transform .35s cubic-bezier(.16,1,.3,1)}
-.drawer.open{opacity:1;pointer-events:auto;transform:none}
-.drawer-top{display:flex;align-items:center;justify-content:space-between;padding:18px var(--side);border-bottom:1px solid var(--border)}
-.d-close{width:44px;height:44px;display:flex;align-items:center;justify-content:center;
-  border:1px solid var(--bds);background:none;cursor:pointer;color:rgba(255,255,255,.6);font-size:20px;transition:border-color .2s,color .2s}
-.d-close:hover{border-color:var(--accent);color:#fff}
-.d-nav{padding:32px var(--side);display:flex;flex-direction:column;gap:2px}
-.d-nav a{color:rgba(255,255,255,.75);font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;
-  font-size:clamp(42px,9vw,60px);line-height:1;text-transform:uppercase;
-  padding:10px 0;border-bottom:1px solid var(--border);
-  display:flex;align-items:center;justify-content:space-between;transition:color .2s}
-.d-nav a:hover{color:var(--accent)}
-.d-nav a span{font-size:18px;opacity:.28}
+.m-drawer{position:fixed;inset:0;background:rgba(8,10,14,.97);backdrop-filter:blur(28px);z-index:200;opacity:0;pointer-events:none;transform:translateY(-8px);transition:opacity .35s,transform .35s cubic-bezier(.16,1,.3,1)}
+.m-drawer.open{opacity:1;pointer-events:auto;transform:none}
+.m-drawer-top{display:flex;align-items:center;justify-content:space-between;padding:18px var(--side);border-bottom:1px solid var(--border)}
+.m-close{width:42px;height:42px;display:inline-flex;align-items:center;justify-content:center;border:1px solid var(--bds);border-radius:var(--rl);font-size:18px;color:rgba(255,255,255,.6)}
+.m-close:hover{border-color:var(--accent);color:#fff}
+.m-nav{padding:28px var(--side);display:flex;flex-direction:column;gap:2px}
+.m-nav a{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:clamp(38px,8vw,56px);line-height:1;text-transform:uppercase;padding:9px 0;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;color:rgba(255,255,255,.8);transition:color .2s}
+.m-nav a:hover{color:var(--accent)}
+.m-nav a .arr{font-size:18px;opacity:.3}
+.m-cta-wrap{padding:20px var(--side)}
 
-/* ─────────────────────────────────────────────────────────
-   HERO
-───────────────────────────────────────────────────────── */
-.hero{height:100svh;min-height:600px;position:relative;display:flex;flex-direction:column;
-  justify-content:flex-end;overflow:hidden}
+.btn{display:inline-flex;align-items:center;gap:9px;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:14px;letter-spacing:.12em;text-transform:uppercase;padding:11px 22px;position:relative;overflow:hidden;transition:color .25s,transform .25s}
+.btn--fill{background:var(--accent);color:#fff;border:1.5px solid var(--accent)}
+.btn--fill::before{content:'';position:absolute;inset:0;background:#fff;transform:translateX(-101%);transition:transform .25s cubic-bezier(.16,1,.3,1);z-index:-1}
+.btn--fill:hover{color:var(--accent)}.btn--fill:hover::before{transform:translateX(0)}
+.btn--ghost{background:transparent;color:rgba(255,255,255,.58);border:1.5px solid var(--bds)}
+.btn--ghost:hover{color:#fff;border-color:rgba(255,255,255,.3)}
 
-/* Big background title */
-.hero-ghost{position:absolute;bottom:-0.08em;left:var(--side);z-index:1;
-  font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;
-  font-size:clamp(140px,22vw,340px);line-height:1;text-transform:uppercase;letter-spacing:-.03em;
-  color:transparent;-webkit-text-stroke:1px rgba(255,255,255,.04);pointer-events:none;user-select:none;
-  white-space:nowrap}
+.sec{position:relative}
+.wrap{max-width:1300px;margin:0 auto;padding:0 var(--side)}
+.sp{padding:clamp(72px,11vh,130px) 0}
+.sp-sm{padding:clamp(44px,6vh,78px) 0}
+.kicker{font-size:9.5px;font-weight:700;letter-spacing:.28em;text-transform:uppercase;color:var(--accent);display:flex;align-items:center;gap:10px;margin-bottom:16px}
+.kicker::before{content:'';width:22px;height:1px;background:var(--accent);flex-shrink:0}
+.h2{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:clamp(42px,5.5vw,78px);line-height:.92;text-transform:uppercase;letter-spacing:-.01em;color:var(--white)}
+.body-text{font-size:15px;line-height:1.78;color:var(--muted)}
 
-/* Horizontal rule */
-.hero-rule{position:absolute;top:50%;left:0;right:0;height:1px;z-index:1;
-  background:linear-gradient(to right,transparent,rgba(37,99,235,.18) 20%,rgba(37,99,235,.06) 80%,transparent)}
+[data-r]{opacity:0;transform:translateY(32px);transition:opacity .9s cubic-bezier(.16,1,.3,1),transform .9s cubic-bezier(.16,1,.3,1)}
+[data-r].on{opacity:1;transform:none}
+[data-r="s"]{opacity:0;transform:scale(.93);filter:blur(10px);transition:opacity 1s,transform 1s,filter 1s}[data-r="s"].on{opacity:1;transform:none;filter:blur(0)}
+[data-d="1"]{transition-delay:.12s}[data-d="2"]{transition-delay:.24s}[data-d="3"]{transition-delay:.36s}[data-d="4"]{transition-delay:.48s}
 
-/* Grid */
-.hero-grid{position:absolute;inset:0;z-index:1;pointer-events:none;
-  background-image:linear-gradient(rgba(37,99,235,.025) 1px,transparent 1px),
-  linear-gradient(90deg,rgba(37,99,235,.025) 1px,transparent 1px);
-  background-size:60px 60px;
-  mask-image:linear-gradient(160deg,rgba(0,0,0,.6) 10%,transparent 70%)}
+/* ══ HERO ══ */
+.t-hero{position:relative;padding:calc(var(--nav-h) + clamp(110px,18vh,200px)) 0 clamp(80px,12vh,140px);min-height:88svh;overflow:hidden;border-bottom:1px solid var(--border);display:flex;align-items:center}
+.t-hero::before{content:'';position:absolute;inset:0;background:radial-gradient(60% 60% at 80% 30%,rgba(37,99,235,.16),transparent 65%);pointer-events:none}
+.t-hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(37,99,235,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(37,99,235,.03) 1px,transparent 1px);background-size:64px 64px;mask-image:linear-gradient(150deg,rgba(0,0,0,.5) 10%,transparent 70%);-webkit-mask-image:linear-gradient(150deg,rgba(0,0,0,.5) 10%,transparent 70%);pointer-events:none}
+.t-hero-inner{position:relative;z-index:1;display:grid;grid-template-columns:1.2fr 1fr;gap:48px;align-items:end;width:100%}
+.t-hero-l{display:flex;flex-direction:column;gap:12px;position:relative;z-index:3}
+.t-hero-eye{font-size:10px;font-weight:700;letter-spacing:.32em;text-transform:uppercase;color:var(--accent);display:flex;align-items:center;gap:12px}
+.t-hero-eye::before{content:'';width:28px;height:1px;background:var(--accent)}
+.t-hero-title{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:clamp(60px,11vw,170px);line-height:.84;letter-spacing:-.018em;text-transform:uppercase;color:#fff}
+.t-hero-title .ol{color:transparent;-webkit-text-stroke:1.5px rgba(255,255,255,.3)}
+.t-hero-sub{font-family:'Lora',serif;font-style:italic;font-size:clamp(16px,1.7vw,21px);line-height:1.55;color:rgba(255,255,255,.74);max-width:480px;margin-top:14px}
+.t-hero-r{display:grid;grid-template-columns:1fr 1fr;gap:10px;position:relative;z-index:3}
+.t-hero-stat{background:rgba(8,10,14,.55);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid var(--bds);border-radius:var(--rl);padding:18px 20px;display:flex;flex-direction:column;gap:5px;transition:border-color .3s,background .3s}
+.t-hero-stat:hover{border-color:rgba(37,99,235,.42);background:rgba(37,99,235,.08)}
+.t-hero-stat .l{font-size:9px;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:var(--muted)}
+.t-hero-stat .v{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:26px;color:#fff;line-height:1;letter-spacing:-.005em}
+.t-hero-stat .v em{color:var(--accent);font-style:normal;font-size:.55em;margin-left:4px;letter-spacing:.1em;font-weight:700}
 
-/* Aircraft visual — centered in upper portion */
-.hero-plane-wrap{position:absolute;right:clamp(20px,8vw,140px);top:50%;
-  transform:translateY(-54%);z-index:2;width:clamp(300px,44vw,680px);
-  display:flex;align-items:center;justify-content:center}
-.hero-plane-img{width:100%;height:auto;
-  filter:drop-shadow(0 40px 80px rgba(0,0,0,.9)) drop-shadow(0 0 60px rgba(37,99,235,.12));
-  animation:float 8s ease-in-out infinite;transform-origin:center center}
-@keyframes float{0%,100%{transform:translateY(0) rotate(-.5deg)}50%{transform:translateY(-18px) rotate(.5deg)}}
+/* Hero plane visual — top right */
+.t-hero-plane{position:absolute;top:calc(var(--nav-h) + clamp(30px,4vh,60px));right:clamp(20px,5vw,80px);width:clamp(260px,38vw,560px);z-index:2;pointer-events:none;filter:drop-shadow(0 30px 60px rgba(0,0,0,.7)) drop-shadow(0 0 40px rgba(37,99,235,.18));animation:planeFloat 7s ease-in-out infinite;transform-origin:center}
+.t-hero-plane img{width:100%;height:auto;display:block}
+@keyframes planeFloat{0%,100%{transform:translateY(0) rotate(-.6deg)}50%{transform:translateY(-18px) rotate(.6deg)}}
+.t-hero-plane-glow{position:absolute;top:35%;left:50%;transform:translate(-50%,-50%);width:80%;height:60%;background:radial-gradient(circle,rgba(37,99,235,.22),transparent 65%);pointer-events:none;animation:planeGlow 4s ease-in-out infinite;z-index:-1}
+@keyframes planeGlow{0%,100%{opacity:.5;transform:translate(-50%,-50%) scale(1)}50%{opacity:.85;transform:translate(-50%,-50%) scale(1.1)}}
 
-/* Glow under plane */
-.hero-glow{position:absolute;bottom:-20%;left:50%;transform:translateX(-50%);
-  width:70%;height:100px;
-  background:radial-gradient(ellipse,rgba(37,99,235,.18) 0%,transparent 70%);
-  pointer-events:none;z-index:1}
-
-/* Corner scan lines decorative */
-.hero-scan{position:absolute;top:calc(var(--nav-h) + 32px);right:var(--side);z-index:3;
-  display:flex;flex-direction:column;gap:4px;pointer-events:none}
-.hero-scan span{display:block;height:1px;background:rgba(255,255,255,.08)}
-
-/* Bottom content */
-.hero-content{position:relative;z-index:3;padding:0 var(--side) clamp(48px,8vh,80px)}
-.hero-eyebrow{font-size:10px;font-weight:700;letter-spacing:.32em;text-transform:uppercase;
-  color:var(--accent);display:flex;align-items:center;gap:12px;margin-bottom:18px;
-  opacity:0;animation:fadeD .7s ease .4s forwards}
-.hero-eyebrow::before{content:'';width:28px;height:1px;background:var(--accent)}
-.hero-title{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;
-  font-size:clamp(60px,8vw,110px);line-height:.88;text-transform:uppercase;color:#fff;
-  opacity:0;animation:fadeD .9s cubic-bezier(.16,1,.3,1) .5s forwards}
-.hero-title .ghost{color:transparent;-webkit-text-stroke:1.5px rgba(255,255,255,.22)}
-.hero-bottom{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;margin-top:28px;flex-wrap:wrap;
-  opacity:0;animation:fadeD .7s ease .9s forwards}
-.hero-desc{font-size:14px;line-height:1.75;color:var(--muted);max-width:380px}
-.hero-meta{display:flex;gap:20px;flex-wrap:wrap}
-.hero-meta-item{text-align:right}
-.hero-meta-val{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;
-  font-size:clamp(26px,3vw,38px);line-height:1;color:#fff}
-.hero-meta-lbl{font-size:9px;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--muted)}
-
-/* Scroll indicator */
-.hero-scroll{position:absolute;bottom:28px;left:50%;transform:translateX(-50%);
-  z-index:3;display:flex;flex-direction:column;align-items:center;gap:6px;opacity:0;
-  animation:fadeD .8s ease 1.4s forwards}
-.hero-scroll span{font-size:8px;font-weight:700;letter-spacing:.28em;text-transform:uppercase;color:rgba(255,255,255,.18)}
-.hero-scroll-line{width:1px;height:32px;background:linear-gradient(to bottom,rgba(37,99,235,.8),transparent);
-  animation:scl 2.2s ease-in-out 1.6s infinite}
-@keyframes scl{0%,100%{opacity:.3;transform:scaleY(.9)}50%{opacity:1;transform:scaleY(1.1)}}
-
-/* ─────────────────────────────────────────────────────────
-   TICKER
-───────────────────────────────────────────────────────── */
-.ticker{overflow:hidden;border-top:1px solid var(--border);border-bottom:1px solid var(--border);
-  padding:10px 0;background:var(--bg2)}
-.ticker-track{display:flex;width:max-content;animation:tick 32s linear infinite}
+/* Ticker */
+.ticker{overflow:hidden;background:var(--accent);padding:10px 0;border-bottom:1px solid rgba(255,255,255,.08)}
+.ticker-track{display:flex;width:max-content;animation:tick 38s linear infinite}
 .ticker:hover .ticker-track{animation-play-state:paused}
-.ti{font-family:'Barlow Condensed',sans-serif;font-weight:600;font-style:italic;
-  font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.28);
-  padding:0 22px;white-space:nowrap;display:flex;align-items:center;gap:22px}
-.ti::after{content:'·';opacity:.3;font-size:18px}
-.ti.hi{color:var(--accent);font-weight:700}
+.ticker-item{font-family:'Barlow Condensed',sans-serif;font-weight:600;font-style:italic;font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.86);padding:0 22px;white-space:nowrap;display:flex;align-items:center;gap:22px}
+.ticker-item::after{content:'✦';opacity:.35;font-size:8px}
 @keyframes tick{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 
-/* ─────────────────────────────────────────────────────────
-   FLEET SECTION — 3 cards large
-───────────────────────────────────────────────────────── */
-.fleet-sec{padding:0 0 clamp(80px,12vh,140px)}
-.fleet-intro{padding:clamp(60px,9vh,100px) var(--side) 52px;
-  display:flex;align-items:flex-end;justify-content:space-between;gap:32px;flex-wrap:wrap}
-.fleet-intro-l{}
-.kicker{font-size:9.5px;font-weight:700;letter-spacing:.28em;text-transform:uppercase;
-  color:var(--accent);display:flex;align-items:center;gap:10px;margin-bottom:14px}
-.kicker::before{content:'';width:22px;height:1px;background:var(--accent)}
-.h2{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;
-  font-size:clamp(44px,5.5vw,80px);line-height:.92;text-transform:uppercase;letter-spacing:-.01em;color:#fff}
-.fleet-intro-r{font-size:14px;line-height:1.8;color:var(--muted);max-width:340px;padding-bottom:4px}
+/* ══ FLEET — interactive stage ══ */
+.sec-fleet{background:var(--bg-2);border-bottom:1px solid var(--border);position:relative;overflow:hidden}
+.sec-fleet::before{content:'';position:absolute;inset:0;background:radial-gradient(50% 40% at 80% 90%,rgba(37,99,235,.06),transparent 60%);pointer-events:none}
+.fleet-head{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;flex-wrap:wrap;margin-bottom:36px;position:relative;z-index:1}
+.fleet-head .body-text{max-width:380px}
 
-/* Plane cards */
-.plane-cards{display:flex;flex-direction:column;gap:0}
-.pc{display:grid;grid-template-columns:1fr 1fr;border-top:1px solid var(--border);
-  cursor:pointer;position:relative;overflow:hidden;transition:background .4s}
-.pc:last-child{border-bottom:1px solid var(--border)}
-.pc::before{content:'';position:absolute;inset:0;background:rgba(37,99,235,.0);
-  transition:background .4s;pointer-events:none;z-index:0}
-.pc:hover{background:var(--bg2)}
-.pc:hover::before{background:rgba(37,99,235,.03)}
+/* Plane tabs */
+.fleet-tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-radius:var(--rl);overflow:hidden;margin-bottom:16px;position:relative;z-index:1}
+.fleet-tab{padding:18px 22px;text-align:left;background:var(--sf);position:relative;display:flex;align-items:center;gap:14px;transition:background .3s,padding .3s;border:none;color:inherit}
+.fleet-tab::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:linear-gradient(to bottom,var(--accent),var(--acc2));transform:scaleY(0);transform-origin:top;transition:transform .35s cubic-bezier(.16,1,.3,1)}
+.fleet-tab.on::before{transform:scaleY(1)}
+.fleet-tab:hover{background:rgba(37,99,235,.04)}
+.fleet-tab.on{background:rgba(37,99,235,.08);padding-left:26px}
+.fleet-tab-num{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:24px;color:rgba(255,255,255,.22);line-height:1;letter-spacing:-.02em;width:36px;flex-shrink:0;transition:color .3s}
+.fleet-tab.on .fleet-tab-num{color:var(--accent)}
+.fleet-tab-info{display:flex;flex-direction:column;gap:3px;flex:1;min-width:0}
+.fleet-tab-name{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:18px;text-transform:uppercase;color:rgba(255,255,255,.7);letter-spacing:-.005em;line-height:1.05;transition:color .3s}
+.fleet-tab.on .fleet-tab-name{color:#fff}
+.fleet-tab-sub{font-size:9.5px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.34);transition:color .3s}
+.fleet-tab.on .fleet-tab-sub{color:var(--accent)}
+.fleet-tab-arr{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;color:rgba(255,255,255,.18);font-size:18px;transition:transform .3s,color .3s;flex-shrink:0}
+.fleet-tab.on .fleet-tab-arr,.fleet-tab:hover .fleet-tab-arr{color:var(--accent);transform:translateX(4px)}
 
-/* Left — info */
-.pc-info{padding:clamp(36px,5vw,64px) var(--side);display:flex;flex-direction:column;
-  justify-content:space-between;gap:28px;position:relative;z-index:1;
-  border-right:1px solid var(--border)}
-.pc-num{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;
-  font-size:11px;letter-spacing:.24em;color:rgba(255,255,255,.18);margin-bottom:6px}
-.pc-tag{font-size:8.5px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;
-  color:var(--accent);background:var(--acc-d);border:1px solid rgba(37,99,235,.18);
-  padding:3px 9px;border-radius:100px;display:inline-block;width:fit-content;margin-bottom:10px}
-.pc-name{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;
-  font-size:clamp(42px,5vw,72px);line-height:.88;text-transform:uppercase;letter-spacing:-.02em;color:#fff}
-.pc-sub{font-size:13px;color:var(--muted);letter-spacing:.06em;margin-top:6px}
-.pc-desc{font-size:13.5px;line-height:1.8;color:rgba(255,255,255,.35);max-width:380px}
-.pc-specs{display:flex;gap:28px;flex-wrap:wrap}
-.ps{display:flex;flex-direction:column;gap:3px}
-.ps-v{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-style:italic;
-  font-size:22px;line-height:1;color:#fff}
-.ps-u{font-size:9px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
-.pc-cta{display:flex;align-items:center;gap:12px;margin-top:4px}
-.pc-btn{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:13px;
-  letter-spacing:.14em;text-transform:uppercase;color:var(--accent);
-  display:flex;align-items:center;gap:6px;transition:gap .2s}
-.pc:hover .pc-btn{gap:12px}
-.pc-btn::after{content:'→'}
-.pc-tarif-preview{font-size:11.5px;color:rgba(255,255,255,.22);
-  display:flex;align-items:center;gap:8px}
-.pc-tarif-preview::before{content:'';width:12px;height:1px;background:var(--dim)}
+/* Stage */
+.fleet-stage{background:linear-gradient(135deg,#0e1320 0%,#0a0c14 100%);border:1px solid var(--border);border-radius:var(--rl);position:relative;overflow:hidden;min-height:560px;display:grid;grid-template-columns:1fr 1.1fr;z-index:1}
+.fleet-stage-grid-bg{position:absolute;inset:0;background-image:linear-gradient(rgba(37,99,235,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(37,99,235,.04) 1px,transparent 1px);background-size:48px 48px;mask-image:linear-gradient(140deg,rgba(0,0,0,.4) 10%,transparent 70%);-webkit-mask-image:linear-gradient(140deg,rgba(0,0,0,.4) 10%,transparent 70%);pointer-events:none}
+.fleet-stage::before{content:'';position:absolute;right:-100px;top:-100px;width:480px;height:480px;border-radius:50%;background:radial-gradient(circle,rgba(37,99,235,.16),transparent 65%);pointer-events:none}
 
-/* Right — visual */
-.pc-visual{position:relative;display:flex;align-items:center;justify-content:center;
-  padding:40px 32px;overflow:hidden;min-height:380px}
-.pc-vis-bg{position:absolute;inset:0;pointer-events:none}
-/* Animated radar ring */
-.pc-radar{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
-  pointer-events:none}
-.pc-radar circle{fill:none;stroke:rgba(37,99,235,.06);stroke-width:1}
-.pc-radar .sweep{fill:rgba(37,99,235,.025)}
-/* Crosshair */
-.pc-cross{position:absolute;inset:0;pointer-events:none}
-.pc-cross::before{content:'';position:absolute;top:50%;left:0;right:0;height:1px;
-  background:linear-gradient(to right,transparent,rgba(37,99,235,.08) 30%,rgba(37,99,235,.08) 70%,transparent)}
-.pc-cross::after{content:'';position:absolute;left:50%;top:0;bottom:0;width:1px;
-  background:linear-gradient(to bottom,transparent,rgba(37,99,235,.08) 30%,rgba(37,99,235,.08) 70%,transparent)}
-/* Corner brackets */
-.pc-brackets{position:absolute;inset:20px;pointer-events:none}
-.pc-brackets::before,.pc-brackets::after,
-.pc-brackets b::before,.pc-brackets b::after{
-  content:'';position:absolute;width:16px;height:16px;border-color:rgba(255,255,255,.07);border-style:solid}
-.pc-brackets::before{top:0;left:0;border-width:1px 0 0 1px}
-.pc-brackets::after{top:0;right:0;border-width:1px 1px 0 0}
-.pc-brackets b::before{bottom:0;left:0;border-width:0 0 1px 1px}
-.pc-brackets b::after{bottom:0;right:0;border-width:0 1px 1px 0}
-/* Registration tag */
-.pc-reg{position:absolute;bottom:20px;right:24px;
-  font-family:'Barlow Condensed',sans-serif;font-size:10px;letter-spacing:.24em;
-  text-transform:uppercase;color:rgba(255,255,255,.14)}
-/* The plane image */
-.pc-plane{position:relative;z-index:2;width:clamp(200px,28vw,400px);
-  filter:drop-shadow(0 30px 60px rgba(0,0,0,.85)) drop-shadow(0 0 40px rgba(37,99,235,.1));
-  transition:transform .7s cubic-bezier(.16,1,.3,1),filter .7s}
-.pc:hover .pc-plane{transform:translateY(-14px) scale(1.05);
-  filter:drop-shadow(0 44px 80px rgba(0,0,0,.9)) drop-shadow(0 0 50px rgba(37,99,235,.18))}
-/* Giant ghost number */
-.pc-ghost{position:absolute;right:-0.05em;bottom:-0.15em;
-  font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;
-  font-size:clamp(120px,16vw,240px);line-height:1;
-  color:transparent;-webkit-text-stroke:1px rgba(255,255,255,.03);
-  pointer-events:none;user-select:none}
+/* Detail panel (left) */
+.fleet-detail{position:relative;z-index:2;padding:clamp(32px,4vw,52px);display:flex;flex-direction:column;gap:22px;justify-content:space-between;border-right:1px solid var(--border)}
+.fleet-detail-scene{display:none;flex-direction:column;gap:22px;height:100%;justify-content:space-between;animation:fadeUp .55s cubic-bezier(.16,1,.3,1)}
+.fleet-detail-scene.on{display:flex}
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
 
-/* Tarifs expand panel */
-.pc-tarif-panel{display:none;grid-column:1/-1;
-  border-top:1px solid var(--border);background:var(--bg3);
-  animation:expandIn .35s cubic-bezier(.16,1,.3,1)}
-@keyframes expandIn{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:none}}
-.pc-tarif-panel.open{display:block}
-.tp-inner{padding:clamp(28px,4vw,48px) var(--side);
-  display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border)}
-.tp-col{background:var(--bg3);padding:28px 24px;position:relative;overflow:hidden;transition:background .25s}
-.tp-col:hover{background:var(--bg2)}
-.tp-col::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;
-  background:linear-gradient(to right,var(--accent),transparent);opacity:0;transition:opacity .3s}
-.tp-col:hover::before{opacity:1}
-.tp-type{font-size:9px;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:var(--muted);margin-bottom:10px}
-.tp-price{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;
-  font-size:clamp(36px,4vw,52px);line-height:1;letter-spacing:-.02em;color:#fff;margin-bottom:4px}
-.tp-price.accent{color:var(--accent)}
-.tp-unit{font-size:11px;color:var(--muted);font-family:'Jost',sans-serif;font-weight:400;font-style:normal}
-.tp-note{font-size:12px;color:rgba(255,255,255,.3);margin-top:8px;line-height:1.6}
-.tp-close{position:absolute;top:16px;right:16px;width:26px;height:26px;background:none;
-  border:1px solid var(--border);cursor:pointer;color:rgba(255,255,255,.3);font-size:11px;
-  display:flex;align-items:center;justify-content:center;transition:border-color .2s,color .2s}
-.tp-close:hover{border-color:var(--accent);color:#fff}
-.tp-features{display:flex;flex-wrap:wrap;gap:6px;margin-top:18px;grid-column:1/-1;
-  padding:20px var(--side);border-top:1px solid var(--border);background:var(--bg3)}
-.tf{font-size:10.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;
-  color:rgba(255,255,255,.4);border:1px solid var(--border);padding:5px 11px;
-  display:flex;align-items:center;gap:7px;transition:border-color .2s,color .2s}
-.tf:hover{border-color:rgba(37,99,235,.3);color:rgba(255,255,255,.7)}
-.tf::before{content:'';width:4px;height:4px;border-radius:50%;background:var(--accent);opacity:.7;flex-shrink:0}
+.fd-top{display:flex;flex-direction:column;gap:8px}
+.fd-lbl{display:inline-flex;align-items:center;gap:9px;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:10px;letter-spacing:.28em;text-transform:uppercase;color:var(--accent);width:fit-content}
+.fd-lbl::before{content:'';width:22px;height:1px;background:var(--accent)}
+.fd-tag{font-size:9px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;padding:5px 11px;border-radius:100px;border:1px solid rgba(37,99,235,.3);color:var(--accent);background:rgba(37,99,235,.08);align-self:flex-start;margin-bottom:6px}
+.fd-name{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:clamp(48px,6vw,84px);line-height:.9;letter-spacing:-.018em;text-transform:uppercase;color:#fff}
+.fd-imm{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:rgba(255,255,255,.5);margin-top:4px}
+.fd-desc{font-size:14.5px;line-height:1.75;color:rgba(255,255,255,.74);max-width:480px}
 
-/* ─────────────────────────────────────────────────────────
-   COMPARE TABLE
-───────────────────────────────────────────────────────── */
-.sec-cmp{background:var(--bg2);border-top:1px solid var(--border);
-  padding:clamp(72px,10vh,110px) var(--side)}
-.cmp-hd{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;margin-bottom:48px;flex-wrap:wrap}
-.cmp-note{font-size:13px;color:var(--muted);max-width:300px;line-height:1.65;padding-bottom:4px}
-.ctw{overflow-x:auto;scrollbar-width:thin;scrollbar-color:var(--dim) transparent}
-.ctw::-webkit-scrollbar{height:2px}
-.ctw::-webkit-scrollbar-thumb{background:var(--dim)}
-.ct{width:100%;border-collapse:collapse;min-width:580px}
-.ct th,.ct td{padding:0}
-.ct thead tr{border-bottom:1px solid var(--border)}
-.ct thead th{padding-bottom:20px;font-size:9px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--muted)}
-.ct thead th:first-child{width:210px;text-align:left}
-.ct thead th:not(:first-child){text-align:center}
-.ct-ac{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;
-  font-size:19px;color:#fff;display:flex;flex-direction:column;align-items:center;gap:5px;padding-bottom:14px}
-.ct-ac-badge{font-family:'Jost',sans-serif;font-size:8px;font-weight:700;letter-spacing:.2em;
-  text-transform:uppercase;color:var(--accent);background:var(--acc-d);
-  border:1px solid rgba(37,99,235,.18);padding:2px 7px;border-radius:100px}
-.ct tbody tr{border-bottom:1px solid var(--border);transition:background .18s}
-.ct tbody tr:hover{background:rgba(255,255,255,.018)}
-.ct tbody tr:last-child{border-bottom:none}
-.ct tbody td{padding:13px 0;font-size:12.5px;color:var(--muted);vertical-align:middle}
-.ct tbody td:first-child{font-size:10.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.4)}
-.ct tbody td:not(:first-child){text-align:center}
-.ctv{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-style:italic;font-size:17px;color:#fff}
-.ctc{color:var(--accent);font-size:14px}
-.ctx{color:var(--dim)}
-.badge{display:inline-block;font-family:'Jost',sans-serif;font-size:9.5px;font-weight:700;
-  font-style:normal;letter-spacing:.1em;text-transform:uppercase;padding:2px 7px;border-radius:100px}
-.badge.g{color:#22d77a;background:rgba(34,215,122,.1);border:1px solid rgba(34,215,122,.18)}
-.badge.b{color:var(--acc2);background:rgba(129,140,248,.1);border:1px solid rgba(129,140,248,.2)}
-.badge.m{color:var(--muted);background:rgba(255,255,255,.04);border:1px solid var(--border)}
+/* Specs */
+.fd-specs{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+.fd-spec{padding:14px 0 14px 14px;display:flex;flex-direction:column;gap:3px;border-right:1px solid var(--border)}
+.fd-spec:first-child{padding-left:0}
+.fd-spec:last-child{border-right:none;padding-right:0}
+.fd-spec .v{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:28px;line-height:1;color:#fff;letter-spacing:-.015em}
+.fd-spec .v em{color:var(--accent);font-style:normal;font-size:.45em;margin-left:3px;letter-spacing:.1em;font-weight:700}
+.fd-spec .l{font-size:8.5px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
 
-/* ─────────────────────────────────────────────────────────
-   INFO CARDS
-───────────────────────────────────────────────────────── */
-.sec-inf{background:var(--bg);border-top:1px solid var(--border);
-  padding:clamp(72px,10vh,110px) var(--side)}
-.inf-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);
-  border:1px solid var(--border);margin-top:48px}
-.ic{background:var(--bg);padding:32px 28px;display:flex;flex-direction:column;gap:14px;
-  position:relative;overflow:hidden;transition:background .3s;cursor:default}
-.ic::after{content:'';position:absolute;top:0;left:0;right:0;height:1.5px;
-  background:linear-gradient(to right,var(--accent),transparent);
-  transform:scaleX(0);transform-origin:left;transition:transform .4s cubic-bezier(.16,1,.3,1)}
-.ic:hover{background:var(--bg2)}.ic:hover::after{transform:scaleX(1)}
-.ic-num{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;
-  font-size:48px;line-height:1;color:rgba(255,255,255,.04);margin-bottom:-4px}
-.ic-title{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-style:italic;
-  font-size:20px;text-transform:uppercase;letter-spacing:.02em;color:#fff}
-.ic-text{font-size:13px;line-height:1.8;color:var(--muted)}
-.ic-text strong{color:rgba(255,255,255,.6);font-weight:600}
+/* Tarif block */
+.fd-tarif{background:rgba(37,99,235,.06);border:1px solid rgba(37,99,235,.22);border-radius:var(--rl);padding:18px 22px;display:flex;flex-direction:column;gap:14px}
+.fd-tarif-hd{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap}
+.fd-tarif-hd .l{font-size:9.5px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--accent)}
+.fd-tarif-rates{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:rgba(255,255,255,.06);border-radius:8px;overflow:hidden}
+.fd-tarif-rate{padding:12px 14px;background:rgba(8,10,14,.45);display:flex;flex-direction:column;gap:5px}
+.fd-tarif-rate .rl{font-size:9px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--muted)}
+.fd-tarif-rate .rv{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:32px;line-height:1;color:#fff;letter-spacing:-.015em;display:flex;align-items:baseline;gap:5px}
+.fd-tarif-rate .rv em{font-style:normal;font-weight:700;font-size:.5em;color:var(--accent);letter-spacing:.1em}
+.fd-tarif-rate.hi{background:rgba(37,99,235,.14)}
+.fd-tarif-rate.hi .rl{color:var(--accent)}
+.fd-tarif-foot{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap}
+.fd-tarif-foot p{font-size:11.5px;color:var(--muted);line-height:1.5;flex:1;min-width:200px}
+.fd-tarif-cta{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:#fff;background:var(--accent);padding:11px 18px;display:inline-flex;align-items:center;gap:8px;flex-shrink:0;border-radius:6px;transition:background .25s,transform .25s,color .25s}
+.fd-tarif-cta:hover{background:#fff;color:var(--accent);transform:translateY(-2px)}
 
-/* ─────────────────────────────────────────────────────────
-   BOTTOM CTA
-───────────────────────────────────────────────────────── */
-.sec-cta{background:var(--bg2);border-top:1px solid var(--border);
-  padding:clamp(72px,10vh,110px) var(--side);position:relative;overflow:hidden}
-.sec-cta::before{content:'';position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
-  width:600px;height:600px;border-radius:50%;
-  background:radial-gradient(circle,rgba(37,99,235,.05),transparent 68%);pointer-events:none}
-.cta-inner{position:relative;z-index:1;display:flex;align-items:center;
-  justify-content:space-between;gap:48px;flex-wrap:wrap}
-.cta-h{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;
-  font-size:clamp(52px,7vw,100px);line-height:.9;text-transform:uppercase;color:#fff;margin-bottom:14px}
-.cta-h .ghost{color:transparent;-webkit-text-stroke:1.5px rgba(255,255,255,.22)}
-.cta-sub{font-size:14px;color:var(--muted);max-width:380px;line-height:1.75}
-.cta-btns{display:flex;flex-direction:column;gap:10px;min-width:220px}
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;
-  font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:14px;
-  letter-spacing:.12em;text-transform:uppercase;padding:13px 28px;
-  position:relative;overflow:hidden;transition:color .25s;white-space:nowrap}
-.btn-f{background:var(--accent);color:#fff;border:1.5px solid var(--accent)}
-.btn-f::before{content:'';position:absolute;inset:0;background:#fff;
-  transform:translateX(-101%);transition:transform .25s cubic-bezier(.16,1,.3,1);z-index:-1}
-.btn-f:hover{color:var(--accent)}.btn-f:hover::before{transform:none}
-.btn-g{background:transparent;color:rgba(255,255,255,.5);border:1.5px solid var(--bds)}
-.btn-g:hover{color:#fff;border-color:rgba(255,255,255,.28)}
-.cta-note{font-size:11px;color:rgba(255,255,255,.2);letter-spacing:.08em;text-align:center}
+/* Features */
+.fd-features{display:flex;flex-wrap:wrap;gap:7px}
+.fd-feat{font-size:10px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:rgba(255,255,255,.62);background:rgba(255,255,255,.04);border:1px solid var(--border);padding:5px 11px;border-radius:100px;display:inline-flex;align-items:center;gap:7px;transition:border-color .25s,color .25s,background .25s}
+.fd-feat:hover{border-color:rgba(37,99,235,.4);color:#fff;background:rgba(37,99,235,.06)}
+.fd-feat::before{content:'';width:4px;height:4px;border-radius:50%;background:var(--accent);opacity:.7}
+
+/* Visual panel (right) */
+.fleet-visual{position:relative;display:flex;align-items:center;justify-content:center;padding:clamp(24px,3vw,48px);overflow:hidden}
+.fleet-vis-scene{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:clamp(24px,3vw,48px);opacity:0;transform:scale(.96) translateY(20px);pointer-events:none;transition:opacity .65s cubic-bezier(.16,1,.3,1),transform .65s cubic-bezier(.16,1,.3,1)}
+.fleet-vis-scene.on{opacity:1;transform:none;pointer-events:auto}
+.fleet-vis-glow{position:absolute;width:60%;height:60%;left:50%;top:50%;transform:translate(-50%,-50%);background:radial-gradient(circle,rgba(37,99,235,.22),transparent 65%);pointer-events:none;animation:glow 4s ease-in-out infinite}
+@keyframes glow{0%,100%{opacity:.55;transform:translate(-50%,-50%) scale(1)}50%{opacity:.85;transform:translate(-50%,-50%) scale(1.06)}}
+.fleet-vis-plane{position:relative;z-index:2;max-width:88%;max-height:88%;width:auto;height:auto;object-fit:contain;filter:drop-shadow(0 30px 60px rgba(0,0,0,.7)) drop-shadow(0 0 40px rgba(37,99,235,.18));animation:float 8s ease-in-out infinite}
+@keyframes float{0%,100%{transform:translateY(0) rotate(-.4deg)}50%{transform:translateY(-14px) rotate(.4deg)}}
+.fleet-vis-bigname{position:absolute;left:32px;bottom:24px;font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:clamp(80px,12vw,170px);line-height:.86;color:transparent;-webkit-text-stroke:1px rgba(255,255,255,.04);pointer-events:none;user-select:none;letter-spacing:-.04em;z-index:1}
+.fleet-vis-corner{position:absolute;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:10px;letter-spacing:.22em;color:rgba(255,255,255,.3);text-transform:uppercase;z-index:3;display:flex;align-items:center;gap:7px}
+.fleet-vis-corner.tr{top:18px;right:22px}
+.fleet-vis-corner .dot{width:6px;height:6px;border-radius:50%;background:var(--ok);animation:pulse 2.6s ease-in-out infinite}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(34,215,122,.5)}50%{box-shadow:0 0 0 5px transparent}}
+.fleet-vis-corner.br{bottom:18px;right:22px;font-family:'Jost',monospace;font-weight:500;font-size:11px;color:rgba(255,255,255,.45);letter-spacing:.05em}
+
+/* ══ COMPARE — simple grid ══ */
+.sec-cmp{background:var(--bg);border-bottom:1px solid var(--border)}
+.cmp-head{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;flex-wrap:wrap;margin-bottom:36px}
+.cmp-head .body-text{max-width:360px}
+.cmp-grid{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:0;border:1px solid var(--border);border-radius:var(--rl);overflow:hidden;background:var(--sf)}
+.cmp-cell{padding:18px 22px;border-right:1px solid var(--border);border-bottom:1px solid var(--border);position:relative}
+.cmp-cell:nth-child(4n){border-right:none}
+.cmp-grid > .cmp-cell:nth-last-child(-n+4){border-bottom:none}
+.cmp-cell.head{background:var(--bg-3);font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--muted);display:flex;align-items:center}
+.cmp-cell.head.plane{color:#fff;font-size:18px;font-weight:900;font-style:italic;letter-spacing:-.005em;flex-direction:column;align-items:flex-start;gap:5px;text-transform:uppercase}
+.cmp-cell.head.plane .imm{font-size:9px;color:var(--accent);font-weight:600;letter-spacing:.22em;font-style:normal}
+.cmp-cell.lbl{font-size:11px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:rgba(255,255,255,.5);display:flex;align-items:center;background:rgba(255,255,255,.012)}
+.cmp-cell.val{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:18px;color:#fff;letter-spacing:-.005em;line-height:1.1;display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.cmp-cell.val .u{font-family:'Jost',sans-serif;font-weight:400;font-style:normal;font-size:11.5px;color:var(--muted);letter-spacing:.04em;text-transform:lowercase}
+.cmp-cell.val .yes{color:var(--accent);font-size:20px}
+.cmp-cell.val .no{color:rgba(255,255,255,.18);font-size:18px}
+.cmp-cell.val .word{font-family:'Jost',sans-serif;font-weight:500;font-size:12.5px;color:var(--muted);font-style:normal;letter-spacing:.02em;line-height:1.4}
+
+/* ══ INFOS PRATIQUES ══ */
+.sec-infos{background:var(--bg-2);border-bottom:1px solid var(--border)}
+.infos-head{margin-bottom:36px}
+.infos-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.ic{background:var(--sf);border:1px solid var(--border);border-radius:var(--rl);padding:24px;display:flex;flex-direction:column;gap:12px;transition:border-color .3s,transform .4s cubic-bezier(.16,1,.3,1),box-shadow .35s}
+.ic:hover{border-color:rgba(37,99,235,.36);transform:translateY(-5px);box-shadow:0 22px 48px rgba(0,0,0,.45)}
+.ic-num{display:inline-flex;align-items:center;justify-content:center;width:42px;height:42px;border-radius:50%;background:var(--acc-d);border:1px solid rgba(37,99,235,.3);font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:16px;color:var(--accent);letter-spacing:-.005em}
+.ic-title{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:21px;text-transform:uppercase;color:#fff;line-height:1.05;letter-spacing:-.005em}
+.ic-text{font-size:13px;color:var(--muted);line-height:1.7}
+.ic-text strong{color:#fff;font-weight:600}
+
+/* ══ CTA ══ */
+.sec-cta{background:var(--bg);overflow:hidden;position:relative}
+.sec-cta::before{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:700px;height:700px;border-radius:50%;background:radial-gradient(circle,rgba(37,99,235,.06),transparent 70%);pointer-events:none}
+.cta-inner{position:relative;z-index:1;text-align:center;max-width:900px;margin:0 auto}
+.cta-h{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:clamp(48px,7.5vw,106px);line-height:.9;text-transform:uppercase;letter-spacing:-.02em;color:#fff}
+.cta-h .ol{color:transparent;-webkit-text-stroke:1.5px rgba(255,255,255,.28)}
+.cta-sub{font-size:15px;color:var(--muted);max-width:460px;line-height:1.7;margin:22px auto 0}
+.cta-btns{display:flex;justify-content:center;flex-wrap:wrap;gap:12px;margin-top:32px}
 
 /* FOOTER */
-.footer{background:var(--bg2);border-top:1px solid var(--border);padding:22px var(--side)}
+.footer{background:var(--bg-2);border-top:1px solid var(--border);padding:22px var(--side)}
 .footer-in{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
-.footer-links{display:flex;flex-wrap:wrap;gap:14px}
-.footer-links a{font-size:11px;color:rgba(255,255,255,.25);letter-spacing:.04em;transition:color .2s}
-.footer-links a:hover{color:rgba(255,255,255,.65)}
-.footer-links span{color:var(--dim);font-size:10px}
-.footer-cr{font-size:11px;color:var(--dim);letter-spacing:.05em}
+.footer-links{display:flex;gap:14px;flex-wrap:wrap}
+.footer-links a{font-size:11.5px;color:rgba(255,255,255,.3);transition:color .2s}.footer-links a:hover{color:rgba(255,255,255,.7)}
+.footer-links .sep{color:var(--dim);font-size:10px}
+.footer-cr{font-size:11.5px;color:var(--dim)}
 
-/* REVEALS */
-[data-r]{opacity:0;transform:translateY(26px);transition:opacity .85s cubic-bezier(.16,1,.3,1),transform .85s cubic-bezier(.16,1,.3,1)}
-[data-r].on{opacity:1;transform:none}
-[data-r="l"]{transform:translateX(-28px);opacity:0}[data-r="l"].on{transform:none;opacity:1}
-[data-r="s"]{opacity:0;transform:scale(.95);transition:opacity .9s,transform .9s cubic-bezier(.16,1,.3,1)}
-[data-r="s"].on{opacity:1;transform:none}
-[data-d="1"]{transition-delay:.1s}[data-d="2"]{transition-delay:.2s}[data-d="3"]{transition-delay:.3s}[data-d="4"]{transition-delay:.4s}
+/* ══ RESPONSIVE ══ */
+.cmp-scroll-hint{display:none;text-align:center;font-size:10px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--muted);margin-top:14px}
 
-/* RESPONSIVE */
 @media(max-width:980px){
   .nav-links,.nav-icons,.nav-cta{display:none}
   .nav-burger{display:flex}
-  .pc{grid-template-columns:1fr}
-  .pc-info{border-right:none;border-bottom:1px solid var(--border)}
-  .pc-visual{min-height:260px}
-  .tp-inner{grid-template-columns:1fr}
-  .inf-grid{grid-template-columns:1fr 1fr}
-  .cta-inner{flex-direction:column;gap:32px}
-  .cta-btns{width:100%}
-  .hero-plane-wrap{width:clamp(220px,52vw,480px);right:clamp(10px,4vw,60px)}
+  .t-hero{min-height:auto;padding:calc(var(--nav-h) + 60px) 0 60px}
+  .t-hero-plane{position:relative;top:auto;right:auto;width:min(82%,440px);margin:0 auto 24px;display:block}
+  .t-hero-inner{grid-template-columns:1fr;gap:32px}
+  .t-hero-r{grid-template-columns:1fr 1fr}
+  .fleet-stage{grid-template-columns:1fr;min-height:auto}
+  .fleet-detail{border-right:none;border-bottom:1px solid var(--border)}
+  .fleet-visual{min-height:340px}
+  .fleet-vis-scene{padding:32px}
+  .fleet-tabs{grid-template-columns:1fr}
+  .fleet-tab{border-right:none}
+  .fleet-tab::before{left:0;right:auto;top:0;bottom:0;width:3px;background:linear-gradient(to bottom,var(--accent),var(--acc2))}
+  .cmp-grid{display:grid;grid-template-columns:140px repeat(3,minmax(130px,1fr));overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:thin;border-radius:var(--rl)}
+  .cmp-grid::-webkit-scrollbar{height:4px}
+  .cmp-grid::-webkit-scrollbar-track{background:rgba(255,255,255,.04)}
+  .cmp-grid::-webkit-scrollbar-thumb{background:var(--accent);border-radius:4px}
+  .cmp-cell{scroll-snap-align:start;padding:14px 16px;font-size:13px}
+  .cmp-cell.lbl{position:sticky;left:0;z-index:2;background:var(--sf);border-right:1px solid var(--border);font-size:10px;letter-spacing:.14em}
+  .cmp-scroll-hint{display:block}
+  .infos-grid{grid-template-columns:1fr 1fr}
 }
-@media(max-width:640px){
-  .inf-grid{grid-template-columns:1fr}
-  .hero-plane-wrap{width:clamp(180px,60vw,340px);top:auto;bottom:clamp(120px,20vh,200px);transform:none;right:0;left:50%;transform:translateX(-50%)}
-  .hero-content{padding-bottom:36px}
-  .tp-inner{grid-template-columns:1fr}
+@media(max-width:600px){
+  :root{--side:clamp(16px,4.5vw,28px)}
+  .t-hero-r{grid-template-columns:1fr 1fr;gap:8px}
+  .t-hero-stat{padding:14px 16px}
+  .t-hero-stat .v{font-size:22px}
+  .fleet-tab{padding:14px 18px}
+  .fleet-tab-num{font-size:20px;width:30px}
+  .fleet-tab-name{font-size:16px}
+  .fleet-tab-sub{font-size:8.5px;letter-spacing:.14em}
+  .fleet-detail{padding:24px 20px;gap:18px}
+  .fd-name{font-size:clamp(40px,11vw,60px)}
+  .fd-desc{font-size:13.5px;line-height:1.7}
+  .fd-specs{grid-template-columns:1fr 1fr;gap:0}
+  .fd-spec{padding:12px 12px 12px 0 !important;border-right:none;border-bottom:1px solid var(--border)}
+  .fd-spec:nth-child(2n){padding-left:12px !important;border-left:1px solid var(--border)}
+  .fd-spec:nth-last-child(-n+2){border-bottom:none}
+  .fd-spec .v{font-size:24px}
+  .fd-tarif{padding:14px 16px;gap:12px}
+  .fd-tarif-rates{grid-template-columns:1fr 1fr;gap:1px}
+  .fd-tarif-rate{padding:10px 12px}
+  .fd-tarif-rate .rv{font-size:24px}
+  .fd-tarif-cta{padding:9px 14px;font-size:11.5px}
+  .fd-features{gap:5px}
+  .fd-feat{font-size:9px;padding:4px 9px;letter-spacing:.1em}
+  .fleet-visual{min-height:280px;padding:24px}
+  .fleet-vis-scene{padding:24px}
+  .fleet-vis-bigname{font-size:60px;left:18px;bottom:18px}
+  .fleet-vis-corner{font-size:9px;letter-spacing:.16em}
+  .fleet-vis-corner.tr{top:14px;right:14px}
+  .fleet-vis-corner.br{bottom:14px;right:14px;font-size:10px}
+  .cmp-grid{grid-template-columns:120px repeat(3,minmax(120px,1fr))}
+  .cmp-cell{padding:12px 14px;font-size:12.5px;min-height:48px}
+  .cmp-cell.head.plane{font-size:14px}
+  .cmp-cell.head.plane .imm{font-size:8px}
+  .cmp-cell.val{font-size:16px}
+  .cmp-cell.val .u{font-size:10.5px}
+  .infos-grid{grid-template-columns:1fr}
+  .ic{padding:18px 20px;gap:10px}
+  .ic-title{font-size:18px}
+  .ic-text{font-size:12.5px}
+  .sec.sp{padding:clamp(56px,9vh,90px) 0}
+  .h2{font-size:clamp(34px,8.5vw,56px)}
+  .footer-in{flex-direction:column;align-items:flex-start;gap:14px}
 }
-
-@keyframes fadeD{to{opacity:1;transform:none}}
 </style>
 </head>
 <body>
 <div class="grain" aria-hidden="true"></div>
-<div class="pgb" id="pgb"></div>
-<div class="cur" id="cur-d"><div class="cur-d"></div></div>
-<div class="cur" id="cur-r"><div class="cur-r"></div></div>
+<div class="pg-bar" id="pg-bar"></div>
+<div class="cur" id="cur-dot"><div class="cur-dot"></div></div>
+<div class="cur" id="cur-ring"><div class="cur-ring"></div></div>
 
 <!-- NAV -->
 <nav class="nav" id="nav">
-  <a href="index.html"><img src="assets/images/apam-logo2.png" alt="APAM" style="height:44px"></a>
+  <a href="index.html"><img class="nav-logo-img" src="assets/images/apam-logo2.png" alt="APAM"></a>
   <ul class="nav-links">
-    <li><a href="tarifs.html" class="on">Flotte</a></li>
+    <li class="nav-item-drop">
+      <a href="tarifs.html" class="on">Flotte</a>
+      <div class="nav-drop">
+        <a class="ndc" href="#plane-152" data-plane-jump="0"><img src="assets/images/FGHKE2.png" alt="Cessna 152"><div class="ndc-name">Cessna 152</div><div class="ndc-sub">Formation · Initiation</div></a>
+        <a class="ndc" href="#plane-tb200" data-plane-jump="1"><img src="assets/images/TB200M.png" alt="TB200"><div class="ndc-name">TB200</div><div class="ndc-sub">Voyage · 4 places</div></a>
+        <a class="ndc" href="#plane-sr20" data-plane-jump="2"><img src="assets/images/SR1.png" alt="SR20"><div class="ndc-name">Cirrus SR20</div><div class="ndc-sub">Premium · CAPS</div></a>
+      </div>
+    </li>
     <li><a href="activite.html">Le Club</a></li>
     <li><a href="devenir-pilote.html">Devenir pilote</a></li>
     <li><a href="contact.html">Contact</a></li>
@@ -435,410 +366,350 @@ body:has(a:hover) .cur-r,body:has(button:hover) .cur-r{width:44px;height:44px;bo
     <li><a href="https://openflyers.com/apam/" target="_blank">OpenFlyer</a></li>
   </ul>
   <div class="nav-icons">
-    <a class="nav-ic" href="https://www.instagram.com/apam_lfol" target="_blank" aria-label="Instagram">
-      <svg viewBox="0 0 24 24"><path d="M7 2C4.2 2 2 4.2 2 7v10c0 2.8 2.2 5 5 5h10c2.8 0 5-2.2 5-5V7c0-2.8-2.2-5-5-5H7zm0 2h10c1.7 0 3 1.3 3 3v10c0 1.7-1.3 3-3 3H7c-1.7 0-3-1.3-3-3V7c0-1.7 1.3-3 3-3zm5 3.5a4.5 4.5 0 1 0 0 9 4.5 4.5 0 0 0 0-9zm0 2a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zm4.8-2.9a1.1 1.1 0 1 0 0 2.2 1.1 1.1 0 0 0 0-2.2z"/></svg>
-    </a>
-    <a class="nav-ic" href="mailto:aeroclubapam@gmail.com" aria-label="Email">
-      <svg viewBox="0 0 24 24"><path d="M4 4h16a2 2 0 0 1 2 2v1L12 13 2 7V6a2 2 0 0 1 2-2zm18 5v9a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V9l10 6 10-6z"/></svg>
-    </a>
+    <a class="nav-icon" href="https://www.instagram.com/apam_lfol" target="_blank" aria-label="Instagram"><svg viewBox="0 0 24 24"><path d="M7 2C4.2 2 2 4.2 2 7v10c0 2.8 2.2 5 5 5h10c2.8 0 5-2.2 5-5V7c0-2.8-2.2-5-5-5H7zm0 2h10c1.7 0 3 1.3 3 3v10c0 1.7-1.3 3-3 3H7c-1.7 0-3-1.3-3-3V7c0-1.7 1.3-3 3-3zm5 3.5a4.5 4.5 0 1 0 0 9 4.5 4.5 0 0 0 0-9zm0 2a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zm4.8-2.9a1.1 1.1 0 1 0 0 2.2 1.1 1.1 0 0 0 0-2.2z"/></svg></a>
+    <a class="nav-icon" href="/cdn-cgi/l/email-protection#e18084938e828d94838091808ca1868c80888dcf828e8c" aria-label="Email"><svg viewBox="0 0 24 24"><path d="M4 4h16a2 2 0 0 1 2 2v1L12 13 2 7V6a2 2 0 0 1 2-2zm18 5v9a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V9l10 6 10-6z"/></svg></a>
   </div>
   <a class="nav-cta" href="connexion-membres-password.html?next=mon-compte.html">Mon compte</a>
-  <button class="nav-burger" id="burger" aria-expanded="false"><b></b><b></b><b></b></button>
+  <button class="nav-burger" id="burger" aria-label="Menu"><b></b><b></b><b></b></button>
 </nav>
 
-<!-- DRAWER -->
-<div class="drawer" id="drawer" aria-hidden="true">
-  <div class="drawer-top"><img src="assets/images/apam-logo2.png" alt="APAM" style="height:40px"><button class="d-close" id="d-close">✕</button></div>
-  <nav class="d-nav">
-    <a href="tarifs.html">Flotte <span>→</span></a>
-    <a href="activite.html">Le Club <span>→</span></a>
-    <a href="devenir-pilote.html">Devenir pilote <span>→</span></a>
-    <a href="contact.html">Contact <span>→</span></a>
-    <a href="boutique.html">Boutique <span>→</span></a>
-    <a href="https://openflyers.com/apam/" target="_blank">OpenFlyer <span>↗</span></a>
+<div class="m-drawer" id="drawer" aria-hidden="true">
+  <div class="m-drawer-top"><img src="assets/images/apam-logo2.png" alt="APAM" style="height:38px"><button class="m-close" id="m-close">✕</button></div>
+  <nav class="m-nav">
+    <a href="tarifs.html">Flotte <span class="arr">→</span></a>
+    <a href="activite.html">Le Club <span class="arr">→</span></a>
+    <a href="devenir-pilote.html">Devenir pilote <span class="arr">→</span></a>
+    <a href="contact.html">Contact <span class="arr">→</span></a>
+    <a href="https://openflyers.com/apam/" target="_blank">OpenFlyer <span class="arr">↗</span></a>
   </nav>
+  <div class="m-cta-wrap"><a class="btn btn--fill" href="connexion-membres-password.html?next=mon-compte.html">Mon compte</a></div>
 </div>
 
-<!-- ═══════════════ HERO ═══════════════ -->
-<section class="hero" id="hero">
-  <div class="hero-grid" aria-hidden="true"></div>
-  <div class="hero-rule" aria-hidden="true"></div>
-
-  <!-- Scan decorative lines -->
-  <div class="hero-scan" aria-hidden="true">
-    <span style="width:48px"></span><span style="width:32px"></span><span style="width:64px"></span>
-    <span style="width:24px"></span><span style="width:40px"></span>
+<!-- HERO -->
+<section class="t-hero">
+  <div class="t-hero-grid"></div>
+  <div class="t-hero-plane" aria-hidden="true">
+    <div class="t-hero-plane-glow"></div>
+    <img src="assets/images/FGHKE2.png" alt="">
   </div>
-
-  <!-- Plane visual -->
-  <div class="hero-plane-wrap" id="hero-plane-wrap">
-    <div class="hero-glow" aria-hidden="true"></div>
-    <img class="hero-plane-img" id="hero-plane-img" src="assets/images/FGHKE2.png" alt="Cessna 152 F-GHKE" fetchpriority="high">
-  </div>
-
-  <!-- Ghost text -->
-  <div class="hero-ghost" aria-hidden="true">FLOTTE</div>
-
-  <!-- Content -->
-  <div class="hero-content">
-    <p class="hero-eyebrow">APAM · LFOL · Flotte &amp; Tarifs</p>
-    <h1 class="hero-title">Trois<br><span class="ghost">Aéronefs.</span></h1>
-    <div class="hero-bottom">
-      <p class="hero-desc">Du premier vol solo au voyage longue distance — chaque avion de la flotte APAM est choisi pour accompagner votre progression.</p>
-      <div class="hero-meta">
-        <div class="hero-meta-item">
-          <div class="hero-meta-val">3</div>
-          <div class="hero-meta-lbl">Aéronefs</div>
-        </div>
-        <div class="hero-meta-item">
-          <div class="hero-meta-val">LFOL</div>
-          <div class="hero-meta-lbl">Terrain base</div>
-        </div>
-        <div class="hero-meta-item">
-          <div class="hero-meta-val">597 ft</div>
-          <div class="hero-meta-lbl">Altitude</div>
-        </div>
+  <div class="wrap">
+    <div class="t-hero-inner">
+      <div class="t-hero-l">
+        <p class="kicker">Flotte · Tarifs · LFOL</p>
+        <h1 class="t-hero-title">Notre<br><span class="ol">flotte.</span></h1>
+        <p class="t-hero-sub">Trois avions, trois caractères. Du Cessna 152 pour vos premiers vols au Cirrus SR20 pour les voyages — choisissez votre machine.</p>
       </div>
-    </div>
-  </div>
-
-  <div class="hero-scroll" aria-hidden="true">
-    <div class="hero-scroll-line"></div>
-    <span>Défiler</span>
-  </div>
-</section>
-
-<!-- ═══════════════ TICKER ═══════════════ -->
-<div class="ticker">
-  <div class="ticker-track">
-    <span class="ti hi">Cessna 152 · F-GHKE</span>
-    <span class="ti">110 ch · 107 kt</span>
-    <span class="ti">Formation PPL · LAPL</span>
-    <span class="ti hi">TB200 Goldstar · Socata</span>
-    <span class="ti">200 ch · 148 kt · Train rentrant</span>
-    <span class="ti">4 places · Voyage</span>
-    <span class="ti hi">Cirrus SR20 · G3</span>
-    <span class="ti">200 ch · 155 kt · Garmin G1000</span>
-    <span class="ti">CAPS · Pilote Automatique</span>
-    <span class="ti">LFOL · L'Aigle · Normandie</span>
-    <!-- repeat -->
-    <span class="ti hi">Cessna 152 · F-GHKE</span>
-    <span class="ti">110 ch · 107 kt</span>
-    <span class="ti">Formation PPL · LAPL</span>
-    <span class="ti hi">TB200 Goldstar · Socata</span>
-    <span class="ti">200 ch · 148 kt · Train rentrant</span>
-    <span class="ti">4 places · Voyage</span>
-    <span class="ti hi">Cirrus SR20 · G3</span>
-    <span class="ti">200 ch · 155 kt · Garmin G1000</span>
-    <span class="ti">CAPS · Pilote Automatique</span>
-    <span class="ti">LFOL · L'Aigle · Normandie</span>
-  </div>
-</div>
-
-<!-- ═══════════════ FLEET ═══════════════ -->
-<section class="fleet-sec" id="flotte">
-  <div class="fleet-intro" data-r>
-    <div class="fleet-intro-l">
-      <p class="kicker">Notre flotte</p>
-      <h2 class="h2">Trois avions.<br>Une passion.</h2>
-    </div>
-    <p class="fleet-intro-r">Cliquez sur un avion pour découvrir ses caractéristiques et les tarifs associés.</p>
-  </div>
-
-  <div class="plane-cards" id="plane-cards">
-
-    <!-- ─── CESSNA 152 ─── -->
-    <div class="pc" id="pc-152" data-plane="152">
-      <div class="pc-info">
-        <div>
-          <div class="pc-num">01 / 03</div>
-          <span class="pc-tag">Formation · Initiation · École</span>
-          <div class="pc-name">Cessna<br>152</div>
-          <div class="pc-sub">Bi-place école · F-GHKE</div>
-        </div>
-        <p class="pc-desc">Le point de départ de tout pilote. Fiable, docile, économique. Idéal pour les premiers vols, le tour de piste et la construction des heures de brevet PPL ou LAPL.</p>
-        <div class="pc-specs">
-          <div class="ps"><span class="ps-v">110</span><span class="ps-u">ch</span></div>
-          <div class="ps"><span class="ps-v">107</span><span class="ps-u">kt croisière</span></div>
-          <div class="ps"><span class="ps-v">4,5</span><span class="ps-u">h autonomie</span></div>
-          <div class="ps"><span class="ps-v">2</span><span class="ps-u">places</span></div>
-        </div>
-        <div class="pc-cta">
-          <span class="pc-btn" id="btn-152">Voir les tarifs</span>
-          <span class="pc-tarif-preview">Ouvrir / Fermer</span>
-        </div>
+      <div class="t-hero-r">
+        <div class="t-hero-stat"><span class="l">Appareils</span><span class="v">3</span></div>
+        <div class="t-hero-stat"><span class="l">Heures / an</span><span class="v">1 500<em>h</em></span></div>
+        <div class="t-hero-stat"><span class="l">Réservation</span><span class="v">OpenFlyer</span></div>
+        <div class="t-hero-stat"><span class="l">Saison</span><span class="v">2026</span></div>
       </div>
-      <div class="pc-visual">
-        <div class="pc-vis-bg" aria-hidden="true">
-          <!-- SVG radar rings -->
-          <svg class="pc-radar" width="340" height="340" viewBox="0 0 340 340" aria-hidden="true" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%)">
-            <circle cx="170" cy="170" r="60"/><circle cx="170" cy="170" r="100"/>
-            <circle cx="170" cy="170" r="140"/><circle cx="170" cy="170" r="165"/>
-            <line x1="170" y1="0" x2="170" y2="340" stroke="rgba(37,99,235,.04)" stroke-width="1"/>
-            <line x1="0" y1="170" x2="340" y2="170" stroke="rgba(37,99,235,.04)" stroke-width="1"/>
-          </svg>
-        </div>
-        <div class="pc-cross" aria-hidden="true"></div>
-        <div class="pc-brackets" aria-hidden="true"><b></b></div>
-        <img class="pc-plane" src="assets/images/FGHKE2.png" alt="Cessna 152" loading="eager">
-        <div class="pc-ghost" aria-hidden="true">152</div>
-        <div class="pc-reg">F-GHKE</div>
-      </div>
-      <!-- Tarif expand -->
-      <div class="pc-tarif-panel" id="tp-152">
-        <div class="tp-inner">
-          <div class="tp-col">
-            <div class="tp-type">Membre APAM</div>
-            <div class="tp-price accent">Nous consulter</div>
-            <div class="tp-unit">/ heure (roues au sol)</div>
-            <div class="tp-note">Cotisation annuelle club requise. Réservation via OpenFlyers.</div>
-          </div>
-          <div class="tp-col">
-            <div class="tp-type">Extérieur</div>
-            <div class="tp-price">Nous consulter</div>
-            <div class="tp-unit">/ heure (roues au sol)</div>
-            <div class="tp-note">Sans adhésion. Tarif majoré. Contactez le club.</div>
-          </div>
-          <div class="tp-col" style="position:relative">
-            <button class="tp-close" onclick="closePanel('152')" aria-label="Fermer">✕</button>
-            <div class="tp-type">Instruction</div>
-            <div class="tp-price">+ Instructeur</div>
-            <div class="tp-unit">/ heure en supplément</div>
-            <div class="tp-note">Formation PPL / LAPL. Vol découverte disponible.</div>
-          </div>
-        </div>
-        <div class="tp-features">
-          <span class="tf">Formation PPL</span>
-          <span class="tf">Formation LAPL</span>
-          <span class="tf">Vol de découverte</span>
-          <span class="tf">Bi-place</span>
-          <span class="tf">Train fixe</span>
-          <span class="tf">Piste courte</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- ─── TB200 ─── -->
-    <div class="pc" id="pc-tb200" data-plane="tb200">
-      <div class="pc-info">
-        <div>
-          <div class="pc-num">02 / 03</div>
-          <span class="pc-tag">Perfectionnement · Voyage</span>
-          <div class="pc-name">TB200<br>Goldstar</div>
-          <div class="pc-sub">4 places · Socata</div>
-        </div>
-        <p class="pc-desc">Avion de voyage made in France. Train rentrant, hélice à pas variable, 200 ch. Le TB200 ouvre les portes de la navigation avancée et des qualifications complexes.</p>
-        <div class="pc-specs">
-          <div class="ps"><span class="ps-v">200</span><span class="ps-u">ch</span></div>
-          <div class="ps"><span class="ps-v">148</span><span class="ps-u">kt croisière</span></div>
-          <div class="ps"><span class="ps-v">6+</span><span class="ps-u">h autonomie</span></div>
-          <div class="ps"><span class="ps-v">4</span><span class="ps-u">places</span></div>
-        </div>
-        <div class="pc-cta">
-          <span class="pc-btn" id="btn-tb200">Voir les tarifs</span>
-          <span class="pc-tarif-preview">Ouvrir / Fermer</span>
-        </div>
-      </div>
-      <div class="pc-visual">
-        <div class="pc-vis-bg" aria-hidden="true">
-          <svg class="pc-radar" width="340" height="340" viewBox="0 0 340 340" aria-hidden="true" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%)">
-            <circle cx="170" cy="170" r="60"/><circle cx="170" cy="170" r="100"/>
-            <circle cx="170" cy="170" r="140"/><circle cx="170" cy="170" r="165"/>
-            <line x1="170" y1="0" x2="170" y2="340" stroke="rgba(37,99,235,.04)" stroke-width="1"/>
-            <line x1="0" y1="170" x2="340" y2="170" stroke="rgba(37,99,235,.04)" stroke-width="1"/>
-          </svg>
-        </div>
-        <div class="pc-cross" aria-hidden="true"></div>
-        <div class="pc-brackets" aria-hidden="true"><b></b></div>
-        <img class="pc-plane" src="assets/images/TB200M.png" alt="TB200 Goldstar" loading="lazy">
-        <div class="pc-ghost" aria-hidden="true">TB200</div>
-        <div class="pc-reg">Socata TB200</div>
-      </div>
-      <div class="pc-tarif-panel" id="tp-tb200">
-        <div class="tp-inner">
-          <div class="tp-col">
-            <div class="tp-type">Membre APAM</div>
-            <div class="tp-price accent">Nous consulter</div>
-            <div class="tp-unit">/ heure (roues au sol)</div>
-            <div class="tp-note">Cotisation annuelle requise. Lâcher sur type obligatoire.</div>
-          </div>
-          <div class="tp-col">
-            <div class="tp-type">Extérieur</div>
-            <div class="tp-price">Nous consulter</div>
-            <div class="tp-unit">/ heure (roues au sol)</div>
-            <div class="tp-note">Contactez le club pour les conditions d'accès extérieur.</div>
-          </div>
-          <div class="tp-col" style="position:relative">
-            <button class="tp-close" onclick="closePanel('tb200')" aria-label="Fermer">✕</button>
-            <div class="tp-type">Qualification train rentrant</div>
-            <div class="tp-price">+ Instructeur</div>
-            <div class="tp-unit">/ heure avec instructeur qualifié</div>
-            <div class="tp-note">Qualification avion complexe EASA incluse.</div>
-          </div>
-        </div>
-        <div class="tp-features">
-          <span class="tf">Train rentrant</span>
-          <span class="tf">4 places</span>
-          <span class="tf">Navigation longue distance</span>
-          <span class="tf">Hélice pas variable</span>
-          <span class="tf">Made in France</span>
-          <span class="tf">Avion complexe EASA</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- ─── CIRRUS SR20 ─── -->
-    <div class="pc" id="pc-sr20" data-plane="sr20">
-      <div class="pc-info">
-        <div>
-          <div class="pc-num">03 / 03</div>
-          <span class="pc-tag">Haute performance · Avionique moderne</span>
-          <div class="pc-name">Cirrus<br>SR20</div>
-          <div class="pc-sub">4 places · G3 · CAPS</div>
-        </div>
-        <p class="pc-desc">Le summum technologique de la flotte. Garmin G1000, pilote automatique intégré, et le système CAPS — le parachute balistique qui redéfinit la sécurité active en aviation légère.</p>
-        <div class="pc-specs">
-          <div class="ps"><span class="ps-v">200</span><span class="ps-u">ch</span></div>
-          <div class="ps"><span class="ps-v">155</span><span class="ps-u">kt croisière</span></div>
-          <div class="ps"><span class="ps-v">5,5+</span><span class="ps-u">h autonomie</span></div>
-          <div class="ps"><span class="ps-v">G1000</span><span class="ps-u">avionique</span></div>
-        </div>
-        <div class="pc-cta">
-          <span class="pc-btn" id="btn-sr20">Voir les tarifs</span>
-          <span class="pc-tarif-preview">Ouvrir / Fermer</span>
-        </div>
-      </div>
-      <div class="pc-visual">
-        <div class="pc-vis-bg" aria-hidden="true">
-          <svg class="pc-radar" width="340" height="340" viewBox="0 0 340 340" aria-hidden="true" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%)">
-            <circle cx="170" cy="170" r="60"/><circle cx="170" cy="170" r="100"/>
-            <circle cx="170" cy="170" r="140"/><circle cx="170" cy="170" r="165"/>
-            <line x1="170" y1="0" x2="170" y2="340" stroke="rgba(37,99,235,.04)" stroke-width="1"/>
-            <line x1="0" y1="170" x2="340" y2="170" stroke="rgba(37,99,235,.04)" stroke-width="1"/>
-          </svg>
-        </div>
-        <div class="pc-cross" aria-hidden="true"></div>
-        <div class="pc-brackets" aria-hidden="true"><b></b></div>
-        <img class="pc-plane" src="assets/images/SR1.png" alt="Cirrus SR20" loading="lazy">
-        <div class="pc-ghost" aria-hidden="true">SR20</div>
-        <div class="pc-reg">Cirrus SR20 G3</div>
-      </div>
-      <div class="pc-tarif-panel" id="tp-sr20">
-        <div class="tp-inner">
-          <div class="tp-col">
-            <div class="tp-type">Membre APAM</div>
-            <div class="tp-price accent">Nous consulter</div>
-            <div class="tp-unit">/ heure (roues au sol)</div>
-            <div class="tp-note">Formation initiale SR20 obligatoire. Réservation OpenFlyers.</div>
-          </div>
-          <div class="tp-col">
-            <div class="tp-type">Extérieur</div>
-            <div class="tp-price">Nous consulter</div>
-            <div class="tp-unit">/ heure (roues au sol)</div>
-            <div class="tp-note">Contactez le club. Conditions spécifiques.</div>
-          </div>
-          <div class="tp-col" style="position:relative">
-            <button class="tp-close" onclick="closePanel('sr20')" aria-label="Fermer">✕</button>
-            <div class="tp-type">Lâcher Cirrus SR20</div>
-            <div class="tp-price">Formation</div>
-            <div class="tp-unit">requise avant solo</div>
-            <div class="tp-note">Cursus obligatoire avec instructeur qualifié Cirrus.</div>
-          </div>
-        </div>
-        <div class="tp-features">
-          <span class="tf">CAPS Parachute</span>
-          <span class="tf">Garmin G1000</span>
-          <span class="tf">Pilote automatique</span>
-          <span class="tf">TAS / TAWS</span>
-          <span class="tf">4 places</span>
-          <span class="tf">Train rentrant</span>
-          <span class="tf">Avion complexe EASA</span>
-        </div>
-      </div>
-    </div>
-
-  </div>
-</section>
-
-<!-- ═══════════════ COMPARE ═══════════════ -->
-<section class="sec-cmp" id="comparaison">
-  <div class="cmp-hd" data-r>
-    <div>
-      <p class="kicker">Vue d'ensemble</p>
-      <h2 class="h2">Comparer<br>la flotte</h2>
-    </div>
-    <p class="cmp-note">Caractéristiques techniques et niveaux de qualification pour chaque aéronef.</p>
-  </div>
-  <div class="ctw" data-r data-d="2">
-    <table class="ct">
-      <thead>
-        <tr>
-          <th scope="col">Critère</th>
-          <th scope="col"><div class="ct-ac">Cessna 152<span class="ct-ac-badge">École</span></div></th>
-          <th scope="col"><div class="ct-ac">TB200 Goldstar</div></th>
-          <th scope="col"><div class="ct-ac">Cirrus SR20<span class="ct-ac-badge">Premium</span></div></th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr><td>Motorisation</td><td><span class="ctv">110 ch</span></td><td><span class="ctv">200 ch</span></td><td><span class="ctv">200 ch</span></td></tr>
-        <tr><td>Vitesse croisière</td><td><span class="ctv">107 kt</span></td><td><span class="ctv">148 kt</span></td><td><span class="ctv">155 kt</span></td></tr>
-        <tr><td>Autonomie</td><td><span class="ctv">~4,5 h</span></td><td><span class="ctv">~6 h</span></td><td><span class="ctv">~5,5 h</span></td></tr>
-        <tr><td>Places</td><td><span class="ctv">2</span></td><td><span class="ctv">4</span></td><td><span class="ctv">4</span></td></tr>
-        <tr><td>Train d'atterrissage</td><td><span class="badge m">Fixe</span></td><td><span class="badge b">Rentrant</span></td><td><span class="badge b">Rentrant</span></td></tr>
-        <tr><td>Avionique</td><td><span class="badge m">Analogique</span></td><td><span class="badge m">Semi-moderne</span></td><td><span class="badge g">Garmin G1000</span></td></tr>
-        <tr><td>Pilote automatique</td><td><span class="ctx">—</span></td><td><span class="ctx">—</span></td><td><span class="ctc">✓</span></td></tr>
-        <tr><td>Système CAPS</td><td><span class="ctx">—</span></td><td><span class="ctx">—</span></td><td><span class="ctc">✓</span></td></tr>
-        <tr><td>Idéal pour</td>
-          <td style="font-size:11.5px;color:rgba(255,255,255,.45)">Débutants · Formation</td>
-          <td style="font-size:11.5px;color:rgba(255,255,255,.45)">Voyage · Perfectionnement</td>
-          <td style="font-size:11.5px;color:rgba(255,255,255,.45)">Performance · Sécurité</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-</section>
-
-<!-- ═══════════════ INFO ═══════════════ -->
-<section class="sec-inf">
-  <div>
-    <p class="kicker" data-r>Bon à savoir</p>
-    <h2 class="h2" data-r data-d="1">Infos pratiques</h2>
-  </div>
-  <div class="inf-grid">
-    <div class="ic" data-r="s" data-d="1">
-      <div class="ic-num">01</div>
-      <div class="ic-title">Réservation OpenFlyers</div>
-      <p class="ic-text">Réservez 24h/24 via <strong>OpenFlyers</strong>, notre plateforme en ligne. Compte membre requis. Planning en temps réel.</p>
-    </div>
-    <div class="ic" data-r="s" data-d="2">
-      <div class="ic-num">02</div>
-      <div class="ic-title">Tarifs à jour</div>
-      <p class="ic-text">Les tarifs sont <strong>révisés annuellement</strong>. Contactez le club pour obtenir la grille tarifaire complète et à jour pour la saison en cours.</p>
-    </div>
-    <div class="ic" data-r="s" data-d="3">
-      <div class="ic-num">03</div>
-      <div class="ic-title">Vol de découverte</div>
-      <p class="ic-text">Offrez ou réservez un <strong>vol initiation</strong> d'environ 30 minutes sur Cessna 152. Idéal en cadeau ou pour se faire une idée avant de se lancer.</p>
-    </div>
-    <div class="ic" data-r="s" data-d="4">
-      <div class="ic-num">04</div>
-      <div class="ic-title">Accès TB200 · SR20</div>
-      <p class="ic-text">Un <strong>lâcher sur type</strong> avec instructeur qualifié est obligatoire avant le premier vol solo sur TB200 ou SR20.</p>
     </div>
   </div>
 </section>
 
-<!-- ═══════════════ CTA ═══════════════ -->
-<section class="sec-cta">
-  <div class="cta-inner">
-    <div>
-      <h2 class="cta-h">Prêt à<br><span class="ghost">décoller ?</span></h2>
-      <p class="cta-sub">Rejoignez l'APAM et accédez à notre flotte. Formation, découverte ou vol loisir — nous avons l'avion qu'il vous faut.</p>
+<!-- Ticker removed -->
+
+<!-- ══ FLEET ══ -->
+<section class="sec sec-fleet sp" id="flotte">
+  <div class="wrap">
+    <div class="fleet-head">
+      <div>
+        <p class="kicker" data-r>Choisir un avion</p>
+        <h2 class="h2" data-r data-d="1">Cliquez pour<br>découvrir.</h2>
+      </div>
+      <p class="body-text" data-r data-d="2">Sélectionnez un appareil pour voir ses caractéristiques, ses qualifications requises et les conditions d'accès.</p>
     </div>
-    <div class="cta-btns">
-      <a class="btn btn-f" href="devenir-pilote.html">Devenir membre</a>
-      <a class="btn btn-g" href="contact.html">Nous contacter</a>
-      <span class="cta-note">aeroclubapam@gmail.com</span>
+
+    <!-- Tabs -->
+    <div class="fleet-tabs" id="fleet-tabs" data-r>
+      <button type="button" class="fleet-tab on" data-plane="0">
+        <span class="fleet-tab-num">01</span>
+        <span class="fleet-tab-info"><span class="fleet-tab-name">Cessna 152</span><span class="fleet-tab-sub">École · Initiation</span></span>
+        <span class="fleet-tab-arr">›</span>
+      </button>
+      <button type="button" class="fleet-tab" data-plane="1">
+        <span class="fleet-tab-num">02</span>
+        <span class="fleet-tab-info"><span class="fleet-tab-name">TB200 Goldstar</span><span class="fleet-tab-sub">Voyage · 4 places</span></span>
+        <span class="fleet-tab-arr">›</span>
+      </button>
+      <button type="button" class="fleet-tab" data-plane="2">
+        <span class="fleet-tab-num">03</span>
+        <span class="fleet-tab-info"><span class="fleet-tab-name">Cirrus SR20</span><span class="fleet-tab-sub">Premium · CAPS</span></span>
+        <span class="fleet-tab-arr">›</span>
+      </button>
+    </div>
+
+    <!-- Stage -->
+    <div class="fleet-stage" data-r="s" data-d="1">
+      <div class="fleet-stage-grid-bg"></div>
+
+      <!-- Detail (left) -->
+      <div class="fleet-detail">
+
+        <!-- CESSNA 152 -->
+        <div class="fleet-detail-scene on" data-scene="0">
+          <div class="fd-top">
+            <span class="fd-lbl">— Appareil 01 / 03</span>
+            <span class="fd-tag">Formation · Initiation</span>
+            <h3 class="fd-name">Cessna 152</h3>
+            <p class="fd-imm">F-GHKE · Bi-place école</p>
+          </div>
+          <p class="fd-desc">Le point de départ de tout pilote. Fiable, docile, économique. Idéal pour les premiers vols, le tour de piste et la construction des heures de brevet PPL ou LAPL.</p>
+          <div class="fd-specs">
+            <div class="fd-spec"><span class="v">110<em>ch</em></span><span class="l">Moteur</span></div>
+            <div class="fd-spec"><span class="v">95<em>kt</em></span><span class="l">Croisière</span></div>
+            <div class="fd-spec"><span class="v">3.5<em>h</em></span><span class="l">Autonomie</span></div>
+            <div class="fd-spec"><span class="v">2</span><span class="l">Places</span></div>
+          </div>
+          <div class="fd-tarif">
+            <div class="fd-tarif-hd">
+              <span class="l">— Tarif horaire</span>
+              <a class="fd-tarif-cta" href="contact.html">Réserver <span>→</span></a>
+            </div>
+            <div class="fd-tarif-rates">
+              <div class="fd-tarif-rate"><span class="rl">Non breveté</span><span class="rv">130<em>€ / h</em></span></div>
+              <div class="fd-tarif-rate hi"><span class="rl">Breveté</span><span class="rv">150<em>€ / h</em></span></div>
+            </div>
+            <div class="fd-tarif-foot">
+              <p>Cotisation annuelle club requise. Réservation via OpenFlyer.</p>
+            </div>
+          </div>
+          <div class="fd-features">
+            <span class="fd-feat">Formation PPL</span>
+            <span class="fd-feat">Formation LAPL</span>
+            <span class="fd-feat">Vol découverte</span>
+            <span class="fd-feat">Tour de piste</span>
+            <span class="fd-feat">Train fixe</span>
+          </div>
+        </div>
+
+        <!-- TB200 -->
+        <div class="fleet-detail-scene" data-scene="1">
+          <div class="fd-top">
+            <span class="fd-lbl">— Appareil 02 / 03</span>
+            <span class="fd-tag">Voyage · Perfectionnement</span>
+            <h3 class="fd-name">TB200 Goldstar</h3>
+            <p class="fd-imm">Socata · 4 places</p>
+          </div>
+          <p class="fd-desc">Avion de voyage made in France. 200 ch, hélice à pas variable, train fixe. Avionique modernisée avec GTN Garmin et pilote automatique. Le TB200 ouvre les portes de la navigation longue distance et des voyages à quatre.</p>
+          <div class="fd-specs">
+            <div class="fd-spec"><span class="v">200<em>ch</em></span><span class="l">Moteur</span></div>
+            <div class="fd-spec"><span class="v">120<em>kt</em></span><span class="l">Croisière</span></div>
+            <div class="fd-spec"><span class="v">5<em>h</em></span><span class="l">Autonomie</span></div>
+            <div class="fd-spec"><span class="v">4</span><span class="l">Places</span></div>
+          </div>
+          <div class="fd-tarif">
+            <div class="fd-tarif-hd">
+              <span class="l">— Tarif horaire</span>
+              <a class="fd-tarif-cta" href="contact.html">Réserver <span>→</span></a>
+            </div>
+            <div class="fd-tarif-rates">
+              <div class="fd-tarif-rate"><span class="rl">Non breveté</span><span class="rv">195<em>€ / h</em></span></div>
+              <div class="fd-tarif-rate hi"><span class="rl">Breveté</span><span class="rv">215<em>€ / h</em></span></div>
+            </div>
+            <div class="fd-tarif-foot">
+              <p>Lâcher sur type avec instructeur qualifié obligatoire avant le solo.</p>
+            </div>
+          </div>
+          <div class="fd-features">
+            <span class="fd-feat">4 places</span>
+            <span class="fd-feat">Hélice pas variable</span>
+            <span class="fd-feat">GTN Garmin</span>
+            <span class="fd-feat">Pilote automatique</span>
+            <span class="fd-feat">Train fixe</span>
+            <span class="fd-feat">Voyage longue distance</span>
+            <span class="fd-feat">Made in France</span>
+          </div>
+        </div>
+
+        <!-- CIRRUS SR20 -->
+        <div class="fleet-detail-scene" data-scene="2">
+          <div class="fd-top">
+            <span class="fd-lbl">— Appareil 03 / 03</span>
+            <span class="fd-tag">Haute performance · Premium</span>
+            <h3 class="fd-name">Cirrus SR20</h3>
+            <p class="fd-imm">Cirrus Perspective · CAPS</p>
+          </div>
+          <p class="fd-desc">Le summum technologique de la flotte. Deux grands écrans Cirrus Perspective au tableau de bord, pilote automatique intégré, et le système CAPS — un parachute balistique qui redéfinit la sécurité active en aviation légère.</p>
+          <div class="fd-specs">
+            <div class="fd-spec"><span class="v">200<em>ch</em></span><span class="l">Moteur</span></div>
+            <div class="fd-spec"><span class="v">140<em>kt</em></span><span class="l">Croisière</span></div>
+            <div class="fd-spec"><span class="v">5<em>h</em></span><span class="l">Autonomie</span></div>
+            <div class="fd-spec"><span class="v">4</span><span class="l">Places</span></div>
+          </div>
+          <div class="fd-tarif">
+            <div class="fd-tarif-hd">
+              <span class="l">— Tarif horaire</span>
+              <a class="fd-tarif-cta" href="contact.html">Réserver <span>→</span></a>
+            </div>
+            <div class="fd-tarif-rates">
+              <div class="fd-tarif-rate"><span class="rl">Non breveté</span><span class="rv">310<em>€ / h</em></span></div>
+              <div class="fd-tarif-rate hi"><span class="rl">Breveté</span><span class="rv">330<em>€ / h</em></span></div>
+            </div>
+            <div class="fd-tarif-foot">
+              <p>Formation initiale et qualification Cirrus obligatoires avant solo.</p>
+            </div>
+          </div>
+          <div class="fd-features">
+            <span class="fd-feat">CAPS · Parachute</span>
+            <span class="fd-feat">Cirrus Perspective</span>
+            <span class="fd-feat">Deux écrans</span>
+            <span class="fd-feat">Pilote automatique</span>
+            <span class="fd-feat">TAWS</span>
+            <span class="fd-feat">Train fixe</span>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Visual (right) -->
+      <div class="fleet-visual">
+        <span class="fleet-vis-corner tr"><span class="dot"></span>En vol</span>
+
+        <div class="fleet-vis-scene on" data-scene="0">
+          <div class="fleet-vis-glow"></div>
+          <img class="fleet-vis-plane" src="assets/images/FGHKE2.png" alt="Cessna 152">
+          <span class="fleet-vis-bigname">152</span>
+        </div>
+        <div class="fleet-vis-scene" data-scene="1">
+          <div class="fleet-vis-glow"></div>
+          <img class="fleet-vis-plane" src="assets/images/TB200M.png" alt="TB200 Goldstar">
+          <span class="fleet-vis-bigname">TB200</span>
+        </div>
+        <div class="fleet-vis-scene" data-scene="2">
+          <div class="fleet-vis-glow"></div>
+          <img class="fleet-vis-plane" src="assets/images/SR1.png" alt="Cirrus SR20">
+          <span class="fleet-vis-bigname">SR20</span>
+        </div>
+
+        <span class="fleet-vis-corner br" id="vis-imm">F-GHKE</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ COMPARE ══ -->
+<section class="sec sec-cmp sp" id="comparaison">
+  <div class="wrap">
+    <div class="cmp-head">
+      <div>
+        <p class="kicker" data-r>Comparer</p>
+        <h2 class="h2" data-r data-d="1">Vue d'ensemble.</h2>
+      </div>
+      <p class="body-text" data-r data-d="2">Les chiffres-clés et qualifications des trois appareils, en un coup d'œil.</p>
+    </div>
+
+    <div class="cmp-grid" data-r data-d="3">
+      <!-- header row -->
+      <div class="cmp-cell head">Caractéristique</div>
+      <div class="cmp-cell head plane">Cessna 152<span class="imm">F-GHKE · École</span></div>
+      <div class="cmp-cell head plane">TB200 Goldstar<span class="imm">Voyage</span></div>
+      <div class="cmp-cell head plane">Cirrus SR20<span class="imm">Premium</span></div>
+
+      <div class="cmp-cell lbl">Motorisation</div>
+      <div class="cmp-cell val">110<span class="u">ch</span></div>
+      <div class="cmp-cell val">200<span class="u">ch</span></div>
+      <div class="cmp-cell val">200<span class="u">ch</span></div>
+
+      <div class="cmp-cell lbl">Vitesse de croisière</div>
+      <div class="cmp-cell val">95<span class="u">kt</span></div>
+      <div class="cmp-cell val">120<span class="u">kt</span></div>
+      <div class="cmp-cell val">140<span class="u">kt</span></div>
+
+      <div class="cmp-cell lbl">Autonomie</div>
+      <div class="cmp-cell val">~ 3h30</div>
+      <div class="cmp-cell val">~ 5<span class="u">h</span></div>
+      <div class="cmp-cell val">~ 5<span class="u">h</span></div>
+
+      <div class="cmp-cell lbl">Places</div>
+      <div class="cmp-cell val">2</div>
+      <div class="cmp-cell val">4</div>
+      <div class="cmp-cell val">4</div>
+
+      <div class="cmp-cell lbl">Train</div>
+      <div class="cmp-cell val"><span class="word">Fixe</span></div>
+      <div class="cmp-cell val"><span class="word">Fixe</span></div>
+      <div class="cmp-cell val"><span class="word">Fixe</span></div>
+
+      <div class="cmp-cell lbl">Avionique</div>
+      <div class="cmp-cell val"><span class="word">Analogique</span></div>
+      <div class="cmp-cell val"><span class="word">GTN Garmin</span></div>
+      <div class="cmp-cell val"><span class="word">Cirrus Perspective · 2 écrans</span></div>
+
+      <div class="cmp-cell lbl">Tarif breveté</div>
+      <div class="cmp-cell val">150<span class="u">€ / h</span></div>
+      <div class="cmp-cell val">215<span class="u">€ / h</span></div>
+      <div class="cmp-cell val">330<span class="u">€ / h</span></div>
+
+      <div class="cmp-cell lbl">Tarif non breveté</div>
+      <div class="cmp-cell val">130<span class="u">€ / h</span></div>
+      <div class="cmp-cell val">195<span class="u">€ / h</span></div>
+      <div class="cmp-cell val">310<span class="u">€ / h</span></div>
+
+      <div class="cmp-cell lbl">Pilote automatique</div>
+      <div class="cmp-cell val"><span class="no">—</span></div>
+      <div class="cmp-cell val"><span class="yes">✓</span></div>
+      <div class="cmp-cell val"><span class="yes">✓</span></div>
+
+      <div class="cmp-cell lbl">Parachute CAPS</div>
+      <div class="cmp-cell val"><span class="no">—</span></div>
+      <div class="cmp-cell val"><span class="no">—</span></div>
+      <div class="cmp-cell val"><span class="yes">✓</span></div>
+
+      <div class="cmp-cell lbl">Idéal pour</div>
+      <div class="cmp-cell val"><span class="word">Débuter · Brevet</span></div>
+      <div class="cmp-cell val"><span class="word">Voyage · Famille</span></div>
+      <div class="cmp-cell val"><span class="word">Performance · Sécurité</span></div>
+    </div>
+    <p class="cmp-scroll-hint">← Glissez horizontalement pour comparer →</p>
+  </div>
+</section>
+
+<!-- ══ INFOS PRATIQUES ══ -->
+<section class="sec sec-infos sp">
+  <div class="wrap">
+    <div class="infos-head">
+      <p class="kicker" data-r>Bon à savoir</p>
+      <h2 class="h2" data-r data-d="1">Infos pratiques.</h2>
+    </div>
+    <div class="infos-grid">
+      <div class="ic" data-r data-d="1">
+        <div class="ic-num">01</div>
+        <h4 class="ic-title">Réservation</h4>
+        <p class="ic-text"><strong>OpenFlyer</strong> 24h/24. Compte membre requis. Planning en temps réel sur toute la flotte.</p>
+      </div>
+      <div class="ic" data-r data-d="2">
+        <div class="ic-num">02</div>
+        <h4 class="ic-title">Tarifs</h4>
+        <p class="ic-text"><strong>Révisés annuellement.</strong> Contactez le club pour la grille tarifaire complète de la saison en cours.</p>
+      </div>
+      <div class="ic" data-r data-d="3">
+        <div class="ic-num">03</div>
+        <h4 class="ic-title">Vol découverte</h4>
+        <p class="ic-text"><strong>~ 30 minutes sur Cessna 152.</strong> Idéal en cadeau ou pour se faire une idée avant d'adhérer.</p>
+      </div>
+      <div class="ic" data-r data-d="4">
+        <div class="ic-num">04</div>
+        <h4 class="ic-title">Lâcher sur type</h4>
+        <p class="ic-text"><strong>Obligatoire</strong> pour le TB200 et le Cirrus SR20. Formation avec instructeur qualifié sur l'appareil.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ CTA ══ -->
+<section class="sec sec-cta sp">
+  <div class="wrap">
+    <div class="cta-inner">
+      <p class="kicker" data-r style="justify-content:center">Rejoindre l'APAM</p>
+      <h2 class="cta-h" data-r data-d="1">Prêt à<br><span class="ol">décoller ?</span></h2>
+      <p class="cta-sub" data-r data-d="2">Membre, élève pilote ou simple curieux — il y a une porte d'entrée pour chacun. On vous accompagne.</p>
+      <div class="cta-btns" data-r data-d="3">
+        <a class="btn btn--fill" href="devenir-pilote.html">Devenir pilote →</a>
+        <a class="btn btn--ghost" href="contact.html">Nous contacter</a>
+      </div>
     </div>
   </div>
 </section>
@@ -847,122 +718,82 @@ body:has(a:hover) .cur-r,body:has(button:hover) .cur-r{width:44px;height:44px;bo
 <footer class="footer">
   <div class="footer-in">
     <div class="footer-links">
-      <a href="mailto:aeroclubapam@gmail.com">aeroclubapam@gmail.com</a>
-      <span>·</span>
+      <a href="/cdn-cgi/l/email-protection#d3b2b6a1bcb0bfa6b1b2a3b2be93b4beb2babffdb0bcbe"><span class="__cf_email__" data-cfemail="f59490879a9699809794859498b59298949c99db969a98">[email&#160;protected]</span></a><span class="sep">·</span>
       <a href="https://www.facebook.com/profile.php?id=61585663567523" target="_blank">Facebook</a>
-      <a href="https://www.instagram.com/apam_lfol" target="_blank">Instagram</a>
-      <span>·</span>
+      <a href="https://www.instagram.com/apam_lfol" target="_blank">Instagram</a><span class="sep">·</span>
       <a href="mentions-legales.html">Mentions légales</a>
       <a href="confidentialite.html">Confidentialité</a>
       <a href="cgu.html">CGU</a>
     </div>
-    <div class="footer-cr">Site conçu par Pierre Cauvin.</div>
+    <span class="footer-cr">© 2026 APAM · Site conçu par Pierre Cauvin</span>
   </div>
 </footer>
 
-<script>
-(function(){
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 'use strict';
 
-/* Progress bar */
-const pgb = document.getElementById('pgb');
-window.addEventListener('scroll', () => {
-  const h = document.documentElement;
-  pgb.style.width = (h.scrollTop / (h.scrollHeight - h.clientHeight) * 100) + '%';
-}, { passive: true });
-
 /* Cursor */
-const dot = document.getElementById('cur-d'), ring = document.getElementById('cur-r');
-if (window.matchMedia('(hover:hover)').matches) {
-  let mx = -200, my = -200, rx = -200, ry = -200;
-  window.addEventListener('mousemove', e => {
-    mx = e.clientX; my = e.clientY;
-    dot.style.cssText = `left:${mx}px;top:${my}px`;
-  }, { passive: true });
-  (function loop() {
-    rx += (mx - rx) * .085; ry += (my - ry) * .085;
-    ring.style.cssText = `left:${rx}px;top:${ry}px`;
-    requestAnimationFrame(loop);
-  })();
+const dotEl=document.getElementById('cur-dot'),ringEl=document.getElementById('cur-ring');
+if(window.matchMedia('(hover:hover)').matches){
+  let mx=-200,my=-200,rx=-200,ry=-200;
+  addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;dotEl.style.cssText=`left:${mx}px;top:${my}px`;},{passive:true});
+  (function loop(){rx+=(mx-rx)*.085;ry+=(my-ry)*.085;ringEl.style.cssText=`left:${rx}px;top:${ry}px`;requestAnimationFrame(loop);})();
 }
+
+/* Progress bar */
+const pgBar=document.getElementById('pg-bar');
+addEventListener('scroll',()=>{const h=document.documentElement;pgBar.style.width=(h.scrollTop/(h.scrollHeight-h.clientHeight)*100)+'%';},{passive:true});
 
 /* Nav */
-const nav = document.getElementById('nav');
-window.addEventListener('scroll', () => nav.classList.toggle('s', scrollY > 50), { passive: true });
+const nav=document.getElementById('nav');
+addEventListener('scroll',()=>nav.classList.toggle('s',scrollY>60),{passive:true});
 
 /* Drawer */
-const drawer = document.getElementById('drawer'),
-  burger = document.getElementById('burger'),
-  dClose = document.getElementById('d-close');
-burger.addEventListener('click', () => { drawer.classList.add('open'); document.body.style.overflow = 'hidden'; });
-dClose.addEventListener('click', () => { drawer.classList.remove('open'); document.body.style.overflow = ''; });
-drawer.querySelectorAll('a').forEach(a => a.addEventListener('click', () => { drawer.classList.remove('open'); document.body.style.overflow = ''; }));
-document.addEventListener('keydown', e => { if (e.key === 'Escape') { drawer.classList.remove('open'); document.body.style.overflow = ''; } });
+const drawer=document.getElementById('drawer'),burger=document.getElementById('burger'),mClose=document.getElementById('m-close');
+burger.addEventListener('click',()=>{drawer.classList.add('open');drawer.setAttribute('aria-hidden','false');document.body.style.overflow='hidden'});
+mClose.addEventListener('click',()=>{drawer.classList.remove('open');drawer.setAttribute('aria-hidden','true');document.body.style.overflow=''});
+drawer.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{drawer.classList.remove('open');document.body.style.overflow=''}));
 
-/* Hero — swap plane on scroll past fleet cards */
-const heroImg = document.getElementById('hero-plane-img');
-const planes = ['assets/images/FGHKE2.png','assets/images/TB200M.png','assets/images/SR1.png'];
-const ids = ['pc-152','pc-tb200','pc-sr20'];
-function updateHeroPlane() {
-  let active = 0;
-  ids.forEach((id, i) => {
-    const el = document.getElementById(id);
-    if (el) {
-      const rect = el.getBoundingClientRect();
-      if (rect.top < window.innerHeight * 0.55) active = i;
-    }
-  });
-  if (heroImg && heroImg.src !== window.location.origin + '/' + planes[active]) {
-    heroImg.style.opacity = '0';
-    heroImg.style.transition = 'opacity .3s';
-    setTimeout(() => {
-      heroImg.src = planes[active];
-      heroImg.style.opacity = '1';
-    }, 280);
+/* Reveals */
+const ro=new IntersectionObserver(e=>{e.forEach(e=>{if(e.isIntersecting){e.target.classList.add('on');ro.unobserve(e.target)}});},{threshold:.08,rootMargin:'0px 0px -40px 0px'});
+document.querySelectorAll('[data-r]').forEach(el=>ro.observe(el));
+
+/* Ticker */
+/* removed */
+
+/* Fleet tabs */
+const tabs=document.querySelectorAll('.fleet-tab');
+const detailScenes=document.querySelectorAll('.fleet-detail-scene');
+const visScenes=document.querySelectorAll('.fleet-vis-scene');
+const immEl=document.getElementById('vis-imm');
+const IMMATS=['F-GHKE','TB200 Socata','Cirrus SR20'];
+const HASHES=['plane-152','plane-tb200','plane-sr20'];
+
+function setPlane(idx,scrollTo=false){
+  tabs.forEach((t,i)=>t.classList.toggle('on',i===idx));
+  detailScenes.forEach((s,i)=>s.classList.toggle('on',i===idx));
+  visScenes.forEach((s,i)=>s.classList.toggle('on',i===idx));
+  if(immEl)immEl.textContent=IMMATS[idx];
+  history.replaceState(null,'','#'+HASHES[idx]);
+  if(scrollTo){
+    const sec=document.getElementById('flotte');
+    if(sec)window.scrollTo({top:sec.offsetTop-90,behavior:'smooth'});
   }
 }
-window.addEventListener('scroll', updateHeroPlane, { passive: true });
+tabs.forEach((t,i)=>t.addEventListener('click',()=>setPlane(i)));
 
-/* Tarif panels */
-function togglePanel(id) {
-  const panel = document.getElementById('tp-' + id);
-  if (!panel) return;
-  const isOpen = panel.classList.contains('open');
-  // close all
-  document.querySelectorAll('.pc-tarif-panel').forEach(p => p.classList.remove('open'));
-  document.querySelectorAll('.pc').forEach(c => c.style.background = '');
-  if (!isOpen) {
-    panel.classList.add('open');
-    panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-  }
-}
-window.closePanel = function(id) {
-  const panel = document.getElementById('tp-' + id);
-  if (panel) panel.classList.remove('open');
-};
-
-document.querySelectorAll('.pc').forEach(card => {
-  card.addEventListener('click', e => {
-    if (e.target.closest('.tp-close')) return;
-    const id = card.dataset.plane;
-    togglePanel(id);
+/* Dropdown nav clicks */
+document.querySelectorAll('[data-plane-jump]').forEach(a=>{
+  a.addEventListener('click',e=>{
+    e.preventDefault();
+    const idx=parseInt(a.dataset.planeJump,10);
+    if(!isNaN(idx))setPlane(idx,true);
   });
 });
 
-/* Scroll reveals */
-const ro = new IntersectionObserver(entries => {
-  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('on'); ro.unobserve(e.target); } });
-}, { threshold: .06, rootMargin: '0px 0px -40px 0px' });
-document.querySelectorAll('[data-r]').forEach(el => ro.observe(el));
-
-/* Parallax on hero plane — subtle */
-const hw = document.getElementById('hero-plane-wrap');
-window.addEventListener('scroll', () => {
-  if (!hw || scrollY > window.innerHeight) return;
-  hw.style.transform = `translateY(calc(-54% + ${scrollY * 0.12}px))`;
-}, { passive: true });
-
-})();
+/* Init from hash */
+const initIdx=HASHES.indexOf(location.hash.slice(1));
+if(initIdx>=0)setPlane(initIdx,true);
 </script>
 </body>
 </html>
