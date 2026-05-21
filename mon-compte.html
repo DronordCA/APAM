@@ -105,6 +105,17 @@ a{color:inherit;text-decoration:none}
   .mn-poll-btns{flex-direction:column}
   .mn-poll-btn{width:100%;text-align:center}
 }
+
+/* OUTILS */
+.tools-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.tool-card{display:flex;align-items:center;gap:12px;padding:14px 16px;background:rgba(37,99,235,.06);border:1px solid rgba(37,99,235,.2);border-radius:9px;text-decoration:none;color:inherit;transition:border-color .2s,background .2s}
+.tool-card:hover{border-color:rgba(37,99,235,.5);background:rgba(37,99,235,.12)}
+.tool-card-icon{font-size:22px;flex-shrink:0}
+.tool-card-tx h4{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:16px;text-transform:uppercase;color:#fff;letter-spacing:-.005em}
+.tool-card-tx p{font-size:11px;color:var(--muted);margin-top:2px}
+.tool-card.admin{background:rgba(129,140,248,.06);border-color:rgba(129,140,248,.2)}
+.tool-card.admin:hover{border-color:rgba(129,140,248,.5);background:rgba(129,140,248,.12)}
+
 </style>
 </head>
 <body>
@@ -138,6 +149,17 @@ a{color:inherit;text-decoration:none}
 <main class="main">
   <div class="wrap">
     <div class="sections">
+
+
+      <!-- ══ MES OUTILS ══ -->
+      <div class="panel" id="tools-panel" style="display:none">
+        <div class="panel-hd">
+          <h2>🛠 Mes outils</h2>
+        </div>
+        <div style="padding:16px">
+          <div class="tools-grid" id="tools-grid"></div>
+        </div>
+      </div>
 
       <div class="panel">
         <div class="panel-hd">
@@ -179,6 +201,8 @@ const API    = 'https://script.google.com/macros/s/AKfycbxae9y3NHqDyAkbEI5rDVRap
 const role   = localStorage.getItem('apam_role');
 const prenom = localStorage.getItem('apam_prenom') || '';
 const nom    = localStorage.getItem('apam_nom')    || '';
+const pin    = localStorage.getItem('apam_pin')    || '';
+const perms  = JSON.parse(localStorage.getItem('apam_perms') || '{}');
 
 if(!role) window.location.href = 'connexion-membres-password.html';
 
@@ -186,9 +210,27 @@ document.getElementById('u-prenom').textContent = prenom || 'Membre';
 if(prenom && nom) document.getElementById('u-sub').textContent = nom.toUpperCase() + ' · Membre APAM 2026';
 
 document.getElementById('btn-logout').addEventListener('click', () => {
-  ['apam_role','apam_prenom','apam_nom','apam_pin'].forEach(k => localStorage.removeItem(k));
+  ['apam_role','apam_prenom','apam_nom','apam_pin','apam_perms'].forEach(k => localStorage.removeItem(k));
   window.location.href = 'connexion-membres-password.html';
 });
+
+// Afficher outils selon permissions
+(function setupTools(){
+  const hasTools = perms.admin || perms.news_pub || perms.news_membres || perms.photos;
+  if(!hasTools) return;
+  document.getElementById('tools-panel').style.display = 'block';
+  const grid = document.getElementById('tools-grid');
+  const tools = [];
+  if(perms.news_pub || perms.news_membres || perms.photos)
+    tools.push({icon:'✏️',title:'Publication',sub:'Publier news & photos',href:'presidence.html',cls:''});
+  if(perms.admin)
+    tools.push({icon:'👥',title:'Gestion membres',sub:'Permissions & accès',href:'admin.html',cls:'admin'});
+  grid.innerHTML = tools.map(t=>`
+    <a class="tool-card ${t.cls}" href="${t.href}">
+      <div class="tool-card-icon">${t.icon}</div>
+      <div class="tool-card-tx"><h4>${t.title}</h4><p>${t.sub}</p></div>
+    </a>`).join('');
+})();
 
 function esc(s){ return String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
 function fmtFR(iso){ if(!iso)return''; const[y,m,d]=iso.split('-'); const mo=['jan.','fév.','mars','avr.','mai','juin','juil.','août','sep.','oct.','nov.','déc.']; return `${+d} ${mo[+m-1]} ${y}`; }
