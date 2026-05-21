@@ -569,27 +569,63 @@ function renderNews(news){
   }).join('');
 }
 
-/* ── Load news ── */
+/* ── Cache news (stale-while-revalidate) ── */
+const NEWS_CACHE_KEY  = 'apam_news_cache';
+const REACT_CACHE_KEY = 'apam_react_cache';
+
+function loadNewsCache(){ try{ return JSON.parse(localStorage.getItem(NEWS_CACHE_KEY)||'null'); }catch{ return null; } }
+function saveNewsCache(news){ try{ localStorage.setItem(NEWS_CACHE_KEY, JSON.stringify(news)); }catch{} }
+function loadReactCache(){ try{ return JSON.parse(localStorage.getItem(REACT_CACHE_KEY)||'{}'); }catch{ return {}; } }
+function saveReactCache(){ try{ localStorage.setItem(REACT_CACHE_KEY, JSON.stringify(reactState)); }catch{} }
+
+function applyNews(news){
+  ['d-badge','m-badge'].forEach(id=>{ const e=document.getElementById(id); if(e&&news.length){e.textContent=news.length;e.style.display='inline-flex';}else if(e){e.style.display='none';} });
+  const html=renderNews(news);
+  ['d-feed','m-feed'].forEach(id=>{ const e=document.getElementById(id); if(e) e.innerHTML=html; });
+}
+
+async function fetchNewsAndReactions(news){
+  await Promise.all(news.map(async n=>{
+    if(n.sondage&&n.sondage!=='aucun'){
+      try{
+        const r=await fetch(`${API}?action=reactions&newsId=${encodeURIComponent(n.id)}`).then(r=>r.json());
+        const reactions=r.reactions||[];
+        const myVote=reactions.find(r=>r.prenom===prenom&&r.nom===nom)?.reponse||null;
+        reactState[n.id]={oui:reactions.filter(r=>r.reponse==='Oui'),non:reactions.filter(r=>r.reponse==='Non'),myVote};
+      }catch{ if(!reactState[n.id]) reactState[n.id]={oui:[],non:[],myVote:null}; }
+    }
+  }));
+}
+
 async function chargerNews(){
+  // 1. Afficher le cache instantanément si disponible
+  const cached = loadNewsCache();
+  const cachedReact = loadReactCache();
+  if(cached && cached.length){
+    Object.assign(reactState, cachedReact);
+    applyNews(cached);
+    // Skeletons remplacés → on rafraîchit en arrière-plan silencieusement
+  }
+
+  // 2. Charger les données fraîches
   try{
     const data=await fetch(`${API}?action=newsMembres`).then(r=>r.json());
     const news=data.news||[];
-    ['d-badge','m-badge'].forEach(id=>{ const e=document.getElementById(id); if(e&&news.length){e.textContent=news.length;e.style.display='inline-flex';} });
-    await Promise.all(news.map(async n=>{
-      if(n.sondage&&n.sondage!=='aucun'){
-        try{
-          const r=await fetch(`${API}?action=reactions&newsId=${encodeURIComponent(n.id)}`).then(r=>r.json());
-          const reactions=r.reactions||[];
-          const myVote=reactions.find(r=>r.prenom===prenom&&r.nom===nom)?.reponse||null;
-          reactState[n.id]={oui:reactions.filter(r=>r.reponse==='Oui'),non:reactions.filter(r=>r.reponse==='Non'),myVote};
-        }catch{reactState[n.id]={oui:[],non:[],myVote:null};}
-      }
-    }));
-    const html=renderNews(news);
-    ['d-feed','m-feed'].forEach(id=>{ const e=document.getElementById(id); if(e) e.innerHTML=html; });
+    saveNewsCache(news);
+
+    // Charger les réactions fraîches
+    await fetchNewsAndReactions(news);
+    saveReactCache();
+
+    // Mettre à jour l'UI (silencieux si déjà affiché depuis cache)
+    applyNews(news);
+
   }catch{
-    const html=`<div class="mn-empty"><div class="mn-empty-icon">📡</div><p class="mn-empty-title">Hors ligne</p><p class="mn-empty-sub">Vérifiez votre connexion et réessayez.</p></div>`;
-    ['d-feed','m-feed'].forEach(id=>{ const e=document.getElementById(id); if(e) e.innerHTML=html; });
+    // Réseau indisponible : si cache affiché, ne rien faire
+    if(!cached){
+      const html=`<div class="mn-empty"><div class="mn-empty-icon">📡</div><p class="mn-empty-title">Hors ligne</p><p class="mn-empty-sub">Vérifiez votre connexion et réessayez.</p></div>`;
+      ['d-feed','m-feed'].forEach(id=>{ const e=document.getElementById(id); if(e) e.innerHTML=html; });
+    }
   }
 }
 chargerNews();
@@ -627,7 +663,7 @@ async function triggerInstall(){
 }
 document.getElementById('btn-install-desk')?.addEventListener('click',triggerInstall);
 document.getElementById('btn-install-widget')?.addEventListener('click',triggerInstall);
-window.addEventListener('appinstalled',()=>{ toast('✓ App APAM installée !','ok',3000); document.getElementById('install-widget')?.style.setProperty('display','none'); }); document.getElementById('install-widget')?.style.setProperty('display','none'); });
+window.addEventListener('appinstalled',()=>{ toast('✓ App APAM installée !','ok',3000); document.getElementById('install-widget')?.style.setProperty('display','none'); });
 </script>
 </body>
 </html>
