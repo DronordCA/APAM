@@ -38,8 +38,6 @@ a{color:inherit;text-decoration:none}
 .dh-name{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:clamp(40px,5vw,64px);line-height:.9;text-transform:uppercase;letter-spacing:-.015em}
 .dh-name em{color:var(--warn);font-style:inherit}
 .dh-sub{font-size:13px;color:var(--muted);margin-top:8px}
-.dh-count{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:48px;color:var(--warn);letter-spacing:-.02em;line-height:1}
-.dh-count span{font-size:13px;font-family:'Jost',sans-serif;font-weight:500;font-style:normal;color:var(--muted);letter-spacing:0;margin-left:4px}
 
 .wrap{max-width:960px;margin:0 auto;padding:0 var(--side)}
 .main{flex:1;padding:28px 0 64px}
@@ -54,31 +52,54 @@ a{color:inherit;text-decoration:none}
 .search-bar input:focus{border-color:var(--warn)}
 .search-bar input::placeholder{color:rgba(255,255,255,.25)}
 
-/* Table membres */
-.members-table{width:100%}
-.mt-hd{display:grid;grid-template-columns:1fr auto auto auto auto auto;gap:0;padding:9px 18px;border-bottom:1px solid var(--border);background:rgba(255,255,255,.02)}
-.mt-hd span{font-size:8.5px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.3)}
-.mt-hd .perm-hd{text-align:center}
-.member-row{display:grid;grid-template-columns:1fr auto auto auto auto auto;gap:0;padding:12px 18px;border-bottom:1px solid var(--border);align-items:center;transition:background .2s}
-.member-row:last-child{border-bottom:none}
-.member-row:hover{background:rgba(255,255,255,.02)}
-.member-info h4{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:15px;text-transform:uppercase;letter-spacing:.02em;color:#fff;line-height:1}
-.member-info p{font-size:10.5px;color:var(--muted);margin-top:2px}
-.perm-cell{display:flex;align-items:center;justify-content:center;padding:0 10px}
-.perm-toggle{width:36px;height:20px;border-radius:100px;background:rgba(255,255,255,.08);border:1.5px solid rgba(255,255,255,.12);cursor:pointer;position:relative;transition:background .22s,border-color .22s;flex-shrink:0}
-.perm-toggle::after{content:'';position:absolute;top:2px;left:2px;width:12px;height:12px;border-radius:50%;background:rgba(255,255,255,.35);transition:transform .22s,background .22s}
-.perm-toggle.on{background:rgba(37,99,235,.35);border-color:var(--accent)}
-.perm-toggle.on-mn{background:rgba(129,140,248,.35);border-color:var(--acc2)}
-.perm-toggle.on-ph{background:rgba(34,215,122,.35);border-color:var(--ok)}
-.perm-toggle.on-adm{background:rgba(245,165,36,.35);border-color:var(--warn)}
-.perm-toggle.on::after,.perm-toggle.on-mn::after,.perm-toggle.on-ph::after,.perm-toggle.on-adm::after{transform:translateX(16px);background:#fff}
-.perm-toggle:disabled{opacity:.35;cursor:not-allowed}
-.save-row{display:flex;align-items:center;justify-content:flex-end;gap:10px;padding:0 6px}
-.btn-save{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:12px;letter-spacing:.1em;text-transform:uppercase;padding:6px 14px;background:var(--accent);color:#fff;border:none;cursor:pointer;border-radius:6px;transition:opacity .2s}
-.btn-save:hover{opacity:.85}
-.btn-save:disabled{opacity:.35;cursor:not-allowed}
-.save-status{font-size:11px;min-height:14px}
 
+/* Stats */
+.stats-row{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:16px}
+.stat-card{background:var(--sf);border:1px solid var(--border);border-radius:10px;padding:16px;display:flex;flex-direction:column;gap:6px;position:relative;overflow:hidden;transition:border-color .2s}
+.stat-card::before{content:'';position:absolute;bottom:0;left:0;right:0;height:2px}
+.stat-card.total::before{background:rgba(255,255,255,.15)}
+.stat-card.pub::before{background:var(--accent)}
+.stat-card.mn::before{background:var(--acc2)}
+.stat-card.ph::before{background:var(--ok)}
+.stat-card.adm::before{background:var(--warn)}
+.stat-card:hover{border-color:rgba(255,255,255,.12)}
+.stat-icon{font-size:18px;opacity:.7}
+.stat-val{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:38px;line-height:1;letter-spacing:-.02em;color:#fff}
+.stat-lbl{font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);line-height:1.4}
+@media(max-width:700px){.stats-row{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:480px){.stats-row{grid-template-columns:1fr 1fr}}
+
+/* Cartes membres */
+.members-list-wrap{padding:12px;display:flex;flex-direction:column;gap:10px}
+.member-card{background:var(--bg-2);border:1px solid var(--border);border-radius:10px;overflow:hidden;transition:border-color .2s}
+.member-card:hover{border-color:rgba(255,255,255,.12)}
+.member-card-hd{padding:13px 16px;display:flex;align-items:center;justify-content:space-between;gap:12px;border-bottom:1px solid var(--border);background:rgba(255,255,255,.02)}
+.member-card-id h4{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:17px;text-transform:uppercase;color:#fff;letter-spacing:-.005em;line-height:1}
+.member-card-id p{font-size:10px;color:var(--muted);margin-top:2px;letter-spacing:.04em}
+.member-card-actions{display:flex;align-items:center;gap:10px}
+.save-status{font-size:11px;min-height:14px}
+.btn-save{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;padding:6px 14px;background:var(--accent);color:#fff;border:none;cursor:pointer;border-radius:6px;transition:opacity .2s,transform .15s}
+.btn-save:hover{opacity:.85;transform:translateY(-1px)}
+.btn-save:disabled{opacity:.35;cursor:not-allowed;transform:none}
+
+/* Permissions */
+.perms-grid{display:grid;grid-template-columns:1fr 1fr;gap:0}
+.perm-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:11px 16px;border-bottom:1px solid var(--border);border-right:1px solid var(--border)}
+.perm-row:nth-child(2n){border-right:none}
+.perm-row:nth-last-child(-n+2){border-bottom:none}
+.perm-label{display:flex;align-items:center;gap:9px}
+.perm-label-icon{font-size:16px;flex-shrink:0}
+.perm-label-tx h5{font-size:12px;font-weight:600;color:rgba(255,255,255,.82);line-height:1}
+.perm-label-tx p{font-size:10.5px;color:var(--muted);margin-top:2px;line-height:1.4}
+/* Toggle switch */
+.perm-switch{width:42px;height:24px;border-radius:100px;background:rgba(255,255,255,.08);border:1.5px solid rgba(255,255,255,.12);cursor:pointer;position:relative;transition:background .22s,border-color .22s;flex-shrink:0}
+.perm-switch::after{content:'';position:absolute;top:3px;left:3px;width:14px;height:14px;border-radius:50%;background:rgba(255,255,255,.35);transition:transform .22s,background .22s}
+.perm-switch.on-pub{background:rgba(37,99,235,.4);border-color:var(--accent)}
+.perm-switch.on-mn{background:rgba(129,140,248,.4);border-color:var(--acc2)}
+.perm-switch.on-ph{background:rgba(34,215,122,.4);border-color:var(--ok)}
+.perm-switch.on-adm{background:rgba(245,165,36,.4);border-color:var(--warn)}
+.perm-switch.on-pub::after,.perm-switch.on-mn::after,.perm-switch.on-ph::after,.perm-switch.on-adm::after{transform:translateX(18px);background:#fff}
+.perm-switch:disabled{opacity:.35;cursor:not-allowed}
 .loading-state{padding:36px;text-align:center;font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}
 
 .foot{background:var(--bg);border-top:1px solid var(--border);padding:14px var(--side)}
@@ -87,9 +108,11 @@ a{color:inherit;text-decoration:none}
 .foot-links a{font-size:11px;color:var(--muted);transition:color .2s}.foot-links a:hover{color:#fff}
 .foot-cr{font-size:11px;color:var(--dim)}
 
-@media(max-width:680px){
-  .mt-hd,.member-row{grid-template-columns:1fr repeat(4,auto)}
-  .mt-hd .adm-hd,.perm-cell.adm-cell,.save-row{display:none}
+@media(max-width:580px){
+  .perms-grid{grid-template-columns:1fr}
+  .perm-row{border-right:none}
+  .perm-row:nth-last-child(-n+2){border-bottom:1px solid var(--border)}
+  .perm-row:last-child{border-bottom:none}
 }
 </style>
 </head>
@@ -116,15 +139,21 @@ a{color:inherit;text-decoration:none}
         <h1 class="dh-name">Gestion<br><em>membres.</em></h1>
         <p class="dh-sub">Attribuez les permissions de publication à chaque membre.</p>
       </div>
-      <div style="text-align:right">
-        <div class="dh-count" id="member-count">—<span>membres</span></div>
-      </div>
+
     </div>
   </div>
 </section>
 
 <main class="main">
   <div class="wrap">
+    <div class="stats-row" id="stats-row">
+      <div class="stat-card total"><span class="stat-icon">👥</span><span class="stat-val" id="st-total">—</span><span class="stat-lbl">Membres inscrits</span></div>
+      <div class="stat-card pub"><span class="stat-icon">📢</span><span class="stat-val" id="st-pub">—</span><span class="stat-lbl">News publiques</span></div>
+      <div class="stat-card mn"><span class="stat-icon">🔒</span><span class="stat-val" id="st-mn">—</span><span class="stat-lbl">News membres</span></div>
+      <div class="stat-card ph"><span class="stat-icon">🖼</span><span class="stat-val" id="st-ph">—</span><span class="stat-lbl">Photos</span></div>
+      <div class="stat-card adm"><span class="stat-icon">⚙</span><span class="stat-val" id="st-adm">—</span><span class="stat-lbl">Admins</span></div>
+    </div>
+
     <div class="panel">
       <div class="panel-hd">
         <h2>👥 Membres inscrits</h2>
@@ -133,16 +162,8 @@ a{color:inherit;text-decoration:none}
       <div class="search-bar">
         <input type="text" id="search" placeholder="Rechercher un membre…" oninput="filterMembers(this.value)">
       </div>
-      <div class="members-table">
-        <div class="mt-hd">
-          <span>Membre</span>
-          <span class="perm-hd">📢 Pub.</span>
-          <span class="perm-hd">🔒 Membres</span>
-          <span class="perm-hd">🖼 Photos</span>
-          <span class="perm-hd adm-hd">⚙ Admin</span>
-          <span></span>
-        </div>
-        <div id="members-list"><div class="loading-state">Chargement des membres…</div></div>
+      <div class="members-list-wrap" id="members-list">
+        <div class="loading-state">Chargement des membres…</div>
       </div>
     </div>
   </div>
@@ -185,8 +206,7 @@ async function chargerMembres(){
     if(data.error){list.innerHTML=`<div class="loading-state">Erreur : ${data.error}</div>`;return;}
     allMembers = data.membres || [];
     const count = allMembers.length;
-    document.getElementById('member-count').innerHTML = `${count}<span>membre${count>1?'s':''}</span>`;
-    document.getElementById('count-badge').textContent = count;
+  document.getElementById('count-badge').textContent = allMembers.length;
     renderMembers(allMembers);
   }catch{list.innerHTML='<div class="loading-state">Erreur de connexion.</div>';}
 }
@@ -194,38 +214,79 @@ async function chargerMembres(){
 function renderMembers(membres){
   const list = document.getElementById('members-list');
   if(!membres.length){list.innerHTML='<div class="loading-state">Aucun membre trouvé.</div>';return;}
+  const isSelf = mpin => mpin === pin;
+  // Mise à jour des stats
+  const total = allMembers.length;
+  document.getElementById('st-total').textContent = total;
+  document.getElementById('st-pub').textContent  = allMembers.filter(m=>m.news_pub).length;
+  document.getElementById('st-mn').textContent   = allMembers.filter(m=>m.news_membres).length;
+  document.getElementById('st-ph').textContent   = allMembers.filter(m=>m.photos).length;
+  document.getElementById('st-adm').textContent  = allMembers.filter(m=>m.admin).length;
+
   list.innerHTML = membres.map(m => `
-    <div class="member-row" id="row-${esc(m.pin)}">
-      <div class="member-info">
-        <h4>${esc(m.prenom)} ${esc(m.nom)}</h4>
-        <p>Inscrit le ${esc(m.date)}</p>
+    <div class="member-card" id="row-${esc(m.pin)}">
+      <div class="member-card-hd">
+        <div class="member-card-id">
+          <h4>${esc(m.prenom)} ${esc(m.nom)}</h4>
+          <p>Inscrit le ${esc(m.date)}${isSelf(m.pin)?' · Votre compte':''}</p>
+        </div>
+        <div class="member-card-actions">
+          <span class="save-status" id="s-${esc(m.pin)}"></span>
+          <button class="btn-save" id="b-${esc(m.pin)}" onclick="sauvegarder('${esc(m.pin)}')"
+            ${isSelf(m.pin)?'disabled':''}>
+            Enregistrer
+          </button>
+        </div>
       </div>
-      <div class="perm-cell">
-        <button class="perm-toggle ${m.news_pub?'on':''}" id="t-pub-${esc(m.pin)}"
-          onclick="togglePerm('${esc(m.pin)}','news_pub',this)" title="News publiques"
-          ${m.admin&&m.pin===pin?'disabled':''}></button>
-      </div>
-      <div class="perm-cell">
-        <button class="perm-toggle ${m.news_membres?'on-mn':''}" id="t-mn-${esc(m.pin)}"
-          onclick="togglePerm('${esc(m.pin)}','news_membres',this)" title="News membres"
-          ${m.admin&&m.pin===pin?'disabled':''}></button>
-      </div>
-      <div class="perm-cell">
-        <button class="perm-toggle ${m.photos?'on-ph':''}" id="t-ph-${esc(m.pin)}"
-          onclick="togglePerm('${esc(m.pin)}','photos',this)" title="Photos"
-          ${m.admin&&m.pin===pin?'disabled':''}></button>
-      </div>
-      <div class="perm-cell adm-cell">
-        <button class="perm-toggle ${m.admin?'on-adm':''}" id="t-adm-${esc(m.pin)}"
-          onclick="togglePerm('${esc(m.pin)}','admin',this)" title="Admin"
-          ${m.pin===pin?'disabled':''}></button>
-      </div>
-      <div class="save-row">
-        <span class="save-status" id="s-${esc(m.pin)}"></span>
-        <button class="btn-save" id="b-${esc(m.pin)}" onclick="sauvegarder('${esc(m.pin)}')"
-          ${m.pin===pin?'disabled title="Votre propre compte"':''}>
-          Enregistrer
-        </button>
+      <div class="perms-grid">
+        <div class="perm-row">
+          <div class="perm-label">
+            <span class="perm-label-icon">📢</span>
+            <div class="perm-label-tx">
+              <h5>Actualités publiques</h5>
+              <p>Publier sur la page Le Club</p>
+            </div>
+          </div>
+          <button class="perm-switch ${m.news_pub?'on-pub':''}" id="t-pub-${esc(m.pin)}"
+            onclick="togglePerm('${esc(m.pin)}','news_pub',this)"
+            ${isSelf(m.pin)?'disabled':''}></button>
+        </div>
+        <div class="perm-row">
+          <div class="perm-label">
+            <span class="perm-label-icon">🔒</span>
+            <div class="perm-label-tx">
+              <h5>Actualités membres</h5>
+              <p>Publier dans l'espace membres</p>
+            </div>
+          </div>
+          <button class="perm-switch ${m.news_membres?'on-mn':''}" id="t-mn-${esc(m.pin)}"
+            onclick="togglePerm('${esc(m.pin)}','news_membres',this)"
+            ${isSelf(m.pin)?'disabled':''}></button>
+        </div>
+        <div class="perm-row">
+          <div class="perm-label">
+            <span class="perm-label-icon">🖼</span>
+            <div class="perm-label-tx">
+              <h5>Galerie photos</h5>
+              <p>Ajouter des photos au site</p>
+            </div>
+          </div>
+          <button class="perm-switch ${m.photos?'on-ph':''}" id="t-ph-${esc(m.pin)}"
+            onclick="togglePerm('${esc(m.pin)}','photos',this)"
+            ${isSelf(m.pin)?'disabled':''}></button>
+        </div>
+        <div class="perm-row">
+          <div class="perm-label">
+            <span class="perm-label-icon">⚙</span>
+            <div class="perm-label-tx">
+              <h5>Administrateur</h5>
+              <p>Gérer les membres & accès</p>
+            </div>
+          </div>
+          <button class="perm-switch ${m.admin?'on-adm':''}" id="t-adm-${esc(m.pin)}"
+            onclick="togglePerm('${esc(m.pin)}','admin',this)"
+            ${isSelf(m.pin)?'disabled':''}></button>
+        </div>
       </div>
     </div>`).join('');
 }
@@ -240,8 +301,8 @@ window.togglePerm = function(mpin, perm, btn){
     pending[mpin] = { news_pub: m.news_pub, news_membres: m.news_membres, photos: m.photos, admin: m.admin };
   }
   pending[mpin][perm] = !pending[mpin][perm];
-  const classMap = { news_pub:'on', news_membres:'on-mn', photos:'on-ph', admin:'on-adm' };
-  btn.className = 'perm-toggle' + (pending[mpin][perm] ? ' '+classMap[perm] : '');
+  const classMap = { news_pub:'on-pub', news_membres:'on-mn', photos:'on-ph', admin:'on-adm' };
+  btn.className = 'perm-switch' + (pending[mpin][perm] ? ' '+classMap[perm] : '');
 };
 
 window.sauvegarder = async function(mpin){
