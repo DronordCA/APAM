@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<title>Administration – APAM</title>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,400;0,700;0,900;1,700;1,900&family=Jost:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#080a0e;--bg-2:#0b0d13;--sf:#141720;
+  --accent:#2563eb;--acc-d:rgba(37,99,235,.14);--acc2:#818cf8;
+  --muted:#7a8399;--dim:#32384f;
+  --border:rgba(255,255,255,.07);--bds:rgba(255,255,255,.11);
+  --ok:#22d77a;--err:#ef4444;--warn:#f5a524;
+  --white:#fff;--nav-h:66px;--side:clamp(16px,4.5vw,72px);--rl:12px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg-2);color:var(--white);font-family:'Jost',system-ui,sans-serif;-webkit-font-smoothing:antialiased;min-height:100svh;display:flex;flex-direction:column}
+a{color:inherit;text-decoration:none}
+::-webkit-scrollbar{width:2px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:var(--accent)}
+
+.nav{position:sticky;top:0;z-index:100;height:var(--nav-h);display:flex;align-items:center;padding:0 var(--side);gap:16px;background:rgba(8,10,14,.94);border-bottom:1px solid var(--border);backdrop-filter:blur(20px)}
+.nav-logo{display:flex;align-items:center;gap:10px}
+.nav-logo img{height:36px}
+.nav-logo-txt{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:22px;text-transform:uppercase;display:none}
+.nav-center{flex:1;text-align:center;font-size:10px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--warn)}
+.nav-right{display:flex;align-items:center;gap:12px}
+.nav-back{font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.32);transition:color .2s}
+.nav-back:hover{color:rgba(255,255,255,.7)}
+.nav-out{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:12.5px;letter-spacing:.12em;text-transform:uppercase;padding:7px 14px;border:1.5px solid rgba(255,255,255,.14);color:rgba(255,255,255,.4);cursor:pointer;background:none;transition:color .2s,border-color .2s}
+.nav-out:hover{color:#fff;border-color:rgba(255,255,255,.4)}
+
+.dh{background:var(--bg);border-bottom:1px solid var(--border);padding:40px 0 28px;position:relative;overflow:hidden}
+.dh::before{content:'';position:absolute;inset:0;background:radial-gradient(50% 65% at 95% 0%,rgba(245,165,36,.08),transparent 60%);pointer-events:none}
+.dh-inner{position:relative;z-index:1;display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:16px}
+.dh-eye{font-size:9px;font-weight:700;letter-spacing:.32em;text-transform:uppercase;color:var(--warn);display:flex;align-items:center;gap:9px;margin-bottom:10px}
+.dh-eye::before{content:'';width:20px;height:1px;background:var(--warn)}
+.dh-name{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:clamp(40px,5vw,64px);line-height:.9;text-transform:uppercase;letter-spacing:-.015em}
+.dh-name em{color:var(--warn);font-style:inherit}
+.dh-sub{font-size:13px;color:var(--muted);margin-top:8px}
+.dh-count{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:48px;color:var(--warn);letter-spacing:-.02em;line-height:1}
+.dh-count span{font-size:13px;font-family:'Jost',sans-serif;font-weight:500;font-style:normal;color:var(--muted);letter-spacing:0;margin-left:4px}
+
+.wrap{max-width:960px;margin:0 auto;padding:0 var(--side)}
+.main{flex:1;padding:28px 0 64px}
+
+.panel{background:var(--sf);border:1px solid rgba(245,165,36,.2);border-radius:var(--rl);overflow:hidden}
+.panel-hd{padding:13px 18px;border-bottom:1px solid var(--border);background:rgba(245,165,36,.04);display:flex;align-items:center;justify-content:space-between;gap:10px}
+.panel-hd h2{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:17px;text-transform:uppercase;letter-spacing:-.005em;display:flex;align-items:center;gap:8px}
+.panel-hd .count-badge{font-size:11px;font-weight:700;letter-spacing:.14em;padding:3px 9px;border-radius:100px;background:rgba(245,165,36,.1);border:1px solid rgba(245,165,36,.3);color:var(--warn)}
+
+.search-bar{padding:12px 18px;border-bottom:1px solid var(--border)}
+.search-bar input{width:100%;background:var(--bg-2);border:1.5px solid var(--bds);color:#fff;padding:9px 14px;font-family:'Jost',sans-serif;font-size:13px;outline:none;border-radius:7px;transition:border-color .22s}
+.search-bar input:focus{border-color:var(--warn)}
+.search-bar input::placeholder{color:rgba(255,255,255,.25)}
+
+/* Table membres */
+.members-table{width:100%}
+.mt-hd{display:grid;grid-template-columns:1fr auto auto auto auto auto;gap:0;padding:9px 18px;border-bottom:1px solid var(--border);background:rgba(255,255,255,.02)}
+.mt-hd span{font-size:8.5px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.3)}
+.mt-hd .perm-hd{text-align:center}
+.member-row{display:grid;grid-template-columns:1fr auto auto auto auto auto;gap:0;padding:12px 18px;border-bottom:1px solid var(--border);align-items:center;transition:background .2s}
+.member-row:last-child{border-bottom:none}
+.member-row:hover{background:rgba(255,255,255,.02)}
+.member-info h4{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:15px;text-transform:uppercase;letter-spacing:.02em;color:#fff;line-height:1}
+.member-info p{font-size:10.5px;color:var(--muted);margin-top:2px}
+.perm-cell{display:flex;align-items:center;justify-content:center;padding:0 10px}
+.perm-toggle{width:36px;height:20px;border-radius:100px;background:rgba(255,255,255,.08);border:1.5px solid rgba(255,255,255,.12);cursor:pointer;position:relative;transition:background .22s,border-color .22s;flex-shrink:0}
+.perm-toggle::after{content:'';position:absolute;top:2px;left:2px;width:12px;height:12px;border-radius:50%;background:rgba(255,255,255,.35);transition:transform .22s,background .22s}
+.perm-toggle.on{background:rgba(37,99,235,.35);border-color:var(--accent)}
+.perm-toggle.on-mn{background:rgba(129,140,248,.35);border-color:var(--acc2)}
+.perm-toggle.on-ph{background:rgba(34,215,122,.35);border-color:var(--ok)}
+.perm-toggle.on-adm{background:rgba(245,165,36,.35);border-color:var(--warn)}
+.perm-toggle.on::after,.perm-toggle.on-mn::after,.perm-toggle.on-ph::after,.perm-toggle.on-adm::after{transform:translateX(16px);background:#fff}
+.perm-toggle:disabled{opacity:.35;cursor:not-allowed}
+.save-row{display:flex;align-items:center;justify-content:flex-end;gap:10px;padding:0 6px}
+.btn-save{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:12px;letter-spacing:.1em;text-transform:uppercase;padding:6px 14px;background:var(--accent);color:#fff;border:none;cursor:pointer;border-radius:6px;transition:opacity .2s}
+.btn-save:hover{opacity:.85}
+.btn-save:disabled{opacity:.35;cursor:not-allowed}
+.save-status{font-size:11px;min-height:14px}
+
+.loading-state{padding:36px;text-align:center;font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}
+
+.foot{background:var(--bg);border-top:1px solid var(--border);padding:14px var(--side)}
+.foot-inner{max-width:960px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px}
+.foot-links{display:flex;gap:14px}
+.foot-links a{font-size:11px;color:var(--muted);transition:color .2s}.foot-links a:hover{color:#fff}
+.foot-cr{font-size:11px;color:var(--dim)}
+
+@media(max-width:680px){
+  .mt-hd,.member-row{grid-template-columns:1fr repeat(4,auto)}
+  .mt-hd .adm-hd,.perm-cell.adm-cell,.save-row{display:none}
+}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-logo">
+    <img src="assets/images/apam-logo2.png" alt="APAM"
+      onerror="this.style.display='none';document.getElementById('ntxt').style.display='block'">
+    <span id="ntxt" class="nav-logo-txt">APAM</span>
+  </div>
+  <div class="nav-center">⚙ Administration</div>
+  <div class="nav-right">
+    <a class="nav-back" href="mon-compte.html">← Mon compte</a>
+    <button class="nav-out" id="btn-logout">Déconnexion</button>
+  </div>
+</nav>
+
+<section class="dh">
+  <div class="wrap">
+    <div class="dh-inner">
+      <div>
+        <p class="dh-eye">Accès administrateur</p>
+        <h1 class="dh-name">Gestion<br><em>membres.</em></h1>
+        <p class="dh-sub">Attribuez les permissions de publication à chaque membre.</p>
+      </div>
+      <div style="text-align:right">
+        <div class="dh-count" id="member-count">—<span>membres</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<main class="main">
+  <div class="wrap">
+    <div class="panel">
+      <div class="panel-hd">
+        <h2>👥 Membres inscrits</h2>
+        <span class="count-badge" id="count-badge">—</span>
+      </div>
+      <div class="search-bar">
+        <input type="text" id="search" placeholder="Rechercher un membre…" oninput="filterMembers(this.value)">
+      </div>
+      <div class="members-table">
+        <div class="mt-hd">
+          <span>Membre</span>
+          <span class="perm-hd">📢 Pub.</span>
+          <span class="perm-hd">🔒 Membres</span>
+          <span class="perm-hd">🖼 Photos</span>
+          <span class="perm-hd adm-hd">⚙ Admin</span>
+          <span></span>
+        </div>
+        <div id="members-list"><div class="loading-state">Chargement des membres…</div></div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer class="foot">
+  <div class="foot-inner">
+    <div class="foot-links">
+      <a href="mon-compte.html">Mon compte</a>
+      <a href="presidence.html">Mes outils</a>
+      <a href="index.html">Site public</a>
+    </div>
+    <span class="foot-cr">© 2026 APAM · Administration</span>
+  </div>
+</footer>
+
+<script>
+'use strict';
+const API   = 'https://script.google.com/macros/s/AKfycbxae9y3NHqDyAkbEI5rDVRappI-aAWoA0jcHqR8NBUgm3t5SCB1Hq8nebY5t23cV1Je/exec';
+const role  = localStorage.getItem('apam_role');
+const pin   = localStorage.getItem('apam_pin') || '';
+const perms = JSON.parse(localStorage.getItem('apam_perms') || '{}');
+
+if(!role || !perms.admin) window.location.href = 'mon-compte.html';
+
+document.getElementById('btn-logout').addEventListener('click', () => {
+  ['apam_role','apam_prenom','apam_nom','apam_pin','apam_perms'].forEach(k=>localStorage.removeItem(k));
+  window.location.href = 'connexion-membres-password.html';
+});
+
+function esc(s){return String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+function enc(s){return encodeURIComponent(s);}
+
+let allMembers = [];
+
+async function chargerMembres(){
+  const list = document.getElementById('members-list');
+  try{
+    const data = await fetch(`${API}?action=getMembers&pin=${enc(pin)}`).then(r=>r.json());
+    if(data.error){list.innerHTML=`<div class="loading-state">Erreur : ${data.error}</div>`;return;}
+    allMembers = data.membres || [];
+    const count = allMembers.length;
+    document.getElementById('member-count').innerHTML = `${count}<span>membre${count>1?'s':''}</span>`;
+    document.getElementById('count-badge').textContent = count;
+    renderMembers(allMembers);
+  }catch{list.innerHTML='<div class="loading-state">Erreur de connexion.</div>';}
+}
+
+function renderMembers(membres){
+  const list = document.getElementById('members-list');
+  if(!membres.length){list.innerHTML='<div class="loading-state">Aucun membre trouvé.</div>';return;}
+  list.innerHTML = membres.map(m => `
+    <div class="member-row" id="row-${esc(m.pin)}">
+      <div class="member-info">
+        <h4>${esc(m.prenom)} ${esc(m.nom)}</h4>
+        <p>Inscrit le ${esc(m.date)}</p>
+      </div>
+      <div class="perm-cell">
+        <button class="perm-toggle ${m.news_pub?'on':''}" id="t-pub-${esc(m.pin)}"
+          onclick="togglePerm('${esc(m.pin)}','news_pub',this)" title="News publiques"
+          ${m.admin&&m.pin===pin?'disabled':''}></button>
+      </div>
+      <div class="perm-cell">
+        <button class="perm-toggle ${m.news_membres?'on-mn':''}" id="t-mn-${esc(m.pin)}"
+          onclick="togglePerm('${esc(m.pin)}','news_membres',this)" title="News membres"
+          ${m.admin&&m.pin===pin?'disabled':''}></button>
+      </div>
+      <div class="perm-cell">
+        <button class="perm-toggle ${m.photos?'on-ph':''}" id="t-ph-${esc(m.pin)}"
+          onclick="togglePerm('${esc(m.pin)}','photos',this)" title="Photos"
+          ${m.admin&&m.pin===pin?'disabled':''}></button>
+      </div>
+      <div class="perm-cell adm-cell">
+        <button class="perm-toggle ${m.admin?'on-adm':''}" id="t-adm-${esc(m.pin)}"
+          onclick="togglePerm('${esc(m.pin)}','admin',this)" title="Admin"
+          ${m.pin===pin?'disabled':''}></button>
+      </div>
+      <div class="save-row">
+        <span class="save-status" id="s-${esc(m.pin)}"></span>
+        <button class="btn-save" id="b-${esc(m.pin)}" onclick="sauvegarder('${esc(m.pin)}')"
+          ${m.pin===pin?'disabled title="Votre propre compte"':''}>
+          Enregistrer
+        </button>
+      </div>
+    </div>`).join('');
+}
+
+// État local des permissions (avant sauvegarde)
+const pending = {};
+
+window.togglePerm = function(mpin, perm, btn){
+  if(!pending[mpin]){
+    // Copier depuis allMembers
+    const m = allMembers.find(m=>m.pin===mpin);
+    pending[mpin] = { news_pub: m.news_pub, news_membres: m.news_membres, photos: m.photos, admin: m.admin };
+  }
+  pending[mpin][perm] = !pending[mpin][perm];
+  const classMap = { news_pub:'on', news_membres:'on-mn', photos:'on-ph', admin:'on-adm' };
+  btn.className = 'perm-toggle' + (pending[mpin][perm] ? ' '+classMap[perm] : '');
+};
+
+window.sauvegarder = async function(mpin){
+  const permsData = pending[mpin];
+  if(!permsData){ return; }
+  const btn = document.getElementById('b-'+mpin);
+  const st  = document.getElementById('s-'+mpin);
+  btn.disabled = true; st.textContent = '⏳'; st.style.color = 'var(--muted)';
+  try{
+    const data = await fetch(
+      `${API}?action=setPermissions&pin=${enc(pin)}&targetPin=${enc(mpin)}&admin=${permsData.admin?'OUI':'NON'}&news_pub=${permsData.news_pub?'OUI':'NON'}&news_membres=${permsData.news_membres?'OUI':'NON'}&photos=${permsData.photos?'OUI':'NON'}`
+    ).then(r=>r.json());
+    if(data.error){
+      st.textContent = '✗ '+data.error; st.style.color = 'var(--err)';
+    } else {
+      st.textContent = '✓'; st.style.color = 'var(--ok)';
+      // Mettre à jour allMembers local
+      const idx = allMembers.findIndex(m=>m.pin===mpin);
+      if(idx!==-1) Object.assign(allMembers[idx], permsData);
+      delete pending[mpin];
+      setTimeout(()=>st.textContent='',3000);
+    }
+  }catch{st.textContent='✗ Erreur'; st.style.color='var(--err)';}
+  btn.disabled = false;
+};
+
+window.filterMembers = function(q){
+  q = q.toLowerCase();
+  const filtered = allMembers.filter(m =>
+    (m.prenom+' '+m.nom).toLowerCase().includes(q)
+  );
+  renderMembers(filtered);
+};
+
+chargerMembres();
+</script>
+</body>
+</html>
