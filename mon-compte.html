@@ -2,494 +2,163 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8"/>
-<title>Mon compte – APAM</title>
+<title>Mon compte – APAM · Espace membres</title>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
-<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&family=Jost:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,400;0,700;0,900;1,700;1,900&family=Jost:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#080a0e;--bg-2:#0b0d13;--bg-3:#0e1018;
-  --sf:#141720;--sf2:#191d2c;
-  --accent:#2563eb;--acc2:#818cf8;--acc-d:rgba(37,99,235,.14);
+  --bg:#080a0e;--bg-2:#0b0d13;--sf:#141720;
+  --accent:#2563eb;--acc-d:rgba(37,99,235,.14);
   --muted:#7a8399;--dim:#32384f;
   --border:rgba(255,255,255,.07);--bds:rgba(255,255,255,.11);
-  --ok:#22d77a;--warn:#f5a524;--err:#ef4444;
+  --ok:#22d77a;--err:#ef4444;
   --white:#fff;--nav-h:66px;--side:clamp(16px,4.5vw,72px);--rl:12px;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-body{background:var(--bg-2);color:var(--white);font-family:'Jost',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+body{background:var(--bg-2);color:var(--white);font-family:'Jost',system-ui,sans-serif;-webkit-font-smoothing:antialiased;min-height:100svh;display:flex;flex-direction:column}
 a{color:inherit;text-decoration:none}
-img{max-width:100%;display:block}
 ::-webkit-scrollbar{width:2px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:var(--accent)}
 
 /* NAV */
-.nav{position:sticky;top:0;z-index:100;height:var(--nav-h);display:flex;align-items:center;
-  padding:0 var(--side);gap:24px;background:rgba(8,10,14,.92);
-  border-bottom:1px solid var(--border);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px)}
-.nav-logo{display:flex;align-items:center;gap:12px}
-.nav-logo img{height:38px}
-.nav-logo-text{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:22px;text-transform:uppercase;color:var(--white)}
-.nav-links{list-style:none;display:flex;align-items:center;gap:22px;margin-left:auto}
-.nav-links a{font-size:10.5px;font-weight:600;letter-spacing:.17em;text-transform:uppercase;color:rgba(255,255,255,.4);transition:color .2s}
-.nav-links a:hover{color:#fff}
-.nav-out{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:13px;letter-spacing:.12em;
-  text-transform:uppercase;padding:7px 16px;border:1.5px solid rgba(255,255,255,.2);color:rgba(255,255,255,.55);
-  cursor:pointer;background:none;transition:color .2s,border-color .2s}
-.nav-out:hover{color:#fff;border-color:rgba(255,255,255,.5)}
+.nav{position:sticky;top:0;z-index:100;height:var(--nav-h);display:flex;align-items:center;padding:0 var(--side);gap:16px;background:rgba(8,10,14,.94);border-bottom:1px solid var(--border);backdrop-filter:blur(20px)}
+.nav-logo{display:flex;align-items:center;gap:10px}
+.nav-logo img{height:36px}
+.nav-logo-txt{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:22px;text-transform:uppercase;display:none}
+.nav-right{display:flex;align-items:center;gap:14px;margin-left:auto}
+.nav-site{font-size:10.5px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:rgba(255,255,255,.3);transition:color .2s}
+.nav-site:hover{color:rgba(255,255,255,.7)}
+.nav-out{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:12.5px;letter-spacing:.12em;text-transform:uppercase;padding:7px 15px;border:1.5px solid rgba(255,255,255,.14);color:rgba(255,255,255,.4);cursor:pointer;background:none;transition:color .2s,border-color .2s}
+.nav-out:hover{color:#fff;border-color:rgba(255,255,255,.4)}
 
 /* HERO */
-.dh{background:var(--bg);border-bottom:1px solid var(--border);padding:36px 0 28px;position:relative;overflow:hidden}
+.dh{background:var(--bg);border-bottom:1px solid var(--border);padding:48px 0 36px;position:relative;overflow:hidden}
 .dh::before{content:'';position:absolute;inset:0;background:radial-gradient(55% 70% at 95% 0%,rgba(37,99,235,.1),transparent 60%);pointer-events:none}
-.dh-grid{position:absolute;inset:0;pointer-events:none;
-  background-image:linear-gradient(rgba(37,99,235,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(37,99,235,.025) 1px,transparent 1px);
-  background-size:64px 64px;mask-image:linear-gradient(135deg,rgba(0,0,0,.38) 10%,transparent 62%)}
-.dh-inner{position:relative;z-index:1;display:flex;align-items:flex-end;justify-content:space-between;gap:20px;flex-wrap:wrap}
+.dh-grid{position:absolute;inset:0;pointer-events:none;background-image:linear-gradient(rgba(37,99,235,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(37,99,235,.03) 1px,transparent 1px);background-size:64px 64px;mask-image:linear-gradient(135deg,rgba(0,0,0,.4) 10%,transparent 65%)}
+.dh-inner{position:relative;z-index:1;display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:20px}
 .dh-eye{font-size:9px;font-weight:700;letter-spacing:.32em;text-transform:uppercase;color:var(--accent);display:flex;align-items:center;gap:9px;margin-bottom:12px}
 .dh-eye::before{content:'';width:20px;height:1px;background:var(--accent)}
-.dh-name{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:clamp(38px,5.5vw,68px);line-height:.94;text-transform:uppercase}
+.dh-name{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:clamp(44px,6vw,76px);line-height:.9;text-transform:uppercase;letter-spacing:-.015em}
 .dh-name em{color:var(--accent);font-style:inherit}
-.dh-sub{font-size:13.5px;color:var(--muted);margin-top:6px}
-.dh-meta{display:flex;flex-direction:column;gap:10px;align-items:flex-end}
-.badge{display:inline-flex;align-items:center;gap:7px;padding:5px 12px;border-radius:100px;font-size:9.5px;font-weight:700;letter-spacing:.15em;text-transform:uppercase}
-.badge.ok{background:rgba(34,215,122,.08);border:1px solid rgba(34,215,122,.25);color:var(--ok)}
-.badge.pres{background:rgba(37,99,235,.12);border:1px solid rgba(37,99,235,.28);color:#8aabff}
-.badge .dot{width:6px;height:6px;border-radius:50%;background:currentColor;animation:pulse 2.6s ease-in-out infinite}
+.dh-sub{font-size:13.5px;color:var(--muted);margin-top:10px;line-height:1.6}
+.dh-pill{display:inline-flex;align-items:center;gap:7px;padding:8px 16px;background:rgba(37,99,235,.1);border:1px solid rgba(37,99,235,.25);border-radius:100px;font-size:10px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:#8aabff}
+.dh-pill .dot{width:6px;height:6px;border-radius:50%;background:var(--ok);animation:pulse 2.6s ease-in-out infinite}
 @keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(34,215,122,.5)}50%{box-shadow:0 0 0 5px transparent}}
-.dh-id{font-family:'JetBrains Mono',monospace;font-size:10.5px;color:var(--muted);letter-spacing:.04em}
 
-/* WRAP */
-.wrap{max-width:1260px;margin:0 auto;padding:0 var(--side)}
-.dash{padding:28px 0 56px;background:var(--bg-2)}
-
-/* KPI */
-.kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:11px;margin-bottom:18px}
-.kpi{background:var(--sf);border:1px solid var(--border);border-radius:var(--rl);padding:18px;position:relative;overflow:hidden;transition:border-color .3s,transform .4s cubic-bezier(.16,1,.3,1)}
-.kpi:hover{border-color:rgba(37,99,235,.28);transform:translateY(-3px)}
-.kpi::before{content:'';position:absolute;top:0;left:0;right:0;height:1.5px;background:linear-gradient(to right,var(--accent),transparent);opacity:0;transition:opacity .3s}
-.kpi:hover::before{opacity:1}
-.kpi-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
-.kpi-top span{font-size:9px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
-.kpi-ic{width:26px;height:26px;border:1px solid var(--bds);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px}
-.kpi-val{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:32px;line-height:1;color:#fff;letter-spacing:-.02em;margin-bottom:4px}
-.kpi-val em{color:var(--accent);font-style:normal;font-size:.5em;margin-left:3px}
-.kpi-tr{font-size:10.5px;color:var(--muted)}.kpi-tr.up{color:var(--ok)}.kpi-tr.dn{color:var(--warn)}
-
-/* GRID */
-.row2{display:grid;grid-template-columns:1.4fr 1fr;gap:13px;margin-bottom:18px}
-.row2b{display:grid;grid-template-columns:1fr 1fr;gap:13px;margin-bottom:18px}
+/* LAYOUT */
+.wrap{max-width:860px;margin:0 auto;padding:0 var(--side)}
+.main{flex:1;padding:32px 0 64px}
+.sections{display:flex;flex-direction:column;gap:20px}
 
 /* PANEL */
-.panel{background:var(--sf);border:1px solid var(--border);border-radius:var(--rl);overflow:hidden;margin-bottom:18px}
-.ph{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;border-bottom:1px solid var(--border);background:rgba(255,255,255,.012)}
-.ph h3{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:12.5px;letter-spacing:.18em;text-transform:uppercase;color:#fff}
-.ph a,.ph-btn{font-size:10.5px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);background:none;border:none;cursor:pointer}
+.panel{background:var(--sf);border:1px solid var(--border);border-radius:var(--rl);overflow:hidden}
+.panel-hd{padding:14px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:10px}
+.panel-hd h2{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:17px;text-transform:uppercase;letter-spacing:.03em;color:#fff;display:flex;align-items:center;gap:9px}
+.mn-badge{font-size:10px;font-weight:700;letter-spacing:.14em;padding:3px 9px;border-radius:100px;background:var(--acc-d);border:1px solid rgba(37,99,235,.2);color:var(--accent);display:none}
 
-/* Reservations */
-.res{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 18px;border-bottom:1px solid var(--border);transition:background .2s}
-.res:last-child{border-bottom:none}
-.res:hover{background:rgba(37,99,235,.04)}
-.res-l{display:flex;align-items:center;gap:14px;min-width:0}
-.res-date{display:flex;flex-direction:column;align-items:center;gap:1px;flex-shrink:0;width:50px;padding:6px;background:rgba(37,99,235,.06);border:1px solid rgba(37,99,235,.14);border-radius:7px}
-.res-date .d{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:18px;line-height:1;color:#fff}
-.res-date .m{font-size:8px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--accent)}
-.res-info h4{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:13.5px;letter-spacing:.04em;text-transform:uppercase;color:#fff}
-.res-info p{font-size:11px;color:var(--muted);margin-top:2px}
-.tag{font-size:8px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;padding:3px 8px;border-radius:100px;border:1px solid;flex-shrink:0}
-.tag.ok{color:var(--ok);background:rgba(34,215,122,.08);border-color:rgba(34,215,122,.25)}
-.tag.warn{color:var(--warn);background:rgba(245,165,36,.08);border-color:rgba(245,165,36,.25)}
+/* TEASER */
+.teaser{padding:40px 28px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:14px;position:relative;overflow:hidden}
+.teaser::before{content:'';position:absolute;inset:0;background:radial-gradient(60% 70% at 50% 110%,rgba(37,99,235,.06),transparent 65%);pointer-events:none}
+.teaser-icon{font-size:36px;opacity:.55}
+.teaser-title{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:22px;text-transform:uppercase;color:rgba(255,255,255,.45)}
+.teaser-sub{font-size:13px;color:var(--muted);line-height:1.7;max-width:440px}
+.teaser-tag{font-size:9px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;padding:5px 14px;border-radius:100px;border:1px dashed rgba(37,99,235,.28);color:rgba(37,99,235,.65)}
 
-/* Account */
-.acc-sum{padding:18px;display:flex;flex-direction:column;gap:10px}
-.acc-bal{display:flex;align-items:flex-end;justify-content:space-between;padding-bottom:14px;border-bottom:1px solid var(--border)}
-.acc-bal .lbl{font-size:9px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--muted)}
-.acc-bal .v{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:40px;line-height:1;color:#fff;letter-spacing:-.02em;margin-top:3px}
-.acc-bal .v em{color:var(--accent);font-style:normal}
-.acc-row{display:flex;align-items:center;justify-content:space-between;padding:7px 0;border-bottom:1px dashed rgba(255,255,255,.04);font-size:12px}
-.acc-row:last-child{border-bottom:none}
-.acc-row .l{color:var(--muted)}.acc-row .v{font-family:'Barlow Condensed',sans-serif;font-weight:700;color:#fff;letter-spacing:.04em}
-.btn-sm{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:12px;letter-spacing:.1em;text-transform:uppercase;padding:7px 14px;background:var(--accent);color:#fff;border:none;cursor:pointer}
+/* NEWS */
+.mn-feed{display:flex;flex-direction:column}
+.mn-card{border-bottom:1px solid var(--border);transition:background .2s}
+.mn-card:last-child{border-bottom:none}
+.mn-card:hover{background:rgba(37,99,235,.02)}
+.mn-card-hd{padding:16px 18px 10px}
+.mn-card-meta{display:flex;align-items:center;gap:8px;margin-bottom:8px;flex-wrap:wrap}
+.mn-card-date{font-size:9px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--muted)}
+.mn-card-cat{font-size:8px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;padding:2px 8px;border-radius:100px;background:rgba(37,99,235,.1);border:1px solid rgba(37,99,235,.2);color:#8aabff}
+.mn-card-auteur{font-size:9px;font-weight:600;text-transform:uppercase;color:rgba(255,255,255,.25);margin-left:auto}
+.mn-card-titre{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:21px;text-transform:uppercase;color:#fff;line-height:1.05}
+.mn-card-body{padding:0 18px 14px}
+.mn-card-texte{font-size:13.5px;color:rgba(255,255,255,.68);line-height:1.72}
+.mn-poll{padding:12px 18px 16px;border-top:1px solid var(--border);background:rgba(37,99,235,.03)}
+.mn-poll-q{font-size:10.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.45);margin-bottom:10px}
+.mn-poll-btns{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}
+.mn-poll-btn{padding:8px 20px;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:13px;letter-spacing:.1em;text-transform:uppercase;border:1.5px solid var(--bds);background:transparent;color:rgba(255,255,255,.5);cursor:pointer;transition:all .22s;border-radius:6px}
+.mn-poll-btn:hover{color:#fff;border-color:rgba(255,255,255,.4)}
+.mn-poll-btn.voted-oui{background:rgba(34,215,122,.12);border-color:var(--ok);color:var(--ok)}
+.mn-poll-btn.voted-non{background:rgba(239,68,68,.1);border-color:var(--err);color:var(--err)}
+.mn-reactions{display:flex;flex-direction:column;gap:6px}
+.mn-reactions-lbl{font-size:9px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.25);margin-bottom:2px}
+.mn-rg{display:flex;align-items:flex-start;gap:8px}
+.mn-rg-lbl{font-weight:700;font-size:9px;letter-spacing:.14em;text-transform:uppercase;white-space:nowrap;padding-top:3px}
+.mn-rg-lbl.oui{color:var(--ok)}.mn-rg-lbl.non{color:var(--err)}
+.mn-names{display:flex;flex-wrap:wrap;gap:4px}
+.mn-name{padding:2px 9px;background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:100px;font-size:11px;color:rgba(255,255,255,.5)}
+.mn-empty{padding:36px;text-align:center;font-size:13px;color:var(--muted);line-height:1.7}
+.mn-loading{padding:24px;text-align:center;font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}
 
-/* Quick actions */
-.qac{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border)}
-.qac a{background:var(--sf);padding:14px 16px;display:flex;flex-direction:column;gap:4px;color:#fff;transition:background .2s}
-.qac a:hover{background:var(--bg-3)}
-.qac .ql{font-size:8.5px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--accent)}
-.qac .qn{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:17px;text-transform:uppercase;line-height:1}
-
-/* Currency */
-.cur-it{padding:12px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:10px}
-.cur-it:last-child{border-bottom:none}
-.cur-it h4{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:12.5px;letter-spacing:.05em;text-transform:uppercase;color:#fff}
-.cur-it p{font-size:10.5px;color:var(--muted);margin-top:2px}
-.bar{position:relative;height:4px;width:110px;border-radius:100px;background:rgba(255,255,255,.05);overflow:hidden;flex-shrink:0}
-.bar-fill{position:absolute;top:0;left:0;bottom:0;border-radius:100px;background:linear-gradient(to right,var(--accent),var(--acc2))}
-.bar-pct{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:14px;color:#fff;min-width:34px;text-align:right;flex-shrink:0}
-.bar-pct em{color:var(--accent);font-style:normal}
-
-/* Logbook */
-.lb{display:grid;grid-template-columns:78px 1fr 1fr 64px;gap:8px;padding:12px 18px;border-bottom:1px solid var(--border);align-items:center;font-size:12px}
-.lb.hd{background:rgba(255,255,255,.02);font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted)}
-.lb:last-child{border-bottom:none}
-.lb:not(.hd):hover{background:rgba(37,99,235,.03)}
-.lb-d{font-family:'JetBrains Mono',monospace;font-size:11px;color:rgba(255,255,255,.72)}
-.lb-r{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:13px;color:#fff}
-.lb-r em{color:var(--accent);font-style:normal;margin:0 3px}
-.lb-a{font-size:11px;color:var(--muted)}
-.lb-h{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:14px;color:#fff;text-align:right}
-
-/* ════════════════════════════════════════
-   CALENDRIER
-════════════════════════════════════════ */
-.ev-list{display:flex;flex-direction:column}
-.ev{display:flex;align-items:flex-start;gap:14px;padding:14px 18px;border-bottom:1px solid var(--border);transition:background .2s;position:relative}
-.ev:last-child{border-bottom:none}.ev:hover{background:rgba(37,99,235,.035)}
-.ev-date{display:flex;flex-direction:column;align-items:center;gap:1px;flex-shrink:0;width:46px;padding:6px;border-radius:8px;border:1px solid var(--border)}
-.ev-date .d{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:20px;line-height:1;color:#fff}
-.ev-date .m{font-size:8px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
-.ev-body{flex:1;min-width:0}
-.ev-body h4{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:14px;letter-spacing:.04em;text-transform:uppercase;color:#fff;line-height:1.2}
-.ev-body p{font-size:12px;color:var(--muted);margin-top:3px;line-height:1.5}
-.ev-tags{display:flex;gap:7px;margin-top:7px;flex-wrap:wrap}
-.ev-tag{font-size:8px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;padding:3px 8px;border-radius:100px;border:1px solid;white-space:nowrap}
-.ev-tag.vol{color:#8aabff;background:rgba(37,99,235,.1);border-color:rgba(37,99,235,.22)}
-.ev-tag.social{color:var(--ok);background:rgba(34,215,122,.08);border-color:rgba(34,215,122,.22)}
-.ev-tag.formation{color:#f5a524;background:rgba(245,165,36,.08);border-color:rgba(245,165,36,.22)}
-.ev-tag.initiation{color:#818cf8;background:rgba(129,140,248,.1);border-color:rgba(129,140,248,.22)}
-.ev-tag.admin{color:var(--muted);background:rgba(255,255,255,.04);border-color:var(--bds)}
-.ev-del{background:none;border:1px solid var(--border);color:rgba(255,255,255,.28);
-  width:24px;height:24px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;
-  font-size:11px;flex-shrink:0;align-self:center;transition:border-color .2s,color .2s;line-height:1}
-.ev-del:hover{border-color:var(--err);color:var(--err)}
-.ev-empty{padding:20px 18px;font-size:13px;color:var(--muted);text-align:center}
-
-/* ════════════════════════════════════════
-   PANNEAU PRÉSIDENT
-════════════════════════════════════════ */
-#pres-panel{
-  margin-bottom:18px;border-radius:var(--rl);overflow:hidden;
-  border:1.5px solid rgba(37,99,235,.32);background:var(--sf);
-}
-.pres-hd{padding:14px 18px;border-bottom:1px solid rgba(37,99,235,.2);
-  background:rgba(37,99,235,.06);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px}
-.pres-hd h3{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:17px;text-transform:uppercase;display:flex;align-items:center;gap:10px}
-.pres-pill{font-family:'Jost',sans-serif;font-weight:700;font-style:normal;font-size:8.5px;letter-spacing:.2em;text-transform:uppercase;color:#8aabff;background:rgba(37,99,235,.2);border:1px solid rgba(37,99,235,.28);padding:3px 8px;border-radius:100px}
-.pres-body{padding:18px;display:flex;flex-direction:column;gap:18px}
-.sec-lbl{font-size:9.5px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);display:flex;align-items:center;gap:8px}
-.sec-lbl::after{content:'';flex:1;height:1px;background:rgba(37,99,235,.2)}
-
-/* Form */
-.form-g{display:grid;grid-template-columns:1fr 1fr;gap:11px}
-.field{display:flex;flex-direction:column;gap:5px}
-.field label{font-size:9.5px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.4)}
-.field input,.field textarea,.field select{
-  background:var(--bg-2);border:1.5px solid var(--bds);color:#fff;
-  padding:11px 12px;font-family:'Jost',sans-serif;font-size:13.5px;
-  outline:none;transition:border-color .22s;border-radius:6px;width:100%}
-.field input:focus,.field textarea:focus,.field select:focus{border-color:var(--accent)}
-.field textarea{resize:vertical;min-height:75px}
-.field select option{background:var(--sf)}
-.form-footer{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-top:4px}
-.form-ok{font-size:12px;color:var(--ok);opacity:0;transition:opacity .3s}
-.form-ok.show{opacity:1}
-.btn-pub{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:14px;letter-spacing:.12em;text-transform:uppercase;padding:12px 22px;background:var(--accent);color:#fff;border:none;cursor:pointer;border-radius:6px;transition:opacity .2s}
-.btn-pub:hover{opacity:.85}
-.pres-events-wrap{border:1px solid var(--border);border-radius:8px;overflow:hidden}
-
-/* Photos grid */
-.ph-thumb{position:relative;aspect-ratio:4/3;overflow:hidden;border-radius:7px;border:1px solid var(--border);background:var(--bg-2)}
-.ph-thumb img{width:100%;height:100%;object-fit:cover}
-.ph-thumb-del{position:absolute;top:5px;right:5px;width:22px;height:22px;border:1px solid rgba(255,255,255,.25);background:rgba(8,10,14,.75);color:rgba(255,255,255,.7);border-radius:50%;font-size:11px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:border-color .2s,color .2s;line-height:1}
-.ph-thumb-del:hover{border-color:var(--err);color:var(--err)}
-.ph-thumb-cap{position:absolute;bottom:0;left:0;right:0;padding:6px 8px;background:linear-gradient(to top,rgba(8,10,14,.85),transparent);font-size:10px;color:rgba(255,255,255,.8);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:12px;letter-spacing:.14em;text-transform:uppercase;padding:7px 14px;border:1.5px solid rgba(37,99,235,.3);color:#8aabff;background:rgba(37,99,235,.08);cursor:pointer;border-radius:6px;transition:background .2s}
-.toggle-btn:hover{background:rgba(37,99,235,.15)}
-
-/* Footer */
-.foot{background:var(--bg);border-top:1px solid var(--border);padding:18px var(--side)}
-.foot-inner{max-width:1260px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px}
-.foot-links{display:flex;gap:14px;flex-wrap:wrap}
+/* FOOTER */
+.foot{background:var(--bg);border-top:1px solid var(--border);padding:16px var(--side)}
+.foot-inner{max-width:860px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px}
+.foot-links{display:flex;gap:14px}
 .foot-links a{font-size:11px;color:var(--muted);transition:color .2s}.foot-links a:hover{color:#fff}
 .foot-cr{font-size:11px;color:var(--dim)}
 
-/* ════════════════════════════════════════
-   ACTUALITÉS — panneau président
-════════════════════════════════════════ */
-#news-panel-wrap{border-top:1px solid rgba(37,99,235,.15);padding-top:18px}
-.news-api-list{display:flex;flex-direction:column;border:1px solid var(--border);border-radius:8px;overflow:hidden;margin-top:12px}
-.news-api-item{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;padding:12px 16px;border-bottom:1px solid var(--border);transition:background .2s}
-.news-api-item:last-child{border-bottom:none}
-.news-api-item:hover{background:rgba(37,99,235,.03)}
-.news-api-item-body{flex:1;min-width:0}
-.news-api-item-body h4{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:14px;text-transform:uppercase;color:#fff;letter-spacing:.03em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.news-api-item-body p{font-size:11px;color:var(--muted);margin-top:3px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-.news-api-item-meta{display:flex;align-items:center;gap:8px;margin-top:5px;flex-wrap:wrap}
-.news-api-item-date{font-size:9px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
-.news-api-item-cat{font-size:8.5px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;padding:2px 7px;border-radius:100px;background:var(--acc-d);border:1px solid rgba(37,99,235,.2);color:var(--accent)}
-.news-api-del{width:26px;height:26px;border:1px solid var(--border);border-radius:50%;background:none;color:rgba(255,255,255,.3);cursor:pointer;font-size:11px;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:border-color .2s,color .2s;line-height:1}
-.news-api-del:hover{border-color:var(--err);color:var(--err)}
-.news-api-empty{padding:20px 18px;font-size:12.5px;color:var(--muted);text-align:center}
-.news-api-loading{padding:16px 18px;font-size:12px;color:var(--muted);text-align:center;letter-spacing:.06em;text-transform:uppercase}
-.news-pwd-row{display:flex;align-items:center;gap:10px;padding:10px 14px;background:rgba(37,99,235,.05);border:1px solid rgba(37,99,235,.18);border-radius:7px;margin-bottom:14px}
-.news-pwd-row label{font-size:9px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);white-space:nowrap}
-.news-pwd-row input{flex:1;background:transparent;border:none;color:#fff;font-family:'JetBrains Mono',monospace;font-size:12.5px;outline:none}
-
-/* Responsive */
-@media(max-width:900px){
-  .nav-links{display:none}
-  .kpi-grid{grid-template-columns:1fr 1fr}
-  .row2,.row2b{grid-template-columns:1fr}
+@media(max-width:600px){
   .dh-inner{flex-direction:column;align-items:flex-start}
-  .dh-meta{align-items:flex-start}
-  .lb{grid-template-columns:64px 1fr 52px}
-  .lb .lb-a{display:none}
-}
-@media(max-width:560px){
-  .kpi-grid{grid-template-columns:1fr 1fr}
-  .form-g{grid-template-columns:1fr}
+  .mn-poll-btns{flex-direction:column}
+  .mn-poll-btn{width:100%;text-align:center}
 }
 </style>
 </head>
 <body>
 
-<!-- NAV -->
 <nav class="nav">
   <div class="nav-logo">
-    <img src="assets/images/apam-logo2.png" alt="APAM" onerror="this.style.display='none'">
-    <span class="nav-logo-text" id="nav-logo-text" style="display:none">APAM</span>
+    <img src="assets/images/apam-logo2.png" alt="APAM"
+      onerror="this.style.display='none';document.getElementById('ntxt').style.display='block'">
+    <span id="ntxt" class="nav-logo-txt">APAM</span>
   </div>
-  <ul class="nav-links">
-    <li><a href="index.html">Site public</a></li>
-    <li><a href="tarifs.html">Flotte</a></li>
-    <li><a href="activite.html">Le Club</a></li>
-    <li><a href="https://openflyers.com/apam/" target="_blank">OpenFlyer ↗</a></li>
-  </ul>
-  <button class="nav-out" id="nav-logout">Se déconnecter</button>
+  <div class="nav-right">
+    <a class="nav-site" href="index.html">← Site public</a>
+    <button class="nav-out" id="btn-logout">Déconnexion</button>
+  </div>
 </nav>
 
-<!-- HERO -->
 <section class="dh">
   <div class="dh-grid" aria-hidden="true"></div>
   <div class="wrap">
     <div class="dh-inner">
       <div>
-        <p class="dh-eye">Espace membres · APAM</p>
-        <h1 class="dh-name">Bonjour,<br><em id="user-label">Membre</em></h1>
-        <p class="dh-sub">Bienvenue dans votre espace. Voici un aperçu de votre activité.</p>
+        <p class="dh-eye">Espace membre · APAM 2026</p>
+        <h1 class="dh-name">Bonjour,<br><em id="u-prenom">Membre</em>.</h1>
+        <p class="dh-sub" id="u-sub">Bienvenue dans votre espace personnel.</p>
       </div>
-      <div class="dh-meta">
-        <span class="badge ok"><span class="dot"></span>Adhésion à jour · 2026</span>
-        <span class="badge pres" id="pres-badge" style="display:none">
-          <span class="dot" style="animation:none;background:var(--accent)"></span>Accès président
-        </span>
-        <span class="dh-id" id="session-id">—</span>
-      </div>
+      <div class="dh-pill"><span class="dot"></span>Connecté · Saison 2026</div>
     </div>
   </div>
 </section>
 
-<!-- BODY -->
-<main class="dash">
+<main class="main">
   <div class="wrap">
+    <div class="sections">
 
-    <!-- ══ PANNEAU PRÉSIDENT ══ -->
-    <div id="pres-panel" style="display:none">
-      <div class="pres-hd">
-        <h3>Calendrier du club <span class="pres-pill">Président</span></h3>
-        <button class="toggle-btn" id="toggle-btn" onclick="toggleForm()">+ Ajouter un événement</button>
-      </div>
-      <div class="pres-body">
-
-        <!-- ── ACTUALITÉS ── -->
-        <div id="news-panel-wrap">
-          <span class="sec-lbl">Publier une actualité</span>
-          <p style="font-size:12px;color:var(--muted);margin-bottom:14px">Les actualités publiées ici apparaissent directement sur <a href="activite.html#actualites" style="color:var(--accent)">la page Le Club</a>.</p>
-
-          <!-- Mot de passe API -->
-          <div class="news-pwd-row">
-            <label>🔑 Mot de passe</label>
-            <input type="password" id="news-pwd" placeholder="Mot de passe admin" autocomplete="current-password">
-          </div>
-
-          <!-- Formulaire publication -->
-          <div style="display:flex;flex-direction:column;gap:12px;padding:16px;background:var(--bg-2);border:1px solid var(--border);border-radius:8px;margin-bottom:14px">
-            <div class="form-g">
-              <div class="field"><label for="news-titre">Titre *</label><input id="news-titre" type="text" placeholder="Ex : Méchoui 2026 — inscriptions ouvertes"></div>
-              <div class="field"><label for="news-cat">Catégorie</label>
-                <select id="news-cat">
-                  <option value="Annonce">📢 Annonce</option>
-                  <option value="Événement">📅 Événement</option>
-                  <option value="Formation">📚 Formation</option>
-                  <option value="Vol">✈ Vol / Rallye</option>
-                  <option value="Info pratique">ℹ Info pratique</option>
-                  <option value="Résultat">🏆 Résultat</option>
-                </select>
-              </div>
-            </div>
-            <div class="field"><label for="news-texte">Texte *</label><textarea id="news-texte" placeholder="Corps de la nouvelle…" style="min-height:90px"></textarea></div>
-            <div class="form-g">
-              <div class="field"><label for="news-image">URL image (optionnel)</label><input id="news-image" type="url" placeholder="https://…/photo.jpg"></div>
-              <div class="field"><label for="news-auteur">Auteur</label><input id="news-auteur" type="text" placeholder="Le Président" value="Le Président"></div>
-            </div>
-            <div class="form-footer">
-              <span class="form-ok" id="news-ok"></span>
-              <button class="btn-pub" onclick="publierNews()">Publier →</button>
-            </div>
-          </div>
-
-          <!-- Liste des news publiées -->
-          <span class="sec-lbl" style="margin-bottom:10px;display:flex">Actualités publiées</span>
-          <div class="news-api-list" id="news-api-list">
-            <div class="news-api-loading">Chargement…</div>
-          </div>
+      <div class="panel">
+        <div class="panel-hd">
+          <h2>📰 Actualités membres</h2>
+          <span class="mn-badge" id="mn-badge"></span>
         </div>
-
-
-
-        <!-- Formulaire -->
-        <div id="ev-form" style="display:none">
-          <span class="sec-lbl">Nouvel événement</span>
-          <div class="form-g">
-            <div class="field"><label for="ev-t">Titre</label><input id="ev-t" type="text" placeholder="Ex : Méchoui annuel"></div>
-            <div class="field"><label for="ev-d">Date</label><input id="ev-d" type="date"></div>
-          </div>
-          <div class="field" style="margin-top:10px"><label for="ev-desc">Description</label><textarea id="ev-desc" placeholder="Détails, horaires, lieu…"></textarea></div>
-          <div class="form-g" style="margin-top:10px;align-items:flex-end">
-            <div class="field">
-              <label for="ev-type">Type</label>
-              <select id="ev-type">
-                <option value="vol">✈ Vol groupé / Rallye</option>
-                <option value="social">🍖 Événement social</option>
-                <option value="formation">📚 Formation / Briefing</option>
-                <option value="initiation">🌟 Portes ouvertes</option>
-                <option value="admin">📋 Administratif / AG</option>
-              </select>
-            </div>
-            <div class="form-footer">
-              <span class="form-ok" id="form-ok">✓ Événement publié !</span>
-              <button class="btn-pub" onclick="createEvent()">Publier →</button>
-            </div>
-          </div>
-        </div>
-
-        <!-- Gestion événements existants -->
-        <div>
-          <span class="sec-lbl">Tous les événements</span>
-          <div class="pres-events-wrap">
-            <div id="pres-ev-list" class="ev-list"></div>
-          </div>
-        </div>
-
-        <!-- ── GALERIE PHOTOS ── -->
-        <div style="border-top:1px solid rgba(37,99,235,.15);padding-top:18px">
-          <span class="sec-lbl">Galerie photos du club</span>
-          <p style="font-size:12px;color:var(--muted);margin-bottom:14px">Les photos ajoutées ici apparaissent sur la page <a href="activite.html#galerie" style="color:var(--accent)">Le Club → Galerie</a>. Taille recommandée : &lt; 1 Mo. JPEG/PNG.</p>
-
-          <!-- Formulaire ajout photo -->
-          <div style="display:flex;flex-direction:column;gap:12px;padding:16px;background:var(--bg-2);border:1px solid var(--border);border-radius:8px;margin-bottom:14px">
-            <div class="form-g">
-              <div class="field">
-                <label for="ph-file">Photo (fichier local)</label>
-                <input id="ph-file" type="file" accept="image/*" style="font-size:12px;padding:8px 10px">
-              </div>
-              <div class="field">
-                <label for="ph-caption">Légende</label>
-                <input id="ph-caption" type="text" placeholder="Ex : Premier solo de Pierre">
-              </div>
-            </div>
-            <!-- Preview -->
-            <img id="ph-preview" style="display:none;max-height:100px;max-width:200px;border-radius:6px;border:1px solid var(--border);object-fit:cover">
-            <div class="form-g" style="align-items:flex-end">
-              <div class="field">
-                <label for="ph-cat">Catégorie</label>
-                <select id="ph-cat">
-                  <option value="terrain">✈ En vol · Terrain</option>
-                  <option value="avions">🛩 Avions du club</option>
-                  <option value="social">🍖 Vie sociale</option>
-                  <option value="formation">📚 Formation</option>
-                </select>
-              </div>
-              <div style="display:flex;align-items:center;gap:10px">
-                <span id="ph-ok" style="font-size:11.5px;color:var(--ok);opacity:0;transition:opacity .3s">✓ Photo ajoutée !</span>
-                <button class="btn-pub" onclick="addPhoto()">Ajouter →</button>
-              </div>
-            </div>
-          </div>
-
-          <!-- Grid photos existantes -->
-          <div id="pres-photo-grid" style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px">
-            <!-- Rempli par JS -->
-          </div>
+        <div class="mn-feed" id="mn-feed">
+          <div class="mn-loading">Chargement…</div>
         </div>
       </div>
+
+      <div class="panel">
+        <div class="teaser">
+          <div class="teaser-icon">🚧</div>
+          <p class="teaser-title">Mon compte évolue bientôt.</p>
+          <p class="teaser-sub">Réservations, carnet de vol, solde, compétences — tout ça arrive. Restez à l'affût des nouvelles du club !</p>
+          <span class="teaser-tag">Prochainement · Saison 2026</span>
+        </div>
+      </div>
+
     </div>
-
-    <!-- ══ KPI ══ -->
-    <div class="kpi-grid">
-      <div class="kpi"><div class="kpi-top"><span>Heures cette année</span><span class="kpi-ic">🕐</span></div><div class="kpi-val">42<em>h30</em></div><div class="kpi-tr up">▲ +8h depuis mai</div></div>
-      <div class="kpi"><div class="kpi-top"><span>Heures totales</span><span class="kpi-ic">✈️</span></div><div class="kpi-val">386<em>h</em></div><div class="kpi-tr">— Depuis 2018</div></div>
-      <div class="kpi"><div class="kpi-top"><span>Vols planifiés</span><span class="kpi-ic">📅</span></div><div class="kpi-val">3</div><div class="kpi-tr">— Cette semaine</div></div>
-      <div class="kpi"><div class="kpi-top"><span>Solde</span><span class="kpi-ic">💳</span></div><div class="kpi-val">+124<em>€</em></div><div class="kpi-tr up">▲ Provisionné</div></div>
-    </div>
-
-    <!-- ══ ROW 1 ══ -->
-    <div class="row2">
-      <div class="panel" style="margin-bottom:0">
-        <div class="ph"><h3>— Prochains vols</h3><a href="https://openflyers.com/apam/" target="_blank">OpenFlyer ↗</a></div>
-        <div>
-          <div class="res"><div class="res-l"><div class="res-date"><span class="d">17</span><span class="m">Mai</span></div><div class="res-info"><h4>Cessna 152 · F-GHKE</h4><p>14h00–15h30 · Vol local · Inst. Marc D.</p></div></div><span class="tag ok">● Confirmé</span></div>
-          <div class="res"><div class="res-l"><div class="res-date"><span class="d">22</span><span class="m">Mai</span></div><div class="res-info"><h4>TB200 · F-GBVK</h4><p>09h00–12h00 · Voyage Deauville · Solo</p></div></div><span class="tag warn">● En attente</span></div>
-          <div class="res"><div class="res-l"><div class="res-date"><span class="d">04</span><span class="m">Jun</span></div><div class="res-info"><h4>Cirrus SR20 · F-HCFA</h4><p>10h00–12h00 · Familiarisation</p></div></div><span class="tag ok">● Confirmé</span></div>
-        </div>
-      </div>
-      <div class="panel" style="margin-bottom:0">
-        <div class="ph"><h3>— Mon compte</h3><a href="#">Détails</a></div>
-        <div class="acc-sum">
-          <div class="acc-bal"><div><div class="lbl">Solde</div><div class="v">+124<em>,00 €</em></div></div><button class="btn-sm">+ Recharger</button></div>
-          <div class="acc-row"><span class="l">Cotisation 2026</span><span class="v">280 € · Réglée</span></div>
-          <div class="acc-row"><span class="l">Heures réservées</span><span class="v">3h00 · 540 €</span></div>
-          <div class="acc-row"><span class="l">Facturation</span><span class="v">→ 30 mai</span></div>
-        </div>
-      </div>
-    </div>
-
-    <!-- ══ ROW 2 ══ -->
-    <div class="row2b">
-      <div class="panel" style="margin-bottom:0">
-        <div class="ph"><h3>— Accès rapides</h3></div>
-        <div class="qac">
-          <a href="https://openflyers.com/apam/" target="_blank"><span class="ql">OpenFlyer</span><span class="qn">Réserver un vol</span></a>
-          <a href="#"><span class="ql">Carnet</span><span class="qn">Saisir un vol</span></a>
-          <a href="#"><span class="ql">Documents</span><span class="qn">Mes licences</span></a>
-          <a href="contact.html"><span class="ql">Bureau</span><span class="qn">Contacter</span></a>
-        </div>
-      </div>
-      <div class="panel" style="margin-bottom:0">
-        <div class="ph"><h3>— Compétences</h3></div>
-        <div>
-          <div class="cur-it"><div><h4>SEP terre (PPL)</h4><p>12h / 24 derniers mois</p></div><div style="display:flex;align-items:center;gap:8px"><div class="bar"><div class="bar-fill" style="width:90%"></div></div><span class="bar-pct">90<em>%</em></span></div></div>
-          <div class="cur-it"><div><h4>Emport passagers</h4><p>3 att. / 90 jours</p></div><div style="display:flex;align-items:center;gap:8px"><div class="bar"><div class="bar-fill" style="width:100%"></div></div><span class="bar-pct">OK</span></div></div>
-          <div class="cur-it"><div><h4>Vol de nuit</h4><p>1 vol / 12 mois — à renouveler</p></div><div style="display:flex;align-items:center;gap:8px"><div class="bar"><div class="bar-fill" style="width:38%;background:var(--warn)"></div></div><span class="bar-pct" style="color:var(--warn)">!</span></div></div>
-        </div>
-      </div>
-    </div>
-
-    <!-- ══ CALENDRIER ══ -->
-    <div class="panel">
-      <div class="ph"><h3>— Calendrier du club</h3><a href="activite.html#calendrier">Voir sur le site</a></div>
-      <div id="ev-list" class="ev-list"></div>
-    </div>
-
-    <!-- ══ CARNET ══ -->
-    <div class="panel">
-      <div class="ph"><h3>— Carnet · 5 derniers vols</h3><a href="#">Tout le carnet</a></div>
-      <div>
-        <div class="lb hd"><span>Date</span><span>Trajet</span><span>Avion</span><span style="text-align:right">Durée</span></div>
-        <div class="lb"><span class="lb-d">12.05.26</span><span class="lb-r">LFOL <em>→</em> LFOL</span><span class="lb-a">F-GHKE · C152</span><span class="lb-h">1:30</span></div>
-        <div class="lb"><span class="lb-d">07.05.26</span><span class="lb-r">LFOL <em>→</em> LFRT <em>→</em> LFOL</span><span class="lb-a">F-GBVK · TB200</span><span class="lb-h">2:45</span></div>
-        <div class="lb"><span class="lb-d">30.04.26</span><span class="lb-r">LFOL <em>→</em> LFOL</span><span class="lb-a">F-GHKE · C152</span><span class="lb-h">1:15</span></div>
-        <div class="lb"><span class="lb-d">23.04.26</span><span class="lb-r">LFOL <em>→</em> LFRD <em>→</em> LFOL</span><span class="lb-a">F-HCFA · SR20</span><span class="lb-h">2:10</span></div>
-        <div class="lb"><span class="lb-d">15.04.26</span><span class="lb-r">LFOL <em>→</em> LFOJ <em>→</em> LFOL</span><span class="lb-a">F-GBVK · TB200</span><span class="lb-h">1:55</span></div>
-      </div>
-    </div>
-
   </div>
 </main>
 
@@ -497,7 +166,7 @@ img{max-width:100%;display:block}
   <div class="foot-inner">
     <div class="foot-links">
       <a href="index.html">Site public</a>
-      <a href="mentions-legales.html">Mentions légales</a>
+      <a href="activite.html">Le Club</a>
       <a href="contact.html">Aide</a>
     </div>
     <span class="foot-cr">© 2026 APAM · Espace membres</span>
@@ -506,285 +175,73 @@ img{max-width:100%;display:block}
 
 <script>
 'use strict';
+const API    = 'https://script.google.com/macros/s/AKfycbxae9y3NHqDyAkbEI5rDVRappI-aAWoA0jcHqR8NBUgm3t5SCB1Hq8nebY5t23cV1Je/exec';
+const role   = localStorage.getItem('apam_role');
+const prenom = localStorage.getItem('apam_prenom') || '';
+const nom    = localStorage.getItem('apam_nom')    || '';
 
-/* ── Logo fallback ─────────────────────────────── */
-document.querySelector('.nav-logo img')?.addEventListener('error',function(){
-  this.style.display='none';
-  document.getElementById('nav-logo-text').style.display='block';
-});
+if(!role) window.location.href = 'connexion-membres-password.html';
 
-/* ── Session ────────────────────────────────────── */
-const role = localStorage.getItem('apam_role');
-const code = localStorage.getItem('apam_code');
+document.getElementById('u-prenom').textContent = prenom || 'Membre';
+if(prenom && nom) document.getElementById('u-sub').textContent = nom.toUpperCase() + ' · Membre APAM 2026';
 
-// Rediriger si pas connecté
-if(!code || !role){
-  window.location.href = 'connexion-membres-password.html?next=mon-compte.html';
-}
-
-// Affichage selon rôle
-document.getElementById('user-label').textContent = role==='president' ? 'Président' : 'Membre';
-document.getElementById('session-id').textContent  = 'Saison 2026 · ' + (role==='president' ? 'Accès étendu' : 'Membre actif');
-
-if(role==='president'){
-  document.getElementById('pres-badge').style.display = 'inline-flex';
-  document.getElementById('pres-panel').style.display = 'block';
-}
-
-// Déconnexion
-document.getElementById('nav-logout').addEventListener('click', () => {
-  localStorage.removeItem('apam_role');
-  localStorage.removeItem('apam_code');
+document.getElementById('btn-logout').addEventListener('click', () => {
+  ['apam_role','apam_prenom','apam_nom','apam_pin'].forEach(k => localStorage.removeItem(k));
   window.location.href = 'connexion-membres-password.html';
 });
 
-/* ════════════════════════════════════════════════
-   CALENDRIER DES ÉVÉNEMENTS
-════════════════════════════════════════════════ */
-const EV_KEY = 'apam_events_v1';
-const MONTHS = ['Jan','Fév','Mar','Avr','Mai','Jun','Jul','Aoû','Sep','Oct','Nov','Déc'];
-const EV_LABELS = {vol:'✈ Vol groupé',social:'🍖 Social',formation:'📚 Formation',initiation:'🌟 Initiation',admin:'📋 Admin'};
-
-const DEFAULT_EVENTS = [
-  {id:'d1',date:'2026-06-21',title:'Méchoui annuel',desc:'Repas convivial de fin juin sur le terrain. Ouvert à tous les membres et leurs familles.',type:'social'},
-  {id:'d2',date:'2026-07-14',title:'Vol de la Bastille',desc:'Vol groupé tradition du 14 juillet. Départ LFOL 10h00. Inscription souhaitée.',type:'vol'},
-  {id:'d3',date:'2026-08-22',title:'Rallye navigation VFR',desc:'Rallye ouvert aux membres PPL et plus. Circuit à découvrir sur place.',type:'vol'},
-  {id:'d4',date:'2026-09-06',title:'Journée portes ouvertes',desc:'Initiations et baptêmes de l\'air pour le grand public. Toute la journée.',type:'initiation'},
-  {id:'d5',date:'2026-10-11',title:'Assemblée générale',desc:'AG annuelle APAM. Bilan, élections, projets 2027. Présence souhaitée.',type:'admin'},
-];
-
-function getCustom(){ try{ return JSON.parse(localStorage.getItem(EV_KEY)||'[]'); }catch{ return []; } }
-function saveCustom(a){ localStorage.setItem(EV_KEY, JSON.stringify(a)); }
-function getAll(){ return [...DEFAULT_EVENTS,...getCustom()].sort((a,b)=>new Date(a.date)-new Date(b.date)); }
-function upcoming(){ return getAll().filter(e=>new Date(e.date)>=new Date(new Date().toDateString())); }
-function fmt(s){ const d=new Date(s+'T00:00:00'); return {d:String(d.getDate()).padStart(2,'0'),m:MONTHS[d.getMonth()]}; }
-function isDefault(id){ return id.startsWith('d'); }
-
-function evHtml(ev, showDel){
-  const {d,m}=fmt(ev.date);
-  const del = showDel && !isDefault(ev.id)
-    ? `<button class="ev-del" onclick="delEvent('${ev.id}')" title="Supprimer">✕</button>` : '';
-  return `<div class="ev" id="ev-${ev.id}">
-    <div class="ev-date"><span class="d">${d}</span><span class="m">${m}</span></div>
-    <div class="ev-body">
-      <h4>${ev.title}</h4><p>${ev.desc}</p>
-      <div class="ev-tags"><span class="ev-tag ${ev.type}">${EV_LABELS[ev.type]||ev.type}</span></div>
-    </div>${del}</div>`;
-}
-
-function render(){
-  // Calendrier membre (à venir uniquement)
-  const up = upcoming();
-  const el = document.getElementById('ev-list');
-  el.innerHTML = up.length ? up.map(e=>evHtml(e,false)).join('') : '<div class="ev-empty">Aucun événement à venir</div>';
-
-  // Panneau président (tous)
-  const pl = document.getElementById('pres-ev-list');
-  if(!pl) return;
-  const all = getAll();
-  pl.innerHTML = all.length ? all.map(e=>evHtml(e,true)).join('') : '<div class="ev-empty">Aucun événement</div>';
-}
-
-window.delEvent = id => {
-  if(!confirm('Supprimer cet événement ?')) return;
-  saveCustom(getCustom().filter(e=>e.id!==id));
-  /* ════════════════════════════════════════
-   PHOTOS
-════════════════════════════════════════ */
-const PHOTO_KEY='apam_photos_v1';
-function getPhotos(){try{return JSON.parse(localStorage.getItem(PHOTO_KEY)||'[]');}catch{return[];}}
-function savePhotos(a){localStorage.setItem(PHOTO_KEY,JSON.stringify(a));}
-
-/* Compression image → base64 (max 800px, JPEG 75%) */
-async function toBase64(file){
-  return new Promise(resolve=>{
-    const img=new Image();
-    const url=URL.createObjectURL(file);
-    img.onload=()=>{
-      const MAX=800;
-      let w=img.width,h=img.height;
-      if(w>MAX){h=Math.round(h*(MAX/w));w=MAX;}
-      const c=document.createElement('canvas');c.width=w;c.height=h;
-      c.getContext('2d').drawImage(img,0,0,w,h);
-      resolve(c.toDataURL('image/jpeg',.75));
-      URL.revokeObjectURL(url);
-    };
-    img.src=url;
-  });
-}
-
-/* Preview on file select */
-document.getElementById('ph-file')?.addEventListener('change',async e=>{
-  const f=e.target.files[0];if(!f)return;
-  const src=await toBase64(f);
-  const prev=document.getElementById('ph-preview');
-  prev.src=src;prev.style.display='block';
-  prev._base64=src;
-});
-
-window.addPhoto=async function(){
-  const prev=document.getElementById('ph-preview');
-  const caption=document.getElementById('ph-caption').value.trim();
-  const cat=document.getElementById('ph-cat').value;
-  const ok=document.getElementById('ph-ok');
-  if(!prev._base64||!caption){alert('Merci d\'ajouter une photo et une légende.');return;}
-  const photos=getPhotos();
-  photos.unshift({id:'p'+Date.now(),src:prev._base64,caption,cat});
-  savePhotos(photos);
-  document.getElementById('ph-caption').value='';
-  document.getElementById('ph-file').value='';
-  prev.src='';prev.style.display='none';delete prev._base64;
-  ok.style.opacity='1';setTimeout(()=>ok.style.opacity='0',3000);
-  renderPhotos();
-};
-
-window.delPhoto=id=>{
-  if(!confirm('Supprimer cette photo ?'))return;
-  savePhotos(getPhotos().filter(p=>p.id!==id));
-  renderPhotos();
-};
-
-function renderPhotos(){
-  const grid=document.getElementById('pres-photo-grid');
-  if(!grid)return;
-  const photos=getPhotos();
-  if(!photos.length){
-    grid.innerHTML='<p style="grid-column:1/-1;font-size:13px;color:var(--muted);text-align:center;padding:16px">Aucune photo ajoutée</p>';
-    return;
-  }
-  grid.innerHTML=photos.map(p=>`
-    <div class="ph-thumb">
-      <img src="${p.src}" alt="${p.caption}">
-      <button class="ph-thumb-del" onclick="delPhoto('${p.id}')" title="Supprimer">✕</button>
-      <div class="ph-thumb-cap">${p.caption}</div>
-    </div>`).join('');
-}
-renderPhotos();
-
-render();
-};
-
-/* ── Formulaire ──────────────────────────────── */
-window.toggleForm = function(){
-  const f=document.getElementById('ev-form');
-  const btn=document.getElementById('toggle-btn');
-  const open = f.style.display==='none';
-  f.style.display = open ? 'flex' : 'none';
-  if(open) f.style.flexDirection='column', f.style.gap='12px';
-  btn.textContent = open ? '— Fermer' : '+ Ajouter un événement';
-};
-
-window.createEvent = function(){
-  const title = document.getElementById('ev-t').value.trim();
-  const date  = document.getElementById('ev-d').value;
-  const desc  = document.getElementById('ev-desc').value.trim();
-  const type  = document.getElementById('ev-type').value;
-  const ok    = document.getElementById('form-ok');
-  if(!title||!date||!desc){ alert('Merci de remplir tous les champs.'); return; }
-  const custom = getCustom();
-  custom.push({id:'u'+Date.now(),date,title,desc,type});
-  saveCustom(custom);
-  document.getElementById('ev-t').value='';
-  document.getElementById('ev-d').value='';
-  document.getElementById('ev-desc').value='';
-  ok.classList.add('show');
-  setTimeout(()=>ok.classList.remove('show'),3000);
-  render();
-};
-
-
-/* ════════════════════════════════════════
-   ACTUALITÉS — API Google Sheet
-════════════════════════════════════════ */
-const APAM_API = 'https://script.google.com/macros/s/AKfycbxae9y3NHqDyAkbEI5rDVRappI-aAWoA0jcHqR8NBUgm3t5SCB1Hq8nebY5t23cV1Je/exec';
-
-function getPwd(){ return (document.getElementById('news-pwd')?.value || '').trim(); }
-
-function fmtDate(iso){
-  if(!iso) return '';
-  const [y,m,d] = iso.split('-');
-  const mo = ['jan.','fév.','mars','avr.','mai','juin','juil.','août','sep.','oct.','nov.','déc.'];
-  return `${+d} ${mo[+m-1]} ${y}`;
-}
+function esc(s){ return String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+function fmtFR(iso){ if(!iso)return''; const[y,m,d]=iso.split('-'); const mo=['jan.','fév.','mars','avr.','mai','juin','juil.','août','sep.','oct.','nov.','déc.']; return `${+d} ${mo[+m-1]} ${y}`; }
 
 async function chargerNews(){
-  const list = document.getElementById('news-api-list');
-  if(!list) return;
-  list.innerHTML = '<div class="news-api-loading">Chargement…</div>';
-  try {
-    const r = await fetch(`${APAM_API}?action=news`);
-    const data = await r.json();
-    if(data.error){ list.innerHTML = `<div class="news-api-empty">Erreur : ${data.error}</div>`; return; }
-    const news = data.news || [];
-    if(!news.length){ list.innerHTML = '<div class="news-api-empty">Aucune actualité publiée pour le moment.</div>'; return; }
-    list.innerHTML = news.map(n => `
-      <div class="news-api-item">
-        <div class="news-api-item-body">
-          <h4>${n.titre}</h4>
-          <p>${n.texte}</p>
-          <div class="news-api-item-meta">
-            <span class="news-api-item-date">${fmtDate(n.date)}</span>
-            ${n.categorie ? `<span class="news-api-item-cat">${n.categorie}</span>` : ''}
-            <span style="font-size:9px;color:var(--muted)">— ${n.auteur}</span>
-          </div>
-        </div>
-        <button class="news-api-del" onclick="supprimerNews(${n._row})" title="Supprimer">✕</button>
-      </div>`).join('');
-  } catch(e) {
-    list.innerHTML = '<div class="news-api-empty">Impossible de charger les actualités.</div>';
-  }
+  const feed=document.getElementById('mn-feed'), badge=document.getElementById('mn-badge');
+  try{
+    const data = await fetch(`${API}?action=newsMembres`).then(r=>r.json());
+    const news = data.news||[];
+    if(!news.length){ feed.innerHTML='<div class="mn-empty">Aucune actualité membres pour le moment.<br><span style="font-size:11px;opacity:.6">Le président publiera ici les nouvelles réservées aux adhérents.</span></div>'; return; }
+    badge.textContent=news.length; badge.style.display='inline-flex';
+    const reactMap={};
+    await Promise.all(news.map(async n=>{
+      if(n.sondage&&n.sondage!=='aucun'){
+        try{ const r=await fetch(`${API}?action=reactions&newsId=${encodeURIComponent(n.id)}`).then(r=>r.json()); reactMap[n.id]=r.reactions||[]; }
+        catch{ reactMap[n.id]=[]; }
+      }
+    }));
+    feed.innerHTML=news.map(n=>renderCard(n,reactMap[n.id]||[])).join('');
+  }catch{ feed.innerHTML='<div class="mn-empty">Impossible de charger les actualités. Vérifiez votre connexion.</div>'; }
 }
 
-window.publierNews = async function(){
-  const titre  = document.getElementById('news-titre').value.trim();
-  const texte  = document.getElementById('news-texte').value.trim();
-  const cat    = document.getElementById('news-cat').value;
-  const image  = document.getElementById('news-image').value.trim();
-  const auteur = document.getElementById('news-auteur').value.trim() || 'Le Président';
-  const pwd    = getPwd();
-  const okEl   = document.getElementById('news-ok');
-
-  if(!titre || !texte){ okEl.textContent = '⚠ Titre et texte obligatoires'; okEl.style.color='var(--warn)'; okEl.classList.add('show'); return; }
-  if(!pwd){ okEl.textContent = '⚠ Mot de passe requis'; okEl.style.color='var(--warn)'; okEl.classList.add('show'); return; }
-
-  okEl.textContent = '⏳ Publication en cours…'; okEl.style.color='var(--muted)'; okEl.classList.add('show');
-
-  const today = new Date().toISOString().split('T')[0];
-  const url = `${APAM_API}?action=addNews&pwd=${encodeURIComponent(pwd)}&titre=${encodeURIComponent(titre)}&texte=${encodeURIComponent(texte)}&categorie=${encodeURIComponent(cat)}&image=${encodeURIComponent(image)}&auteur=${encodeURIComponent(auteur)}&date=${today}`;
-
-  try {
-    const r = await fetch(url);
-    const data = await r.json();
-    if(data.error){
-      okEl.textContent = '✗ ' + data.error; okEl.style.color='var(--err)';
-    } else {
-      okEl.textContent = '✓ Actualité publiée !'; okEl.style.color='var(--ok)';
-      document.getElementById('news-titre').value = '';
-      document.getElementById('news-texte').value = '';
-      document.getElementById('news-image').value = '';
-      setTimeout(()=>chargerNews(), 800);
-    }
-  } catch(e) {
-    okEl.textContent = '✗ Erreur réseau'; okEl.style.color='var(--err)';
+function renderCard(n,reactions){
+  const hasPoll=n.sondage&&n.sondage!=='aucun';
+  const myVote=reactions.find(r=>r.prenom===prenom&&r.nom===nom)?.reponse||null;
+  const ouiList=reactions.filter(r=>r.reponse==='Oui'), nonList=reactions.filter(r=>r.reponse==='Non');
+  let poll='';
+  if(hasPoll){
+    const vO=myVote==='Oui'?' voted-oui':'', vN=myVote==='Non'?' voted-non':'';
+    const q=n.sondage==='oui-non'?'Serez-vous présent ?':esc(n.sondage);
+    const react=reactions.length?`<div class="mn-reactions"><div class="mn-reactions-lbl">Réponses · ${reactions.length}</div>${ouiList.length?`<div class="mn-rg"><span class="mn-rg-lbl oui">Oui · ${ouiList.length}</span><div class="mn-names">${ouiList.map(r=>`<span class="mn-name">${esc(r.prenom)} ${esc(r.nom)}</span>`).join('')}</div></div>`:''}${nonList.length?`<div class="mn-rg"><span class="mn-rg-lbl non">Non · ${nonList.length}</span><div class="mn-names">${nonList.map(r=>`<span class="mn-name">${esc(r.prenom)} ${esc(r.nom)}</span>`).join('')}</div></div>`:''}
+    </div>`:'';
+    poll=`<div class="mn-poll"><div class="mn-poll-q">${q}</div><div class="mn-poll-btns" id="pb-${esc(n.id)}"><button class="mn-poll-btn${vO}" onclick="voter('${esc(n.id)}','Oui',this)">✓ Oui</button><button class="mn-poll-btn${vN}" onclick="voter('${esc(n.id)}','Non',this)">✗ Non</button></div><div id="pr-${esc(n.id)}">${react}</div></div>`;
   }
-  setTimeout(()=>okEl.classList.remove('show'), 4000);
+  return `<div class="mn-card"><div class="mn-card-hd"><div class="mn-card-meta"><span class="mn-card-date">${fmtFR(n.date)}</span>${n.categorie?`<span class="mn-card-cat">${esc(n.categorie)}</span>`:''}<span class="mn-card-auteur">— ${esc(n.auteur)}</span></div><h3 class="mn-card-titre">${esc(n.titre)}</h3></div><div class="mn-card-body"><p class="mn-card-texte">${esc(n.texte)}</p></div>${poll}</div>`;
+}
+
+window.voter=async function(newsId,reponse,btn){
+  if(!prenom||!nom){alert('Connectez-vous avec votre nom et prénom pour réagir.');return;}
+  btn.disabled=true;
+  try{
+    await fetch(`${API}?action=reagir&newsId=${encodeURIComponent(newsId)}&prenom=${encodeURIComponent(prenom)}&nom=${encodeURIComponent(nom)}&reponse=${encodeURIComponent(reponse)}`);
+    const r=await fetch(`${API}?action=reactions&newsId=${encodeURIComponent(newsId)}`).then(r=>r.json());
+    const reactions=r.reactions||[], ouiList=reactions.filter(r=>r.reponse==='Oui'), nonList=reactions.filter(r=>r.reponse==='Non');
+    const pb=document.getElementById('pb-'+newsId);
+    if(pb)pb.querySelectorAll('.mn-poll-btn').forEach(b=>{b.classList.remove('voted-oui','voted-non');if(b.textContent.includes('Oui')&&reponse==='Oui')b.classList.add('voted-oui');if(b.textContent.includes('Non')&&reponse==='Non')b.classList.add('voted-non');b.disabled=false;});
+    const pr=document.getElementById('pr-'+newsId);
+    if(pr)pr.innerHTML=reactions.length?`<div class="mn-reactions"><div class="mn-reactions-lbl">Réponses · ${reactions.length}</div>${ouiList.length?`<div class="mn-rg"><span class="mn-rg-lbl oui">Oui · ${ouiList.length}</span><div class="mn-names">${ouiList.map(r=>`<span class="mn-name">${esc(r.prenom)} ${esc(r.nom)}</span>`).join('')}</div></div>`:''}${nonList.length?`<div class="mn-rg"><span class="mn-rg-lbl non">Non · ${nonList.length}</span><div class="mn-names">${nonList.map(r=>`<span class="mn-name">${esc(r.prenom)} ${esc(r.nom)}</span>`).join('')}</div></div>`:''}
+    </div>`:'';
+  }catch{btn.disabled=false;}
 };
 
-window.supprimerNews = async function(row){
-  if(!confirm('Supprimer cette actualité ?')) return;
-  const pwd = getPwd();
-  if(!pwd){ alert('Mot de passe requis pour supprimer.'); return; }
-  try {
-    const r = await fetch(`${APAM_API}?action=deleteNews&pwd=${encodeURIComponent(pwd)}&row=${row}`);
-    const data = await r.json();
-    if(data.error){ alert('Erreur : ' + data.error); return; }
-    chargerNews();
-  } catch(e) { alert('Erreur réseau.'); }
-};
-
-// Charger les news si président
-if(role === 'president') chargerNews();
-
-
+chargerNews();
+</script>
 </body>
 </html>
