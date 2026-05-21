@@ -1,0 +1,20 @@
+{
+  "name": "APAM",
+  "short_name": "APAM",
+  "description": "Espace membres – Aéroclub L'Aigle Saint-Michel · LFOL",
+  "start_url": "/mon-compte.html",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "theme_color": "#080a0e",
+  "background_color": "#080a0e",
+  "categories": ["lifestyle", "utilities"],
+  "icons": [
+    { "src": "assets/images/apam-logo2.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "assets/images/apam-logo2.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "assets/images/apam-logo2.png", "sizes": "any",     "type": "image/png", "purpose": "maskable" }
+  ],
+  "shortcuts": [
+    { "name": "Actualités membres", "url": "/mon-compte.html", "icons": [{"src":"assets/images/apam-logo2.png","sizes":"192x192"}] }
+  ]
+}
