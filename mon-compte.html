@@ -181,6 +181,23 @@ a{color:inherit;text-decoration:none}
 .tool-btn.admin:hover{background:rgba(245,165,36,.16)}
 
 /* Toast */
+
+/* iOS Install modal */
+.ios-modal{position:fixed;inset:0;z-index:500;display:flex;align-items:flex-end;justify-content:center;padding:0 12px 0;background:rgba(0,0,0,.55);backdrop-filter:blur(8px);opacity:0;pointer-events:none;transition:opacity .3s}
+.ios-modal.show{opacity:1;pointer-events:auto}
+.ios-modal-card{width:100%;max-width:420px;background:#1c1f2e;border:1px solid rgba(37,99,235,.3);border-radius:20px 20px 0 0;padding:24px 22px calc(var(--safe-bot,0px) + 24px);display:flex;flex-direction:column;gap:14px;transform:translateY(40px);transition:transform .35s cubic-bezier(.16,1,.3,1)}
+.ios-modal.show .ios-modal-card{transform:translateY(0)}
+.ios-modal-handle{width:36px;height:4px;border-radius:100px;background:rgba(255,255,255,.2);margin:0 auto -4px}
+.ios-modal-title{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:22px;text-transform:uppercase;letter-spacing:-.005em;text-align:center;color:#fff}
+.ios-modal-steps{display:flex;flex-direction:column;gap:10px}
+.ios-step{display:flex;align-items:center;gap:12px;padding:10px 14px;background:rgba(255,255,255,.04);border-radius:10px}
+.ios-step-num{width:26px;height:26px;border-radius:50%;background:var(--accent);color:#fff;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.ios-step-tx{font-size:13.5px;color:rgba(255,255,255,.82);line-height:1.4}
+.ios-step-tx strong{color:#fff}
+.ios-step-icon{font-size:18px;flex-shrink:0}
+.ios-modal-close{width:100%;padding:12px;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:13px;letter-spacing:.12em;text-transform:uppercase;background:transparent;border:1px solid rgba(255,255,255,.15);color:rgba(255,255,255,.5);cursor:pointer;border-radius:8px;transition:border-color .2s,color .2s}
+.ios-modal-close:hover{border-color:rgba(255,255,255,.3);color:#fff}
+
 .toast{position:fixed;top:80px;left:50%;transform:translateX(-50%);z-index:400;padding:9px 18px;background:var(--sf);border:1px solid var(--border);border-radius:100px;font-size:12.5px;font-weight:600;color:#fff;white-space:nowrap;box-shadow:0 8px 24px rgba(0,0,0,.4);pointer-events:none;opacity:0;transition:opacity .25s}
 .toast.show{opacity:1}
 .toast.ok{border-color:rgba(34,215,122,.4);color:var(--ok)}
@@ -401,6 +418,33 @@ a{color:inherit;text-decoration:none}
   </button>
 </nav>
 
+
+<!-- Modal install iOS -->
+<div class="ios-modal" id="ios-modal" onclick="if(event.target===this)closeIOSModal()">
+  <div class="ios-modal-card">
+    <div class="ios-modal-handle"></div>
+    <p class="ios-modal-title">✈️ Installer APAM</p>
+    <div class="ios-modal-steps">
+      <div class="ios-step">
+        <div class="ios-step-num">1</div>
+        <div class="ios-step-tx">Appuyez sur <strong>Partager</strong> en bas de Safari</div>
+        <span class="ios-step-icon">⬆️</span>
+      </div>
+      <div class="ios-step">
+        <div class="ios-step-num">2</div>
+        <div class="ios-step-tx">Faites défiler et appuyez sur <strong>« Sur l'écran d'accueil »</strong></div>
+        <span class="ios-step-icon">📱</span>
+      </div>
+      <div class="ios-step">
+        <div class="ios-step-num">3</div>
+        <div class="ios-step-tx">Appuyez sur <strong>Ajouter</strong> en haut à droite</div>
+        <span class="ios-step-icon">✓</span>
+      </div>
+    </div>
+    <button class="ios-modal-close" onclick="closeIOSModal()">Fermer</button>
+  </div>
+</div>
+
 <!-- Toast -->
 <div class="toast" id="toast"></div>
 
@@ -551,14 +595,28 @@ async function chargerNews(){
 chargerNews();
 
 /* ── PWA Install ── */
+const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+const isIOSSafari = isIOS && /Safari/.test(navigator.userAgent) && !/CriOS|FxiOS|Chrome/.test(navigator.userAgent);
+const isStandaloneMode = window.matchMedia('(display-mode: standalone)').matches || !!window.navigator.standalone;
+
+function openIOSModal(){ document.getElementById('ios-modal')?.classList.add('show'); }
+function closeIOSModal(){ document.getElementById('ios-modal')?.classList.remove('show'); }
+
+// iOS Safari hors PWA → montrer le bouton avec instructions
+if(isIOSSafari && !isStandaloneMode){
+  document.getElementById('btn-install-desk')?.classList.add('visible');
+  document.getElementById('install-widget')?.style.setProperty('display','block');
+}
+
 let deferredPrompt=null;
 window.addEventListener('beforeinstallprompt',e=>{
   e.preventDefault(); deferredPrompt=e;
-  // Desktop : bouton nav + widget sidebar
   document.getElementById('btn-install-desk')?.classList.add('visible');
   document.getElementById('install-widget')?.style.setProperty('display','block');
 });
+
 async function triggerInstall(){
+  if(isIOSSafari){ openIOSModal(); return; }
   if(!deferredPrompt) return;
   deferredPrompt.prompt();
   const{outcome}=await deferredPrompt.userChoice;
@@ -569,35 +627,7 @@ async function triggerInstall(){
 }
 document.getElementById('btn-install-desk')?.addEventListener('click',triggerInstall);
 document.getElementById('btn-install-widget')?.addEventListener('click',triggerInstall);
-/* ── Onglets mobile ── */
-window.switchTab = function(tab){
-  document.querySelectorAll('.tab-pane').forEach(p=>p.classList.remove('active'));
-  document.querySelectorAll('.bn').forEach(b=>b.classList.remove('on'));
-  document.getElementById('pane-'+tab)?.classList.add('active');
-  document.getElementById('tab-'+tab)?.classList.add('on');
-};
-
-/* ── Bloquer navigation externe dans PWA standalone ── */
-const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
-if(isStandalone){
-  document.addEventListener('click', e=>{
-    const a = e.target.closest('a[href]');
-    if(!a) return;
-    const href = a.getAttribute('href');
-    // Laisser passer les ancres et les liens internes à l'app
-    if(!href || href.startsWith('#') || href.startsWith('javascript')) return;
-    const url = new URL(href, location.href);
-    // Même origine mais hors de mon-compte = ouvrir dans le navigateur
-    const appPages = ['mon-compte.html','connexion-membres-password.html','presidence.html','admin.html'];
-    const isAppPage = appPages.some(p => url.pathname.endsWith(p));
-    if(!isAppPage){
-      e.preventDefault();
-      window.open(url.href, '_blank');
-    }
-  });
-}
-
-window.addEventListener('appinstalled',()=>{ toast('✓ App APAM installée !','ok',3000); document.getElementById('install-widget')?.style.setProperty('display','none'); });
+window.addEventListener('appinstalled',()=>{ toast('✓ App APAM installée !','ok',3000); document.getElementById('install-widget')?.style.setProperty('display','none'); }); document.getElementById('install-widget')?.style.setProperty('display','none'); });
 </script>
 </body>
 </html>
