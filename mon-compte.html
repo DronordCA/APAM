@@ -2,201 +2,272 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8"/>
-<title>Mon compte – APAM · Espace membres</title>
-<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>APAM · Espace membres</title>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
+<meta name="theme-color" content="#080a0e"/>
+<meta name="mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+<meta name="apple-mobile-web-app-title" content="APAM"/>
+<link rel="manifest" href="manifest.json"/>
+<link rel="apple-touch-icon" href="assets/images/apam-logo2.png"/>
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,400;0,700;0,900;1,700;1,900&family=Jost:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#080a0e;--bg-2:#0b0d13;--sf:#141720;
-  --accent:#2563eb;--acc-d:rgba(37,99,235,.14);
+  --bg:#080a0e;--bg-2:#0b0d13;--sf:#141720;--sf2:#191d2c;
+  --accent:#2563eb;--acc-d:rgba(37,99,235,.14);--acc2:#818cf8;
   --muted:#7a8399;--dim:#32384f;
   --border:rgba(255,255,255,.07);--bds:rgba(255,255,255,.11);
-  --ok:#22d77a;--err:#ef4444;
-  --white:#fff;--nav-h:66px;--side:clamp(16px,4.5vw,72px);--rl:12px;
+  --ok:#22d77a;--err:#ef4444;--warn:#f5a524;
+  --white:#fff;
+  --nav-h:64px;
+  --bottom-h:64px;
+  --safe-top:env(safe-area-inset-top,0px);
+  --safe-bot:env(safe-area-inset-bottom,0px);
+  --side:clamp(14px,4vw,28px);
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-body{background:var(--bg-2);color:var(--white);font-family:'Jost',system-ui,sans-serif;-webkit-font-smoothing:antialiased;min-height:100svh;display:flex;flex-direction:column}
+html{height:100%}
+body{background:var(--bg);color:var(--white);font-family:'Jost',system-ui,sans-serif;-webkit-font-smoothing:antialiased;min-height:100svh;display:flex;flex-direction:column;overflow-x:hidden}
 a{color:inherit;text-decoration:none}
-::-webkit-scrollbar{width:2px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:var(--accent)}
+::-webkit-scrollbar{width:0}
 
-/* NAV */
-.nav{position:sticky;top:0;z-index:100;height:var(--nav-h);display:flex;align-items:center;padding:0 var(--side);gap:16px;background:rgba(8,10,14,.94);border-bottom:1px solid var(--border);backdrop-filter:blur(20px)}
-.nav-logo{display:flex;align-items:center;gap:10px}
-.nav-logo img{height:36px}
-.nav-logo-txt{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:22px;text-transform:uppercase;display:none}
-.nav-right{display:flex;align-items:center;gap:14px;margin-left:auto}
-.nav-site{font-size:10.5px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:rgba(255,255,255,.3);transition:color .2s}
-.nav-site:hover{color:rgba(255,255,255,.7)}
-.nav-out{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:12.5px;letter-spacing:.12em;text-transform:uppercase;padding:7px 15px;border:1.5px solid rgba(255,255,255,.14);color:rgba(255,255,255,.4);cursor:pointer;background:none;transition:color .2s,border-color .2s}
-.nav-out:hover{color:#fff;border-color:rgba(255,255,255,.4)}
+/* ── TOP NAV ── */
+.topnav{position:fixed;top:0;left:0;right:0;z-index:100;
+  padding:calc(var(--safe-top) + 10px) var(--side) 10px;
+  background:rgba(8,10,14,.88);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:center;gap:12px;
+  min-height:calc(var(--safe-top) + var(--nav-h))}
+.topnav-logo img{height:32px}
+.topnav-logo-txt{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:22px;text-transform:uppercase;display:none}
+.topnav-greet{flex:1}
+.topnav-greet .hello{font-size:11px;color:var(--muted);font-weight:500;letter-spacing:.04em}
+.topnav-greet .name{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:20px;text-transform:uppercase;letter-spacing:-.005em;color:#fff;line-height:1.05}
+.topnav-pill{display:flex;align-items:center;gap:6px;padding:5px 11px;background:rgba(37,99,235,.1);border:1px solid rgba(37,99,235,.25);border-radius:100px;font-size:9.5px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:#8aabff}
+.topnav-pill .dot{width:6px;height:6px;border-radius:50%;background:var(--ok);animation:pulse 2.6s ease-in-out infinite;flex-shrink:0}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(34,215,122,.5)}50%{box-shadow:0 0 0 4px transparent}}
 
-/* HERO */
-.dh{background:var(--bg);border-bottom:1px solid var(--border);padding:48px 0 36px;position:relative;overflow:hidden}
-.dh::before{content:'';position:absolute;inset:0;background:radial-gradient(55% 70% at 95% 0%,rgba(37,99,235,.1),transparent 60%);pointer-events:none}
-.dh-grid{position:absolute;inset:0;pointer-events:none;background-image:linear-gradient(rgba(37,99,235,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(37,99,235,.03) 1px,transparent 1px);background-size:64px 64px;mask-image:linear-gradient(135deg,rgba(0,0,0,.4) 10%,transparent 65%)}
-.dh-inner{position:relative;z-index:1;display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:20px}
-.dh-eye{font-size:9px;font-weight:700;letter-spacing:.32em;text-transform:uppercase;color:var(--accent);display:flex;align-items:center;gap:9px;margin-bottom:12px}
-.dh-eye::before{content:'';width:20px;height:1px;background:var(--accent)}
-.dh-name{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:clamp(44px,6vw,76px);line-height:.9;text-transform:uppercase;letter-spacing:-.015em}
-.dh-name em{color:var(--accent);font-style:inherit}
-.dh-sub{font-size:13.5px;color:var(--muted);margin-top:10px;line-height:1.6}
-.dh-pill{display:inline-flex;align-items:center;gap:7px;padding:8px 16px;background:rgba(37,99,235,.1);border:1px solid rgba(37,99,235,.25);border-radius:100px;font-size:10px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:#8aabff}
-.dh-pill .dot{width:6px;height:6px;border-radius:50%;background:var(--ok);animation:pulse 2.6s ease-in-out infinite}
-@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(34,215,122,.5)}50%{box-shadow:0 0 0 5px transparent}}
+/* ── MAIN ── */
+.main{flex:1;padding:calc(var(--safe-top) + var(--nav-h) + 16px) 0 calc(var(--safe-bot) + var(--bottom-h) + 16px)}
+.wrap{max-width:680px;margin:0 auto;padding:0 var(--side)}
 
-/* LAYOUT */
-.wrap{max-width:860px;margin:0 auto;padding:0 var(--side)}
-.main{flex:1;padding:32px 0 64px}
-.sections{display:flex;flex-direction:column;gap:20px}
+/* ── SECTION HEADER ── */
+.sec-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.sec-header h2{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:22px;text-transform:uppercase;letter-spacing:-.005em;color:#fff;display:flex;align-items:center;gap:8px}
+.sec-badge{font-size:10px;font-weight:700;letter-spacing:.14em;padding:3px 9px;border-radius:100px;background:var(--acc-d);border:1px solid rgba(37,99,235,.2);color:var(--accent)}
 
-/* PANEL */
-.panel{background:var(--sf);border:1px solid var(--border);border-radius:var(--rl);overflow:hidden}
-.panel-hd{padding:14px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:10px}
-.panel-hd h2{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:17px;text-transform:uppercase;letter-spacing:.03em;color:#fff;display:flex;align-items:center;gap:9px}
-.mn-badge{font-size:10px;font-weight:700;letter-spacing:.14em;padding:3px 9px;border-radius:100px;background:var(--acc-d);border:1px solid rgba(37,99,235,.2);color:var(--accent);display:none}
+/* ── SKELETONS ── */
+@keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+.skel{background:linear-gradient(90deg,var(--sf) 25%,rgba(255,255,255,.06) 50%,var(--sf) 75%);background-size:200% 100%;animation:shimmer 1.6s ease-in-out infinite;border-radius:6px}
+.skel-card{background:var(--sf);border:1px solid var(--border);border-radius:12px;padding:16px;display:flex;flex-direction:column;gap:10px;margin-bottom:10px}
+.skel-line{height:12px}.skel-line.w-80{width:80%}.skel-line.w-60{width:60%}.skel-line.w-40{width:40%}.skel-line.w-full{width:100%}
+.skel-title{height:20px;width:75%}
+.skel-poll{height:36px;border-radius:8px;margin-top:4px}
 
-/* TEASER */
-.teaser{padding:40px 28px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:14px;position:relative;overflow:hidden}
-.teaser::before{content:'';position:absolute;inset:0;background:radial-gradient(60% 70% at 50% 110%,rgba(37,99,235,.06),transparent 65%);pointer-events:none}
-.teaser-icon{font-size:36px;opacity:.55}
-.teaser-title{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:22px;text-transform:uppercase;color:rgba(255,255,255,.45)}
-.teaser-sub{font-size:13px;color:var(--muted);line-height:1.7;max-width:440px}
-.teaser-tag{font-size:9px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;padding:5px 14px;border-radius:100px;border:1px dashed rgba(37,99,235,.28);color:rgba(37,99,235,.65)}
-
-/* NEWS */
-.mn-feed{display:flex;flex-direction:column}
-.mn-card{border-bottom:1px solid var(--border);transition:background .2s}
-.mn-card:last-child{border-bottom:none}
-.mn-card:hover{background:rgba(37,99,235,.02)}
-.mn-card-hd{padding:16px 18px 10px}
-.mn-card-meta{display:flex;align-items:center;gap:8px;margin-bottom:8px;flex-wrap:wrap}
+/* ── NEWS CARDS ── */
+.mn-feed{display:flex;flex-direction:column;gap:10px}
+.mn-card{background:var(--sf);border:1px solid var(--border);border-radius:12px;overflow:hidden;transition:border-color .25s;animation:cardIn .4s cubic-bezier(.16,1,.3,1) both}
+@keyframes cardIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.mn-card:hover{border-color:rgba(37,99,235,.3)}
+.mn-card-hd{padding:14px 16px 10px}
+.mn-card-meta{display:flex;align-items:center;gap:7px;margin-bottom:7px;flex-wrap:wrap}
 .mn-card-date{font-size:9px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--muted)}
-.mn-card-cat{font-size:8px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;padding:2px 8px;border-radius:100px;background:rgba(37,99,235,.1);border:1px solid rgba(37,99,235,.2);color:#8aabff}
-.mn-card-auteur{font-size:9px;font-weight:600;text-transform:uppercase;color:rgba(255,255,255,.25);margin-left:auto}
-.mn-card-titre{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:21px;text-transform:uppercase;color:#fff;line-height:1.05}
-.mn-card-body{padding:0 18px 14px}
-.mn-card-texte{font-size:13.5px;color:rgba(255,255,255,.68);line-height:1.72}
-.mn-poll{padding:12px 18px 16px;border-top:1px solid var(--border);background:rgba(37,99,235,.03)}
-.mn-poll-q{font-size:10.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.45);margin-bottom:10px}
-.mn-poll-btns{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}
-.mn-poll-btn{padding:8px 20px;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:13px;letter-spacing:.1em;text-transform:uppercase;border:1.5px solid var(--bds);background:transparent;color:rgba(255,255,255,.5);cursor:pointer;transition:all .22s;border-radius:6px}
-.mn-poll-btn:hover{color:#fff;border-color:rgba(255,255,255,.4)}
-.mn-poll-btn.voted-oui{background:rgba(34,215,122,.12);border-color:var(--ok);color:var(--ok)}
+.mn-card-cat{font-size:8px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;padding:2px 8px;border-radius:100px;background:rgba(37,99,235,.1);border:1px solid rgba(37,99,235,.18);color:#8aabff}
+.mn-card-auteur{font-size:9px;color:rgba(255,255,255,.25);margin-left:auto}
+.mn-card-titre{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:19px;text-transform:uppercase;color:#fff;line-height:1.05}
+.mn-card-body{padding:0 16px 14px}
+.mn-card-texte{font-size:13.5px;color:rgba(255,255,255,.7);line-height:1.72}
+
+/* ── POLL ── */
+.mn-poll{padding:12px 16px 14px;border-top:1px solid var(--border);background:rgba(37,99,235,.03)}
+.mn-poll-q{font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.45);margin-bottom:10px}
+.mn-poll-btns{display:flex;gap:8px;margin-bottom:10px}
+.mn-poll-btn{flex:1;padding:10px;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:14px;letter-spacing:.1em;text-transform:uppercase;border:1.5px solid var(--bds);background:transparent;color:rgba(255,255,255,.5);cursor:pointer;transition:all .15s;border-radius:8px;display:flex;align-items:center;justify-content:center;gap:6px}
+.mn-poll-btn:active{transform:scale(.96)}
+.mn-poll-btn.voted-oui{background:rgba(34,215,122,.14);border-color:var(--ok);color:var(--ok)}
 .mn-poll-btn.voted-non{background:rgba(239,68,68,.1);border-color:var(--err);color:var(--err)}
-.mn-reactions{display:flex;flex-direction:column;gap:6px}
-.mn-reactions-lbl{font-size:9px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.25);margin-bottom:2px}
-.mn-rg{display:flex;align-items:flex-start;gap:8px}
-.mn-rg-lbl{font-weight:700;font-size:9px;letter-spacing:.14em;text-transform:uppercase;white-space:nowrap;padding-top:3px}
+.mn-poll-btn.voted-oui .chk,.mn-poll-btn.voted-non .chk{display:inline}
+.chk{display:none;font-size:12px}
+
+/* ── REACTIONS ── */
+.mn-reactions{display:flex;flex-direction:column;gap:5px}
+.mn-reactions-lbl{font-size:8.5px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.22);margin-bottom:3px}
+.mn-rg{display:flex;align-items:flex-start;gap:7px}
+.mn-rg-lbl{font-weight:700;font-size:8.5px;letter-spacing:.14em;text-transform:uppercase;white-space:nowrap;padding-top:3px;flex-shrink:0}
 .mn-rg-lbl.oui{color:var(--ok)}.mn-rg-lbl.non{color:var(--err)}
 .mn-names{display:flex;flex-wrap:wrap;gap:4px}
-.mn-name{padding:2px 9px;background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:100px;font-size:11px;color:rgba(255,255,255,.5)}
-.mn-empty{padding:36px;text-align:center;font-size:13px;color:var(--muted);line-height:1.7}
-.mn-loading{padding:24px;text-align:center;font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}
+.mn-name{padding:2px 8px;background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:100px;font-size:11px;color:rgba(255,255,255,.5)}
+.mn-name.me{background:rgba(37,99,235,.1);border-color:rgba(37,99,235,.3);color:#8aabff}
 
-/* FOOTER */
-.foot{background:var(--bg);border-top:1px solid var(--border);padding:16px var(--side)}
-.foot-inner{max-width:860px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px}
-.foot-links{display:flex;gap:14px}
-.foot-links a{font-size:11px;color:var(--muted);transition:color .2s}.foot-links a:hover{color:#fff}
-.foot-cr{font-size:11px;color:var(--dim)}
+/* ── EMPTY ── */
+.mn-empty{padding:40px 16px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:10px}
+.mn-empty-icon{font-size:40px;opacity:.4}
+.mn-empty-title{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:20px;text-transform:uppercase;color:rgba(255,255,255,.4)}
+.mn-empty-sub{font-size:12.5px;color:var(--muted);line-height:1.6;max-width:280px}
 
-@media(max-width:600px){
-  .dh-inner{flex-direction:column;align-items:flex-start}
-  .mn-poll-btns{flex-direction:column}
-  .mn-poll-btn{width:100%;text-align:center}
+/* ── TEASER ── */
+.teaser{background:var(--sf);border:1px solid var(--border);border-radius:12px;padding:28px 20px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:10px;position:relative;overflow:hidden}
+.teaser::before{content:'';position:absolute;inset:0;background:radial-gradient(60% 80% at 50% 100%,rgba(37,99,235,.06),transparent);pointer-events:none}
+.teaser-icon{font-size:32px;opacity:.5}
+.teaser-title{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:18px;text-transform:uppercase;color:rgba(255,255,255,.4)}
+.teaser-sub{font-size:12px;color:var(--muted);line-height:1.6;max-width:280px}
+.teaser-tag{font-size:9px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;padding:4px 12px;border-radius:100px;border:1px dashed rgba(37,99,235,.25);color:rgba(37,99,235,.55)}
+
+/* ── OUTILS CARD ── */
+.tools-card{background:var(--sf);border:1px solid rgba(37,99,235,.2);border-radius:12px;overflow:hidden;margin-bottom:16px}
+.tools-card-hd{padding:12px 16px;border-bottom:1px solid var(--border);background:rgba(37,99,235,.05)}
+.tools-card-hd h3{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:16px;text-transform:uppercase;color:#fff}
+.tools-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border)}
+.tool-item{background:var(--sf);padding:14px 16px;display:flex;align-items:center;gap:10px;cursor:pointer;transition:background .2s;text-decoration:none;color:inherit}
+.tool-item:hover,.tool-item:active{background:rgba(37,99,235,.08)}
+.tool-icon{font-size:20px;flex-shrink:0}
+.tool-tx h4{font-size:12px;font-weight:700;color:#fff;letter-spacing:.04em}
+.tool-tx p{font-size:10.5px;color:var(--muted);margin-top:1px}
+
+/* ── BOTTOM NAV ── */
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;z-index:100;
+  padding:8px var(--side) calc(var(--safe-bot) + 8px);
+  background:rgba(8,10,14,.92);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+  border-top:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-around}
+.bn-item{display:flex;flex-direction:column;align-items:center;gap:3px;padding:6px 16px;cursor:pointer;border:none;background:none;color:rgba(255,255,255,.3);transition:color .2s;text-decoration:none;font-family:'Jost',sans-serif}
+.bn-item.on{color:var(--accent)}
+.bn-item svg{width:22px;height:22px;fill:currentColor}
+.bn-item span{font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase}
+
+/* ── INSTALL BANNER ── */
+.install-banner{position:fixed;bottom:calc(var(--safe-bot) + var(--bottom-h) + 12px);left:var(--side);right:var(--side);z-index:200;
+  background:linear-gradient(135deg,#0e1320,#0b0d18);
+  border:1.5px solid rgba(37,99,235,.4);border-radius:14px;
+  padding:14px 16px;display:flex;align-items:center;gap:12px;
+  box-shadow:0 20px 40px rgba(0,0,0,.6);
+  animation:bannerIn .4s cubic-bezier(.16,1,.3,1)}
+@keyframes bannerIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+.install-banner.hidden{display:none}
+.install-icon{width:44px;height:44px;background:var(--accent);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0}
+.install-tx{flex:1;min-width:0}
+.install-tx h4{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:16px;text-transform:uppercase;color:#fff;letter-spacing:-.005em}
+.install-tx p{font-size:11px;color:var(--muted);margin-top:2px;line-height:1.4}
+.install-btn{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:12px;letter-spacing:.12em;text-transform:uppercase;padding:8px 14px;background:var(--accent);color:#fff;border:none;cursor:pointer;border-radius:8px;white-space:nowrap;transition:opacity .2s}
+.install-btn:hover{opacity:.85}
+.install-close{width:24px;height:24px;background:none;border:none;color:rgba(255,255,255,.3);cursor:pointer;font-size:14px;flex-shrink:0;display:flex;align-items:center;justify-content:center}
+
+/* ── TOAST ── */
+.toast{position:fixed;top:calc(var(--safe-top) + var(--nav-h) + 12px);left:50%;transform:translateX(-50%);z-index:300;
+  padding:10px 18px;background:var(--sf);border:1px solid var(--border);border-radius:100px;
+  font-size:12.5px;font-weight:600;color:#fff;white-space:nowrap;
+  box-shadow:0 8px 24px rgba(0,0,0,.4);pointer-events:none;
+  opacity:0;transition:opacity .25s}
+.toast.show{opacity:1}
+.toast.ok{border-color:rgba(34,215,122,.4);color:var(--ok)}
+.toast.err{border-color:rgba(239,68,68,.4);color:var(--err)}
+
+@media(min-width:600px){
+  .bottom-nav{justify-content:center;gap:40px}
+  .install-banner{max-width:500px;left:50%;right:auto;transform:translateX(-50%)}
 }
-
-/* OUTILS */
-.tools-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.tool-card{display:flex;align-items:center;gap:12px;padding:14px 16px;background:rgba(37,99,235,.06);border:1px solid rgba(37,99,235,.2);border-radius:9px;text-decoration:none;color:inherit;transition:border-color .2s,background .2s}
-.tool-card:hover{border-color:rgba(37,99,235,.5);background:rgba(37,99,235,.12)}
-.tool-card-icon{font-size:22px;flex-shrink:0}
-.tool-card-tx h4{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:16px;text-transform:uppercase;color:#fff;letter-spacing:-.005em}
-.tool-card-tx p{font-size:11px;color:var(--muted);margin-top:2px}
-.tool-card.admin{background:rgba(129,140,248,.06);border-color:rgba(129,140,248,.2)}
-.tool-card.admin:hover{border-color:rgba(129,140,248,.5);background:rgba(129,140,248,.12)}
-
 </style>
 </head>
 <body>
 
-<nav class="nav">
-  <div class="nav-logo">
+<!-- TOP NAV -->
+<nav class="topnav">
+  <div class="topnav-logo">
     <img src="assets/images/apam-logo2.png" alt="APAM"
       onerror="this.style.display='none';document.getElementById('ntxt').style.display='block'">
-    <span id="ntxt" class="nav-logo-txt">APAM</span>
+    <span id="ntxt" class="topnav-logo-txt">APAM</span>
   </div>
-  <div class="nav-right">
-    <a class="nav-site" href="index.html">← Site public</a>
-    <button class="nav-out" id="btn-logout">Déconnexion</button>
+  <div class="topnav-greet">
+    <div class="hello">Bonjour,</div>
+    <div class="name" id="u-name">Membre</div>
   </div>
+  <div class="topnav-pill"><span class="dot"></span><span id="u-role">Membre</span></div>
 </nav>
 
-<section class="dh">
-  <div class="dh-grid" aria-hidden="true"></div>
-  <div class="wrap">
-    <div class="dh-inner">
-      <div>
-        <p class="dh-eye">Espace membre · APAM 2026</p>
-        <h1 class="dh-name">Bonjour,<br><em id="u-prenom">Membre</em>.</h1>
-        <p class="dh-sub" id="u-sub">Bienvenue dans votre espace personnel.</p>
-      </div>
-      <div class="dh-pill"><span class="dot"></span>Connecté · Saison 2026</div>
-    </div>
-  </div>
-</section>
-
+<!-- MAIN -->
 <main class="main">
   <div class="wrap">
-    <div class="sections">
 
-
-      <!-- ══ MES OUTILS ══ -->
-      <div class="panel" id="tools-panel" style="display:none">
-        <div class="panel-hd">
-          <h2>🛠 Mes outils</h2>
-        </div>
-        <div style="padding:16px">
-          <div class="tools-grid" id="tools-grid"></div>
-        </div>
+    <!-- Outils (si permissions) -->
+    <div id="tools-section" style="display:none">
+      <div class="tools-card">
+        <div class="tools-card-hd"><h3>🛠 Mes outils</h3></div>
+        <div class="tools-grid" id="tools-grid"></div>
       </div>
-
-      <div class="panel">
-        <div class="panel-hd">
-          <h2>📰 Actualités membres</h2>
-          <span class="mn-badge" id="mn-badge"></span>
-        </div>
-        <div class="mn-feed" id="mn-feed">
-          <div class="mn-loading">Chargement…</div>
-        </div>
-      </div>
-
-      <div class="panel">
-        <div class="teaser">
-          <div class="teaser-icon">🚧</div>
-          <p class="teaser-title">Mon compte évolue bientôt.</p>
-          <p class="teaser-sub">Réservations, carnet de vol, solde, compétences — tout ça arrive. Restez à l'affût des nouvelles du club !</p>
-          <span class="teaser-tag">Prochainement · Saison 2026</span>
-        </div>
-      </div>
-
     </div>
+
+    <!-- Actualités membres -->
+    <div class="sec-header">
+      <h2>📰 Actualités</h2>
+      <span class="sec-badge" id="mn-badge" style="display:none"></span>
+    </div>
+    <div id="mn-feed">
+      <!-- Skeletons -->
+      <div class="skel-card" id="sk1">
+        <div class="skel skel-line w-40"></div>
+        <div class="skel skel-title"></div>
+        <div class="skel skel-line w-full"></div>
+        <div class="skel skel-line w-80"></div>
+        <div class="skel skel-poll"></div>
+      </div>
+      <div class="skel-card" id="sk2">
+        <div class="skel skel-line w-40"></div>
+        <div class="skel skel-title"></div>
+        <div class="skel skel-line w-full"></div>
+        <div class="skel skel-line w-60"></div>
+      </div>
+      <div class="skel-card" id="sk3">
+        <div class="skel skel-line w-40"></div>
+        <div class="skel skel-title"></div>
+        <div class="skel skel-line w-80"></div>
+      </div>
+    </div>
+
+    <!-- Teaser -->
+    <div class="teaser" style="margin-top:14px">
+      <div class="teaser-icon">🚧</div>
+      <p class="teaser-title">Mon compte évolue.</p>
+      <p class="teaser-sub">Réservations, carnet de vol, météo METAR — tout ça arrive. Restez à l'affût !</p>
+      <span class="teaser-tag">Prochainement · Saison 2026</span>
+    </div>
+
   </div>
 </main>
 
-<footer class="foot">
-  <div class="foot-inner">
-    <div class="foot-links">
-      <a href="index.html">Site public</a>
-      <a href="activite.html">Le Club</a>
-      <a href="contact.html">Aide</a>
-    </div>
-    <span class="foot-cr">© 2026 APAM · Espace membres</span>
+<!-- BOTTOM NAV -->
+<nav class="bottom-nav">
+  <a class="bn-item on" href="mon-compte.html">
+    <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+    <span>Accueil</span>
+  </a>
+  <a class="bn-item" href="activite.html">
+    <svg viewBox="0 0 24 24"><path d="M12 2C8.1 2 5 5.1 5 9c0 5.2 7 13 7 13s7-7.8 7-13c0-3.9-3.1-7-7-7zm0 9.5c-1.4 0-2.5-1.1-2.5-2.5S10.6 6.5 12 6.5s2.5 1.1 2.5 2.5S13.4 11.5 12 11.5z"/></svg>
+    <span>Le Club</span>
+  </a>
+  <button class="bn-item" id="btn-logout-nav">
+    <svg viewBox="0 0 24 24"><path d="M17 7l-1.4 1.4 2.6 2.6H8v2h10.2l-2.6 2.6L17 17l5-5-5-5zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4V5z"/></svg>
+    <span>Quitter</span>
+  </button>
+</nav>
+
+<!-- INSTALL BANNER -->
+<div class="install-banner hidden" id="install-banner">
+  <div class="install-icon">✈️</div>
+  <div class="install-tx">
+    <h4>Installer l'app APAM</h4>
+    <p>Accès rapide depuis votre écran d'accueil</p>
   </div>
-</footer>
+  <button class="install-btn" id="install-btn">Installer</button>
+  <button class="install-close" id="install-close">✕</button>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
 
 <script>
 'use strict';
+
 const API    = 'https://script.google.com/macros/s/AKfycbxae9y3NHqDyAkbEI5rDVRappI-aAWoA0jcHqR8NBUgm3t5SCB1Hq8nebY5t23cV1Je/exec';
 const role   = localStorage.getItem('apam_role');
 const prenom = localStorage.getItem('apam_prenom') || '';
@@ -206,84 +277,229 @@ const perms  = JSON.parse(localStorage.getItem('apam_perms') || '{}');
 
 if(!role) window.location.href = 'connexion-membres-password.html';
 
-document.getElementById('u-prenom').textContent = prenom || 'Membre';
-if(prenom && nom) document.getElementById('u-sub').textContent = nom.toUpperCase() + ' · Membre APAM 2026';
+/* ── PWA ── */
+if('serviceWorker' in navigator){
+  navigator.serviceWorker.register('sw.js').catch(()=>{});
+}
 
-document.getElementById('btn-logout').addEventListener('click', () => {
-  ['apam_role','apam_prenom','apam_nom','apam_pin','apam_perms'].forEach(k => localStorage.removeItem(k));
+/* ── Accueil ── */
+document.getElementById('u-name').textContent = prenom || 'Membre';
+document.getElementById('u-role').textContent = perms.admin ? 'Admin' : perms.news_pub||perms.news_membres||perms.photos ? 'Éditeur' : 'Membre';
+
+/* ── Déconnexion ── */
+document.getElementById('btn-logout-nav').addEventListener('click', () => {
+  ['apam_role','apam_prenom','apam_nom','apam_pin','apam_perms'].forEach(k=>localStorage.removeItem(k));
   window.location.href = 'connexion-membres-password.html';
 });
 
-// Afficher outils selon permissions
+/* ── Outils ── */
 (function setupTools(){
-  const hasTools = perms.admin || perms.news_pub || perms.news_membres || perms.photos;
-  if(!hasTools) return;
-  document.getElementById('tools-panel').style.display = 'block';
-  const grid = document.getElementById('tools-grid');
+  const has = perms.admin||perms.news_pub||perms.news_membres||perms.photos;
+  if(!has) return;
+  document.getElementById('tools-section').style.display = 'block';
   const tools = [];
-  if(perms.news_pub || perms.news_membres || perms.photos)
-    tools.push({icon:'✏️',title:'Publication',sub:'Publier news & photos',href:'presidence.html',cls:''});
+  if(perms.news_pub||perms.news_membres||perms.photos)
+    tools.push({icon:'✏️',title:'Publication',sub:'News & photos',href:'presidence.html'});
   if(perms.admin)
-    tools.push({icon:'👥',title:'Gestion membres',sub:'Permissions & accès',href:'admin.html',cls:'admin'});
-  grid.innerHTML = tools.map(t=>`
-    <a class="tool-card ${t.cls}" href="${t.href}">
-      <div class="tool-card-icon">${t.icon}</div>
-      <div class="tool-card-tx"><h4>${t.title}</h4><p>${t.sub}</p></div>
+    tools.push({icon:'👥',title:'Membres',sub:'Gérer les accès',href:'admin.html'});
+  document.getElementById('tools-grid').innerHTML = tools.map(t=>`
+    <a class="tool-item" href="${t.href}">
+      <span class="tool-icon">${t.icon}</span>
+      <div class="tool-tx"><h4>${t.title}</h4><p>${t.sub}</p></div>
     </a>`).join('');
 })();
 
+/* ── Utils ── */
 function esc(s){ return String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
 function fmtFR(iso){ if(!iso)return''; const[y,m,d]=iso.split('-'); const mo=['jan.','fév.','mars','avr.','mai','juin','juil.','août','sep.','oct.','nov.','déc.']; return `${+d} ${mo[+m-1]} ${y}`; }
-
-async function chargerNews(){
-  const feed=document.getElementById('mn-feed'), badge=document.getElementById('mn-badge');
-  try{
-    const data = await fetch(`${API}?action=newsMembres`).then(r=>r.json());
-    const news = data.news||[];
-    if(!news.length){ feed.innerHTML='<div class="mn-empty">Aucune actualité membres pour le moment.<br><span style="font-size:11px;opacity:.6">Le président publiera ici les nouvelles réservées aux adhérents.</span></div>'; return; }
-    badge.textContent=news.length; badge.style.display='inline-flex';
-    const reactMap={};
-    await Promise.all(news.map(async n=>{
-      if(n.sondage&&n.sondage!=='aucun'){
-        try{ const r=await fetch(`${API}?action=reactions&newsId=${encodeURIComponent(n.id)}`).then(r=>r.json()); reactMap[n.id]=r.reactions||[]; }
-        catch{ reactMap[n.id]=[]; }
-      }
-    }));
-    feed.innerHTML=news.map(n=>renderCard(n,reactMap[n.id]||[])).join('');
-  }catch{ feed.innerHTML='<div class="mn-empty">Impossible de charger les actualités. Vérifiez votre connexion.</div>'; }
+function toast(txt, type='', dur=2500){
+  const el=document.getElementById('toast');
+  el.textContent=txt; el.className='toast show'+(type?' '+type:'');
+  clearTimeout(el._t); el._t=setTimeout(()=>el.classList.remove('show'),dur);
 }
 
-function renderCard(n,reactions){
-  const hasPoll=n.sondage&&n.sondage!=='aucun';
-  const myVote=reactions.find(r=>r.prenom===prenom&&r.nom===nom)?.reponse||null;
-  const ouiList=reactions.filter(r=>r.reponse==='Oui'), nonList=reactions.filter(r=>r.reponse==='Non');
-  let poll='';
-  if(hasPoll){
-    const vO=myVote==='Oui'?' voted-oui':'', vN=myVote==='Non'?' voted-non':'';
-    const q=n.sondage==='oui-non'?'Serez-vous présent ?':esc(n.sondage);
-    const react=reactions.length?`<div class="mn-reactions"><div class="mn-reactions-lbl">Réponses · ${reactions.length}</div>${ouiList.length?`<div class="mn-rg"><span class="mn-rg-lbl oui">Oui · ${ouiList.length}</span><div class="mn-names">${ouiList.map(r=>`<span class="mn-name">${esc(r.prenom)} ${esc(r.nom)}</span>`).join('')}</div></div>`:''}${nonList.length?`<div class="mn-rg"><span class="mn-rg-lbl non">Non · ${nonList.length}</span><div class="mn-names">${nonList.map(r=>`<span class="mn-name">${esc(r.prenom)} ${esc(r.nom)}</span>`).join('')}</div></div>`:''}
-    </div>`:'';
-    poll=`<div class="mn-poll"><div class="mn-poll-q">${q}</div><div class="mn-poll-btns" id="pb-${esc(n.id)}"><button class="mn-poll-btn${vO}" onclick="voter('${esc(n.id)}','Oui',this)">✓ Oui</button><button class="mn-poll-btn${vN}" onclick="voter('${esc(n.id)}','Non',this)">✗ Non</button></div><div id="pr-${esc(n.id)}">${react}</div></div>`;
+/* ── Reactions state (optimistic) ── */
+// Structure: { [newsId]: { oui: [{prenom,nom}], non: [{prenom,nom}], myVote: 'Oui'|'Non'|null } }
+const reactState = {};
+
+function getMyVote(newsId){ return reactState[newsId]?.myVote || null; }
+
+function applyVote(newsId, reponse){
+  if(!reactState[newsId]) reactState[newsId] = {oui:[],non:[],myVote:null};
+  const state = reactState[newsId];
+  const me = {prenom,nom};
+
+  // Retirer l'ancien vote si existant
+  state.oui = state.oui.filter(r=>!(r.prenom===prenom&&r.nom===nom));
+  state.non = state.non.filter(r=>!(r.prenom===prenom&&r.nom===nom));
+
+  if(state.myVote === reponse){
+    // Cliquer à nouveau = retirer le vote (toggle off)
+    state.myVote = null;
+  } else {
+    state.myVote = reponse;
+    if(reponse==='Oui') state.oui.push(me);
+    else state.non.push(me);
   }
-  return `<div class="mn-card"><div class="mn-card-hd"><div class="mn-card-meta"><span class="mn-card-date">${fmtFR(n.date)}</span>${n.categorie?`<span class="mn-card-cat">${esc(n.categorie)}</span>`:''}<span class="mn-card-auteur">— ${esc(n.auteur)}</span></div><h3 class="mn-card-titre">${esc(n.titre)}</h3></div><div class="mn-card-body"><p class="mn-card-texte">${esc(n.texte)}</p></div>${poll}</div>`;
+  return state;
 }
 
-window.voter=async function(newsId,reponse,btn){
-  if(!prenom||!nom){alert('Connectez-vous avec votre nom et prénom pour réagir.');return;}
-  btn.disabled=true;
+function renderReactions(newsId){
+  const state = reactState[newsId];
+  if(!state) return '';
+  const {oui,non,myVote} = state;
+  const total = oui.length + non.length;
+  if(!total) return '';
+  return `<div class="mn-reactions">
+    <div class="mn-reactions-lbl">Réponses · ${total}</div>
+    ${oui.length?`<div class="mn-rg"><span class="mn-rg-lbl oui">Oui · ${oui.length}</span><div class="mn-names">${oui.map(r=>`<span class="mn-name${r.prenom===prenom&&r.nom===nom?' me':''}">${esc(r.prenom)} ${esc(r.nom)}</span>`).join('')}</div></div>`:''}
+    ${non.length?`<div class="mn-rg"><span class="mn-rg-lbl non">Non · ${non.length}</span><div class="mn-names">${non.map(r=>`<span class="mn-name${r.prenom===prenom&&r.nom===nom?' me':''}">${esc(r.prenom)} ${esc(r.nom)}</span>`).join('')}</div></div>`:''}
+  </div>`;
+}
+
+function updatePollUI(newsId){
+  const state = reactState[newsId];
+  const myVote = state?.myVote || null;
+
+  const btnO = document.querySelector(`[data-poll="${newsId}"][data-rep="Oui"]`);
+  const btnN = document.querySelector(`[data-poll="${newsId}"][data-rep="Non"]`);
+  if(btnO){ btnO.className='mn-poll-btn'+(myVote==='Oui'?' voted-oui':''); }
+  if(btnN){ btnN.className='mn-poll-btn'+(myVote==='Non'?' voted-non':''); }
+
+  const reactEl = document.getElementById('react-'+newsId);
+  if(reactEl) reactEl.innerHTML = renderReactions(newsId);
+}
+
+window.voter = async function(newsId, reponse, btn){
+  if(!prenom||!nom){ toast('Connectez-vous avec votre nom pour réagir.','err'); return; }
+
+  // ── OPTIMISTIC : mise à jour immédiate ──
+  applyVote(newsId, reponse);
+  updatePollUI(newsId);
+
+  // ── SYNC API en arrière-plan ──
   try{
     await fetch(`${API}?action=reagir&newsId=${encodeURIComponent(newsId)}&prenom=${encodeURIComponent(prenom)}&nom=${encodeURIComponent(nom)}&reponse=${encodeURIComponent(reponse)}`);
-    const r=await fetch(`${API}?action=reactions&newsId=${encodeURIComponent(newsId)}`).then(r=>r.json());
-    const reactions=r.reactions||[], ouiList=reactions.filter(r=>r.reponse==='Oui'), nonList=reactions.filter(r=>r.reponse==='Non');
-    const pb=document.getElementById('pb-'+newsId);
-    if(pb)pb.querySelectorAll('.mn-poll-btn').forEach(b=>{b.classList.remove('voted-oui','voted-non');if(b.textContent.includes('Oui')&&reponse==='Oui')b.classList.add('voted-oui');if(b.textContent.includes('Non')&&reponse==='Non')b.classList.add('voted-non');b.disabled=false;});
-    const pr=document.getElementById('pr-'+newsId);
-    if(pr)pr.innerHTML=reactions.length?`<div class="mn-reactions"><div class="mn-reactions-lbl">Réponses · ${reactions.length}</div>${ouiList.length?`<div class="mn-rg"><span class="mn-rg-lbl oui">Oui · ${ouiList.length}</span><div class="mn-names">${ouiList.map(r=>`<span class="mn-name">${esc(r.prenom)} ${esc(r.nom)}</span>`).join('')}</div></div>`:''}${nonList.length?`<div class="mn-rg"><span class="mn-rg-lbl non">Non · ${nonList.length}</span><div class="mn-names">${nonList.map(r=>`<span class="mn-name">${esc(r.prenom)} ${esc(r.nom)}</span>`).join('')}</div></div>`:''}
-    </div>`:'';
-  }catch{btn.disabled=false;}
+  }catch{
+    // Silencieux — l'UI reste dans l'état optimiste
+    // On pourrait revert ici si on voulait être strict
+  }
 };
 
+/* ── Chargement news ── */
+async function chargerNews(){
+  const feed  = document.getElementById('mn-feed');
+  const badge = document.getElementById('mn-badge');
+  try{
+    const data = await fetch(`${API}?action=newsMembres`).then(r=>r.json());
+    const news = data.news || [];
+
+    if(!news.length){
+      feed.innerHTML = `<div class="mn-empty">
+        <div class="mn-empty-icon">✉️</div>
+        <p class="mn-empty-title">Aucune actualité</p>
+        <p class="mn-empty-sub">Le président publiera ici les nouvelles réservées aux membres.</p>
+      </div>`;
+      return;
+    }
+
+    badge.textContent = news.length;
+    badge.style.display = 'inline-flex';
+
+    // Charger les réactions en parallèle
+    await Promise.all(news.map(async n => {
+      if(n.sondage && n.sondage !== 'aucun'){
+        try{
+          const r = await fetch(`${API}?action=reactions&newsId=${encodeURIComponent(n.id)}`).then(r=>r.json());
+          const reactions = r.reactions || [];
+          const myVote = reactions.find(r=>r.prenom===prenom&&r.nom===nom)?.reponse || null;
+          reactState[n.id] = {
+            oui: reactions.filter(r=>r.reponse==='Oui'),
+            non: reactions.filter(r=>r.reponse==='Non'),
+            myVote
+          };
+        }catch{ reactState[n.id] = {oui:[],non:[],myVote:null}; }
+      }
+    }));
+
+    // Render
+    feed.innerHTML = news.map((n, i) => {
+      const hasPoll = n.sondage && n.sondage !== 'aucun';
+      const myVote  = getMyVote(n.id);
+      const q = n.sondage === 'oui-non' ? 'Serez-vous présent ?' : esc(n.sondage);
+
+      const pollHtml = hasPoll ? `
+        <div class="mn-poll">
+          <div class="mn-poll-q">${q}</div>
+          <div class="mn-poll-btns">
+            <button class="mn-poll-btn${myVote==='Oui'?' voted-oui':''}" data-poll="${esc(n.id)}" data-rep="Oui" onclick="voter('${esc(n.id)}','Oui',this)">
+              <span class="chk">✓</span> Oui
+            </button>
+            <button class="mn-poll-btn${myVote==='Non'?' voted-non':''}" data-poll="${esc(n.id)}" data-rep="Non" onclick="voter('${esc(n.id)}','Non',this)">
+              <span class="chk">✕</span> Non
+            </button>
+          </div>
+          <div id="react-${esc(n.id)}">${renderReactions(n.id)}</div>
+        </div>` : '';
+
+      return `<div class="mn-card" style="animation-delay:${i*60}ms">
+        <div class="mn-card-hd">
+          <div class="mn-card-meta">
+            <span class="mn-card-date">${fmtFR(n.date)}</span>
+            ${n.categorie?`<span class="mn-card-cat">${esc(n.categorie)}</span>`:''}
+            <span class="mn-card-auteur">— ${esc(n.auteur)}</span>
+          </div>
+          <h3 class="mn-card-titre">${esc(n.titre)}</h3>
+        </div>
+        <div class="mn-card-body"><p class="mn-card-texte">${esc(n.texte)}</p></div>
+        ${pollHtml}
+      </div>`;
+    }).join('');
+
+  }catch{
+    feed.innerHTML = `<div class="mn-empty">
+      <div class="mn-empty-icon">📡</div>
+      <p class="mn-empty-title">Hors ligne</p>
+      <p class="mn-empty-sub">Impossible de charger les actualités. Vérifiez votre connexion.</p>
+    </div>`;
+  }
+}
+
 chargerNews();
+
+/* ── Install PWA ── */
+let deferredPrompt = null;
+const banner       = document.getElementById('install-banner');
+const installBtn   = document.getElementById('install-btn');
+const closeBtn     = document.getElementById('install-close');
+const INSTALL_KEY  = 'apam_install_dismissed';
+
+window.addEventListener('beforeinstallprompt', e => {
+  e.preventDefault();
+  deferredPrompt = e;
+  if(!localStorage.getItem(INSTALL_KEY)) {
+    setTimeout(()=>banner.classList.remove('hidden'), 2000);
+  }
+});
+
+installBtn?.addEventListener('click', async () => {
+  if(!deferredPrompt) return;
+  deferredPrompt.prompt();
+  const { outcome } = await deferredPrompt.userChoice;
+  if(outcome === 'accepted') toast('✓ App APAM installée !','ok',3000);
+  deferredPrompt = null;
+  banner.classList.add('hidden');
+});
+
+closeBtn?.addEventListener('click', () => {
+  banner.classList.add('hidden');
+  localStorage.setItem(INSTALL_KEY, '1');
+});
+
+window.addEventListener('appinstalled', () => {
+  banner.classList.add('hidden');
+  toast('✓ App APAM installée !','ok',3000);
+});
 </script>
 </body>
 </html>
