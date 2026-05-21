@@ -14,260 +14,398 @@
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,400;0,700;0,900;1,700;1,900&family=Jost:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#080a0e;--bg-2:#0b0d13;--sf:#141720;--sf2:#191d2c;
+  --bg:#080a0e;--bg-2:#0b0d13;--sf:#141720;
   --accent:#2563eb;--acc-d:rgba(37,99,235,.14);--acc2:#818cf8;
   --muted:#7a8399;--dim:#32384f;
   --border:rgba(255,255,255,.07);--bds:rgba(255,255,255,.11);
   --ok:#22d77a;--err:#ef4444;--warn:#f5a524;
   --white:#fff;
-  --nav-h:64px;
-  --bottom-h:64px;
   --safe-top:env(safe-area-inset-top,0px);
   --safe-bot:env(safe-area-inset-bottom,0px);
-  --side:clamp(14px,4vw,28px);
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html{height:100%}
-body{background:var(--bg);color:var(--white);font-family:'Jost',system-ui,sans-serif;-webkit-font-smoothing:antialiased;min-height:100svh;display:flex;flex-direction:column;overflow-x:hidden}
+body{background:var(--bg);color:var(--white);font-family:'Jost',system-ui,sans-serif;-webkit-font-smoothing:antialiased;min-height:100svh}
 a{color:inherit;text-decoration:none}
-::-webkit-scrollbar{width:0}
 
-/* ── TOP NAV ── */
-.topnav{position:fixed;top:0;left:0;right:0;z-index:100;
-  padding:calc(var(--safe-top) + 10px) var(--side) 10px;
-  background:rgba(8,10,14,.88);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+/* ══════════════════════════════════════
+   DESKTOP (≥ 768px, non-PWA)
+══════════════════════════════════════ */
+.desktop-nav{
+  position:sticky;top:0;z-index:100;
+  height:68px;display:flex;align-items:center;
+  padding:0 clamp(20px,4vw,72px);gap:20px;
+  background:rgba(8,10,14,.92);border-bottom:1px solid var(--border);
+  backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+}
+.desktop-nav .logo img{height:38px}
+.desktop-nav .logo-txt{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:24px;text-transform:uppercase;display:none}
+.desktop-nav .greet{flex:1;display:flex;flex-direction:column}
+.desktop-nav .greet .hello{font-size:10px;color:var(--muted);font-weight:500;letter-spacing:.06em}
+.desktop-nav .greet .name{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:19px;text-transform:uppercase;letter-spacing:-.005em;color:#fff;line-height:1}
+.desktop-nav .nav-links{display:flex;align-items:center;gap:8px}
+.nav-link{font-size:10.5px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;padding:7px 14px;color:rgba(255,255,255,.4);border:1px solid transparent;transition:color .2s,border-color .2s;border-radius:0}
+.nav-link:hover{color:rgba(255,255,255,.8)}
+.nav-link.active{color:#fff;border-color:rgba(255,255,255,.12)}
+
+/* Bouton installer */
+.btn-install{display:none;align-items:center;gap:8px;padding:8px 16px;
+  font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:12px;letter-spacing:.12em;text-transform:uppercase;
+  background:rgba(37,99,235,.15);border:1.5px solid rgba(37,99,235,.4);color:var(--accent);
+  cursor:pointer;transition:background .2s,transform .15s;border-radius:0}
+.btn-install:hover{background:rgba(37,99,235,.25);transform:translateY(-1px)}
+.btn-install.visible{display:flex}
+.btn-install-icon{font-size:15px}
+
+.btn-logout-desk{font-size:10.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;padding:7px 14px;background:transparent;border:1px solid rgba(255,255,255,.12);color:rgba(255,255,255,.4);cursor:pointer;transition:color .2s,border-color .2s}
+.btn-logout-desk:hover{color:#fff;border-color:rgba(255,255,255,.4)}
+
+/* Desktop main */
+.desktop-main{max-width:1040px;margin:0 auto;padding:36px clamp(20px,4vw,72px) 64px;display:grid;grid-template-columns:1fr 320px;gap:28px;align-items:start}
+.desktop-feed{display:flex;flex-direction:column;gap:0}
+.desktop-sidebar{display:flex;flex-direction:column;gap:14px;position:sticky;top:84px}
+
+/* Sidebar widgets */
+.widget{background:var(--sf);border:1px solid var(--border);border-radius:10px;overflow:hidden}
+.widget-hd{padding:12px 16px;border-bottom:1px solid var(--border);font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:15px;text-transform:uppercase;letter-spacing:-.005em;display:flex;align-items:center;gap:8px}
+.widget-body{padding:14px 16px}
+
+/* Install widget desktop */
+.install-widget{background:linear-gradient(135deg,rgba(37,99,235,.12),rgba(37,99,235,.04));border-color:rgba(37,99,235,.3)}
+.install-widget .widget-hd{color:var(--accent);border-bottom-color:rgba(37,99,235,.2)}
+.install-widget-body{padding:16px;display:flex;flex-direction:column;gap:12px;align-items:center;text-align:center}
+.install-qr-area{width:80px;height:80px;background:rgba(37,99,235,.08);border:1px dashed rgba(37,99,235,.3);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:32px}
+.install-widget-sub{font-size:12px;color:var(--muted);line-height:1.6}
+.install-widget-btn{width:100%;padding:10px;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:13px;letter-spacing:.12em;text-transform:uppercase;background:var(--accent);color:#fff;border:none;cursor:pointer;border-radius:6px;transition:opacity .2s}
+.install-widget-btn:hover{opacity:.88}
+
+/* Teaser sidebar */
+.teaser-side{padding:14px 16px;display:flex;flex-direction:column;gap:8px}
+.teaser-side-title{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:16px;text-transform:uppercase;color:rgba(255,255,255,.4);display:flex;align-items:center;gap:8px}
+.teaser-side-sub{font-size:11.5px;color:var(--muted);line-height:1.5}
+.teaser-side-tag{font-size:8.5px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;padding:3px 10px;border-radius:100px;border:1px dashed rgba(37,99,235,.25);color:rgba(37,99,235,.55);width:fit-content}
+
+/* Section header desktop */
+.sec-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}
+.sec-hd h2{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:28px;text-transform:uppercase;letter-spacing:-.01em;color:#fff;display:flex;align-items:center;gap:10px}
+.sec-badge{font-size:10px;font-weight:700;letter-spacing:.14em;padding:3px 9px;border-radius:100px;background:var(--acc-d);border:1px solid rgba(37,99,235,.2);color:var(--accent);display:none}
+
+/* ══════════════════════════════════════
+   MOBILE / PWA (< 768px ou standalone)
+══════════════════════════════════════ */
+.mobile-nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  padding:calc(var(--safe-top) + 10px) 16px 10px;
+  background:rgba(8,10,14,.9);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
   border-bottom:1px solid var(--border);
-  display:flex;align-items:center;gap:12px;
-  min-height:calc(var(--safe-top) + var(--nav-h))}
-.topnav-logo img{height:32px}
-.topnav-logo-txt{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:22px;text-transform:uppercase;display:none}
-.topnav-greet{flex:1}
-.topnav-greet .hello{font-size:11px;color:var(--muted);font-weight:500;letter-spacing:.04em}
-.topnav-greet .name{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:20px;text-transform:uppercase;letter-spacing:-.005em;color:#fff;line-height:1.05}
-.topnav-pill{display:flex;align-items:center;gap:6px;padding:5px 11px;background:rgba(37,99,235,.1);border:1px solid rgba(37,99,235,.25);border-radius:100px;font-size:9.5px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:#8aabff}
-.topnav-pill .dot{width:6px;height:6px;border-radius:50%;background:var(--ok);animation:pulse 2.6s ease-in-out infinite;flex-shrink:0}
+  display:flex;align-items:center;gap:10px;
+}
+.mobile-nav .logo img{height:30px}
+.mobile-nav .logo-txt{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:20px;text-transform:uppercase;display:none}
+.mobile-nav .greet{flex:1}
+.mobile-nav .greet .hello{font-size:9.5px;color:var(--muted);font-weight:500}
+.mobile-nav .greet .name{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:18px;text-transform:uppercase;color:#fff;line-height:1}
+.mobile-pill{display:flex;align-items:center;gap:5px;padding:4px 10px;background:rgba(37,99,235,.1);border:1px solid rgba(37,99,235,.25);border-radius:100px;font-size:8.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#8aabff}
+.mobile-pill .dot{width:5px;height:5px;border-radius:50%;background:var(--ok);animation:pulse 2.6s ease-in-out infinite}
 @keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(34,215,122,.5)}50%{box-shadow:0 0 0 4px transparent}}
 
-/* ── MAIN ── */
-.main{flex:1;padding:calc(var(--safe-top) + var(--nav-h) + 16px) 0 calc(var(--safe-bot) + var(--bottom-h) + 16px)}
-.wrap{max-width:680px;margin:0 auto;padding:0 var(--side)}
+.mobile-main{padding:calc(var(--safe-top) + 60px) 0 calc(var(--safe-bot) + 72px)}
+.mobile-wrap{padding:16px}
+.mobile-sec-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.mobile-sec-hd h2{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:20px;text-transform:uppercase;color:#fff;display:flex;align-items:center;gap:7px}
 
-/* ── SECTION HEADER ── */
-.sec-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
-.sec-header h2{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:22px;text-transform:uppercase;letter-spacing:-.005em;color:#fff;display:flex;align-items:center;gap:8px}
-.sec-badge{font-size:10px;font-weight:700;letter-spacing:.14em;padding:3px 9px;border-radius:100px;background:var(--acc-d);border:1px solid rgba(37,99,235,.2);color:var(--accent)}
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;z-index:100;
+  padding:8px 0 calc(var(--safe-bot) + 8px);
+  background:rgba(8,10,14,.94);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+  border-top:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-around}
+.bn{display:flex;flex-direction:column;align-items:center;gap:3px;padding:5px 20px;background:none;border:none;cursor:pointer;color:rgba(255,255,255,.3);transition:color .2s;font-family:'Jost',sans-serif;text-decoration:none}
+.bn.on{color:var(--accent)}
+.bn svg{width:20px;height:20px;fill:currentColor}
+.bn span{font-size:8.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase}
 
-/* ── SKELETONS ── */
+/* ══════════════════════════════════════
+   SHARED — SKELETONS
+══════════════════════════════════════ */
 @keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
-.skel{background:linear-gradient(90deg,var(--sf) 25%,rgba(255,255,255,.06) 50%,var(--sf) 75%);background-size:200% 100%;animation:shimmer 1.6s ease-in-out infinite;border-radius:6px}
-.skel-card{background:var(--sf);border:1px solid var(--border);border-radius:12px;padding:16px;display:flex;flex-direction:column;gap:10px;margin-bottom:10px}
-.skel-line{height:12px}.skel-line.w-80{width:80%}.skel-line.w-60{width:60%}.skel-line.w-40{width:40%}.skel-line.w-full{width:100%}
-.skel-title{height:20px;width:75%}
-.skel-poll{height:36px;border-radius:8px;margin-top:4px}
+.skel{background:linear-gradient(90deg,var(--sf) 25%,rgba(255,255,255,.055) 50%,var(--sf) 75%);background-size:200% 100%;animation:shimmer 1.8s ease-in-out infinite;border-radius:6px}
+.skel-card{background:var(--sf);border:1px solid var(--border);padding:16px;display:flex;flex-direction:column;gap:10px;margin-bottom:10px;border-radius:10px}
+.skel-line{height:11px}.skel-title{height:19px;width:72%}.skel-line.w-full{width:100%}.skel-line.w-80{width:80%}.skel-line.w-50{width:50%}
+.skel-poll{height:40px;border-radius:8px;margin-top:4px}
 
-/* ── NEWS CARDS ── */
+/* ══════════════════════════════════════
+   SHARED — NEWS CARDS
+══════════════════════════════════════ */
 .mn-feed{display:flex;flex-direction:column;gap:10px}
-.mn-card{background:var(--sf);border:1px solid var(--border);border-radius:12px;overflow:hidden;transition:border-color .25s;animation:cardIn .4s cubic-bezier(.16,1,.3,1) both}
-@keyframes cardIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
-.mn-card:hover{border-color:rgba(37,99,235,.3)}
+.mn-card{background:var(--sf);border:1px solid var(--border);border-radius:10px;overflow:hidden;transition:border-color .25s;animation:cardIn .45s cubic-bezier(.16,1,.3,1) both}
+@keyframes cardIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+.mn-card:hover{border-color:rgba(37,99,235,.28)}
 .mn-card-hd{padding:14px 16px 10px}
 .mn-card-meta{display:flex;align-items:center;gap:7px;margin-bottom:7px;flex-wrap:wrap}
-.mn-card-date{font-size:9px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--muted)}
+.mn-card-date{font-size:9px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
 .mn-card-cat{font-size:8px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;padding:2px 8px;border-radius:100px;background:rgba(37,99,235,.1);border:1px solid rgba(37,99,235,.18);color:#8aabff}
 .mn-card-auteur{font-size:9px;color:rgba(255,255,255,.25);margin-left:auto}
 .mn-card-titre{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:19px;text-transform:uppercase;color:#fff;line-height:1.05}
 .mn-card-body{padding:0 16px 14px}
-.mn-card-texte{font-size:13.5px;color:rgba(255,255,255,.7);line-height:1.72}
+.mn-card-texte{font-size:13.5px;color:rgba(255,255,255,.68);line-height:1.72}
 
-/* ── POLL ── */
-.mn-poll{padding:12px 16px 14px;border-top:1px solid var(--border);background:rgba(37,99,235,.03)}
-.mn-poll-q{font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.45);margin-bottom:10px}
+/* Poll */
+.mn-poll{padding:12px 16px 14px;border-top:1px solid var(--border);background:rgba(37,99,235,.025)}
+.mn-poll-q{font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.4);margin-bottom:10px}
 .mn-poll-btns{display:flex;gap:8px;margin-bottom:10px}
-.mn-poll-btn{flex:1;padding:10px;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:14px;letter-spacing:.1em;text-transform:uppercase;border:1.5px solid var(--bds);background:transparent;color:rgba(255,255,255,.5);cursor:pointer;transition:all .15s;border-radius:8px;display:flex;align-items:center;justify-content:center;gap:6px}
-.mn-poll-btn:active{transform:scale(.96)}
-.mn-poll-btn.voted-oui{background:rgba(34,215,122,.14);border-color:var(--ok);color:var(--ok)}
-.mn-poll-btn.voted-non{background:rgba(239,68,68,.1);border-color:var(--err);color:var(--err)}
-.mn-poll-btn.voted-oui .chk,.mn-poll-btn.voted-non .chk{display:inline}
-.chk{display:none;font-size:12px}
-
-/* ── REACTIONS ── */
+.mn-poll-btn{flex:1;padding:10px;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:14px;letter-spacing:.1em;text-transform:uppercase;border:1.5px solid var(--bds);background:transparent;color:rgba(255,255,255,.45);cursor:pointer;transition:all .15s;border-radius:7px;display:flex;align-items:center;justify-content:center;gap:6px;-webkit-tap-highlight-color:transparent}
+.mn-poll-btn:active{transform:scale(.95)}
+.mn-poll-btn.voted-oui{background:rgba(34,215,122,.12);border-color:var(--ok);color:var(--ok)}
+.mn-poll-btn.voted-non{background:rgba(239,68,68,.09);border-color:var(--err);color:var(--err)}
+.chk{display:none;font-size:11px}
+.voted-oui .chk,.voted-non .chk{display:inline}
 .mn-reactions{display:flex;flex-direction:column;gap:5px}
-.mn-reactions-lbl{font-size:8.5px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.22);margin-bottom:3px}
+.mn-reactions-lbl{font-size:8.5px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:rgba(255,255,255,.2);margin-bottom:2px}
 .mn-rg{display:flex;align-items:flex-start;gap:7px}
-.mn-rg-lbl{font-weight:700;font-size:8.5px;letter-spacing:.14em;text-transform:uppercase;white-space:nowrap;padding-top:3px;flex-shrink:0}
+.mn-rg-lbl{font-weight:700;font-size:8.5px;letter-spacing:.12em;text-transform:uppercase;white-space:nowrap;padding-top:3px;flex-shrink:0}
 .mn-rg-lbl.oui{color:var(--ok)}.mn-rg-lbl.non{color:var(--err)}
 .mn-names{display:flex;flex-wrap:wrap;gap:4px}
-.mn-name{padding:2px 8px;background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:100px;font-size:11px;color:rgba(255,255,255,.5)}
+.mn-name{padding:2px 8px;background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:100px;font-size:11px;color:rgba(255,255,255,.48)}
 .mn-name.me{background:rgba(37,99,235,.1);border-color:rgba(37,99,235,.3);color:#8aabff}
 
-/* ── EMPTY ── */
+/* Empty */
 .mn-empty{padding:40px 16px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:10px}
-.mn-empty-icon{font-size:40px;opacity:.4}
-.mn-empty-title{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:20px;text-transform:uppercase;color:rgba(255,255,255,.4)}
+.mn-empty-icon{font-size:38px;opacity:.35}
+.mn-empty-title{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:20px;text-transform:uppercase;color:rgba(255,255,255,.35)}
 .mn-empty-sub{font-size:12.5px;color:var(--muted);line-height:1.6;max-width:280px}
 
-/* ── TEASER ── */
-.teaser{background:var(--sf);border:1px solid var(--border);border-radius:12px;padding:28px 20px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:10px;position:relative;overflow:hidden}
-.teaser::before{content:'';position:absolute;inset:0;background:radial-gradient(60% 80% at 50% 100%,rgba(37,99,235,.06),transparent);pointer-events:none}
-.teaser-icon{font-size:32px;opacity:.5}
-.teaser-title{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:18px;text-transform:uppercase;color:rgba(255,255,255,.4)}
-.teaser-sub{font-size:12px;color:var(--muted);line-height:1.6;max-width:280px}
-.teaser-tag{font-size:9px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;padding:4px 12px;border-radius:100px;border:1px dashed rgba(37,99,235,.25);color:rgba(37,99,235,.55)}
+/* Outils */
+.tools-bar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px}
+.tool-btn{display:flex;align-items:center;gap:8px;padding:10px 16px;background:rgba(37,99,235,.08);border:1px solid rgba(37,99,235,.22);color:#8aabff;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:13px;letter-spacing:.1em;text-transform:uppercase;border-radius:7px;transition:background .2s;cursor:pointer;text-decoration:none}
+.tool-btn:hover{background:rgba(37,99,235,.16)}
+.tool-btn.admin{background:rgba(245,165,36,.08);border-color:rgba(245,165,36,.22);color:var(--warn)}
+.tool-btn.admin:hover{background:rgba(245,165,36,.16)}
 
-/* ── OUTILS CARD ── */
-.tools-card{background:var(--sf);border:1px solid rgba(37,99,235,.2);border-radius:12px;overflow:hidden;margin-bottom:16px}
-.tools-card-hd{padding:12px 16px;border-bottom:1px solid var(--border);background:rgba(37,99,235,.05)}
-.tools-card-hd h3{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:16px;text-transform:uppercase;color:#fff}
-.tools-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border)}
-.tool-item{background:var(--sf);padding:14px 16px;display:flex;align-items:center;gap:10px;cursor:pointer;transition:background .2s;text-decoration:none;color:inherit}
-.tool-item:hover,.tool-item:active{background:rgba(37,99,235,.08)}
-.tool-icon{font-size:20px;flex-shrink:0}
-.tool-tx h4{font-size:12px;font-weight:700;color:#fff;letter-spacing:.04em}
-.tool-tx p{font-size:10.5px;color:var(--muted);margin-top:1px}
-
-/* ── BOTTOM NAV ── */
-.bottom-nav{position:fixed;bottom:0;left:0;right:0;z-index:100;
-  padding:8px var(--side) calc(var(--safe-bot) + 8px);
-  background:rgba(8,10,14,.92);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
-  border-top:1px solid var(--border);
-  display:flex;align-items:center;justify-content:space-around}
-.bn-item{display:flex;flex-direction:column;align-items:center;gap:3px;padding:6px 16px;cursor:pointer;border:none;background:none;color:rgba(255,255,255,.3);transition:color .2s;text-decoration:none;font-family:'Jost',sans-serif}
-.bn-item.on{color:var(--accent)}
-.bn-item svg{width:22px;height:22px;fill:currentColor}
-.bn-item span{font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase}
-
-/* ── INSTALL BANNER ── */
-.install-banner{position:fixed;bottom:calc(var(--safe-bot) + var(--bottom-h) + 12px);left:var(--side);right:var(--side);z-index:200;
-  background:linear-gradient(135deg,#0e1320,#0b0d18);
-  border:1.5px solid rgba(37,99,235,.4);border-radius:14px;
-  padding:14px 16px;display:flex;align-items:center;gap:12px;
-  box-shadow:0 20px 40px rgba(0,0,0,.6);
-  animation:bannerIn .4s cubic-bezier(.16,1,.3,1)}
-@keyframes bannerIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
-.install-banner.hidden{display:none}
-.install-icon{width:44px;height:44px;background:var(--accent);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0}
-.install-tx{flex:1;min-width:0}
-.install-tx h4{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:16px;text-transform:uppercase;color:#fff;letter-spacing:-.005em}
-.install-tx p{font-size:11px;color:var(--muted);margin-top:2px;line-height:1.4}
-.install-btn{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:12px;letter-spacing:.12em;text-transform:uppercase;padding:8px 14px;background:var(--accent);color:#fff;border:none;cursor:pointer;border-radius:8px;white-space:nowrap;transition:opacity .2s}
-.install-btn:hover{opacity:.85}
-.install-close{width:24px;height:24px;background:none;border:none;color:rgba(255,255,255,.3);cursor:pointer;font-size:14px;flex-shrink:0;display:flex;align-items:center;justify-content:center}
-
-/* ── TOAST ── */
-.toast{position:fixed;top:calc(var(--safe-top) + var(--nav-h) + 12px);left:50%;transform:translateX(-50%);z-index:300;
-  padding:10px 18px;background:var(--sf);border:1px solid var(--border);border-radius:100px;
-  font-size:12.5px;font-weight:600;color:#fff;white-space:nowrap;
-  box-shadow:0 8px 24px rgba(0,0,0,.4);pointer-events:none;
-  opacity:0;transition:opacity .25s}
+/* Toast */
+.toast{position:fixed;top:80px;left:50%;transform:translateX(-50%);z-index:400;padding:9px 18px;background:var(--sf);border:1px solid var(--border);border-radius:100px;font-size:12.5px;font-weight:600;color:#fff;white-space:nowrap;box-shadow:0 8px 24px rgba(0,0,0,.4);pointer-events:none;opacity:0;transition:opacity .25s}
 .toast.show{opacity:1}
 .toast.ok{border-color:rgba(34,215,122,.4);color:var(--ok)}
 .toast.err{border-color:rgba(239,68,68,.4);color:var(--err)}
 
-@media(min-width:600px){
-  .bottom-nav{justify-content:center;gap:40px}
-  .install-banner{max-width:500px;left:50%;right:auto;transform:translateX(-50%)}
+.tab-pane{display:none}
+.tab-pane.active{display:block;animation:fadeIn .25s ease}
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+
+/* Coming soon panes */
+.coming-soon-pane{background:var(--sf);border:1px solid var(--border);border-radius:12px;padding:44px 24px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:12px}
+.cs-icon{font-size:48px;opacity:.45}
+.cs-title{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:24px;text-transform:uppercase;color:rgba(255,255,255,.45)}
+.cs-sub{font-size:13px;color:var(--muted);line-height:1.65;max-width:260px}
+.cs-tag{font-size:8.5px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;padding:4px 14px;border-radius:100px;border:1px dashed rgba(37,99,235,.25);color:rgba(37,99,235,.55)}
+
+/* Tools pane mobile */
+.tools-list{display:flex;flex-direction:column;gap:8px}
+.tools-list-item{display:flex;align-items:center;gap:14px;padding:14px 16px;background:var(--bg-2);border:1px solid rgba(37,99,235,.2);border-radius:10px;cursor:pointer;transition:background .2s;text-decoration:none;color:inherit}
+.tools-list-item:active{background:rgba(37,99,235,.08)}
+.tools-list-icon{font-size:22px;flex-shrink:0}
+.tools-list-tx h4{font-size:14px;font-weight:600;color:#fff}
+.tools-list-tx p{font-size:11.5px;color:var(--muted);margin-top:2px}
+.tools-list-arr{margin-left:auto;color:rgba(255,255,255,.2);font-size:14px}
+.tools-list-item.admin-item{border-color:rgba(245,165,36,.2)}
+
+/* ══════════════════════════════════════
+   LAYOUT SWITCHING/* ══════════════════════════════════════
+   LAYOUT SWITCHING
+══════════════════════════════════════ */
+/* Par défaut : desktop visible, mobile caché */
+.mobile-only{display:none}
+.desktop-only{display:flex}
+.desktop-nav{display:flex}
+.bottom-nav{display:none}
+
+/* Mobile : < 768px OU mode PWA standalone */
+@media(max-width:767px){
+  .mobile-only{display:block}
+  .desktop-only{display:none}
+  .desktop-nav{display:none}
+  .bottom-nav{display:flex}
+  .mobile-nav{display:flex}
+}
+
+/* Mode PWA standalone (toutes tailles) */
+@media(display-mode:standalone){
+  .mobile-only{display:block}
+  .desktop-only{display:none}
+  .desktop-nav{display:none}
+  .bottom-nav{display:flex}
+  .mobile-nav{display:flex}
+  .btn-install{display:none !important}
 }
 </style>
 </head>
 <body>
 
-<!-- TOP NAV -->
-<nav class="topnav">
-  <div class="topnav-logo">
+<!-- ══ DESKTOP NAV ══ -->
+<nav class="desktop-nav desktop-only">
+  <div class="logo">
     <img src="assets/images/apam-logo2.png" alt="APAM"
-      onerror="this.style.display='none';document.getElementById('ntxt').style.display='block'">
-    <span id="ntxt" class="topnav-logo-txt">APAM</span>
+      onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+    <span class="logo-txt">APAM</span>
   </div>
-  <div class="topnav-greet">
-    <div class="hello">Bonjour,</div>
-    <div class="name" id="u-name">Membre</div>
+  <div class="greet">
+    <span class="hello">Espace membre</span>
+    <span class="name" id="d-name">Membre</span>
   </div>
-  <div class="topnav-pill"><span class="dot"></span><span id="u-role">Membre</span></div>
+  <div class="nav-links">
+    <a class="nav-link active" href="mon-compte.html">Accueil</a>
+    <a class="nav-link" href="activite.html">Le Club</a>
+  </div>
+  <button class="btn-install" id="btn-install-desk">
+    <span class="btn-install-icon">📱</span> Installer l'app
+  </button>
+  <button class="btn-logout-desk" id="btn-logout-desk">Déconnexion</button>
 </nav>
 
-<!-- MAIN -->
-<main class="main">
-  <div class="wrap">
-
-    <!-- Outils (si permissions) -->
-    <div id="tools-section" style="display:none">
-      <div class="tools-card">
-        <div class="tools-card-hd"><h3>🛠 Mes outils</h3></div>
-        <div class="tools-grid" id="tools-grid"></div>
-      </div>
+<!-- ══ DESKTOP MAIN ══ -->
+<div class="desktop-main desktop-only">
+  <!-- Feed -->
+  <div>
+    <div class="sec-hd">
+      <h2>📰 Actualités membres <span class="sec-badge" id="d-badge"></span></h2>
     </div>
-
-    <!-- Actualités membres -->
-    <div class="sec-header">
-      <h2>📰 Actualités</h2>
-      <span class="sec-badge" id="mn-badge" style="display:none"></span>
+    <!-- Outils desktop -->
+    <div class="tools-bar" id="d-tools" style="display:none"></div>
+    <!-- Feed -->
+    <div class="mn-feed" id="d-feed">
+      <div class="skel-card"><div class="skel skel-line w-50"></div><div class="skel skel-title"></div><div class="skel skel-line w-full"></div><div class="skel skel-line w-80"></div><div class="skel skel-poll"></div></div>
+      <div class="skel-card"><div class="skel skel-line w-50"></div><div class="skel skel-title"></div><div class="skel skel-line w-full"></div><div class="skel skel-line w-80"></div></div>
+      <div class="skel-card"><div class="skel skel-line w-50"></div><div class="skel skel-title"></div><div class="skel skel-line w-80"></div></div>
     </div>
-    <div id="mn-feed">
-      <!-- Skeletons -->
-      <div class="skel-card" id="sk1">
-        <div class="skel skel-line w-40"></div>
-        <div class="skel skel-title"></div>
-        <div class="skel skel-line w-full"></div>
-        <div class="skel skel-line w-80"></div>
-        <div class="skel skel-poll"></div>
-      </div>
-      <div class="skel-card" id="sk2">
-        <div class="skel skel-line w-40"></div>
-        <div class="skel skel-title"></div>
-        <div class="skel skel-line w-full"></div>
-        <div class="skel skel-line w-60"></div>
-      </div>
-      <div class="skel-card" id="sk3">
-        <div class="skel skel-line w-40"></div>
-        <div class="skel skel-title"></div>
-        <div class="skel skel-line w-80"></div>
+  </div>
+
+  <!-- Sidebar -->
+  <aside class="desktop-sidebar">
+    <!-- Installer l'app -->
+    <div class="widget install-widget" id="install-widget" style="display:none">
+      <div class="widget-hd">📱 App APAM</div>
+      <div class="install-widget-body">
+        <div class="install-qr-area">✈️</div>
+        <p class="install-widget-sub">Installez l'espace membres sur votre écran d'accueil pour un accès en un tap.</p>
+        <button class="install-widget-btn" id="btn-install-widget">Installer l'application →</button>
       </div>
     </div>
 
     <!-- Teaser -->
-    <div class="teaser" style="margin-top:14px">
-      <div class="teaser-icon">🚧</div>
-      <p class="teaser-title">Mon compte évolue.</p>
-      <p class="teaser-sub">Réservations, carnet de vol, météo METAR — tout ça arrive. Restez à l'affût !</p>
-      <span class="teaser-tag">Prochainement · Saison 2026</span>
+    <div class="widget">
+      <div class="widget-hd">🚧 À venir</div>
+      <div class="teaser-side">
+        <p class="teaser-side-sub">Réservations, carnet de vol, météo METAR — tout ça arrive pour la saison 2026.</p>
+        <span class="teaser-side-tag">Prochainement</span>
+      </div>
     </div>
 
+    <!-- Infos -->
+    <div class="widget">
+      <div class="widget-hd">ℹ️ LFOL</div>
+      <div class="widget-body" style="font-size:12px;color:var(--muted);display:flex;flex-direction:column;gap:6px;line-height:1.5">
+        <span>🛫 Piste 07/25 · 800 m</span>
+        <span>📻 Fréquence 126.855 MHz</span>
+        <span>🌍 48°45'N · 0°39'E</span>
+        <a href="activite.html" style="color:var(--accent);font-size:11px;font-weight:600;margin-top:4px">Voir la page Le Club →</a>
+      </div>
+    </div>
+  </aside>
+</div>
+
+<!-- ══ MOBILE NAV ══ -->
+<nav class="mobile-nav mobile-only">
+  <div class="logo">
+    <img src="assets/images/apam-logo2.png" alt="APAM"
+      onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+    <span class="logo-txt">APAM</span>
   </div>
+  <div class="greet">
+    <div class="hello">Bonjour,</div>
+    <div class="name" id="m-name">Membre</div>
+  </div>
+  <div class="mobile-pill"><span class="dot"></span><span id="m-role">Membre</span></div>
+</nav>
+
+<!-- ══ MOBILE MAIN ══ -->
+<main class="mobile-main mobile-only">
+
+  <!-- TAB : ACCUEIL -->
+  <div id="pane-home" class="tab-pane active">
+    <div class="mobile-wrap">
+      <div class="mobile-sec-hd">
+        <h2>📰 Actualités <span class="sec-badge" id="m-badge"></span></h2>
+      </div>
+      <div class="mn-feed" id="m-feed">
+        <div class="skel-card"><div class="skel skel-line w-50"></div><div class="skel skel-title"></div><div class="skel skel-line w-full"></div><div class="skel skel-line w-80"></div><div class="skel skel-poll"></div></div>
+        <div class="skel-card"><div class="skel skel-line w-50"></div><div class="skel skel-title"></div><div class="skel skel-line w-80"></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB : MÉTÉO -->
+  <div id="pane-meteo" class="tab-pane">
+    <div class="mobile-wrap">
+      <div class="mobile-sec-hd"><h2>🌤 Météo · LFOL</h2></div>
+      <div class="coming-soon-pane">
+        <div class="cs-icon">🛫</div>
+        <h3 class="cs-title">METAR · LFOL</h3>
+        <p class="cs-sub">Conditions en temps réel au terrain — METAR, TAF, vent, visibilité. Bientôt disponible.</p>
+        <span class="cs-tag">Prochainement</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB : OUTILS -->
+  <div id="pane-outils" class="tab-pane">
+    <div class="mobile-wrap">
+      <div class="mobile-sec-hd"><h2>🛠 Mes outils</h2></div>
+      <div id="m-tools-pane"></div>
+      <div style="height:14px"></div>
+      <button onclick="logout()" style="width:100%;padding:13px;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:13px;letter-spacing:.12em;text-transform:uppercase;background:transparent;border:1.5px solid rgba(239,68,68,.3);color:rgba(239,68,68,.7);cursor:pointer;border-radius:8px;transition:border-color .2s,color .2s" onmouseover="this.style.borderColor='var(--err)';this.style.color='var(--err)'" onmouseout="this.style.borderColor='rgba(239,68,68,.3)';this.style.color='rgba(239,68,68,.7)'">
+        Se déconnecter
+      </button>
+    </div>
+  </div>
+
+  <!-- TAB : WEBCAM -->
+  <div id="pane-webcam" class="tab-pane">
+    <div class="mobile-wrap">
+      <div class="mobile-sec-hd"><h2>📷 Webcam · LFOL</h2></div>
+      <div class="coming-soon-pane">
+        <div class="cs-icon">📡</div>
+        <h3 class="cs-title">Webcam terrain</h3>
+        <p class="cs-sub">Vue en direct sur le terrain de L'Aigle Saint-Michel. Bientôt disponible.</p>
+        <span class="cs-tag">Prochainement</span>
+      </div>
+    </div>
+  </div>
+
 </main>
 
-<!-- BOTTOM NAV -->
-<nav class="bottom-nav">
-  <a class="bn-item on" href="mon-compte.html">
+<!-- ══ BOTTOM NAV (mobile/PWA) ══ -->
+<nav class="bottom-nav mobile-only">
+  <button class="bn on" id="tab-home" onclick="switchTab('home')">
     <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
     <span>Accueil</span>
-  </a>
-  <a class="bn-item" href="activite.html">
-    <svg viewBox="0 0 24 24"><path d="M12 2C8.1 2 5 5.1 5 9c0 5.2 7 13 7 13s7-7.8 7-13c0-3.9-3.1-7-7-7zm0 9.5c-1.4 0-2.5-1.1-2.5-2.5S10.6 6.5 12 6.5s2.5 1.1 2.5 2.5S13.4 11.5 12 11.5z"/></svg>
-    <span>Le Club</span>
-  </a>
-  <button class="bn-item" id="btn-logout-nav">
-    <svg viewBox="0 0 24 24"><path d="M17 7l-1.4 1.4 2.6 2.6H8v2h10.2l-2.6 2.6L17 17l5-5-5-5zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4V5z"/></svg>
-    <span>Quitter</span>
+  </button>
+  <button class="bn" id="tab-meteo" onclick="switchTab('meteo')">
+    <svg viewBox="0 0 24 24"><path d="M6.76 4.84l-1.8-1.79-1.41 1.41 1.79 1.79 1.42-1.41zM4 10.5H1v2h3v-2zm9-9.95h-2V3.5h2V.55zm7.45 3.91l-1.41-1.41-1.79 1.79 1.41 1.41 1.79-1.79zm-3.21 13.7l1.79 1.8 1.41-1.41-1.8-1.79-1.4 1.4zM20 10.5v2h3v-2h-3zm-8-5c-3.31 0-6 2.69-6 6s2.69 6 6 6 6-2.69 6-6-2.69-6-6-6zm-1 16.95h2V19.5h-2v2.95zm-7.45-3.91l1.41 1.41 1.79-1.8-1.41-1.41-1.79 1.8z"/></svg>
+    <span>Météo</span>
+  </button>
+  <button class="bn" id="tab-outils" onclick="switchTab('outils')">
+    <svg viewBox="0 0 24 24"><path d="M22.7 19l-9.1-9.1c.9-2.3.4-5-1.5-6.9-2-2-5-2.4-7.4-1.3L9 6 6 9 1.6 4.7C.4 7.1.9 10.1 2.9 12.1c1.9 1.9 4.6 2.4 6.9 1.5l9.1 9.1c.4.4 1 .4 1.4 0l2.3-2.3c.5-.4.5-1.1.1-1.4z"/></svg>
+    <span>Outils</span>
+  </button>
+  <button class="bn" id="tab-webcam" onclick="switchTab('webcam')">
+    <svg viewBox="0 0 24 24"><path d="M17 10.5V7c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1v-3.5l4 4v-11l-4 4z"/></svg>
+    <span>Webcam</span>
   </button>
 </nav>
 
-<!-- INSTALL BANNER -->
-<div class="install-banner hidden" id="install-banner">
-  <div class="install-icon">✈️</div>
-  <div class="install-tx">
-    <h4>Installer l'app APAM</h4>
-    <p>Accès rapide depuis votre écran d'accueil</p>
-  </div>
-  <button class="install-btn" id="install-btn">Installer</button>
-  <button class="install-close" id="install-close">✕</button>
-</div>
-
-<!-- TOAST -->
+<!-- Toast -->
 <div class="toast" id="toast"></div>
 
 <script>
 'use strict';
-
 const API    = 'https://script.google.com/macros/s/AKfycbxae9y3NHqDyAkbEI5rDVRappI-aAWoA0jcHqR8NBUgm3t5SCB1Hq8nebY5t23cV1Je/exec';
 const role   = localStorage.getItem('apam_role');
 const prenom = localStorage.getItem('apam_prenom') || '';
@@ -277,229 +415,189 @@ const perms  = JSON.parse(localStorage.getItem('apam_perms') || '{}');
 
 if(!role) window.location.href = 'connexion-membres-password.html';
 
-/* ── PWA ── */
-if('serviceWorker' in navigator){
-  navigator.serviceWorker.register('sw.js').catch(()=>{});
-}
+/* Service Worker */
+if('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(()=>{});
 
-/* ── Accueil ── */
-document.getElementById('u-name').textContent = prenom || 'Membre';
-document.getElementById('u-role').textContent = perms.admin ? 'Admin' : perms.news_pub||perms.news_membres||perms.photos ? 'Éditeur' : 'Membre';
+/* Noms */
+const displayName = prenom || 'Membre';
+const roleLabel   = perms.admin ? 'Admin' : (perms.news_pub||perms.news_membres||perms.photos) ? 'Éditeur' : 'Membre';
+['d-name','m-name'].forEach(id=>{ const e=document.getElementById(id); if(e) e.textContent=displayName; });
+['m-role'].forEach(id=>{ const e=document.getElementById(id); if(e) e.textContent=roleLabel; });
 
-/* ── Déconnexion ── */
-document.getElementById('btn-logout-nav').addEventListener('click', () => {
-  ['apam_role','apam_prenom','apam_nom','apam_pin','apam_perms'].forEach(k=>localStorage.removeItem(k));
-  window.location.href = 'connexion-membres-password.html';
-});
+/* Déconnexion */
+function logout(){ ['apam_role','apam_prenom','apam_nom','apam_pin','apam_perms'].forEach(k=>localStorage.removeItem(k)); window.location.href='connexion-membres-password.html'; }
+document.getElementById('btn-logout-desk')?.addEventListener('click', logout);
 
-/* ── Outils ── */
-(function setupTools(){
+
+/* Outils */
+(function(){
   const has = perms.admin||perms.news_pub||perms.news_membres||perms.photos;
   if(!has) return;
-  document.getElementById('tools-section').style.display = 'block';
   const tools = [];
-  if(perms.news_pub||perms.news_membres||perms.photos)
-    tools.push({icon:'✏️',title:'Publication',sub:'News & photos',href:'presidence.html'});
-  if(perms.admin)
-    tools.push({icon:'👥',title:'Membres',sub:'Gérer les accès',href:'admin.html'});
-  document.getElementById('tools-grid').innerHTML = tools.map(t=>`
-    <a class="tool-item" href="${t.href}">
-      <span class="tool-icon">${t.icon}</span>
-      <div class="tool-tx"><h4>${t.title}</h4><p>${t.sub}</p></div>
-    </a>`).join('');
+  if(perms.news_pub||perms.news_membres||perms.photos) tools.push({icon:'✏️',title:'Publication',href:'presidence.html',cls:''});
+  if(perms.admin) tools.push({icon:'👥',title:'Membres',href:'admin.html',cls:'admin'});
+  // Desktop tools bar
+  const html = tools.map(t=>`<a class="tool-btn ${t.cls}" href="${t.href}">${t.icon} ${t.title}</a>`).join('');
+  const dt = document.getElementById('d-tools'); if(dt){dt.innerHTML=html;dt.style.display='flex';}
+
+  // Mobile tools pane (liste verticale)
+  const mtools = document.getElementById('m-tools-pane');
+  if(mtools){
+    const listHtml = `<div class="tools-list">${tools.map(t=>`
+      <a class="tools-list-item${t.cls?' '+t.cls+'-item':''}" href="${t.href}">
+        <span class="tools-list-icon">${t.icon}</span>
+        <div class="tools-list-tx"><h4>${t.title}</h4><p>${t.cls==='admin'?'Gérer membres & accès':'Publier news & photos'}</p></div>
+        <span class="tools-list-arr">›</span>
+      </a>`).join('')}
+    </div>`;
+    mtools.innerHTML = listHtml;
+  }
 })();
 
 /* ── Utils ── */
 function esc(s){ return String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
 function fmtFR(iso){ if(!iso)return''; const[y,m,d]=iso.split('-'); const mo=['jan.','fév.','mars','avr.','mai','juin','juil.','août','sep.','oct.','nov.','déc.']; return `${+d} ${mo[+m-1]} ${y}`; }
-function toast(txt, type='', dur=2500){
-  const el=document.getElementById('toast');
-  el.textContent=txt; el.className='toast show'+(type?' '+type:'');
-  clearTimeout(el._t); el._t=setTimeout(()=>el.classList.remove('show'),dur);
-}
+function toast(txt,type='',dur=2500){ const el=document.getElementById('toast'); el.textContent=txt; el.className='toast show'+(type?' '+type:''); clearTimeout(el._t); el._t=setTimeout(()=>el.classList.remove('show'),dur); }
 
-/* ── Reactions state (optimistic) ── */
-// Structure: { [newsId]: { oui: [{prenom,nom}], non: [{prenom,nom}], myVote: 'Oui'|'Non'|null } }
+/* ── Optimistic reactions ── */
 const reactState = {};
-
-function getMyVote(newsId){ return reactState[newsId]?.myVote || null; }
-
 function applyVote(newsId, reponse){
-  if(!reactState[newsId]) reactState[newsId] = {oui:[],non:[],myVote:null};
-  const state = reactState[newsId];
-  const me = {prenom,nom};
-
-  // Retirer l'ancien vote si existant
-  state.oui = state.oui.filter(r=>!(r.prenom===prenom&&r.nom===nom));
-  state.non = state.non.filter(r=>!(r.prenom===prenom&&r.nom===nom));
-
-  if(state.myVote === reponse){
-    // Cliquer à nouveau = retirer le vote (toggle off)
-    state.myVote = null;
-  } else {
-    state.myVote = reponse;
-    if(reponse==='Oui') state.oui.push(me);
-    else state.non.push(me);
-  }
-  return state;
+  if(!reactState[newsId]) reactState[newsId]={oui:[],non:[],myVote:null};
+  const s=reactState[newsId], me={prenom,nom};
+  s.oui=s.oui.filter(r=>!(r.prenom===prenom&&r.nom===nom));
+  s.non=s.non.filter(r=>!(r.prenom===prenom&&r.nom===nom));
+  if(s.myVote===reponse){ s.myVote=null; }
+  else { s.myVote=reponse; (reponse==='Oui'?s.oui:s.non).push(me); }
+  return s;
 }
-
 function renderReactions(newsId){
-  const state = reactState[newsId];
-  if(!state) return '';
-  const {oui,non,myVote} = state;
-  const total = oui.length + non.length;
-  if(!total) return '';
+  const s=reactState[newsId]; if(!s) return '';
+  const {oui,non}=s; const total=oui.length+non.length; if(!total) return '';
   return `<div class="mn-reactions">
     <div class="mn-reactions-lbl">Réponses · ${total}</div>
     ${oui.length?`<div class="mn-rg"><span class="mn-rg-lbl oui">Oui · ${oui.length}</span><div class="mn-names">${oui.map(r=>`<span class="mn-name${r.prenom===prenom&&r.nom===nom?' me':''}">${esc(r.prenom)} ${esc(r.nom)}</span>`).join('')}</div></div>`:''}
     ${non.length?`<div class="mn-rg"><span class="mn-rg-lbl non">Non · ${non.length}</span><div class="mn-names">${non.map(r=>`<span class="mn-name${r.prenom===prenom&&r.nom===nom?' me':''}">${esc(r.prenom)} ${esc(r.nom)}</span>`).join('')}</div></div>`:''}
   </div>`;
 }
-
 function updatePollUI(newsId){
-  const state = reactState[newsId];
-  const myVote = state?.myVote || null;
-
-  const btnO = document.querySelector(`[data-poll="${newsId}"][data-rep="Oui"]`);
-  const btnN = document.querySelector(`[data-poll="${newsId}"][data-rep="Non"]`);
-  if(btnO){ btnO.className='mn-poll-btn'+(myVote==='Oui'?' voted-oui':''); }
-  if(btnN){ btnN.className='mn-poll-btn'+(myVote==='Non'?' voted-non':''); }
-
-  const reactEl = document.getElementById('react-'+newsId);
-  if(reactEl) reactEl.innerHTML = renderReactions(newsId);
+  const s=reactState[newsId]; const myVote=s?.myVote||null;
+  document.querySelectorAll(`[data-poll="${newsId}"]`).forEach(btn=>{
+    const rep=btn.dataset.rep;
+    btn.className='mn-poll-btn'+(myVote===rep?(rep==='Oui'?' voted-oui':' voted-non'):'');
+  });
+  document.querySelectorAll(`[id="react-${newsId}"]`).forEach(el=>el.innerHTML=renderReactions(newsId));
 }
-
-window.voter = async function(newsId, reponse, btn){
-  if(!prenom||!nom){ toast('Connectez-vous avec votre nom pour réagir.','err'); return; }
-
-  // ── OPTIMISTIC : mise à jour immédiate ──
-  applyVote(newsId, reponse);
+window.voter=async function(newsId,reponse){
+  if(!prenom||!nom){ toast('Connectez-vous avec votre nom.','err'); return; }
+  applyVote(newsId,reponse);
   updatePollUI(newsId);
-
-  // ── SYNC API en arrière-plan ──
-  try{
-    await fetch(`${API}?action=reagir&newsId=${encodeURIComponent(newsId)}&prenom=${encodeURIComponent(prenom)}&nom=${encodeURIComponent(nom)}&reponse=${encodeURIComponent(reponse)}`);
-  }catch{
-    // Silencieux — l'UI reste dans l'état optimiste
-    // On pourrait revert ici si on voulait être strict
-  }
+  try{ await fetch(`${API}?action=reagir&newsId=${encodeURIComponent(newsId)}&prenom=${encodeURIComponent(prenom)}&nom=${encodeURIComponent(nom)}&reponse=${encodeURIComponent(reponse)}`); }
+  catch{}
 };
 
-/* ── Chargement news ── */
-async function chargerNews(){
-  const feed  = document.getElementById('mn-feed');
-  const badge = document.getElementById('mn-badge');
-  try{
-    const data = await fetch(`${API}?action=newsMembres`).then(r=>r.json());
-    const news = data.news || [];
-
-    if(!news.length){
-      feed.innerHTML = `<div class="mn-empty">
-        <div class="mn-empty-icon">✉️</div>
-        <p class="mn-empty-title">Aucune actualité</p>
-        <p class="mn-empty-sub">Le président publiera ici les nouvelles réservées aux membres.</p>
-      </div>`;
-      return;
-    }
-
-    badge.textContent = news.length;
-    badge.style.display = 'inline-flex';
-
-    // Charger les réactions en parallèle
-    await Promise.all(news.map(async n => {
-      if(n.sondage && n.sondage !== 'aucun'){
-        try{
-          const r = await fetch(`${API}?action=reactions&newsId=${encodeURIComponent(n.id)}`).then(r=>r.json());
-          const reactions = r.reactions || [];
-          const myVote = reactions.find(r=>r.prenom===prenom&&r.nom===nom)?.reponse || null;
-          reactState[n.id] = {
-            oui: reactions.filter(r=>r.reponse==='Oui'),
-            non: reactions.filter(r=>r.reponse==='Non'),
-            myVote
-          };
-        }catch{ reactState[n.id] = {oui:[],non:[],myVote:null}; }
-      }
-    }));
-
-    // Render
-    feed.innerHTML = news.map((n, i) => {
-      const hasPoll = n.sondage && n.sondage !== 'aucun';
-      const myVote  = getMyVote(n.id);
-      const q = n.sondage === 'oui-non' ? 'Serez-vous présent ?' : esc(n.sondage);
-
-      const pollHtml = hasPoll ? `
-        <div class="mn-poll">
-          <div class="mn-poll-q">${q}</div>
-          <div class="mn-poll-btns">
-            <button class="mn-poll-btn${myVote==='Oui'?' voted-oui':''}" data-poll="${esc(n.id)}" data-rep="Oui" onclick="voter('${esc(n.id)}','Oui',this)">
-              <span class="chk">✓</span> Oui
-            </button>
-            <button class="mn-poll-btn${myVote==='Non'?' voted-non':''}" data-poll="${esc(n.id)}" data-rep="Non" onclick="voter('${esc(n.id)}','Non',this)">
-              <span class="chk">✕</span> Non
-            </button>
-          </div>
-          <div id="react-${esc(n.id)}">${renderReactions(n.id)}</div>
-        </div>` : '';
-
-      return `<div class="mn-card" style="animation-delay:${i*60}ms">
-        <div class="mn-card-hd">
-          <div class="mn-card-meta">
-            <span class="mn-card-date">${fmtFR(n.date)}</span>
-            ${n.categorie?`<span class="mn-card-cat">${esc(n.categorie)}</span>`:''}
-            <span class="mn-card-auteur">— ${esc(n.auteur)}</span>
-          </div>
-          <h3 class="mn-card-titre">${esc(n.titre)}</h3>
+/* ── Render news ── */
+function renderNews(news){
+  if(!news.length) return `<div class="mn-empty"><div class="mn-empty-icon">✉️</div><p class="mn-empty-title">Aucune actualité</p><p class="mn-empty-sub">Le président publiera ici les nouvelles réservées aux membres.</p></div>`;
+  return news.map((n,i)=>{
+    const hasPoll=n.sondage&&n.sondage!=='aucun';
+    const myVote=reactState[n.id]?.myVote||null;
+    const q=n.sondage==='oui-non'?'Serez-vous présent ?':esc(n.sondage);
+    const poll=hasPoll?`<div class="mn-poll">
+      <div class="mn-poll-q">${q}</div>
+      <div class="mn-poll-btns">
+        <button class="mn-poll-btn${myVote==='Oui'?' voted-oui':''}" data-poll="${esc(n.id)}" data-rep="Oui" onclick="voter('${esc(n.id)}','Oui')"><span class="chk">✓</span> Oui</button>
+        <button class="mn-poll-btn${myVote==='Non'?' voted-non':''}" data-poll="${esc(n.id)}" data-rep="Non" onclick="voter('${esc(n.id)}','Non')"><span class="chk">✕</span> Non</button>
+      </div>
+      <div id="react-${esc(n.id)}">${renderReactions(n.id)}</div>
+    </div>`:'';
+    return `<div class="mn-card" style="animation-delay:${i*55}ms">
+      <div class="mn-card-hd">
+        <div class="mn-card-meta">
+          <span class="mn-card-date">${fmtFR(n.date)}</span>
+          ${n.categorie?`<span class="mn-card-cat">${esc(n.categorie)}</span>`:''}
+          <span class="mn-card-auteur">— ${esc(n.auteur)}</span>
         </div>
-        <div class="mn-card-body"><p class="mn-card-texte">${esc(n.texte)}</p></div>
-        ${pollHtml}
-      </div>`;
-    }).join('');
-
-  }catch{
-    feed.innerHTML = `<div class="mn-empty">
-      <div class="mn-empty-icon">📡</div>
-      <p class="mn-empty-title">Hors ligne</p>
-      <p class="mn-empty-sub">Impossible de charger les actualités. Vérifiez votre connexion.</p>
+        <h3 class="mn-card-titre">${esc(n.titre)}</h3>
+      </div>
+      <div class="mn-card-body"><p class="mn-card-texte">${esc(n.texte)}</p></div>
+      ${poll}
     </div>`;
-  }
+  }).join('');
 }
 
+/* ── Load news ── */
+async function chargerNews(){
+  try{
+    const data=await fetch(`${API}?action=newsMembres`).then(r=>r.json());
+    const news=data.news||[];
+    ['d-badge','m-badge'].forEach(id=>{ const e=document.getElementById(id); if(e&&news.length){e.textContent=news.length;e.style.display='inline-flex';} });
+    await Promise.all(news.map(async n=>{
+      if(n.sondage&&n.sondage!=='aucun'){
+        try{
+          const r=await fetch(`${API}?action=reactions&newsId=${encodeURIComponent(n.id)}`).then(r=>r.json());
+          const reactions=r.reactions||[];
+          const myVote=reactions.find(r=>r.prenom===prenom&&r.nom===nom)?.reponse||null;
+          reactState[n.id]={oui:reactions.filter(r=>r.reponse==='Oui'),non:reactions.filter(r=>r.reponse==='Non'),myVote};
+        }catch{reactState[n.id]={oui:[],non:[],myVote:null};}
+      }
+    }));
+    const html=renderNews(news);
+    ['d-feed','m-feed'].forEach(id=>{ const e=document.getElementById(id); if(e) e.innerHTML=html; });
+  }catch{
+    const html=`<div class="mn-empty"><div class="mn-empty-icon">📡</div><p class="mn-empty-title">Hors ligne</p><p class="mn-empty-sub">Vérifiez votre connexion et réessayez.</p></div>`;
+    ['d-feed','m-feed'].forEach(id=>{ const e=document.getElementById(id); if(e) e.innerHTML=html; });
+  }
+}
 chargerNews();
 
-/* ── Install PWA ── */
-let deferredPrompt = null;
-const banner       = document.getElementById('install-banner');
-const installBtn   = document.getElementById('install-btn');
-const closeBtn     = document.getElementById('install-close');
-const INSTALL_KEY  = 'apam_install_dismissed';
-
-window.addEventListener('beforeinstallprompt', e => {
-  e.preventDefault();
-  deferredPrompt = e;
-  if(!localStorage.getItem(INSTALL_KEY)) {
-    setTimeout(()=>banner.classList.remove('hidden'), 2000);
-  }
+/* ── PWA Install ── */
+let deferredPrompt=null;
+window.addEventListener('beforeinstallprompt',e=>{
+  e.preventDefault(); deferredPrompt=e;
+  // Desktop : bouton nav + widget sidebar
+  document.getElementById('btn-install-desk')?.classList.add('visible');
+  document.getElementById('install-widget')?.style.setProperty('display','block');
 });
-
-installBtn?.addEventListener('click', async () => {
+async function triggerInstall(){
   if(!deferredPrompt) return;
   deferredPrompt.prompt();
-  const { outcome } = await deferredPrompt.userChoice;
-  if(outcome === 'accepted') toast('✓ App APAM installée !','ok',3000);
-  deferredPrompt = null;
-  banner.classList.add('hidden');
-});
+  const{outcome}=await deferredPrompt.userChoice;
+  if(outcome==='accepted') toast('✓ App APAM installée !','ok',3000);
+  deferredPrompt=null;
+  document.getElementById('btn-install-desk')?.classList.remove('visible');
+  document.getElementById('install-widget')?.style.setProperty('display','none');
+}
+document.getElementById('btn-install-desk')?.addEventListener('click',triggerInstall);
+document.getElementById('btn-install-widget')?.addEventListener('click',triggerInstall);
+/* ── Onglets mobile ── */
+window.switchTab = function(tab){
+  document.querySelectorAll('.tab-pane').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.bn').forEach(b=>b.classList.remove('on'));
+  document.getElementById('pane-'+tab)?.classList.add('active');
+  document.getElementById('tab-'+tab)?.classList.add('on');
+};
 
-closeBtn?.addEventListener('click', () => {
-  banner.classList.add('hidden');
-  localStorage.setItem(INSTALL_KEY, '1');
-});
+/* ── Bloquer navigation externe dans PWA standalone ── */
+const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
+if(isStandalone){
+  document.addEventListener('click', e=>{
+    const a = e.target.closest('a[href]');
+    if(!a) return;
+    const href = a.getAttribute('href');
+    // Laisser passer les ancres et les liens internes à l'app
+    if(!href || href.startsWith('#') || href.startsWith('javascript')) return;
+    const url = new URL(href, location.href);
+    // Même origine mais hors de mon-compte = ouvrir dans le navigateur
+    const appPages = ['mon-compte.html','connexion-membres-password.html','presidence.html','admin.html'];
+    const isAppPage = appPages.some(p => url.pathname.endsWith(p));
+    if(!isAppPage){
+      e.preventDefault();
+      window.open(url.href, '_blank');
+    }
+  });
+}
 
-window.addEventListener('appinstalled', () => {
-  banner.classList.add('hidden');
-  toast('✓ App APAM installée !','ok',3000);
-});
+window.addEventListener('appinstalled',()=>{ toast('✓ App APAM installée !','ok',3000); document.getElementById('install-widget')?.style.setProperty('display','none'); });
 </script>
 </body>
 </html>
