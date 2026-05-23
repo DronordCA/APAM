@@ -115,15 +115,24 @@ a{color:inherit;text-decoration:none}
 .mobile-sec-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
 .mobile-sec-hd h2{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:20px;text-transform:uppercase;color:#fff;display:flex;align-items:center;gap:7px}
 
-.bottom-nav{position:fixed;bottom:0;left:0;right:0;z-index:100;
-  padding:8px 0 0;
-  background:rgba(8,10,14,.94);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+.bottom-nav{
+  position:fixed;bottom:0;left:0;right:0;z-index:100;
+  display:flex;justify-content:space-around;align-items:center;
+  padding-top:8px;
+  padding-bottom:calc(env(safe-area-inset-bottom, 20px) + 6px);
+  background:rgba(8,10,14,.96);
+  backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
   border-top:1px solid var(--border);
-  display:flex;align-items:center;justify-content:space-around}
-.bn{display:flex;flex-direction:column;align-items:center;gap:2px;padding:4px 20px;background:none;border:none;cursor:pointer;color:rgba(255,255,255,.3);transition:color .2s;font-family:'Jost',sans-serif;text-decoration:none}
+}
+.bn{
+  flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:4px;padding:2px 0;background:none;border:none;cursor:pointer;
+  color:rgba(255,255,255,.32);transition:color .2s;
+  font-family:'Jost',sans-serif;text-decoration:none;
+}
 .bn.on{color:var(--accent)}
-.bn svg{width:22px;height:22px;fill:currentColor}
-.bn span{font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase}
+.bn svg{width:24px;height:24px;fill:currentColor;display:block}
+.bn span{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;line-height:1}
 
 /* ══════════════════════════════════════
    SHARED — SKELETONS
@@ -274,16 +283,9 @@ html.pwa .btn-install  { display: none !important; }
 html.pwa .desktop-nav,
 html.pwa .desktop-main { height: 0; overflow: hidden; margin: 0; padding: 0; }
 
-/* Bottom nav — style tab bar natif iOS (icônes en haut, fond couvre safe area) */
-html.pwa .bottom-nav{
-  padding-top: 10px !important;
-  padding-bottom: env(safe-area-inset-bottom, 34px) !important;
-  align-items: flex-start !important;
-  box-shadow: none !important;
-  height: auto !important;
-}
+/* mobile-main padding pour ne pas être caché par le bottom nav */
 html.pwa .mobile-main{
-  padding-bottom: calc(54px + env(safe-area-inset-bottom, 34px)) !important;
+  padding-bottom: calc(70px + env(safe-area-inset-bottom, 20px)) !important;
 }
 html.pwa .mobile-nav{
   padding-top: calc(env(safe-area-inset-top, 0px) + 10px) !important;
