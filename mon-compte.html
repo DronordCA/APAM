@@ -231,6 +231,17 @@ a{color:inherit;text-decoration:none}
 .gate-btn-skip:hover{ color:rgba(255,255,255,.7);border-color:rgba(255,255,255,.3); }
 .gate-hint{ font-size:11px;color:rgba(255,255,255,.2);line-height:1.6;max-width:280px; }
 
+
+.update-btn{width:100%;padding:13px 16px;display:flex;align-items:center;gap:12px;background:rgba(37,99,235,.08);border:1.5px solid rgba(37,99,235,.25);color:#8aabff;cursor:pointer;border-radius:10px;transition:background .2s;font-family:'Jost',sans-serif;margin-bottom:10px}
+.update-btn:hover,.update-btn:active{background:rgba(37,99,235,.18)}
+.update-btn-icon{font-size:20px;flex-shrink:0}
+.update-btn-tx{flex:1;text-align:left}
+.update-btn-tx h4{font-size:14px;font-weight:700;color:#fff}
+.update-btn-tx p{font-size:11.5px;color:var(--muted);margin-top:2px}
+.update-btn-arrow{color:rgba(255,255,255,.25);font-size:14px}
+.update-btn.checking{opacity:.6;pointer-events:none}
+.update-btn.updated{border-color:rgba(34,215,122,.3);background:rgba(34,215,122,.06);color:var(--ok)}
+
 .toast{position:fixed;top:80px;left:50%;transform:translateX(-50%);z-index:400;padding:9px 18px;background:var(--sf);border:1px solid var(--border);border-radius:100px;font-size:12.5px;font-weight:600;color:#fff;white-space:nowrap;box-shadow:0 8px 24px rgba(0,0,0,.4);pointer-events:none;opacity:0;transition:opacity .25s}
 .toast.show{opacity:1}
 .toast.ok{border-color:rgba(34,215,122,.4);color:var(--ok)}
@@ -436,6 +447,16 @@ html.pwa .mobile-nav{
       <div class="mobile-sec-hd"><h2>🛠 Mes outils</h2></div>
       <div id="m-tools-pane"></div>
       <div style="height:14px"></div>
+      <!-- Mise à jour app -->
+      <button class="update-btn" id="update-btn" onclick="mettreAJour()">
+        <span class="update-btn-icon">🔄</span>
+        <div class="update-btn-tx">
+          <h4>Mise à jour</h4>
+          <p id="update-sub">Vérifier et installer les mises à jour</p>
+        </div>
+        <span class="update-btn-arrow">›</span>
+      </button>
+      <div style="height:6px"></div>
       <button onclick="logout()" style="width:100%;padding:13px;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:13px;letter-spacing:.12em;text-transform:uppercase;background:transparent;border:1.5px solid rgba(239,68,68,.3);color:rgba(239,68,68,.7);cursor:pointer;border-radius:8px;transition:border-color .2s,color .2s" onmouseover="this.style.borderColor='var(--err)';this.style.color='var(--err)'" onmouseout="this.style.borderColor='rgba(239,68,68,.3)';this.style.color='rgba(239,68,68,.7)'">
         Se déconnecter
       </button>
@@ -762,6 +783,51 @@ async function triggerInstall(){
 document.getElementById('btn-install-desk')?.addEventListener('click',triggerInstall);
 document.getElementById('btn-install-widget')?.addEventListener('click',triggerInstall);
 window.addEventListener('appinstalled',()=>{ toast('✓ App APAM installée !','ok',3000); document.getElementById('install-widget')?.style.setProperty('display','none'); });
+
+/* ── Mise à jour app ── */
+window.mettreAJour = async function(){
+  const btn = document.getElementById('update-btn');
+  const sub = document.getElementById('update-sub');
+  if(!('serviceWorker' in navigator)){ toast('Service worker non disponible','err'); return; }
+
+  btn.classList.add('checking');
+  sub.textContent = 'Vérification en cours…';
+
+  try{
+    const reg = await navigator.serviceWorker.getRegistration();
+    if(!reg){ sub.textContent = 'Aucun service worker trouvé'; btn.classList.remove('checking'); return; }
+
+    await reg.update();
+
+    if(reg.waiting){
+      // Nouveau SW en attente → forcer l'activation
+      sub.textContent = 'Mise à jour trouvée — installation…';
+      reg.waiting.postMessage({ type: 'SKIP_WAITING' });
+      navigator.serviceWorker.addEventListener('controllerchange', () => {
+        toast('✓ App mise à jour !', 'ok', 2500);
+        setTimeout(() => window.location.reload(), 800);
+      });
+    } else if(reg.installing){
+      sub.textContent = 'Installation en cours…';
+      reg.installing.addEventListener('statechange', function(){
+        if(this.state === 'installed'){
+          this.postMessage({ type: 'SKIP_WAITING' });
+          setTimeout(() => window.location.reload(), 800);
+        }
+      });
+    } else {
+      btn.classList.remove('checking');
+      btn.classList.add('updated');
+      sub.textContent = '✓ Déjà à jour';
+      setTimeout(()=>{ btn.classList.remove('updated'); sub.textContent='Vérifier et installer les mises à jour'; }, 3000);
+    }
+  }catch(e){
+    btn.classList.remove('checking');
+    sub.textContent = 'Erreur — réessayez';
+    toast('Erreur de mise à jour','err');
+  }
+};
+
 </script>
 </body>
 </html>
