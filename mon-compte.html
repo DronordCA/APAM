@@ -114,7 +114,7 @@ a{color:inherit;text-decoration:none}
 .mobile-sec-hd h2{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:20px;text-transform:uppercase;color:#fff;display:flex;align-items:center;gap:7px}
 
 .bottom-nav{position:fixed;bottom:0;left:0;right:0;z-index:100;
-  padding:8px 0 calc(var(--safe-bot) + 8px);
+  padding:8px 0 0;
   background:rgba(8,10,14,.94);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
   border-top:1px solid var(--border);
   display:flex;align-items:center;justify-content:space-around}
@@ -266,10 +266,11 @@ a{color:inherit;text-decoration:none}
 /* ── Bottom nav collé en bas dans l'app ── */
 @media(display-mode:standalone){
   .bottom-nav{
-    padding-bottom: 8px;
+    padding-bottom: 0 !important;
+    padding-top: 8px;
   }
   .mobile-main{
-    padding-bottom: calc(64px + 16px);
+    padding-bottom: calc(64px + 8px);
   }
   .mobile-nav{
     padding-top: calc(env(safe-area-inset-top, 0px) + 10px);
