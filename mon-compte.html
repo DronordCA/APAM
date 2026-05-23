@@ -120,10 +120,10 @@ a{color:inherit;text-decoration:none}
   background:rgba(8,10,14,.94);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
   border-top:1px solid var(--border);
   display:flex;align-items:center;justify-content:space-around}
-.bn{display:flex;flex-direction:column;align-items:center;gap:3px;padding:5px 20px;background:none;border:none;cursor:pointer;color:rgba(255,255,255,.3);transition:color .2s;font-family:'Jost',sans-serif;text-decoration:none}
+.bn{display:flex;flex-direction:column;align-items:center;gap:2px;padding:4px 20px;background:none;border:none;cursor:pointer;color:rgba(255,255,255,.3);transition:color .2s;font-family:'Jost',sans-serif;text-decoration:none}
 .bn.on{color:var(--accent)}
-.bn svg{width:20px;height:20px;fill:currentColor}
-.bn span{font-size:8.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase}
+.bn svg{width:22px;height:22px;fill:currentColor}
+.bn span{font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase}
 
 /* ══════════════════════════════════════
    SHARED — SKELETONS
@@ -274,13 +274,14 @@ html.pwa .btn-install  { display: none !important; }
 html.pwa .desktop-nav,
 html.pwa .desktop-main { height: 0; overflow: hidden; margin: 0; padding: 0; }
 
-/* Bottom nav collé — PAS de safe area en standalone */
+/* Bottom nav — position native iOS */
 html.pwa .bottom-nav{
-  padding-bottom: 0 !important;
-  padding-top: 8px !important;
+  padding-top: 4px !important;
+  padding-bottom: env(safe-area-inset-bottom, 0px) !important;
+  align-items: flex-start !important;
 }
 html.pwa .mobile-main{
-  padding-bottom: 80px !important;
+  padding-bottom: calc(50px + env(safe-area-inset-bottom, 0px)) !important;
 }
 html.pwa .mobile-nav{
   padding-top: calc(env(safe-area-inset-top, 0px) + 10px) !important;
