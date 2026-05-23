@@ -244,16 +244,30 @@ a{color:inherit;text-decoration:none}
 
 
 /* Météo */
-.meteo-widget-wrap{border-radius:10px;overflow:hidden;margin-bottom:14px;background:#fff}
 .metar-btns{display:flex;gap:8px;margin-bottom:10px}
-.metar-btn{flex:1;padding:10px;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:15px;letter-spacing:.1em;text-transform:uppercase;background:var(--sf);border:1.5px solid var(--bds);color:rgba(255,255,255,.45);cursor:pointer;border-radius:8px;transition:all .2s}
+.metar-btn{flex:1;padding:10px;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:14px;letter-spacing:.08em;text-transform:uppercase;background:var(--sf);border:1.5px solid var(--bds);color:rgba(255,255,255,.45);cursor:pointer;border-radius:8px;transition:all .2s}
 .metar-btn.active{background:rgba(37,99,235,.15);border-color:var(--accent);color:#fff}
-.metar-btn.refresh{flex:0 0 44px;font-size:18px;color:rgba(255,255,255,.4)}
-.metar-box{background:var(--sf);border:1px solid var(--border);border-radius:10px;padding:14px;min-height:80px}
-.metar-raw{font-family:'JetBrains Mono','Courier New',monospace;font-size:13px;color:var(--ok);line-height:1.8;word-break:break-all;white-space:pre-wrap}
+.metar-btn.refresh{flex:0 0 44px;font-size:18px;color:rgba(255,255,255,.4);letter-spacing:0}
+.metar-box{background:var(--sf);border:1px solid var(--border);border-radius:10px;padding:14px;min-height:80px;margin-bottom:8px}
+.metar-raw{font-family:'JetBrains Mono','Courier New',monospace;font-size:12.5px;color:var(--ok);line-height:1.9;word-break:break-all;white-space:pre-wrap}
 .metar-time{font-size:9px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
 .metar-loading{font-size:12px;color:var(--muted);text-align:center;padding:16px 0;text-transform:uppercase;letter-spacing:.06em}
 .metar-err{font-size:12px;color:var(--err);text-align:center;padding:16px 0}
+/* Widget météo custom */
+.wx-card{background:var(--sf);border:1px solid var(--border);border-radius:12px;overflow:hidden}
+.wx-header{padding:12px 16px;background:rgba(37,99,235,.08);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.wx-station{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:18px;text-transform:uppercase;color:#fff}
+.wx-updated{font-size:9px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
+.wx-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border)}
+.wx-cell{background:var(--sf);padding:14px 16px}
+.wx-cell-lbl{font-size:9px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-bottom:5px}
+.wx-cell-val{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:26px;color:#fff;line-height:1}
+.wx-cell-unit{font-size:11px;color:var(--muted);margin-top:3px}
+.wx-cell.wind .wx-cell-val{font-size:22px}
+.wx-sky{padding:12px 16px;border-top:1px solid var(--border);display:flex;gap:8px;flex-wrap:wrap}
+.wx-sky-item{font-size:11px;color:rgba(255,255,255,.6);background:rgba(255,255,255,.05);border:1px solid var(--border);padding:3px 10px;border-radius:100px}
+.wx-loading{padding:32px;text-align:center;font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+.wx-err{padding:24px;text-align:center;font-size:12px;color:var(--err)}
 
 .toast{position:fixed;top:80px;left:50%;transform:translateX(-50%);z-index:400;padding:9px 18px;background:var(--sf);border:1px solid var(--border);border-radius:100px;font-size:12.5px;font-weight:600;color:#fff;white-space:nowrap;box-shadow:0 8px 24px rgba(0,0,0,.4);pointer-events:none;opacity:0;transition:opacity .25s}
 .toast.show{opacity:1}
@@ -444,27 +458,20 @@ html.pwa .mobile-nav{
   <!-- TAB : MÉTÉO -->
   <div id="pane-meteo" class="tab-pane">
     <div class="mobile-wrap">
-      <div class="mobile-sec-hd"><h2>🌤 Météo · LFOL</h2></div>
+      <div class="mobile-sec-hd" style="margin-bottom:14px"><h2>🌤 Météo · LFOL</h2></div>
 
-      <!-- Widget metar-taf.com via iframe (pas de problème CORS) -->
-      <div class="meteo-widget-wrap">
-        <iframe
-          src="https://metar-taf.com/LFOL?station_id=LFOE&qnh=hPa"
-          style="width:100%;height:278px;border:0"
-          loading="lazy"
-          title="Météo LFOL">
-        </iframe>
+      <!-- Widget météo LFOE -->
+      <div class="wx-card" id="wx-card">
+        <div class="wx-loading">Chargement météo…</div>
       </div>
 
-      <!-- Boutons METAR / TAF -->
-      <div class="metar-btns">
-        <button class="metar-btn active" id="btn-metar" onclick="fetchMeteo('metar')">METAR</button>
-        <button class="metar-btn" id="btn-taf"   onclick="fetchMeteo('taf')">TAF</button>
-        <button class="metar-btn refresh" id="btn-refresh" onclick="fetchMeteo(currentMeteoType)" title="Rafraîchir">↻</button>
+      <!-- METAR / TAF bruts -->
+      <div class="metar-btns" style="margin-top:12px">
+        <button class="metar-btn" id="btn-metar" onclick="fetchRaw('metar')">METAR brut</button>
+        <button class="metar-btn" id="btn-taf"   onclick="fetchRaw('taf')">TAF</button>
+        <button class="metar-btn refresh" id="btn-refresh-wx" onclick="reloadMeteo()" title="Rafraîchir">↻</button>
       </div>
-      <div class="metar-box" id="metar-box">
-        <div class="metar-loading">Appuyez sur METAR ou TAF</div>
-      </div>
+      <div class="metar-box" id="metar-box" style="display:none"></div>
 
     </div>
   </div>
@@ -780,6 +787,7 @@ window.switchTab = function(tab){
   const btn  = document.getElementById('tab-' + tab);
   if(pane) pane.classList.add('active');
   if(btn)  btn.classList.add('on');
+  if(tab==='meteo' && !wxCache.metar) loadWxCard();
 };
 
 function openIOSModal(){ document.getElementById('ios-modal')?.classList.add('show'); }
@@ -858,50 +866,120 @@ window.mettreAJour = async function(){
 
 
 /* ── Météo METAR/TAF ── */
-let currentMeteoType = 'metar';
-const meteoCache = {};
+const METAR_STATION = 'LFOE';
+const wxCache = {};
 
-async function fetchMeteo(type){
-  currentMeteoType = type;
-  // Activer le bon bouton
-  document.getElementById('btn-metar').classList.toggle('active', type==='metar');
-  document.getElementById('btn-taf').classList.toggle('active',   type==='taf');
+/* Sources METAR avec fallback */
+async function fetchMetarRaw(type){
+  const cached = wxCache[type];
+  if(cached && Date.now()-cached.ts < 300000) return cached.data;
 
-  const box = document.getElementById('metar-box');
+  const urls = type === 'metar' ? [
+    `https://aviationweather.gov/api/data/metar?ids=${METAR_STATION}&format=raw&hours=2`,
+    `https://corsproxy.io/?url=https://tgftp.nws.noaa.gov/data/observations/metar/stations/${METAR_STATION}.TXT`
+  ] : [
+    `https://aviationweather.gov/api/data/taf?ids=${METAR_STATION}&format=raw`,
+    `https://corsproxy.io/?url=https://tgftp.nws.noaa.gov/data/forecasts/taf/stations/${METAR_STATION}.TXT`
+  ];
 
-  // Cache 5 min
-  const cached = meteoCache[type];
-  if(cached && Date.now()-cached.ts < 300000){
-    renderMeteo(box, cached.data, type, cached.ts); return;
+  let lastErr;
+  for(const url of urls){
+    try{
+      const res = await fetch(url, {signal: AbortSignal.timeout(6000)});
+      if(!res.ok) continue;
+      const text = (await res.text()).trim();
+      if(!text) continue;
+      // Extraire seulement la ligne METAR/TAF si fichier NOAA (contient date en ligne 1)
+      const lines = text.split('\n').map(l=>l.trim()).filter(Boolean);
+      const raw = lines.find(l=>l.startsWith(METAR_STATION)||l.startsWith('TAF')) || lines[lines.length-1];
+      wxCache[type] = {data: raw||text, ts: Date.now()};
+      return wxCache[type].data;
+    }catch(e){ lastErr=e; }
   }
+  throw lastErr || new Error('No data');
+}
 
-  box.innerHTML = '<div class="metar-loading">Chargement…</div>';
+/* Parser METAR */
+function parseMetar(raw){
+  const p = {};
+  // Wind: 24015KT or 24015G25KT or VRB05KT
+  const wm = raw.match(/(?:VRB|(\d{3}))(\d{2,3})(?:G(\d{2,3}))?KT/);
+  if(wm){ p.windDir=wm[1]?parseInt(wm[1]):null; p.windSpd=parseInt(wm[2]); p.windGst=wm[3]?parseInt(wm[3]):null; p.windVrb=!wm[1]; }
+  // Visibility
+  const vm = raw.match(/(\d{4})/); if(vm) p.vis=parseInt(vm[1]);
+  const vsm = raw.match(/(\d+(?:\/\d+)?)\s*SM/); if(vsm) p.vis=Math.round(parseFloat(vsm[1])*1609);
+  // Temp/Dew: 15/10 or M05/M10
+  const tm = raw.match(/(M?\d{2})\/(M?\d{2})/);
+  if(tm){ p.temp=toTemp(tm[1]); p.dew=toTemp(tm[2]); }
+  // QNH: Q1013 or A2992
+  const qm = raw.match(/Q(\d{4})/); if(qm) p.qnh=parseInt(qm[1]);
+  const am = raw.match(/A(\d{4})/); if(am) p.qnh=Math.round(parseInt(am[1])/100*33.864);
+  // Sky
+  const sky=[]; const skyRe=/(FEW|SCT|BKN|OVC|SKC|CLR|NSC|CAVOK)(\d{3})?/g;
+  let sm; while((sm=skyRe.exec(raw))!==null) sky.push(sm[1]+(sm[2]?` ${parseInt(sm[2])*100}ft`:''));
+  p.sky=sky;
+  // Time
+  const dtm=raw.match(/\d{2}(\d{2})(\d{2})Z/); if(dtm) p.time=`${dtm[1]}:${dtm[2]} UTC`;
+  return p;
+}
+function toTemp(s){ return s.startsWith('M')?-parseInt(s.slice(1)):parseInt(s); }
+function windDirArrow(deg){ if(deg===null) return ''; const a=['N','NE','E','SE','S','SO','O','NO']; return a[Math.round(deg/45)%8]; }
 
+/* Afficher widget */
+function renderWxCard(raw){
+  const p = parseMetar(raw);
+  const wind = p.windDir!=null
+    ? `${String(p.windDir).padStart(3,'0')}°${windDirArrow(p.windDir)} ${p.windSpd}${p.windGst?` G${p.windGst}`:''} kt`
+    : p.windVrb ? `VRB ${p.windSpd} kt` : '—';
+  const vis = p.vis!=null ? (p.vis>=9999?'≥10 km':`${(p.vis/1000).toFixed(p.vis<1000?2:1)} km`) : '—';
+  const temp = p.temp!=null ? `${p.temp}°` : '—';
+  const dew  = p.dew!=null  ? `${p.dew}°`  : '—';
+  const qnh  = p.qnh!=null  ? `${p.qnh}` : '—';
+  const sky  = p.sky.length ? p.sky.map(s=>`<span class="wx-sky-item">${s}</span>`).join('') : '<span class="wx-sky-item">—</span>';
+  document.getElementById('wx-card').innerHTML = `
+    <div class="wx-header">
+      <span class="wx-station">✈ LFOE · L'Aigle</span>
+      <span class="wx-updated">${p.time||'—'}</span>
+    </div>
+    <div class="wx-grid">
+      <div class="wx-cell wind"><div class="wx-cell-lbl">Vent</div><div class="wx-cell-val">${wind}</div></div>
+      <div class="wx-cell"><div class="wx-cell-lbl">Visibilité</div><div class="wx-cell-val" style="font-size:22px">${vis}</div></div>
+      <div class="wx-cell"><div class="wx-cell-lbl">Temp / Point rosée</div><div class="wx-cell-val">${temp} <span style="font-size:16px;opacity:.6">/ ${dew}</span></div></div>
+      <div class="wx-cell"><div class="wx-cell-lbl">QNH</div><div class="wx-cell-val">${qnh}<span style="font-size:14px;color:var(--muted);margin-left:3px">hPa</span></div></div>
+    </div>
+    <div class="wx-sky">${sky}</div>`;
+}
+
+async function loadWxCard(){
+  document.getElementById('wx-card').innerHTML='<div class="wx-loading">Chargement météo LFOE…</div>';
   try{
-    const station = 'LFOE'; // Station météo proche de LFOL
-    const url = type === 'metar'
-      ? `https://aviationweather.gov/api/data/metar?ids=${station}&format=raw&hours=2`
-      : `https://aviationweather.gov/api/data/taf?ids=${station}&format=raw`;
-
-    const res  = await fetch(url);
-    const text = (await res.text()).trim();
-    if(!text){ box.innerHTML='<div class="metar-err">Aucune donnée disponible.</div>'; return; }
-
-    meteoCache[type] = { data: text, ts: Date.now() };
-    renderMeteo(box, text, type, Date.now());
+    const raw = await fetchMetarRaw('metar');
+    renderWxCard(raw);
   }catch{
-    box.innerHTML = '<div class="metar-err">Erreur réseau — vérifiez votre connexion.</div>';
+    document.getElementById('wx-card').innerHTML='<div class="wx-err">Météo indisponible — vérifiez votre connexion.</div>';
   }
 }
 
-function renderMeteo(box, text, type, ts){
-  const age  = Math.round((Date.now()-ts)/60000);
-  const label = type === 'metar' ? 'METAR · LFOE' : 'TAF · LFOE';
-  const ageStr = age < 1 ? 'À l\'instant' : `Il y a ${age} min`;
-  box.innerHTML = `
-    <div class="metar-time">${label} · ${ageStr}</div>
-    <div class="metar-raw">${text.replace(/</g,'&lt;')}</div>`;
+let currentRawType = null;
+async function fetchRaw(type){
+  const box = document.getElementById('metar-box');
+  document.getElementById('btn-metar').classList.toggle('active', type==='metar');
+  document.getElementById('btn-taf').classList.toggle('active', type==='taf');
+
+  if(currentRawType===type){ box.style.display='none'; currentRawType=null; return; }
+  currentRawType=type;
+  box.style.display='block';
+  box.innerHTML='<div class="metar-loading">Chargement…</div>';
+  try{
+    const raw = await fetchMetarRaw(type);
+    const label = type==='metar' ? 'METAR · LFOE' : 'TAF · LFOE';
+    box.innerHTML=`<div class="metar-time">${label}</div><div class="metar-raw">${raw.replace(/</g,'&lt;')}</div>`;
+  }catch{
+    box.innerHTML='<div class="metar-err">Données indisponibles.</div>';
+  }
 }
+
+window.reloadMeteo = function(){ wxCache.metar=null; wxCache.taf=null; loadWxCard(); }
 
 </script>
 </body>
