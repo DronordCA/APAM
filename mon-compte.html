@@ -242,6 +242,19 @@ a{color:inherit;text-decoration:none}
 .update-btn.checking{opacity:.6;pointer-events:none}
 .update-btn.updated{border-color:rgba(34,215,122,.3);background:rgba(34,215,122,.06);color:var(--ok)}
 
+
+/* Météo */
+.meteo-widget-wrap{border-radius:10px;overflow:hidden;margin-bottom:14px;background:#fff}
+.metar-btns{display:flex;gap:8px;margin-bottom:10px}
+.metar-btn{flex:1;padding:10px;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:15px;letter-spacing:.1em;text-transform:uppercase;background:var(--sf);border:1.5px solid var(--bds);color:rgba(255,255,255,.45);cursor:pointer;border-radius:8px;transition:all .2s}
+.metar-btn.active{background:rgba(37,99,235,.15);border-color:var(--accent);color:#fff}
+.metar-btn.refresh{flex:0 0 44px;font-size:18px;color:rgba(255,255,255,.4)}
+.metar-box{background:var(--sf);border:1px solid var(--border);border-radius:10px;padding:14px;min-height:80px}
+.metar-raw{font-family:'JetBrains Mono','Courier New',monospace;font-size:13px;color:var(--ok);line-height:1.8;word-break:break-all;white-space:pre-wrap}
+.metar-time{font-size:9px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+.metar-loading{font-size:12px;color:var(--muted);text-align:center;padding:16px 0;text-transform:uppercase;letter-spacing:.06em}
+.metar-err{font-size:12px;color:var(--err);text-align:center;padding:16px 0}
+
 .toast{position:fixed;top:80px;left:50%;transform:translateX(-50%);z-index:400;padding:9px 18px;background:var(--sf);border:1px solid var(--border);border-radius:100px;font-size:12.5px;font-weight:600;color:#fff;white-space:nowrap;box-shadow:0 8px 24px rgba(0,0,0,.4);pointer-events:none;opacity:0;transition:opacity .25s}
 .toast.show{opacity:1}
 .toast.ok{border-color:rgba(34,215,122,.4);color:var(--ok)}
@@ -432,12 +445,27 @@ html.pwa .mobile-nav{
   <div id="pane-meteo" class="tab-pane">
     <div class="mobile-wrap">
       <div class="mobile-sec-hd"><h2>🌤 Météo · LFOL</h2></div>
-      <div class="coming-soon-pane">
-        <div class="cs-icon">🛫</div>
-        <h3 class="cs-title">METAR · LFOL</h3>
-        <p class="cs-sub">Conditions en temps réel au terrain — METAR, TAF, vent, visibilité. Bientôt disponible.</p>
-        <span class="cs-tag">Prochainement</span>
+
+      <!-- Widget metar-taf.com via iframe (pas de problème CORS) -->
+      <div class="meteo-widget-wrap">
+        <iframe
+          src="https://metar-taf.com/LFOL?station_id=LFOE&qnh=hPa"
+          style="width:100%;height:278px;border:0"
+          loading="lazy"
+          title="Météo LFOL">
+        </iframe>
       </div>
+
+      <!-- Boutons METAR / TAF -->
+      <div class="metar-btns">
+        <button class="metar-btn active" id="btn-metar" onclick="fetchMeteo('metar')">METAR</button>
+        <button class="metar-btn" id="btn-taf"   onclick="fetchMeteo('taf')">TAF</button>
+        <button class="metar-btn refresh" id="btn-refresh" onclick="fetchMeteo(currentMeteoType)" title="Rafraîchir">↻</button>
+      </div>
+      <div class="metar-box" id="metar-box">
+        <div class="metar-loading">Appuyez sur METAR ou TAF</div>
+      </div>
+
     </div>
   </div>
 
@@ -827,6 +855,53 @@ window.mettreAJour = async function(){
     toast('Erreur de mise à jour','err');
   }
 };
+
+
+/* ── Météo METAR/TAF ── */
+let currentMeteoType = 'metar';
+const meteoCache = {};
+
+async function fetchMeteo(type){
+  currentMeteoType = type;
+  // Activer le bon bouton
+  document.getElementById('btn-metar').classList.toggle('active', type==='metar');
+  document.getElementById('btn-taf').classList.toggle('active',   type==='taf');
+
+  const box = document.getElementById('metar-box');
+
+  // Cache 5 min
+  const cached = meteoCache[type];
+  if(cached && Date.now()-cached.ts < 300000){
+    renderMeteo(box, cached.data, type, cached.ts); return;
+  }
+
+  box.innerHTML = '<div class="metar-loading">Chargement…</div>';
+
+  try{
+    const station = 'LFOE'; // Station météo proche de LFOL
+    const url = type === 'metar'
+      ? `https://aviationweather.gov/api/data/metar?ids=${station}&format=raw&hours=2`
+      : `https://aviationweather.gov/api/data/taf?ids=${station}&format=raw`;
+
+    const res  = await fetch(url);
+    const text = (await res.text()).trim();
+    if(!text){ box.innerHTML='<div class="metar-err">Aucune donnée disponible.</div>'; return; }
+
+    meteoCache[type] = { data: text, ts: Date.now() };
+    renderMeteo(box, text, type, Date.now());
+  }catch{
+    box.innerHTML = '<div class="metar-err">Erreur réseau — vérifiez votre connexion.</div>';
+  }
+}
+
+function renderMeteo(box, text, type, ts){
+  const age  = Math.round((Date.now()-ts)/60000);
+  const label = type === 'metar' ? 'METAR · LFOE' : 'TAF · LFOE';
+  const ageStr = age < 1 ? 'À l'instant' : `Il y a ${age} min`;
+  box.innerHTML = `
+    <div class="metar-time">${label} · ${ageStr}</div>
+    <div class="metar-raw">${text.replace(/</g,'&lt;')}</div>`;
+}
 
 </script>
 </body>
