@@ -27,6 +27,11 @@ self.addEventListener('activate', e => {
   );
 });
 
+// Message — permet à la page de forcer la mise à jour
+self.addEventListener('message', e => {
+  if(e.data && e.data.type === 'SKIP_WAITING') self.skipWaiting();
+});
+
 // Fetch — network first pour l'API, cache first pour les assets
 self.addEventListener('fetch', e => {
   const url = new URL(e.request.url);
