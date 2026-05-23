@@ -259,15 +259,20 @@ a{color:inherit;text-decoration:none}
   .mobile-nav   { display: flex !important; }
   .bottom-nav   { display: flex !important; }
   .btn-install  { display: none !important; }
+  /* Empêcher les éléments desktop cachés de prendre de la place */
+  .desktop-nav, .desktop-main { height: 0; overflow: hidden; margin: 0; padding: 0; }
 }
 
-/* ── Fix bottom nav safe area dans l'app ── */
+/* ── Bottom nav collé en bas dans l'app ── */
 @media(display-mode:standalone){
   .bottom-nav{
-    padding-bottom: max(var(--safe-bot), 12px);
+    padding-bottom: 8px;
   }
   .mobile-main{
-    padding-bottom: calc(max(var(--safe-bot), 12px) + 64px + 8px);
+    padding-bottom: calc(64px + 16px);
+  }
+  .mobile-nav{
+    padding-top: calc(env(safe-area-inset-top, 0px) + 10px);
   }
 }
 </style>
