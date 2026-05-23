@@ -274,14 +274,16 @@ html.pwa .btn-install  { display: none !important; }
 html.pwa .desktop-nav,
 html.pwa .desktop-main { height: 0; overflow: hidden; margin: 0; padding: 0; }
 
-/* Bottom nav — position native iOS */
+/* Bottom nav — style tab bar natif iOS (icônes en haut, fond couvre safe area) */
 html.pwa .bottom-nav{
-  padding-top: 4px !important;
-  padding-bottom: env(safe-area-inset-bottom, 0px) !important;
+  padding-top: 10px !important;
+  padding-bottom: env(safe-area-inset-bottom, 34px) !important;
   align-items: flex-start !important;
+  box-shadow: none !important;
+  height: auto !important;
 }
 html.pwa .mobile-main{
-  padding-bottom: calc(50px + env(safe-area-inset-bottom, 0px)) !important;
+  padding-bottom: calc(54px + env(safe-area-inset-bottom, 34px)) !important;
 }
 html.pwa .mobile-nav{
   padding-top: calc(env(safe-area-inset-top, 0px) + 10px) !important;
