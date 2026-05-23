@@ -897,7 +897,7 @@ async function fetchMeteo(type){
 function renderMeteo(box, text, type, ts){
   const age  = Math.round((Date.now()-ts)/60000);
   const label = type === 'metar' ? 'METAR · LFOE' : 'TAF · LFOE';
-  const ageStr = age < 1 ? 'À l'instant' : `Il y a ${age} min`;
+  const ageStr = age < 1 ? 'À l\'instant' : `Il y a ${age} min`;
   box.innerHTML = `
     <div class="metar-time">${label} · ${ageStr}</div>
     <div class="metar-raw">${text.replace(/</g,'&lt;')}</div>`;
