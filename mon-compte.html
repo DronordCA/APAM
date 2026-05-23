@@ -11,6 +11,8 @@
 <meta name="apple-mobile-web-app-title" content="APAM"/>
 <link rel="manifest" href="manifest.json"/>
 <link rel="apple-touch-icon" href="assets/images/apam-logo2.png"/>
+<!-- Détection standalone AVANT le rendu — évite le flash de layout -->
+<script>if(navigator.standalone||window.matchMedia('(display-mode:standalone)').matches){document.documentElement.classList.add('pwa');}</script>
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,400;0,700;0,900;1,700;1,900&family=Jost:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root{
@@ -259,22 +261,26 @@ a{color:inherit;text-decoration:none}
   .mobile-nav   { display: flex !important; }
   .bottom-nav   { display: flex !important; }
   .btn-install  { display: none !important; }
-  /* Empêcher les éléments desktop cachés de prendre de la place */
   .desktop-nav, .desktop-main { height: 0; overflow: hidden; margin: 0; padding: 0; }
 }
+html.pwa .desktop-only { display: none !important; }
+html.pwa .mobile-only  { display: revert !important; }
+html.pwa .mobile-nav   { display: flex !important; }
+html.pwa .bottom-nav   { display: flex !important; }
+html.pwa .btn-install  { display: none !important; }
+html.pwa .desktop-nav,
+html.pwa .desktop-main { height: 0; overflow: hidden; margin: 0; padding: 0; }
 
-/* ── Bottom nav collé en bas dans l'app ── */
-@media(display-mode:standalone){
-  .bottom-nav{
-    padding-bottom: 0 !important;
-    padding-top: 8px;
-  }
-  .mobile-main{
-    padding-bottom: calc(64px + 8px);
-  }
-  .mobile-nav{
-    padding-top: calc(env(safe-area-inset-top, 0px) + 10px);
-  }
+/* Bottom nav collé — PAS de safe area en standalone */
+html.pwa .bottom-nav{
+  padding-bottom: 0 !important;
+  padding-top: 8px !important;
+}
+html.pwa .mobile-main{
+  padding-bottom: 80px !important;
+}
+html.pwa .mobile-nav{
+  padding-top: calc(env(safe-area-inset-top, 0px) + 10px) !important;
 }
 </style>
 </head>
@@ -656,6 +662,14 @@ chargerNews();
 
 /* ── PWA Install ── */
 const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+
+// Détecter standalone iOS et forcer le bottom nav collé
+if(window.navigator.standalone === true || window.matchMedia('(display-mode:standalone)').matches){
+  document.body.classList.add('is-standalone');
+  // Forcer directement sur l'élément pour iOS
+  const bn = document.querySelector('.bottom-nav');
+  if(bn){ bn.style.setProperty('padding-bottom','0','important'); }
+}
 const isIOSSafari = isIOS && /Safari/.test(navigator.userAgent) && !/CriOS|FxiOS|Chrome/.test(navigator.userAgent);
 const isStandaloneMode = window.matchMedia('(display-mode: standalone)').matches || !!window.navigator.standalone;
 
