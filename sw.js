@@ -39,6 +39,11 @@ self.addEventListener('fetch', e => {
   // API Google Apps Script → network only
   if (url.hostname.includes('script.google.com')) return;
 
+  // APIs météo → network only
+  if (url.hostname.includes('open-meteo.com') ||
+      url.hostname.includes('aviationweather.gov') ||
+      url.hostname.includes('corsproxy.io')) return;
+
   // Google Fonts → cache first
   if (url.hostname.includes('fonts.g')) {
     e.respondWith(
