@@ -885,7 +885,8 @@ async function fetchMetarRaw(type){
   let lastErr;
   for(const url of urls){
     try{
-      const res = await fetch(url, {signal: AbortSignal.timeout(6000)});
+      const ctrl=new AbortController();const tid=setTimeout(()=>ctrl.abort(),6000);
+      const res=await fetch(url,{signal:ctrl.signal,cache:"no-store"});clearTimeout(tid);
       if(!res.ok) continue;
       const text = (await res.text()).trim();
       if(!text) continue;
