@@ -269,6 +269,39 @@ a{color:inherit;text-decoration:none}
 .wx-loading{padding:32px;text-align:center;font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
 .wx-err{padding:24px;text-align:center;font-size:12px;color:var(--err)}
 
+
+/* ── Desktop tabs ── */
+.d-tabs-bar{background:var(--bg);border-bottom:1px solid var(--border);padding:0 clamp(20px,4vw,72px)}
+.d-tabs-wrap{max-width:1040px;margin:0 auto;display:flex;gap:0}
+.d-tab{padding:14px 22px;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:13px;letter-spacing:.12em;text-transform:uppercase;background:none;border:none;border-bottom:2px solid transparent;color:rgba(255,255,255,.38);cursor:pointer;transition:color .2s,border-color .2s;white-space:nowrap}
+.d-tab:hover{color:rgba(255,255,255,.7)}
+.d-tab.on{color:#fff;border-bottom-color:var(--accent)}
+
+/* Panes desktop */
+.d-pane{display:none}
+.d-pane.active{display:grid;grid-template-columns:1fr 320px;gap:28px;align-items:start;animation:fadeIn .25s ease}
+
+/* Météo desktop layout */
+.d-meteo-layout{display:grid;grid-template-columns:1fr 300px;gap:24px;align-items:start}
+.d-meteo-section-title{font-size:9px;font-weight:700;letter-spacing:.28em;text-transform:uppercase;color:var(--accent);display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.d-meteo-section-title::after{content:'';flex:1;height:1px;background:rgba(37,99,235,.2)}
+
+/* Aéro info card */
+.d-aero-card{background:var(--sf);border:1px solid var(--border);border-radius:10px;overflow:hidden}
+.d-aero-row{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;border-bottom:1px solid var(--border)}
+.d-aero-row:last-child{border-bottom:none}
+.d-aero-lbl{font-size:10.5px;color:var(--muted);font-weight:500}
+.d-aero-val{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:14px;color:#fff;letter-spacing:.04em}
+
+/* Source links */
+.d-source-link{display:block;font-size:12px;color:var(--accent);padding:8px 12px;background:rgba(37,99,235,.06);border:1px solid rgba(37,99,235,.18);border-radius:7px;transition:background .2s}
+.d-source-link:hover{background:rgba(37,99,235,.14)}
+
+/* Outils desktop grid */
+.d-outils-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px;padding:4px 0}
+.d-outils-grid .tool-item{border-radius:10px;border:1px solid rgba(37,99,235,.22)}
+.d-outils-grid .tool-item.admin-item{border-color:rgba(245,165,36,.22)}
+
 .toast{position:fixed;top:80px;left:50%;transform:translateX(-50%);z-index:400;padding:9px 18px;background:var(--sf);border:1px solid var(--border);border-radius:100px;font-size:12.5px;font-weight:600;color:#fff;white-space:nowrap;box-shadow:0 8px 24px rgba(0,0,0,.4);pointer-events:none;opacity:0;transition:opacity .25s}
 .toast.show{opacity:1}
 .toast.ok{border-color:rgba(34,215,122,.4);color:var(--ok)}
@@ -375,54 +408,108 @@ html.pwa .mobile-nav{
 </nav>
 
 <!-- ══ DESKTOP MAIN ══ -->
-<div class="desktop-main desktop-only">
-  <!-- Feed -->
-  <div>
-    <div class="sec-hd">
-      <h2>📰 Actualités membres <span class="sec-badge" id="d-badge"></span></h2>
-    </div>
-    <!-- Outils desktop -->
-    <div class="tools-bar" id="d-tools" style="display:none"></div>
-    <!-- Feed -->
-    <div class="mn-feed" id="d-feed">
-      <div class="skel-card"><div class="skel skel-line w-50"></div><div class="skel skel-title"></div><div class="skel skel-line w-full"></div><div class="skel skel-line w-80"></div><div class="skel skel-poll"></div></div>
-      <div class="skel-card"><div class="skel skel-line w-50"></div><div class="skel skel-title"></div><div class="skel skel-line w-full"></div><div class="skel skel-line w-80"></div></div>
-      <div class="skel-card"><div class="skel skel-line w-50"></div><div class="skel skel-title"></div><div class="skel skel-line w-80"></div></div>
+<div class="desktop-only" style="flex:1;display:flex;flex-direction:column">
+
+  <!-- Tabs desktop -->
+  <div class="d-tabs-bar desktop-only">
+    <div class="d-tabs-wrap">
+      <button class="d-tab on" id="dtab-news"   onclick="switchDTab('news')">📰 Actualités</button>
+      <button class="d-tab"    id="dtab-meteo"  onclick="switchDTab('meteo')">🌤 Météo</button>
+      <button class="d-tab"    id="dtab-outils" onclick="switchDTab('outils')" id="dtab-outils-btn">🛠 Outils</button>
     </div>
   </div>
 
-  <!-- Sidebar -->
-  <aside class="desktop-sidebar">
-    <!-- Installer l'app -->
-    <div class="widget install-widget" id="install-widget" style="display:none">
-      <div class="widget-hd">📱 App APAM</div>
-      <div class="install-widget-body">
-        <div class="install-qr-area">✈️</div>
-        <p class="install-widget-sub">Installez l'espace membres sur votre écran d'accueil pour un accès en un tap.</p>
-        <button class="install-widget-btn" id="btn-install-widget">Installer l'application →</button>
+  <div class="desktop-main">
+
+    <!-- PANE : ACTUALITÉS -->
+    <div id="dpane-news" class="d-pane active">
+      <div>
+        <div class="sec-hd">
+          <h2>Actualités membres <span class="sec-badge" id="d-badge"></span></h2>
+        </div>
+        <div class="tools-bar" id="d-tools" style="display:none"></div>
+        <div class="mn-feed" id="d-feed">
+          <div class="skel-card"><div class="skel skel-line w-50"></div><div class="skel skel-title"></div><div class="skel skel-line w-full"></div><div class="skel skel-line w-80"></div><div class="skel skel-poll"></div></div>
+          <div class="skel-card"><div class="skel skel-line w-50"></div><div class="skel skel-title"></div><div class="skel skel-line w-80"></div></div>
+          <div class="skel-card"><div class="skel skel-line w-50"></div><div class="skel skel-title"></div><div class="skel skel-line w-80"></div></div>
+        </div>
+      </div>
+      <!-- Sidebar -->
+      <aside class="desktop-sidebar">
+        <div class="widget install-widget" id="install-widget" style="display:none">
+          <div class="widget-hd">📱 App APAM</div>
+          <div class="install-widget-body">
+            <div class="install-qr-area">✈️</div>
+            <p class="install-widget-sub">Accès en un tap depuis votre écran d'accueil.</p>
+            <button class="install-widget-btn" id="btn-install-widget">Installer →</button>
+          </div>
+        </div>
+        <div class="widget">
+          <div class="widget-hd">ℹ️ LFOL</div>
+          <div class="widget-body" style="font-size:12.5px;color:var(--muted);display:flex;flex-direction:column;gap:8px;line-height:1.5">
+            <div style="display:flex;align-items:center;gap:8px"><span>🛫</span><span>Piste 07/25 · 800 m</span></div>
+            <div style="display:flex;align-items:center;gap:8px"><span>📻</span><span>126.855 MHz</span></div>
+            <div style="display:flex;align-items:center;gap:8px"><span>🌍</span><span>48°45'N · 0°39'E</span></div>
+            <div style="display:flex;align-items:center;gap:8px"><span>⛽</span><span>Avgas 100LL disponible</span></div>
+            <a href="activite.html" style="color:var(--accent);font-size:11px;font-weight:600;margin-top:2px">Voir la page Le Club →</a>
+          </div>
+        </div>
+        <div class="widget">
+          <div class="widget-hd">🚧 Prochainement</div>
+          <div class="widget-body">
+            <p style="font-size:12px;color:var(--muted);line-height:1.6">Réservations, carnet de vol, solde — en cours de développement.</p>
+            <span style="display:inline-block;margin-top:8px;font-size:8.5px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;padding:4px 10px;border-radius:100px;border:1px dashed rgba(37,99,235,.25);color:rgba(37,99,235,.55)">Saison 2026</span>
+          </div>
+        </div>
+      </aside>
+    </div>
+
+    <!-- PANE : MÉTÉO -->
+    <div id="dpane-meteo" class="d-pane" style="grid-column:1/-1">
+      <div class="d-meteo-layout">
+        <!-- Widget METAR parsé -->
+        <div class="d-meteo-left">
+          <div class="d-meteo-section-title">Conditions actuelles</div>
+          <div class="wx-card" id="d-wx-card">
+            <div class="wx-loading">Cliquez sur l'onglet Météo pour charger</div>
+          </div>
+          <div class="d-meteo-section-title" style="margin-top:20px">METAR / TAF brut</div>
+          <div class="metar-btns">
+            <button class="metar-btn active" id="d-btn-metar" onclick="dFetchRaw('metar')">METAR</button>
+            <button class="metar-btn"        id="d-btn-taf"   onclick="dFetchRaw('taf')">TAF</button>
+            <button class="metar-btn refresh" onclick="dReloadMeteo()">↻</button>
+          </div>
+          <div class="metar-box" id="d-metar-box" style="display:none"></div>
+        </div>
+        <!-- Infos aéro -->
+        <div class="d-meteo-right">
+          <div class="d-meteo-section-title">Terrain · LFOL</div>
+          <div class="d-aero-card">
+            <div class="d-aero-row"><span class="d-aero-lbl">Indicatif</span><span class="d-aero-val">LFOL</span></div>
+            <div class="d-aero-row"><span class="d-aero-lbl">Piste</span><span class="d-aero-val">07 / 25</span></div>
+            <div class="d-aero-row"><span class="d-aero-lbl">Longueur</span><span class="d-aero-val">800 m</span></div>
+            <div class="d-aero-row"><span class="d-aero-lbl">Surface</span><span class="d-aero-val">Herbe</span></div>
+            <div class="d-aero-row"><span class="d-aero-lbl">Élévation</span><span class="d-aero-val">200 ft / 61 m</span></div>
+            <div class="d-aero-row"><span class="d-aero-lbl">Fréquence</span><span class="d-aero-val">126.855 MHz</span></div>
+            <div class="d-aero-row"><span class="d-aero-lbl">Coordonnées</span><span class="d-aero-val">48°45'N 0°39'E</span></div>
+            <div class="d-aero-row"><span class="d-aero-lbl">Station METAR</span><span class="d-aero-val">LFOE (Évreux)</span></div>
+          </div>
+          <div class="d-meteo-section-title" style="margin-top:16px">Sources</div>
+          <div style="display:flex;flex-direction:column;gap:7px">
+            <a href="https://metar-taf.com/LFOL" target="_blank" class="d-source-link">↗ metar-taf.com · LFOL</a>
+            <a href="https://www.ffvv.fr/meteo" target="_blank" class="d-source-link">↗ Météo FFVV</a>
+            <a href="https://aviation.meteo.fr" target="_blank" class="d-source-link">↗ Météo France Aviation</a>
+          </div>
+        </div>
       </div>
     </div>
 
-    <!-- Teaser -->
-    <div class="widget">
-      <div class="widget-hd">🚧 À venir</div>
-      <div class="teaser-side">
-        <p class="teaser-side-sub">Réservations, carnet de vol, météo METAR — tout ça arrive pour la saison 2026.</p>
-        <span class="teaser-side-tag">Prochainement</span>
-      </div>
+    <!-- PANE : OUTILS -->
+    <div id="dpane-outils" class="d-pane" style="grid-column:1/-1">
+      <div class="d-outils-grid" id="d-outils-grid"></div>
     </div>
 
-    <!-- Infos -->
-    <div class="widget">
-      <div class="widget-hd">ℹ️ LFOL</div>
-      <div class="widget-body" style="font-size:12px;color:var(--muted);display:flex;flex-direction:column;gap:6px;line-height:1.5">
-        <span>🛫 Piste 07/25 · 800 m</span>
-        <span>📻 Fréquence 126.855 MHz</span>
-        <span>🌍 48°45'N · 0°39'E</span>
-        <a href="activite.html" style="color:var(--accent);font-size:11px;font-weight:600;margin-top:4px">Voir la page Le Club →</a>
-      </div>
-    </div>
-  </aside>
+  </div><!-- /desktop-main -->
 </div>
 
 <!-- ══ MOBILE NAV ══ -->
@@ -779,7 +866,68 @@ if(window.navigator.standalone === true || window.matchMedia('(display-mode:stan
 const isIOSSafari = isIOS && /Safari/.test(navigator.userAgent) && !/CriOS|FxiOS|Chrome/.test(navigator.userAgent);
 const isStandaloneMode = window.matchMedia('(display-mode: standalone)').matches || !!window.navigator.standalone;
 
+setupDOutilsPane();
+
 /* ── Onglets mobile ── */
+
+/* ── Onglets desktop ── */
+window.switchDTab = function(tab){
+  document.querySelectorAll('.d-pane').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.d-tab').forEach(b=>b.classList.remove('on'));
+  const pane = document.getElementById('dpane-'+tab);
+  const btn  = document.getElementById('dtab-'+tab);
+  if(pane) pane.classList.add('active');
+  if(btn)  btn.classList.add('on');
+  if(tab==='meteo') dLoadWxCard();
+};
+
+/* METAR/TAF desktop (réutilise le cache partagé) */
+let dCurrentRawType = null;
+function dFetchRaw(type){
+  const box = document.getElementById('d-metar-box');
+  const bm  = document.getElementById('d-btn-metar');
+  const bt  = document.getElementById('d-btn-taf');
+  bm.classList.toggle('active', type==='metar');
+  bt.classList.toggle('active', type==='taf');
+  if(dCurrentRawType===type){ box.style.display='none'; dCurrentRawType=null; return; }
+  dCurrentRawType=type; box.style.display='block';
+  box.innerHTML='<div class="metar-loading">Chargement '+type.toUpperCase()+'…</div>';
+  fetchMetarRaw(type).then(raw=>{
+    const label=type==='metar'?'METAR · LFOE':'TAF · LFOE';
+    box.innerHTML='<div class="metar-time">'+label+'</div><div class="metar-raw">'+raw.replace(/</g,'&lt;')+'</div>';
+  }).catch(()=>{ box.innerHTML='<div class="metar-err">Données indisponibles.</div>'; });
+}
+
+function dLoadWxCard(){
+  const card = document.getElementById('d-wx-card');
+  if(!card) return;
+  card.innerHTML='<div class="wx-loading">Chargement météo LFOE…</div>';
+  fetchMetarRaw('metar').then(raw=>{ renderWxCard(raw, 'd-wx-card'); })
+    .catch(()=>{ card.innerHTML='<div class="wx-err">Météo indisponible.</div>'; });
+}
+
+function dReloadMeteo(){ wxCache.metar=null; wxCache.taf=null; dLoadWxCard(); }
+
+/* Outils pane desktop */
+function setupDOutilsPane(){
+  const grid = document.getElementById('d-outils-grid');
+  if(!grid) return;
+  const tools = [];
+  if(perms.news_pub||perms.news_membres||perms.photos)
+    tools.push({icon:'✏️',title:'Publication',sub:'Publier actualités & photos',href:'presidence.html',cls:''});
+  if(perms.admin)
+    tools.push({icon:'👥',title:'Gestion membres',sub:'Permissions & accès',href:'admin.html',cls:'admin-item'});
+  if(!tools.length){
+    grid.innerHTML='<div style="color:var(--muted);font-size:13px;padding:32px;text-align:center">Aucun outil disponible pour votre compte.</div>';
+    return;
+  }
+  grid.innerHTML=tools.map(t=>`
+    <a class="tool-item ${t.cls}" href="${t.href}">
+      <span class="tool-icon">${t.icon}</span>
+      <div class="tool-tx"><h4>${t.title}</h4><p>${t.sub}</p></div>
+    </a>`).join('');
+}
+
 window.switchTab = function(tab){
   document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.bn').forEach(b => b.classList.remove('on'));
@@ -866,7 +1014,9 @@ window.mettreAJour = async function(){
 
 
 /* ── Météo METAR/TAF ── */
-const METAR_STATION = 'LFOE';
+// Stations par ordre de priorité (LFOE=Évreux militaire, LFRG=Deauville civil, LFPB=Le Bourget)
+const METAR_STATIONS = ['LFOE','LFRG','LFPB'];
+const METAR_STATION = METAR_STATIONS[0];
 const wxCache = {};
 
 /* Sources METAR avec fallback */
@@ -885,8 +1035,7 @@ async function fetchMetarRaw(type){
   let lastErr;
   for(const url of urls){
     try{
-      const ctrl=new AbortController();const tid=setTimeout(()=>ctrl.abort(),6000);
-      const res=await fetch(url,{signal:ctrl.signal,cache:"no-store"});clearTimeout(tid);
+      const res=await fetch(url);
       if(!res.ok) continue;
       const text = (await res.text()).trim();
       if(!text) continue;
@@ -927,7 +1076,8 @@ function toTemp(s){ return s.startsWith('M')?-parseInt(s.slice(1)):parseInt(s); 
 function windDirArrow(deg){ if(deg===null) return ''; const a=['N','NE','E','SE','S','SO','O','NO']; return a[Math.round(deg/45)%8]; }
 
 /* Afficher widget */
-function renderWxCard(raw){
+function renderWxCard(raw, targetId){
+  const cardId = targetId || "wx-card";
   const p = parseMetar(raw);
   const wind = p.windDir!=null
     ? `${String(p.windDir).padStart(3,'0')}°${windDirArrow(p.windDir)} ${p.windSpd}${p.windGst?` G${p.windGst}`:''} kt`
@@ -937,7 +1087,7 @@ function renderWxCard(raw){
   const dew  = p.dew!=null  ? `${p.dew}°`  : '—';
   const qnh  = p.qnh!=null  ? `${p.qnh}` : '—';
   const sky  = p.sky.length ? p.sky.map(s=>`<span class="wx-sky-item">${s}</span>`).join('') : '<span class="wx-sky-item">—</span>';
-  document.getElementById('wx-card').innerHTML = `
+  document.getElementById(cardId).innerHTML = `
     <div class="wx-header">
       <span class="wx-station">✈ LFOE · L'Aigle</span>
       <span class="wx-updated">${p.time||'—'}</span>
