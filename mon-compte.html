@@ -834,6 +834,7 @@ chargerNews();
 
 /* ── PWA Install ── */
 const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+const isMobileDevice = /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
 
 /* ── Banner mobile web ── */
 (function(){
@@ -950,8 +951,10 @@ if(isIOSSafari && !isStandaloneMode){
 let deferredPrompt=null;
 window.addEventListener('beforeinstallprompt',e=>{
   e.preventDefault(); deferredPrompt=e;
-  document.getElementById('btn-install-desk')?.classList.add('visible');
-  document.getElementById('install-widget')?.style.setProperty('display','block');
+  if(isMobileDevice){
+    document.getElementById('btn-install-desk')?.classList.add('visible');
+    document.getElementById('install-widget')?.style.setProperty('display','block');
+  }
 });
 
 async function triggerInstall(){
