@@ -1,8 +1,8 @@
 // ============================================================
 //  APAM Service Worker – v1
 // ============================================================
-const CACHE     = 'apam-v1';
-const CACHE_NET = 'apam-net-v1';
+const CACHE     = 'apam-v2';
+const CACHE_NET = 'apam-net-v2';
 
 const SHELL = [
   '/mon-compte.html',
