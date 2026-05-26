@@ -1436,12 +1436,21 @@ function renderWxCard(raw, targetId){
 }
 
 async function loadWxCard(){
-  document.getElementById('wx-card').innerHTML='<div class="wx-loading">Chargement météo LFOE…</div>';
+  // Mobile
+  const mobile = document.getElementById('wx-board-mobile');
+  if(mobile) mobile.innerHTML='<div class="wx-loading-card">Chargement météo…</div>';
+  // Desktop
+  const desktop = document.getElementById('wx-parsed-desktop');
+  if(desktop) desktop.innerHTML='<div class="wx-loading-card">Chargement météo…</div>';
+
   try{
     const raw = await fetchMetarRaw('metar');
-    renderWxCard(raw);
-  }catch{
-    document.getElementById('wx-card').innerHTML='<div class="wx-err">Météo indisponible — vérifiez votre connexion.</div>';
+    if(mobile) renderWxBoard(raw, 'wx-board-mobile');
+    if(desktop) renderParsedMetar(raw, 'wx-parsed-desktop');
+  }catch(e){
+    const msg = '<div class="wx-err-card">'+e.message+'</div>';
+    if(mobile) mobile.innerHTML = msg;
+    if(desktop) desktop.innerHTML = msg;
   }
 }
 
