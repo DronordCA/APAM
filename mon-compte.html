@@ -328,6 +328,53 @@ a{color:inherit;text-decoration:none}
 .wx-footer{padding:8px 16px;border-top:1px solid var(--border);font-size:9px;color:var(--muted);display:flex;align-items:center;justify-content:space-between}
 .wx-err-card{background:var(--sf);border:1px solid var(--border);border-radius:12px;padding:28px 16px;text-align:center;color:var(--muted);font-size:12.5px}
 
+
+/* ══ Widget météo maison ══ */
+.wx-board{background:var(--sf);border:1px solid var(--border);border-radius:14px;overflow:hidden;margin-bottom:14px}
+.wx-board-top{padding:14px 16px 12px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border)}
+.wx-board-sta{display:flex;flex-direction:column;gap:2px}
+.wx-board-code{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:26px;letter-spacing:-.01em;color:#fff;line-height:1}
+.wx-board-sub{font-size:9px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
+.wx-cat-pill{display:flex;align-items:center;gap:7px;padding:7px 16px;border-radius:100px;border:2px solid;font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:18px;letter-spacing:.06em}
+.wx-cat-pill .wdot{width:8px;height:8px;border-radius:50%;animation:pulse 2s ease-in-out infinite;flex-shrink:0}
+.wx-cat-pill.vfr{color:#22d77a;border-color:rgba(34,215,122,.4);background:rgba(34,215,122,.1)}
+.wx-cat-pill.vfr .wdot{background:#22d77a;box-shadow:0 0 0 0 rgba(34,215,122,.5)}
+.wx-cat-pill.mvfr{color:#60a5fa;border-color:rgba(96,165,250,.4);background:rgba(96,165,250,.1)}
+.wx-cat-pill.mvfr .wdot{background:#60a5fa}
+.wx-cat-pill.ifr{color:#ef4444;border-color:rgba(239,68,68,.4);background:rgba(239,68,68,.1)}
+.wx-cat-pill.ifr .wdot{background:#ef4444}
+.wx-cat-pill.lifr{color:#a855f7;border-color:rgba(168,85,247,.4);background:rgba(168,85,247,.1)}
+.wx-cat-pill.lifr .wdot{background:#a855f7}
+
+/* Boussole + vent */
+.wx-wind-row{display:flex;align-items:center;gap:16px;padding:14px 16px;border-bottom:1px solid var(--border)}
+.wx-compass{flex-shrink:0;position:relative;width:64px;height:64px}
+.wx-compass svg{width:64px;height:64px}
+.wx-wind-info{flex:1;display:flex;flex-direction:column;gap:4px}
+.wx-wind-spd{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:38px;line-height:1;letter-spacing:-.02em;color:#fff}
+.wx-wind-spd span{font-size:16px;font-weight:600;color:var(--muted);font-style:normal}
+.wx-wind-dir{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--accent)}
+.wx-wind-gust{font-size:10px;color:rgba(239,68,68,.8);font-weight:600;letter-spacing:.06em;margin-top:1px}
+
+/* Grille données */
+.wx-data-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border)}
+.wx-cell{background:var(--sf);padding:11px 12px;display:flex;flex-direction:column;gap:3px}
+.wx-cell-v{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:17px;color:#fff;line-height:1;letter-spacing:-.01em}
+.wx-cell-l{font-size:8.5px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
+
+/* CAVOK badge */
+.wx-cavok{display:inline-flex;align-items:center;gap:6px;font-size:10px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:#22d77a;background:rgba(34,215,122,.08);border:1px solid rgba(34,215,122,.25);padding:4px 10px;border-radius:6px;margin:0 16px 12px}
+
+/* METAR brut */
+.wx-raw{padding:11px 14px;border-top:1px solid var(--border);background:rgba(0,0,0,.18)}
+.wx-raw-txt{font-family:'JetBrains Mono','Courier New',monospace;font-size:10.5px;color:rgba(255,255,255,.38);line-height:1.65;word-break:break-all}
+.wx-board-foot{padding:8px 14px;display:flex;align-items:center;justify-content:space-between;border-top:1px solid var(--border)}
+.wx-time-lbl{font-size:8.5px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.22)}
+.wx-reload-btn{background:none;border:1px solid var(--border);color:rgba(255,255,255,.35);font-size:13px;width:26px;height:26px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:border-color .2s,color .2s}
+.wx-reload-btn:hover{border-color:var(--accent);color:var(--accent)}
+.wx-loading-card{padding:32px 16px;text-align:center;color:var(--muted);font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;background:var(--sf);border:1px solid var(--border);border-radius:14px;margin-bottom:14px}
+.wx-err-card{padding:22px 16px;text-align:center;color:rgba(239,68,68,.7);font-size:12px;font-weight:600;letter-spacing:.08em;background:var(--sf);border:1px solid rgba(239,68,68,.2);border-radius:14px;margin-bottom:14px}
+
 .toast{position:fixed;top:80px;left:50%;transform:translateX(-50%);z-index:400;padding:9px 18px;background:var(--sf);border:1px solid var(--border);border-radius:100px;font-size:12.5px;font-weight:600;color:#fff;white-space:nowrap;box-shadow:0 8px 24px rgba(0,0,0,.4);pointer-events:none;opacity:0;transition:opacity .25s}
 .toast.show{opacity:1}
 .toast.ok{border-color:rgba(34,215,122,.4);color:var(--ok)}
@@ -1090,6 +1137,104 @@ function renderParsedMetar(raw, targetId){
     </div>
   </div>`;
 }
+
+
+/* ══ Rendu widget météo maison ══ */
+function renderWxBoard(raw, targetId){
+  const el = document.getElementById(targetId);
+  if(!el) return;
+  if(!raw){ el.innerHTML='<div class="wx-err-card">Aucune donnée METAR pour LFOE.</div>'; return; }
+
+  const m = parseMetar(raw);
+
+  // Boussole SVG — aiguille tournée selon la direction du vent
+  const deg = m.windDir === 'VRB' ? 0 : (m.windDir ?? 0);
+  // L'aiguille pointe d'où vient le vent : on affiche la direction d'où il souffle
+  const arrowDeg = deg; // direction magnétique d'où vient le vent
+  const catColors = {vfr:'#22d77a',mvfr:'#60a5fa',ifr:'#ef4444',lifr:'#a855f7'};
+  const col = catColors[m.cat] || '#22d77a';
+
+  const compass = `<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+    <!-- Cercle fond -->
+    <circle cx="32" cy="32" r="30" fill="rgba(255,255,255,.04)" stroke="rgba(255,255,255,.1)" stroke-width="1"/>
+    <!-- Marques cardinaux -->
+    <text x="32" y="8" text-anchor="middle" fill="rgba(255,255,255,.3)" font-size="7" font-family="Barlow Condensed" font-weight="700">N</text>
+    <text x="32" y="61" text-anchor="middle" fill="rgba(255,255,255,.2)" font-size="6" font-family="Barlow Condensed">S</text>
+    <text x="5" y="35" text-anchor="middle" fill="rgba(255,255,255,.2)" font-size="6" font-family="Barlow Condensed">W</text>
+    <text x="59" y="35" text-anchor="middle" fill="rgba(255,255,255,.2)" font-size="6" font-family="Barlow Condensed">E</text>
+    <!-- Aiguille (d'où vient le vent) -->
+    <g transform="rotate(${arrowDeg}, 32, 32)">
+      <!-- Pointe (vient de cette direction) -->
+      <polygon points="32,8 29,28 35,28" fill="${col}"/>
+      <!-- Queue -->
+      <polygon points="32,56 29.5,36 34.5,36" fill="rgba(255,255,255,.18)"/>
+    </g>
+    <!-- Centre -->
+    <circle cx="32" cy="32" r="3.5" fill="${col}"/>
+  </svg>`;
+
+  const windSpd = m.windSpd ?? 0;
+  const windDirStr = m.windDir === 'VRB' ? 'Variable' : m.windDir !== undefined ? String(m.windDir).padStart(3,'0') + '°' : '—';
+  const gustStr = m.windGust ? `<div class="wx-wind-gust">Rafales ${m.windGust} kt</div>` : '';
+  const visStr = m.vis != null ? (m.vis >= 9999 ? '> 10 km' : m.vis >= 1000 ? (m.vis/1000).toFixed(1)+' km' : m.vis+' m') : '—';
+  const ceilStr = m.ceiling != null ? m.ceiling+' ft' : 'CAVOK';
+  const tempStr = m.temp != null ? m.temp+'°C' : '—';
+  const dewStr  = m.dew  != null ? m.dew +'°C' : '—';
+  const qnhStr  = m.qnh  != null ? m.qnh+' hPa' : '—';
+  const now = new Date().toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'});
+  const cavokBadge = m.ceiling === null && m.vis === null ? '<div class="wx-cavok">✓ CAVOK</div>' : '';
+
+  el.innerHTML = `<div class="wx-board">
+    <div class="wx-board-top">
+      <div class="wx-board-sta">
+        <div class="wx-board-code">LFOE</div>
+        <div class="wx-board-sub">Évreux · Normandie${m.time ? ' · '+m.time+' UTC' : ''}</div>
+      </div>
+      <div class="wx-cat-pill ${m.cat}"><div class="wdot"></div>${m.catLabel}</div>
+    </div>
+    <div class="wx-wind-row">
+      <div class="wx-compass">${compass}</div>
+      <div class="wx-wind-info">
+        <div class="wx-wind-spd">${m.windDir==='VRB'?'VRB':windSpd}<span> kt</span></div>
+        <div class="wx-wind-dir">${windDirStr}</div>
+        ${gustStr}
+      </div>
+    </div>
+    ${cavokBadge}
+    <div class="wx-data-grid">
+      <div class="wx-cell"><div class="wx-cell-v">${visStr}</div><div class="wx-cell-l">Visibilité</div></div>
+      <div class="wx-cell"><div class="wx-cell-v">${ceilStr}</div><div class="wx-cell-l">Plafond</div></div>
+      <div class="wx-cell"><div class="wx-cell-v">${tempStr}</div><div class="wx-cell-l">Température</div></div>
+      <div class="wx-cell"><div class="wx-cell-v">${dewStr}</div><div class="wx-cell-l">Point de rosée</div></div>
+      <div class="wx-cell"><div class="wx-cell-v">${qnhStr}</div><div class="wx-cell-l">QNH</div></div>
+      <div class="wx-cell"><div class="wx-cell-v" style="font-size:12px;color:var(--muted)">${m.wx||'—'}</div><div class="wx-cell-l">Phénomènes</div></div>
+    </div>
+    <div class="wx-raw">
+      <div class="wx-raw-txt">${raw.replace(/</g,'&lt;')}</div>
+    </div>
+    <div class="wx-board-foot">
+      <span class="wx-time-lbl">Actualisé à ${now}</span>
+      <button class="wx-reload-btn" onclick="reloadMeteo()" title="Rafraîchir">↻</button>
+    </div>
+  </div>`;
+}
+
+/* TAF toggle mobile */
+let tafVisible = false;
+window.toggleTaf = async function(){
+  const box = document.getElementById('taf-box');
+  const btn = document.getElementById('btn-taf-m');
+  if(tafVisible){ box.style.display='none'; tafVisible=false; btn.classList.remove('active'); return; }
+  tafVisible=true; btn.classList.add('active');
+  box.style.display='block';
+  box.innerHTML='<div class="metar-loading">Chargement TAF…</div>';
+  try{
+    const raw = await fetchMetarRaw('taf');
+    box.innerHTML=`<div class="metar-time">TAF · LFOE</div><div class="metar-raw">${raw.replace(/</g,'&lt;')}</div>`;
+  }catch{
+    box.innerHTML='<div class="metar-err">TAF indisponible.</div>';
+  }
+};
 
 window.switchTab = function(tab){
   document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
