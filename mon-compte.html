@@ -620,13 +620,9 @@ html.pwa .mobile-nav{
     <div class="mobile-wrap">
       <div class="mobile-sec-hd" style="margin-bottom:14px"><h2>🌤 Météo · LFOL</h2></div>
 
-      <!-- Widget metar-taf.com -->
-      <div style="border-radius:12px;overflow:hidden;background:#fff;margin-bottom:14px">
-        <a href="https://metar-taf.com/metar/LFOL" id="metartaf-W7KVPvTy"
-           style="font-size:18px;font-weight:500;color:#000;width:100%;height:435px;display:block">
-          METAR L&#039;Aigle-Saint-Michel Airfield
-        </a>
-        <script async defer src="https://metar-taf.com/embed-js/LFOL?qnh=hPa&rh=rh&target=W7KVPvTy"></script>
+      <!-- Widget météo LFOE — via Google Apps Script -->
+      <div id="wx-board-mobile" style="margin-bottom:12px">
+        <div class="wx-loading-card">Chargement météo…</div>
       </div>
 
       <!-- TAF brut -->
