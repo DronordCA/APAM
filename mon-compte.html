@@ -1183,45 +1183,59 @@ const METAR_STATIONS = ['LFOE','LFRG']; // LFOE=Évreux, LFRG=Deauville fallback
 const METAR_STATION = METAR_STATIONS[0];
 const wxCache = {};
 
-/* Sources METAR — plusieurs stratégies */
+/* METAR — même logique que index.html */
 async function fetchMetarRaw(type){
   const cached = wxCache[type];
   if(cached && Date.now()-cached.ts < 300000) return cached.data;
 
-  const st = METAR_STATION;
-  const PROXY = 'https://corsproxy.io/?url=';
+  const STA = 'LFOE';
 
-  const urls = type === 'metar' ? [
-    // NOAA FTP direct (CORS natif, le plus fiable)
-    `https://tgftp.nws.noaa.gov/data/observations/metar/stations/${st}.TXT`,
-    // Aviation Weather Center
-    `${PROXY}${encodeURIComponent(`https://aviationweather.gov/api/data/metar?ids=${st}&format=raw&hours=2`)}`,
-    // AWC direct
-    `https://aviationweather.gov/api/data/metar?ids=${st}&format=raw&hours=2`,
-    // NOAA via proxy
-    `${PROXY}${encodeURIComponent(`https://tgftp.nws.noaa.gov/data/observations/metar/stations/${st}.TXT`)}`
-  ] : [
-    `https://tgftp.nws.noaa.gov/data/forecasts/taf/stations/${st}.TXT`,
-    `${PROXY}${encodeURIComponent(`https://aviationweather.gov/api/data/taf?ids=${st}&format=raw`)}`,
-    `https://aviationweather.gov/api/data/taf?ids=${st}&format=raw`,
-    `${PROXY}${encodeURIComponent(`https://tgftp.nws.noaa.gov/data/forecasts/taf/stations/${st}.TXT`)}`
-  ];
+  if(type === 'metar'){
+    const base = `https://aviationweather.gov/api/data/metar?ids=${STA}&format=json&taf=false`;
+    const proxies = [
+      `https://corsproxy.io/?${encodeURIComponent(base)}`,
+      `https://api.allorigins.win/raw?url=${encodeURIComponent(base)}`,
+      base
+    ];
+    for(const u of proxies){
+      try{
+        const j = await Promise.race([
+          fetch(u).then(r=>r.json()),
+          new Promise((_,rj)=>setTimeout(()=>rj(),6000))
+        ]);
+        const arr = Array.isArray(j) ? j : (j.rawOb ? [j] : null);
+        if(arr && arr[0] && arr[0].rawOb){
+          const raw = arr[0].rawOb.trim();
+          wxCache[type] = {data: raw, ts: Date.now()};
+          return raw;
+        }
+      }catch(e){}
+    }
+    throw new Error('METAR LFOE indisponible');
 
-  const errors = [];
-  for(const url of urls){
-    try{
-      const res = await fetch(url, {cache:'no-store'});
-      if(!res.ok){ errors.push(url.slice(0,60)+' → '+res.status); continue; }
-      const text = (await res.text()).trim();
-      if(!text){ errors.push(url.slice(0,60)+' → vide'); continue; }
-      // Extraire la ligne METAR/TAF du fichier NOAA (ligne 2)
-      const lines = text.split('\n').map(l=>l.trim()).filter(Boolean);
-      const raw = lines.find(l=>l.startsWith(st)||l.startsWith('TAF')) || lines[lines.length-1];
-      wxCache[type] = {data: raw||text, ts: Date.now()};
-      return wxCache[type].data;
-    }catch(e){ errors.push(url.slice(0,60)+' → '+e.message); }
+  } else {
+    // TAF — format raw
+    const base = `https://aviationweather.gov/api/data/taf?ids=${STA}&format=raw`;
+    const proxies = [
+      `https://corsproxy.io/?${encodeURIComponent(base)}`,
+      `https://api.allorigins.win/raw?url=${encodeURIComponent(base)}`,
+      base
+    ];
+    for(const u of proxies){
+      try{
+        const r = await Promise.race([
+          fetch(u),
+          new Promise((_,rj)=>setTimeout(()=>rj(),6000))
+        ]);
+        if(!r.ok) continue;
+        const text = (await r.text()).trim();
+        if(!text) continue;
+        wxCache[type] = {data: text, ts: Date.now()};
+        return text;
+      }catch(e){}
+    }
+    throw new Error('TAF LFOE indisponible');
   }
-  throw new Error('Toutes les sources ont échoué:\n'+errors.join('\n'));
 }
 
 /* Parser METAR */
