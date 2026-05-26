@@ -1331,147 +1331,15 @@ const METAR_STATIONS = ['LFOE','LFRG']; // LFOE=Évreux, LFRG=Deauville fallback
 const METAR_STATION = METAR_STATIONS[0];
 const wxCache = {};
 
-/* METAR — même logique que index.html */
+/* METAR/TAF via Google Apps Script — zéro CORS, fetch côté serveur */
 async function fetchMetarRaw(type){
   const cached = wxCache[type];
   if(cached && Date.now()-cached.ts < 300000) return cached.data;
 
-  const STA = 'LFOE';
-
-  if(type === 'metar'){
-    const base = `https://aviationweather.gov/api/data/metar?ids=${STA}&format=json&taf=false`;
-    const proxies = [
-      `https://corsproxy.io/?${encodeURIComponent(base)}`,
-      `https://api.allorigins.win/raw?url=${encodeURIComponent(base)}`,
-      base
-    ];
-    for(const u of proxies){
-      try{
-        const j = await Promise.race([
-          fetch(u).then(r=>r.json()),
-          new Promise((_,rj)=>setTimeout(()=>rj(),6000))
-        ]);
-        const arr = Array.isArray(j) ? j : (j.rawOb ? [j] : null);
-        if(arr && arr[0] && arr[0].rawOb){
-          const raw = arr[0].rawOb.trim();
-          wxCache[type] = {data: raw, ts: Date.now()};
-          return raw;
-        }
-      }catch(e){}
-    }
-    throw new Error('METAR LFOE indisponible');
-
-  } else {
-    // TAF — format raw
-    const base = `https://aviationweather.gov/api/data/taf?ids=${STA}&format=raw`;
-    const proxies = [
-      `https://corsproxy.io/?${encodeURIComponent(base)}`,
-      `https://api.allorigins.win/raw?url=${encodeURIComponent(base)}`,
-      base
-    ];
-    for(const u of proxies){
-      try{
-        const r = await Promise.race([
-          fetch(u),
-          new Promise((_,rj)=>setTimeout(()=>rj(),6000))
-        ]);
-        if(!r.ok) continue;
-        const text = (await r.text()).trim();
-        if(!text) continue;
-        wxCache[type] = {data: text, ts: Date.now()};
-        return text;
-      }catch(e){}
-    }
-    throw new Error('TAF LFOE indisponible');
-  }
+  const url = `${API}?action=getMetar&type=${type}&station=LFOE`;
+  const data = await fetch(url).then(r=>r.json());
+  if(data.error) throw new Error(data.error);
+  wxCache[type] = {data: data.raw, ts: Date.now()};
+  return data.raw;
 }
 
-/* Parser METAR */
-function parseMetar(raw){
-  const p = {};
-  // Wind: 24015KT or 24015G25KT or VRB05KT
-  const wm = raw.match(/(?:VRB|(\d{3}))(\d{2,3})(?:G(\d{2,3}))?KT/);
-  if(wm){ p.windDir=wm[1]?parseInt(wm[1]):null; p.windSpd=parseInt(wm[2]); p.windGst=wm[3]?parseInt(wm[3]):null; p.windVrb=!wm[1]; }
-  // Visibility
-  const vm = raw.match(/(\d{4})/); if(vm) p.vis=parseInt(vm[1]);
-  const vsm = raw.match(/(\d+(?:\/\d+)?)\s*SM/); if(vsm) p.vis=Math.round(parseFloat(vsm[1])*1609);
-  // Temp/Dew: 15/10 or M05/M10
-  const tm = raw.match(/(M?\d{2})\/(M?\d{2})/);
-  if(tm){ p.temp=toTemp(tm[1]); p.dew=toTemp(tm[2]); }
-  // QNH: Q1013 or A2992
-  const qm = raw.match(/Q(\d{4})/); if(qm) p.qnh=parseInt(qm[1]);
-  const am = raw.match(/A(\d{4})/); if(am) p.qnh=Math.round(parseInt(am[1])/100*33.864);
-  // Sky
-  const sky=[]; const skyRe=/(FEW|SCT|BKN|OVC|SKC|CLR|NSC|CAVOK)(\d{3})?/g;
-  let sm; while((sm=skyRe.exec(raw))!==null) sky.push(sm[1]+(sm[2]?` ${parseInt(sm[2])*100}ft`:''));
-  p.sky=sky;
-  // Time
-  const dtm=raw.match(/\d{2}(\d{2})(\d{2})Z/); if(dtm) p.time=`${dtm[1]}:${dtm[2]} UTC`;
-  return p;
-}
-function toTemp(s){ return s.startsWith('M')?-parseInt(s.slice(1)):parseInt(s); }
-function windDirArrow(deg){ if(deg===null) return ''; const a=['N','NE','E','SE','S','SO','O','NO']; return a[Math.round(deg/45)%8]; }
-
-/* Afficher widget */
-function renderWxCard(raw, targetId){
-  const cardId = targetId || "wx-card";
-  const p = parseMetar(raw);
-  const wind = p.windDir!=null
-    ? `${String(p.windDir).padStart(3,'0')}°${windDirArrow(p.windDir)} ${p.windSpd}${p.windGst?` G${p.windGst}`:''} kt`
-    : p.windVrb ? `VRB ${p.windSpd} kt` : '—';
-  const vis = p.vis!=null ? (p.vis>=9999?'≥10 km':`${(p.vis/1000).toFixed(p.vis<1000?2:1)} km`) : '—';
-  const temp = p.temp!=null ? `${p.temp}°` : '—';
-  const dew  = p.dew!=null  ? `${p.dew}°`  : '—';
-  const qnh  = p.qnh!=null  ? `${p.qnh}` : '—';
-  const sky  = p.sky.length ? p.sky.map(s=>`<span class="wx-sky-item">${s}</span>`).join('') : '<span class="wx-sky-item">—</span>';
-  document.getElementById(cardId).innerHTML = `
-    <div class="wx-header">
-      <span class="wx-station">✈ LFOE · L'Aigle</span>
-      <span class="wx-updated">${p.time||'—'}</span>
-    </div>
-    <div class="wx-grid">
-      <div class="wx-cell wind"><div class="wx-cell-lbl">Vent</div><div class="wx-cell-val">${wind}</div></div>
-      <div class="wx-cell"><div class="wx-cell-lbl">Visibilité</div><div class="wx-cell-val" style="font-size:22px">${vis}</div></div>
-      <div class="wx-cell"><div class="wx-cell-lbl">Temp / Point rosée</div><div class="wx-cell-val">${temp} <span style="font-size:16px;opacity:.6">/ ${dew}</span></div></div>
-      <div class="wx-cell"><div class="wx-cell-lbl">QNH</div><div class="wx-cell-val">${qnh}<span style="font-size:14px;color:var(--muted);margin-left:3px">hPa</span></div></div>
-    </div>
-    <div class="wx-sky">${sky}</div>`;
-}
-
-async function loadWxCard(){
-  // Desktop uniquement (mobile = widget metar-taf.com intégré)
-  const desktop = document.getElementById('wx-parsed-desktop');
-  if(desktop){
-    desktop.innerHTML='<div class="wx-loading-card">Chargement météo…</div>';
-    fetchMetarRaw('metar').then(raw=>{
-      renderParsedMetar(raw, 'wx-parsed-desktop');
-    }).catch(e=>{
-      desktop.innerHTML='<div class="wx-err-card">'+e.message+'</div>';
-    });
-  }
-}
-
-let currentRawType = null;
-async function fetchRaw(type){
-  const box = document.getElementById('metar-box');
-  document.getElementById('btn-metar').classList.toggle('active', type==='metar');
-  document.getElementById('btn-taf').classList.toggle('active', type==='taf');
-
-  if(currentRawType===type){ box.style.display='none'; currentRawType=null; return; }
-  currentRawType=type;
-  box.style.display='block';
-  box.innerHTML='<div class="metar-loading">Chargement…</div>';
-  try{
-    const raw = await fetchMetarRaw(type);
-    const label = type==='metar' ? 'METAR · LFOE' : 'TAF · LFOE';
-    box.innerHTML=`<div class="metar-time">${label}</div><div class="metar-raw">${raw.replace(/</g,'&lt;')}</div>`;
-  }catch{
-    box.innerHTML='<div class="metar-err">Données indisponibles.</div>';
-  }
-}
-
-window.reloadMeteo = function(){ wxCache.metar=null; wxCache.taf=null; loadWxCard(); }
-
-</script>
-</body>
-</html>
