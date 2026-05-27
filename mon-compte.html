@@ -638,15 +638,12 @@ html.pwa .mobile-nav{
   <div id="pane-meteo" class="tab-pane">
     <div class="mobile-wrap">
       <div class="mobile-sec-hd"><h2>🌤 Météo · LFOE</h2></div>
-      <div id="m-wx-card" style="margin-bottom:12px">
-        <div class="wx-placeholder">Chargement…</div>
+      <div id="m-wx" style="background:var(--sf);border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:12px">
+        <div style="padding:24px 16px;text-align:center;color:var(--muted);font-size:11px;letter-spacing:.12em;text-transform:uppercase">Chargement…</div>
       </div>
-      <div style="display:flex;gap:8px;margin-bottom:10px">
-        <button class="metar-btn active" id="m-btn-metar" onclick="mLoadWx('metar')">METAR</button>
-        <button class="metar-btn"        id="m-btn-taf"   onclick="mLoadWx('taf')">TAF</button>
-        <button class="metar-btn refresh" onclick="mWxCache.metar=null;mLoadWx('metar')">↻</button>
-      </div>
-      <div class="metar-box" id="m-wx-raw" style="display:none"></div>
+      <button onclick="mLoadWx()" style="width:100%;padding:10px;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:13px;letter-spacing:.12em;text-transform:uppercase;background:var(--sf);border:1px solid var(--border);color:rgba(255,255,255,.45);cursor:pointer;border-radius:8px;margin-bottom:10px">↻ Actualiser</button>
+      <div id="m-taf-box" style="display:none;margin-bottom:12px"></div>
+      <button onclick="mLoadTaf()" style="width:100%;padding:10px;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:13px;letter-spacing:.12em;text-transform:uppercase;background:var(--sf);border:1px solid var(--border);color:rgba(255,255,255,.45);cursor:pointer;border-radius:8px">TAF · LFOE</button>
     </div>
   </div>
 
@@ -1340,93 +1337,112 @@ window.mettreAJour = async function(){
 /* ── Météo METAR/TAF ── */
 const METAR_STATIONS = ['LFOE','LFRG']; // LFOE=Évreux, LFRG=Deauville fallback
 const METAR_STATION = METAR_STATIONS[0];
-/* ══ Météo simple ══ */
-const mWxCache = {};
-let mCurrentType = 'metar';
 
-async function mLoadWx(type){
-  if(!type) type = mCurrentType;
-  mCurrentType = type;
-  document.getElementById('m-btn-metar')?.classList.toggle('active', type==='metar');
-  document.getElementById('m-btn-taf')?.classList.toggle('active',   type==='taf');
+/* ══ Météo LFOE — même logique que index.html ══ */
+window.mLoadWx = async function(){
+  const el = document.getElementById('m-wx');
+  if(!el) return;
+  el.innerHTML = '<div style="padding:20px 16px;text-align:center;color:var(--muted);font-size:11px;letter-spacing:.12em;text-transform:uppercase">Chargement…</div>';
 
-  const card = document.getElementById('m-wx-card');
-  const raw_div = document.getElementById('m-wx-raw');
+  const STA = 'LFOE';
+  const CCOL = {VFR:'#22d77a',MVFR:'#5b8cff',IFR:'#ef4444',LIFR:'#a855f7'};
+  const base = `https://aviationweather.gov/api/data/metar?ids=${STA}&format=json&taf=false`;
+  const proxies = [
+    `https://corsproxy.io/?${encodeURIComponent(base)}`,
+    `https://api.allorigins.win/raw?url=${encodeURIComponent(base)}`,
+    base
+  ];
 
-  if(type === 'taf'){
-    // TAF : afficher juste le texte brut
-    if(card) card.innerHTML = '';
-    if(raw_div){ raw_div.style.display='block'; raw_div.innerHTML='<div class="metar-loading">Chargement TAF…</div>'; }
+  let m = null;
+  for(const u of proxies){
     try{
-      const data = await fetch(`${API}?action=getMetar&type=taf&station=LFOE`).then(r=>r.json());
-      if(data.error) throw new Error(data.error);
-      if(raw_div) raw_div.innerHTML = `<div class="metar-time">TAF · LFOE</div><div class="metar-raw">${data.raw}</div>`;
-    }catch(e){
-      if(raw_div) raw_div.innerHTML = `<div class="metar-err">TAF indisponible — ${e.message}</div>`;
-    }
+      const j = await Promise.race([
+        fetch(u).then(r=>r.json()),
+        new Promise((_,rj)=>setTimeout(()=>rj(),6000))
+      ]);
+      const arr = Array.isArray(j)?j:(j.rawOb?[j]:null);
+      if(arr&&arr[0]&&arr[0].rawOb){m=arr[0];break;}
+    }catch(e){}
+  }
+
+  if(!m){
+    el.innerHTML='<div style="padding:20px 16px;text-align:center;color:#ef4444;font-size:12px;letter-spacing:.08em">Météo indisponible</div>';
     return;
   }
 
-  // METAR : afficher le widget parsé
-  if(raw_div) raw_div.style.display='none';
-  if(card) card.innerHTML = '<div class="wx-placeholder">Chargement METAR…</div>';
+  const raw = m.rawOb.trim();
 
-  const cached = mWxCache.metar;
-  if(cached && Date.now()-cached.ts < 300000){ mRenderWx(card, cached.raw); return; }
+  /* Parsing */
+  const wm = raw.match(/(\d{3}|VRB)(\d{2,3})(G(\d{2,3}))?KT/);
+  const wind = wm ? (wm[1]==='VRB'?'Variable':wm[1]+'°')+' / '+parseInt(wm[2])+' kt'+(wm[4]?' G'+parseInt(wm[4])+' kt':'') : 'N/A';
+  const cavok = /\bCAVOK\b/.test(raw);
+  const vm = !cavok && raw.match(/\b(\d{4})\b/);
+  const vis = cavok?'CAVOK':(vm?(parseInt(vm[1])>=9999?'> 10 km':vm[1]+' m'):'N/A');
+  const cls = raw.match(/(FEW|SCT|BKN|OVC)\d{3}/g)||[];
+  const clouds = cls.length?cls.map(c=>c.slice(0,3)+' '+(parseInt(c.slice(-3))*100)+' ft').join(' · '):cavok?'CAVOK':'N/A';
+  const tm = raw.match(/(M?\d{2})\/(M?\d{2})/);
+  const temp = tm?tm[1].replace('M','−')+'°C / Td '+tm[2].replace('M','−')+'°C':'N/A';
+  const qm = raw.match(/Q(\d{4})/);
+  const qnh = qm?qm[1]+' hPa':'N/A';
 
-  try{
-    const data = await fetch(`${API}?action=getMetar&type=metar&station=LFOE`).then(r=>r.json());
-    if(data.error) throw new Error(data.error);
-    mWxCache.metar = {raw: data.raw, ts: Date.now()};
-    mRenderWx(card, data.raw);
-  }catch(e){
-    if(card) card.innerHTML = `<div class="wx-err-simple">Météo indisponible<br><small style="opacity:.6">${e.message}</small></div>`;
-  }
-}
+  /* Catégorie */
+  let ceil=Infinity;
+  (raw.match(/(BKN|OVC)(\d{3})/g)||[]).forEach(c=>{const a=parseInt(c.slice(-3))*100;if(a<ceil)ceil=a;});
+  const visSm = vm?parseInt(vm[1])/1609:6;
+  const cat = (ceil<500||visSm<1)?'LIFR':(ceil<1000||visSm<3)?'IFR':(ceil<3000||visSm<5)?'MVFR':'VFR';
+  const col = CCOL[cat];
 
-function mReload(){ mWxCache.metar=null; mLoadWx('metar'); }
+  const time = m.reportTime?new Date(m.reportTime).toUTCString().slice(17,22)+' UTC':'';
 
-function mRenderWx(el, raw){
-  if(!el||!raw) return;
-  // Parser basique
-  const windM = raw.match(/(\d{3}|VRB)(\d{2,3})(G(\d{2,3}))?KT/);
-  const visM  = raw.match(/\s(\d{4})\s/);
-  const clouds = [...raw.matchAll(/(BKN|OVC)(\d{3})/g)];
-  const tempM  = raw.match(/(M?\d{2})\/(M?\d{2})/);
-  const qnhM   = raw.match(/Q(\d{4})/);
-  const timeM  = raw.match(/(\d{2})(\d{2})(\d{2})Z/);
-
-  const wind  = windM ? windM[1]+'°/'+windM[2]+'kt'+(windM[4]?` G${windM[4]}kt`:'') : '—';
-  const vis   = visM  ? (parseInt(visM[1])>=9999?'>10km':visM[1]+'m') : 'CAVOK';
-  const ceil  = clouds.length ? Math.min(...clouds.map(c=>parseInt(c[2])*100))+' ft' : 'CAVOK';
-  const temp  = tempM ? tempM[1].replace('M','-')+'°C' : '—';
-  const qnh   = qnhM  ? qnhM[1]+' hPa' : '—';
-  const time  = timeM ? timeM[2]+':'+timeM[3]+'Z' : '';
-
-  const ceilFt = clouds.length ? Math.min(...clouds.map(c=>parseInt(c[2])*100)) : 9999;
-  const visMt  = visM ? parseInt(visM[1]) : 9999;
-  const cat = (ceilFt<500||visMt<1600)?'lifr':(ceilFt<1000||visMt<5000)?'ifr':(ceilFt<3000||visMt<8000)?'mvfr':'vfr';
-  const catLabel = {vfr:'VFR',mvfr:'MVFR',ifr:'IFR',lifr:'LIFR'}[cat];
-
-  el.innerHTML = `<div class="wx-simple">
-    <div class="wx-simple-top">
+  el.innerHTML = `
+    <div style="padding:12px 14px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between">
       <div>
-        <div class="wx-simple-sta">LFOE</div>
-        <div class="wx-simple-time">Évreux · ${time}</div>
+        <div style="font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:22px;color:#fff">${STA}</div>
+        <div style="font-size:9px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-top:1px">${time}</div>
       </div>
-      <div class="wx-cat ${cat}"><div class="dot"></div>${catLabel}</div>
+      <div style="display:flex;align-items:center;gap:6px;padding:5px 13px;border-radius:100px;border:2px solid;font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:16px;letter-spacing:.06em;color:${col};border-color:${col}40;background:${col}18">
+        <div style="width:7px;height:7px;border-radius:50%;background:${col};animation:pulse 2s ease-in-out infinite"></div>${cat}
+      </div>
     </div>
-    <div class="wx-simple-grid">
-      <div class="wx-simple-cell"><div class="wx-simple-val">${wind}</div><div class="wx-simple-lbl">Vent</div></div>
-      <div class="wx-simple-cell"><div class="wx-simple-val">${vis}</div><div class="wx-simple-lbl">Visibilité</div></div>
-      <div class="wx-simple-cell"><div class="wx-simple-val">${ceil}</div><div class="wx-simple-lbl">Plafond</div></div>
-      <div class="wx-simple-cell"><div class="wx-simple-val">${temp}</div><div class="wx-simple-lbl">Temp</div></div>
-      <div class="wx-simple-cell"><div class="wx-simple-val">${qnh}</div><div class="wx-simple-lbl">QNH</div></div>
-      <div class="wx-simple-cell"><div class="wx-simple-val" style="font-size:11px;color:var(--muted)">${raw.match(/(RA|SN|FG|BR|TS)/)?raw.match(/(RA|SN|FG|BR|TS)/)[0]:'—'}</div><div class="wx-simple-lbl">Phéno</div></div>
+    <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--border)">
+      ${[['Vent',wind],['Visibilité',vis],['Nuages',clouds],['Temp / Td',temp],['QNH',qnh],['Station',STA+' · LFOL+51km']].map(([l,v])=>`
+      <div style="background:var(--sf);padding:10px 12px">
+        <div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:15px;color:#fff;line-height:1.2">${v}</div>
+        <div style="font-size:8.5px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-top:3px">${l}</div>
+      </div>`).join('')}
     </div>
-    <div class="wx-simple-raw">${raw}</div>
-  </div>`;
-}
+    <div style="padding:9px 14px;border-top:1px solid var(--border);font-family:'JetBrains Mono','Courier New',monospace;font-size:10px;color:rgba(255,255,255,.32);word-break:break-all;line-height:1.6;background:rgba(0,0,0,.15)">${raw}</div>`;
+};
+
+window.mLoadTaf = async function(){
+  const box = document.getElementById('m-taf-box');
+  if(!box) return;
+  if(box.style.display==='block'){ box.style.display='none'; return; }
+  box.style.display='block';
+  box.innerHTML='<div style="padding:16px;color:var(--muted);font-size:11px;text-align:center;letter-spacing:.1em;text-transform:uppercase;background:var(--sf);border:1px solid var(--border);border-radius:10px">Chargement TAF…</div>';
+
+  const STA = 'LFOE';
+  const base = `https://aviationweather.gov/api/data/taf?ids=${STA}&format=raw`;
+  const proxies = [
+    `https://corsproxy.io/?${encodeURIComponent(base)}`,
+    `https://api.allorigins.win/raw?url=${encodeURIComponent(base)}`,
+    base
+  ];
+
+  let text = null;
+  for(const u of proxies){
+    try{
+      const r = await Promise.race([fetch(u), new Promise((_,rj)=>setTimeout(()=>rj(),6000))]);
+      const t = (await r.text()).trim();
+      if(t){text=t;break;}
+    }catch(e){}
+  }
+
+  if(!text){ box.innerHTML='<div style="padding:14px;color:#ef4444;font-size:12px;text-align:center;background:var(--sf);border:1px solid rgba(239,68,68,.2);border-radius:10px">TAF indisponible</div>'; return; }
+  box.innerHTML=`<div style="background:var(--sf);border:1px solid var(--border);border-radius:10px;padding:14px"><div style="font-size:8px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);margin-bottom:8px">TAF · ${STA}</div><div style="font-family:'JetBrains Mono','Courier New',monospace;font-size:10.5px;color:rgba(255,255,255,.55);line-height:1.8;word-break:break-all">${text.replace(/</g,'&lt;')}</div></div>`;
+};
+
+/* Auto-load au switch */
 </script>
 </body>
 </html>
