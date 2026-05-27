@@ -375,6 +375,25 @@ a{color:inherit;text-decoration:none}
 .wx-loading-card{padding:32px 16px;text-align:center;color:var(--muted);font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;background:var(--sf);border:1px solid var(--border);border-radius:14px;margin-bottom:14px}
 .wx-err-card{padding:22px 16px;text-align:center;color:rgba(239,68,68,.7);font-size:12px;font-weight:600;letter-spacing:.08em;background:var(--sf);border:1px solid rgba(239,68,68,.2);border-radius:14px;margin-bottom:14px}
 
+
+.wx-placeholder{padding:28px 16px;text-align:center;color:var(--muted);font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;background:var(--sf);border:1px solid var(--border);border-radius:12px}
+.wx-simple{background:var(--sf);border:1px solid var(--border);border-radius:12px;overflow:hidden}
+.wx-simple-top{padding:14px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.wx-simple-sta{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:24px;color:#fff}
+.wx-simple-time{font-size:9px;font-weight:700;letter-spacing:.18em;color:var(--muted);text-transform:uppercase}
+.wx-cat{display:inline-flex;align-items:center;gap:6px;padding:5px 13px;border-radius:100px;border:2px solid;font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:15px;letter-spacing:.08em}
+.wx-cat .dot{width:7px;height:7px;border-radius:50%;animation:pulse 2s ease-in-out infinite}
+.wx-cat.vfr{color:#22d77a;border-color:rgba(34,215,122,.4);background:rgba(34,215,122,.1)}.wx-cat.vfr .dot{background:#22d77a}
+.wx-cat.mvfr{color:#60a5fa;border-color:rgba(96,165,250,.4);background:rgba(96,165,250,.1)}.wx-cat.mvfr .dot{background:#60a5fa}
+.wx-cat.ifr{color:#ef4444;border-color:rgba(239,68,68,.4);background:rgba(239,68,68,.1)}.wx-cat.ifr .dot{background:#ef4444}
+.wx-cat.lifr{color:#a855f7;border-color:rgba(168,85,247,.4);background:rgba(168,85,247,.1)}.wx-cat.lifr .dot{background:#a855f7}
+.wx-simple-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border)}
+.wx-simple-cell{background:var(--sf);padding:11px 12px}
+.wx-simple-val{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:18px;color:#fff;line-height:1}
+.wx-simple-lbl{font-size:8.5px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-top:3px}
+.wx-simple-raw{padding:10px 14px;border-top:1px solid var(--border);font-family:'JetBrains Mono','Courier New',monospace;font-size:10px;color:rgba(255,255,255,.35);word-break:break-all;line-height:1.6;background:rgba(0,0,0,.15)}
+.wx-err-simple{padding:20px 16px;text-align:center;color:rgba(239,68,68,.7);font-size:12px;background:var(--sf);border:1px solid rgba(239,68,68,.2);border-radius:12px}
+
 .toast{position:fixed;top:80px;left:50%;transform:translateX(-50%);z-index:400;padding:9px 18px;background:var(--sf);border:1px solid var(--border);border-radius:100px;font-size:12.5px;font-weight:600;color:#fff;white-space:nowrap;box-shadow:0 8px 24px rgba(0,0,0,.4);pointer-events:none;opacity:0;transition:opacity .25s}
 .toast.show{opacity:1}
 .toast.ok{border-color:rgba(34,215,122,.4);color:var(--ok)}
@@ -618,24 +637,20 @@ html.pwa .mobile-nav{
   <!-- TAB : MÉTÉO -->
   <div id="pane-meteo" class="tab-pane">
     <div class="mobile-wrap">
-      <div class="mobile-sec-hd" style="margin-bottom:14px"><h2>🌤 Météo · LFOL</h2></div>
-
-      <!-- Widget météo LFOE — via Google Apps Script -->
-      <div id="wx-board-mobile" style="margin-bottom:12px">
-        <div class="wx-loading-card">Chargement météo…</div>
+      <div class="mobile-sec-hd"><h2>🌤 Météo · LFOE</h2></div>
+      <div id="m-wx-card" style="margin-bottom:12px">
+        <div class="wx-placeholder">Chargement…</div>
       </div>
-
-      <!-- TAF brut -->
-      <div class="metar-btns">
-        <button class="metar-btn active" id="btn-taf-m" onclick="toggleTaf()">TAF · LFOE</button>
-        <button class="metar-btn refresh" onclick="reloadMeteo()">↻</button>
+      <div style="display:flex;gap:8px;margin-bottom:10px">
+        <button class="metar-btn active" id="m-btn-metar" onclick="mLoadWx('metar')">METAR</button>
+        <button class="metar-btn"        id="m-btn-taf"   onclick="mLoadWx('taf')">TAF</button>
+        <button class="metar-btn refresh" onclick="mWxCache.metar=null;mLoadWx('metar')">↻</button>
       </div>
-      <div class="metar-box" id="taf-box" style="display:none"></div>
-
+      <div class="metar-box" id="m-wx-raw" style="display:none"></div>
     </div>
   </div>
 
-  <!-- TAB : OUTILS -->
+    <!-- TAB : OUTILS -->
   <div id="pane-outils" class="tab-pane">
     <div class="mobile-wrap">
       <div class="mobile-sec-hd"><h2>🛠 Mes outils</h2></div>
@@ -1325,20 +1340,93 @@ window.mettreAJour = async function(){
 /* ── Météo METAR/TAF ── */
 const METAR_STATIONS = ['LFOE','LFRG']; // LFOE=Évreux, LFRG=Deauville fallback
 const METAR_STATION = METAR_STATIONS[0];
-const wxCache = {};
+/* ══ Météo simple ══ */
+const mWxCache = {};
+let mCurrentType = 'metar';
 
-/* METAR/TAF via Google Apps Script — zéro CORS, fetch côté serveur */
-async function fetchMetarRaw(type){
-  const cached = wxCache[type];
-  if(cached && Date.now()-cached.ts < 300000) return cached.data;
+async function mLoadWx(type){
+  if(!type) type = mCurrentType;
+  mCurrentType = type;
+  document.getElementById('m-btn-metar')?.classList.toggle('active', type==='metar');
+  document.getElementById('m-btn-taf')?.classList.toggle('active',   type==='taf');
 
-  const url = `${API}?action=getMetar&type=${type}&station=LFOE`;
-  const data = await fetch(url).then(r=>r.json());
-  if(data.error) throw new Error(data.error);
-  wxCache[type] = {data: data.raw, ts: Date.now()};
-  return data.raw;
+  const card = document.getElementById('m-wx-card');
+  const raw_div = document.getElementById('m-wx-raw');
+
+  if(type === 'taf'){
+    // TAF : afficher juste le texte brut
+    if(card) card.innerHTML = '';
+    if(raw_div){ raw_div.style.display='block'; raw_div.innerHTML='<div class="metar-loading">Chargement TAF…</div>'; }
+    try{
+      const data = await fetch(`${API}?action=getMetar&type=taf&station=LFOE`).then(r=>r.json());
+      if(data.error) throw new Error(data.error);
+      if(raw_div) raw_div.innerHTML = `<div class="metar-time">TAF · LFOE</div><div class="metar-raw">${data.raw}</div>`;
+    }catch(e){
+      if(raw_div) raw_div.innerHTML = `<div class="metar-err">TAF indisponible — ${e.message}</div>`;
+    }
+    return;
+  }
+
+  // METAR : afficher le widget parsé
+  if(raw_div) raw_div.style.display='none';
+  if(card) card.innerHTML = '<div class="wx-placeholder">Chargement METAR…</div>';
+
+  const cached = mWxCache.metar;
+  if(cached && Date.now()-cached.ts < 300000){ mRenderWx(card, cached.raw); return; }
+
+  try{
+    const data = await fetch(`${API}?action=getMetar&type=metar&station=LFOE`).then(r=>r.json());
+    if(data.error) throw new Error(data.error);
+    mWxCache.metar = {raw: data.raw, ts: Date.now()};
+    mRenderWx(card, data.raw);
+  }catch(e){
+    if(card) card.innerHTML = `<div class="wx-err-simple">Météo indisponible<br><small style="opacity:.6">${e.message}</small></div>`;
+  }
 }
 
+function mReload(){ mWxCache.metar=null; mLoadWx('metar'); }
+
+function mRenderWx(el, raw){
+  if(!el||!raw) return;
+  // Parser basique
+  const windM = raw.match(/(\d{3}|VRB)(\d{2,3})(G(\d{2,3}))?KT/);
+  const visM  = raw.match(/\s(\d{4})\s/);
+  const clouds = [...raw.matchAll(/(BKN|OVC)(\d{3})/g)];
+  const tempM  = raw.match(/(M?\d{2})\/(M?\d{2})/);
+  const qnhM   = raw.match(/Q(\d{4})/);
+  const timeM  = raw.match(/(\d{2})(\d{2})(\d{2})Z/);
+
+  const wind  = windM ? windM[1]+'°/'+windM[2]+'kt'+(windM[4]?` G${windM[4]}kt`:'') : '—';
+  const vis   = visM  ? (parseInt(visM[1])>=9999?'>10km':visM[1]+'m') : 'CAVOK';
+  const ceil  = clouds.length ? Math.min(...clouds.map(c=>parseInt(c[2])*100))+' ft' : 'CAVOK';
+  const temp  = tempM ? tempM[1].replace('M','-')+'°C' : '—';
+  const qnh   = qnhM  ? qnhM[1]+' hPa' : '—';
+  const time  = timeM ? timeM[2]+':'+timeM[3]+'Z' : '';
+
+  const ceilFt = clouds.length ? Math.min(...clouds.map(c=>parseInt(c[2])*100)) : 9999;
+  const visMt  = visM ? parseInt(visM[1]) : 9999;
+  const cat = (ceilFt<500||visMt<1600)?'lifr':(ceilFt<1000||visMt<5000)?'ifr':(ceilFt<3000||visMt<8000)?'mvfr':'vfr';
+  const catLabel = {vfr:'VFR',mvfr:'MVFR',ifr:'IFR',lifr:'LIFR'}[cat];
+
+  el.innerHTML = `<div class="wx-simple">
+    <div class="wx-simple-top">
+      <div>
+        <div class="wx-simple-sta">LFOE</div>
+        <div class="wx-simple-time">Évreux · ${time}</div>
+      </div>
+      <div class="wx-cat ${cat}"><div class="dot"></div>${catLabel}</div>
+    </div>
+    <div class="wx-simple-grid">
+      <div class="wx-simple-cell"><div class="wx-simple-val">${wind}</div><div class="wx-simple-lbl">Vent</div></div>
+      <div class="wx-simple-cell"><div class="wx-simple-val">${vis}</div><div class="wx-simple-lbl">Visibilité</div></div>
+      <div class="wx-simple-cell"><div class="wx-simple-val">${ceil}</div><div class="wx-simple-lbl">Plafond</div></div>
+      <div class="wx-simple-cell"><div class="wx-simple-val">${temp}</div><div class="wx-simple-lbl">Temp</div></div>
+      <div class="wx-simple-cell"><div class="wx-simple-val">${qnh}</div><div class="wx-simple-lbl">QNH</div></div>
+      <div class="wx-simple-cell"><div class="wx-simple-val" style="font-size:11px;color:var(--muted)">${raw.match(/(RA|SN|FG|BR|TS)/)?raw.match(/(RA|SN|FG|BR|TS)/)[0]:'—'}</div><div class="wx-simple-lbl">Phéno</div></div>
+    </div>
+    <div class="wx-simple-raw">${raw}</div>
+  </div>`;
+}
 </script>
 </body>
 </html>
