@@ -1339,13 +1339,47 @@ const METAR_STATION = METAR_STATIONS[0];
 
 
 
-/* ══ Météo LFOE — même source que index.html, sans clé ══ */
+
+/* ══ Météo LFOE — GAS proxy + allorigins fallback ══ */
 const _wxSTA = 'LFOE';
 const _wxBase = `https://aviationweather.gov/api/data/metar?ids=${_wxSTA}&format=json&taf=false`;
-const _wxProxies = [
-  `https://api.allorigins.win/raw?url=${encodeURIComponent(_wxBase)}`,
-  _wxBase
-];
+
+async function _wxFetch(type){
+  // 1. GAS proxy (le plus fiable — zéro CORS)
+  try{
+    const d = await Promise.race([
+      fetch(`${API}?action=getMetar&type=${type}&station=${_wxSTA}`).then(r=>r.json()),
+      new Promise((_,rj)=>setTimeout(()=>rj(),8000))
+    ]);
+    if(d && d.raw) return d.raw;
+  }catch(e){}
+
+  // 2. allorigins.win
+  const base = type==='taf'
+    ? `https://aviationweather.gov/api/data/taf?ids=${_wxSTA}&format=raw`
+    : _wxBase;
+  const proxy = `https://api.allorigins.win/raw?url=${encodeURIComponent(base)}`;
+  try{
+    const r = await Promise.race([fetch(proxy), new Promise((_,rj)=>setTimeout(()=>rj(),8000))]);
+    if(!r.ok) throw new Error();
+    if(type==='taf') return (await r.text()).trim();
+    const j = await r.json();
+    const arr = Array.isArray(j)?j:(j.rawOb?[j]:null);
+    if(arr&&arr[0]&&arr[0].rawOb) return arr[0].rawOb.trim();
+  }catch(e){}
+
+  // 3. Direct
+  try{
+    const r = await Promise.race([fetch(base), new Promise((_,rj)=>setTimeout(()=>rj(),8000))]);
+    if(!r.ok) throw new Error();
+    if(type==='taf') return (await r.text()).trim();
+    const j = await r.json();
+    const arr = Array.isArray(j)?j:(j.rawOb?[j]:null);
+    if(arr&&arr[0]&&arr[0].rawOb) return arr[0].rawOb.trim();
+  }catch(e){}
+
+  throw new Error('indisponible');
+}
 
 function _wxCat(raw){
   let ceil=Infinity;
@@ -1359,55 +1393,41 @@ window.mLoadWx = async function(){
   const el=document.getElementById('m-wx');
   if(!el)return;
   el.innerHTML='<div style="padding:20px 16px;text-align:center;color:var(--muted);font-size:11px;letter-spacing:.12em;text-transform:uppercase">Chargement…</div>';
-
-  let m=null;
-  for(const u of _wxProxies){
-    try{
-      const j=await Promise.race([fetch(u).then(r=>r.json()),new Promise((_,rj)=>setTimeout(()=>rj(),6000))]);
-      const arr=Array.isArray(j)?j:(j.rawOb?[j]:null);
-      if(arr&&arr[0]&&arr[0].rawOb){m=arr[0];break;}
-    }catch(e){}
-  }
-
-  if(!m){
-    el.innerHTML='<div style="padding:20px 16px;text-align:center;color:#ef4444;font-size:12px;letter-spacing:.08em;background:var(--sf);border:1px solid rgba(239,68,68,.2);border-radius:12px">METAR indisponible · LFOE</div>';
-    return;
-  }
-
-  const raw=m.rawOb.trim();
-  const wm=raw.match(/(\d{3}|VRB)(\d{2,3})(G(\d{2,3}))?KT/);
-  const wind=wm?(wm[1]==='VRB'?'Variable':wm[1]+'°')+' / '+parseInt(wm[2])+' kt'+(wm[4]?' G'+parseInt(wm[4])+' kt':''):'N/A';
-  const cavok=/\bCAVOK\b/.test(raw);
-  const vm=!cavok&&raw.match(/\b(\d{4})\b/);
-  const vis=cavok?'CAVOK':(vm?(parseInt(vm[1])>=9999?'> 10 km':vm[1]+' m'):'N/A');
-  const cls=raw.match(/(FEW|SCT|BKN|OVC)\d{3}/g)||[];
-  const clouds=cls.length?cls.map(c=>c.slice(0,3)+' '+(parseInt(c.slice(-3))*100)+' ft').join(' · '):cavok?'CAVOK':'N/A';
-  const tm=raw.match(/(M?\d{2})\/(M?\d{2})/);
-  const temp=tm?tm[1].replace('M','−')+'°C / '+tm[2].replace('M','−')+'°C':'N/A';
-  const qm=raw.match(/Q(\d{4})/);
-  const qnh=qm?qm[1]+' hPa':'N/A';
-  const tz=raw.match(/\d{2}(\d{2})(\d{2})Z/);
-  const time=tz?tz[1]+':'+tz[2]+' UTC':'';
-  const cat=_wxCat(raw);const col=_wxCOL[cat];
-
-  el.innerHTML=`
-    <div style="padding:12px 14px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between">
-      <div>
-        <div style="font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:22px;color:#fff">${_wxSTA}</div>
-        <div style="font-size:9px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-top:1px">Évreux · ${time}</div>
+  try{
+    const raw = await _wxFetch('metar');
+    const wm=raw.match(/(\d{3}|VRB)(\d{2,3})(G(\d{2,3}))?KT/);
+    const wind=wm?(wm[1]==='VRB'?'Variable':wm[1]+'°')+' / '+parseInt(wm[2])+' kt'+(wm[4]?' G'+parseInt(wm[4])+' kt':''):'N/A';
+    const cavok=/\bCAVOK\b/.test(raw);
+    const vm=!cavok&&raw.match(/\b(\d{4})\b/);
+    const vis=cavok?'CAVOK':(vm?(parseInt(vm[1])>=9999?'> 10 km':vm[1]+' m'):'N/A');
+    const cls=raw.match(/(FEW|SCT|BKN|OVC)\d{3}/g)||[];
+    const clouds=cls.length?cls.map(c=>c.slice(0,3)+' '+(parseInt(c.slice(-3))*100)+' ft').join(' · '):cavok?'CAVOK':'N/A';
+    const tm=raw.match(/(M?\d{2})\/(M?\d{2})/);
+    const temp=tm?tm[1].replace('M','−')+'°C / '+tm[2].replace('M','−')+'°C':'N/A';
+    const qm=raw.match(/Q(\d{4})/);const qnh=qm?qm[1]+' hPa':'N/A';
+    const tz=raw.match(/\d{2}(\d{2})(\d{2})Z/);const time=tz?tz[1]+':'+tz[2]+' UTC':'';
+    const cat=_wxCat(raw);const col=_wxCOL[cat];
+    el.innerHTML=`
+      <div style="padding:12px 14px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between">
+        <div>
+          <div style="font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:22px;color:#fff">${_wxSTA}</div>
+          <div style="font-size:9px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-top:1px">Évreux · ${time}</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:6px;padding:5px 13px;border-radius:100px;border:2px solid ${col}40;font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:16px;letter-spacing:.06em;color:${col};background:${col}18">
+          <div style="width:7px;height:7px;border-radius:50%;background:${col};animation:pulse 2s ease-in-out infinite"></div>${cat}
+        </div>
       </div>
-      <div style="display:flex;align-items:center;gap:6px;padding:5px 13px;border-radius:100px;border:2px solid ${col}40;font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:16px;letter-spacing:.06em;color:${col};background:${col}18">
-        <div style="width:7px;height:7px;border-radius:50%;background:${col};animation:pulse 2s ease-in-out infinite"></div>${cat}
+      <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--border)">
+        ${[['Vent',wind],['Visibilité',vis],['Nuages',clouds],['Temp / Td',temp],['QNH',qnh],['Obs.',time]].map(([l,v])=>`
+        <div style="background:var(--sf);padding:10px 12px">
+          <div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:15px;color:#fff;line-height:1.2">${v}</div>
+          <div style="font-size:8.5px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-top:3px">${l}</div>
+        </div>`).join('')}
       </div>
-    </div>
-    <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--border)">
-      ${[['Vent',wind],['Visibilité',vis],['Nuages',clouds],['Temp / Td',temp],['QNH',qnh],['Obs.',time]].map(([l,v])=>`
-      <div style="background:var(--sf);padding:10px 12px">
-        <div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:15px;color:#fff;line-height:1.2">${v}</div>
-        <div style="font-size:8.5px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-top:3px">${l}</div>
-      </div>`).join('')}
-    </div>
-    <div style="padding:9px 14px;border-top:1px solid var(--border);font-family:'JetBrains Mono','Courier New',monospace;font-size:10px;color:rgba(255,255,255,.32);word-break:break-all;line-height:1.6;background:rgba(0,0,0,.15)">${raw}</div>`;
+      <div style="padding:9px 14px;border-top:1px solid var(--border);font-family:'JetBrains Mono','Courier New',monospace;font-size:10px;color:rgba(255,255,255,.32);word-break:break-all;line-height:1.6;background:rgba(0,0,0,.15)">${raw}</div>`;
+  }catch(e){
+    el.innerHTML='<div style="padding:20px 16px;text-align:center;color:#ef4444;font-size:12px;background:var(--sf);border:1px solid rgba(239,68,68,.2);border-radius:12px">METAR indisponible · LFOE<br><small style="opacity:.5;font-size:9px">Déployer Code.gs v5 pour fiabiliser</small></div>';
+  }
 };
 
 window.mLoadTaf = async function(){
@@ -1416,21 +1436,15 @@ window.mLoadTaf = async function(){
   if(box.style.display==='block'){box.style.display='none';return;}
   box.style.display='block';
   box.innerHTML='<div style="padding:14px;color:var(--muted);font-size:11px;text-align:center;letter-spacing:.1em;text-transform:uppercase;background:var(--sf);border:1px solid var(--border);border-radius:10px">Chargement TAF…</div>';
-  const base=`https://aviationweather.gov/api/data/taf?ids=${_wxSTA}&format=raw`;
-  const proxies=[`https://api.allorigins.win/raw?url=${encodeURIComponent(base)}`,base];
-  let text=null;
-  for(const u of proxies){
-    try{const r=await Promise.race([fetch(u),new Promise((_,rj)=>setTimeout(()=>rj(),6000))]);const t=(await r.text()).trim();if(t){text=t;break;}}catch(e){}
+  try{
+    const text = await _wxFetch('taf');
+    box.innerHTML=`<div style="background:var(--sf);border:1px solid var(--border);border-radius:10px;padding:14px"><div style="font-size:8px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);margin-bottom:8px">TAF · ${_wxSTA}</div><div style="font-family:'JetBrains Mono','Courier New',monospace;font-size:10.5px;color:rgba(255,255,255,.55);line-height:1.8;word-break:break-all">${text.replace(/</g,'&lt;')}</div></div>`;
+  }catch(e){
+    box.innerHTML='<div style="padding:14px;color:#ef4444;font-size:12px;text-align:center;background:var(--sf);border:1px solid rgba(239,68,68,.2);border-radius:10px">TAF indisponible</div>';
   }
-  if(!text){box.innerHTML='<div style="padding:14px;color:#ef4444;font-size:12px;text-align:center;background:var(--sf);border:1px solid rgba(239,68,68,.2);border-radius:10px">TAF indisponible</div>';return;}
-  box.innerHTML=`<div style="background:var(--sf);border:1px solid var(--border);border-radius:10px;padding:14px"><div style="font-size:8px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);margin-bottom:8px">TAF · ${_wxSTA}</div><div style="font-family:'JetBrains Mono','Courier New',monospace;font-size:10.5px;color:rgba(255,255,255,.55);line-height:1.8;word-break:break-all">${text.replace(/</g,'&lt;')}</div></div>`;
 };
 
 /* Auto-load */
-
-/* Auto-load */
-
-/* Auto-load au switch */
 </script>
 </body>
 </html>
