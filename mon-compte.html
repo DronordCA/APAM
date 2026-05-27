@@ -987,8 +987,7 @@ function dLoadWxCard(){
   const card = document.getElementById('d-wx-card');
   if(!card) return;
   card.innerHTML='<div class="wx-loading">Chargement météo LFOE…</div>';
-  mLoadWx();  // Utilise la même fonction que mobile
-  card.style.display='none';
+  mLoadWx();
 }
 
 function dReloadMeteo(){ wxCache.metar=null; wxCache.taf=null; dLoadWxCard(); }
@@ -1344,7 +1343,6 @@ const METAR_STATION = METAR_STATIONS[0];
 const _wxSTA = 'LFOE';
 const _wxBase = `https://aviationweather.gov/api/data/metar?ids=${_wxSTA}&format=json&taf=false`;
 const _wxProxies = [
-  `https://corsproxy.io/?${encodeURIComponent(_wxBase)}`,
   `https://api.allorigins.win/raw?url=${encodeURIComponent(_wxBase)}`,
   _wxBase
 ];
@@ -1419,7 +1417,7 @@ window.mLoadTaf = async function(){
   box.style.display='block';
   box.innerHTML='<div style="padding:14px;color:var(--muted);font-size:11px;text-align:center;letter-spacing:.1em;text-transform:uppercase;background:var(--sf);border:1px solid var(--border);border-radius:10px">Chargement TAF…</div>';
   const base=`https://aviationweather.gov/api/data/taf?ids=${_wxSTA}&format=raw`;
-  const proxies=[`https://corsproxy.io/?${encodeURIComponent(base)}`,`https://api.allorigins.win/raw?url=${encodeURIComponent(base)}`,base];
+  const proxies=[`https://api.allorigins.win/raw?url=${encodeURIComponent(base)}`,base];
   let text=null;
   for(const u of proxies){
     try{const r=await Promise.race([fetch(u),new Promise((_,rj)=>setTimeout(()=>rj(),6000))]);const t=(await r.text()).trim();if(t){text=t;break;}}catch(e){}
