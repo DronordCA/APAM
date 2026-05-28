@@ -281,10 +281,12 @@ html:not(.pwa) .desktop-only{display:flex}
 .poll-q{font-size:9px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);margin-bottom:10px;display:flex;align-items:center;gap:8px}
 .poll-q::before{content:"";width:14px;height:1px;background:var(--accent)}
 .poll-btns{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px}
-.poll-btn{padding:11px;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-style:italic;font-size:14px;letter-spacing:.1em;text-transform:uppercase;background:var(--sf2);border:1.5px solid var(--bds);color:var(--muted);cursor:pointer;border-radius:8px}
+.poll-btn{position:relative;padding:11px;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-style:italic;font-size:14px;letter-spacing:.1em;text-transform:uppercase;background:var(--sf2);border:1.5px solid var(--bds);color:var(--muted);cursor:pointer;border-radius:8px;transition:all .25s cubic-bezier(.2,.7,.2,1)}
 .poll-btn:hover{border-color:var(--bds);color:var(--text)}
-.poll-btn.oui.active{background:rgba(34,215,122,.12);border-color:var(--ok);color:var(--ok)}
-.poll-btn.non.active{background:rgba(239,68,68,.1);border-color:var(--err);color:var(--err)}
+.poll-btn.oui.active{background:rgba(34,215,122,.12);border-color:var(--ok);color:var(--ok);box-shadow:0 0 0 3px rgba(34,215,122,.10)}
+.poll-btn.non.active{background:rgba(239,68,68,.1);border-color:var(--err);color:var(--err);box-shadow:0 0 0 3px rgba(239,68,68,.08)}
+.poll-btn.active::after{content:"✓";position:absolute;top:6px;right:8px;font-family:'Jost',sans-serif;font-size:12px;font-weight:700;font-style:normal;letter-spacing:0}
+.poll-btn:not(.active).dim{opacity:.55}
 [data-theme="light"] .poll-btn.oui.active{background:rgba(22,122,60,.10)}
 [data-theme="light"] .poll-btn.non.active{background:rgba(179,36,36,.08)}
 .poll-res{font-size:9px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
@@ -344,6 +346,9 @@ html:not(.pwa) .desktop-only{display:flex}
 .update-btn-tx h4{font-size:14.5px;font-weight:600;color:var(--text)}
 .update-btn-tx p{font-size:12px;color:var(--muted);margin-top:2px}
 .update-btn.updated{border-color:rgba(34,215,122,.3);background:rgba(34,215,122,.08);color:var(--ok)}
+.update-btn.upd-available{border-color:var(--accent);background:var(--accent-soft);animation:availPulse 2s ease-in-out infinite}
+.update-btn.upd-available .update-icon{background:var(--accent);color:#fff;border-color:var(--accent)}
+@keyframes availPulse{0%,100%{box-shadow:0 0 0 0 var(--accent-soft)}50%{box-shadow:0 0 0 6px transparent}}
 
 /* ═══════════════════════ MÉTÉO ═══════════════════════ */
 .wx-card{background:var(--card-bg);border:1px solid var(--card-bord);border-radius:14px;overflow:hidden;margin-bottom:12px}
@@ -740,6 +745,7 @@ button,a,.tap{transition:transform .28s cubic-bezier(.2,.7,.2,1),background-colo
 
 <script>
 'use strict';
+const APP_VERSION='1.1.0';
 const API='https://script.google.com/macros/s/AKfycbxae9y3NHqDyAkbEI5rDVRappI-aAWoA0jcHqR8NBUgm3t5SCB1Hq8nebY5t23cV1Je/exec';
 const isStandalone=navigator.standalone||window.matchMedia('(display-mode:standalone)').matches;
 const isIOS=/iPad|iPhone|iPod/.test(navigator.userAgent)&&!window.MSStream;
@@ -833,7 +839,7 @@ function renderCard(n){
   const mv=rs.myVote;
   const delB=(perms.news_membres||perms.admin)?`<div class="mn-del"><button class="del-btn" type="button" onclick="delNews('${n.id}',${n._row})">Supprimer</button></div>`:'';
   const votersHtml=ouiV.length||nonV.length?`<div class="poll-summary"><div class="poll-counts"><span class="poll-count poll-count-oui">${ouiV.length} <em>oui</em></span><span class="poll-count poll-count-non">${nonV.length} <em>non</em></span></div><button type="button" class="poll-toggle" onclick="togglePollVoters(this)" data-open="0">Afficher les votants <span class="poll-toggle-arr">›</span></button></div><div class="poll-voters-wrap" hidden><div class="poll-voters">${ouiV.length?`<div class="poll-voters-grp"><span class="poll-voters-lbl oui">Oui · ${ouiV.length}</span><div class="poll-voters-list">${ouiV.map(v=>`<span class="vtag oui">${v.prenom} ${(v.nom||'').toUpperCase()}</span>`).join('')}</div></div>`:''}${nonV.length?`<div class="poll-voters-grp"><span class="poll-voters-lbl non">Non · ${nonV.length}</span><div class="poll-voters-list">${nonV.map(v=>`<span class="vtag non">${v.prenom} ${(v.nom||'').toUpperCase()}</span>`).join('')}</div></div>`:''}</div></div>`:'';
-  const pollHtml=hasPoll?`<div class="mn-poll"><div class="poll-q">Serez-vous présent ?</div><div class="poll-btns"><button type="button" class="poll-btn oui ${mv==='oui'?'active':''}" onclick="voter('${n.id}','oui')">✓ OUI</button><button type="button" class="poll-btn non ${mv==='non'?'active':''}" onclick="voter('${n.id}','non')">NON</button></div>${votersHtml}</div>`:'';
+  const pollHtml=hasPoll?`<div class="mn-poll"><div class="poll-q">Serez-vous présent ?</div><div class="poll-btns"><button type="button" class="poll-btn oui ${mv==='oui'?'active':(mv?'dim':'')}" onclick="voter('${n.id}','oui')">OUI</button><button type="button" class="poll-btn non ${mv==='non'?'active':(mv?'dim':'')}" onclick="voter('${n.id}','non')">NON</button></div>${votersHtml}</div>`:'';
   return `<article class="mn-card"><div class="mn-card-head"><div class="mn-meta"><span class="mn-date">${n.date}</span><span class="mn-author">— ${n.auteur||'Le bureau'}</span></div><div class="mn-title">${n.titre}</div></div><div class="mn-body">${n.texte}</div>${pollHtml}${delB}</article>`;
 }
 
@@ -874,8 +880,14 @@ async function voter(newsId,reponse){
   try{
     const p=new URLSearchParams({action:'reagir',newsId,prenom:memberPrenom,nom:memberName,reponse});
     await fetch(`${API}?${p}`);
-    await fetchReactions(news);saveRC();applyNews(news);
-  }catch{toast('Erreur lors du vote','err');}
+    await fetchReactions(news);
+    if(RS[newsId])RS[newsId].myVote=reponse; /* preserve local choice even if server identity match fails */
+    saveRC();applyNews(news);
+  }catch{
+    if(RS[newsId])RS[newsId].myVote=reponse;
+    saveRC();applyNews(news);
+    toast('Vote enregistré localement (hors-ligne)','err');
+  }
 }
 
 async function delNews(id,row){
@@ -921,7 +933,7 @@ function buildOutils(){
   if(perms.admin)tools.push({i:'👥',t:'Gestion membres',s:'Permissions & accès',h:'admin.html',c:'admin-item'});
 
   const themeRowM=`<button type="button" class="tool-item theme-item" onclick="toggleTheme()"><span class="tool-icon"><span id="m-theme-ic">☾</span></span><div class="tool-tx"><h4>Apparence</h4><p>Mode <span id="m-theme-lbl">Sombre</span></p></div><span class="tool-chev">›</span></button>`;
-  const updateRow=`<button type="button" class="update-btn" id="upd-btn" onclick="mettreAJour()"><span class="update-icon">🔄</span><div class="update-btn-tx" style="flex:1"><h4>Mise à jour</h4><p id="upd-sub">Vérifier les mises à jour</p></div><span class="tool-chev">›</span></button>`;
+  const updateRow=`<button type="button" class="update-btn" id="upd-btn" onclick="mettreAJour()"><span class="update-icon">🔄</span><div class="update-btn-tx" style="flex:1"><h4>Mise à jour</h4><p id="upd-sub">Version v${APP_VERSION} · Vérifier les mises à jour</p></div><span class="tool-chev">›</span></button>`;
 
   const mo=document.getElementById('m-outils');
   if(mo){
@@ -940,27 +952,64 @@ function buildOutils(){
 
 function logout(){if(!confirm('Se déconnecter ?'))return;['apam_perms','apam_nom','apam_prenom','apam_pin'].forEach(k=>{localStorage.removeItem(k);sessionStorage.removeItem(k);});window.location.href='connexion-membres-password.html';}
 
-/* ── Mise à jour ── */
+/* ── Mise à jour avec versioning ── */
+let _newVersion=null;
+
 window.mettreAJour=async function(){
   hapticTick();
   const btn=document.getElementById('upd-btn'),sub=document.getElementById('upd-sub');
-  if(!('serviceWorker'in navigator)){toast('SW non disponible','err');return;}
-  if(btn)btn.style.opacity='.6';if(sub)sub.textContent='Vérification…';
+  if(!btn||!sub)return;
+  // If new version already detected, install it
+  if(_newVersion){installUpdate();return;}
+  btn.style.opacity='.6';sub.textContent='Vérification…';
   try{
-    const reg=await navigator.serviceWorker.getRegistration();
-    if(!reg){if(sub)sub.textContent='Aucun SW';return;}
-    await reg.update();
-    if(reg.waiting){
-      if(sub)sub.textContent='Mise à jour — installation…';
-      reg.waiting.postMessage({type:'SKIP_WAITING'});
-      navigator.serviceWorker.addEventListener('controllerchange',()=>{toast('✓ App mise à jour !','ok',2500);setTimeout(()=>window.location.reload(),800);});
+    // Force network fetch to detect version mismatch
+    const ctrl=new AbortController();const to=setTimeout(()=>ctrl.abort(),10000);
+    const r=await fetch(location.pathname+'?_v='+Date.now(),{cache:'no-store',signal:ctrl.signal});
+    clearTimeout(to);
+    const txt=await r.text();
+    const m=txt.match(/APP_VERSION\s*=\s*['"]([\d.]+)['"]/);
+    const remoteV=m?m[1]:null;
+    btn.style.opacity='';
+    if(remoteV&&remoteV!==APP_VERSION){
+      _newVersion=remoteV;
+      btn.classList.add('upd-available');
+      sub.innerHTML='<strong style="color:var(--accent)">v'+remoteV+' disponible</strong> · Appuyez pour installer';
+      const ic=btn.querySelector('.update-icon');if(ic)ic.textContent='⬇';
+      toast('Nouvelle version v'+remoteV+' disponible','ok',4000);
     }else{
-      if(btn){btn.classList.add('updated');btn.style.opacity='';}
-      if(sub)sub.textContent='✓ Déjà à jour';
-      setTimeout(()=>{if(btn)btn.classList.remove('updated');if(sub)sub.textContent='Vérifier les mises à jour';},3000);
+      // Also nudge service worker to check
+      if('serviceWorker'in navigator){
+        try{const reg=await navigator.serviceWorker.getRegistration();if(reg){await reg.update();if(reg.waiting){_newVersion='update';btn.classList.add('upd-available');sub.innerHTML='<strong style="color:var(--accent)">Mise à jour prête</strong> · Appuyez pour installer';return;}}}catch(e){}
+      }
+      btn.classList.add('updated');sub.textContent='✓ Déjà à jour · v'+APP_VERSION;
+      setTimeout(()=>{btn.classList.remove('updated');sub.textContent='Version v'+APP_VERSION+' · Vérifier les mises à jour';},3500);
     }
-  }catch(e){if(btn)btn.style.opacity='';if(sub)sub.textContent='Erreur';toast('Erreur','err');}
+  }catch(e){
+    btn.style.opacity='';sub.textContent='Erreur de vérification';
+    toast('Pas de réseau','err');
+    setTimeout(()=>{sub.textContent='Version v'+APP_VERSION+' · Vérifier les mises à jour';},3000);
+  }
 };
+
+async function installUpdate(){
+  hapticThud();
+  const btn=document.getElementById('upd-btn'),sub=document.getElementById('upd-sub');
+  if(sub)sub.innerHTML='<strong style="color:var(--accent)">Installation…</strong>';
+  if(btn)btn.style.opacity='.6';
+  try{
+    if('caches'in window){const keys=await caches.keys();await Promise.all(keys.map(k=>caches.delete(k)));}
+    if('serviceWorker'in navigator){
+      const reg=await navigator.serviceWorker.getRegistration();
+      if(reg){
+        if(reg.waiting)reg.waiting.postMessage({type:'SKIP_WAITING'});
+        try{await reg.update();}catch(e){}
+      }
+    }
+  }catch(e){}
+  toast('✓ Mise à jour installée','ok',1500);
+  setTimeout(()=>{window.location.href=location.pathname+'?_v='+Date.now();},700);
+}
 
 /* ══════════════════════════════════════════
    MÉTÉO
@@ -978,29 +1027,29 @@ var wxFetching=false;
 var wxPendingTargets=[];
 
 async function wxFetch(type){
-  // 1) Try APAM proxy (Google Apps Script) — may cold-start
-  try{
-    const d=await Promise.race([fetch(`${API}?action=getMetar&type=${type}&station=${WX_STA}`).then(r=>r.json()),new Promise((_,rj)=>setTimeout(()=>rj(),15000))]);
-    if(d&&d.raw&&!d.error)return d.raw;
-  }catch{}
-  // 2) Try aviationweather.gov directly (CORS-enabled since 2023)
+  // 1) Aviationweather.gov direct (CORS-enabled, fastest, no cold start)
   try{
     if(type==='taf'){
-      const r=await Promise.race([fetch(`https://aviationweather.gov/api/data/taf?ids=${WX_STA}&format=raw`),new Promise((_,rj)=>setTimeout(()=>rj(),8000))]);
+      const r=await Promise.race([fetch(`https://aviationweather.gov/api/data/taf?ids=${WX_STA}&format=raw`,{cache:'no-store'}),new Promise((_,rj)=>setTimeout(()=>rj(),6000))]);
       if(r.ok){const t=(await r.text()).trim();if(t)return t;}
     }else{
-      const r=await Promise.race([fetch(`https://aviationweather.gov/api/data/metar?ids=${WX_STA}&format=json&taf=false`),new Promise((_,rj)=>setTimeout(()=>rj(),8000))]);
+      const r=await Promise.race([fetch(`https://aviationweather.gov/api/data/metar?ids=${WX_STA}&format=json&taf=false`,{cache:'no-store'}),new Promise((_,rj)=>setTimeout(()=>rj(),6000))]);
       if(r.ok){const j=await r.json();const arr=Array.isArray(j)?j:(j.rawOb?[j]:null);if(arr&&arr[0]&&arr[0].rawOb)return arr[0].rawOb.trim();}
     }
   }catch{}
-  // 3) Fallback via allorigins
+  // 2) AllOrigins proxy (in case direct CORS fails on some networks)
   const base=type==='taf'?`https://aviationweather.gov/api/data/taf?ids=${WX_STA}&format=raw`:`https://aviationweather.gov/api/data/metar?ids=${WX_STA}&format=json&taf=false`;
   try{
-    const r=await Promise.race([fetch(`https://api.allorigins.win/raw?url=${encodeURIComponent(base)}`),new Promise((_,rj)=>setTimeout(()=>rj(),10000))]);
-    if(!r.ok)throw new Error();
-    if(type==='taf')return(await r.text()).trim();
-    const j=await r.json();const arr=Array.isArray(j)?j:(j.rawOb?[j]:null);
-    if(arr&&arr[0]&&arr[0].rawOb)return arr[0].rawOb.trim();
+    const r=await Promise.race([fetch(`https://api.allorigins.win/raw?url=${encodeURIComponent(base)}`),new Promise((_,rj)=>setTimeout(()=>rj(),8000))]);
+    if(r.ok){
+      if(type==='taf'){const t=(await r.text()).trim();if(t)return t;}
+      else{const j=await r.json();const arr=Array.isArray(j)?j:(j.rawOb?[j]:null);if(arr&&arr[0]&&arr[0].rawOb)return arr[0].rawOb.trim();}
+    }
+  }catch{}
+  // 3) APAM proxy (Google Apps Script) — last resort, may cold-start
+  try{
+    const d=await Promise.race([fetch(`${API}?action=getMetar&type=${type}&station=${WX_STA}`).then(r=>r.json()),new Promise((_,rj)=>setTimeout(()=>rj(),15000))]);
+    if(d&&d.raw&&!d.error)return d.raw;
   }catch{}
   throw new Error('METAR indisponible');
 }
@@ -1255,6 +1304,24 @@ buildOutils();chargerNews();
 setTimeout(function(){wxLoad('m-wx');if(document.getElementById('d-wx'))wxPendingTargets.push('d-wx');updateWxQuick();},800);
 setTimeout(function(){if(!wxTafFetching){wxTafFetching=true;wxFetch('taf').then(function(r){wxTafFetching=false;wxTafText=r;try{localStorage.setItem('apam_wx_taf',r);}catch(e){}}).catch(function(){wxTafFetching=false;});}},2000);
 setInterval(function(){wxTs=0;wxLoad('m-wx');wxLoad('d-wx');},1800000);
+
+/* Auto-check for app update silently 3s after launch */
+setTimeout(async function(){
+  try{
+    const r=await fetch(location.pathname+'?_v='+Date.now(),{cache:'no-store'});
+    const txt=await r.text();
+    const m=txt.match(/APP_VERSION\s*=\s*['"]([\d.]+)['"]/);
+    const remoteV=m?m[1]:null;
+    if(remoteV&&remoteV!==APP_VERSION){
+      _newVersion=remoteV;
+      const btn=document.getElementById('upd-btn'),sub=document.getElementById('upd-sub');
+      if(btn){btn.classList.add('upd-available');const ic=btn.querySelector('.update-icon');if(ic)ic.textContent='⬇';}
+      if(sub)sub.innerHTML='<strong style="color:var(--accent)">v'+remoteV+' disponible</strong> · Appuyez pour installer';
+      toast('Mise à jour v'+remoteV+' disponible','ok',5000);
+    }
+  }catch(e){}
+},3500);
+
 document.addEventListener('visibilitychange',function(){
   if(!document.hidden)setTimeout(function(){wxLoad('m-wx');wxLoad('d-wx');updateWxQuick();},300);
 });
