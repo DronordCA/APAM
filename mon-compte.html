@@ -1,306 +1,637 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="fr" data-theme="dark" data-cards="solid">
 <head>
 <meta charset="UTF-8"/>
-<title>APAM · Espace membres</title>
+<title>APAM · Espace pilote</title>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
 <meta name="mobile-web-app-capable" content="yes"/>
 <meta name="apple-mobile-web-app-capable" content="yes"/>
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
-<meta name="theme-color" content="#080a0e"/>
+<meta name="theme-color" content="#0a0d14"/>
 <link rel="manifest" href="manifest.json"/>
 <link rel="apple-touch-icon" href="assets/images/apam-logo2.png"/>
-<script>if(navigator.standalone||window.matchMedia('(display-mode:standalone)').matches){document.documentElement.classList.add('pwa');}</script>
-<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,400;0,700;0,900;1,700;1,900&family=Jost:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<script>
+/* Theme + PWA init (must run before paint) */
+(function(){
+  try{
+    var saved=localStorage.getItem('apam_theme')||'dark';
+    document.documentElement.setAttribute('data-theme',saved);
+    var card=localStorage.getItem('apam_cards')||'solid';
+    document.documentElement.setAttribute('data-cards',card);
+    var m=document.querySelector('meta[name=theme-color]');
+    if(m)m.setAttribute('content',saved==='light'?'#f3f1ea':'#0a0d14');
+  }catch(e){}
+  if(navigator.standalone||window.matchMedia('(display-mode:standalone)').matches){
+    document.documentElement.classList.add('pwa');
+  }
+  /* Force mobile view via ?view=mobile (preview helper) */
+  try{if(location.search.indexOf('view=mobile')>-1)document.documentElement.classList.add('pwa');}catch(e){}
+})();
+</script>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,400;0,600;0,700;0,900;1,400;1,700;1,900&family=Jost:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#080a0e;--sf:#141720;--sf2:#1a1f2e;--accent:#2563eb;--acc-d:rgba(37,99,235,.14);--muted:#7a8399;--dim:#32384f;--border:rgba(255,255,255,.07);--bds:rgba(255,255,255,.11);--ok:#22d77a;--err:#ef4444;--text:#e4e8f2}
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-body{background:var(--bg);color:var(--text);font-family:'Jost',sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden}
-a{color:inherit;text-decoration:none}img{max-width:100%;display:block}
+/* ═══════════════════════ TOKENS ═══════════════════════ */
+:root, [data-theme="dark"]{
+  --bg:#0a0d14;--sf:#131722;--sf2:#1c2030;--sf3:#252a3a;
+  --accent:#4d8bf5;--accent-2:#7eaaff;--accent-soft:rgba(77,139,245,.13);--accent-bord:rgba(77,139,245,.28);
+  --amber:#f5a524;--amber-soft:rgba(245,165,36,.10);--amber-bord:rgba(245,165,36,.28);
+  --ok:#22d77a;--err:#ef4444;--vio:#a855f7;--cyan:#60a5fa;
+  --text:#e8ecf3;--text-2:#b4bcd0;--muted:#7e8aa3;--dim:#3a4259;
+  --border:rgba(255,255,255,.07);--bds:rgba(255,255,255,.13);
+  --hatch:rgba(255,255,255,.04);--hatch-2:rgba(255,255,255,.07);
+  --card-bg:var(--sf);--card-bord:var(--border);
+  --backdrop:rgba(10,13,20,.88);
+  --shadow-1:0 1px 2px rgba(0,0,0,.4),0 8px 24px rgba(0,0,0,.25);
+  color-scheme:dark;
+}
+[data-theme="light"]{
+  --bg:#f3f1ea;--sf:#ffffff;--sf2:#ecebe4;--sf3:#e1dfd6;
+  --accent:#1d4fa3;--accent-2:#163b7c;--accent-soft:rgba(29,79,163,.09);--accent-bord:rgba(29,79,163,.22);
+  --amber:#a86314;--amber-soft:rgba(168,99,20,.10);--amber-bord:rgba(168,99,20,.30);
+  --ok:#167a3c;--err:#b32424;--vio:#7c3aed;--cyan:#1e6bb8;
+  --text:#0f1420;--text-2:#353a4a;--muted:#5e6577;--dim:#a8acb8;
+  --border:rgba(15,20,32,.09);--bds:rgba(15,20,32,.16);
+  --hatch:rgba(15,20,32,.04);--hatch-2:rgba(15,20,32,.07);
+  --card-bg:var(--sf);--card-bord:var(--border);
+  --backdrop:rgba(243,241,234,.86);
+  --shadow-1:0 1px 1px rgba(15,20,32,.04),0 4px 18px rgba(15,20,32,.08);
+  color-scheme:light;
+}
+/* Card style variants (tweak) */
+[data-cards="outline"]{--card-bg:transparent;}
+[data-cards="ghost"]{--card-bg:transparent;--card-bord:transparent;}
 
-/* NAV DESKTOP */
-.desktop-nav{position:sticky;top:0;z-index:100;height:66px;display:flex;align-items:center;padding:0 clamp(20px,4vw,72px);gap:20px;background:rgba(8,10,14,.95);border-bottom:1px solid var(--border);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px)}
+/* ═══════════════════════ RESET ═══════════════════════ */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{background:var(--bg);color:var(--text)}
+body{font-family:'Jost',sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden;font-size:15px;line-height:1.5;text-rendering:optimizeLegibility}
+a{color:inherit;text-decoration:none}
+img{max-width:100%;display:block}
+button{font-family:inherit;color:inherit}
+
+/* iOS-like tap response on every interactive */
+button,a,.tap{touch-action:manipulation}
+button:active:not(:disabled),a:active,.tap:active{transform:scale(.97);transition:none!important}
+button,a,.tap{transition:transform .28s cubic-bezier(.2,.7,.2,1),background .2s,border-color .2s,color .2s,box-shadow .2s,opacity .2s}
+
+/* Typography helpers */
+.bcond{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;letter-spacing:.005em;text-transform:uppercase}
+.mono{font-family:'JetBrains Mono',ui-monospace,monospace;font-variant-numeric:tabular-nums}
+.label{font-size:9.5px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--muted)}
+.label-acc{color:var(--accent)}
+
+/* Aviation hatch decoration */
+.hatch{background-image:repeating-linear-gradient(135deg,var(--hatch) 0 2px,transparent 2px 7px)}
+.hatch-amber{background-image:repeating-linear-gradient(135deg,var(--amber-soft) 0 2px,transparent 2px 7px)}
+
+/* ═══════════════════════ DESKTOP / TOP BAR ═══════════════════════ */
 .desktop-only{display:none}
-.nav-logo img{height:44px}
-.nav-member-greet{font-size:10px;color:var(--muted);letter-spacing:.06em;display:block}
-.nav-member-name{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:20px;text-transform:uppercase;line-height:1;color:#fff}
-.nav-badge{margin-left:auto;display:flex;align-items:center;gap:7px;padding:6px 14px;border-radius:100px;background:var(--acc-d);border:1px solid rgba(37,99,235,.3);font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:13px;letter-spacing:.1em;text-transform:uppercase}
-.nav-badge-dot{width:7px;height:7px;border-radius:50%;background:var(--ok);animation:pulse 2.4s ease-in-out infinite;display:block}
+.desktop-nav{position:sticky;top:0;z-index:100;height:72px;display:flex;align-items:center;padding:0 clamp(20px,4vw,72px);gap:24px;background:var(--backdrop);border-bottom:1px solid var(--border);backdrop-filter:blur(28px);-webkit-backdrop-filter:blur(28px)}
+.nav-logo{display:flex;align-items:center;gap:14px}
+.nav-logo img,.nav-logo .logo-fb{height:38px;display:inline-flex;align-items:center;font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:24px;letter-spacing:.04em;color:var(--accent);padding:0 10px;border:2px solid var(--accent);border-radius:6px}
+.nav-logo-meta{border-left:1px solid var(--border);padding-left:14px;line-height:1.15}
+.nav-logo-meta-1{font-size:9px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--muted)}
+.nav-logo-meta-2{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text-2)}
+.nav-greet{margin-left:auto;display:flex;align-items:center;gap:18px}
+.nav-greet-name{text-align:right;line-height:1.1}
+.nav-greet-1{font-size:9px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:3px}
+.nav-greet-2{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:22px;text-transform:uppercase;line-height:1;color:var(--text)}
+.nav-badge{display:flex;align-items:center;gap:7px;padding:7px 14px;border-radius:100px;background:var(--accent-soft);border:1px solid var(--accent-bord);font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent)}
+.nav-badge-dot{width:6px;height:6px;border-radius:50%;background:var(--ok);box-shadow:0 0 0 3px rgba(34,215,122,.18);animation:pulse 2.4s ease-in-out infinite;display:block}
+.nav-action{width:38px;height:38px;border-radius:50%;background:var(--sf);border:1px solid var(--border);color:var(--text-2);display:inline-flex;align-items:center;justify-content:center;cursor:pointer;font-size:16px}
+.nav-action:hover{border-color:var(--bds);color:var(--text)}
+.nav-install{padding:8px 16px;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:12px;letter-spacing:.14em;text-transform:uppercase;background:var(--accent-soft);border:1px solid var(--accent-bord);color:var(--accent);border-radius:8px;cursor:pointer;display:none}
+.nav-install:hover{background:var(--accent);color:#fff}
 
-/* TABS DESKTOP */
-.d-tabs-bar{background:var(--bg);border-bottom:1px solid var(--border);padding:0 clamp(20px,4vw,72px);position:sticky;top:66px;z-index:90;backdrop-filter:blur(20px)}
-.d-tabs-wrap{max-width:1200px;margin:0 auto;display:flex}
-.d-tab{padding:15px 22px;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:13px;letter-spacing:.14em;text-transform:uppercase;background:none;border:none;border-bottom:2.5px solid transparent;color:rgba(255,255,255,.35);cursor:pointer;transition:color .2s,border-color .2s}
-.d-tab:hover{color:rgba(255,255,255,.7)}.d-tab.on{color:#fff;border-bottom-color:var(--accent)}
+/* DESKTOP TABS */
+.d-tabs-bar{position:sticky;top:72px;z-index:90;padding:0 clamp(20px,4vw,72px);background:var(--backdrop);border-bottom:1px solid var(--border);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px)}
+.d-tabs-wrap{max-width:1240px;margin:0 auto;display:flex;gap:4px}
+.d-tab{padding:16px 22px;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-style:italic;font-size:13px;letter-spacing:.18em;text-transform:uppercase;background:none;border:none;border-bottom:2px solid transparent;color:var(--muted);cursor:pointer;display:flex;align-items:center;gap:8px}
+.d-tab:hover{color:var(--text-2)}
+.d-tab.on{color:var(--text);border-bottom-color:var(--accent)}
+.d-tab-icon{display:inline-flex;width:14px;height:14px}
+.d-tab-icon svg{width:100%;height:100%;fill:currentColor}
 
-/* DESKTOP LAYOUT */
-.desktop-main{max-width:1200px;margin:0 auto;padding:32px clamp(20px,4vw,72px) 64px;display:grid;grid-template-columns:1fr 300px;gap:32px;align-items:start}
-.d-pane{display:none}.d-pane.active{display:contents}
-.desktop-sidebar{display:flex;flex-direction:column;gap:14px}
-.widget{background:var(--sf);border:1px solid var(--border);border-radius:12px;overflow:hidden}
-.widget-hd{padding:13px 18px;border-bottom:1px solid var(--border);font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:15px;text-transform:uppercase;color:rgba(255,255,255,.75)}
-.widget-body{padding:16px 18px}
+/* DESKTOP MAIN */
+.desktop-main{max-width:1240px;margin:0 auto;padding:32px clamp(20px,4vw,72px) 80px}
+.d-pane{display:none}
+.d-pane.active{display:block;animation:fadeIn .32s cubic-bezier(.2,.7,.2,1)}
 
-/* MOBILE */
+/* DESKTOP HERO STRIP */
+.d-hero{display:grid;grid-template-columns:1.4fr 1fr;gap:18px;margin-bottom:28px}
+.d-pilot{background:var(--sf);border:1px solid var(--border);border-radius:14px;padding:24px 28px;position:relative;overflow:hidden}
+.d-pilot::before{content:"";position:absolute;inset:0;background-image:repeating-linear-gradient(135deg,var(--hatch) 0 2px,transparent 2px 8px);opacity:.7;pointer-events:none;mask-image:linear-gradient(170deg,transparent 60%,black 100%)}
+.d-pilot-frame{position:absolute;top:14px;right:18px;display:flex;gap:5px}
+.d-pilot-frame span{width:14px;height:2px;background:var(--accent);opacity:.65;display:block}
+.d-pilot-frame span:nth-child(2){width:6px;opacity:.35}
+.d-pilot-label{font-size:10px;font-weight:700;letter-spacing:.26em;text-transform:uppercase;color:var(--accent);display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.d-pilot-label::before{content:"";width:18px;height:1px;background:var(--accent)}
+.d-pilot-name{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:46px;text-transform:uppercase;line-height:.95;color:var(--text);margin-bottom:14px;text-wrap:balance}
+.d-pilot-meta{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-top:8px}
+.d-pilot-chip{display:inline-flex;align-items:center;gap:6px;padding:5px 10px;border-radius:6px;background:var(--sf2);border:1px solid var(--border);font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text-2)}
+.d-pilot-chip strong{color:var(--text);font-weight:700}
+.d-pilot-role{display:inline-flex;align-items:center;gap:7px;padding:6px 12px;border-radius:100px;background:var(--accent-soft);border:1px solid var(--accent-bord);font-family:'Barlow Condensed',sans-serif;font-weight:700;font-style:italic;font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent)}
+.d-pilot-role-dot{width:6px;height:6px;border-radius:50%;background:currentColor;box-shadow:0 0 0 3px var(--accent-soft);animation:pulse 2.4s ease-in-out infinite}
+
+.d-wxbox{background:var(--sf);border:1px solid var(--border);border-radius:14px;padding:18px 20px;display:flex;flex-direction:column;justify-content:space-between;cursor:pointer;position:relative;overflow:hidden}
+.d-wxbox-label{font-size:9.5px;font-weight:700;letter-spacing:.26em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+.d-wxbox-icao{font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--text-2);font-weight:500}
+.d-wxbox-cat{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:42px;line-height:1;letter-spacing:.04em;margin:14px 0 6px}
+.d-wxbox-wind{font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--text-2)}
+.d-wxbox-go{position:absolute;top:18px;right:20px;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-style:italic;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);display:flex;align-items:center;gap:3px}
+.d-wxbox[data-cat="VFR"] .d-wxbox-cat{color:var(--ok)}
+.d-wxbox[data-cat="MVFR"] .d-wxbox-cat{color:var(--cyan)}
+.d-wxbox[data-cat="IFR"] .d-wxbox-cat{color:var(--err)}
+.d-wxbox[data-cat="LIFR"] .d-wxbox-cat{color:var(--vio)}
+
+/* DESKTOP NEWS LAYOUT */
+.d-grid{display:grid;grid-template-columns:1fr 320px;gap:24px;align-items:start}
+.d-section-h{display:flex;align-items:baseline;gap:12px;margin-bottom:18px;padding-bottom:12px;border-bottom:1px solid var(--border)}
+.d-section-h h2{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:30px;text-transform:uppercase;color:var(--text);line-height:1}
+.d-section-h .sec-badge{background:var(--accent);color:#fff;border-radius:100px;font-size:11px;font-weight:700;padding:2px 9px;font-family:'Jost',sans-serif;letter-spacing:0}
+.d-section-h-sub{margin-left:auto;font-size:11px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
+
+.desktop-sidebar{display:flex;flex-direction:column;gap:14px;position:sticky;top:158px}
+.widget{background:var(--card-bg);border:1px solid var(--card-bord);border-radius:12px;overflow:hidden}
+.widget-hd{padding:12px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px}
+.widget-hd-icon{width:14px;height:14px;color:var(--accent)}
+.widget-hd-icon svg{width:100%;height:100%;fill:currentColor}
+.widget-hd-title{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:14px;letter-spacing:.14em;text-transform:uppercase;color:var(--text)}
+.widget-body{padding:14px 16px}
+.widget-row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--border);font-size:13px}
+.widget-row:last-child{border-bottom:none}
+.widget-row-k{color:var(--muted);font-size:11.5px;letter-spacing:.05em}
+.widget-row-v{font-family:'JetBrains Mono',monospace;font-weight:500;color:var(--text);font-size:12.5px}
+.widget-link{display:flex;align-items:center;justify-content:space-between;font-size:12px;color:var(--accent);padding:9px 12px;background:var(--accent-soft);border:1px solid var(--accent-bord);border-radius:8px;font-weight:600}
+.widget-link:hover{background:var(--accent);color:#fff}
+
+/* ═══════════════════════ MOBILE ═══════════════════════ */
 .mobile-view{display:none}
-.mobile-nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;padding:0 16px;padding-top:env(safe-area-inset-top,0px);min-height:64px;background:rgba(8,10,14,.96);border-bottom:1px solid var(--border);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px)}
-.mobile-nav-logo img{height:38px}
-.mobile-nav-name{margin-left:10px}
-.mobile-nav-greet{font-size:9px;color:var(--muted);letter-spacing:.08em;display:block}
-.mobile-nav-user{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:19px;text-transform:uppercase;line-height:1;color:#fff;display:block}
-.mobile-nav-badge{margin-left:auto;display:flex;align-items:center;gap:6px;padding:5px 12px;border-radius:100px;background:var(--acc-d);border:1px solid rgba(37,99,235,.3);font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:11px;letter-spacing:.1em;text-transform:uppercase}
-.mobile-nav-badge i{width:6px;height:6px;border-radius:50%;background:var(--ok);animation:pulse 2.4s ease-in-out infinite;display:block}
+.mobile-nav{position:fixed;top:0;left:0;right:0;z-index:100;padding-top:env(safe-area-inset-top,0px);background:var(--backdrop);border-bottom:1px solid var(--border);backdrop-filter:blur(28px);-webkit-backdrop-filter:blur(28px)}
+.mobile-nav-inner{display:flex;align-items:center;gap:10px;padding:6px 14px 4px;min-height:60px}
+html.pwa .mobile-nav{padding-top:max(env(safe-area-inset-top,0px),52px)}
+.mobile-nav-logo img,.mobile-nav-logo .logo-fb{height:32px;display:inline-flex;align-items:center;font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:18px;letter-spacing:.04em;color:var(--accent);padding:0 8px;border:1.5px solid var(--accent);border-radius:5px}
+.mobile-nav-id{flex:1;line-height:1.1;min-width:0}
+.mobile-nav-greet{font-size:9px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:2px}
+.mobile-nav-user{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:18px;text-transform:uppercase;line-height:1;color:var(--text);display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mobile-nav-badge{display:flex;align-items:center;gap:5px;padding:5px 10px;border-radius:100px;background:var(--accent-soft);border:1px solid var(--accent-bord);font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent)}
+.mobile-nav-badge i{width:5px;height:5px;border-radius:50%;background:var(--ok);animation:pulse 2.4s ease-in-out infinite;display:block}
+.mobile-nav-action{width:34px;height:34px;border-radius:50%;background:var(--sf);border:1px solid var(--border);color:var(--text-2);display:inline-flex;align-items:center;justify-content:center;cursor:pointer;font-size:14px;flex-shrink:0}
 
-/* PANES */
-.tab-pane{display:none;min-height:100dvh;padding-top:calc(64px + env(safe-area-inset-top,0px))}
-.tab-pane.active{display:block}
-.mobile-wrap{padding:16px 16px calc(72px + env(safe-area-inset-bottom,20px))}
-.mobile-sec-hd{margin-bottom:16px}
-.mobile-sec-hd h2{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:26px;text-transform:uppercase;display:flex;align-items:center;gap:10px}
-.sec-badge{background:var(--accent);color:#fff;border-radius:100px;font-size:11px;font-weight:700;padding:2px 8px;font-style:normal;font-family:'Jost',sans-serif}
+/* MOBILE TABS */
+.tab-pane{display:none;min-height:100dvh;padding-top:env(safe-area-inset-top,0px)}
+html.pwa .tab-pane{padding-top:max(env(safe-area-inset-top,0px),52px)}
+.tab-pane.active{display:block;animation:paneIn .26s cubic-bezier(.2,.7,.2,1)}
+.mobile-wrap{padding:14px 14px calc(86px + env(safe-area-inset-bottom,20px))}
+.mobile-sec-h{display:flex;align-items:baseline;gap:10px;margin:24px 0 14px}
+.mobile-sec-h:first-child{margin-top:0}
+.mobile-sec-h h2{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:23px;text-transform:uppercase;color:var(--text);line-height:1}
+.mobile-sec-h .sec-badge{background:var(--accent);color:#fff;border-radius:100px;font-size:10px;font-weight:700;padding:2px 7px;font-family:'Jost',sans-serif;letter-spacing:0}
+.mobile-sec-h-sub{margin-left:auto;font-size:10px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
 
-/* BOTTOM NAV */
-.bottom-nav{position:fixed;bottom:0;left:0;right:0;z-index:100;display:flex;justify-content:space-around;align-items:center;padding-top:8px;padding-bottom:calc(env(safe-area-inset-bottom,14px) + 3px);background:rgba(8,10,14,.96);border-top:1px solid var(--border);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px)}
-.bn{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;padding:0;background:none;border:none;cursor:pointer;color:rgba(255,255,255,.3);transition:color .2s;font-family:'Jost',sans-serif;text-decoration:none}
+/* MOBILE BOTTOM NAV */
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;z-index:100;display:flex;justify-content:space-around;align-items:stretch;padding-top:6px;padding-bottom:calc(env(safe-area-inset-bottom,12px) + 2px);background:var(--backdrop);border-top:1px solid var(--border);backdrop-filter:blur(28px);-webkit-backdrop-filter:blur(28px)}
+.bn{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:6px 0;background:none;border:none;cursor:pointer;color:var(--dim);font-family:'Jost',sans-serif;text-decoration:none;position:relative}
 .bn.on{color:var(--accent)}
-.bn svg{width:20px;height:20px;fill:currentColor;display:block}
-.bn span{font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;line-height:1}
+.bn.on::before{content:"";position:absolute;top:-6px;left:50%;transform:translateX(-50%);width:24px;height:3px;border-radius:0 0 6px 6px;background:var(--accent)}
+.bn svg{width:22px;height:22px;fill:currentColor;display:block}
+.bn span{font-size:9.5px;font-weight:600;letter-spacing:.04em;line-height:1}
 
 /* PWA vs WEB visibility */
 html.pwa .desktop-only{display:none!important}
 html.pwa .mobile-view{display:block!important}
 html:not(.pwa) .mobile-view{display:none}
 html:not(.pwa) .desktop-only{display:flex}
-@media(max-width:767px){html:not(.pwa) .desktop-only{display:none}html:not(.pwa) .mobile-view{display:block}}
+@media(max-width:899px){
+  html:not(.pwa) .desktop-only{display:none}
+  html:not(.pwa) .mobile-view{display:block}
+}
 
-/* NEWS CARDS */
-.mn-feed{display:flex;flex-direction:column;gap:14px}
-.mn-card{background:var(--sf);border:1px solid var(--border);border-radius:10px;overflow:hidden;transition:border-color .25s,box-shadow .25s;animation:cardIn .45s cubic-bezier(.16,1,.3,1) both}
-.mn-card:hover{border-color:rgba(37,99,235,.35);box-shadow:0 4px 24px rgba(0,0,0,.35)}
-.mn-card-head{padding:12px 14px 0}
-.mn-meta{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
-.mn-date{font-size:9.5px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
-.mn-author{font-size:10px;color:var(--dim)}
-.mn-title{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:22px;text-transform:uppercase;line-height:1.05;color:#fff;margin-bottom:8px}
-.mn-body{font-size:13.5px;line-height:1.7;color:var(--muted);padding:0 14px 12px}
-.mn-poll{padding:0 14px 14px}
-.poll-q{font-size:9px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);margin-bottom:10px}
-.poll-btns{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px}
-.poll-btn{padding:10px;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:14px;letter-spacing:.06em;text-transform:uppercase;background:var(--sf2);border:1.5px solid var(--bds);color:rgba(255,255,255,.5);cursor:pointer;border-radius:8px;transition:all .2s}
+/* ═══════════════════════ MOBILE HOME — PILOT CARD ═══════════════════════ */
+.hero-pilot{position:relative;background:var(--sf);border:1px solid var(--border);border-radius:16px;padding:20px 20px 18px;overflow:hidden;margin-bottom:18px}
+.hero-pilot::before{content:"";position:absolute;inset:0;background-image:repeating-linear-gradient(135deg,var(--hatch) 0 2px,transparent 2px 8px);opacity:.6;pointer-events:none;mask-image:linear-gradient(150deg,transparent 55%,black 100%);-webkit-mask-image:linear-gradient(150deg,transparent 55%,black 100%)}
+.hero-pilot-ticks{position:absolute;top:14px;right:16px;display:flex;gap:4px}
+.hero-pilot-ticks span{width:12px;height:2px;background:var(--accent);opacity:.7;display:block}
+.hero-pilot-ticks span:nth-child(2){width:5px;opacity:.35}
+.hero-pilot-label{font-size:9px;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:var(--accent);display:flex;align-items:center;gap:9px;margin-bottom:10px;position:relative;flex-wrap:wrap}
+.hero-pilot-brand{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:13px;letter-spacing:.08em;color:var(--accent);padding:2px 7px;border:1.5px solid var(--accent);border-radius:4px}
+.hero-pilot-divider{width:18px;height:1px;background:var(--accent);opacity:.5;display:inline-block}
+.hero-pilot-role.m{margin-left:auto}
+.hero-pilot-name{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:34px;text-transform:uppercase;line-height:.95;color:var(--text);margin-bottom:14px;position:relative;text-wrap:balance}
+.hero-pilot-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap;position:relative}
+.hero-pilot-icao{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text-2);background:var(--sf2);border:1px solid var(--border);padding:4px 8px;border-radius:5px;font-weight:500}
+.hero-pilot-role{display:inline-flex;align-items:center;gap:6px;padding:5px 10px;border-radius:100px;background:var(--accent-soft);border:1px solid var(--accent-bord);font-family:'Barlow Condensed',sans-serif;font-weight:700;font-style:italic;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent)}
+.hero-pilot-role-dot{width:5px;height:5px;border-radius:50%;background:currentColor;animation:pulse 2.4s ease-in-out infinite}
+
+/* QUICK STRIP (météo + raccourcis) */
+.quickstrip{display:grid;grid-template-columns:1.4fr 1fr;gap:10px;margin-bottom:8px}
+.quick-wx{background:var(--card-bg);border:1px solid var(--card-bord);border-radius:14px;padding:14px 14px;position:relative;overflow:hidden;cursor:pointer;text-align:left;width:100%;display:flex;flex-direction:column;justify-content:space-between;min-height:120px}
+.quick-wx-label{font-size:9px;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:var(--muted);display:flex;align-items:center;gap:6px}
+.quick-wx-label .mono{font-size:11px;letter-spacing:.05em;color:var(--text-2)}
+.quick-wx-cat{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:36px;letter-spacing:.04em;line-height:1;margin:10px 0 4px}
+.quick-wx-wind{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text-2)}
+.quick-wx-arrow{position:absolute;bottom:12px;right:14px;font-size:14px;color:var(--accent);opacity:.7}
+.quick-wx[data-cat="VFR"] .quick-wx-cat{color:var(--ok)}
+.quick-wx[data-cat="MVFR"] .quick-wx-cat{color:var(--cyan)}
+.quick-wx[data-cat="IFR"] .quick-wx-cat{color:var(--err)}
+.quick-wx[data-cat="LIFR"] .quick-wx-cat{color:var(--vio)}
+.quick-wx[data-cat="—"] .quick-wx-cat{color:var(--dim)}
+
+.quick-stat{background:var(--card-bg);border:1px solid var(--card-bord);border-radius:14px;padding:12px;display:flex;flex-direction:column;gap:4px;min-height:120px}
+.quick-stat-grid{display:flex;flex-direction:column;justify-content:space-around;flex:1;gap:8px}
+.quick-stat-row{display:flex;align-items:center;justify-content:space-between;gap:6px}
+.quick-stat-k{font-size:9px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
+.quick-stat-v{font-family:'JetBrains Mono',monospace;font-weight:500;font-size:12px;color:var(--text)}
+.quick-stat-v.big{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:18px;letter-spacing:.02em}
+
+/* ═══════════════════════ NEWS CARDS ═══════════════════════ */
+.mn-feed{display:flex;flex-direction:column;gap:12px}
+.mn-card{background:var(--card-bg);border:1px solid var(--card-bord);border-radius:12px;overflow:hidden;animation:cardIn .42s cubic-bezier(.16,1,.3,1) both;position:relative}
+.mn-card:hover{border-color:var(--accent-bord)}
+[data-cards="ghost"] .mn-card{border-bottom:1px solid var(--border);border-radius:0}
+.mn-card-head{padding:14px 16px 0}
+.mn-meta{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;gap:8px;flex-wrap:wrap}
+.mn-date{font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);display:flex;align-items:center;gap:6px}
+.mn-date::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+.mn-author{font-size:10.5px;color:var(--muted);font-style:italic}
+.mn-title{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:22px;text-transform:uppercase;line-height:1.05;color:var(--text);margin-bottom:10px;text-wrap:balance}
+.mn-body{font-size:13.5px;line-height:1.65;color:var(--text-2);padding:0 16px 14px}
+
+.mn-poll{padding:0 16px 16px;border-top:1px dashed var(--border);padding-top:14px;margin-top:2px}
+.poll-q{font-size:9px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.poll-q::before{content:"";width:14px;height:1px;background:var(--accent)}
+.poll-btns{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px}
+.poll-btn{padding:11px;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-style:italic;font-size:14px;letter-spacing:.1em;text-transform:uppercase;background:var(--sf2);border:1.5px solid var(--bds);color:var(--muted);cursor:pointer;border-radius:8px}
+.poll-btn:hover{border-color:var(--bds);color:var(--text)}
 .poll-btn.oui.active{background:rgba(34,215,122,.12);border-color:var(--ok);color:var(--ok)}
 .poll-btn.non.active{background:rgba(239,68,68,.1);border-color:var(--err);color:var(--err)}
-.poll-res{font-size:9px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:7px}
-.poll-voters{display:flex;flex-wrap:wrap;gap:5px}
-.vtag{font-size:10px;font-weight:600;padding:3px 9px;border-radius:100px;background:var(--sf2);border:1px solid var(--bds);color:var(--muted)}
-.vtag.oui{border-color:rgba(34,215,122,.3);color:var(--ok)}
-.vtag.non{border-color:rgba(239,68,68,.25);color:var(--err)}
+[data-theme="light"] .poll-btn.oui.active{background:rgba(22,122,60,.10)}
+[data-theme="light"] .poll-btn.non.active{background:rgba(179,36,36,.08)}
+.poll-res{font-size:9px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+.poll-voters{display:flex;flex-wrap:wrap;gap:5px;align-items:center}
+.vtag{font-size:10.5px;font-weight:600;padding:3px 9px;border-radius:100px;background:var(--sf2);border:1px solid var(--bds);color:var(--muted)}
+.vtag.oui{border-color:rgba(34,215,122,.32);color:var(--ok);background:rgba(34,215,122,.06)}
+.vtag.non{border-color:rgba(239,68,68,.28);color:var(--err);background:rgba(239,68,68,.05)}
 .mn-del{padding:8px 14px;border-top:1px solid var(--border);display:flex;justify-content:flex-end}
-.del-btn{font-size:10px;font-weight:600;color:rgba(239,68,68,.5);background:none;border:none;cursor:pointer;transition:color .2s}
-.del-btn:hover{color:var(--err)}
-.skel-card{background:var(--sf);border:1px solid var(--border);border-radius:10px;padding:14px;margin-bottom:14px}
-.skel{background:rgba(255,255,255,.06);border-radius:4px;animation:shimmer 1.6s ease-in-out infinite}
+.del-btn{font-size:10.5px;font-weight:600;color:var(--err);opacity:.55;background:none;border:none;cursor:pointer}
+.del-btn:hover{opacity:1}
+
+/* SKELETONS */
+.skel-card{background:var(--sf);border:1px solid var(--border);border-radius:12px;padding:16px;margin-bottom:12px}
+.skel{background:var(--sf2);border-radius:4px;animation:shimmer 1.6s ease-in-out infinite}
+[data-theme="light"] .skel{background:rgba(15,20,32,.05)}
 .skel-line{height:11px;margin-bottom:8px}.skel-title{height:24px;margin-bottom:12px}.skel-poll{height:64px;margin-top:12px}
 .w-50{width:50%}.w-80{width:80%}.w-full{width:100%}
-.mn-empty{text-align:center;padding:40px 20px;color:var(--muted)}
-.mn-empty-icon{font-size:36px;margin-bottom:12px}
-.mn-empty-title{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:22px;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:6px}
+.mn-empty{text-align:center;padding:50px 20px;color:var(--muted)}
+.mn-empty-icon{font-size:36px;margin-bottom:14px;opacity:.6}
+.mn-empty-title{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:22px;text-transform:uppercase;color:var(--dim);margin-bottom:6px}
 .mn-empty-sub{font-size:12px;line-height:1.6}
 
-/* TOOLS */
-.tool-item{display:flex;align-items:center;gap:12px;padding:14px;background:var(--sf);border:1.5px solid var(--border);border-radius:10px;text-decoration:none;transition:border-color .2s,background .2s;cursor:pointer;width:100%;margin-bottom:10px;font-family:'Jost',sans-serif}
-.tool-item:hover{border-color:rgba(37,99,235,.3);background:rgba(37,99,235,.06)}
-.tool-icon{font-size:22px;flex-shrink:0}
-.tool-tx h4{font-size:14px;font-weight:700;color:#fff;margin-bottom:2px}
-.tool-tx p{font-size:11.5px;color:var(--muted)}
-.tool-item.admin-item{border-color:rgba(245,165,36,.2)}
-.tool-item.admin-item:hover{border-color:rgba(245,165,36,.4);background:rgba(245,165,36,.06)}
-.update-btn{width:100%;padding:13px 16px;display:flex;align-items:center;gap:12px;background:rgba(37,99,235,.08);border:1.5px solid rgba(37,99,235,.25);color:#8aabff;cursor:pointer;border-radius:10px;transition:background .2s;font-family:'Jost',sans-serif;margin-bottom:10px}
-.update-btn:hover{background:rgba(37,99,235,.18)}
-.update-btn-tx h4{font-size:14px;font-weight:700;color:#fff}
-.update-btn-tx p{font-size:11.5px;color:var(--muted);margin-top:2px}
-.update-btn.updated{border-color:rgba(34,215,122,.3);background:rgba(34,215,122,.06);color:var(--ok)}
+/* ═══════════════════════ OUTILS ═══════════════════════ */
+.tool-item{display:flex;align-items:center;gap:14px;padding:14px 16px;background:var(--card-bg);border:1px solid var(--card-bord);border-radius:12px;text-decoration:none;cursor:pointer;width:100%;font-family:'Jost',sans-serif;text-align:left;position:relative}
+.tool-item:hover{border-color:var(--accent-bord);background:var(--accent-soft)}
+.tool-icon{width:38px;height:38px;border-radius:9px;background:var(--accent-soft);border:1px solid var(--accent-bord);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;color:var(--accent)}
+.tool-tx{flex:1;min-width:0}
+.tool-tx h4{font-size:14.5px;font-weight:600;color:var(--text);margin-bottom:2px}
+.tool-tx p{font-size:12px;color:var(--muted)}
+.tool-chev{color:var(--dim);font-size:18px;flex-shrink:0}
+.tool-item.admin-item .tool-icon{background:var(--amber-soft);border-color:var(--amber-bord);color:var(--amber)}
+.tool-item.admin-item:hover{border-color:var(--amber-bord);background:var(--amber-soft)}
+.tools-list{display:flex;flex-direction:column;gap:10px}
 
-/* WEATHER */
-.wx-card{background:var(--sf);border:1px solid var(--border);border-radius:14px;overflow:hidden;margin-bottom:12px}
-.wx-hdr{padding:14px 16px;border-bottom:1px solid var(--border);display:flex;align-items:flex-start;justify-content:space-between}
-.wx-station{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:28px;line-height:1;color:#fff}
-.wx-subtitle{font-size:9px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-top:3px}
-.wx-pill{display:inline-flex;align-items:center;gap:7px;padding:7px 16px;border-radius:100px;border:2px solid;font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:18px;letter-spacing:.06em}
+.update-btn{width:100%;padding:14px 16px;display:flex;align-items:center;gap:14px;background:var(--accent-soft);border:1px solid var(--accent-bord);color:var(--accent);cursor:pointer;border-radius:12px;font-family:'Jost',sans-serif;text-align:left}
+.update-btn:hover{background:var(--accent);color:#fff}
+.update-btn:hover .update-btn-tx h4,.update-btn:hover .update-btn-tx p{color:#fff}
+.update-icon{width:38px;height:38px;border-radius:9px;background:var(--sf);border:1px solid var(--accent-bord);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.update-btn-tx h4{font-size:14.5px;font-weight:600;color:var(--text)}
+.update-btn-tx p{font-size:12px;color:var(--muted);margin-top:2px}
+.update-btn.updated{border-color:rgba(34,215,122,.3);background:rgba(34,215,122,.08);color:var(--ok)}
+
+/* ═══════════════════════ MÉTÉO ═══════════════════════ */
+.wx-card{background:var(--card-bg);border:1px solid var(--card-bord);border-radius:14px;overflow:hidden;margin-bottom:12px}
+.wx-hdr{padding:16px 18px;border-bottom:1px solid var(--border);display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+.wx-station{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:30px;line-height:1;color:var(--text);letter-spacing:.02em}
+.wx-subtitle{font-size:9.5px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--muted);margin-top:5px;font-family:'JetBrains Mono',monospace}
+.wx-pill{display:inline-flex;align-items:center;gap:8px;padding:8px 16px;border-radius:100px;border:2px solid;font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:18px;letter-spacing:.06em}
 .wx-dot{width:8px;height:8px;border-radius:50%;animation:pulse 2s ease-in-out infinite;flex-shrink:0}
-.wx-vfr{color:#22d77a;border-color:rgba(34,215,122,.35);background:rgba(34,215,122,.1)}.wx-vfr .wx-dot{background:#22d77a}
-.wx-mvfr{color:#60a5fa;border-color:rgba(96,165,250,.35);background:rgba(96,165,250,.1)}.wx-mvfr .wx-dot{background:#60a5fa}
-.wx-ifr{color:#ef4444;border-color:rgba(239,68,68,.35);background:rgba(239,68,68,.1)}.wx-ifr .wx-dot{background:#ef4444}
-.wx-lifr{color:#a855f7;border-color:rgba(168,85,247,.35);background:rgba(168,85,247,.1)}.wx-lifr .wx-dot{background:#a855f7}
-.wx-wind{display:flex;align-items:center;gap:16px;padding:14px 16px;border-bottom:1px solid var(--border)}
-.wx-compass{width:72px;height:72px;flex-shrink:0}
-.wx-wind-data{flex:1}
-.wx-wind-spd{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:48px;line-height:1;color:#fff}
-.wx-wind-spd em{font-size:18px;font-weight:600;color:var(--muted);font-style:normal}
-.wx-wind-info{font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-top:3px}
-.wx-gust{font-size:11px;color:rgba(239,68,68,.85);margin-top:4px;font-weight:600}
+.wx-vfr{color:var(--ok);border-color:rgba(34,215,122,.4);background:rgba(34,215,122,.10)}.wx-vfr .wx-dot{background:var(--ok)}
+.wx-mvfr{color:var(--cyan);border-color:rgba(96,165,250,.4);background:rgba(96,165,250,.10)}.wx-mvfr .wx-dot{background:var(--cyan)}
+.wx-ifr{color:var(--err);border-color:rgba(239,68,68,.4);background:rgba(239,68,68,.10)}.wx-ifr .wx-dot{background:var(--err)}
+.wx-lifr{color:var(--vio);border-color:rgba(168,85,247,.4);background:rgba(168,85,247,.10)}.wx-lifr .wx-dot{background:var(--vio)}
+[data-theme="light"] .wx-vfr{background:rgba(22,122,60,.08)}
+[data-theme="light"] .wx-mvfr{background:rgba(30,107,184,.08)}
+[data-theme="light"] .wx-ifr{background:rgba(179,36,36,.07)}
+[data-theme="light"] .wx-lifr{background:rgba(124,58,237,.08)}
+
+.wx-wind{display:flex;align-items:center;gap:18px;padding:18px;border-bottom:1px solid var(--border)}
+.wx-compass{width:84px;height:84px;flex-shrink:0}
+.wx-wind-data{flex:1;min-width:0}
+.wx-wind-spd{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:54px;line-height:.95;color:var(--text);letter-spacing:.02em}
+.wx-wind-spd em{font-size:18px;font-weight:600;color:var(--muted);font-style:normal;margin-left:4px;font-family:'JetBrains Mono',monospace}
+.wx-wind-info{font-family:'JetBrains Mono',monospace;font-size:12.5px;font-weight:500;letter-spacing:.04em;color:var(--accent);margin-top:5px}
+.wx-gust{font-family:'JetBrains Mono',monospace;font-size:11.5px;color:var(--err);margin-top:5px;font-weight:500}
 .wx-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border)}
-.wx-cell{background:var(--sf);padding:12px 13px}
-.wx-val{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:17px;color:#fff;line-height:1.1}
-.wx-lbl{font-size:8.5px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-top:3px}
-.wx-raw{padding:10px 14px;border-top:1px solid var(--border);background:rgba(0,0,0,.18);font-family:'JetBrains Mono','Courier New',monospace;font-size:10px;color:rgba(255,255,255,.3);line-height:1.7;word-break:break-all}
-.wx-foot{padding:8px 14px;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
-.wx-time{font-size:9px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:rgba(255,255,255,.2)}
-.wx-rbtn{background:none;border:1px solid var(--border);color:rgba(255,255,255,.35);width:28px;height:28px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:14px;transition:border-color .2s,color .2s;line-height:1}
+.wx-cell{background:var(--sf);padding:14px 14px}
+.wx-val{font-family:'JetBrains Mono',monospace;font-weight:500;font-size:14px;color:var(--text);line-height:1.15;word-break:break-word}
+.wx-lbl{font-size:8.5px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--muted);margin-top:5px}
+.wx-raw{padding:12px 16px;border-top:1px solid var(--border);background:var(--sf2);font-family:'JetBrains Mono',monospace;font-size:10.5px;color:var(--muted);line-height:1.7;word-break:break-all}
+.wx-foot{padding:10px 16px;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.wx-time{font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:500;letter-spacing:.08em;color:var(--muted)}
+.wx-rbtn{background:var(--sf2);border:1px solid var(--border);color:var(--muted);width:32px;height:32px;border-radius:8px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:14px;line-height:1}
 .wx-rbtn:hover{border-color:var(--accent);color:var(--accent)}
-.wx-taf-btn{width:100%;padding:11px 14px;display:flex;align-items:center;justify-content:space-between;background:var(--sf);border:1px solid var(--border);border-radius:10px;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.4);cursor:pointer;transition:all .2s;margin-bottom:8px}
-.wx-taf-btn:hover,.wx-taf-btn.open{background:rgba(37,99,235,.08);border-color:rgba(37,99,235,.3);color:#fff}
-.wx-taf-box{background:var(--sf);border:1px solid var(--border);border-radius:10px;padding:14px;margin-bottom:10px}
-.wx-taf-lbl{font-size:8px;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:var(--accent);margin-bottom:10px}
-.wx-taf-ln{font-family:'JetBrains Mono',monospace;font-size:10.5px;color:rgba(255,255,255,.55);line-height:1.8;word-break:break-all;padding:4px 0}
-.wx-taf-ln+.wx-taf-ln{padding-left:16px;border-top:1px solid var(--border);color:rgba(255,255,255,.38)}
-.wx-loading{padding:28px 16px;text-align:center;color:var(--muted);font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;background:var(--sf);border:1px solid var(--border);border-radius:14px;margin-bottom:12px}
-.wx-error{padding:22px 16px;text-align:center;background:var(--sf);border:1px solid rgba(239,68,68,.2);border-radius:14px;margin-bottom:12px}
-.wx-error-t{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:20px;text-transform:uppercase;color:rgba(239,68,68,.75);margin-bottom:6px}
-.wx-error-s{font-size:11px;color:var(--muted);line-height:1.6}
-.wx-retry{margin-top:12px;padding:8px 18px;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:12px;letter-spacing:.1em;text-transform:uppercase;background:rgba(37,99,235,.15);border:1px solid rgba(37,99,235,.3);color:var(--accent);border-radius:8px;cursor:pointer}
 
-/* MISC */
+/* SVG compass — theme-aware */
+.wx-comp-bg{fill:var(--sf3);stroke:var(--bds);stroke-width:1.5}
+[data-theme="light"] .wx-comp-bg{fill:var(--sf2)}
+.wx-comp-ring{fill:none;stroke:var(--border);stroke-width:1;stroke-dasharray:2 4}
+.wx-comp-n{fill:var(--text-2);font-family:'Barlow Condensed',sans-serif;font-weight:700}
+.wx-comp-side{fill:var(--dim);font-family:'Barlow Condensed',sans-serif}
+.wx-comp-empty{fill:var(--muted);font-family:'Barlow Condensed',sans-serif;font-weight:700}
+.wx-comp-tail{fill:var(--dim)}
 
-/* ── Widget TAF ── */
-.taf-widget{background:var(--sf);border:1px solid var(--border);border-radius:14px;overflow:hidden;margin-bottom:10px}
-.taf-hdr{padding:12px 15px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
-.taf-hdr-sta{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:22px;color:#fff;line-height:1}
-.taf-hdr-validity{font-size:9px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-top:3px}
-.taf-emitted{font-size:9px;color:var(--muted);letter-spacing:.1em}
+.wx-taf-btn{width:100%;padding:13px 16px;display:flex;align-items:center;justify-content:space-between;background:var(--card-bg);border:1px solid var(--card-bord);border-radius:12px;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-style:italic;font-size:14px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);cursor:pointer;margin-bottom:10px}
+.wx-taf-btn:hover,.wx-taf-btn.open{background:var(--accent-soft);border-color:var(--accent-bord);color:var(--text)}
+.wx-loading{padding:32px 16px;text-align:center;color:var(--muted);font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;background:var(--sf);border:1px solid var(--border);border-radius:14px;margin-bottom:12px;font-family:'Barlow Condensed',sans-serif}
+.wx-error{padding:26px 18px;text-align:center;background:var(--sf);border:1px solid rgba(239,68,68,.22);border-radius:14px;margin-bottom:12px}
+.wx-error-t{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:20px;text-transform:uppercase;color:var(--err);margin-bottom:8px;letter-spacing:.04em}
+.wx-error-s{font-size:11.5px;color:var(--muted);line-height:1.7}
+.wx-retry{margin-top:14px;padding:9px 20px;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-style:italic;font-size:12px;letter-spacing:.14em;text-transform:uppercase;background:var(--accent-soft);border:1px solid var(--accent-bord);color:var(--accent);border-radius:8px;cursor:pointer}
+
+/* TAF widget */
+.taf-widget{background:var(--card-bg);border:1px solid var(--card-bord);border-radius:14px;overflow:hidden;margin-bottom:10px}
+.taf-hdr{padding:14px 16px;border-bottom:1px solid var(--border);display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
+.taf-hdr-sta{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:22px;color:var(--text);line-height:1;letter-spacing:.02em}
+.taf-hdr-validity{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.04em;color:var(--muted);margin-top:4px}
+.taf-emitted{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted)}
 .taf-rows{display:flex;flex-direction:column}
-.taf-row{padding:11px 15px;border-bottom:1px solid var(--border);display:flex;align-items:flex-start;gap:12px}
+.taf-row{padding:12px 16px;border-bottom:1px solid var(--border);display:flex;align-items:flex-start;gap:12px}
 .taf-row:last-child{border-bottom:none}
-.taf-row-type{flex-shrink:0;width:58px}
-.taf-type-badge{display:inline-block;padding:3px 7px;border-radius:5px;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:11px;letter-spacing:.08em;text-transform:uppercase}
-.taf-type-base{background:rgba(37,99,235,.15);border:1px solid rgba(37,99,235,.3);color:var(--accent)}
-.taf-type-tempo{background:rgba(245,165,36,.12);border:1px solid rgba(245,165,36,.25);color:#f5a524}
-.taf-type-becmg{background:rgba(34,215,122,.1);border:1px solid rgba(34,215,122,.25);color:var(--ok)}
-.taf-type-prob{background:rgba(168,85,247,.1);border:1px solid rgba(168,85,247,.25);color:#a855f7}
-.taf-type-fm{background:rgba(96,165,250,.1);border:1px solid rgba(96,165,250,.25);color:#60a5fa}
+.taf-row-type{flex-shrink:0;width:64px}
+.taf-type-badge{display:inline-block;padding:4px 8px;border-radius:5px;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-style:italic;font-size:11px;letter-spacing:.1em;text-transform:uppercase}
+.taf-type-base{background:var(--accent-soft);border:1px solid var(--accent-bord);color:var(--accent)}
+.taf-type-tempo{background:var(--amber-soft);border:1px solid var(--amber-bord);color:var(--amber)}
+.taf-type-becmg{background:rgba(34,215,122,.10);border:1px solid rgba(34,215,122,.28);color:var(--ok)}
+.taf-type-prob{background:rgba(168,85,247,.10);border:1px solid rgba(168,85,247,.28);color:var(--vio)}
+.taf-type-fm{background:rgba(96,165,250,.10);border:1px solid rgba(96,165,250,.28);color:var(--cyan)}
 .taf-row-body{flex:1;min-width:0}
-.taf-row-time{font-size:9px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-bottom:5px}
+.taf-row-time{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.04em;color:var(--muted);margin-bottom:6px}
 .taf-row-cond{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
-.taf-chip{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:13px;color:#fff;background:rgba(255,255,255,.06);border:1px solid var(--border);border-radius:6px;padding:3px 8px;line-height:1.3}
-.taf-chip.wind{color:#60a5fa;border-color:rgba(96,165,250,.25);background:rgba(96,165,250,.08)}
-.taf-chip.vis{color:#22d77a;border-color:rgba(34,215,122,.2);background:rgba(34,215,122,.06)}
-.taf-chip.cloud{color:rgba(255,255,255,.7)}
-.taf-chip.wx{color:#f5a524;border-color:rgba(245,165,36,.25);background:rgba(245,165,36,.07)}
-.taf-chip.cavok{color:#22d77a;border-color:rgba(34,215,122,.3);background:rgba(34,215,122,.1)}
-.taf-cat-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;margin-top:3px}
-.taf-raw{padding:9px 15px;background:rgba(0,0,0,.18);border-top:1px solid var(--border);font-family:'JetBrains Mono',monospace;font-size:9.5px;color:rgba(255,255,255,.25);line-height:1.7;word-break:break-all}
+.taf-chip{font-family:'JetBrains Mono',monospace;font-weight:500;font-size:11.5px;color:var(--text);background:var(--sf2);border:1px solid var(--border);border-radius:6px;padding:3px 8px;line-height:1.3}
+.taf-chip.wind{color:var(--cyan);border-color:rgba(96,165,250,.28);background:rgba(96,165,250,.08)}
+.taf-chip.vis{color:var(--ok);border-color:rgba(34,215,122,.25);background:rgba(34,215,122,.06)}
+.taf-chip.cloud{color:var(--text-2)}
+.taf-chip.wx{color:var(--amber);border-color:var(--amber-bord);background:var(--amber-soft)}
+.taf-chip.cavok{color:var(--ok);border-color:rgba(34,215,122,.32);background:rgba(34,215,122,.10);font-weight:700}
+.taf-raw{padding:10px 16px;background:var(--sf2);border-top:1px solid var(--border);font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted);line-height:1.7;word-break:break-all}
 
-.toast{position:fixed;bottom:calc(72px + env(safe-area-inset-bottom,16px));left:50%;transform:translateX(-50%) translateY(20px);background:rgba(20,23,32,.97);border:1px solid var(--bds);border-radius:100px;padding:9px 20px;font-size:12px;font-weight:600;color:#fff;opacity:0;transition:opacity .28s,transform .28s;pointer-events:none;white-space:nowrap;z-index:9999}
+/* ═══════════════════════ MISC ═══════════════════════ */
+.toast{position:fixed;bottom:calc(86px + env(safe-area-inset-bottom,16px));left:50%;transform:translateX(-50%) translateY(20px);background:var(--sf);border:1px solid var(--bds);border-radius:100px;padding:10px 22px;font-size:12.5px;font-weight:600;color:var(--text);opacity:0;transition:opacity .28s,transform .28s;pointer-events:none;white-space:nowrap;z-index:9999;box-shadow:var(--shadow-1)}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
-.toast.ok{border-color:rgba(34,215,122,.4);color:var(--ok)}.toast.err{border-color:rgba(239,68,68,.3);color:var(--err)}
+.toast.ok{border-color:rgba(34,215,122,.42);color:var(--ok)}.toast.err{border-color:rgba(239,68,68,.32);color:var(--err)}
+
 .ios-modal{display:none;position:fixed;inset:0;z-index:999;align-items:flex-end}
-.ios-modal.show{display:flex}
-.ios-modal-bg{position:absolute;inset:0;background:rgba(0,0,0,.6)}
-.ios-box{position:relative;z-index:1;width:100%;background:#1a1f2e;border-radius:18px 18px 0 0;padding:24px 20px calc(24px + env(safe-area-inset-bottom));border-top:1px solid var(--bds)}
-.ios-title{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:26px;text-transform:uppercase;color:#fff;margin-bottom:6px}
-.ios-sub{font-size:12.5px;color:var(--muted);line-height:1.65;margin-bottom:20px}
-.ios-step{display:flex;align-items:center;gap:12px;font-size:13px;color:rgba(255,255,255,.75);margin-bottom:12px}
-.ios-num{width:24px;height:24px;border-radius:50%;background:var(--accent);font-weight:700;font-size:11px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.ios-close{width:100%;padding:12px;margin-top:16px;background:none;border:1px solid var(--bds);color:rgba(255,255,255,.4);border-radius:10px;font-size:13px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;font-family:'Jost',sans-serif}
-@keyframes pulse{0%,100%{box-shadow:0 0 0 0 currentColor}50%{box-shadow:0 0 0 4px transparent}}
-@keyframes shimmer{0%,100%{opacity:.7}50%{opacity:.4}}
+.ios-modal.show{display:flex;animation:fadeIn .2s ease-out}
+.ios-modal-bg{position:absolute;inset:0;background:rgba(0,0,0,.55);backdrop-filter:blur(4px)}
+.ios-box{position:relative;z-index:1;width:100%;background:var(--sf);border-radius:20px 20px 0 0;padding:26px 22px calc(26px + env(safe-area-inset-bottom));border-top:1px solid var(--bds);animation:slideUp .32s cubic-bezier(.2,.7,.2,1)}
+.ios-handle{width:38px;height:4px;background:var(--bds);border-radius:2px;margin:0 auto 18px}
+.ios-title{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:26px;text-transform:uppercase;color:var(--text);margin-bottom:8px;letter-spacing:.02em}
+.ios-sub{font-size:13px;color:var(--muted);line-height:1.65;margin-bottom:22px}
+.ios-step{display:flex;align-items:center;gap:12px;font-size:13.5px;color:var(--text-2);margin-bottom:14px}
+.ios-num{width:26px;height:26px;border-radius:50%;background:var(--accent);font-family:'Barlow Condensed',sans-serif;font-weight:700;font-style:italic;font-size:13px;color:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.ios-close{width:100%;padding:13px;margin-top:18px;background:var(--sf2);border:1px solid var(--bds);color:var(--text-2);border-radius:10px;font-size:13px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;cursor:pointer;font-family:'Barlow Condensed',sans-serif;font-style:italic}
+
+/* INSTALL HINT BANNER (PWA invite) */
+.install-overlay{position:fixed;inset:0;z-index:500;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:32px;text-align:center;animation:fadeIn .3s ease-out}
+.install-overlay img{height:64px;margin-bottom:20px}
+.install-overlay-t{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:32px;text-transform:uppercase;color:var(--text);margin-bottom:8px;letter-spacing:.02em}
+.install-overlay-s{font-size:13.5px;color:var(--muted);line-height:1.7;margin-bottom:28px;max-width:320px}
+.install-overlay-cta{padding:14px 28px;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-style:italic;font-size:15px;letter-spacing:.14em;text-transform:uppercase;background:var(--accent);border:none;color:#fff;border-radius:10px;cursor:pointer;margin-bottom:12px;width:100%;max-width:340px}
+.install-overlay-skip{width:100%;max-width:340px;padding:12px;font-size:13px;color:var(--muted);background:none;border:1px solid var(--border);border-radius:10px;cursor:pointer;font-family:'Jost',sans-serif}
+
+/* ANIMATIONS */
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 currentColor}50%{box-shadow:0 0 0 5px transparent}}
+@keyframes shimmer{0%,100%{opacity:.65}50%{opacity:.38}}
 @keyframes fadeIn{from{opacity:0}to{opacity:1}}
-@keyframes cardIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+@keyframes cardIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@keyframes paneIn{from{opacity:.4;transform:translateX(12px)}to{opacity:1;transform:none}}
+@keyframes slideUp{from{transform:translateY(40px);opacity:.6}to{transform:none;opacity:1}}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* Pull-to-refresh indicator */
+.ptr{position:absolute;top:env(safe-area-inset-top,0px);left:0;right:0;height:0;display:flex;align-items:center;justify-content:center;overflow:hidden;transition:height .2s;pointer-events:none;z-index:50}
+html.pwa .ptr{top:max(env(safe-area-inset-top,0px),52px)}
+.ptr.show{height:50px}
+.ptr.refresh .ptr-icon{animation:spin 1s linear infinite}
+.ptr-icon{font-size:18px;color:var(--accent);transition:transform .2s}
+
+/* Logout */
+.logout-btn{width:100%;padding:14px;margin-top:18px;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-style:italic;font-size:13px;letter-spacing:.16em;text-transform:uppercase;background:transparent;border:1px solid rgba(239,68,68,.28);color:var(--err);opacity:.8;cursor:pointer;border-radius:10px}
+.logout-btn:hover{background:rgba(239,68,68,.06);opacity:1}
+
+/* Webcam placeholder */
+.webcam-empty{text-align:center;padding:80px 24px;color:var(--muted)}
+.webcam-empty-icon{font-size:48px;margin-bottom:18px;opacity:.4}
+.webcam-empty-t{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:26px;text-transform:uppercase;color:var(--dim);margin-bottom:10px;letter-spacing:.04em}
+.webcam-empty-s{font-size:13px;line-height:1.6}
+
+/* Theme transition smoothness */
+html{transition:background-color .25s ease}
+body,*{transition:background-color .25s ease,color .25s ease,border-color .25s ease}
+button,a,.tap{transition:transform .28s cubic-bezier(.2,.7,.2,1),background-color .25s,border-color .25s,color .25s,opacity .2s,box-shadow .2s}
+
+/* Tablet adjustments */
+@media(max-width:1100px) and (min-width:900px){
+  .d-grid{grid-template-columns:1fr 280px}
+  .d-hero{grid-template-columns:1.6fr 1fr}
+}
 </style>
 </head>
 <body>
 
-<!-- DESKTOP -->
+<!-- ════════════════════════════════════════
+     DESKTOP (web PC)
+════════════════════════════════════════ -->
 <div class="desktop-only" style="flex-direction:column;min-height:100dvh">
   <nav class="desktop-nav">
-    <div class="nav-logo"><a href="index.html"><img src="assets/images/apam-logo2.png" alt="APAM"></a></div>
-    <div>
-      <span class="nav-member-greet">Bonjour,</span>
-      <span class="nav-member-name" id="d-name">Membre</span>
+    <div class="nav-logo">
+      <a href="index.html"><img src="assets/images/apam-logo2.png?v=2" alt="APAM" onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'logo-fb',textContent:'APAM'}))"/></a>
+      <div class="nav-logo-meta">
+        <div class="nav-logo-meta-1">Espace pilote</div>
+        <div class="nav-logo-meta-2">LFOL · APAM</div>
+      </div>
     </div>
-    <div class="nav-badge" id="d-role" style="display:none"><span class="nav-badge-dot"></span><span id="d-role-lbl">Admin</span></div>
-    <button id="btn-install-d" onclick="triggerInstall()" style="display:none;margin-left:10px;padding:7px 16px;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:12px;letter-spacing:.1em;text-transform:uppercase;background:var(--acc-d);border:1.5px solid rgba(37,99,235,.3);color:var(--accent);border-radius:8px;cursor:pointer">📱 App</button>
+    <div class="nav-greet">
+      <button id="btn-install-d" onclick="triggerInstall()" class="nav-install" type="button">📱 Installer l'app</button>
+    </div>
   </nav>
+
   <div class="d-tabs-bar"><div class="d-tabs-wrap">
-    <button class="d-tab on" id="dtab-news"   onclick="switchD('news')">📰 Actualités</button>
-    <button class="d-tab"    id="dtab-meteo"  onclick="switchD('meteo')">🌤 Météo</button>
-    <button class="d-tab"    id="dtab-outils" onclick="switchD('outils')">🛠 Outils</button>
+    <button class="d-tab on" id="dtab-news"   onclick="switchD('news')"   type="button"><span class="d-tab-icon"><svg viewBox="0 0 24 24"><path d="M4 4h16v3H4zm0 5h16v2H4zm0 4h11v2H4zm0 4h11v2H4zm13-4h3v6h-3z"/></svg></span>Actualités</button>
+    <button class="d-tab"    id="dtab-meteo"  onclick="switchD('meteo')"  type="button"><span class="d-tab-icon"><svg viewBox="0 0 24 24"><path d="M19.36 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14a6 6 0 0 0 6 6h13a5 5 0 0 0 .36-9.96z"/></svg></span>Météo</button>
+    <button class="d-tab"    id="dtab-outils" onclick="switchD('outils')" type="button"><span class="d-tab-icon"><svg viewBox="0 0 24 24"><path d="M19.43 12.98c.04-.32.07-.64.07-.98 0-.34-.03-.66-.07-.98l2.11-1.65c.19-.15.24-.42.12-.64l-2-3.46c-.12-.22-.39-.3-.61-.22l-2.49 1c-.52-.4-1.08-.73-1.69-.98l-.38-2.65A.488.488 0 0 0 14 2h-4c-.25 0-.46.18-.49.42l-.38 2.65c-.61.25-1.17.59-1.69.98l-2.49-1c-.23-.09-.49 0-.61.22l-2 3.46c-.13.22-.07.49.12.64l2.11 1.65c-.04.32-.07.65-.07.98 0 .33.03.66.07.98l-2.11 1.65c-.19.15-.24.42-.12.64l2 3.46c.12.22.39.3.61.22l2.49-1c.52.4 1.08.73 1.69.98l.38 2.65c.03.24.24.42.49.42h4c.25 0 .46-.18.49-.42l.38-2.65c.61-.25 1.17-.59 1.69-.98l2.49 1c.23.09.49 0 .61-.22l2-3.46c.12-.22.07-.49-.12-.64l-2.11-1.65zM12 15.5A3.5 3.5 0 0 1 8.5 12 3.5 3.5 0 0 1 12 8.5a3.5 3.5 0 0 1 3.5 3.5 3.5 3.5 0 0 1-3.5 3.5z"/></svg></span>Options</button>
   </div></div>
-  <!-- Actualités -->
+
+  <!-- ▸ NEWS pane -->
   <div id="dpane-news" class="d-pane active">
     <div class="desktop-main">
-      <div>
-        <div style="display:flex;align-items:center;gap:10px;margin-bottom:20px">
-          <h2 style="font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:26px;text-transform:uppercase;color:#fff">Actualités</h2>
-          <span class="sec-badge" id="d-badge"></span>
-        </div>
-        <div class="mn-feed" id="d-feed">
-          <div class="skel-card"><div class="skel skel-line w-50"></div><div class="skel skel-title"></div><div class="skel skel-line w-full"></div><div class="skel skel-line w-80"></div><div class="skel skel-poll"></div></div>
-          <div class="skel-card"><div class="skel skel-line w-50"></div><div class="skel skel-title"></div><div class="skel skel-line w-80"></div></div>
-        </div>
-      </div>
-      <aside class="desktop-sidebar">
-        <div class="widget" id="d-install-w" style="display:none">
-          <div class="widget-hd">📱 App APAM</div>
-          <div class="widget-body">
-            <p style="font-size:12px;color:var(--muted);line-height:1.6;margin-bottom:12px">Installez l'espace membres sur votre écran d'accueil.</p>
-            <button onclick="triggerInstall()" style="width:100%;padding:10px;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:13px;letter-spacing:.1em;text-transform:uppercase;background:var(--accent);border:none;color:#fff;border-radius:8px;cursor:pointer">Installer →</button>
+      <!-- HERO -->
+      <div class="d-hero">
+        <div class="d-pilot">
+          <div class="d-pilot-frame"><span></span><span></span></div>
+          <div class="d-pilot-label">Espace pilote · APAM</div>
+          <div class="d-pilot-name" id="d-pilot-name">Membre</div>
+          <div class="d-pilot-meta">
+            <span class="d-pilot-chip"><strong>ICAO</strong> LFOL</span>
+            <span class="d-pilot-chip"><strong>RWY</strong> 07/25 · 800m</span>
+            <span class="d-pilot-chip"><strong>RADIO</strong> 126.855</span>
+            <span class="d-pilot-role" id="d-pilot-role" style="display:none"><span class="d-pilot-role-dot"></span><span id="d-pilot-role-lbl">Membre</span></span>
           </div>
         </div>
-        <div class="widget"><div class="widget-hd">ℹ️ LFOL</div><div class="widget-body" style="font-size:12.5px;color:var(--muted);display:flex;flex-direction:column;gap:9px">
-          <div>🛫 Piste 07/25 · 800 m · Herbe</div>
-          <div>📻 126.855 MHz</div>
-          <div>🌍 48°45'N · 0°39'E · 200 ft</div>
-          <div>⛽ Avgas 100LL disponible</div>
-          <a href="activite.html" style="color:var(--accent);font-size:11px;font-weight:600;margin-top:4px">Voir la page Le Club →</a>
-        </div></div>
-        <div class="widget"><div class="widget-hd">🚧 Prochainement</div><div class="widget-body"><p style="font-size:12px;color:var(--muted);line-height:1.6">Réservations, carnet de vol, solde — saison 2026.</p></div></div>
-      </aside>
-    </div>
-  </div>
-  <!-- Météo desktop -->
-  <div id="dpane-meteo" class="d-pane">
-    <div class="desktop-main" style="grid-template-columns:1fr 270px">
-      <div id="d-wx"></div>
-      <aside>
-        <div class="widget"><div class="widget-hd">🛩 Terrain LFOL</div><div class="widget-body" style="display:flex;flex-direction:column;gap:0">
-          <p style="font-size:9px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-bottom:10px">Station METAR : LFOE (Évreux +51 km)</p>
-          <div style="display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid var(--border)"><span style="font-size:10.5px;color:var(--muted)">Indicatif</span><span style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:14px;color:#fff">LFOL</span></div>
-          <div style="display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid var(--border)"><span style="font-size:10.5px;color:var(--muted)">Piste</span><span style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:14px;color:#fff">07 / 25</span></div>
-          <div style="display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid var(--border)"><span style="font-size:10.5px;color:var(--muted)">Longueur</span><span style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:14px;color:#fff">800 m · Herbe</span></div>
-          <div style="display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid var(--border)"><span style="font-size:10.5px;color:var(--muted)">Élévation</span><span style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:14px;color:#fff">200 ft / 61 m</span></div>
-          <div style="display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid var(--border)"><span style="font-size:10.5px;color:var(--muted)">Fréquence</span><span style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:14px;color:#fff">126.855 MHz</span></div>
-          <div style="display:flex;justify-content:space-between;padding:7px 0"><span style="font-size:10.5px;color:var(--muted)">Coordonnées</span><span style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:14px;color:#fff">48°45'N 0°39'E</span></div>
-        </div></div>
-        <div style="margin-top:14px;display:flex;flex-direction:column;gap:7px">
-          <a href="https://metar-taf.com/LFOE" target="_blank" style="display:block;font-size:12px;color:var(--accent);padding:8px 12px;background:rgba(37,99,235,.06);border:1px solid rgba(37,99,235,.18);border-radius:7px">↗ metar-taf.com · LFOE</a>
-          <a href="https://aviation.meteo.fr" target="_blank" style="display:block;font-size:12px;color:var(--accent);padding:8px 12px;background:rgba(37,99,235,.06);border:1px solid rgba(37,99,235,.18);border-radius:7px">↗ Météo France Aviation</a>
+        <button class="d-wxbox" id="d-wxbox" data-cat="—" onclick="switchD('meteo')" type="button">
+          <div>
+            <div class="d-wxbox-label">METAR <span class="d-wxbox-icao">· LFOE</span></div>
+            <div class="d-wxbox-cat" id="d-wxbox-cat">—</div>
+            <div class="d-wxbox-wind" id="d-wxbox-wind">En attente du METAR…</div>
+          </div>
+          <div class="d-wxbox-go">Météo détail<span>→</span></div>
+        </button>
+      </div>
+
+      <!-- 2-col -->
+      <div class="d-grid">
+        <div>
+          <div class="d-section-h">
+            <h2>Actualités</h2>
+            <span class="sec-badge" id="d-badge"></span>
+            <span class="d-section-h-sub">Le club APAM</span>
+          </div>
+          <div class="mn-feed" id="d-feed">
+            <div class="skel-card"><div class="skel skel-line w-50"></div><div class="skel skel-title"></div><div class="skel skel-line w-full"></div><div class="skel skel-line w-80"></div><div class="skel skel-poll"></div></div>
+            <div class="skel-card"><div class="skel skel-line w-50"></div><div class="skel skel-title"></div><div class="skel skel-line w-80"></div></div>
+          </div>
         </div>
-      </aside>
+        <aside class="desktop-sidebar">
+          <div class="widget" id="d-install-w" style="display:none">
+            <div class="widget-hd"><span class="widget-hd-icon"><svg viewBox="0 0 24 24"><path d="M17 1.01L7 1c-1.1 0-2 .9-2 2v18c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V3c0-1.1-.9-1.99-2-1.99zM17 19H7V5h10v14z"/></svg></span><span class="widget-hd-title">App APAM</span></div>
+            <div class="widget-body" style="font-size:12.5px;color:var(--muted);line-height:1.6">
+              Installez l'espace pilote sur votre écran d'accueil pour un accès rapide.
+              <button onclick="triggerInstall()" type="button" style="margin-top:12px;width:100%;padding:10px;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-style:italic;font-size:13px;letter-spacing:.14em;text-transform:uppercase;background:var(--accent);border:none;color:#fff;border-radius:8px;cursor:pointer">Installer →</button>
+            </div>
+          </div>
+          <div class="widget">
+            <div class="widget-hd"><span class="widget-hd-icon"><svg viewBox="0 0 24 24"><path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/></svg></span><span class="widget-hd-title">Terrain LFOL</span></div>
+            <div class="widget-body">
+              <div class="widget-row"><span class="widget-row-k">Piste</span><span class="widget-row-v">07 / 25 · 800 m</span></div>
+              <div class="widget-row"><span class="widget-row-k">Surface</span><span class="widget-row-v">Herbe</span></div>
+              <div class="widget-row"><span class="widget-row-k">Élévation</span><span class="widget-row-v">200 ft · 61 m</span></div>
+              <div class="widget-row"><span class="widget-row-k">Radio</span><span class="widget-row-v">126.855 MHz</span></div>
+              <div class="widget-row"><span class="widget-row-k">Coord.</span><span class="widget-row-v">48°45'N 0°39'E</span></div>
+              <div class="widget-row"><span class="widget-row-k">Carburant</span><span class="widget-row-v">Avgas 100LL</span></div>
+            </div>
+          </div>
+          <a class="widget-link" href="activite.html">Voir Le Club<span>→</span></a>
+          <div class="widget">
+            <div class="widget-hd"><span class="widget-hd-icon"><svg viewBox="0 0 24 24"><path d="M14 6l-4.22 5.63 1.25 1.67L14 9.33 19 16h-8.46l-4.01-5.37L1 18h22L14 6zM5 16l1.52-2.03L8.04 16H5z"/></svg></span><span class="widget-hd-title">Prochainement</span></div>
+            <div class="widget-body" style="font-size:12.5px;color:var(--muted);line-height:1.7">
+              Réservations, carnet de vol, solde personnel — saison 2026.
+            </div>
+          </div>
+        </aside>
+      </div>
     </div>
   </div>
-  <!-- Outils desktop -->
+
+  <!-- ▸ MÉTÉO pane -->
+  <div id="dpane-meteo" class="d-pane">
+    <div class="desktop-main">
+      <div class="d-section-h">
+        <h2>Météo aéronautique</h2>
+        <span class="d-section-h-sub">METAR / TAF · Auto-refresh 30 min</span>
+      </div>
+      <div class="d-grid" style="grid-template-columns:1fr 320px">
+        <div id="d-wx"></div>
+        <aside>
+          <div class="widget">
+            <div class="widget-hd"><span class="widget-hd-icon"><svg viewBox="0 0 24 24"><path d="M12 2L4.5 20.29l.71.71L12 18l6.79 3 .71-.71z"/></svg></span><span class="widget-hd-title">Station LFOE</span></div>
+            <div class="widget-body">
+              <p style="font-family:'JetBrains Mono',monospace;font-size:10.5px;color:var(--muted);margin-bottom:12px;line-height:1.6">Évreux · à 51 km de LFOL.</p>
+              <div class="widget-row"><span class="widget-row-k">ICAO</span><span class="widget-row-v">LFOE</span></div>
+              <div class="widget-row"><span class="widget-row-k">Élévation</span><span class="widget-row-v">464 ft</span></div>
+              <div class="widget-row"><span class="widget-row-k">Lat / Lon</span><span class="widget-row-v">49°02'N 1°13'E</span></div>
+            </div>
+          </div>
+          <div style="margin-top:14px;display:flex;flex-direction:column;gap:8px">
+            <a href="https://metar-taf.com/LFOE" target="_blank" class="widget-link">metar-taf.com<span>↗</span></a>
+            <a href="https://aviation.meteo.fr" target="_blank" class="widget-link">Météo France Aviation<span>↗</span></a>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </div>
+
+  <!-- ▸ OUTILS pane -->
   <div id="dpane-outils" class="d-pane">
-    <div class="desktop-main" style="grid-template-columns:1fr">
-      <div id="d-outils" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px"></div>
+    <div class="desktop-main">
+      <div class="d-section-h">
+        <h2>Options</h2>
+        <span class="d-section-h-sub">App & compte</span>
+      </div>
+      <div id="d-outils" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px"></div>
     </div>
   </div>
 </div>
 
-<!-- MOBILE PWA -->
+<!-- ════════════════════════════════════════
+     MOBILE / PWA
+════════════════════════════════════════ -->
 <div class="mobile-view">
-  <div class="mobile-nav">
-    <div class="mobile-nav-logo"><a href="index.html"><img src="assets/images/apam-logo2.png" alt="APAM"></a></div>
-    <div class="mobile-nav-name">
-      <span class="mobile-nav-greet">Bonjour,</span>
-      <span class="mobile-nav-user" id="m-name">Membre</span>
-    </div>
-    <div class="mobile-nav-badge" id="m-role" style="display:none"><i></i><span id="m-role-lbl">Admin</span></div>
-  </div>
+  <div class="ptr" id="ptr"><span class="ptr-icon" id="ptr-icon">↓</span></div>
 
   <!-- ACCUEIL -->
   <div id="pane-home" class="tab-pane active">
     <div class="mobile-wrap">
-      <div class="mobile-sec-hd"><h2>📰 Actualités <span class="sec-badge" id="m-badge"></span></h2></div>
+      <!-- Hero pilote -->
+      <div class="hero-pilot">
+        <div class="hero-pilot-ticks"><span></span><span></span></div>
+        <div class="hero-pilot-label">
+          <span class="hero-pilot-brand">APAM</span>
+          <span class="hero-pilot-divider"></span>
+          <span>Espace pilote</span>
+          <span class="hero-pilot-role m" id="m-pilot-role" style="display:none"><span class="hero-pilot-role-dot"></span><span id="m-pilot-role-lbl">Membre</span></span>
+        </div>
+        <div class="hero-pilot-name" id="m-pilot-name">Membre</div>
+        <div class="hero-pilot-row">
+          <span class="hero-pilot-icao">LFOL · 800m</span>
+          <span class="hero-pilot-icao">126.855</span>
+          <span class="hero-pilot-icao">RWY 07/25</span>
+        </div>
+      </div>
+
+      <!-- Quick strip -->
+      <div class="quickstrip">
+        <button class="quick-wx tap" id="quick-wx" data-cat="—" onclick="switchTab('meteo')" type="button">
+          <div>
+            <div class="quick-wx-label">METAR <span class="mono">· LFOE</span></div>
+            <div class="quick-wx-cat" id="quick-wx-cat">—</div>
+            <div class="quick-wx-wind" id="quick-wx-wind">En attente…</div>
+          </div>
+          <div class="quick-wx-arrow">›</div>
+        </button>
+        <div class="quick-stat">
+          <div class="quick-stat-grid">
+            <div class="quick-stat-row"><span class="quick-stat-k">Piste</span><span class="quick-stat-v big">07/25</span></div>
+            <div class="quick-stat-row"><span class="quick-stat-k">Long.</span><span class="quick-stat-v">800 m</span></div>
+            <div class="quick-stat-row"><span class="quick-stat-k">Élév.</span><span class="quick-stat-v">200 ft</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- News -->
+      <div class="mobile-sec-h">
+        <h2>Actualités</h2>
+        <span class="sec-badge" id="m-badge"></span>
+        <span class="mobile-sec-h-sub">Le bureau</span>
+      </div>
       <div class="mn-feed" id="m-feed">
         <div class="skel-card"><div class="skel skel-line w-50"></div><div class="skel skel-title"></div><div class="skel skel-line w-full"></div><div class="skel skel-line w-80"></div><div class="skel skel-poll"></div></div>
         <div class="skel-card"><div class="skel skel-line w-50"></div><div class="skel skel-title"></div><div class="skel skel-line w-80"></div></div>
@@ -311,35 +642,41 @@ html:not(.pwa) .desktop-only{display:flex}
   <!-- MÉTÉO -->
   <div id="pane-meteo" class="tab-pane">
     <div class="mobile-wrap">
-      <div class="mobile-sec-hd"><h2>🌤 Météo · LFOE</h2></div>
-
+      <div class="mobile-sec-h">
+        <h2>Météo · LFOE</h2>
+        <span class="mobile-sec-h-sub">Auto 30 min</span>
+      </div>
       <div id="m-wx"></div>
-
     </div>
   </div>
 
-  <!-- OUTILS -->
+  <!-- OPTIONS -->
   <div id="pane-outils" class="tab-pane">
     <div class="mobile-wrap">
-      <div class="mobile-sec-hd"><h2>🛠 Outils</h2></div>
+      <div class="mobile-sec-h">
+        <h2>Options</h2>
+        <span class="mobile-sec-h-sub">App &amp; compte</span>
+      </div>
       <div id="m-outils"></div>
     </div>
   </div>
 
   <!-- WEBCAM -->
   <div id="pane-webcam" class="tab-pane">
-    <div class="mobile-wrap" style="text-align:center;padding-top:80px;color:var(--muted)">
-      <div style="font-size:40px;margin-bottom:16px">📷</div>
-      <div style="font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:22px;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:8px">Webcam</div>
-      <div style="font-size:12px">Prochainement</div>
+    <div class="mobile-wrap">
+      <div class="webcam-empty">
+        <div class="webcam-empty-icon">📷</div>
+        <div class="webcam-empty-t">Webcam terrain</div>
+        <div class="webcam-empty-s">Bientôt disponible.<br/>Vue piste 07/25 en direct.</div>
+      </div>
     </div>
   </div>
 
   <nav class="bottom-nav">
-    <button class="bn on" id="tab-home"   onclick="switchTab('home')"><svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg><span>Accueil</span></button>
-    <button class="bn"    id="tab-meteo"  onclick="switchTab('meteo')"><svg viewBox="0 0 24 24"><path d="M6.76 4.84l-1.8-1.79-1.41 1.41 1.79 1.79 1.42-1.41zM4 10.5H1v2h3v-2zm9-9.95h-2V3.5h2V.55zm7.45 3.91l-1.41-1.41-1.79 1.79 1.41 1.41 1.79-1.79zm-3.21 13.7l1.79 1.8 1.41-1.41-1.8-1.79-1.4 1.4zM20 10.5v2h3v-2h-3zm-8-5c-3.31 0-6 2.69-6 6s2.69 6 6 6 6-2.69 6-6-2.69-6-6-6zm-1 16.95h2V19.5h-2v2.95zm-7.45-3.91l1.41 1.41 1.79-1.8-1.41-1.41-1.79 1.8z"/></svg><span>Météo</span></button>
-    <button class="bn"    id="tab-outils" onclick="switchTab('outils')"><svg viewBox="0 0 24 24"><path d="M22.7 19l-9.1-9.1c.9-2.3.4-5-1.5-6.9-2-2-5-2.4-7.4-1.3L9 6 6 9 1.6 4.7C.4 7.1.9 10.1 2.9 12.1c1.9 1.9 4.6 2.4 6.9 1.5l9.1 9.1c.4.4 1 .4 1.4 0l2.3-2.3c.5-.4.5-1.1.1-1.4z"/></svg><span>Outils</span></button>
-    <button class="bn"    id="tab-webcam" onclick="switchTab('webcam')"><svg viewBox="0 0 24 24"><path d="M17 10.5V7c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1v-3.5l4 4v-11l-4 4z"/></svg><span>Webcam</span></button>
+    <button class="bn on" id="tab-home"   onclick="switchTab('home')"   type="button"><svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg><span>Accueil</span></button>
+    <button class="bn"    id="tab-meteo"  onclick="switchTab('meteo')"  type="button"><svg viewBox="0 0 24 24"><path d="M19.36 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14a6 6 0 0 0 6 6h13a5 5 0 0 0 .36-9.96z"/></svg><span>Météo</span></button>
+    <button class="bn"    id="tab-outils" onclick="switchTab('outils')" type="button"><svg viewBox="0 0 24 24"><path d="M19.43 12.98c.04-.32.07-.64.07-.98 0-.34-.03-.66-.07-.98l2.11-1.65c.19-.15.24-.42.12-.64l-2-3.46c-.12-.22-.39-.3-.61-.22l-2.49 1c-.52-.4-1.08-.73-1.69-.98l-.38-2.65A.488.488 0 0 0 14 2h-4c-.25 0-.46.18-.49.42l-.38 2.65c-.61.25-1.17.59-1.69.98l-2.49-1c-.23-.09-.49 0-.61.22l-2 3.46c-.13.22-.07.49.12.64l2.11 1.65c-.04.32-.07.65-.07.98 0 .33.03.66.07.98l-2.11 1.65c-.19.15-.24.42-.12.64l2 3.46c.12.22.39.3.61.22l2.49-1c.52.4 1.08.73 1.69.98l.38 2.65c.03.24.24.42.49.42h4c.25 0 .46-.18.49-.42l.38-2.65c.61-.25 1.17-.59 1.69-.98l2.49 1c.23.09.49 0 .61-.22l2-3.46c.12-.22.07-.49-.12-.64l-2.11-1.65zM12 15.5A3.5 3.5 0 0 1 8.5 12 3.5 3.5 0 0 1 12 8.5a3.5 3.5 0 0 1 3.5 3.5 3.5 3.5 0 0 1-3.5 3.5z"/></svg><span>Options</span></button>
+    <button class="bn"    id="tab-webcam" onclick="switchTab('webcam')" type="button"><svg viewBox="0 0 24 24"><path d="M17 10.5V7c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1v-3.5l4 4v-11l-4 4z"/></svg><span>Webcam</span></button>
   </nav>
 </div>
 
@@ -347,12 +684,13 @@ html:not(.pwa) .desktop-only{display:flex}
 <div class="ios-modal" id="ios-modal">
   <div class="ios-modal-bg" onclick="closeIOS()"></div>
   <div class="ios-box">
+    <div class="ios-handle"></div>
     <div class="ios-title">Installer l'app APAM</div>
-    <p class="ios-sub">Accédez à votre espace membres en un tap depuis l'écran d'accueil.</p>
+    <p class="ios-sub">Accédez à votre espace pilote en un tap depuis l'écran d'accueil.</p>
     <div class="ios-step"><div class="ios-num">1</div><span>Appuyez sur <strong>Partager</strong> (⎋ en bas)</span></div>
     <div class="ios-step"><div class="ios-num">2</div><span>Sélectionnez <strong>Sur l'écran d'accueil</strong></span></div>
     <div class="ios-step"><div class="ios-num">3</div><span>Confirmez avec <strong>Ajouter</strong></span></div>
-    <button class="ios-close" onclick="closeIOS()">Fermer</button>
+    <button class="ios-close" onclick="closeIOS()" type="button">Fermer</button>
   </div>
 </div>
 
@@ -364,6 +702,42 @@ const isIOS=/iPad|iPhone|iPod/.test(navigator.userAgent)&&!window.MSStream;
 const isMobile=/Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
 let deferredPrompt=null;
 
+/* ── Theme toggle ── */
+function toggleTheme(){
+  hapticTick();
+  const cur=document.documentElement.getAttribute('data-theme')||'dark';
+  const next=cur==='dark'?'light':'dark';
+  document.documentElement.setAttribute('data-theme',next);
+  try{localStorage.setItem('apam_theme',next);}catch(e){}
+  const m=document.querySelector('meta[name=theme-color]');
+  if(m)m.setAttribute('content',next==='light'?'#f3f1ea':'#0a0d14');
+  syncThemeIcons();
+}
+function syncThemeIcons(){
+  const t=document.documentElement.getAttribute('data-theme')||'dark';
+  const ic=t==='dark'?'☾':'☀';
+  const lbl=t==='dark'?'Sombre':'Clair';
+  ['d-theme-ic','m-theme-ic'].forEach(id=>{const el=document.getElementById(id);if(el)el.textContent=ic;});
+  ['d-theme-lbl','m-theme-lbl'].forEach(id=>{const el=document.getElementById(id);if(el)el.textContent=lbl;});
+}
+syncThemeIcons();
+
+/* ── Haptic ── */
+function hapticTick(){try{if(navigator.vibrate)navigator.vibrate(8);}catch(e){}}
+function hapticThud(){try{if(navigator.vibrate)navigator.vibrate(14);}catch(e){}}
+
+/* ── Mode démo (preview hors session) — n'affecte rien en prod ── */
+if(location.search.indexOf('demo=')>-1){
+  try{
+    var mode=new URLSearchParams(location.search).get('demo')||'admin';
+    var permsByRole={member:{},pres:{news_pub:true,news_membres:true,photos:true},admin:{admin:true,news_pub:true,news_membres:true,photos:true}};
+    sessionStorage.setItem('apam_prenom','Antoine');
+    sessionStorage.setItem('apam_nom','Lambert');
+    sessionStorage.setItem('apam_perms',JSON.stringify(permsByRole[mode]||permsByRole.admin));
+    sessionStorage.setItem('apam_pin','0000');
+  }catch(e){}
+}
+
 /* ── Session ── */
 const perms=JSON.parse(sessionStorage.getItem('apam_perms')||localStorage.getItem('apam_perms')||'{}');
 const memberPrenom=sessionStorage.getItem('apam_prenom')||localStorage.getItem('apam_prenom')||'';
@@ -374,19 +748,21 @@ if(!memberPrenom&&!memberNom) window.location.href='connexion-membres-password.h
 
 /* Identité */
 const dn=(memberPrenom||memberName).toUpperCase();
-['d-name','m-name'].forEach(id=>{const el=document.getElementById(id);if(el)el.textContent=dn;});
+const fullName=(memberPrenom+' '+(memberNom||'')).trim().toUpperCase();
+['d-name'].forEach(id=>{const el=document.getElementById(id);if(el)el.textContent=dn;});
+['d-pilot-name','m-pilot-name'].forEach(id=>{const el=document.getElementById(id);if(el)el.textContent=fullName||dn;});
 const rl=perms.admin?'Admin':perms.news_pub?'Président':'Membre';
 if(perms.admin||perms.news_pub){
-  ['d-role','m-role'].forEach(id=>{const el=document.getElementById(id);if(el)el.style.display='flex';});
-  ['d-role-lbl','m-role-lbl'].forEach(id=>{const el=document.getElementById(id);if(el)el.textContent=rl;});
+  ['d-pilot-role','m-pilot-role'].forEach(id=>{const el=document.getElementById(id);if(el)el.style.display='inline-flex';});
+  ['d-pilot-role-lbl','m-pilot-role-lbl'].forEach(id=>{const el=document.getElementById(id);if(el)el.textContent=rl;});
 }
 
 /* Toast */
 function toast(msg,type='',dur=3000){const t=document.getElementById('toast');t.textContent=msg;t.className='toast show'+(type?' '+type:'');clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove('show'),dur);}
 
 /* Install */
-window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredPrompt=e;if(isMobile){document.getElementById('btn-install-d')?.style.setProperty('display','block');document.getElementById('d-install-w')?.style.setProperty('display','block');}});
-async function triggerInstall(){if(isIOS){openIOS();return;}if(deferredPrompt){deferredPrompt.prompt();}}
+window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredPrompt=e;if(isMobile){document.getElementById('btn-install-d')?.style.setProperty('display','inline-flex');document.getElementById('d-install-w')?.style.setProperty('display','block');}});
+async function triggerInstall(){hapticTick();if(isIOS){openIOS();return;}if(deferredPrompt){deferredPrompt.prompt();}}
 function openIOS(){document.getElementById('ios-modal')?.classList.add('show');}
 function closeIOS(){document.getElementById('ios-modal')?.classList.remove('show');}
 
@@ -411,10 +787,10 @@ function renderCard(n){
   const ouiV=(rs.reactions||[]).filter(r=>r.reponse==='oui');
   const nonV=(rs.reactions||[]).filter(r=>r.reponse==='non');
   const mv=rs.myVote;
-  const delB=(perms.news_membres||perms.admin)?`<div class="mn-del"><button class="del-btn" onclick="delNews('${n.id}',${n._row})">🗑 Supprimer</button></div>`:'';
-  const votersHtml=ouiV.length||nonV.length?`<div class="poll-res">RÉPONSES · ${ouiV.length+nonV.length}</div><div class="poll-voters">${ouiV.length?`<span style="font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--ok);margin-right:5px">OUI · ${ouiV.length}</span>${ouiV.map(v=>`<span class="vtag oui">${v.prenom} ${(v.nom||'').toUpperCase()}</span>`).join('')}`:''}${nonV.length?`<span style="font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--err);margin-right:5px;margin-top:4px">NON · ${nonV.length}</span>${nonV.map(v=>`<span class="vtag non">${v.prenom} ${(v.nom||'').toUpperCase()}</span>`).join('')}`:''}`:'' ;
-  const pollHtml=hasPoll?`<div class="mn-poll"><div class="poll-q">SEREZ-VOUS PRÉSENT ?</div><div class="poll-btns"><button class="poll-btn oui ${mv==='oui'?'active':''}" onclick="voter('${n.id}','oui')">✓ OUI</button><button class="poll-btn non ${mv==='non'?'active':''}" onclick="voter('${n.id}','non')">NON</button></div>${votersHtml}</div>`:'';
-  return `<div class="mn-card"><div class="mn-card-head"><div class="mn-meta"><span class="mn-date">${n.date}</span><span class="mn-author">— ${n.auteur||'Le bureau'}</span></div><div class="mn-title">${n.titre}</div></div><div class="mn-body">${n.texte}</div>${pollHtml}${delB}</div>`;
+  const delB=(perms.news_membres||perms.admin)?`<div class="mn-del"><button class="del-btn" type="button" onclick="delNews('${n.id}',${n._row})">Supprimer</button></div>`:'';
+  const votersHtml=ouiV.length||nonV.length?`<div class="poll-res">RÉPONSES · ${ouiV.length+nonV.length}</div><div class="poll-voters">${ouiV.length?`<span style="font-size:9px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--ok);margin-right:4px">OUI · ${ouiV.length}</span>${ouiV.map(v=>`<span class="vtag oui">${v.prenom} ${(v.nom||'').toUpperCase()}</span>`).join('')}`:''}${nonV.length?`<span style="font-size:9px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--err);margin-right:4px;margin-top:4px">NON · ${nonV.length}</span>${nonV.map(v=>`<span class="vtag non">${v.prenom} ${(v.nom||'').toUpperCase()}</span>`).join('')}`:''}</div>`:'' ;
+  const pollHtml=hasPoll?`<div class="mn-poll"><div class="poll-q">Serez-vous présent ?</div><div class="poll-btns"><button type="button" class="poll-btn oui ${mv==='oui'?'active':''}" onclick="voter('${n.id}','oui')">✓ OUI</button><button type="button" class="poll-btn non ${mv==='non'?'active':''}" onclick="voter('${n.id}','non')">NON</button></div>${votersHtml}</div>`:'';
+  return `<article class="mn-card"><div class="mn-card-head"><div class="mn-meta"><span class="mn-date">${n.date}</span><span class="mn-author">— ${n.auteur||'Le bureau'}</span></div><div class="mn-title">${n.titre}</div></div><div class="mn-body">${n.texte}</div>${pollHtml}${delB}</article>`;
 }
 
 async function fetchReactions(news){
@@ -447,6 +823,7 @@ async function chargerNews(){
 }
 
 async function voter(newsId,reponse){
+  hapticTick();
   if(!RS[newsId])RS[newsId]={reactions:[],myVote:null};
   RS[newsId].myVote=reponse;
   const news=loadNC()||[];saveRC();applyNews(news);
@@ -468,11 +845,13 @@ async function delNews(id,row){
 
 /* ── Tabs ── */
 window.switchTab=function(tab){
+  hapticTick();
   document.querySelectorAll('.tab-pane').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.bn').forEach(b=>b.classList.remove('on'));
   const pane=document.getElementById('pane-'+tab),btn=document.getElementById('tab-'+tab);
   if(pane)pane.classList.add('active');if(btn)btn.classList.add('on');
   if(tab==='meteo') wxLoad('m-wx');
+  window.scrollTo({top:0,behavior:'instant'});
 };
 window.switchD=function(tab){
   document.querySelectorAll('.d-pane').forEach(p=>p.classList.remove('active'));
@@ -487,21 +866,30 @@ function buildOutils(){
   const tools=[];
   if(perms.news_pub||perms.news_membres||perms.photos)tools.push({i:'✏️',t:'Publication',s:'Publier actualités & sondages',h:'presidence.html',c:''});
   if(perms.admin)tools.push({i:'👥',t:'Gestion membres',s:'Permissions & accès',h:'admin.html',c:'admin-item'});
+
+  const themeRowM=`<button type="button" class="tool-item theme-item" onclick="toggleTheme()"><span class="tool-icon"><span id="m-theme-ic">☾</span></span><div class="tool-tx"><h4>Apparence</h4><p>Mode <span id="m-theme-lbl">Sombre</span></p></div><span class="tool-chev">›</span></button>`;
+  const updateRow=`<button type="button" class="update-btn" id="upd-btn" onclick="mettreAJour()"><span class="update-icon">🔄</span><div class="update-btn-tx" style="flex:1"><h4>Mise à jour</h4><p id="upd-sub">Vérifier les mises à jour</p></div><span class="tool-chev">›</span></button>`;
+
   const mo=document.getElementById('m-outils');
   if(mo){
-    mo.innerHTML=`<button class="update-btn" id="upd-btn" onclick="mettreAJour()"><span style="font-size:20px">🔄</span><div class="update-btn-tx"><h4>Mise à jour</h4><p id="upd-sub">Vérifier les mises à jour</p></div><span style="color:rgba(255,255,255,.25);font-size:14px">›</span></button>`;
-    tools.forEach(t=>mo.innerHTML+=`<a class="tool-item ${t.c}" href="${t.h}"><span class="tool-icon">${t.i}</span><div class="tool-tx"><h4>${t.t}</h4><p>${t.s}</p></div></a>`);
-    if(!tools.length)mo.innerHTML+=`<div style="color:var(--muted);font-size:13px;padding:20px 0;text-align:center">Aucun outil disponible.</div>`;
-    mo.innerHTML+=`<div style="height:14px"></div><button onclick="logout()" style="width:100%;padding:13px;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:13px;letter-spacing:.12em;text-transform:uppercase;background:transparent;border:1.5px solid rgba(239,68,68,.3);color:rgba(239,68,68,.7);cursor:pointer;border-radius:8px">Se déconnecter</button>`;
+    let listHtml='<div class="tools-list">'+updateRow+themeRowM;
+    tools.forEach(t=>listHtml+=`<a class="tool-item ${t.c}" href="${t.h}"><span class="tool-icon">${t.i}</span><div class="tool-tx"><h4>${t.t}</h4><p>${t.s}</p></div><span class="tool-chev">›</span></a>`);
+    listHtml+='</div><button type="button" class="logout-btn" onclick="logout()">Se déconnecter</button>';
+    mo.innerHTML=listHtml;
   }
   const dg=document.getElementById('d-outils');
-  if(dg){dg.innerHTML=tools.map(t=>`<a class="tool-item ${t.c}" href="${t.h}"><span class="tool-icon">${t.i}</span><div class="tool-tx"><h4>${t.t}</h4><p>${t.s}</p></div></a>`).join('');if(!tools.length)dg.innerHTML=`<p style="color:var(--muted)">Aucun outil disponible.</p>`;}
+  if(dg){
+    const themeRowD=`<button type="button" class="tool-item theme-item" onclick="toggleTheme()"><span class="tool-icon"><span id="d-theme-ic">☾</span></span><div class="tool-tx"><h4>Apparence</h4><p>Mode <span id="d-theme-lbl">Sombre</span></p></div><span class="tool-chev">›</span></button>`;
+    dg.innerHTML=themeRowD+tools.map(t=>`<a class="tool-item ${t.c}" href="${t.h}"><span class="tool-icon">${t.i}</span><div class="tool-tx"><h4>${t.t}</h4><p>${t.s}</p></div><span class="tool-chev">›</span></a>`).join('');
+  }
+  syncThemeIcons();
 }
 
 function logout(){if(!confirm('Se déconnecter ?'))return;['apam_perms','apam_nom','apam_prenom','apam_pin'].forEach(k=>{localStorage.removeItem(k);sessionStorage.removeItem(k);});window.location.href='connexion-membres-password.html';}
 
 /* ── Mise à jour ── */
 window.mettreAJour=async function(){
+  hapticTick();
   const btn=document.getElementById('upd-btn'),sub=document.getElementById('upd-sub');
   if(!('serviceWorker'in navigator)){toast('SW non disponible','err');return;}
   if(btn)btn.style.opacity='.6';if(sub)sub.textContent='Vérification…';
@@ -522,12 +910,11 @@ window.mettreAJour=async function(){
 };
 
 /* ══════════════════════════════════════════
-   MÉTÉO — from scratch
+   MÉTÉO
 ══════════════════════════════════════════ */
 const WX_STA='LFOE';
 const WX_COL={VFR:'#22d77a',MVFR:'#60a5fa',IFR:'#ef4444',LIFR:'#a855f7'};
 const WX_CLS={VFR:'wx-vfr',MVFR:'wx-mvfr',IFR:'wx-ifr',LIFR:'wx-lifr'};
-// ── Cache METAR stale-while-revalidate ──
 var _wxStored=localStorage.getItem('apam_wx_raw');
 var wxRaw=_wxStored||null;
 var wxTs=parseInt(localStorage.getItem('apam_wx_ts')||'0');
@@ -535,15 +922,13 @@ var wxTafOpen=false;
 var wxTafText=localStorage.getItem('apam_wx_taf')||null;
 var wxTafFetching=false;
 var wxFetching=false;
-var wxPendingTargets=[]; // Cibles en attente du fetch en cours
+var wxPendingTargets=[];
 
 async function wxFetch(type){
-  // 1. GAS (ton serveur — aucun problème CORS)
   try{
     const d=await Promise.race([fetch(`${API}?action=getMetar&type=${type}&station=${WX_STA}`).then(r=>r.json()),new Promise((_,rj)=>setTimeout(()=>rj(),9000))]);
     if(d&&d.raw&&!d.error)return d.raw;
   }catch{}
-  // 2. allorigins fallback
   const base=type==='taf'?`https://aviationweather.gov/api/data/taf?ids=${WX_STA}&format=raw`:`https://aviationweather.gov/api/data/metar?ids=${WX_STA}&format=json&taf=false`;
   try{
     const r=await Promise.race([fetch(`https://api.allorigins.win/raw?url=${encodeURIComponent(base)}`),new Promise((_,rj)=>setTimeout(()=>rj(),9000))]);
@@ -556,15 +941,12 @@ async function wxFetch(type){
 }
 
 function wxCat(raw){
-  // CAVOK dans les conditions de base = VFR garanti
-  var base = raw.split(' TEMPO ')[0].split(' BECMG ')[0].split(' RMK ')[0];
+  var base=raw.split(' TEMPO ')[0].split(' BECMG ')[0].split(' RMK ')[0];
   if(base.includes('CAVOK')) return 'VFR';
-  // Plafond = couches BKN/OVC dans les conditions de base uniquement
-  var ceil = Infinity;
+  var ceil=Infinity;
   (base.match(/(BKN|OVC)(\d{3})/g)||[]).forEach(function(c){var a=parseInt(c.slice(-3))*100;if(a<ceil)ceil=a;});
-  // Visibilité = premier groupe de 4 chiffres entouré d'espaces
-  var vm = base.match(/ (\d{4}) /);
-  var vs = vm ? parseInt(vm[1])/1609 : 10;
+  var vm=base.match(/ (\d{4}) /);
+  var vs=vm?parseInt(vm[1])/1609:10;
   if(ceil<500||vs<1) return 'LIFR';
   if(ceil<1000||vs<3) return 'IFR';
   if(ceil<3000||vs<5) return 'MVFR';
@@ -572,17 +954,17 @@ function wxCat(raw){
 }
 
 function wxCompass(deg,col){
-  if(deg===null)return`<svg viewBox="0 0 72 72"><circle cx="36" cy="36" r="34" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.08)" stroke-width="1.5"/><text x="36" y="39" text-anchor="middle" fill="${col}" font-size="11" font-family="Barlow Condensed" font-weight="700">—</text></svg>`;
+  if(deg===null)return`<svg viewBox="0 0 84 84" xmlns="http://www.w3.org/2000/svg"><circle cx="42" cy="42" r="40" class="wx-comp-bg"/><text x="42" y="46" text-anchor="middle" class="wx-comp-empty" font-size="13" font-weight="700">—</text></svg>`;
   const vrb=deg==='VRB',a=vrb?0:parseInt(deg)||0;
-  return`<svg viewBox="0 0 72 72" xmlns="http://www.w3.org/2000/svg">
-    <circle cx="36" cy="36" r="34" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.08)" stroke-width="1.5"/>
-    <circle cx="36" cy="36" r="27" fill="none" stroke="rgba(255,255,255,.04)" stroke-width="1" stroke-dasharray="2 4"/>
-    <text x="36" y="9" text-anchor="middle" fill="rgba(255,255,255,.3)" font-size="8" font-family="Barlow Condensed" font-weight="700">N</text>
-    <text x="36" y="67" text-anchor="middle" fill="rgba(255,255,255,.15)" font-size="7" font-family="Barlow Condensed">S</text>
-    <text x="7"  y="39" text-anchor="middle" fill="rgba(255,255,255,.15)" font-size="7" font-family="Barlow Condensed">W</text>
-    <text x="65" y="39" text-anchor="middle" fill="rgba(255,255,255,.15)" font-size="7" font-family="Barlow Condensed">E</text>
-    ${vrb?`<text x="36" y="40" text-anchor="middle" fill="${col}" font-size="9" font-family="Barlow Condensed" font-weight="700">VRB</text>`:`<g transform="rotate(${a},36,36)"><polygon points="36,10 33,28 36,24 39,28" fill="${col}"/><polygon points="36,62 33.5,44 36,48 38.5,44" fill="rgba(255,255,255,.15)"/></g>`}
-    <circle cx="36" cy="36" r="4" fill="${col}"/>
+  return`<svg viewBox="0 0 84 84" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="42" cy="42" r="40" class="wx-comp-bg"/>
+    <circle cx="42" cy="42" r="32" class="wx-comp-ring"/>
+    <text x="42" y="11" text-anchor="middle" class="wx-comp-n" font-size="9">N</text>
+    <text x="42" y="79" text-anchor="middle" class="wx-comp-side" font-size="8">S</text>
+    <text x="9"  y="46" text-anchor="middle" class="wx-comp-side" font-size="8">W</text>
+    <text x="75" y="46" text-anchor="middle" class="wx-comp-side" font-size="8">E</text>
+    ${vrb?`<text x="42" y="47" text-anchor="middle" fill="${col}" font-size="11" font-family="Barlow Condensed" font-weight="700" font-style="italic">VRB</text>`:`<g transform="rotate(${a},42,42)"><polygon points="42,12 38.5,32 42,28 45.5,32" fill="${col}"/><polygon points="42,72 39.5,52 42,56 44.5,52" class="wx-comp-tail"/></g>`}
+    <circle cx="42" cy="42" r="4.5" fill="${col}"/>
   </svg>`;
 }
 
@@ -616,7 +998,7 @@ function wxRender(raw,tid){
       <div class="wx-wind">
         <div class="wx-compass">${wxCompass(wdeg,col)}</div>
         <div class="wx-wind-data">
-          <div class="wx-wind-spd">${wspd!==null?wspd:'—'}<em> kt</em></div>
+          <div class="wx-wind-spd">${wspd!==null?wspd:'—'}<em>kt</em></div>
           <div class="wx-wind-info">${wdir}</div>
           ${wgust?`<div class="wx-gust">↑ Rafales ${wgust} kt</div>`:''}
         </div>
@@ -627,45 +1009,37 @@ function wxRender(raw,tid){
       <div class="wx-raw">${raw}</div>
       <div class="wx-foot">
         <span class="wx-time">${time||WX_STA+' · METAR'}</span>
-        <button class="wx-rbtn" onclick="wxReload('${tid}')" title="Actualiser">↻</button>
+        <button type="button" class="wx-rbtn" onclick="wxReload('${tid}')" title="Actualiser">↻</button>
       </div>
     </div>
-    <button class="wx-taf-btn" id="${tafBtnId}" onclick="wxTafToggle('${tid}')">
+    <button type="button" class="wx-taf-btn" id="${tafBtnId}" onclick="wxTafToggle('${tid}')">
       <span>TAF · ${WX_STA}</span><span id="wx-taf-arr-${tid}">›</span>
     </button>
     <div id="${tafBoxId}" style="display:none"></div>`;
+  updateWxQuick();
 }
 
 function wxLoad(tid,_retry){
   tid=tid||'m-wx';
   var el=document.getElementById(tid);
   if(!el)return;
-
-  // 1. Cache disponible → afficher immédiatement
   if(wxRaw) wxRender(wxRaw,tid);
-
-  // 2. Cache frais (< 30 min) → pas besoin de re-fetcher
   if(wxRaw && Date.now()-wxTs < 1800000) return;
-
-  // 3. Fetch en cours → s'enregistrer comme cible pending
   if(wxFetching){
     if(wxPendingTargets.indexOf(tid)===-1) wxPendingTargets.push(tid);
     if(!wxRaw) el.innerHTML='<div class="wx-loading">Chargement météo…</div>';
     return;
   }
-
-  // 4. Pas de cache et pas de fetch en cours → afficher loading et lancer
   if(!wxRaw) el.innerHTML='<div class="wx-loading">Chargement météo…</div>';
-  wxPendingTargets=[tid]; // Ce tid + tous ceux qui vont s'enregistrer
+  wxPendingTargets=[tid];
   wxFetching=true;
-
   wxFetch('metar').then(function(raw){
     wxFetching=false;
     wxRaw=raw; wxTs=Date.now();
     try{localStorage.setItem('apam_wx_raw',raw);localStorage.setItem('apam_wx_ts',String(Date.now()));}catch(e){}
-    // Rendre vers toutes les cibles enregistrées
     var targets=wxPendingTargets.slice(); wxPendingTargets=[];
     targets.forEach(function(t){var e=document.getElementById(t);if(e)wxRender(raw,t);});
+    updateWxQuick();
   }).catch(function(){
     wxFetching=false;
     var retry=(_retry||0)+1;
@@ -675,16 +1049,42 @@ function wxLoad(tid,_retry){
     }else{
       targets.forEach(function(t){
         var e=document.getElementById(t);
-        if(e&&!wxRaw){var tId=t;e.innerHTML='<div class="wx-error"><div class="wx-error-t">METAR indisponible</div><div class="wx-error-s">LFOE · Réessayez.<br><button class="wx-retry" onclick="wxTs=0;wxRaw=null;wxFetching=false;wxPendingTargets=[];wxLoad(document.getElementById(\'m-wx\')?(\'m-wx\'):(\'d-wx\'))">&#8635; Réessayer</button></div></div>';}
+        if(e&&!wxRaw){e.innerHTML='<div class="wx-error"><div class="wx-error-t">METAR indisponible</div><div class="wx-error-s">LFOE · Réessayez.<br><button type="button" class="wx-retry" onclick="wxTs=0;wxRaw=null;wxFetching=false;wxPendingTargets=[];wxLoad(document.getElementById(\'m-wx\')?(\'m-wx\'):(\'d-wx\'))">↻ Réessayer</button></div></div>';}
       });
     }
   });
 }
-function wxForceReload(btn){var tid=(btn&&btn.closest)?([...(btn.closest('[id]')||{id:'m-wx'}).id.split('-')].includes('d')?'d-wx':'m-wx'):'m-wx';wxFetching=false;wxTs=0;wxRaw=null;wxLoad(tid);}
 
-function wxReload(tid){wxRaw=null;wxTs=0;wxFetching=false;wxLoad(tid||'m-wx');}
+function wxReload(tid){hapticTick();wxRaw=null;wxTs=0;wxFetching=false;wxLoad(tid||'m-wx');}
+
+/* Quick weather summary (home pane mobile + desktop hero) */
+function updateWxQuick(){
+  var raw=wxRaw||localStorage.getItem('apam_wx_raw');
+  if(!raw)return;
+  var cat=wxCat(raw);
+  var wm=raw.match(/(\d{3}|VRB)(\d{2,3})(G(\d{2,3}))?KT/);
+  var wdeg=wm?(wm[1]==='VRB'?'VRB':String(parseInt(wm[1])).padStart(3,'0')):'—';
+  var wspd=wm?parseInt(wm[2]):'—';
+  var wgust=wm&&wm[4]?'G'+parseInt(wm[4]):'';
+  var windTxt=(wdeg==='VRB'?'VRB':wdeg+'°')+' / '+wspd+' kt'+wgust;
+  // Mobile quick card
+  var qm=document.getElementById('quick-wx');
+  if(qm){
+    qm.setAttribute('data-cat',cat);
+    var qmc=document.getElementById('quick-wx-cat');if(qmc)qmc.textContent=cat;
+    var qmw=document.getElementById('quick-wx-wind');if(qmw)qmw.textContent=windTxt;
+  }
+  // Desktop hero box
+  var dx=document.getElementById('d-wxbox');
+  if(dx){
+    dx.setAttribute('data-cat',cat);
+    var dxc=document.getElementById('d-wxbox-cat');if(dxc)dxc.textContent=cat;
+    var dxw=document.getElementById('d-wxbox-wind');if(dxw)dxw.textContent=windTxt;
+  }
+}
 
 async function wxTafToggle(tid){
+  hapticTick();
   const box=document.getElementById('wx-taf-box-'+tid);
   const btn=document.getElementById('wx-taf-btn-'+tid);
   const arr=document.getElementById('wx-taf-arr-'+tid);
@@ -693,37 +1093,23 @@ async function wxTafToggle(tid){
   if(!wxTafOpen){box.style.display='none';btn.classList.remove('open');arr.textContent='›';return;}
   btn.classList.add('open');arr.textContent='↓';box.style.display='block';
   if(wxTafText){box.innerHTML=renderTaf(wxTafText);return;}
-  box.innerHTML='<div class="wx-loading" style="border-radius:10px;margin-bottom:0">Chargement TAF…</div>';
+  box.innerHTML='<div class="wx-loading" style="border-radius:12px;margin-bottom:0">Chargement TAF…</div>';
   try{
     const t=await wxFetch('taf');wxTafText=t;box.innerHTML=renderTaf(t);
   }catch{
-    box.innerHTML='<div class="wx-error" style="border-radius:10px;margin-bottom:0"><div class="wx-error-t">TAF indisponible</div></div>';
+    box.innerHTML='<div class="wx-error" style="border-radius:12px;margin-bottom:0"><div class="wx-error-t">TAF indisponible</div></div>';
   }
 }
 
 function parseTafCond(s){
-  // Vent
   var wm=s.match(/(\d{3}|VRB)(\d{2,3})(G(\d{2,3}))?KT/);
   var wind=wm?(wm[1]==='VRB'?'VRB':wm[1]+'°')+'/'+parseInt(wm[2])+'kt'+(wm[4]?'G'+parseInt(wm[4]):''):'';
-  // Visibilité
   var cavok=s.includes('CAVOK');
   var vm=!cavok&&s.match(/\s(\d{4})\s/);
   var vis=cavok?'':vm?(parseInt(vm[1])>=9999?'>10km':parseInt(vm[1])>=1000?(parseInt(vm[1])/1000).toFixed(0)+'km':vm[1]+'m'):'';
-  // Nuages
   var cls=(s.match(/(FEW|SCT|BKN|OVC)\d{3}/g)||[]).map(function(c){return c.slice(0,3)+' '+(parseInt(c.slice(-3))*100)+'ft';});
-  // Phénomènes
   var ph=(s.match(/(TS|RA|SN|DZ|FG|BR|SH|\-RA|\+RA|\-SN|\+SN|TSRA|TSGR|RASN)/g)||[]);
   return {wind:wind,vis:vis,cavok:cavok,clouds:cls,ph:ph};
-}
-
-function tafTimeStr(t){
-  // DDHH format ou DDhh/DDhh
-  if(!t)return'';
-  var m=t.match(/(\d{2})(\d{2})\/(\d{2})(\d{2})/);
-  if(m)return'J+'+parseInt(m[1])%31+' '+m[2]+'Z → J+'+parseInt(m[3])%31+' '+m[4]+'Z';
-  var m2=t.match(/(\d{2})(\d{4})/);
-  if(m2)return'Dès J+'+parseInt(m2[1])%31+' '+m2[2].slice(0,2)+'Z';
-  return t;
 }
 
 function condChips(c){
@@ -738,19 +1124,13 @@ function condChips(c){
 
 function renderTaf(text){
   var raw=text.trim();
-  // Séparer les groupes
   var t=raw.split(' TEMPO ').join('\nTEMPO ').split(' BECMG ').join('\nBECMG ').split(' PROB30 TEMPO ').join('\nPROB30 TEMPO ').split(' PROB40 TEMPO ').join('\nPROB40 TEMPO ').split(' PROB30 ').join('\nPROB30 ').split(' PROB40 ').join('\nPROB40 ');
-  // FM : séparateur sans espace avant
   t=t.replace(/\sFM(\d{6})/g,'\nFM$1');
   var groups=t.split('\n').map(function(s){return s.trim();}).filter(Boolean);
-
-  // Parser la ligne de base (1ère ligne)
   var base=groups[0]||'';
   var validM=base.match(/\d{4}\/\d{4}/);
-  var validity=validM?validM[0].replace('/','\u2009→\u2009').replace(/(\d{2})(\d{2})/g,'$2Z'):'' ;
   var emitM=base.match(/\d{6}Z/);
   var emitted=emitM?emitM[0]:'';
-
   var rows=groups.map(function(g,i){
     var type='BASE',label='BASE',cls='taf-type-base',timeStr='';
     if(i>0){
@@ -764,7 +1144,6 @@ function renderTaf(text){
     var timeDisp=i===0?(validM?'Validité '+validM[0]:''):(timeStr||'');
     return '<div class="taf-row"><div class="taf-row-type"><span class="taf-type-badge '+cls+'" style="white-space:pre-line">'+label+'</span></div><div class="taf-row-body"><div class="taf-row-time">'+timeDisp+'</div><div class="taf-row-cond">'+condChips(cond)+'</div></div></div>';
   }).join('');
-
   return '<div class="taf-widget"><div class="taf-hdr"><div><div class="taf-hdr-sta">TAF · '+WX_STA+'</div><div class="taf-hdr-validity">'+(validM?'Validité '+validM[0]:'')+'</div></div><div class="taf-emitted">Émis '+emitted+'</div></div><div class="taf-rows">'+rows+'</div><div class="taf-raw">'+raw+'</div></div>';
 }
 
@@ -772,28 +1151,59 @@ function renderTaf(text){
 if('serviceWorker'in navigator){
   navigator.serviceWorker.register('sw.js').then(reg=>{
     reg.addEventListener('updatefound',()=>{const w=reg.installing;if(w)w.addEventListener('statechange',()=>{if(w.state==='installed'&&navigator.serviceWorker.controller)toast('Mise à jour disponible');});});
-  });
+  }).catch(function(){});
   navigator.serviceWorker.addEventListener('controllerchange',()=>window.location.reload());
 }
 
+/* ── Pull-to-refresh visuel ── */
+(function(){
+  var ptr=document.getElementById('ptr');
+  if(!ptr)return;
+  var startY=0,pulling=false,armed=false;
+  document.addEventListener('touchstart',function(e){
+    if(window.scrollY<=2){startY=e.touches[0].clientY;pulling=true;armed=false;}
+    else pulling=false;
+  },{passive:true});
+  document.addEventListener('touchmove',function(e){
+    if(!pulling)return;
+    var d=e.touches[0].clientY-startY;
+    if(d>20){ptr.classList.add('show');var icon=document.getElementById('ptr-icon');if(icon)icon.style.transform='rotate('+Math.min(180,d*1.5)+'deg)';}
+    if(d>80&&!armed){armed=true;hapticTick();}
+  },{passive:true});
+  document.addEventListener('touchend',function(){
+    if(!pulling)return;
+    pulling=false;
+    if(armed){
+      ptr.classList.add('refresh');
+      hapticThud();
+      chargerNews();
+      wxRaw=null;wxTs=0;wxFetching=false;wxLoad('m-wx');
+      setTimeout(function(){ptr.classList.remove('show','refresh');},900);
+    }else{
+      ptr.classList.remove('show');
+    }
+  },{passive:true});
+})();
+
 /* ── Init ── */
 buildOutils();chargerNews();
-// Précharger METAR pour mobile ET desktop dès le lancement
-setTimeout(function(){wxLoad('m-wx');if(document.getElementById('d-wx'))wxPendingTargets.push('d-wx');},800);
-// Précharger TAF en parallèle
+setTimeout(function(){wxLoad('m-wx');if(document.getElementById('d-wx'))wxPendingTargets.push('d-wx');updateWxQuick();},800);
 setTimeout(function(){if(!wxTafFetching){wxTafFetching=true;wxFetch('taf').then(function(r){wxTafFetching=false;wxTafText=r;try{localStorage.setItem('apam_wx_taf',r);}catch(e){}}).catch(function(){wxTafFetching=false;});}},2000);
-// Auto-refresh METAR toutes les 30 min
 setInterval(function(){wxTs=0;wxLoad('m-wx');wxLoad('d-wx');},1800000);
-// Refresh quand l'app revient au premier plan
 document.addEventListener('visibilitychange',function(){
-  if(!document.hidden)setTimeout(function(){wxLoad('m-wx');wxLoad('d-wx');},300);
+  if(!document.hidden)setTimeout(function(){wxLoad('m-wx');wxLoad('d-wx');updateWxQuick();},300);
 });
+// Periodic quick weather sync (in case raw cache populated)
+setInterval(updateWxQuick,4000);
+
+/* ── First-visit iOS install banner ── */
 if(!isStandalone&&isMobile&&isIOS){
   if(!sessionStorage.getItem('apam_skip_banner')){
     setTimeout(()=>{
       const d=document.createElement('div');
-      d.innerHTML=`<div style="position:fixed;inset:0;z-index:500;background:rgba(8,10,14,.97);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:32px;text-align:center"><img src="assets/images/apam-logo2.png" style="height:64px;margin-bottom:20px"><div style="font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:30px;text-transform:uppercase;color:#fff;margin-bottom:8px">APAM Espace</div><p style="font-size:13px;color:var(--muted);line-height:1.7;margin-bottom:28px;max-width:300px">Installez l'app pour un accès rapide et les notifications.</p><button onclick="triggerInstall()" style="padding:13px 28px;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:15px;letter-spacing:.1em;text-transform:uppercase;background:var(--accent);border:none;color:#fff;border-radius:10px;cursor:pointer;margin-bottom:12px;width:100%">Installer l'app →</button><button onclick="this.closest('div[style]').remove();sessionStorage.setItem('apam_skip_banner','1')" style="width:100%;padding:12px;font-size:13px;color:rgba(255,255,255,.35);background:none;border:1px solid var(--border);border-radius:10px;cursor:pointer;font-family:'Jost',sans-serif">Continuer sur navigateur</button></div>`;
-      document.body.appendChild(d.firstElementChild);
+      d.className='install-overlay';
+      d.innerHTML=`<img src="assets/images/apam-logo2.png" alt="APAM" onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'logo-fb',textContent:'APAM',style:'font-size:32px;margin-bottom:20px'}))"/><div class="install-overlay-t">APAM Espace</div><p class="install-overlay-s">Installez l'app pour un accès rapide depuis l'écran d'accueil et les notifications.</p><button class="install-overlay-cta" onclick="triggerInstall()" type="button">Installer l'app →</button><button class="install-overlay-skip" onclick="this.closest('.install-overlay').remove();sessionStorage.setItem('apam_skip_banner','1')" type="button">Continuer sur navigateur</button>`;
+      document.body.appendChild(d);
     },800);
   }
 }
