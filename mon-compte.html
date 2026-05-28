@@ -925,13 +925,25 @@ var wxFetching=false;
 var wxPendingTargets=[];
 
 async function wxFetch(type){
+  // 1) Try APAM proxy (Google Apps Script) — may cold-start
   try{
-    const d=await Promise.race([fetch(`${API}?action=getMetar&type=${type}&station=${WX_STA}`).then(r=>r.json()),new Promise((_,rj)=>setTimeout(()=>rj(),9000))]);
+    const d=await Promise.race([fetch(`${API}?action=getMetar&type=${type}&station=${WX_STA}`).then(r=>r.json()),new Promise((_,rj)=>setTimeout(()=>rj(),15000))]);
     if(d&&d.raw&&!d.error)return d.raw;
   }catch{}
+  // 2) Try aviationweather.gov directly (CORS-enabled since 2023)
+  try{
+    if(type==='taf'){
+      const r=await Promise.race([fetch(`https://aviationweather.gov/api/data/taf?ids=${WX_STA}&format=raw`),new Promise((_,rj)=>setTimeout(()=>rj(),8000))]);
+      if(r.ok){const t=(await r.text()).trim();if(t)return t;}
+    }else{
+      const r=await Promise.race([fetch(`https://aviationweather.gov/api/data/metar?ids=${WX_STA}&format=json&taf=false`),new Promise((_,rj)=>setTimeout(()=>rj(),8000))]);
+      if(r.ok){const j=await r.json();const arr=Array.isArray(j)?j:(j.rawOb?[j]:null);if(arr&&arr[0]&&arr[0].rawOb)return arr[0].rawOb.trim();}
+    }
+  }catch{}
+  // 3) Fallback via allorigins
   const base=type==='taf'?`https://aviationweather.gov/api/data/taf?ids=${WX_STA}&format=raw`:`https://aviationweather.gov/api/data/metar?ids=${WX_STA}&format=json&taf=false`;
   try{
-    const r=await Promise.race([fetch(`https://api.allorigins.win/raw?url=${encodeURIComponent(base)}`),new Promise((_,rj)=>setTimeout(()=>rj(),9000))]);
+    const r=await Promise.race([fetch(`https://api.allorigins.win/raw?url=${encodeURIComponent(base)}`),new Promise((_,rj)=>setTimeout(()=>rj(),10000))]);
     if(!r.ok)throw new Error();
     if(type==='taf')return(await r.text()).trim();
     const j=await r.json();const arr=Array.isArray(j)?j:(j.rawOb?[j]:null);
