@@ -231,6 +231,40 @@ html:not(.pwa) .desktop-only{display:flex}
   html:not(.pwa) .mobile-view{display:block}
 }
 
+/* ═══════════════════════ MOBILE HOME — WELCOME PANEL ═══════════════════════ */
+.welcome{position:relative;background:var(--sf);border:1px solid var(--border);border-radius:20px;padding:24px 22px 20px;overflow:hidden;margin-bottom:22px;box-shadow:inset 0 1px 0 var(--stroke-in)}
+.welcome::before{content:"";position:absolute;inset:0;background-image:repeating-linear-gradient(135deg,var(--hatch) 0 2px,transparent 2px 10px);opacity:.45;pointer-events:none;mask-image:linear-gradient(160deg,transparent 40%,black 100%);-webkit-mask-image:linear-gradient(160deg,transparent 40%,black 100%)}
+.welcome-glow{position:absolute;top:-30px;right:-30px;width:200px;height:200px;background:radial-gradient(circle at 50% 50%,var(--accent-soft) 0%,transparent 70%);opacity:.9;pointer-events:none}
+.welcome-ticks{position:absolute;top:18px;right:20px;display:flex;gap:4px;z-index:1}
+.welcome-ticks span{width:14px;height:2px;background:var(--accent);opacity:.75;display:block;border-radius:1px}
+.welcome-ticks span:nth-child(2){width:5px;opacity:.3}
+.welcome-label{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);display:flex;align-items:center;gap:11px;margin-bottom:6px;position:relative;flex-wrap:wrap;z-index:1}
+.welcome-brand{display:inline-flex;align-items:center;gap:7px;font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:14px;letter-spacing:.08em;color:var(--accent);line-height:1}
+.welcome-brand img{height:18px;width:auto;display:block;object-fit:contain}
+.welcome-divider{width:20px;height:1px;background:var(--accent);opacity:.45;display:inline-block}
+.welcome-name{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:44px;text-transform:uppercase;line-height:.95;color:var(--text);margin-bottom:16px;position:relative;text-wrap:balance;letter-spacing:-.014em}
+.welcome-msg{font-family:'Jost',sans-serif;font-size:16.5px;font-weight:400;line-height:1.5;color:var(--text-2);margin-bottom:14px;position:relative;text-wrap:pretty;letter-spacing:.002em}
+.welcome-msg strong{color:var(--text);font-weight:600}
+.welcome-msg em{font-style:normal;color:var(--accent);font-weight:600}
+.welcome-stats{display:flex;align-items:center;gap:10px;margin-bottom:18px;flex-wrap:wrap;position:relative}
+.welcome-stat-pill{display:inline-flex;align-items:center;gap:7px;padding:5px 12px;border-radius:100px;border:1.5px solid;font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:13px;letter-spacing:.04em}
+.welcome-stat-dot{width:7px;height:7px;border-radius:50%;background:currentColor;animation:pulse 2s ease-in-out infinite}
+.welcome-stat-pill[data-cat="VFR"]{color:var(--ok);border-color:rgba(34,215,122,.4);background:rgba(34,215,122,.10)}
+.welcome-stat-pill[data-cat="MVFR"]{color:var(--cyan);border-color:rgba(96,165,250,.4);background:rgba(96,165,250,.10)}
+.welcome-stat-pill[data-cat="IFR"]{color:var(--err);border-color:rgba(239,68,68,.4);background:rgba(239,68,68,.10)}
+.welcome-stat-pill[data-cat="LIFR"]{color:var(--vio);border-color:rgba(168,85,247,.4);background:rgba(168,85,247,.10)}
+.welcome-stat-pill[data-cat="—"]{color:var(--muted);border-color:var(--bds);background:var(--sf2)}
+[data-theme="light"] .welcome-stat-pill[data-cat="VFR"]{background:rgba(14,106,50,.08)}
+[data-theme="light"] .welcome-stat-pill[data-cat="MVFR"]{background:rgba(21,85,142,.08)}
+[data-theme="light"] .welcome-stat-pill[data-cat="IFR"]{background:rgba(163,32,29,.07)}
+[data-theme="light"] .welcome-stat-pill[data-cat="LIFR"]{background:rgba(105,41,212,.08)}
+.welcome-stat-wind{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:500;color:var(--text-2);letter-spacing:.04em;padding:5px 11px;background:var(--sf2);border:1px solid var(--border);border-radius:7px}
+.welcome-cta{display:inline-flex;align-items:center;gap:8px;padding:12px 20px;background:var(--accent);color:#fff;border:none;border-radius:11px;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-style:italic;font-size:13px;letter-spacing:.14em;text-transform:uppercase;cursor:pointer;position:relative;transition:opacity .2s,transform .2s}
+.welcome-cta:hover{opacity:.92}
+.welcome-cta svg{width:16px;height:16px;display:block;transition:transform .25s cubic-bezier(.2,.7,.2,1)}
+.welcome-cta:hover svg{transform:translateX(3px)}
+.welcome-disclaimer{margin-top:14px;font-family:'Jost',sans-serif;font-size:11px;font-style:italic;color:var(--muted);line-height:1.45;position:relative;padding-left:14px;border-left:2px solid var(--border)}
+
 /* ═══════════════════════ MOBILE HOME — PILOT CARD ═══════════════════════ */
 .hero-pilot{position:relative;background:var(--sf);border:1px solid var(--border);border-radius:18px;padding:22px 22px 20px;overflow:hidden;margin-bottom:20px;box-shadow:inset 0 1px 0 var(--stroke-in)}
 .hero-pilot::before{content:"";position:absolute;inset:0;background-image:repeating-linear-gradient(135deg,var(--hatch) 0 2px,transparent 2px 9px);opacity:.55;pointer-events:none;mask-image:linear-gradient(150deg,transparent 50%,black 100%);-webkit-mask-image:linear-gradient(150deg,transparent 50%,black 100%)}
@@ -617,6 +651,18 @@ html:not(.pwa) .desktop-only{display:flex}
 .ios-num{width:26px;height:26px;border-radius:50%;background:var(--accent);font-family:'Barlow Condensed',sans-serif;font-weight:700;font-style:italic;font-size:13px;color:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .ios-close{width:100%;padding:13px;margin-top:18px;background:var(--sf2);border:1px solid var(--bds);color:var(--text-2);border-radius:10px;font-size:13px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;cursor:pointer;font-family:'Barlow Condensed',sans-serif;font-style:italic}
 
+/* CGU modal content */
+.cgu-box{max-height:88vh;display:flex;flex-direction:column}
+.cgu-content{overflow-y:auto;-webkit-overflow-scrolling:touch;padding-right:6px;margin-right:-6px;flex:1;min-height:0}
+.cgu-content h3{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:15px;text-transform:uppercase;color:var(--text);letter-spacing:.02em;margin:18px 0 8px}
+.cgu-content h3:first-child{margin-top:0}
+.cgu-content p{font-size:13.5px;line-height:1.65;color:var(--text-2);margin-bottom:10px}
+.cgu-content p strong{color:var(--text);font-weight:600}
+.cgu-content ul{padding-left:18px;margin-bottom:12px}
+.cgu-content li{font-size:13.5px;line-height:1.6;color:var(--text-2);margin-bottom:5px}
+.cgu-content li::marker{color:var(--accent)}
+.cgu-footer{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.08em;color:var(--muted);margin-top:18px;padding-top:14px;border-top:1px solid var(--border);font-style:italic}
+
 /* INSTALL HINT BANNER (PWA invite) */
 .install-overlay{position:fixed;inset:0;z-index:500;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:32px;text-align:center;animation:fadeIn .3s ease-out}
 .install-overlay img{height:64px;margin-bottom:20px}
@@ -816,40 +862,27 @@ button,a,.tap{transition:transform .28s cubic-bezier(.2,.7,.2,1),background-colo
   <!-- ACCUEIL -->
   <div id="pane-home" class="tab-pane active">
     <div class="mobile-wrap">
-      <!-- Hero pilote -->
-      <div class="hero-pilot">
-        <div class="hero-pilot-ticks"><span></span><span></span></div>
-        <div class="hero-pilot-label">
-          <span class="hero-pilot-brand"><img src="assets/images/apam-logo2.png?v=2" alt="" onerror="this.style.display='none'"/>APAM</span>
-          <span class="hero-pilot-divider"></span>
-          <span>Espace pilote</span>
+      <!-- Welcome panel (identité + météo conversationnelle) -->
+      <div class="welcome">
+        <div class="welcome-ticks"><span></span><span></span></div>
+        <div class="welcome-glow"></div>
+        <div class="welcome-label">
+          <span class="welcome-brand"><img src="assets/images/apam-logo2.png?v=2" alt="" onerror="this.style.display='none'"/>APAM</span>
+          <span class="welcome-divider"></span>
+          <span id="m-greeting">Bonjour</span>
           <span class="hero-pilot-role m" id="m-pilot-role" style="display:none"><span class="hero-pilot-role-dot"></span><span id="m-pilot-role-lbl">Membre</span></span>
         </div>
-        <div class="hero-pilot-name" id="m-pilot-name">Membre</div>
-        <div class="hero-pilot-row">
-          <span class="hero-pilot-icao">LFOL · 800m</span>
-          <span class="hero-pilot-icao">126.855</span>
-          <span class="hero-pilot-icao">RWY 07/25</span>
+        <div class="welcome-name" id="m-pilot-name">Membre</div>
+        <div class="welcome-msg" id="m-wx-msg">Vérification des conditions météo…</div>
+        <div class="welcome-stats">
+          <span class="welcome-stat-pill" id="m-wx-pill" data-cat="—"><span class="welcome-stat-dot"></span><span id="m-wx-pill-lbl">—</span></span>
+          <span class="welcome-stat-wind mono" id="m-wx-wind-txt">LFOE</span>
         </div>
-      </div>
-
-      <!-- Quick strip -->
-      <div class="quickstrip">
-        <button class="quick-wx tap" id="quick-wx" data-cat="—" onclick="switchTab('meteo')" type="button">
-          <div>
-            <div class="quick-wx-label">METAR <span class="mono">· LFOE</span></div>
-            <div class="quick-wx-cat" id="quick-wx-cat">—</div>
-            <div class="quick-wx-wind" id="quick-wx-wind">En attente…</div>
-          </div>
-          <div class="quick-wx-arrow">›</div>
+        <button class="welcome-cta" type="button" onclick="switchTab('meteo')">
+          <span>Voir la météo détaillée</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
         </button>
-        <div class="quick-stat">
-          <div class="quick-stat-grid">
-            <div class="quick-stat-row"><span class="quick-stat-k">Piste</span><span class="quick-stat-v big">07/25</span></div>
-            <div class="quick-stat-row"><span class="quick-stat-k">Long.</span><span class="quick-stat-v">800 m</span></div>
-            <div class="quick-stat-row"><span class="quick-stat-k">Élév.</span><span class="quick-stat-v">200 ft</span></div>
-          </div>
-        </div>
+        <div class="welcome-disclaimer">Information non certifiée — briefing officiel à votre charge.</div>
       </div>
 
       <!-- News -->
@@ -1033,6 +1066,46 @@ button,a,.tap{transition:transform .28s cubic-bezier(.2,.7,.2,1),background-colo
 </div>
 
 <div class="toast" id="toast"></div>
+<div class="ios-modal" id="cgu-modal">
+  <div class="ios-modal-bg" onclick="closeCGU()"></div>
+  <div class="ios-box cgu-box">
+    <div class="ios-handle"></div>
+    <div class="ios-title">Conditions d'utilisation</div>
+    <div class="cgu-content">
+      <h3>1. Nature de l'app</h3>
+      <p>L'<strong>Espace pilote APAM</strong> est un outil interne à l'association APAM destiné à ses membres. Il propose un accès rapide aux actualités du club, à des observations météorologiques publiques et à divers outils internes.</p>
+
+      <h3>2. Statut des données météo</h3>
+      <p>Les données METAR et TAF affichées proviennent de sources publiques (Aviationweather.gov, Météo France) et sont fournies <strong>à titre informatif uniquement</strong>. Elles ne constituent pas un briefing officiel certifié.</p>
+      <p>L'app n'est <strong>pas un outil de planification de vol certifié</strong>. Aucune décision opérationnelle ne doit reposer exclusivement sur les informations affichées ici.</p>
+
+      <h3>3. Responsabilité du pilote</h3>
+      <p>Le pilote commandant de bord reste <strong>seul responsable</strong> de la préparation de son vol, conformément aux règles de l'air (SERA, FCL) et au Code des transports. Il doit notamment :</p>
+      <ul>
+        <li>Consulter un briefing météo officiel (SIA Olive, Météo France Aviation)</li>
+        <li>Vérifier les NOTAM en vigueur sur sa route</li>
+        <li>S'assurer de l'à-propos de son aéronef et de ses qualifications</li>
+        <li>Respecter les minima réglementaires VFR/IFR applicables</li>
+      </ul>
+
+      <h3>4. Limites de responsabilité</h3>
+      <p>L'APAM et les contributeurs de l'app ne sauraient être tenus responsables d'erreurs, d'omissions, ou de l'utilisation faite des informations affichées. Le service est fourni « en l'état », sans garantie de disponibilité ni d'exactitude.</p>
+
+      <h3>5. Compte &amp; données personnelles</h3>
+      <p>L'accès est réservé aux membres APAM. Les informations stockées (prénom, nom, permissions, votes, contenu publié) sont conservées sur l'infrastructure du club et utilisées uniquement dans le cadre de l'app. Vous pouvez demander leur suppression auprès du bureau.</p>
+
+      <h3>6. Publication de contenu</h3>
+      <p>Les membres habilités à publier (actualités, sondages, photos) s'engagent à publier un contenu en lien avec la vie du club et respectueux des autres membres. L'admin se réserve le droit de modifier ou supprimer tout contenu inapproprié.</p>
+
+      <h3>7. Évolution &amp; contact</h3>
+      <p>Les présentes conditions peuvent évoluer. Pour toute question, contactez le bureau APAM.</p>
+
+      <p class="cgu-footer">Espace pilote APAM · v<span id="cgu-v">1.0.0</span> · Dernière révision : 2026</p>
+    </div>
+    <button class="ios-close" onclick="closeCGU()" type="button">Fermer</button>
+  </div>
+</div>
+
 <div class="ios-modal" id="ios-modal">
   <div class="ios-modal-bg" onclick="closeIOS()"></div>
   <div class="ios-box">
@@ -1048,7 +1121,7 @@ button,a,.tap{transition:transform .28s cubic-bezier(.2,.7,.2,1),background-colo
 
 <script>
 'use strict';
-const APP_VERSION='1.6.0';
+const APP_VERSION='1.8.0';
 const API='https://script.google.com/macros/s/AKfycbxae9y3NHqDyAkbEI5rDVRappI-aAWoA0jcHqR8NBUgm3t5SCB1Hq8nebY5t23cV1Je/exec';
 const isStandalone=navigator.standalone||window.matchMedia('(display-mode:standalone)').matches;
 const isIOS=/iPad|iPhone|iPod/.test(navigator.userAgent)&&!window.MSStream;
@@ -1163,6 +1236,8 @@ window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredPro
 async function triggerInstall(){hapticTick();if(isIOS){openIOS();return;}if(deferredPrompt){deferredPrompt.prompt();}}
 function openIOS(){document.getElementById('ios-modal')?.classList.add('show');}
 function closeIOS(){document.getElementById('ios-modal')?.classList.remove('show');}
+window.openCGU=function(){hapticTick();const v=document.getElementById('cgu-v');if(v)v.textContent=APP_VERSION;document.getElementById('cgu-modal')?.classList.add('show');};
+window.closeCGU=function(){document.getElementById('cgu-modal')?.classList.remove('show');};
 
 /* ── News ── */
 const NK='apam_news',RK='apam_react';
@@ -1174,8 +1249,14 @@ const RS={};
 const _voteTokens={};
 
 function applyNews(news){
-  const b=news.length;
-  ['d-badge','m-badge'].forEach(id=>{const el=document.getElementById(id);if(el)el.textContent=b>0?b:'';});
+  /* Badge = polls awaiting my vote (not total news) */
+  const pending=news.filter(n=>{
+    const hasPoll=n.sondage&&n.sondage!=='aucun';
+    if(!hasPoll)return false;
+    const rs=RS[n.id];
+    return !rs||!rs.myVote;
+  }).length;
+  ['d-badge','m-badge'].forEach(id=>{const el=document.getElementById(id);if(el)el.textContent=pending>0?pending:'';});
   const html=news.length?news.map(renderCard).join(''):`<div class="mn-empty"><div class="mn-empty-icon">📭</div><p class="mn-empty-title">Aucune actualité</p><p class="mn-empty-sub">Rien de nouveau pour l'instant.</p></div>`;
   ['d-feed','m-feed'].forEach(id=>{const el=document.getElementById(id);if(el)el.innerHTML=html;});
 }
@@ -1198,11 +1279,12 @@ async function fetchReactions(news){
   await Promise.all(ids.map(async id=>{
     try{
       const d=await fetch(`${API}?action=reactions&newsId=${id}`).then(r=>r.json());
-      const react=d.reactions||[];
+      const react=(d.reactions||[]).filter(r=>r.reponse==='oui'||r.reponse==='non');
       const prev=(RS[id]||{}).myVote;
-      /* LOCAL VOTE WINS over server-derived match (prevents flicker on quick changes) */
-      const my=prev||react.find(r=>r.prenom===memberPrenom&&(r.nom||'').toLowerCase()===(memberName.split(' ').slice(1).join(' ')).toLowerCase())?.reponse||null;
-      RS[id]={reactions:react,myVote:my};
+      const isUnvoted=(RS[id]||{})._unvoted;
+      /* LOCAL VOTE WINS — and explicit un-vote sticks */
+      const my=isUnvoted?null:(prev||react.find(r=>r.prenom===memberPrenom&&(r.nom||'').toLowerCase()===(memberName.split(' ').slice(1).join(' ')).toLowerCase())?.reponse||null);
+      RS[id]={reactions:react,myVote:my,_unvoted:isUnvoted};
     }catch{}
   }));
 }
@@ -1226,28 +1308,41 @@ async function voter(newsId,reponse){
   hapticTick();
   const token=(_voteTokens[newsId]=(_voteTokens[newsId]||0)+1);
   if(!RS[newsId])RS[newsId]={reactions:[],myVote:null};
-  RS[newsId].myVote=reponse;
-  /* Optimistic: insert/replace own vote in reactions so count & name update instantly */
   const ownNom=memberNom||memberName.split(' ').slice(1).join(' ');
-  RS[newsId].reactions=(RS[newsId].reactions||[])
-    .filter(r=>!(r.prenom===memberPrenom&&(r.nom||'').toLowerCase()===(ownNom||'').toLowerCase()));
-  RS[newsId].reactions.push({prenom:memberPrenom,nom:ownNom,reponse:reponse});
+  /* TOGGLE — re-clicking the same choice cancels the vote */
+  const isToggle=(RS[newsId].myVote===reponse)&&!RS[newsId]._unvoted;
+  if(isToggle){
+    RS[newsId].myVote=null;
+    RS[newsId]._unvoted=true;
+    RS[newsId].reactions=(RS[newsId].reactions||[])
+      .filter(r=>!(r.prenom===memberPrenom&&(r.nom||'').toLowerCase()===(ownNom||'').toLowerCase()));
+  }else{
+    RS[newsId].myVote=reponse;
+    delete RS[newsId]._unvoted;
+    RS[newsId].reactions=(RS[newsId].reactions||[])
+      .filter(r=>!(r.prenom===memberPrenom&&(r.nom||'').toLowerCase()===(ownNom||'').toLowerCase()));
+    RS[newsId].reactions.push({prenom:memberPrenom,nom:ownNom,reponse:reponse});
+  }
   const news=loadNC()||[];saveRC();applyNews(news);
   try{
-    const p=new URLSearchParams({action:'reagir',newsId,prenom:memberPrenom,nom:memberName,reponse});
+    const p=new URLSearchParams({action:'reagir',newsId,prenom:memberPrenom,nom:memberName,reponse:isToggle?'':reponse});
     await fetch(`${API}?${p}`);
-    /* Stale-check before refetching */
     if(token!==_voteTokens[newsId])return;
     await fetchReactions(news);
-    /* Stale-check after refetch */
     if(token!==_voteTokens[newsId])return;
-    if(RS[newsId])RS[newsId].myVote=reponse;
+    if(RS[newsId]){
+      RS[newsId].myVote=isToggle?null:reponse;
+      if(isToggle)RS[newsId]._unvoted=true;else delete RS[newsId]._unvoted;
+    }
     saveRC();applyNews(news);
   }catch{
     if(token!==_voteTokens[newsId])return;
-    if(RS[newsId])RS[newsId].myVote=reponse;
+    if(RS[newsId]){
+      RS[newsId].myVote=isToggle?null:reponse;
+      if(isToggle)RS[newsId]._unvoted=true;else delete RS[newsId]._unvoted;
+    }
     saveRC();applyNews(news);
-    toast('Vote enregistré localement (hors-ligne)','err');
+    toast(isToggle?'Vote retiré localement':'Vote enregistré localement (hors-ligne)','err');
   }
 }
 
@@ -1303,6 +1398,7 @@ function buildOutils(){
     admin:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>',
     update:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M23 4v6h-6"/><path d="M20.49 15A9 9 0 1 1 18.36 5.64L23 10"/></svg>',
     moon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>',
+    cgu:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>',
     logout:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>'
   };
   const tools=[];
@@ -1310,12 +1406,14 @@ function buildOutils(){
   if(perms.admin)tools.push({i:ICN.admin,t:'Gestion membres',s:'Permissions & accès',a:"switchTab('admin')",h:'admin.html',c:'admin-item'});
 
   const themeRowM=`<button type="button" class="tool-item theme-item" onclick="toggleTheme()"><span class="tool-icon" id="m-theme-ic">${ICN.moon}</span><div class="tool-tx"><h4>Apparence</h4><p>Mode <span id="m-theme-lbl">Sombre</span></p></div><span class="tool-chev">›</span></button>`;
+  const cguRow=`<button type="button" class="tool-item" onclick="openCGU()"><span class="tool-icon">${ICN.cgu}</span><div class="tool-tx"><h4>Conditions d'utilisation</h4><p>Statut des données · responsabilité du pilote</p></div><span class="tool-chev">›</span></button>`;
   const updateRow=`<button type="button" class="update-btn" id="upd-btn" onclick="mettreAJour()"><span class="update-icon">${ICN.update}</span><div class="update-btn-tx" style="flex:1"><h4>Mise à jour</h4><p id="upd-sub">Version v${APP_VERSION} · Vérifier les mises à jour</p></div><span class="tool-chev">›</span></button>`;
 
   const mo=document.getElementById('m-outils');
   if(mo){
     let listHtml='<div class="tools-list">'+updateRow+themeRowM;
     tools.forEach(t=>listHtml+=`<button type="button" class="tool-item ${t.c}" onclick="${t.a}"><span class="tool-icon">${t.i}</span><div class="tool-tx"><h4>${t.t}</h4><p>${t.s}</p></div><span class="tool-chev">›</span></button>`);
+    listHtml+=cguRow;
     listHtml+='</div><button type="button" class="logout-btn" onclick="logout()"><span class="logout-icn">'+ICN.logout+'</span>Se déconnecter</button>';
     listHtml+='<div class="version-foot">APAM Espace pilote · v'+APP_VERSION+'</div>';
     mo.innerHTML=listHtml;
@@ -1323,7 +1421,8 @@ function buildOutils(){
   const dg=document.getElementById('d-outils');
   if(dg){
     const themeRowD=`<button type="button" class="tool-item theme-item" onclick="toggleTheme()"><span class="tool-icon" id="d-theme-ic">${ICN.moon}</span><div class="tool-tx"><h4>Apparence</h4><p>Mode <span id="d-theme-lbl">Sombre</span></p></div><span class="tool-chev">›</span></button>`;
-    dg.innerHTML=themeRowD+tools.map(t=>`<a class="tool-item ${t.c}" href="${t.h}"><span class="tool-icon">${t.i}</span><div class="tool-tx"><h4>${t.t}</h4><p>${t.s}</p></div><span class="tool-chev">›</span></a>`).join('');
+    const cguRowD=`<button type="button" class="tool-item" onclick="openCGU()"><span class="tool-icon">${ICN.cgu}</span><div class="tool-tx"><h4>Conditions d'utilisation</h4><p>Statut des données · responsabilité du pilote</p></div><span class="tool-chev">›</span></button>`;
+    dg.innerHTML=themeRowD+tools.map(t=>`<a class="tool-item ${t.c}" href="${t.h}"><span class="tool-icon">${t.i}</span><div class="tool-tx"><h4>${t.t}</h4><p>${t.s}</p></div><span class="tool-chev">›</span></a>`).join('')+cguRowD;
   }
   syncThemeIcons();
 }
@@ -1908,29 +2007,54 @@ function wxLoad(tid,_retry){
 
 function wxReload(tid){hapticTick();wxTs=0;wxFetching=false;wxLoad(tid||'m-wx');}
 
-/* Quick weather summary (home pane mobile + desktop hero) */
+/* Greeting based on time of day */
+function setGreeting(){
+  const h=new Date().getHours();
+  const g=h<6?'Bonne nuit':h<12?'Bonjour':h<18?'Bel après-midi':'Bonsoir';
+  const el=document.getElementById('m-greeting');if(el)el.textContent=g;
+}
+setGreeting();
+
+/* Quick weather summary — fills welcome panel + desktop hero */
 function updateWxQuick(){
   var raw=wxRaw||localStorage.getItem('apam_wx_raw');
-  if(!raw)return;
-  var cat=wxCat(raw);
-  var wm=raw.match(/(\d{3}|VRB)(\d{2,3})(G(\d{2,3}))?KT/);
-  var wdeg=wm?(wm[1]==='VRB'?'VRB':String(parseInt(wm[1])).padStart(3,'0')):'—';
-  var wspd=wm?parseInt(wm[2]):'—';
-  var wgust=wm&&wm[4]?'G'+parseInt(wm[4]):'';
-  var windTxt=(wdeg==='VRB'?'VRB':wdeg+'°')+' / '+wspd+' kt'+wgust;
-  // Mobile quick card
-  var qm=document.getElementById('quick-wx');
-  if(qm){
-    qm.setAttribute('data-cat',cat);
-    var qmc=document.getElementById('quick-wx-cat');if(qmc)qmc.textContent=cat;
-    var qmw=document.getElementById('quick-wx-wind');if(qmw)qmw.textContent=windTxt;
-  }
-  // Desktop hero box
-  var dx=document.getElementById('d-wxbox');
-  if(dx){
-    dx.setAttribute('data-cat',cat);
-    var dxc=document.getElementById('d-wxbox-cat');if(dxc)dxc.textContent=cat;
-    var dxw=document.getElementById('d-wxbox-wind');if(dxw)dxw.textContent=windTxt;
+  /* Desktop hero box (unchanged) */
+  if(raw){
+    var cat=wxCat(raw);
+    var wm=raw.match(/(\d{3}|VRB)(\d{2,3})(G(\d{2,3}))?KT/);
+    var wdeg=wm?(wm[1]==='VRB'?'VRB':String(parseInt(wm[1])).padStart(3,'0')):'—';
+    var wspd=wm?parseInt(wm[2]):'—';
+    var wgust=wm&&wm[4]?'G'+parseInt(wm[4]):'';
+    var windTxt=(wdeg==='VRB'?'VRB':wdeg+'°')+' / '+wspd+' kt'+wgust;
+    /* Mobile welcome panel */
+    var pill=document.getElementById('m-wx-pill');
+    if(pill)pill.setAttribute('data-cat',cat);
+    var pillLbl=document.getElementById('m-wx-pill-lbl');if(pillLbl)pillLbl.textContent=cat;
+    var windEl=document.getElementById('m-wx-wind-txt');if(windEl)windEl.textContent='LFOE · '+windTxt;
+    /* Conversational message */
+    var msg=document.getElementById('m-wx-msg');
+    if(msg){
+      var ws=typeof wspd==='number'?wspd:0;
+      var wStr=ws<5?'vent calme':ws<12?'vent modéré':ws<20?'vent soutenu':'vent fort';
+      if(wgust)wStr+=' avec rafales';
+      var bodyMap={
+        VFR:'Conditions <em>VFR</em> observées à LFOE — '+wStr+'.',
+        MVFR:'Conditions <strong>MVFR</strong> à LFOE — minimums marginaux, '+wStr+'.',
+        IFR:'Conditions <strong>IFR</strong> à LFOE — visibilité ou plafond limités.',
+        LIFR:'Conditions <strong>LIFR</strong> à LFOE — IMC sévères.'
+      };
+      msg.innerHTML=bodyMap[cat]||('Conditions <strong>'+cat+'</strong> sur LFOE — '+wStr+'.');
+    }
+    /* Desktop hero box */
+    var dx=document.getElementById('d-wxbox');
+    if(dx){
+      dx.setAttribute('data-cat',cat);
+      var dxc=document.getElementById('d-wxbox-cat');if(dxc)dxc.textContent=cat;
+      var dxw=document.getElementById('d-wxbox-wind');if(dxw)dxw.textContent=windTxt;
+    }
+  }else{
+    var msg=document.getElementById('m-wx-msg');
+    if(msg)msg.textContent='Vérification des conditions météo…';
   }
 }
 
