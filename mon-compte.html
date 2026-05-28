@@ -529,13 +529,13 @@ const WX_COL={VFR:'#22d77a',MVFR:'#60a5fa',IFR:'#ef4444',LIFR:'#a855f7'};
 const WX_CLS={VFR:'wx-vfr',MVFR:'wx-mvfr',IFR:'wx-ifr',LIFR:'wx-lifr'};
 // ── Cache METAR stale-while-revalidate ──
 var _wxStored=localStorage.getItem('apam_wx_raw');
-var wxRaw=_wxStored||null;  // On garde même si vieux — toujours mieux que rien
+var wxRaw=_wxStored||null;
 var wxTs=parseInt(localStorage.getItem('apam_wx_ts')||'0');
 var wxTafOpen=false;
-var _tafStored=localStorage.getItem('apam_wx_taf');
-var wxTafText=_tafStored||null; // Cache TAF persistant
+var wxTafText=localStorage.getItem('apam_wx_taf')||null;
 var wxTafFetching=false;
 var wxFetching=false;
+var wxPendingTargets=[]; // Cibles en attente du fetch en cours
 
 async function wxFetch(type){
   // 1. GAS (ton serveur — aucun problème CORS)
@@ -641,44 +641,45 @@ function wxLoad(tid,_retry){
   var el=document.getElementById(tid);
   if(!el)return;
 
-  // 1. Cache disponible → afficher immédiatement, fetch silencieux en fond
-  if(wxRaw){
-    wxRender(wxRaw,tid);
-    if(!wxFetching&&Date.now()-wxTs>1800000){ // Cache > 30min → rafraîchir
-      wxFetching=true;
-      wxFetch('metar').then(function(raw){
-        wxFetching=false;
-        if(!raw||raw===wxRaw)return;
-        wxRaw=raw;wxTs=Date.now();
-        try{localStorage.setItem('apam_wx_raw',raw);localStorage.setItem('apam_wx_ts',String(Date.now()));}catch(e){}
-        var el2=document.getElementById(tid);if(el2)wxRender(raw,tid);
-      }).catch(function(){wxFetching=false;});
-    }
+  // 1. Cache disponible → afficher immédiatement
+  if(wxRaw) wxRender(wxRaw,tid);
+
+  // 2. Cache frais (< 30 min) → pas besoin de re-fetcher
+  if(wxRaw && Date.now()-wxTs < 1800000) return;
+
+  // 3. Fetch en cours → s'enregistrer comme cible pending
+  if(wxFetching){
+    if(wxPendingTargets.indexOf(tid)===-1) wxPendingTargets.push(tid);
+    if(!wxRaw) el.innerHTML='<div class="wx-loading">Chargement météo…</div>';
     return;
   }
 
-  // 2. Pas de cache → afficher loading et fetch
-  if(!_retry)el.innerHTML='<div class="wx-loading">Chargement météo…</div>';
-  if(wxFetching)return;
+  // 4. Pas de cache et pas de fetch en cours → afficher loading et lancer
+  if(!wxRaw) el.innerHTML='<div class="wx-loading">Chargement météo…</div>';
+  wxPendingTargets=[tid]; // Ce tid + tous ceux qui vont s'enregistrer
   wxFetching=true;
+
   wxFetch('metar').then(function(raw){
     wxFetching=false;
-    wxRaw=raw;wxTs=Date.now();
+    wxRaw=raw; wxTs=Date.now();
     try{localStorage.setItem('apam_wx_raw',raw);localStorage.setItem('apam_wx_ts',String(Date.now()));}catch(e){}
-    var el2=document.getElementById(tid);if(el2)wxRender(raw,tid);
+    // Rendre vers toutes les cibles enregistrées
+    var targets=wxPendingTargets.slice(); wxPendingTargets=[];
+    targets.forEach(function(t){var e=document.getElementById(t);if(e)wxRender(raw,t);});
   }).catch(function(){
     wxFetching=false;
     var retry=(_retry||0)+1;
+    var targets=wxPendingTargets.slice(); wxPendingTargets=[];
     if(retry<=3){
-      // Retry automatique : 2s, 4s, 8s (gère le cold start GAS)
-      setTimeout(function(){wxLoad(tid,retry);},retry*2000);
+      setTimeout(function(){targets.forEach(function(t){wxLoad(t,retry);});},retry*2000);
     }else{
-      var el2=document.getElementById(tid);
-      if(el2)el2.innerHTML='<div class="wx-error"><div class="wx-error-t">METAR indisponible</div><div class="wx-error-s">LFOE indisponible.<br><button class="wx-retry" onclick="wxForceReload(this)">&#8635; Réessayer</button></div></div>';
+      targets.forEach(function(t){
+        var e=document.getElementById(t);
+        if(e&&!wxRaw){var tId=t;e.innerHTML='<div class="wx-error"><div class="wx-error-t">METAR indisponible</div><div class="wx-error-s">LFOE · Réessayez.<br><button class="wx-retry" onclick="wxTs=0;wxRaw=null;wxFetching=false;wxPendingTargets=[];wxLoad(document.getElementById(\'m-wx\')?(\'m-wx\'):(\'d-wx\'))">&#8635; Réessayer</button></div></div>';}
+      });
     }
   });
 }
-
 function wxForceReload(btn){var tid=(btn&&btn.closest)?([...(btn.closest('[id]')||{id:'m-wx'}).id.split('-')].includes('d')?'d-wx':'m-wx'):'m-wx';wxFetching=false;wxTs=0;wxRaw=null;wxLoad(tid);}
 
 function wxReload(tid){wxRaw=null;wxTs=0;wxFetching=false;wxLoad(tid||'m-wx');}
@@ -777,8 +778,8 @@ if('serviceWorker'in navigator){
 
 /* ── Init ── */
 buildOutils();chargerNews();
-// Précharger METAR dès le lancement
-setTimeout(function(){wxLoad('m-wx');},800);
+// Précharger METAR pour mobile ET desktop dès le lancement
+setTimeout(function(){wxLoad('m-wx');if(document.getElementById('d-wx'))wxPendingTargets.push('d-wx');},800);
 // Précharger TAF en parallèle
 setTimeout(function(){if(!wxTafFetching){wxTafFetching=true;wxFetch('taf').then(function(r){wxTafFetching=false;wxTafText=r;try{localStorage.setItem('apam_wx_taf',r);}catch(e){}}).catch(function(){wxTafFetching=false;});}},2000);
 // Auto-refresh METAR toutes les 30 min
