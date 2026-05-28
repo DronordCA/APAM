@@ -335,10 +335,11 @@ let deferredPrompt=null;
 
 /* ── Session ── */
 const perms=JSON.parse(sessionStorage.getItem('apam_perms')||localStorage.getItem('apam_perms')||'{}');
-const memberName=sessionStorage.getItem('apam_name')||localStorage.getItem('apam_name')||'';
 const memberPrenom=sessionStorage.getItem('apam_prenom')||localStorage.getItem('apam_prenom')||'';
+const memberNom=sessionStorage.getItem('apam_nom')||localStorage.getItem('apam_nom')||'';
+const memberName=(memberPrenom+' '+memberNom).trim();
 const memberPin=sessionStorage.getItem('apam_pin')||localStorage.getItem('apam_pin')||'';
-if(!memberName) window.location.href='connexion-membres-password.html?next=mon-compte.html';
+if(!memberPrenom&&!memberNom) window.location.href='connexion-membres-password.html?next=mon-compte.html';
 
 /* Identité */
 const dn=(memberPrenom||memberName).toUpperCase();
@@ -466,7 +467,7 @@ function buildOutils(){
   if(dg){dg.innerHTML=tools.map(t=>`<a class="tool-item ${t.c}" href="${t.h}"><span class="tool-icon">${t.i}</span><div class="tool-tx"><h4>${t.t}</h4><p>${t.s}</p></div></a>`).join('');if(!tools.length)dg.innerHTML=`<p style="color:var(--muted)">Aucun outil disponible.</p>`;}
 }
 
-function logout(){if(!confirm('Se déconnecter ?'))return;['apam_perms','apam_name','apam_prenom','apam_pin'].forEach(k=>{localStorage.removeItem(k);sessionStorage.removeItem(k);});window.location.href='connexion-membres-password.html';}
+function logout(){if(!confirm('Se déconnecter ?'))return;['apam_perms','apam_nom','apam_prenom','apam_pin'].forEach(k=>{localStorage.removeItem(k);sessionStorage.removeItem(k);});window.location.href='connexion-membres-password.html';}
 
 /* ── Mise à jour ── */
 window.mettreAJour=async function(){
