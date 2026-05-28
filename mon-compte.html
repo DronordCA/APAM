@@ -498,12 +498,12 @@ window.mettreAJour=async function(){
 const WX_STA='LFOE';
 const WX_COL={VFR:'#22d77a',MVFR:'#60a5fa',IFR:'#ef4444',LIFR:'#a855f7'};
 const WX_CLS={VFR:'wx-vfr',MVFR:'wx-mvfr',IFR:'wx-ifr',LIFR:'wx-lifr'};
-// Cache METAR persistant en localStorage
+// ── Cache METAR stale-while-revalidate ──
 var _wxStored=localStorage.getItem('apam_wx_raw');
-var _wxStoredTs=parseInt(localStorage.getItem('apam_wx_ts')||'0');
-var wxRaw=(_wxStored&&Date.now()-_wxStoredTs<1800000)?_wxStored:null; // 30min max
-var wxTs=wxRaw?_wxStoredTs:0;
+var wxRaw=_wxStored||null;  // On garde même si vieux — toujours mieux que rien
+var wxTs=parseInt(localStorage.getItem('apam_wx_ts')||'0');
 var wxTafOpen=false,wxTafText=null;
+var wxFetching=false;
 
 async function wxFetch(type){
   // 1. GAS (ton serveur — aucun problème CORS)
@@ -604,20 +604,44 @@ function wxRender(raw,tid){
     <div id="${tafBoxId}" style="display:none"></div>`;
 }
 
-async function wxLoad(tid){
-  tid=tid||'m-wx';const el=document.getElementById(tid);if(!el)return;
-  if(wxRaw&&Date.now()-wxTs<300000){wxRender(wxRaw,tid);return;}
-  el.innerHTML='<div class="wx-loading">Chargement météo…</div>';
-  try{
-    const raw=await wxFetch('metar');wxRaw=raw;wxTs=Date.now();
-    try{localStorage.setItem('apam_wx_raw',raw);localStorage.setItem('apam_wx_ts',String(Date.now()));}catch(e){}
-    wxRender(raw,tid);
-  }catch{
-    el.innerHTML=`<div class="wx-error"><div class="wx-error-t">METAR indisponible</div><div class="wx-error-s">LFOE · Station militaire · Données irrégulières<br><button class="wx-retry" onclick="wxReload('${tid}')">↻ Réessayer</button></div></div>`;
+function wxLoad(tid){
+  tid=tid||'m-wx';
+  var el=document.getElementById(tid);
+  if(!el)return;
+
+  // 1. Afficher le cache IMMÉDIATEMENT si disponible
+  if(wxRaw){
+    wxRender(wxRaw,tid);
+  }else{
+    el.innerHTML='<div class="wx-loading">Chargement météo…</div>';
   }
+
+  // 2. Fetch en arrière-plan (silencieux si cache affiché)
+  if(wxFetching)return;
+  var cacheAge=Date.now()-wxTs;
+  var needRefresh=!wxRaw||cacheAge>1800000; // 30min
+  if(!needRefresh)return; // Cache frais, pas besoin
+
+  wxFetching=true;
+  wxFetch('metar').then(function(raw){
+    wxFetching=false;
+    if(!raw||raw===wxRaw)return; // Rien de nouveau
+    wxRaw=raw;wxTs=Date.now();
+    try{localStorage.setItem('apam_wx_raw',raw);localStorage.setItem('apam_wx_ts',String(Date.now()));}catch(e){}
+    var el2=document.getElementById(tid);
+    if(el2)wxRender(raw,tid); // Mise à jour silencieuse
+  }).catch(function(){
+    wxFetching=false;
+    if(!wxRaw){ // Aucun cache : afficher l'erreur
+      var el2=document.getElementById(tid);
+      if(el2)el2.innerHTML='<div class="wx-error"><div class="wx-error-t">METAR indisponible</div><div class="wx-error-s">LFOE · Réessayez dans quelques instants.<br><button class="wx-retry" onclick="wxForceReload(\'' + tid + '\')">↻ Réessayer</button></div></div>';
+    }
+  });
 }
 
-async function wxReload(tid){wxRaw=null;wxTs=0;await wxLoad(tid);}
+function wxForceReload(tid){wxFetching=false;wxTs=0;wxLoad(tid||'m-wx');}
+
+function wxReload(tid){wxRaw=null;wxTs=0;wxFetching=false;wxLoad(tid||'m-wx');}
 
 async function wxTafToggle(tid){
   const box=document.getElementById('wx-taf-box-'+tid);
@@ -655,8 +679,16 @@ if('serviceWorker'in navigator){
 
 /* ── Init ── */
 buildOutils();chargerNews();
-// Précharger METAR + TAF en arrière-plan
-setTimeout(function(){wxLoad('m-wx');wxFetch('taf').then(function(r){wxTafText=r;}).catch(function(){});},1500);
+// Précharger METAR dès le lancement
+setTimeout(function(){wxLoad('m-wx');},800);
+// Précharger TAF en parallèle
+setTimeout(function(){wxFetch('taf').then(function(r){wxTafText=r;}).catch(function(){});},2000);
+// Auto-refresh METAR toutes les 30 min
+setInterval(function(){wxTs=0;wxLoad('m-wx');wxLoad('d-wx');},1800000);
+// Refresh quand l'app revient au premier plan
+document.addEventListener('visibilitychange',function(){
+  if(!document.hidden)setTimeout(function(){wxLoad('m-wx');wxLoad('d-wx');},300);
+});
 if(!isStandalone&&isMobile&&isIOS){
   if(!sessionStorage.getItem('apam_skip_banner')){
     setTimeout(()=>{
