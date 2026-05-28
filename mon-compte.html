@@ -43,7 +43,7 @@ a{color:inherit;text-decoration:none}img{max-width:100%;display:block}
 
 /* MOBILE */
 .mobile-view{display:none}
-.mobile-nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;padding:0 16px;height:64px;background:rgba(8,10,14,.96);border-bottom:1px solid var(--border);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px)}
+.mobile-nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;padding:0 16px;padding-top:env(safe-area-inset-top,0px);min-height:64px;background:rgba(8,10,14,.96);border-bottom:1px solid var(--border);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px)}
 .mobile-nav-logo img{height:38px}
 .mobile-nav-name{margin-left:10px}
 .mobile-nav-greet{font-size:9px;color:var(--muted);letter-spacing:.08em;display:block}
@@ -52,7 +52,7 @@ a{color:inherit;text-decoration:none}img{max-width:100%;display:block}
 .mobile-nav-badge i{width:6px;height:6px;border-radius:50%;background:var(--ok);animation:pulse 2.4s ease-in-out infinite;display:block}
 
 /* PANES */
-.tab-pane{display:none;min-height:100dvh;padding-top:64px}
+.tab-pane{display:none;min-height:100dvh;padding-top:calc(64px + env(safe-area-inset-top,0px))}
 .tab-pane.active{display:block}
 .mobile-wrap{padding:16px 16px calc(72px + env(safe-area-inset-bottom,20px))}
 .mobile-sec-hd{margin-bottom:16px}
@@ -518,7 +518,7 @@ async function wxFetch(type){
 
 function wxCat(raw){
   let c=Infinity;(raw.match(/(BKN|OVC)(\d{3})/g)||[]).forEach(x=>{const a=parseInt(x.slice(-3))*100;if(a<c)c=a;});
-  const vm=raw.match(/(\d{4})/);const vs=vm?parseInt(vm[1])/1609:6;
+  const vm=raw.match(/(?<![0-9])(\d{4})(?![0-9])/);const vs=vm?parseInt(vm[1])/1609:6;
   if(c<500||vs<1)return'LIFR';if(c<1000||vs<3)return'IFR';if(c<3000||vs<5)return'MVFR';return'VFR';
 }
 
@@ -544,8 +544,8 @@ function wxRender(raw,tid){
   const wspd=wm?parseInt(wm[2]):null;
   const wgust=wm&&wm[4]?parseInt(wm[4]):null;
   const wdir=wdeg==='VRB'?'Variable':(wdeg!==null?String(wdeg).padStart(3,'0')+'°':'—');
-  const cavok=/CAVOK/.test(raw);
-  const vm=!cavok&&raw.match(/(\d{4})/);
+  const cavok=raw.includes('CAVOK');
+  const vm=!cavok&&raw.match(/(?<![0-9])(\d{4})(?![0-9])/);
   const vis=cavok?'CAVOK':(vm?(parseInt(vm[1])>=9999?'> 10 km':vm[1]+' m'):'—');
   const cls=raw.match(/(FEW|SCT|BKN|OVC)\d{3}/g)||[];
   const clouds=cls.length?cls.map(c=>c.slice(0,3)+' '+(parseInt(c.slice(-3))*100)+' ft').join(' · '):(cavok?'CAVOK':'—');
@@ -567,7 +567,7 @@ function wxRender(raw,tid){
         <div class="wx-compass">${wxCompass(wdeg,col)}</div>
         <div class="wx-wind-data">
           <div class="wx-wind-spd">${wspd!==null?wspd:'—'}<em> kt</em></div>
-          <div class="wx-wind-info">${wdir}${wdeg!==null&&wdeg!=='VRB'?' · '+wdeg+'°':''}</div>
+          <div class="wx-wind-info">${wdir}</div>
           ${wgust?`<div class="wx-gust">↑ Rafales ${wgust} kt</div>`:''}
         </div>
       </div>
@@ -635,6 +635,8 @@ if('serviceWorker'in navigator){
 
 /* ── Init ── */
 buildOutils();chargerNews();
+// Précharger le METAR en arrière-plan dès le lancement
+setTimeout(function(){wxFetch('metar').then(function(r){wxRaw=r;wxTs=Date.now();}).catch(function(){});},1500);
 if(!isStandalone&&isMobile&&isIOS){
   if(!sessionStorage.getItem('apam_skip_banner')){
     setTimeout(()=>{
