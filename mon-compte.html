@@ -566,6 +566,41 @@ html:not(.pwa) .desktop-only{display:flex}
 .no-perm-t{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:22px;text-transform:uppercase;color:var(--dim);margin-bottom:6px;letter-spacing:.02em}
 .no-perm-s{font-size:13px;line-height:1.6}
 
+/* ═══════════════════════ RESSOURCES ═══════════════════════ */
+.res-section-h{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:14px;text-transform:uppercase;letter-spacing:.14em;color:var(--accent);margin:22px 0 12px;display:flex;align-items:center;gap:10px}
+.res-section-h::after{content:"";flex:1;height:1px;background:linear-gradient(to right,var(--accent-bord),transparent)}
+.res-section-h:first-of-type{margin-top:6px}
+
+.res-links{display:flex;flex-direction:column;gap:10px}
+.res-link{display:flex;align-items:center;gap:14px;padding:14px 16px;background:var(--card-bg);border:1px solid var(--card-bord);border-radius:14px;text-decoration:none;cursor:pointer;width:100%;font-family:'Jost',sans-serif;text-align:left;box-shadow:inset 0 1px 0 var(--stroke-in);color:inherit;transition:all .22s}
+.res-link:hover{border-color:var(--accent-bord);background:var(--accent-soft)}
+.res-link-icon{width:40px;height:40px;border-radius:10px;background:var(--accent-soft);border:1px solid var(--accent-bord);color:var(--accent);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.res-link-icon svg{width:20px;height:20px}
+.res-link-body{flex:1;min-width:0}
+.res-link-body h4{font-size:15px;font-weight:600;color:var(--text);margin-bottom:3px;letter-spacing:-.005em}
+.res-link-body p{font-size:13px;color:var(--muted);line-height:1.4;letter-spacing:.005em}
+.res-link-ext{color:var(--muted);flex-shrink:0;display:inline-flex}
+.res-link-ext svg{width:16px;height:16px}
+.res-link:hover .res-link-ext{color:var(--accent)}
+
+.info-card{background:var(--card-bg);border:1px solid var(--card-bord);border-radius:14px;overflow:hidden;margin-bottom:10px;box-shadow:inset 0 1px 0 var(--stroke-in)}
+.info-card-hd{display:flex;align-items:center;gap:10px;padding:12px 16px;border-bottom:1px solid var(--border);background:var(--sf2)}
+.info-card-icon{width:30px;height:30px;border-radius:8px;background:var(--accent-soft);border:1px solid var(--accent-bord);color:var(--accent);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.info-card-icon svg{width:16px;height:16px}
+.info-card-hd h4{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:17px;text-transform:uppercase;color:var(--text);letter-spacing:-.005em;line-height:1}
+.info-card.amber .info-card-icon{background:var(--amber-soft);border-color:var(--amber-bord);color:var(--amber)}
+.info-row{display:flex;justify-content:space-between;align-items:center;padding:10px 16px;border-bottom:1px solid var(--border);font-size:13.5px;gap:14px}
+.info-row:last-child{border-bottom:none}
+.info-k{color:var(--text-2);letter-spacing:.005em;font-weight:500}
+.info-v{font-family:'Jost',sans-serif;font-weight:600;color:var(--text);text-align:right}
+.info-v.mono{font-family:'JetBrains Mono',monospace;font-weight:600;font-size:14px;letter-spacing:.04em}
+.info-checklist{padding:6px 16px 12px}
+.info-check{display:flex;align-items:flex-start;gap:10px;padding:9px 0;font-size:13.5px;color:var(--text);line-height:1.5;border-bottom:1px dashed var(--border)}
+.info-check:last-child{border-bottom:none}
+.info-check::before{content:"";flex-shrink:0;width:14px;height:14px;border-radius:50%;border:1.5px solid var(--bds);margin-top:3px;background:var(--sf2)}
+
+.res-foot{margin:24px 0 4px;text-align:center;font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:500;line-height:1.6}
+
 /* ═══════════════════════ MISC ═══════════════════════ */
 .toast{position:fixed;bottom:calc(86px + env(safe-area-inset-bottom,16px));left:50%;transform:translateX(-50%) translateY(20px);background:var(--sf);border:1px solid var(--bds);border-radius:100px;padding:11px 24px;font-size:13.5px;font-weight:600;color:var(--text);opacity:0;transition:opacity .28s,transform .28s;pointer-events:none;white-space:nowrap;z-index:9999;box-shadow:var(--shadow-1)}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
@@ -888,6 +923,95 @@ button,a,.tap{transition:transform .28s cubic-bezier(.2,.7,.2,1),background-colo
     </div>
   </div>
 
+  <!-- RESSOURCES (onglet principal) -->
+  <div id="pane-ressources" class="tab-pane">
+    <div class="mobile-wrap">
+      <div class="mobile-sec-h">
+        <h2>Ressources</h2>
+        <span class="mobile-sec-h-sub">Aides &amp; liens pilote</span>
+      </div>
+
+      <div class="res-section-h">Liens essentiels</div>
+      <div class="res-links">
+        <a class="res-link" href="https://aviation.meteo.fr" target="_blank" rel="noopener">
+          <span class="res-link-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M7 18a5 5 0 1 1 .6-9.96A6 6 0 0 1 19 9.5a4.5 4.5 0 0 1-1.5 8.5H7z"/></svg></span>
+          <div class="res-link-body"><h4>Météo France Aviation</h4><p>METAR · TAF · SIGMET officiels</p></div>
+          <span class="res-link-ext"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M9 7h8v8"/></svg></span>
+        </a>
+        <a class="res-link" href="https://www.sia.aviation-civile.gouv.fr" target="_blank" rel="noopener">
+          <span class="res-link-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></span>
+          <div class="res-link-body"><h4>SIA — Cartes VAC</h4><p>Cartes terrains français</p></div>
+          <span class="res-link-ext"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M9 7h8v8"/></svg></span>
+        </a>
+        <a class="res-link" href="https://www.openaip.net" target="_blank" rel="noopener">
+          <span class="res-link-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15 15 0 0 1 0 20M12 2a15 15 0 0 0 0 20"/></svg></span>
+          <div class="res-link-body"><h4>OpenAIP</h4><p>Carte aéronautique mondiale</p></div>
+          <span class="res-link-ext"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M9 7h8v8"/></svg></span>
+        </a>
+        <a class="res-link" href="https://metar-taf.com/LFOE" target="_blank" rel="noopener">
+          <span class="res-link-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M14 17l-4-4 4-4M5 21V3"/></svg></span>
+          <div class="res-link-body"><h4>METAR-TAF.com</h4><p>Décodage en clair · LFOE</p></div>
+          <span class="res-link-ext"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M9 7h8v8"/></svg></span>
+        </a>
+      </div>
+
+      <div class="res-section-h">Terrain LFOL</div>
+      <div class="info-card">
+        <div class="info-card-hd">
+          <span class="info-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5z"/></svg></span>
+          <h4>Fiche aérodrome</h4>
+        </div>
+        <div class="info-row"><span class="info-k">Code OACI</span><span class="info-v">LFOL</span></div>
+        <div class="info-row"><span class="info-k">Piste</span><span class="info-v">07 / 25 · 800 m</span></div>
+        <div class="info-row"><span class="info-k">Surface</span><span class="info-v">Herbe</span></div>
+        <div class="info-row"><span class="info-k">Élévation</span><span class="info-v">200 ft · 61 m</span></div>
+        <div class="info-row"><span class="info-k">Coordonnées</span><span class="info-v">48°45′N 0°39′E</span></div>
+        <div class="info-row"><span class="info-k">Fréquence A/A</span><span class="info-v">126.855 MHz</span></div>
+        <div class="info-row"><span class="info-k">Carburant</span><span class="info-v">Avgas 100LL</span></div>
+      </div>
+
+      <div class="res-section-h">Pense-bête</div>
+      <div class="info-card amber">
+        <div class="info-card-hd">
+          <span class="info-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></span>
+          <h4>Codes transpondeur</h4>
+        </div>
+        <div class="info-row"><span class="info-k">Détresse</span><span class="info-v mono">7700</span></div>
+        <div class="info-row"><span class="info-k">Panne radio</span><span class="info-v mono">7600</span></div>
+        <div class="info-row"><span class="info-k">Détournement</span><span class="info-v mono">7500</span></div>
+        <div class="info-row"><span class="info-k">VFR (par défaut)</span><span class="info-v mono">7000</span></div>
+      </div>
+
+      <div class="info-card">
+        <div class="info-card-hd">
+          <span class="info-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18v-6a9 9 0 0 1 18 0v6M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/></svg></span>
+          <h4>Fréquences utiles</h4>
+        </div>
+        <div class="info-row"><span class="info-k">A/A LFOL</span><span class="info-v mono">126.855</span></div>
+        <div class="info-row"><span class="info-k">Évreux APP</span><span class="info-v mono">119.300</span></div>
+        <div class="info-row"><span class="info-k">Paris Info</span><span class="info-v mono">126.100</span></div>
+        <div class="info-row"><span class="info-k">SAR (urgence)</span><span class="info-v mono">121.500</span></div>
+      </div>
+
+      <div class="info-card">
+        <div class="info-card-hd">
+          <span class="info-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></span>
+          <h4>Avant le vol</h4>
+        </div>
+        <div class="info-checklist">
+          <div class="info-check">Carnet de route &amp; documents bord</div>
+          <div class="info-check">Météo : METAR / TAF / SIGMET</div>
+          <div class="info-check">NOTAM aérodromes &amp; route</div>
+          <div class="info-check">Carburant suffisant + réserve</div>
+          <div class="info-check">Masse &amp; centrage</div>
+          <div class="info-check">Pré-vol extérieur complet</div>
+        </div>
+      </div>
+
+      <div class="res-foot">Contenu modifiable directement dans le code · plus de modules à venir</div>
+    </div>
+  </div>
+
   <!-- WEBCAM -->
   <div id="pane-webcam" class="tab-pane">
     <div class="mobile-wrap">
@@ -900,10 +1024,11 @@ button,a,.tap{transition:transform .28s cubic-bezier(.2,.7,.2,1),background-colo
   </div>
 
   <nav class="bottom-nav">
-    <button class="bn on" id="tab-home"   onclick="switchTab('home')"   type="button"><span class="bn-iconwrap"><svg viewBox="0 0 24 24"><path d="M3 11l9-8 9 8M5 10v10a1 1 0 0 0 1 1h4v-7h4v7h4a1 1 0 0 0 1-1V10"/></svg></span><span>Accueil</span></button>
-    <button class="bn"    id="tab-meteo"  onclick="switchTab('meteo')"  type="button"><span class="bn-iconwrap"><svg viewBox="0 0 24 24"><path d="M7 18a5 5 0 1 1 .6-9.96A6 6 0 0 1 19 9.5a4.5 4.5 0 0 1-1.5 8.5H7z"/></svg></span><span>Météo</span></button>
-    <button class="bn"    id="tab-outils" onclick="switchTab('outils')" type="button"><span class="bn-iconwrap"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></span><span>Options</span></button>
-    <button class="bn"    id="tab-webcam" onclick="switchTab('webcam')" type="button"><span class="bn-iconwrap"><svg viewBox="0 0 24 24"><path d="M23 7l-7 5 7 5z"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg></span><span>Webcam</span></button>
+    <button class="bn on" id="tab-home"       onclick="switchTab('home')"       type="button"><span class="bn-iconwrap"><svg viewBox="0 0 24 24"><path d="M3 11l9-8 9 8M5 10v10a1 1 0 0 0 1 1h4v-7h4v7h4a1 1 0 0 0 1-1V10"/></svg></span><span>Accueil</span></button>
+    <button class="bn"    id="tab-meteo"      onclick="switchTab('meteo')"      type="button"><span class="bn-iconwrap"><svg viewBox="0 0 24 24"><path d="M7 18a5 5 0 1 1 .6-9.96A6 6 0 0 1 19 9.5a4.5 4.5 0 0 1-1.5 8.5H7z"/></svg></span><span>Météo</span></button>
+    <button class="bn"    id="tab-ressources" onclick="switchTab('ressources')" type="button"><span class="bn-iconwrap"><svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></span><span>Ressources</span></button>
+    <button class="bn"    id="tab-outils"     onclick="switchTab('outils')"     type="button"><span class="bn-iconwrap"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></span><span>Options</span></button>
+    <button class="bn"    id="tab-webcam"     onclick="switchTab('webcam')"     type="button"><span class="bn-iconwrap"><svg viewBox="0 0 24 24"><path d="M23 7l-7 5 7 5z"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg></span><span>Webcam</span></button>
   </nav>
 </div>
 
@@ -923,7 +1048,7 @@ button,a,.tap{transition:transform .28s cubic-bezier(.2,.7,.2,1),background-colo
 
 <script>
 'use strict';
-const APP_VERSION='1.5.0';
+const APP_VERSION='1.6.0';
 const API='https://script.google.com/macros/s/AKfycbxae9y3NHqDyAkbEI5rDVRappI-aAWoA0jcHqR8NBUgm3t5SCB1Hq8nebY5t23cV1Je/exec';
 const isStandalone=navigator.standalone||window.matchMedia('(display-mode:standalone)').matches;
 const isIOS=/iPad|iPhone|iPod/.test(navigator.userAgent)&&!window.MSStream;
@@ -1046,6 +1171,7 @@ function saveNC(n){try{localStorage.setItem(NK,JSON.stringify(n));}catch{}}
 function loadRC(){try{const r=localStorage.getItem(RK);return r?JSON.parse(r):{};}catch{return {};}}
 function saveRC(){try{localStorage.setItem(RK,JSON.stringify(RS));}catch{}}
 const RS={};
+const _voteTokens={};
 
 function applyNews(news){
   const b=news.length;
@@ -1074,7 +1200,8 @@ async function fetchReactions(news){
       const d=await fetch(`${API}?action=reactions&newsId=${id}`).then(r=>r.json());
       const react=d.reactions||[];
       const prev=(RS[id]||{}).myVote;
-      const my=react.find(r=>r.prenom===memberPrenom&&(r.nom||'').toLowerCase()===(memberName.split(' ').slice(1).join(' ')).toLowerCase())?.reponse||prev||null;
+      /* LOCAL VOTE WINS over server-derived match (prevents flicker on quick changes) */
+      const my=prev||react.find(r=>r.prenom===memberPrenom&&(r.nom||'').toLowerCase()===(memberName.split(' ').slice(1).join(' ')).toLowerCase())?.reponse||null;
       RS[id]={reactions:react,myVote:my};
     }catch{}
   }));
@@ -1097,6 +1224,7 @@ async function chargerNews(){
 
 async function voter(newsId,reponse){
   hapticTick();
+  const token=(_voteTokens[newsId]=(_voteTokens[newsId]||0)+1);
   if(!RS[newsId])RS[newsId]={reactions:[],myVote:null};
   RS[newsId].myVote=reponse;
   /* Optimistic: insert/replace own vote in reactions so count & name update instantly */
@@ -1108,10 +1236,15 @@ async function voter(newsId,reponse){
   try{
     const p=new URLSearchParams({action:'reagir',newsId,prenom:memberPrenom,nom:memberName,reponse});
     await fetch(`${API}?${p}`);
+    /* Stale-check before refetching */
+    if(token!==_voteTokens[newsId])return;
     await fetchReactions(news);
+    /* Stale-check after refetch */
+    if(token!==_voteTokens[newsId])return;
     if(RS[newsId])RS[newsId].myVote=reponse;
     saveRC();applyNews(news);
   }catch{
+    if(token!==_voteTokens[newsId])return;
     if(RS[newsId])RS[newsId].myVote=reponse;
     saveRC();applyNews(news);
     toast('Vote enregistré localement (hors-ligne)','err');
@@ -1137,7 +1270,7 @@ window.togglePollVoters=function(btn){
 };
 
 /* ── Tabs ── */
-const PRIMARY_TABS=['home','meteo','outils','webcam'];
+const PRIMARY_TABS=['home','meteo','ressources','outils','webcam'];
 window.switchTab=function(tab){
   hapticTick();
   document.querySelectorAll('.tab-pane').forEach(p=>p.classList.remove('active'));
@@ -1773,7 +1906,7 @@ function wxLoad(tid,_retry){
   });
 }
 
-function wxReload(tid){hapticTick();wxRaw=null;wxTs=0;wxFetching=false;wxLoad(tid||'m-wx');}
+function wxReload(tid){hapticTick();wxTs=0;wxFetching=false;wxLoad(tid||'m-wx');}
 
 /* Quick weather summary (home pane mobile + desktop hero) */
 function updateWxQuick(){
