@@ -502,7 +502,10 @@ const WX_CLS={VFR:'wx-vfr',MVFR:'wx-mvfr',IFR:'wx-ifr',LIFR:'wx-lifr'};
 var _wxStored=localStorage.getItem('apam_wx_raw');
 var wxRaw=_wxStored||null;  // On garde même si vieux — toujours mieux que rien
 var wxTs=parseInt(localStorage.getItem('apam_wx_ts')||'0');
-var wxTafOpen=false,wxTafText=null;
+var wxTafOpen=false;
+var _tafStored=localStorage.getItem('apam_wx_taf');
+var wxTafText=_tafStored||null; // Cache TAF persistant
+var wxTafFetching=false;
 var wxFetching=false;
 
 async function wxFetch(type){
@@ -604,42 +607,50 @@ function wxRender(raw,tid){
     <div id="${tafBoxId}" style="display:none"></div>`;
 }
 
-function wxLoad(tid){
+function wxLoad(tid,_retry){
   tid=tid||'m-wx';
   var el=document.getElementById(tid);
   if(!el)return;
 
-  // 1. Afficher le cache IMMÉDIATEMENT si disponible
+  // 1. Cache disponible → afficher immédiatement, fetch silencieux en fond
   if(wxRaw){
     wxRender(wxRaw,tid);
-  }else{
-    el.innerHTML='<div class="wx-loading">Chargement météo…</div>';
+    if(!wxFetching&&Date.now()-wxTs>1800000){ // Cache > 30min → rafraîchir
+      wxFetching=true;
+      wxFetch('metar').then(function(raw){
+        wxFetching=false;
+        if(!raw||raw===wxRaw)return;
+        wxRaw=raw;wxTs=Date.now();
+        try{localStorage.setItem('apam_wx_raw',raw);localStorage.setItem('apam_wx_ts',String(Date.now()));}catch(e){}
+        var el2=document.getElementById(tid);if(el2)wxRender(raw,tid);
+      }).catch(function(){wxFetching=false;});
+    }
+    return;
   }
 
-  // 2. Fetch en arrière-plan (silencieux si cache affiché)
+  // 2. Pas de cache → afficher loading et fetch
+  if(!_retry)el.innerHTML='<div class="wx-loading">Chargement météo…</div>';
   if(wxFetching)return;
-  var cacheAge=Date.now()-wxTs;
-  var needRefresh=!wxRaw||cacheAge>1800000; // 30min
-  if(!needRefresh)return; // Cache frais, pas besoin
-
   wxFetching=true;
   wxFetch('metar').then(function(raw){
     wxFetching=false;
-    if(!raw||raw===wxRaw)return; // Rien de nouveau
     wxRaw=raw;wxTs=Date.now();
     try{localStorage.setItem('apam_wx_raw',raw);localStorage.setItem('apam_wx_ts',String(Date.now()));}catch(e){}
-    var el2=document.getElementById(tid);
-    if(el2)wxRender(raw,tid); // Mise à jour silencieuse
+    var el2=document.getElementById(tid);if(el2)wxRender(raw,tid);
   }).catch(function(){
     wxFetching=false;
-    if(!wxRaw){ // Aucun cache : afficher l'erreur
+    var retry=(_retry||0)+1;
+    if(retry<=3){
+      // Retry automatique : 2s, 4s, 8s (gère le cold start GAS)
+      setTimeout(function(){wxLoad(tid,retry);},retry*2000);
+    }else{
       var el2=document.getElementById(tid);
-      if(el2)el2.innerHTML='<div class="wx-error"><div class="wx-error-t">METAR indisponible</div><div class="wx-error-s">LFOE · Réessayez dans quelques instants.<br><button class="wx-retry" onclick="wxForceReload(\'' + tid + '\')">↻ Réessayer</button></div></div>';
+      if(el2)el2.innerHTML='<div class="wx-error"><div class="wx-error-t">METAR indisponible</div><div class="wx-error-s">LFOE indisponible.<br><button class="wx-retry" onclick="wxForceReload(this)">&#8635; Réessayer</button></div></div>';
     }
   });
 }
 
-function wxForceReload(tid){wxFetching=false;wxTs=0;wxLoad(tid||'m-wx');}
+function wxForceReload(btn){var tid=(btn&&btn.closest)?([...(btn.closest('[id]')||{id:'m-wx'}).id.split('-')].includes('d')?'d-wx':'m-wx'):'m-wx';wxFetching=false;wxTs=0;wxRaw=null;wxLoad(tid);}
 
 function wxReload(tid){wxRaw=null;wxTs=0;wxFetching=false;wxLoad(tid||'m-wx');}
 
@@ -682,7 +693,7 @@ buildOutils();chargerNews();
 // Précharger METAR dès le lancement
 setTimeout(function(){wxLoad('m-wx');},800);
 // Précharger TAF en parallèle
-setTimeout(function(){wxFetch('taf').then(function(r){wxTafText=r;}).catch(function(){});},2000);
+setTimeout(function(){if(!wxTafFetching){wxTafFetching=true;wxFetch('taf').then(function(r){wxTafFetching=false;wxTafText=r;try{localStorage.setItem('apam_wx_taf',r);}catch(e){}}).catch(function(){wxTafFetching=false;});}},2000);
 // Auto-refresh METAR toutes les 30 min
 setInterval(function(){wxTs=0;wxLoad('m-wx');wxLoad('d-wx');},1800000);
 // Refresh quand l'app revient au premier plan
