@@ -284,23 +284,7 @@ html:not(.pwa) .desktop-only{display:flex}
     <div class="mobile-wrap">
       <div class="mobile-sec-hd"><h2>🌤 Météo · LFOE</h2></div>
 
-      <!-- Widget metar-taf.com -->
-      <div style="border-radius:12px;overflow:hidden;margin-bottom:12px">
-        <a href="https://metar-taf.com/metar/LFOL"
-           id="metartaf-f26zXvMG"
-           style="font-size:18px;font-weight:500;color:#000;width:100%;height:435px;display:block">
-          METAR L&#039;Aigle-Saint-Michel Airfield
-        </a>
-        <script async defer crossorigin="anonymous"
-          src="https://metar-taf.com/embed-js/LFOL?u=84930&qnh=hPa&rh=rh&target=f26zXvMG">
-        </script>
-      </div>
-
-      <!-- TAF via notre API -->
-      <button class="wx-taf-btn" id="wx-taf-btn-m" onclick="wxTafToggle('m')">
-        <span>TAF · LFOE</span><span id="wx-taf-arr-m">›</span>
-      </button>
-      <div id="wx-taf-box-m" style="display:none"></div>
+      <div id="m-wx"></div>
 
     </div>
   </div>
@@ -459,7 +443,7 @@ window.switchTab=function(tab){
   document.querySelectorAll('.bn').forEach(b=>b.classList.remove('on'));
   const pane=document.getElementById('pane-'+tab),btn=document.getElementById('tab-'+tab);
   if(pane)pane.classList.add('active');if(btn)btn.classList.add('on');
-  // Widget metar-taf.com s'affiche automatiquement
+  if(tab==='meteo') wxLoad('m-wx');
 };
 window.switchD=function(tab){
   document.querySelectorAll('.d-pane').forEach(p=>p.classList.remove('active'));
@@ -514,7 +498,12 @@ window.mettreAJour=async function(){
 const WX_STA='LFOE';
 const WX_COL={VFR:'#22d77a',MVFR:'#60a5fa',IFR:'#ef4444',LIFR:'#a855f7'};
 const WX_CLS={VFR:'wx-vfr',MVFR:'wx-mvfr',IFR:'wx-ifr',LIFR:'wx-lifr'};
-let wxRaw=null,wxTs=0,wxTafOpen=false,wxTafText=null;
+// Cache METAR persistant en localStorage
+var _wxStored=localStorage.getItem('apam_wx_raw');
+var _wxStoredTs=parseInt(localStorage.getItem('apam_wx_ts')||'0');
+var wxRaw=(_wxStored&&Date.now()-_wxStoredTs<1800000)?_wxStored:null; // 30min max
+var wxTs=wxRaw?_wxStoredTs:0;
+var wxTafOpen=false,wxTafText=null;
 
 async function wxFetch(type){
   // 1. GAS (ton serveur — aucun problème CORS)
@@ -535,9 +524,19 @@ async function wxFetch(type){
 }
 
 function wxCat(raw){
-  let c=Infinity;(raw.match(/(BKN|OVC)(\d{3})/g)||[]).forEach(x=>{const a=parseInt(x.slice(-3))*100;if(a<c)c=a;});
-  const vm=raw.match(/(?<![0-9])(\d{4})(?![0-9])/);const vs=vm?parseInt(vm[1])/1609:6;
-  if(c<500||vs<1)return'LIFR';if(c<1000||vs<3)return'IFR';if(c<3000||vs<5)return'MVFR';return'VFR';
+  // CAVOK dans les conditions de base = VFR garanti
+  var base = raw.split(' TEMPO ')[0].split(' BECMG ')[0].split(' RMK ')[0];
+  if(base.includes('CAVOK')) return 'VFR';
+  // Plafond = couches BKN/OVC dans les conditions de base uniquement
+  var ceil = Infinity;
+  (base.match(/(BKN|OVC)(\d{3})/g)||[]).forEach(function(c){var a=parseInt(c.slice(-3))*100;if(a<ceil)ceil=a;});
+  // Visibilité = premier groupe de 4 chiffres entouré d'espaces
+  var vm = base.match(/ (\d{4}) /);
+  var vs = vm ? parseInt(vm[1])/1609 : 10;
+  if(ceil<500||vs<1) return 'LIFR';
+  if(ceil<1000||vs<3) return 'IFR';
+  if(ceil<3000||vs<5) return 'MVFR';
+  return 'VFR';
 }
 
 function wxCompass(deg,col){
@@ -562,11 +561,12 @@ function wxRender(raw,tid){
   const wspd=wm?parseInt(wm[2]):null;
   const wgust=wm&&wm[4]?parseInt(wm[4]):null;
   const wdir=wdeg==='VRB'?'Variable':(wdeg!==null?String(wdeg).padStart(3,'0')+'°':'—');
-  const cavok=raw.includes('CAVOK');
-  const vm=!cavok&&raw.match(/(?<![0-9])(\d{4})(?![0-9])/);
-  const vis=cavok?'CAVOK':(vm?(parseInt(vm[1])>=9999?'> 10 km':vm[1]+' m'):'—');
-  const cls=raw.match(/(FEW|SCT|BKN|OVC)\d{3}/g)||[];
-  const clouds=cls.length?cls.map(c=>c.slice(0,3)+' '+(parseInt(c.slice(-3))*100)+' ft').join(' · '):(cavok?'CAVOK':'—');
+  var wxBase=raw.split(' TEMPO ')[0].split(' BECMG ')[0].split(' RMK ')[0];
+  var cavok=wxBase.includes('CAVOK');
+  var vm=!cavok&&wxBase.match(/ (\d{4}) /);
+  var vis=cavok?'CAVOK':(vm?(parseInt(vm[1])>=9999?'> 10 km':parseInt(vm[1])>=1000?(parseInt(vm[1])/1000).toFixed(1)+' km':vm[1]+' m'):'—');
+  var cls=wxBase.match(/(FEW|SCT|BKN|OVC)\d{3}/g)||[];
+  var clouds=cls.length?cls.map(function(c){return c.slice(0,3)+' '+(parseInt(c.slice(-3))*100)+' ft';}).join(' · '):(cavok?'CAVOK':'—');
   const tm=raw.match(/(M?\d{2})\/(M?\d{2})/);
   const temp=tm?tm[1].replace('M','−')+'°C':'—';const dew=tm?tm[2].replace('M','−')+'°C':'—';
   const qm=raw.match(/Q(\d{4})/);const qnh=qm?qm[1]+' hPa':'—';
@@ -609,7 +609,9 @@ async function wxLoad(tid){
   if(wxRaw&&Date.now()-wxTs<300000){wxRender(wxRaw,tid);return;}
   el.innerHTML='<div class="wx-loading">Chargement météo…</div>';
   try{
-    const raw=await wxFetch('metar');wxRaw=raw;wxTs=Date.now();wxRender(raw,tid);
+    const raw=await wxFetch('metar');wxRaw=raw;wxTs=Date.now();
+    try{localStorage.setItem('apam_wx_raw',raw);localStorage.setItem('apam_wx_ts',String(Date.now()));}catch(e){}
+    wxRender(raw,tid);
   }catch{
     el.innerHTML=`<div class="wx-error"><div class="wx-error-t">METAR indisponible</div><div class="wx-error-s">LFOE · Station militaire · Données irrégulières<br><button class="wx-retry" onclick="wxReload('${tid}')">↻ Réessayer</button></div></div>`;
   }
@@ -653,8 +655,8 @@ if('serviceWorker'in navigator){
 
 /* ── Init ── */
 buildOutils();chargerNews();
-// Précharger le TAF en arrière-plan (widget metar-taf.com gère le METAR)
-setTimeout(function(){wxFetch('taf').then(function(r){wxTafText=r;}).catch(function(){});},2000);
+// Précharger METAR + TAF en arrière-plan
+setTimeout(function(){wxLoad('m-wx');wxFetch('taf').then(function(r){wxTafText=r;}).catch(function(){});},1500);
 if(!isStandalone&&isMobile&&isIOS){
   if(!sessionStorage.getItem('apam_skip_banner')){
     setTimeout(()=>{
