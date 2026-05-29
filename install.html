@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<title>Installer l'app APAM</title>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
+<meta name="theme-color" content="#080a0e"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+<link rel="manifest" href="manifest.json"/>
+<link rel="apple-touch-icon" href="/icon-180x180.png"/>
+<link rel="icon" type="image/png" sizes="192x192" href="/icon-192x192.png"/>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,700;0,900;1,700;1,900&family=Jost:wght@300;400;500;600;700&family=Lora:ital,wght@1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#080a0e;--sf:#141720;--sf2:#191d2c;
+  --accent:#2563eb;--acc2:#818cf8;--acc-d:rgba(37,99,235,.14);
+  --muted:#7a8399;--dim:#32384f;
+  --border:rgba(255,255,255,.07);--bds:rgba(255,255,255,.11);
+  --ok:#22d77a;--white:#fff;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--white);font-family:'Jost',sans-serif;-webkit-font-smoothing:antialiased;min-height:100dvh;display:flex;flex-direction:column;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+img{max-width:100%;display:block}
+
+/* Background atmosphere */
+.bg-atmos{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.bg-atmos::before{content:'';position:absolute;top:-10%;left:50%;transform:translateX(-50%);width:140%;height:80%;background:radial-gradient(60% 50% at 50% 0%,rgba(37,99,235,.16),transparent 65%)}
+.bg-atmos::after{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(37,99,235,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(37,99,235,.025) 1px,transparent 1px);background-size:80px 80px;mask-image:radial-gradient(50% 80% at 50% 50%,rgba(0,0,0,.6),transparent)}
+
+.grain{position:fixed;inset:0;z-index:9990;pointer-events:none;opacity:.025;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4'/%3E%3C/filter%3E%3Crect width='512' height='512' filter='url(%23n)'/%3E%3C/svg%3E");background-size:180px}
+
+/* Layout */
+.wrap{position:relative;z-index:1;max-width:540px;margin:0 auto;padding:clamp(28px,6vw,48px) clamp(22px,5vw,40px) calc(40px + env(safe-area-inset-bottom,0px));width:100%;flex:1;display:flex;flex-direction:column}
+
+/* Header */
+.head{display:flex;align-items:center;gap:12px;margin-bottom:clamp(32px,8vw,52px)}
+.head-logo{width:54px;height:54px;border-radius:14px;background:var(--sf);border:1px solid var(--bds);display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 8px 28px rgba(0,0,0,.4)}
+.head-logo img{width:100%;height:100%;object-fit:contain;border-radius:inherit}
+.head-meta{display:flex;flex-direction:column;gap:2px;min-width:0}
+.head-title{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:22px;text-transform:uppercase;letter-spacing:-.01em;color:#fff;line-height:1}
+.head-sub{font-size:10px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
+
+/* Hero */
+.hero{margin-bottom:32px;text-align:center}
+.hero-kicker{display:inline-flex;align-items:center;gap:8px;font-size:10px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);margin-bottom:16px}
+.hero-kicker::before{content:'';width:18px;height:1px;background:var(--accent)}
+.hero-kicker::after{content:'';width:18px;height:1px;background:var(--accent)}
+.hero-title{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:clamp(40px,10vw,58px);text-transform:uppercase;line-height:.92;letter-spacing:-.018em;color:#fff;margin-bottom:14px}
+.hero-title .ol{color:transparent;-webkit-text-stroke:1.5px rgba(255,255,255,.35)}
+.hero-sub{font-family:'Lora',serif;font-style:italic;font-size:15px;line-height:1.6;color:rgba(255,255,255,.65);max-width:380px;margin:0 auto}
+
+/* Device card (the panel that changes by device) */
+.dev-card{background:var(--sf);border:1px solid var(--border);border-radius:16px;overflow:hidden;margin-bottom:14px;position:relative;animation:slideUp .65s cubic-bezier(.16,1,.3,1) both}
+.dev-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(to right,var(--accent),var(--acc2) 50%,transparent)}
+@keyframes slideUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+
+.dev-head{padding:18px 22px;display:flex;align-items:center;gap:14px;border-bottom:1px solid var(--border)}
+.dev-icon{width:42px;height:42px;border-radius:11px;background:var(--acc-d);border:1px solid rgba(37,99,235,.3);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:22px;color:var(--accent)}
+.dev-icon svg{width:22px;height:22px;fill:currentColor}
+.dev-title{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:18px;text-transform:uppercase;letter-spacing:-.005em;line-height:1;color:#fff}
+.dev-sub{font-size:11px;color:var(--muted);margin-top:3px;letter-spacing:.04em}
+
+/* Install steps */
+.steps{padding:18px 22px 22px}
+.step{display:flex;gap:14px;padding:13px 0;align-items:flex-start;border-bottom:1px dashed rgba(255,255,255,.05)}
+.step:last-of-type{border-bottom:none}
+.step-num{width:28px;height:28px;border-radius:50%;background:var(--accent);color:#fff;font-weight:700;font-size:13px;display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 4px 12px rgba(37,99,235,.4)}
+.step-tx{font-size:14px;line-height:1.55;color:rgba(255,255,255,.82);padding-top:3px}
+.step-tx strong{font-weight:700;color:#fff}
+.step-tx .ico{display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;border-radius:6px;background:var(--sf2);border:1px solid var(--bds);margin:0 4px;vertical-align:middle;font-size:14px;line-height:1}
+.step-tx .ico svg{width:14px;height:14px;fill:rgba(255,255,255,.7)}
+
+/* Big install button (Android) */
+.install-btn{width:100%;padding:16px 22px;display:flex;align-items:center;justify-content:center;gap:10px;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:15px;letter-spacing:.14em;text-transform:uppercase;background:var(--accent);border:none;color:#fff;border-radius:12px;cursor:pointer;transition:transform .2s,background .2s;box-shadow:0 8px 24px rgba(37,99,235,.4)}
+.install-btn:hover{transform:translateY(-2px);background:#1d4ed8}
+.install-btn:active{transform:translateY(0)}
+.install-btn svg{width:18px;height:18px;fill:currentColor}
+
+/* QR for desktop */
+.qr-card{padding:22px;display:flex;flex-direction:column;align-items:center;gap:14px}
+.qr-wrap{width:200px;height:200px;background:#fff;border-radius:12px;padding:12px;box-shadow:0 12px 36px rgba(0,0,0,.5)}
+.qr-wrap img{width:100%;height:100%;object-fit:contain}
+.qr-instructions{font-size:13px;color:var(--muted);text-align:center;max-width:280px;line-height:1.6}
+
+/* Already installed state */
+.installed{padding:32px 22px;text-align:center}
+.installed-ic{width:64px;height:64px;border-radius:50%;background:rgba(34,215,122,.12);border:1px solid rgba(34,215,122,.3);display:flex;align-items:center;justify-content:center;margin:0 auto 14px;color:var(--ok);font-size:30px}
+.installed h3{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:22px;text-transform:uppercase;color:var(--ok);margin-bottom:6px}
+.installed p{font-size:13px;color:var(--muted);line-height:1.6;margin-bottom:18px}
+
+/* Features grid */
+.features{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:22px}
+.feat{background:var(--sf);border:1px solid var(--border);border-radius:12px;padding:14px 12px;text-align:center;display:flex;flex-direction:column;gap:6px;align-items:center;transition:border-color .25s,transform .35s}
+.feat:hover{border-color:rgba(37,99,235,.3);transform:translateY(-2px)}
+.feat-ic{font-size:20px;color:var(--accent)}
+.feat-lbl{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.8);line-height:1.3}
+
+/* Footer link */
+.foot{margin-top:auto;padding-top:32px;text-align:center}
+.foot a{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;letter-spacing:.08em;color:var(--muted);transition:color .2s}
+.foot a:hover{color:var(--accent)}
+.foot-sep{color:var(--dim);margin:0 8px}
+
+/* Loading state */
+.loading{padding:60px 22px;text-align:center;color:var(--muted);font-size:12px;letter-spacing:.14em;text-transform:uppercase}
+
+/* Show / hide */
+.hidden{display:none!important}
+
+@media(max-width:380px){
+  .features{grid-template-columns:repeat(2,1fr)}
+}
+</style>
+</head>
+<body>
+
+<div class="bg-atmos"></div>
+<div class="grain"></div>
+
+<div class="wrap">
+
+  <header class="head">
+    <div class="head-logo"><img src="/icon-192x192.png" alt="APAM"></div>
+    <div class="head-meta">
+      <span class="head-title">APAM</span>
+      <span class="head-sub">L'Aigle Saint-Michel · LFOL</span>
+    </div>
+  </header>
+
+  <section class="hero">
+    <p class="hero-kicker">Espace membres</p>
+    <h1 class="hero-title">Installez<br><span class="ol">l'application.</span></h1>
+    <p class="hero-sub">Accédez à votre espace membres en un tap depuis votre écran d'accueil.</p>
+  </section>
+
+  <div class="features">
+    <div class="feat"><span class="feat-ic">⚡</span><span class="feat-lbl">Hors ligne</span></div>
+    <div class="feat"><span class="feat-ic">🌤</span><span class="feat-lbl">Météo LFOE</span></div>
+    <div class="feat"><span class="feat-ic">📰</span><span class="feat-lbl">News du club</span></div>
+  </div>
+
+  <!-- États dynamiques -->
+
+  <!-- État 0 : Loading -->
+  <div class="dev-card" id="state-loading">
+    <div class="loading">Détection de l'appareil…</div>
+  </div>
+
+  <!-- État 1 : Déjà installé -->
+  <div class="dev-card hidden" id="state-installed">
+    <div class="installed">
+      <div class="installed-ic">✓</div>
+      <h3>App déjà installée</h3>
+      <p>L'app APAM est déjà installée sur cet appareil.</p>
+      <a href="/mon-compte.html" class="install-btn">Ouvrir mon compte →</a>
+    </div>
+  </div>
+
+  <!-- État 2 : iOS Safari -->
+  <div class="dev-card hidden" id="state-ios">
+    <div class="dev-head">
+      <div class="dev-icon">
+        <svg viewBox="0 0 24 24"><path d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.54 4.09zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.50-3.74 4.25z"/></svg>
+      </div>
+      <div>
+        <div class="dev-title">iOS — Safari</div>
+        <div class="dev-sub">3 étapes simples</div>
+      </div>
+    </div>
+    <div class="steps">
+      <div class="step"><div class="step-num">1</div><div class="step-tx">Appuyez sur le bouton <strong>Partager</strong> <span class="ico"><svg viewBox="0 0 24 24"><path d="M16 5l-1.42 1.42-1.59-1.59V16h-1.98V4.83L9.42 6.42 8 5l4-4 4 4zm4 5v11c0 1.1-.9 2-2 2H6c-1.11 0-2-.9-2-2V10c0-1.11.89-2 2-2h3v2H6v11h12V10h-3V8h3c1.1 0 2 .89 2 2z"/></svg></span> en bas de l'écran</div></div>
+      <div class="step"><div class="step-num">2</div><div class="step-tx">Faites défiler et sélectionnez <strong>Sur l'écran d'accueil</strong> <span class="ico">＋</span></div></div>
+      <div class="step"><div class="step-num">3</div><div class="step-tx">Confirmez en appuyant sur <strong>Ajouter</strong> en haut à droite</div></div>
+    </div>
+  </div>
+
+  <!-- État 3 : Android Chrome -->
+  <div class="dev-card hidden" id="state-android">
+    <div class="dev-head">
+      <div class="dev-icon">
+        <svg viewBox="0 0 24 24"><path d="M17.6 9.48l1.84-3.18c.16-.31.04-.69-.26-.85-.29-.15-.65-.06-.83.22l-1.88 3.24c-2.86-1.21-6.08-1.21-8.94 0L5.65 5.67c-.19-.29-.58-.38-.87-.2-.28.18-.37.54-.22.83L6.4 9.48C3.3 11.25 1.28 14.44 1 18h22c-.28-3.56-2.3-6.75-5.4-8.52zM7 15.25a1.25 1.25 0 110-2.5 1.25 1.25 0 010 2.5zm10 0a1.25 1.25 0 110-2.5 1.25 1.25 0 010 2.5z"/></svg>
+      </div>
+      <div>
+        <div class="dev-title">Android</div>
+        <div class="dev-sub">Installation en un tap</div>
+      </div>
+    </div>
+    <div class="steps">
+      <button id="btn-install-android" class="install-btn" style="margin:0">
+        <svg viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zm-14 9v2h14v-2H5z"/></svg>
+        Installer l'app
+      </button>
+      <p style="font-size:11px;color:var(--muted);text-align:center;margin-top:12px;line-height:1.6">Si rien ne se passe, ouvrez le menu <strong>⋮</strong> de Chrome puis sélectionnez <strong>Installer l'application</strong></p>
+    </div>
+  </div>
+
+  <!-- État 4 : Desktop -->
+  <div class="dev-card hidden" id="state-desktop">
+    <div class="dev-head">
+      <div class="dev-icon">
+        <svg viewBox="0 0 24 24"><path d="M20 18c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2H4c-1.11 0-2 .9-2 2v10c0 1.1.89 2 2 2H0v2h24v-2h-4zM4 6h16v10H4V6z"/></svg>
+      </div>
+      <div>
+        <div class="dev-title">Ordinateur</div>
+        <div class="dev-sub">Scannez avec votre téléphone</div>
+      </div>
+    </div>
+    <div class="qr-card">
+      <div class="qr-wrap"><img src="qr-install.png" alt="QR code installation"></div>
+      <p class="qr-instructions">Scannez ce QR code avec votre téléphone pour installer l'app APAM.</p>
+      <a href="/mon-compte.html" style="font-size:11px;color:var(--accent);letter-spacing:.1em;text-transform:uppercase;font-weight:700;margin-top:4px">Ou ouvrir directement →</a>
+    </div>
+  </div>
+
+  <!-- État 5 : Autre navigateur -->
+  <div class="dev-card hidden" id="state-other">
+    <div class="dev-head">
+      <div class="dev-icon">
+        <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+      </div>
+      <div>
+        <div class="dev-title">Navigateur</div>
+        <div class="dev-sub">Ouvrez avec Safari ou Chrome</div>
+      </div>
+    </div>
+    <div class="steps">
+      <div class="step"><div class="step-num">!</div><div class="step-tx">Pour installer l'app, ouvrez cette page dans <strong>Safari</strong> (iOS) ou <strong>Chrome</strong> (Android).</div></div>
+      <a href="/mon-compte.html" class="install-btn" style="margin-top:14px">Ouvrir l'app dans le navigateur →</a>
+    </div>
+  </div>
+
+  <footer class="foot">
+    <a href="/index.html">← Retour au site</a>
+    <span class="foot-sep">·</span>
+    <a href="/contact.html">Contact</a>
+  </footer>
+
+</div>
+
+<script>
+'use strict';
+
+const ua = navigator.userAgent;
+const isStandalone = navigator.standalone || matchMedia('(display-mode:standalone)').matches;
+const isIOS = /iPad|iPhone|iPod/.test(ua) && !window.MSStream;
+const isAndroid = /android/i.test(ua);
+const isMobile = /mobi|android|iphone|ipad|ipod/i.test(ua);
+const isSafari = /safari/i.test(ua) && !/chrome|crios|firefox/i.test(ua);
+const isChrome = /chrome|crios/i.test(ua) && !/edge|edg|opr/i.test(ua);
+const isInAppBrowser = /fbav|instagram|line|wechat|micromessenger/i.test(ua);
+
+let deferredPrompt = null;
+
+function showState(id) {
+  document.querySelectorAll('.dev-card').forEach(el => el.classList.add('hidden'));
+  const el = document.getElementById(id);
+  if (el) el.classList.remove('hidden');
+}
+
+window.addEventListener('beforeinstallprompt', (e) => {
+  e.preventDefault();
+  deferredPrompt = e;
+  // Re-évaluer l'affichage Android maintenant qu'on a le prompt
+  if (isAndroid && !isStandalone) showState('state-android');
+});
+
+window.addEventListener('appinstalled', () => {
+  showState('state-installed');
+});
+
+document.getElementById('btn-install-android')?.addEventListener('click', async () => {
+  if (deferredPrompt) {
+    deferredPrompt.prompt();
+    const choice = await deferredPrompt.userChoice;
+    if (choice.outcome === 'accepted') {
+      showState('state-installed');
+    }
+    deferredPrompt = null;
+  } else {
+    alert("Sur Android, ouvrez le menu ⋮ de Chrome puis sélectionnez « Installer l'application ».");
+  }
+});
+
+// Détection initiale
+setTimeout(() => {
+  if (isStandalone) {
+    showState('state-installed');
+  } else if (isInAppBrowser) {
+    showState('state-other');
+  } else if (isIOS) {
+    showState('state-ios');
+  } else if (isAndroid) {
+    showState('state-android');
+  } else if (!isMobile) {
+    showState('state-desktop');
+  } else {
+    showState('state-other');
+  }
+}, 350);
+
+// Service worker (pour PWA)
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('sw.js').catch(()=>{});
+}
+</script>
+</body>
+</html>
