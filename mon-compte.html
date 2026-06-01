@@ -212,7 +212,7 @@ html.pwa .tab-pane{padding-top:max(env(safe-area-inset-top,0px),52px)}
 .mobile-sec-h-sub{margin-left:auto;font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--text-2)}
 
 /* MOBILE BOTTOM NAV */
-.bottom-nav{position:fixed;bottom:0;left:0;right:0;z-index:100;display:flex;justify-content:space-around;align-items:stretch;padding:6px 12px;padding-bottom:calc(env(safe-area-inset-bottom,12px) + 4px);background:var(--backdrop);border-top:1px solid var(--border);backdrop-filter:blur(28px) saturate(180%);-webkit-backdrop-filter:blur(28px) saturate(180%)}
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;z-index:100;display:flex;justify-content:space-around;align-items:stretch;padding:6px 12px;padding-bottom:calc(env(safe-area-inset-bottom,12px) + 4px);background:var(--backdrop);border-top:1px solid var(--border);backdrop-filter:blur(28px) saturate(180%);-webkit-backdrop-filter:blur(28px) saturate(180%);transform:translateZ(0);-webkit-transform:translateZ(0);backface-visibility:hidden}
 .bn{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;padding:7px 0 5px;background:none;border:none;cursor:pointer;color:var(--muted);font-family:'Jost',sans-serif;text-decoration:none;position:relative;border-radius:12px;transition:color .25s,background .25s}
 .bn-iconwrap{position:relative;width:50px;height:30px;display:flex;align-items:center;justify-content:center;border-radius:14px;transition:background .28s cubic-bezier(.2,.7,.2,1)}
 .bn.on .bn-iconwrap{background:var(--accent-soft)}
@@ -608,6 +608,7 @@ html:not(.pwa) .desktop-only{display:flex}
 .member-tag{font-family:'JetBrains Mono',monospace;font-size:10.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;padding:3px 8px;border-radius:5px;line-height:1.4;border:1px solid}
 .member-tag.tag-pub{color:var(--accent);background:var(--accent-soft);border-color:var(--accent-bord)}
 .member-tag.tag-mn{color:var(--vio);background:rgba(168,85,247,.10);border-color:rgba(168,85,247,.28)}
+.member-tag.tag-mec{color:var(--cyan);background:rgba(96,165,250,.10);border-color:rgba(96,165,250,.28)}
 .member-tag.tag-ph{color:var(--ok);background:rgba(34,215,122,.10);border-color:rgba(34,215,122,.28)}
 .member-tag.tag-adm{color:var(--amber);background:var(--amber-soft);border-color:var(--amber-bord)}
 .member-tags-empty{font-family:'Jost',sans-serif;font-size:12px;font-style:italic;color:var(--muted)}
@@ -634,9 +635,10 @@ html:not(.pwa) .desktop-only{display:flex}
 .perm-switch::after{content:'';position:absolute;top:2px;left:2px;width:18px;height:18px;border-radius:50%;background:var(--muted);transition:transform .25s cubic-bezier(.2,.7,.2,1),background .25s}
 .perm-switch.on-pub{background:var(--accent);border-color:var(--accent)}
 .perm-switch.on-mn{background:var(--vio);border-color:var(--vio)}
+.perm-switch.on-mec{background:var(--cyan);border-color:var(--cyan)}
 .perm-switch.on-ph{background:var(--ok);border-color:var(--ok)}
 .perm-switch.on-adm{background:var(--amber);border-color:var(--amber)}
-.perm-switch.on-pub::after,.perm-switch.on-mn::after,.perm-switch.on-ph::after,.perm-switch.on-adm::after{transform:translateX(18px);background:#fff}
+.perm-switch.on-pub::after,.perm-switch.on-mn::after,.perm-switch.on-mec::after,.perm-switch.on-ph::after,.perm-switch.on-adm::after{transform:translateX(18px);background:#fff}
 .perm-switch:disabled{opacity:.35;cursor:not-allowed}
 
 .no-perm{padding:60px 24px;text-align:center;color:var(--muted)}
@@ -680,6 +682,63 @@ html:not(.pwa) .desktop-only{display:flex}
 .res-foot{margin:24px 0 4px;text-align:center;font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:500;line-height:1.6}
 
 /* ═══════════════════════ MISC ═══════════════════════ */
+
+/* ══ Flotte (accueil) ══ */
+.fleet{display:flex;flex-direction:column;gap:12px}
+.fleet-card{position:relative;background:var(--card-bg);border:1px solid var(--card-bord);border-radius:16px;overflow:hidden;box-shadow:inset 0 1px 0 var(--stroke-in);animation:cardIn .42s cubic-bezier(.16,1,.3,1) both}
+.fleet-img{position:relative;height:128px;background:linear-gradient(160deg,var(--sf2),var(--sf3));display:flex;align-items:center;justify-content:center;overflow:hidden}
+.fleet-img::before{content:"";position:absolute;inset:0;background-image:repeating-linear-gradient(135deg,var(--hatch) 0 2px,transparent 2px 9px);opacity:.5;pointer-events:none}
+.fleet-img img{width:100%;height:100%;object-fit:contain;padding:10px 14px;position:relative;z-index:1;mix-blend-mode:normal}
+.fleet-img-empty{position:relative;z-index:1;color:var(--dim);display:flex;flex-direction:column;align-items:center;gap:8px}
+.fleet-img-empty svg{width:48px;height:48px;stroke:currentColor;stroke-width:1.3;fill:none;stroke-linecap:round;stroke-linejoin:round;opacity:.5}
+.fleet-img-empty span{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.16em;text-transform:uppercase}
+.fleet-status-badge{position:absolute;top:12px;right:12px;z-index:2;display:inline-flex;align-items:center;gap:6px;padding:6px 12px;border-radius:100px;font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:12px;letter-spacing:.06em;text-transform:uppercase;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border:1.5px solid}
+.fleet-status-dot{width:7px;height:7px;border-radius:50%;background:currentColor}
+.fleet-status-badge.ok{color:var(--ok);border-color:rgba(34,215,122,.5);background:rgba(34,215,122,.16)}
+.fleet-status-badge.ok .fleet-status-dot{animation:pulse 2.2s ease-in-out infinite}
+.fleet-status-badge.maint{color:var(--amber);border-color:rgba(245,165,36,.5);background:rgba(245,165,36,.16)}
+.fleet-status-badge.indispo{color:var(--err);border-color:rgba(239,68,68,.5);background:rgba(239,68,68,.16)}
+.fleet-status-badge.voyage{color:var(--cyan);border-color:rgba(96,165,250,.5);background:rgba(96,165,250,.16)}
+.fleet-body{padding:14px 16px}
+.fleet-id{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;margin-bottom:4px}
+.fleet-immat{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:24px;text-transform:uppercase;color:var(--text);line-height:1;letter-spacing:.01em}
+.fleet-type{font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:500;color:var(--text-2);letter-spacing:.04em}
+.fleet-note{margin-top:8px;font-size:13px;line-height:1.5;color:var(--text-2);display:flex;align-items:flex-start;gap:8px}
+.fleet-note::before{content:"";flex-shrink:0;width:3px;align-self:stretch;border-radius:2px;background:var(--amber);margin-top:1px}
+.fleet-card.s-ok .fleet-note::before{background:var(--ok)}
+.fleet-card.s-indispo .fleet-note::before{background:var(--err)}
+.fleet-card.s-voyage .fleet-note::before{background:var(--cyan)}
+.fleet-empty{padding:30px 18px;text-align:center;color:var(--muted);font-size:13px;background:var(--card-bg);border:1px dashed var(--border);border-radius:14px}
+
+/* ══ Maintenance (sub-page) ══ */
+.maint-list{display:flex;flex-direction:column;gap:12px}
+.maint-card{background:var(--card-bg);border:1px solid var(--card-bord);border-radius:16px;overflow:hidden;box-shadow:inset 0 1px 0 var(--stroke-in);animation:cardIn .32s cubic-bezier(.16,1,.3,1) both}
+.maint-card-hd{display:flex;align-items:center;gap:12px;padding:14px 16px;border-bottom:1px solid var(--border);background:var(--sf2)}
+.maint-thumb{width:54px;height:40px;border-radius:8px;background:var(--sf3);overflow:hidden;flex-shrink:0;display:flex;align-items:center;justify-content:center}
+.maint-thumb img{width:100%;height:100%;object-fit:contain;padding:3px}
+.maint-thumb svg{width:22px;height:22px;stroke:var(--dim);stroke-width:1.4;fill:none}
+.maint-hd-id{flex:1;min-width:0}
+.maint-hd-immat{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:20px;text-transform:uppercase;color:var(--text);line-height:1;letter-spacing:.01em}
+.maint-hd-type{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text-2);margin-top:3px}
+.maint-body{padding:14px 16px}
+.maint-field-label{font-family:'JetBrains Mono',monospace;font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--text-2);margin-bottom:9px;display:block}
+.maint-status-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px}
+.maint-status-opt{padding:11px 10px;border-radius:11px;border:1.5px solid var(--bds);background:var(--sf2);cursor:pointer;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-style:italic;font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);display:flex;align-items:center;gap:8px;transition:all .2s}
+.maint-status-opt .mso-dot{width:9px;height:9px;border-radius:50%;background:currentColor;flex-shrink:0}
+.maint-status-opt.sel.ok{color:var(--ok);border-color:var(--ok);background:rgba(34,215,122,.12)}
+.maint-status-opt.sel.maint{color:var(--amber);border-color:var(--amber);background:rgba(245,165,36,.12)}
+.maint-status-opt.sel.indispo{color:var(--err);border-color:var(--err);background:rgba(239,68,68,.12)}
+.maint-status-opt.sel.voyage{color:var(--cyan);border-color:var(--cyan);background:rgba(96,165,250,.12)}
+.maint-note-input{width:100%;background:var(--sf2);border:1px solid var(--border);color:var(--text);padding:11px 13px;font-family:'Jost',sans-serif;font-size:14px;outline:none;border-radius:10px;resize:vertical;min-height:60px;line-height:1.5;box-shadow:inset 0 1px 0 var(--stroke-in);transition:border-color .2s}
+.maint-note-input:focus{border-color:var(--accent)}
+.maint-note-input::placeholder{color:var(--dim)}
+.maint-foot{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:12px}
+.maint-save-status{font-size:12px;font-family:'JetBrains Mono',monospace;letter-spacing:.04em;min-height:14px}
+.maint-save-btn{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-style:italic;font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;padding:9px 18px;background:var(--sf3);color:var(--muted);border:1px solid var(--bds);cursor:pointer;border-radius:9px;transition:all .2s}
+.maint-save-btn:disabled{opacity:.4;cursor:not-allowed}
+.maint-save-btn.dirty{background:var(--accent);color:#fff;border-color:var(--accent);animation:availPulse 1.6s ease-in-out infinite}
+
+/* ═══════════════════════ MISC2 ═══════════════════════ */
 
 /* ══ Splash de démarrage ══ */
 .splash{position:fixed;inset:0;z-index:9999;background:var(--bg);display:flex;align-items:center;justify-content:center;transition:opacity .5s cubic-bezier(.4,0,.2,1);opacity:1}
@@ -1124,6 +1183,13 @@ button,a,.tap{transition:transform .28s cubic-bezier(.2,.7,.2,1),background-colo
         <div class="skel-card"><div class="skel skel-line w-50"></div><div class="skel skel-title"></div><div class="skel skel-line w-full"></div><div class="skel skel-line w-80"></div><div class="skel skel-poll"></div></div>
         <div class="skel-card"><div class="skel skel-line w-50"></div><div class="skel skel-title"></div><div class="skel skel-line w-80"></div></div>
       </div>
+
+      <!-- Flotte -->
+      <div class="mobile-sec-h">
+        <h2>La flotte</h2>
+        <span class="mobile-sec-h-sub">État des avions</span>
+      </div>
+      <div class="fleet" id="m-fleet"></div>
     </div>
   </div>
 
@@ -1195,6 +1261,21 @@ button,a,.tap{transition:transform .28s cubic-bezier(.2,.7,.2,1),background-colo
         <input id="admin-search-input" class="admin-search-input" type="text" placeholder="Rechercher un membre…" oninput="adminFilter(this.value)"/>
       </div>
       <div id="admin-members-list"></div>
+    </div>
+  </div>
+
+  <!-- MAINTENANCE FLOTTE (sub-page accessible depuis Options) -->
+  <div id="pane-maintenance" class="tab-pane">
+    <div class="mobile-wrap">
+      <button class="subpage-back" onclick="switchTab('outils')" type="button">
+        <svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
+        <span>Options</span>
+      </button>
+      <div class="mobile-sec-h">
+        <h2>Maintenance flotte</h2>
+        <span class="mobile-sec-h-sub">État des avions</span>
+      </div>
+      <div id="maint-list" class="maint-list"></div>
     </div>
   </div>
 
@@ -1363,7 +1444,7 @@ button,a,.tap{transition:transform .28s cubic-bezier(.2,.7,.2,1),background-colo
 
 <script>
 'use strict';
-const APP_VERSION='2.0.0';
+const APP_VERSION='2.1.0';
 const API='https://script.google.com/macros/s/AKfycbxae9y3NHqDyAkbEI5rDVRappI-aAWoA0jcHqR8NBUgm3t5SCB1Hq8nebY5t23cV1Je/exec';
 
 /* ══ Onboarding ══ */
@@ -1789,6 +1870,7 @@ window.switchTab=function(tab){
   if(tab==='meteo')wxLoad('m-wx');
   if(tab==='publication')openPublication();
   if(tab==='admin')openAdmin();
+  if(tab==='maintenance')openMaintenance();
   window.scrollTo({top:0,behavior:'instant'});
 };
 window.switchD=function(tab){
@@ -1799,6 +1881,156 @@ window.switchD=function(tab){
   if(tab==='meteo')wxLoad('d-wx');
 };
 
+/* ══════════════════════════════════════════
+   FLOTTE & MAINTENANCE
+══════════════════════════════════════════ */
+/* Défauts — utilisés tant que le serveur n'a pas répondu. Le serveur (Apps Script)
+   renvoie l'état réel via ?action=fleet ; modifiable via ?action=setFleet. */
+const FLEET_DEFAULT=[
+  {id:'F-GYFF',type:'Cirrus SR20',img:'assets/avions/F-GYFF.png',statut:'ok',note:''},
+  {id:'F-XXXX',type:'Avion 2',img:'',statut:'ok',note:''},
+  {id:'F-YYYY',type:'Avion 3',img:'',statut:'ok',note:''}
+];
+const FLEET_STATUS={
+  ok:{cls:'ok',label:'En état'},
+  maint:{cls:'maint',label:'Maintenance'},
+  indispo:{cls:'indispo',label:'Indisponible'},
+  voyage:{cls:'voyage',label:'En voyage'}
+};
+let _fleet=null;
+let _fleetPending={};
+
+function loadFleetCache(){try{const r=localStorage.getItem('apam_fleet');return r?JSON.parse(r):null;}catch{return null;}}
+function saveFleetCache(f){try{localStorage.setItem('apam_fleet',JSON.stringify(f));}catch{}}
+
+function planeSVG(){return '<svg viewBox="0 0 24 24"><path d="M2 12h2l3-4h3l-1 4h4l2-3h2l-1 3h2.5a1.5 1.5 0 0 1 0 3H8l-2 3H4l1-3H2z"/></svg>';}
+
+function renderFleet(fleet){
+  const el=document.getElementById('m-fleet');if(!el)return;
+  if(!fleet||!fleet.length){el.innerHTML='<div class="fleet-empty">Aucun avion enregistré.</div>';return;}
+  el.innerHTML=fleet.map(a=>{
+    const st=FLEET_STATUS[a.statut]||FLEET_STATUS.ok;
+    const img=a.img?`<img src="${esc(a.img)}" alt="${esc(a.id)}" onerror="this.parentNode.innerHTML='<div class=\\'fleet-img-empty\\'>'+${JSON.stringify(planeSVG())}+'<span>${esc(a.id)}</span></div>'"/>`
+      :`<div class="fleet-img-empty">${planeSVG()}<span>Photo à venir</span></div>`;
+    const note=a.note?`<div class="fleet-note">${esc(a.note)}</div>`:'';
+    return `<div class="fleet-card s-${st.cls}">
+      <div class="fleet-img">${img}<span class="fleet-status-badge ${st.cls}"><span class="fleet-status-dot"></span>${st.label}</span></div>
+      <div class="fleet-body">
+        <div class="fleet-id"><span class="fleet-immat">${esc(a.id)}</span><span class="fleet-type">${esc(a.type)}</span></div>
+        ${note}
+      </div>
+    </div>`;
+  }).join('');
+}
+
+async function chargerFleet(){
+  const cached=loadFleetCache();
+  _fleet=cached||FLEET_DEFAULT.slice();
+  renderFleet(_fleet);
+  try{
+    const data=await fetch(`${API}?action=fleet`).then(r=>r.json());
+    if(data&&Array.isArray(data.fleet)&&data.fleet.length){
+      _fleet=data.fleet;
+      saveFleetCache(_fleet);
+      renderFleet(_fleet);
+    }
+  }catch{/* garde le cache/défaut */}
+}
+
+/* ── Page maintenance ── */
+function canMaint(){return !!(perms.admin||perms.news_pub||perms.mecano);}
+
+function openMaintenance(){
+  const list=document.getElementById('maint-list');if(!list)return;
+  if(!canMaint()){
+    list.innerHTML='<div class="no-perm"><div class="no-perm-icon">🔧</div><div class="no-perm-t">Accès réservé</div><div class="no-perm-s">Réservé aux mécaniciens, président et admins.</div></div>';
+    return;
+  }
+  _fleetPending={};
+  const fleet=_fleet||loadFleetCache()||FLEET_DEFAULT.slice();
+  renderMaint(fleet);
+  /* refresh depuis serveur */
+  fetch(`${API}?action=fleet`).then(r=>r.json()).then(d=>{
+    if(d&&Array.isArray(d.fleet)&&d.fleet.length){_fleet=d.fleet;saveFleetCache(_fleet);if(document.getElementById('pane-maintenance').classList.contains('active'))renderMaint(_fleet);}
+  }).catch(()=>{});
+}
+
+function renderMaint(fleet){
+  const list=document.getElementById('maint-list');if(!list)return;
+  list.innerHTML=fleet.map((a,i)=>{
+    const ph=_fleetPending[a.id]||{statut:a.statut,note:a.note||''};
+    const dirty=!!_fleetPending[a.id];
+    const thumb=a.img?`<img src="${esc(a.img)}" alt=""/>`:planeSVG();
+    const opts=Object.keys(FLEET_STATUS).map(k=>{
+      const s=FLEET_STATUS[k];
+      return `<button type="button" class="maint-status-opt ${k} ${ph.statut===k?'sel':''}" onclick="maintSetStatus('${esc(a.id)}','${k}')"><span class="mso-dot"></span>${s.label}</button>`;
+    }).join('');
+    return `<div class="maint-card" id="maint-row-${esc(a.id)}">
+      <div class="maint-card-hd">
+        <div class="maint-thumb">${thumb}</div>
+        <div class="maint-hd-id"><div class="maint-hd-immat">${esc(a.id)}</div><div class="maint-hd-type">${esc(a.type)}</div></div>
+      </div>
+      <div class="maint-body">
+        <span class="maint-field-label">Statut</span>
+        <div class="maint-status-grid">${opts}</div>
+        <span class="maint-field-label">Note (motif, retour prévu…)</span>
+        <textarea class="maint-note-input" id="maint-note-${esc(a.id)}" placeholder="Ex : Visite 50h en cours, retour prévu vendredi" oninput="maintSetNote('${esc(a.id)}',this.value)">${esc(ph.note)}</textarea>
+        <div class="maint-foot">
+          <span class="maint-save-status" id="maint-st-${esc(a.id)}"></span>
+          <button class="maint-save-btn ${dirty?'dirty':''}" id="maint-btn-${esc(a.id)}" onclick="maintSave('${esc(a.id)}')" ${dirty?'':'disabled'}>Enregistrer</button>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function _maintEnsurePending(id){
+  if(!_fleetPending[id]){
+    const a=(_fleet||[]).find(x=>x.id===id)||{};
+    _fleetPending[id]={statut:a.statut||'ok',note:a.note||''};
+  }
+  return _fleetPending[id];
+}
+function _maintCheckDirty(id){
+  const a=(_fleet||[]).find(x=>x.id===id)||{};
+  const p=_fleetPending[id];
+  if(p&&p.statut===(a.statut||'ok')&&(p.note||'')===(a.note||''))delete _fleetPending[id];
+  const btn=document.getElementById('maint-btn-'+id);
+  if(btn){const d=!!_fleetPending[id];btn.classList.toggle('dirty',d);btn.disabled=!d;}
+}
+window.maintSetStatus=function(id,k){
+  hapticTick();
+  const p=_maintEnsurePending(id);p.statut=k;
+  /* update buttons visually */
+  const row=document.getElementById('maint-row-'+id);
+  if(row)row.querySelectorAll('.maint-status-opt').forEach(b=>{b.classList.toggle('sel',b.classList.contains(k));});
+  _maintCheckDirty(id);
+};
+window.maintSetNote=function(id,v){
+  const p=_maintEnsurePending(id);p.note=v;
+  _maintCheckDirty(id);
+};
+window.maintSave=async function(id){
+  hapticTick();
+  const p=_fleetPending[id];if(!p)return;
+  const btn=document.getElementById('maint-btn-'+id),st=document.getElementById('maint-st-'+id);
+  btn.disabled=true;st.textContent='⏳';st.style.color='var(--muted)';
+  try{
+    const url=`${API}?action=setFleet&pin=${enc(memberPin)}&id=${enc(id)}&statut=${enc(p.statut)}&note=${enc(p.note)}`;
+    const data=await fetch(url).then(r=>r.json());
+    if(data&&data.error){st.textContent='✗';st.style.color='var(--err)';toast(data.error,'err');btn.disabled=false;return;}
+    /* update local */
+    const idx=(_fleet||[]).findIndex(x=>x.id===id);
+    if(idx!==-1){_fleet[idx].statut=p.statut;_fleet[idx].note=p.note;}
+    saveFleetCache(_fleet);
+    delete _fleetPending[id];
+    btn.classList.remove('dirty');
+    st.textContent='✓ Enregistré';st.style.color='var(--ok)';hapticThud();
+    renderFleet(_fleet);
+    setTimeout(()=>{st.textContent='';},2500);
+  }catch{st.textContent='✗ Erreur';st.style.color='var(--err)';btn.disabled=false;}
+};
+
 /* ── Outils ── */
 function buildOutils(){
   const ICN={
@@ -1807,10 +2039,12 @@ function buildOutils(){
     update:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M23 4v6h-6"/><path d="M20.49 15A9 9 0 1 1 18.36 5.64L23 10"/></svg>',
     moon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>',
     cgu:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>',
-    logout:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>'
+    logout:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>',
+    wrench:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a4 4 0 0 0-5.4 5.3L3 18l3 3 6.4-6.3a4 4 0 0 0 5.3-5.4l-2.6 2.6-2.3-.6-.6-2.3z"/></svg>'
   };
   const tools=[];
   if(perms.news_pub||perms.news_membres||perms.photos)tools.push({i:ICN.pub,t:'Publication',s:'Publier actualités & sondages',a:"switchTab('publication')",h:'presidence.html',c:''});
+  if(perms.admin||perms.news_pub||perms.mecano)tools.push({i:ICN.wrench,t:'Maintenance flotte',s:'État des avions',a:"switchTab('maintenance')",h:'#',c:''});
   if(perms.admin)tools.push({i:ICN.admin,t:'Gestion membres',s:'Permissions & accès',a:"switchTab('admin')",h:'admin.html',c:'admin-item'});
 
   const themeRowM=`<button type="button" class="tool-item theme-item" onclick="toggleTheme()"><span class="tool-icon" id="m-theme-ic">${ICN.moon}</span><div class="tool-tx"><h4>Apparence</h4><p>Mode <span id="m-theme-lbl">Sombre</span></p></div><span class="tool-chev">›</span></button>`;
@@ -2109,8 +2343,8 @@ function renderAdminMembers(){
     const hasChanges=!!_adminPending[m.pin];
     const isOpen=_adminOpen[m.pin]===true;
     const tag=(on,cls,label)=>on?`<span class="member-tag tag-${cls}">${label}</span>`:'';
-    const anyPerm=ph.admin||ph.news_pub||ph.news_membres||ph.photos;
-    const tags=`<div class="member-tags">${tag(ph.admin,'adm','Admin')}${tag(ph.news_pub,'pub','News pub.')}${tag(ph.news_membres,'mn','News memb.')}${tag(ph.photos,'ph','Photos')}${!anyPerm?'<span class="member-tags-empty">Aucune permission</span>':''}${hasChanges?'<span class="member-tags-dirty">● Modifié</span>':''}</div>`;
+    const anyPerm=ph.admin||ph.news_pub||ph.news_membres||ph.photos||ph.mecano;
+    const tags=`<div class="member-tags">${tag(ph.admin,'adm','Admin')}${tag(ph.news_pub,'pub','News pub.')}${tag(ph.news_membres,'mn','News memb.')}${tag(ph.mecano,'mec','Mécano')}${tag(ph.photos,'ph','Photos')}${!anyPerm?'<span class="member-tags-empty">Aucune permission</span>':''}${hasChanges?'<span class="member-tags-dirty">● Modifié</span>':''}</div>`;
     return `<div class="member-card ${isOpen?'expanded':''} ${hasChanges?'has-changes':''}" id="row-${esc(m.pin)}">
       <button class="member-card-hd" type="button" onclick="adminToggleCard('${esc(m.pin)}')">
         <div class="member-card-id">
@@ -2123,6 +2357,7 @@ function renderAdminMembers(){
         <div class="perms-list">
           ${permRow('Actualités publiques','Publier sur Le Club','news_pub','pub',ph.news_pub,m.pin,isSelf)}
           ${permRow('Actualités membres',"Publier dans l'espace membres",'news_membres','mn',ph.news_membres,m.pin,isSelf)}
+          ${permRow('Mécanicien',"Gérer l'état de la flotte",'mecano','mec',ph.mecano,m.pin,isSelf)}
           ${permRow('Galerie photos','Ajouter des photos','photos','ph',ph.photos,m.pin,isSelf)}
           ${permRow('Administrateur','Gérer membres &amp; accès','admin','adm',ph.admin,m.pin,isSelf)}
         </div>
@@ -2153,12 +2388,12 @@ window.adminToggle=function(pin,key,col,btn){
   hapticTick();
   if(!_adminPending[pin]){
     const m=_adminMembers.find(x=>x.pin===pin);
-    _adminPending[pin]={news_pub:!!m.news_pub,news_membres:!!m.news_membres,photos:!!m.photos,admin:!!m.admin};
+    _adminPending[pin]={news_pub:!!m.news_pub,news_membres:!!m.news_membres,mecano:!!m.mecano,photos:!!m.photos,admin:!!m.admin};
   }
   _adminPending[pin][key]=!_adminPending[pin][key];
   btn.className='perm-switch'+(_adminPending[pin][key]?' on-'+col:'');
   const m=_adminMembers.find(x=>x.pin===pin);
-  const same=m && _adminPending[pin].news_pub===!!m.news_pub && _adminPending[pin].news_membres===!!m.news_membres && _adminPending[pin].photos===!!m.photos && _adminPending[pin].admin===!!m.admin;
+  const same=m && _adminPending[pin].news_pub===!!m.news_pub && _adminPending[pin].news_membres===!!m.news_membres && _adminPending[pin].mecano===!!m.mecano && _adminPending[pin].photos===!!m.photos && _adminPending[pin].admin===!!m.admin;
   if(same)delete _adminPending[pin];
   /* Re-render this card to show/hide the save foot + dirty badge */
   renderAdminMembers();
@@ -2170,7 +2405,7 @@ window.adminSave=async function(pin){
   const btn=document.getElementById('b-'+pin),st=document.getElementById('s-'+pin);
   btn.disabled=true;st.textContent='⏳';st.style.color='var(--muted)';
   try{
-    const url=`${API}?action=setPermissions&pin=${enc(memberPin)}&targetPin=${enc(pin)}&admin=${p.admin?'OUI':'NON'}&news_pub=${p.news_pub?'OUI':'NON'}&news_membres=${p.news_membres?'OUI':'NON'}&photos=${p.photos?'OUI':'NON'}`;
+    const url=`${API}?action=setPermissions&pin=${enc(memberPin)}&targetPin=${enc(pin)}&admin=${p.admin?'OUI':'NON'}&news_pub=${p.news_pub?'OUI':'NON'}&news_membres=${p.news_membres?'OUI':'NON'}&mecano=${p.mecano?'OUI':'NON'}&photos=${p.photos?'OUI':'NON'}`;
     const data=await fetch(url).then(r=>r.json());
     if(data.error){st.textContent='✗';st.style.color='var(--err)';toast(data.error,'err');btn.disabled=false;return;}
     /* Update local copy */
@@ -2746,6 +2981,7 @@ if(!isStandalone&&isMobile&&isIOS){
     if(hidden)return;hidden=true;
     var s=document.getElementById('splash');
     if(s){s.classList.add('gone');setTimeout(function(){if(s&&s.parentNode)s.parentNode.removeChild(s);},550);}
+    settleViewport();
     maybeShowTutorial();
   }
   function ready(){
@@ -2756,6 +2992,18 @@ if(!isStandalone&&isMobile&&isIOS){
   else window.addEventListener('load',ready);
   setTimeout(hideSplash,3800); /* filet de sécurité */
 })();
+
+/* Force iOS standalone à recaler la nav fixe (sinon décalée au 1er lancement) */
+function settleViewport(){
+  try{
+    var y=window.scrollY||0;
+    window.scrollTo(0,y+1);
+    requestAnimationFrame(function(){window.scrollTo(0,y);});
+  }catch(e){}
+}
+window.addEventListener('load',function(){setTimeout(settleViewport,60);setTimeout(settleViewport,400);});
+window.addEventListener('pageshow',function(){setTimeout(settleViewport,60);});
+document.addEventListener('visibilitychange',function(){if(!document.hidden)setTimeout(settleViewport,80);});
 
 /* ── Tutoriel ── */
 var TUTO_ICONS={
