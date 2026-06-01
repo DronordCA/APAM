@@ -1444,7 +1444,7 @@ button,a,.tap{transition:transform .28s cubic-bezier(.2,.7,.2,1),background-colo
 
 <script>
 'use strict';
-const APP_VERSION='2.1.0';
+const APP_VERSION='2.1.1';
 const API='https://script.google.com/macros/s/AKfycbxae9y3NHqDyAkbEI5rDVRappI-aAWoA0jcHqR8NBUgm3t5SCB1Hq8nebY5t23cV1Je/exec';
 
 /* ══ Onboarding ══ */
@@ -1887,9 +1887,9 @@ window.switchD=function(tab){
 /* Défauts — utilisés tant que le serveur n'a pas répondu. Le serveur (Apps Script)
    renvoie l'état réel via ?action=fleet ; modifiable via ?action=setFleet. */
 const FLEET_DEFAULT=[
-  {id:'F-GYFF',type:'Cirrus SR20',img:'assets/avions/F-GYFF.png',statut:'ok',note:''},
-  {id:'F-XXXX',type:'Avion 2',img:'',statut:'ok',note:''},
-  {id:'F-YYYY',type:'Avion 3',img:'',statut:'ok',note:''}
+  {id:'F-GHKE',type:'Cessna 152',img:'assets/images/FGHKE2.png',statut:'ok',note:''},
+  {id:'F-GYJL',type:'Socata TB200',img:'assets/images/TB200M.png',statut:'ok',note:''},
+  {id:'F-GYFF',type:'Cirrus SR20',img:'assets/images/SR1.png',statut:'ok',note:''}
 ];
 const FLEET_STATUS={
   ok:{cls:'ok',label:'En état'},
