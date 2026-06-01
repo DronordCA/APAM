@@ -9,9 +9,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
 <meta name="theme-color" content="#0a0d14"/>
 <link rel="manifest" href="manifest.json"/>
-<link rel="apple-touch-icon" href="/icon-180x180.png"/>
-<link rel="icon" type="image/png" sizes="192x192" href="/icon-192x192.png"/>
-<link rel="icon" type="image/png" sizes="512x512" href="/icon-512x512.png"/>
+<link rel="apple-touch-icon" href="assets/images/apam-logo2.png"/>
 <script>
 /* Theme + PWA init (must run before paint) */
 (function(){
@@ -638,6 +636,66 @@ html:not(.pwa) .desktop-only{display:flex}
 .res-foot{margin:24px 0 4px;text-align:center;font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:500;line-height:1.6}
 
 /* ═══════════════════════ MISC ═══════════════════════ */
+
+/* ══ Onboarding Overlay ══ */
+.ob-overlay{position:fixed;inset:0;z-index:9000;background:var(--bg);display:flex;align-items:center;justify-content:center;padding:20px;opacity:1;transition:opacity .4s,visibility .4s;visibility:visible}
+.ob-overlay.hidden{opacity:0;visibility:hidden;pointer-events:none}
+.ob-glow{position:absolute;inset:0;pointer-events:none;background:radial-gradient(60% 40% at 50% 30%,rgba(37,99,235,.16),transparent 65%)}
+.ob-grid{position:absolute;inset:0;pointer-events:none;background-image:linear-gradient(rgba(37,99,235,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(37,99,235,.03) 1px,transparent 1px);background-size:64px 64px;mask-image:radial-gradient(60% 60% at 50% 40%,rgba(0,0,0,.5),transparent 80%);-webkit-mask-image:radial-gradient(60% 60% at 50% 40%,rgba(0,0,0,.5),transparent 80%)}
+
+.ob-card{position:relative;z-index:1;width:100%;max-width:420px;display:flex;flex-direction:column;align-items:center;gap:0}
+.ob-logo{width:68px;height:68px;border-radius:18px;background:var(--sf);border:1px solid var(--bds);display:flex;align-items:center;justify-content:center;box-shadow:0 12px 32px rgba(0,0,0,.5);margin-bottom:20px;overflow:hidden;padding:4px}
+.ob-logo img{width:100%;height:100%;object-fit:contain}
+.ob-title{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:clamp(36px,8vw,48px);text-transform:uppercase;line-height:.88;letter-spacing:-.018em;text-align:center;color:#fff;margin-bottom:6px}
+.ob-title .ol{color:transparent;-webkit-text-stroke:1.5px rgba(255,255,255,.3)}
+.ob-sub{font-size:14px;color:var(--muted);text-align:center;margin-bottom:28px;line-height:1.6}
+
+/* Tabs */
+.ob-tabs{display:flex;width:100%;border:1px solid var(--bds);border-radius:12px;overflow:hidden;margin-bottom:24px;background:var(--sf)}
+.ob-tab{flex:1;padding:13px;text-align:center;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);cursor:pointer;transition:color .25s,background .25s;border:none;background:none}
+.ob-tab.on{color:#fff;background:var(--accent)}
+.ob-tab:not(.on):hover{color:rgba(255,255,255,.7)}
+
+/* Panels */
+.ob-panel{display:none;flex-direction:column;gap:16px;width:100%;animation:obFadeIn .3s cubic-bezier(.16,1,.3,1)}
+.ob-panel.on{display:flex}
+@keyframes obFadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+
+/* Fields */
+.ob-field{display:flex;flex-direction:column;gap:5px}
+.ob-field label{font-size:10px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.38)}
+.ob-field input{width:100%;padding:14px 16px;background:var(--sf);border:1.5px solid var(--bds);border-radius:10px;color:#fff;font-family:'Jost',sans-serif;font-size:15px;outline:none;transition:border-color .22s}
+.ob-field input:focus{border-color:var(--accent)}
+.ob-field-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.ob-field input.ob-err{border-color:var(--err);animation:obShake .3s ease}
+@keyframes obShake{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+
+/* PIN boxes */
+.ob-pin{display:flex;align-items:center;justify-content:center;gap:8px}
+.ob-pin-box{width:48px;height:60px;text-align:center;font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:28px;background:var(--sf);border:1.5px solid var(--bds);border-radius:10px;color:var(--white);outline:none;transition:border-color .22s,box-shadow .22s;caret-color:var(--accent);padding:0}
+.ob-pin-box:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(37,99,235,.12)}
+.ob-pin-box.filled{border-color:rgba(37,99,235,.4);background:rgba(37,99,235,.06)}
+.ob-pin-box.ok{border-color:var(--ok)!important;background:rgba(34,215,122,.06)!important}
+.ob-pin-box.err{border-color:var(--err)!important;animation:obShake .3s ease}
+.ob-pin-sep{width:12px;height:2px;background:rgba(255,255,255,.15);flex-shrink:0}
+.ob-pin-hint{font-size:10px;color:rgba(255,255,255,.22);text-align:center;margin-top:4px}
+
+/* Buttons */
+.ob-btn{width:100%;padding:16px;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:15px;letter-spacing:.14em;text-transform:uppercase;background:var(--accent);color:var(--white);border:1.5px solid var(--accent);border-radius:10px;cursor:pointer;transition:opacity .2s}
+.ob-btn:disabled{opacity:.4;cursor:not-allowed}
+.ob-btn-ghost{width:100%;padding:13px;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:13px;letter-spacing:.12em;text-transform:uppercase;background:transparent;color:rgba(255,255,255,.4);border:1.5px solid var(--bds);border-radius:10px;cursor:pointer;transition:color .2s,border-color .2s}
+.ob-btn-ghost:hover{color:#fff;border-color:rgba(255,255,255,.3)}
+
+.ob-msg{font-size:12px;min-height:18px;text-align:center;transition:color .2s}
+.ob-msg.err{color:var(--err)}.ob-msg.ok{color:var(--ok)}.ob-msg.warn{color:var(--warn)}
+
+.ob-help{font-size:12px;color:rgba(255,255,255,.22);text-align:center;line-height:1.7;margin-top:4px}
+.ob-help a{color:var(--accent);text-decoration:none}
+
+/* Step 2 inscription (PIN) */
+.ob-step2{display:none;flex-direction:column;gap:16px;width:100%;animation:obFadeIn .3s}
+.ob-step2.on{display:flex}
+
 .toast{position:fixed;bottom:calc(86px + env(safe-area-inset-bottom,16px));left:50%;transform:translateX(-50%) translateY(20px);background:var(--sf);border:1px solid var(--bds);border-radius:100px;padding:11px 24px;font-size:13.5px;font-weight:600;color:var(--text);opacity:0;transition:opacity .28s,transform .28s;pointer-events:none;white-space:nowrap;z-index:9999;box-shadow:var(--shadow-1)}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 .toast.ok{border-color:rgba(34,215,122,.42);color:var(--ok)}.toast.err{border-color:rgba(239,68,68,.32);color:var(--err)}
@@ -721,6 +779,62 @@ button,a,.tap{transition:transform .28s cubic-bezier(.2,.7,.2,1),background-colo
 </head>
 <body>
 
+<!-- ══ Onboarding Overlay ══ -->
+<div class="ob-overlay" id="ob-overlay">
+  <div class="ob-glow"></div>
+  <div class="ob-grid"></div>
+  <div class="ob-card">
+    <div class="ob-logo"><img src="assets/images/apam-logo2.png" alt="APAM"></div>
+    <h1 class="ob-title">Bienvenue<br><span class="ol">au club.</span></h1>
+    <p class="ob-sub">Espace membres · Aéroclub L'Aigle Saint-Michel</p>
+    <div class="ob-tabs">
+      <button class="ob-tab on" id="ob-tab-login" onclick="obTab('login')">Connexion</button>
+      <button class="ob-tab" id="ob-tab-signup" onclick="obTab('signup')">Créer un compte</button>
+    </div>
+    <div class="ob-panel on" id="ob-login">
+      <div>
+        <label style="font-size:10px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.38);display:block;margin-bottom:8px">Votre PIN à 6 chiffres</label>
+        <div class="ob-pin" id="ob-pin-login">
+          <input class="ob-pin-box" type="text" inputmode="numeric" maxlength="1" autocomplete="off"><input class="ob-pin-box" type="text" inputmode="numeric" maxlength="1" autocomplete="off"><input class="ob-pin-box" type="text" inputmode="numeric" maxlength="1" autocomplete="off">
+          <div class="ob-pin-sep"></div>
+          <input class="ob-pin-box" type="text" inputmode="numeric" maxlength="1" autocomplete="off"><input class="ob-pin-box" type="text" inputmode="numeric" maxlength="1" autocomplete="off"><input class="ob-pin-box" type="text" inputmode="numeric" maxlength="1" autocomplete="off">
+        </div>
+        <p class="ob-pin-hint">Un chiffre par case</p>
+      </div>
+      <p class="ob-msg" id="ob-msg-login"></p>
+      <button class="ob-btn" id="ob-btn-login" onclick="obLogin()">Se connecter →</button>
+      <p class="ob-help">Problème d'accès ? <a href="contact.html">Contacter le bureau</a></p>
+    </div>
+    <div class="ob-panel" id="ob-signup">
+      <div class="ob-field">
+        <label>Code d'accès club *</label>
+        <input id="ob-code" type="text" placeholder="Communiqué par le bureau" autocomplete="off" autocorrect="off" spellcheck="false" maxlength="20" style="text-transform:uppercase;text-align:center;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:18px;letter-spacing:.12em;border-radius:10px">
+      </div>
+      <div class="ob-field-row">
+        <div class="ob-field"><label>Prénom *</label><input id="ob-prenom" type="text" placeholder="Frédéric" autocomplete="given-name"></div>
+        <div class="ob-field"><label>Nom *</label><input id="ob-nom" type="text" placeholder="Dupont" autocomplete="family-name"></div>
+      </div>
+      <p class="ob-msg" id="ob-msg-signup1"></p>
+      <button class="ob-btn" onclick="obSignupStep2()">Suivant →</button>
+    </div>
+    <div class="ob-step2" id="ob-signup2">
+      <div>
+        <label style="font-size:10px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.38);display:block;margin-bottom:4px">Choisissez votre PIN à 6 chiffres</label>
+        <p style="font-size:12px;color:rgba(122,131,153,1);margin-bottom:10px">Ce code sera votre clé de connexion. Mémorisez-le.</p>
+        <div class="ob-pin" id="ob-pin-create">
+          <input class="ob-pin-box" type="text" inputmode="numeric" maxlength="1" autocomplete="off"><input class="ob-pin-box" type="text" inputmode="numeric" maxlength="1" autocomplete="off"><input class="ob-pin-box" type="text" inputmode="numeric" maxlength="1" autocomplete="off">
+          <div class="ob-pin-sep"></div>
+          <input class="ob-pin-box" type="text" inputmode="numeric" maxlength="1" autocomplete="off"><input class="ob-pin-box" type="text" inputmode="numeric" maxlength="1" autocomplete="off"><input class="ob-pin-box" type="text" inputmode="numeric" maxlength="1" autocomplete="off">
+        </div>
+      </div>
+      <p class="ob-msg" id="ob-msg-signup2"></p>
+      <button class="ob-btn" id="ob-btn-create" disabled onclick="obCreateAccount()">Créer mon compte →</button>
+      <button class="ob-btn-ghost" onclick="obBackToStep1()">← Retour</button>
+    </div>
+  </div>
+</div>
+
+
 <!-- ════════════════════════════════════════
      DESKTOP (web PC)
 ════════════════════════════════════════ -->
@@ -795,11 +909,11 @@ button,a,.tap{transition:transform .28s cubic-bezier(.2,.7,.2,1),background-colo
             <div class="widget-hd"><span class="widget-hd-icon"><svg viewBox="0 0 24 24"><path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/></svg></span><span class="widget-hd-title">Terrain LFOL</span></div>
             <div class="widget-body">
               <div class="widget-row"><span class="widget-row-k">Piste</span><span class="widget-row-v">07 / 25 · 800 m</span></div>
-              <div class="widget-row"><span class="widget-row-k">Surface</span><span class="widget-row-v">Dur</span></div>
-              <div class="widget-row"><span class="widget-row-k">Élévation</span><span class="widget-row-v">780 ft </span></div>
+              <div class="widget-row"><span class="widget-row-k">Surface</span><span class="widget-row-v">Herbe</span></div>
+              <div class="widget-row"><span class="widget-row-k">Élévation</span><span class="widget-row-v">200 ft · 61 m</span></div>
               <div class="widget-row"><span class="widget-row-k">Radio</span><span class="widget-row-v">126.855 MHz</span></div>
               <div class="widget-row"><span class="widget-row-k">Coord.</span><span class="widget-row-v">48°45'N 0°39'E</span></div>
-              <div class="widget-row"><span class="widget-row-k">Carburant</span><span class="widget-row-v">Avgas 100LL (urgences)</span></div>
+              <div class="widget-row"><span class="widget-row-k">Carburant</span><span class="widget-row-v">Avgas 100LL</span></div>
             </div>
           </div>
           <a class="widget-link" href="activite.html">Voir Le Club<span>→</span></a>
@@ -1125,6 +1239,139 @@ button,a,.tap{transition:transform .28s cubic-bezier(.2,.7,.2,1),background-colo
 'use strict';
 const APP_VERSION='1.8.0';
 const API='https://script.google.com/macros/s/AKfycbxae9y3NHqDyAkbEI5rDVRappI-aAWoA0jcHqR8NBUgm3t5SCB1Hq8nebY5t23cV1Je/exec';
+
+/* ══ Onboarding ══ */
+var _obPrenom='',_obNom='',_obCode='';
+
+function obTab(tab){
+  document.getElementById('ob-tab-login').classList.toggle('on',tab==='login');
+  document.getElementById('ob-tab-signup').classList.toggle('on',tab==='signup');
+  document.getElementById('ob-login').classList.toggle('on',tab==='login');
+  document.getElementById('ob-signup').classList.toggle('on',tab==='signup');
+  document.getElementById('ob-signup2').classList.remove('on');
+  obMsg('ob-msg-login','');obMsg('ob-msg-signup1','');obMsg('ob-msg-signup2','');
+  if(tab==='login')setTimeout(function(){obFocusFirst('ob-pin-login');},100);
+  if(tab==='signup')setTimeout(function(){document.getElementById('ob-code').focus();},100);
+}
+
+function obMsg(id,txt,type){var e=document.getElementById(id);if(e){e.textContent=txt;e.className='ob-msg'+(type?' '+type:'');}}
+
+function obFocusFirst(id){var b=document.querySelector('#'+id+' .ob-pin-box');if(b)b.focus();}
+
+function obSetupPinBoxes(containerId,onComplete){
+  var wrap=document.getElementById(containerId);if(!wrap)return function(){return'';};
+  var boxes=Array.from(wrap.querySelectorAll('.ob-pin-box'));
+  function getPin(){return boxes.map(function(b){return b.value;}).join('');}
+  boxes.forEach(function(box,i){
+    box.addEventListener('focus',function(){box.select();});
+    box.addEventListener('keydown',function(e){
+      if(e.key==='Backspace'){if(box.value){box.value='';box.classList.remove('filled');}else if(i>0){boxes[i-1].focus();boxes[i-1].value='';boxes[i-1].classList.remove('filled');}e.preventDefault();}
+      if(e.key==='ArrowLeft'&&i>0)boxes[i-1].focus();
+      if(e.key==='ArrowRight'&&i<boxes.length-1)boxes[i+1].focus();
+      if(e.key==='Enter'){var p=getPin();if(p.length===6&&onComplete)onComplete();}
+    });
+    box.addEventListener('input',function(){
+      var d=box.value.replace(/\D/g,'');box.value=d?d[d.length-1]:'';
+      box.classList.toggle('filled',!!box.value);
+      if(box.value&&i<boxes.length-1)boxes[i+1].focus();
+      var p=getPin();
+      if(containerId==='ob-pin-create'){var btn=document.getElementById('ob-btn-create');if(btn)btn.disabled=p.length<6;}
+      if(p.length===6&&onComplete)setTimeout(onComplete,200);
+    });
+    box.addEventListener('paste',function(e){
+      e.preventDefault();var text=(e.clipboardData||window.clipboardData).getData('text').replace(/\D/g,'').slice(0,6);
+      boxes.forEach(function(b,j){b.value=text[j]||'';b.classList.toggle('filled',!!b.value);});
+      var next=Math.min(text.length,boxes.length-1);boxes[next].focus();
+      var p=getPin();
+      if(containerId==='ob-pin-create'){var btn=document.getElementById('ob-btn-create');if(btn)btn.disabled=p.length<6;}
+      if(p.length===6&&onComplete)setTimeout(onComplete,200);
+    });
+  });
+  return function(){return getPin();};
+}
+
+function obShakeBoxes(id){
+  var boxes=document.querySelectorAll('#'+id+' .ob-pin-box');
+  boxes.forEach(function(b){b.classList.add('err');});
+  setTimeout(function(){boxes.forEach(function(b){b.classList.remove('err','filled');b.value='';});obFocusFirst(id);},500);
+}
+
+var obGetPinLogin=obSetupPinBoxes('ob-pin-login',obLogin);
+var obGetPinCreate=obSetupPinBoxes('ob-pin-create',null);
+
+function obSignupStep2(){
+  var code=document.getElementById('ob-code').value.trim().toUpperCase();
+  var prenom=document.getElementById('ob-prenom').value.trim();
+  var nom=document.getElementById('ob-nom').value.trim();
+  if(!code){obMsg('ob-msg-signup1','Code d\'accès club requis.','err');document.getElementById('ob-code').classList.add('ob-err');setTimeout(function(){document.getElementById('ob-code').classList.remove('ob-err');},400);return;}
+  if(!prenom||!nom){obMsg('ob-msg-signup1','Prénom et nom obligatoires.','err');return;}
+  _obCode=code;_obPrenom=prenom;_obNom=nom;
+  obMsg('ob-msg-signup1','');
+  document.getElementById('ob-signup').classList.remove('on');
+  document.getElementById('ob-signup2').classList.add('on');
+  setTimeout(function(){obFocusFirst('ob-pin-create');},100);
+}
+
+function obBackToStep1(){
+  document.getElementById('ob-signup2').classList.remove('on');
+  document.getElementById('ob-signup').classList.add('on');
+}
+
+async function obLogin(){
+  var pin=obGetPinLogin();
+  if(!pin||pin.length!==6){obShakeBoxes('ob-pin-login');obMsg('ob-msg-login','PIN à 6 chiffres requis.','err');return;}
+  obMsg('ob-msg-login','Vérification…');
+  document.getElementById('ob-btn-login').disabled=true;
+  try{
+    var data=await fetch(API+'?action=login&pin='+pin).then(function(r){return r.json();});
+    if(data.error){
+      obMsg('ob-msg-login',data.code===404?'PIN introuvable.':data.error,'err');
+      obShakeBoxes('ob-pin-login');
+    }else{
+      document.querySelectorAll('#ob-pin-login .ob-pin-box').forEach(function(b){b.classList.add('ok');});
+      obMsg('ob-msg-login','Bonjour '+data.prenom+' !','ok');
+      obSaveSession(pin,data.prenom,data.nom,{admin:!!data.admin,news_pub:!!data.news_pub,news_membres:!!data.news_membres,photos:!!data.photos});
+      setTimeout(function(){location.reload();},600);
+    }
+  }catch(e){obMsg('ob-msg-login','Erreur réseau, réessayez.','err');}
+  document.getElementById('ob-btn-login').disabled=false;
+}
+
+async function obCreateAccount(){
+  var pin=obGetPinCreate();
+  if(pin.length!==6){obShakeBoxes('ob-pin-create');obMsg('ob-msg-signup2','6 chiffres requis.','err');return;}
+  var btn=document.getElementById('ob-btn-create');
+  btn.disabled=true;obMsg('ob-msg-signup2','Création du compte…');
+  try{
+    var url=API+'?action=inscription&codeClub='+encodeURIComponent(_obCode)+'&prenom='+encodeURIComponent(_obPrenom)+'&nom='+encodeURIComponent(_obNom)+'&pin='+pin;
+    var data=await fetch(url).then(function(r){return r.json();});
+    if(data.error){obMsg('ob-msg-signup2',data.error,'err');btn.disabled=false;return;}
+    document.querySelectorAll('#ob-pin-create .ob-pin-box').forEach(function(b){b.classList.add('ok');});
+    obMsg('ob-msg-signup2','Compte créé !','ok');
+    obSaveSession(pin,_obPrenom,_obNom,{admin:false,news_pub:false,news_membres:false,photos:false});
+    setTimeout(function(){location.reload();},700);
+  }catch(e){obMsg('ob-msg-signup2','Erreur réseau, réessayez.','err');btn.disabled=false;}
+}
+
+function obSaveSession(pin,prenom,nom,perms){
+  localStorage.setItem('apam_role','member');
+  localStorage.setItem('apam_prenom',prenom);
+  localStorage.setItem('apam_nom',nom);
+  localStorage.setItem('apam_pin',pin);
+  localStorage.setItem('apam_perms',JSON.stringify(perms||{}));
+}
+
+function showOnboarding(){
+  var o=document.getElementById('ob-overlay');
+  if(o){o.classList.remove('hidden');setTimeout(function(){obFocusFirst('ob-pin-login');},200);}
+}
+function hideOnboarding(){
+  var o=document.getElementById('ob-overlay');if(o)o.classList.add('hidden');
+}
+
+// Input auto-uppercase pour le code club
+document.getElementById('ob-code')?.addEventListener('input',function(){this.value=this.value.toUpperCase().replace(/[^A-Z0-9\-]/g,'');});
+
 const isStandalone=navigator.standalone||window.matchMedia('(display-mode:standalone)').matches;
 const isIOS=/iPad|iPhone|iPod/.test(navigator.userAgent)&&!window.MSStream;
 const isMobile=/Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
@@ -1217,7 +1464,7 @@ const memberPrenom=sessionStorage.getItem('apam_prenom')||localStorage.getItem('
 const memberNom=sessionStorage.getItem('apam_nom')||localStorage.getItem('apam_nom')||'';
 const memberName=(memberPrenom+' '+memberNom).trim();
 const memberPin=sessionStorage.getItem('apam_pin')||localStorage.getItem('apam_pin')||'';
-if(!memberPrenom&&!memberNom) window.location.href='connexion-membres-password.html?next=mon-compte.html';
+if(!memberPrenom&&!memberNom) showOnboarding();
 
 /* Identité */
 const dn=(memberPrenom||memberName).toUpperCase();
@@ -1429,7 +1676,7 @@ function buildOutils(){
   syncThemeIcons();
 }
 
-function logout(){if(!confirm('Se déconnecter ?'))return;['apam_perms','apam_nom','apam_prenom','apam_pin'].forEach(k=>{localStorage.removeItem(k);sessionStorage.removeItem(k);});window.location.href='connexion-membres-password.html';}
+function logout(){if(!confirm('Se déconnecter ?'))return;['apam_perms','apam_nom','apam_prenom','apam_pin'].forEach(k=>{localStorage.removeItem(k);sessionStorage.removeItem(k);});location.reload();}
 
 /* ══════════════════════════════════════════
    PUBLICATION (news pub + news membres)
