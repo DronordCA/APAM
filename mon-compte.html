@@ -75,8 +75,8 @@ document.addEventListener('touchend',function(e){
 [data-cards="ghost"]{--card-bg:transparent;--card-bord:transparent;}
 
 /* ═══════════════════════ PWA NATIVE ═══════════════════════ */
-html,body{overscroll-behavior:none;-webkit-touch-callout:none}
-html.pwa,html.pwa body{overflow-x:hidden}
+html,body{overscroll-behavior-x:none;-webkit-touch-callout:none}
+html.pwa,html.pwa body{overflow-x:hidden;-webkit-overflow-scrolling:touch}
 html.pwa body{-webkit-user-select:none;user-select:none;-webkit-text-size-adjust:100%;text-size-adjust:100%}
 html.pwa input,html.pwa textarea,html.pwa .mn-body,html.pwa .wx-raw,html.pwa .taf-raw,html.pwa .vtag,html.pwa .wx-station,html.pwa .taf-hdr-sta{-webkit-user-select:text;user-select:text}
 html.pwa::-webkit-scrollbar,html.pwa *::-webkit-scrollbar{display:none;width:0;height:0}
@@ -319,9 +319,26 @@ html:not(.pwa) .desktop-only{display:flex}
 .mn-title{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:24px;text-transform:uppercase;line-height:1.05;color:var(--text);margin-bottom:12px;text-wrap:balance;letter-spacing:-.005em}
 .mn-body{font-size:15px;line-height:1.7;color:var(--text-2);padding:0 18px 16px;letter-spacing:.005em}
 
-.mn-poll{padding:0 16px 16px;border-top:1px dashed var(--border);padding-top:14px;margin-top:2px}
-.poll-q{font-size:9px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);margin-bottom:10px;display:flex;align-items:center;gap:8px}
-.poll-q::before{content:"";width:14px;height:1px;background:var(--accent)}
+.mn-poll-wrap{border-top:1px solid var(--border)}
+.mn-poll-trigger{width:100%;display:flex;align-items:center;gap:12px;padding:13px 16px;background:none;border:none;cursor:pointer;text-align:left;font-family:'Jost',sans-serif;color:inherit}
+.mn-poll-trigger-icon{width:34px;height:34px;border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0;border:1px solid}
+.mn-poll-trigger-icon svg{width:18px;height:18px}
+.mn-poll-trigger.unvoted .mn-poll-trigger-icon{background:var(--accent-soft);border-color:var(--accent-bord);color:var(--accent)}
+.mn-poll-trigger.voted .mn-poll-trigger-icon{background:rgba(34,215,122,.10);border-color:rgba(34,215,122,.30);color:var(--ok)}
+.mn-poll-trigger-tx{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+.mn-poll-trigger-t{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:16px;text-transform:uppercase;letter-spacing:-.005em;color:var(--text);line-height:1.05}
+.mn-poll-trigger-s{font-size:12px;color:var(--muted);letter-spacing:.005em}
+.mn-poll-trigger-s strong{font-weight:600}
+.mn-poll-trigger-arr{color:var(--muted);flex-shrink:0;display:inline-flex;transition:transform .32s cubic-bezier(.2,.7,.2,1)}
+.mn-poll-trigger-arr svg{width:18px;height:18px}
+.mn-poll-wrap.open .mn-poll-trigger-arr{transform:rotate(90deg);color:var(--accent)}
+.mn-poll-trigger.unvoted{position:relative}
+.mn-poll-trigger.unvoted::after{content:"";position:absolute;top:13px;right:42px;width:7px;height:7px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 0 var(--accent-soft);animation:pulse 2s ease-in-out infinite}
+.mn-poll-wrap.open .mn-poll-trigger.unvoted::after{display:none}
+.mn-poll-body{display:grid;grid-template-rows:0fr;transition:grid-template-rows .34s cubic-bezier(.2,.7,.2,1)}
+.mn-poll-wrap.open .mn-poll-body{grid-template-rows:1fr}
+.mn-poll-body-inner{overflow:hidden}
+.mn-poll{padding:0 16px 16px;padding-top:4px;margin-top:0}
 .poll-btns{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px}
 .poll-btn{position:relative;padding:11px;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-style:italic;font-size:14px;letter-spacing:.1em;text-transform:uppercase;background:var(--sf2);border:1.5px solid var(--bds);color:var(--muted);cursor:pointer;border-radius:8px;transition:all .25s cubic-bezier(.2,.7,.2,1)}
 .poll-btn:hover{border-color:var(--bds);color:var(--text)}
@@ -664,6 +681,46 @@ html:not(.pwa) .desktop-only{display:flex}
 
 /* ═══════════════════════ MISC ═══════════════════════ */
 
+/* ══ Splash de démarrage ══ */
+.splash{position:fixed;inset:0;z-index:9999;background:var(--bg);display:flex;align-items:center;justify-content:center;transition:opacity .5s cubic-bezier(.4,0,.2,1);opacity:1}
+.splash.gone{opacity:0;pointer-events:none}
+.splash-inner{display:flex;flex-direction:column;align-items:center;gap:0}
+.splash-word{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:72px;letter-spacing:.02em;line-height:1;background:linear-gradient(180deg,var(--accent) 0%,var(--accent-2) 50%,var(--dim) 50%,var(--dim) 100%);background-size:100% 200%;background-position:0 100%;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;animation:splashFill 1.05s cubic-bezier(.4,0,.2,1) .1s forwards}
+.splash-sub{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:500;letter-spacing:.34em;text-transform:uppercase;color:var(--muted);margin-top:12px;opacity:0;animation:splashSub .5s ease-out .55s forwards}
+.splash-bar{margin-top:26px;width:120px;height:3px;border-radius:2px;background:var(--sf2);overflow:hidden}
+.splash-bar span{display:block;height:100%;width:0;border-radius:2px;background:linear-gradient(90deg,var(--accent),var(--accent-2));animation:splashBar 1.1s cubic-bezier(.4,0,.2,1) .15s forwards}
+@keyframes splashFill{from{background-position:0 100%}to{background-position:0 0}}
+@keyframes splashSub{to{opacity:1}}
+@keyframes splashBar{0%{width:0}70%{width:78%}100%{width:100%}}
+
+/* ══ Tutoriel première connexion ══ */
+.tuto{position:fixed;inset:0;z-index:9200;background:var(--bg);display:none;flex-direction:column;align-items:center;justify-content:center;padding:28px;overflow:hidden}
+.tuto.show{display:flex;animation:fadeIn .4s ease-out}
+.tuto-glow{position:absolute;inset:0;pointer-events:none;background:radial-gradient(60% 45% at 50% 28%,var(--accent-soft),transparent 65%)}
+.tuto-skip{position:absolute;top:max(env(safe-area-inset-top,18px),18px);right:18px;z-index:2;background:none;border:none;color:var(--muted);font-family:'Jost',sans-serif;font-size:14px;font-weight:500;cursor:pointer;padding:8px 4px}
+.tuto-skip:hover{color:var(--text)}
+.tuto-skip.hidden{display:none}
+.tuto-card{position:relative;z-index:1;width:100%;max-width:380px;display:flex;flex-direction:column;align-items:center;text-align:center}
+.tuto-stage{min-height:300px;display:flex;flex-direction:column;align-items:center;justify-content:center;width:100%}
+.tuto-slide{display:flex;flex-direction:column;align-items:center;animation:tutoIn .42s cubic-bezier(.2,.7,.2,1)}
+@keyframes tutoIn{from{opacity:0;transform:translateX(24px)}to{opacity:1;transform:none}}
+.tuto-icon{width:88px;height:88px;border-radius:24px;background:var(--accent-soft);border:1px solid var(--accent-bord);color:var(--accent);display:flex;align-items:center;justify-content:center;margin-bottom:26px;box-shadow:0 0 0 8px var(--accent-soft)}
+.tuto-icon svg{width:42px;height:42px;stroke:currentColor;stroke-width:1.6;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.tuto-icon.intro{background:none;border:none;box-shadow:none;width:auto;height:auto;margin-bottom:18px}
+.tuto-wordmark{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:56px;letter-spacing:.02em;color:var(--accent);line-height:1}
+.tuto-title{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:32px;text-transform:uppercase;color:var(--text);line-height:1.02;letter-spacing:-.01em;margin-bottom:14px;text-wrap:balance}
+.tuto-text{font-size:16px;line-height:1.6;color:var(--text-2);max-width:320px;text-wrap:pretty}
+.tuto-text strong{color:var(--text);font-weight:600}
+.tuto-dots{display:flex;gap:8px;margin:30px 0 22px;height:8px}
+.tuto-dot{width:8px;height:8px;border-radius:50%;background:var(--bds);transition:all .3s cubic-bezier(.2,.7,.2,1)}
+.tuto-dot.on{background:var(--accent);width:22px;border-radius:4px}
+.tuto-actions{display:flex;flex-direction:column;gap:10px;width:100%;max-width:340px}
+.tuto-btn{width:100%;padding:15px;background:var(--accent);color:#fff;border:none;border-radius:13px;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-style:italic;font-size:16px;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:8px}
+.tuto-btn:hover{opacity:.92}
+.tuto-btn svg{width:18px;height:18px;stroke:currentColor;stroke-width:2.4;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.tuto-btn-ghost{width:100%;padding:14px;background:transparent;color:var(--muted);border:1px solid var(--border);border-radius:13px;font-family:'Jost',sans-serif;font-weight:500;font-size:14.5px;cursor:pointer}
+.tuto-btn-ghost:hover{color:var(--text);border-color:var(--bds)}
+
 /* ══ Onboarding Overlay ══ */
 .ob-overlay{position:fixed;inset:0;z-index:9000;background:var(--bg);display:flex;align-items:center;justify-content:center;padding:20px;opacity:1;transition:opacity .4s,visibility .4s;visibility:visible}
 .ob-overlay.hidden{opacity:0;visibility:hidden;pointer-events:none}
@@ -806,6 +863,15 @@ button,a,.tap{transition:transform .28s cubic-bezier(.2,.7,.2,1),background-colo
 </head>
 <body>
 
+<!-- ══ Splash de démarrage ══ -->
+<div class="splash" id="splash">
+  <div class="splash-inner">
+    <div class="splash-word" aria-label="APAM">APAM</div>
+    <div class="splash-sub">Espace pilote</div>
+    <div class="splash-bar"><span id="splash-bar-fill"></span></div>
+  </div>
+</div>
+
 <!-- ══ Onboarding Overlay ══ -->
 <div class="ob-overlay hidden" id="ob-overlay">
   <div class="ob-glow"></div>
@@ -858,6 +924,18 @@ button,a,.tap{transition:transform .28s cubic-bezier(.2,.7,.2,1),background-colo
       <button class="ob-btn" id="ob-btn-create" disabled onclick="obCreateAccount()">Créer mon compte →</button>
       <button class="ob-btn-ghost" onclick="obBackToStep1()">← Retour</button>
     </div>
+  </div>
+</div>
+
+
+<!-- ══ Tutoriel première connexion ══ -->
+<div class="tuto" id="tuto">
+  <div class="tuto-glow"></div>
+  <button class="tuto-skip" id="tuto-skip" onclick="closeTutorial()" type="button">Passer</button>
+  <div class="tuto-card">
+    <div class="tuto-stage" id="tuto-stage"></div>
+    <div class="tuto-dots" id="tuto-dots"></div>
+    <div class="tuto-actions" id="tuto-actions"></div>
   </div>
 </div>
 
@@ -1285,7 +1363,7 @@ button,a,.tap{transition:transform .28s cubic-bezier(.2,.7,.2,1),background-colo
 
 <script>
 'use strict';
-const APP_VERSION='1.9.0';
+const APP_VERSION='2.0.0';
 const API='https://script.google.com/macros/s/AKfycbxae9y3NHqDyAkbEI5rDVRappI-aAWoA0jcHqR8NBUgm3t5SCB1Hq8nebY5t23cV1Je/exec';
 
 /* ══ Onboarding ══ */
@@ -1544,6 +1622,19 @@ function loadRC(){try{const r=localStorage.getItem(RK);return r?JSON.parse(r):{}
 function saveRC(){try{localStorage.setItem(RK,JSON.stringify(RS));}catch{}}
 const RS={};
 const _voteTokens={};
+const _pollOpen={};
+
+window.togglePoll=function(id){
+  hapticTick();
+  _pollOpen[id]=!_pollOpen[id];
+  /* Toggle just this card's wrap without full re-render (keeps it snappy) */
+  document.querySelectorAll('.mn-poll-trigger').forEach(function(btn){
+    if(btn.getAttribute('onclick')==="togglePoll('"+id+"')"){
+      var wrap=btn.closest('.mn-poll-wrap');
+      if(wrap)wrap.classList.toggle('open',_pollOpen[id]);
+    }
+  });
+};
 
 function applyNews(news){
   /* Badge = polls awaiting my vote (not total news) */
@@ -1566,7 +1657,27 @@ function renderCard(n){
   const mv=rs.myVote;
   const delB=(perms.news_membres||perms.admin)?`<div class="mn-del"><button class="del-btn" type="button" onclick="delNews('${n.id}',${n._row})">Supprimer</button></div>`:'';
   const votersHtml=ouiV.length||nonV.length?`<div class="poll-summary"><div class="poll-counts"><span class="poll-count poll-count-oui">${ouiV.length} <em>oui</em></span><span class="poll-count poll-count-non">${nonV.length} <em>non</em></span></div><button type="button" class="poll-toggle" onclick="togglePollVoters(this)" data-open="0">Afficher les votants <span class="poll-toggle-arr">›</span></button></div><div class="poll-voters-wrap" hidden><div class="poll-voters">${ouiV.length?`<div class="poll-voters-grp"><span class="poll-voters-lbl oui">Oui · ${ouiV.length}</span><div class="poll-voters-list">${ouiV.map(v=>`<span class="vtag oui">${v.prenom} ${(v.nom||'').toUpperCase()}</span>`).join('')}</div></div>`:''}${nonV.length?`<div class="poll-voters-grp"><span class="poll-voters-lbl non">Non · ${nonV.length}</span><div class="poll-voters-list">${nonV.map(v=>`<span class="vtag non">${v.prenom} ${(v.nom||'').toUpperCase()}</span>`).join('')}</div></div>`:''}</div></div>`:'';
-  const pollHtml=hasPoll?`<div class="mn-poll"><div class="poll-q">Serez-vous présent ?</div><div class="poll-btns"><button type="button" class="poll-btn oui ${mv==='oui'?'active':(mv?'dim':'')}" onclick="voter('${n.id}','oui')">OUI</button><button type="button" class="poll-btn non ${mv==='non'?'active':(mv?'dim':'')}" onclick="voter('${n.id}','non')">NON</button></div>${votersHtml}</div>`:'';
+  let pollHtml='';
+  if(hasPoll){
+    const open=_pollOpen[n.id]===true;
+    const total=ouiV.length+nonV.length;
+    const triggerSub=mv
+      ? `Vous : <strong style="color:${mv==='oui'?'var(--ok)':'var(--err)'}">${mv==='oui'?'présent':'absent'}</strong> · ${total} réponse${total>1?'s':''}`
+      : (total>0?`${total} réponse${total>1?'s':''} · appuyez pour voter`:'Appuyez pour indiquer votre présence');
+    const triggerIcon=mv
+      ? `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>`
+      : `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>`;
+    pollHtml=`<div class="mn-poll-wrap ${open?'open':''}">
+      <button type="button" class="mn-poll-trigger ${mv?'voted':'unvoted'}" onclick="togglePoll('${n.id}')">
+        <span class="mn-poll-trigger-icon">${triggerIcon}</span>
+        <span class="mn-poll-trigger-tx"><span class="mn-poll-trigger-t">${mv?'Sondage — répondu':'Serez-vous présent ?'}</span><span class="mn-poll-trigger-s">${triggerSub}</span></span>
+        <span class="mn-poll-trigger-arr"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg></span>
+      </button>
+      <div class="mn-poll-body"><div class="mn-poll-body-inner"><div class="mn-poll">
+        <div class="poll-btns"><button type="button" class="poll-btn oui ${mv==='oui'?'active':(mv?'dim':'')}" onclick="voter('${n.id}','oui')">OUI</button><button type="button" class="poll-btn non ${mv==='non'?'active':(mv?'dim':'')}" onclick="voter('${n.id}','non')">NON</button></div>${votersHtml}
+      </div></div></div>
+    </div>`;
+  }
   return `<article class="mn-card"><div class="mn-card-head"><div class="mn-meta"><span class="mn-date">${n.date}</span><span class="mn-author">— ${n.auteur||'Le bureau'}</span></div><div class="mn-title">${n.titre}</div></div><div class="mn-body">${n.texte}</div>${pollHtml}${delB}</article>`;
 }
 
@@ -1704,12 +1815,14 @@ function buildOutils(){
 
   const themeRowM=`<button type="button" class="tool-item theme-item" onclick="toggleTheme()"><span class="tool-icon" id="m-theme-ic">${ICN.moon}</span><div class="tool-tx"><h4>Apparence</h4><p>Mode <span id="m-theme-lbl">Sombre</span></p></div><span class="tool-chev">›</span></button>`;
   const cguRow=`<button type="button" class="tool-item" onclick="openCGU()"><span class="tool-icon">${ICN.cgu}</span><div class="tool-tx"><h4>Conditions d'utilisation</h4><p>Statut des données · responsabilité du pilote</p></div><span class="tool-chev">›</span></button>`;
+  const tutoRow=`<button type="button" class="tool-item" onclick="openTutorial()"><span class="tool-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></span><div class="tool-tx"><h4>Revoir le tutoriel</h4><p>Visite guidée de l'app</p></div><span class="tool-chev">›</span></button>`;
   const updateRow=`<button type="button" class="update-btn" id="upd-btn" onclick="mettreAJour()"><span class="update-icon">${ICN.update}</span><div class="update-btn-tx" style="flex:1"><h4>Mise à jour</h4><p id="upd-sub">Version v${APP_VERSION} · Vérifier les mises à jour</p></div><span class="tool-chev">›</span></button>`;
 
   const mo=document.getElementById('m-outils');
   if(mo){
     let listHtml='<div class="tools-list">'+updateRow+themeRowM;
     tools.forEach(t=>listHtml+=`<button type="button" class="tool-item ${t.c}" onclick="${t.a}"><span class="tool-icon">${t.i}</span><div class="tool-tx"><h4>${t.t}</h4><p>${t.s}</p></div><span class="tool-chev">›</span></button>`);
+    listHtml+=tutoRow;
     listHtml+=cguRow;
     listHtml+='</div><button type="button" class="logout-btn" onclick="logout()"><span class="logout-icn">'+ICN.logout+'</span>Se déconnecter</button>';
     listHtml+='<div class="version-foot">APAM Espace pilote · v'+APP_VERSION+'</div>';
@@ -1719,7 +1832,8 @@ function buildOutils(){
   if(dg){
     const themeRowD=`<button type="button" class="tool-item theme-item" onclick="toggleTheme()"><span class="tool-icon" id="d-theme-ic">${ICN.moon}</span><div class="tool-tx"><h4>Apparence</h4><p>Mode <span id="d-theme-lbl">Sombre</span></p></div><span class="tool-chev">›</span></button>`;
     const cguRowD=`<button type="button" class="tool-item" onclick="openCGU()"><span class="tool-icon">${ICN.cgu}</span><div class="tool-tx"><h4>Conditions d'utilisation</h4><p>Statut des données · responsabilité du pilote</p></div><span class="tool-chev">›</span></button>`;
-    dg.innerHTML=themeRowD+tools.map(t=>`<a class="tool-item ${t.c}" href="${t.h}"><span class="tool-icon">${t.i}</span><div class="tool-tx"><h4>${t.t}</h4><p>${t.s}</p></div><span class="tool-chev">›</span></a>`).join('')+cguRowD;
+    const tutoRowD=`<button type="button" class="tool-item" onclick="openTutorial()"><span class="tool-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></span><div class="tool-tx"><h4>Revoir le tutoriel</h4><p>Visite guidée de l'app</p></div><span class="tool-chev">›</span></button>`;
+    dg.innerHTML=themeRowD+tools.map(t=>`<a class="tool-item ${t.c}" href="${t.h}"><span class="tool-icon">${t.i}</span><div class="tool-tx"><h4>${t.t}</h4><p>${t.s}</p></div><span class="tool-chev">›</span></a>`).join('')+tutoRowD+cguRowD;
   }
   syncThemeIcons();
 }
@@ -2621,6 +2735,97 @@ if(!isStandalone&&isMobile&&isIOS){
     },800);
   }
 }
+
+/* ══════════════════════════════════════════
+   SPLASH DE DÉMARRAGE + TUTORIEL 1ère CONNEXION
+══════════════════════════════════════════ */
+(function(){
+  var splashStart=Date.now();
+  var hidden=false;
+  function hideSplash(){
+    if(hidden)return;hidden=true;
+    var s=document.getElementById('splash');
+    if(s){s.classList.add('gone');setTimeout(function(){if(s&&s.parentNode)s.parentNode.removeChild(s);},550);}
+    maybeShowTutorial();
+  }
+  function ready(){
+    var wait=Math.max(0,1150-(Date.now()-splashStart));
+    setTimeout(hideSplash,wait);
+  }
+  if(document.readyState==='complete')ready();
+  else window.addEventListener('load',ready);
+  setTimeout(hideSplash,3800); /* filet de sécurité */
+})();
+
+/* ── Tutoriel ── */
+var TUTO_ICONS={
+  home:'<svg viewBox="0 0 24 24"><path d="M3 11l9-8 9 8M5 10v10a1 1 0 0 0 1 1h4v-7h4v7h4a1 1 0 0 0 1-1V10"/></svg>',
+  cloud:'<svg viewBox="0 0 24 24"><path d="M7 18a5 5 0 1 1 .6-9.96A6 6 0 0 1 19 9.5a4.5 4.5 0 0 1-1.5 8.5H7z"/></svg>',
+  news:'<svg viewBox="0 0 24 24"><path d="M4 4h16v16a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1z"/><line x1="8" y1="9" x2="16" y2="9"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="13" y2="17"/></svg>',
+  book:'<svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>',
+  gear:'<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>'
+};
+var TUTO_STEPS=[
+  {intro:true,title:'Bienvenue à bord',text:'Voici votre espace pilote APAM. On vous fait une petite visite guidée ?'},
+  {icon:'home',title:'Votre accueil',text:'La météo du jour et les dernières actualités du club, en un coup d\'œil dès l\'ouverture.'},
+  {icon:'cloud',title:'Météo en direct',text:'METAR et TAF de LFOE actualisés automatiquement. La <strong>loupe</strong> permet de chercher n\'importe quel terrain par code OACI.'},
+  {icon:'news',title:'Actualités & sondages',text:'Lisez les annonces du bureau et indiquez votre présence aux événements en un seul tap.'},
+  {icon:'book',title:'Ressources',text:'Liens essentiels, fiche terrain LFOL, fréquences et pense-bêtes toujours à portée de main.'},
+  {icon:'gear',title:'Options',text:'Thème clair ou sombre, mises à jour de l\'app et réglages de votre compte.'}
+];
+var _tutoStep=0;
+
+function maybeShowTutorial(){
+  if(!memberPrenom&&!memberNom)return; /* onboarding visible → pas de tuto */
+  try{if(localStorage.getItem('apam_tuto_v1'))return;}catch(e){}
+  setTimeout(openTutorial,400);
+}
+window.openTutorial=function(){
+  _tutoStep=0;
+  var t=document.getElementById('tuto');
+  if(!t)return;
+  t.classList.add('show');
+  renderTutoStep();
+};
+function renderTutoStep(){
+  var s=TUTO_STEPS[_tutoStep];
+  var stage=document.getElementById('tuto-stage');
+  var dots=document.getElementById('tuto-dots');
+  var actions=document.getElementById('tuto-actions');
+  var skip=document.getElementById('tuto-skip');
+  if(!s||!stage)return;
+  if(s.intro){
+    stage.innerHTML='<div class="tuto-slide"><div class="tuto-icon intro"><span class="tuto-wordmark">APAM</span></div><div class="tuto-title">'+s.title+'</div><div class="tuto-text">'+s.text+'</div></div>';
+  }else{
+    stage.innerHTML='<div class="tuto-slide"><div class="tuto-icon">'+TUTO_ICONS[s.icon]+'</div><div class="tuto-title">'+s.title+'</div><div class="tuto-text">'+s.text+'</div></div>';
+  }
+  /* dots (skip intro) */
+  var featureCount=TUTO_STEPS.length-1;
+  var dotsHtml='';
+  for(var i=1;i<TUTO_STEPS.length;i++){dotsHtml+='<span class="tuto-dot'+(i===_tutoStep?' on':'')+'"></span>';}
+  dots.innerHTML=s.intro?'':dotsHtml;
+  /* actions */
+  if(s.intro){
+    skip.classList.add('hidden');
+    actions.innerHTML='<button class="tuto-btn" onclick="tutoNext()" type="button">Oui, visite guidée<svg viewBox="0 0 24 24"><path d="M5 12h14M13 5l7 7-7 7"/></svg></button><button class="tuto-btn-ghost" onclick="closeTutorial()" type="button">Non merci, j\'explore seul</button>';
+  }else if(_tutoStep===TUTO_STEPS.length-1){
+    skip.classList.add('hidden');
+    actions.innerHTML='<button class="tuto-btn" onclick="closeTutorial()" type="button">C\'est parti !<svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></button>';
+  }else{
+    skip.classList.remove('hidden');
+    actions.innerHTML='<button class="tuto-btn" onclick="tutoNext()" type="button">Suivant<svg viewBox="0 0 24 24"><path d="M5 12h14M13 5l7 7-7 7"/></svg></button>';
+  }
+}
+window.tutoNext=function(){
+  hapticTick();
+  if(_tutoStep<TUTO_STEPS.length-1){_tutoStep++;renderTutoStep();}
+};
+window.closeTutorial=function(){
+  hapticTick();
+  try{localStorage.setItem('apam_tuto_v1','1');}catch(e){}
+  var t=document.getElementById('tuto');
+  if(t){t.style.transition='opacity .35s';t.style.opacity='0';setTimeout(function(){t.classList.remove('show');t.style.opacity='';t.style.transition='';},350);}
+};
 </script>
 </body>
 </html>
