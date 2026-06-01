@@ -428,6 +428,33 @@ html:not(.pwa) .desktop-only{display:flex}
 .wx-rbtn{background:var(--sf2);border:1px solid var(--border);color:var(--muted);width:32px;height:32px;border-radius:8px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:14px;line-height:1}
 .wx-rbtn:hover{border-color:var(--accent);color:var(--accent)}
 
+/* WX search (recherche d'un autre terrain) */
+.wx-tophead{display:flex;align-items:center;gap:10px;margin:28px 0 16px}
+.wx-tophead:first-child{margin-top:0}
+.wx-tophead h2{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:26px;text-transform:uppercase;color:var(--text);line-height:1;letter-spacing:-.005em}
+.wx-search-toggle{margin-left:auto;width:38px;height:38px;border-radius:11px;background:var(--card-bg);border:1px solid var(--card-bord);color:var(--text-2);display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;box-shadow:inset 0 1px 0 var(--stroke-in)}
+.wx-search-toggle svg{width:19px;height:19px;stroke:currentColor;stroke-width:2;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.wx-search-toggle.on{background:var(--accent);border-color:var(--accent);color:#fff}
+.wx-search-bar{display:grid;grid-template-rows:0fr;transition:grid-template-rows .32s cubic-bezier(.2,.7,.2,1);margin-bottom:0}
+.wx-search-bar.open{grid-template-rows:1fr;margin-bottom:14px}
+.wx-search-bar-inner{overflow:hidden}
+.wx-search-form{display:flex;gap:8px;padding-top:2px}
+.wx-search-input{flex:1;min-width:0;background:var(--card-bg);border:1px solid var(--card-bord);color:var(--text);padding:12px 14px;font-family:'JetBrains Mono',monospace;font-size:15px;letter-spacing:.12em;text-transform:uppercase;outline:none;border-radius:11px;box-shadow:inset 0 1px 0 var(--stroke-in);transition:border-color .22s}
+.wx-search-input::placeholder{color:var(--dim);letter-spacing:.04em}
+.wx-search-input:focus{border-color:var(--accent)}
+.wx-search-go{flex-shrink:0;padding:0 18px;background:var(--accent);color:#fff;border:none;border-radius:11px;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-style:italic;font-size:13px;letter-spacing:.14em;text-transform:uppercase;cursor:pointer;display:inline-flex;align-items:center;gap:6px}
+.wx-search-go svg{width:16px;height:16px;stroke:currentColor;stroke-width:2.4;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.wx-search-hint{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.1em;color:var(--muted);padding:8px 2px 0}
+.wx-result-label{display:flex;align-items:center;gap:8px;font-family:'JetBrains Mono',monospace;font-size:10.5px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);margin:0 0 10px}
+.wx-result-label::after{content:"";flex:1;height:1px;background:linear-gradient(to right,var(--accent-bord),transparent)}
+.wx-result-close{margin-left:auto;width:26px;height:26px;border-radius:50%;border:1px solid var(--border);background:transparent;color:var(--muted);cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.wx-result-close svg{width:13px;height:13px;stroke:currentColor;stroke-width:2.4;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.wx-result-close:hover{border-color:var(--err);color:var(--err)}
+.wx-home-label{display:flex;align-items:center;gap:8px;font-family:'JetBrains Mono',monospace;font-size:10.5px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin:0 0 10px}
+.wx-home-label::after{content:"";flex:1;height:1px;background:linear-gradient(to right,var(--border),transparent)}
+#wx-search-result:empty,#d-wx-search:empty{display:none}
+#wx-search-result,#d-wx-search{margin-bottom:18px;animation:cardIn .32s cubic-bezier(.16,1,.3,1)}
+
 /* SVG compass — theme-aware */
 .wx-comp-bg{fill:var(--sf3);stroke:var(--bds);stroke-width:1.5}
 [data-theme="light"] .wx-comp-bg{fill:var(--sf2)}
@@ -936,7 +963,15 @@ button,a,.tap{transition:transform .28s cubic-bezier(.2,.7,.2,1),background-colo
         <span class="d-section-h-sub">METAR / TAF · Auto-refresh 30 min</span>
       </div>
       <div class="d-grid" style="grid-template-columns:1fr 320px">
-        <div id="d-wx"></div>
+        <div>
+          <form class="wx-search-form" style="margin-bottom:16px" onsubmit="wxDoSearch('d');return false;">
+            <input id="d-wx-search-input" class="wx-search-input" type="text" autocomplete="off" autocapitalize="characters" spellcheck="false" maxlength="4" placeholder="Rechercher un terrain — code OACI (ex : LFPG)"/>
+            <button class="wx-search-go" type="submit"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 5l7 7-7 7"/></svg>Rechercher</button>
+          </form>
+          <div id="d-wx-search"></div>
+          <div class="wx-home-label">LFOE · Terrain de référence</div>
+          <div id="d-wx"></div>
+        </div>
         <aside>
           <div class="widget">
             <div class="widget-hd"><span class="widget-hd-icon"><svg viewBox="0 0 24 24"><path d="M12 2L4.5 20.29l.71.71L12 18l6.79 3 .71-.71z"/></svg></span><span class="widget-hd-title">Station LFOE</span></div>
@@ -1017,10 +1052,23 @@ button,a,.tap{transition:transform .28s cubic-bezier(.2,.7,.2,1),background-colo
   <!-- MÉTÉO -->
   <div id="pane-meteo" class="tab-pane">
     <div class="mobile-wrap">
-      <div class="mobile-sec-h">
-        <h2>Météo · LFOE</h2>
-        <span class="mobile-sec-h-sub">Auto 30 min</span>
+      <div class="wx-tophead">
+        <h2>Météo</h2>
+        <button class="wx-search-toggle" id="wx-search-toggle" onclick="wxToggleSearch()" type="button" title="Rechercher un terrain">
+          <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+        </button>
       </div>
+      <div class="wx-search-bar" id="wx-search-bar">
+        <div class="wx-search-bar-inner">
+          <form class="wx-search-form" onsubmit="wxDoSearch();return false;">
+            <input id="wx-search-input" class="wx-search-input" type="text" inputmode="text" autocomplete="off" autocapitalize="characters" spellcheck="false" maxlength="4" placeholder="Code OACI — ex : LFPG"/>
+            <button class="wx-search-go" type="submit" aria-label="Rechercher"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 5l7 7-7 7"/></svg></button>
+          </form>
+          <div class="wx-search-hint">Code terrain 4 lettres · LFxx (France), EGxx (UK), K… (USA)</div>
+        </div>
+      </div>
+      <div id="wx-search-result"></div>
+      <div class="wx-home-label">LFOE · Terrain de référence</div>
       <div id="m-wx"></div>
     </div>
   </div>
@@ -1237,7 +1285,7 @@ button,a,.tap{transition:transform .28s cubic-bezier(.2,.7,.2,1),background-colo
 
 <script>
 'use strict';
-const APP_VERSION='1.8.0';
+const APP_VERSION='1.9.0';
 const API='https://script.google.com/macros/s/AKfycbxae9y3NHqDyAkbEI5rDVRappI-aAWoA0jcHqR8NBUgm3t5SCB1Hq8nebY5t23cV1Je/exec';
 
 /* ══ Onboarding ══ */
@@ -2098,19 +2146,20 @@ var wxTafFetching=false;
 var wxFetching=false;
 var wxPendingTargets=[];
 
-async function wxFetch(type){
+async function wxFetch(type,station){
+  station=station||WX_STA;
   // 1) Aviationweather.gov direct (CORS-enabled, fastest, no cold start)
   try{
     if(type==='taf'){
-      const r=await Promise.race([fetch(`https://aviationweather.gov/api/data/taf?ids=${WX_STA}&format=raw`,{cache:'no-store'}),new Promise((_,rj)=>setTimeout(()=>rj(),6000))]);
+      const r=await Promise.race([fetch(`https://aviationweather.gov/api/data/taf?ids=${station}&format=raw`,{cache:'no-store'}),new Promise((_,rj)=>setTimeout(()=>rj(),6000))]);
       if(r.ok){const t=(await r.text()).trim();if(t)return t;}
     }else{
-      const r=await Promise.race([fetch(`https://aviationweather.gov/api/data/metar?ids=${WX_STA}&format=json&taf=false`,{cache:'no-store'}),new Promise((_,rj)=>setTimeout(()=>rj(),6000))]);
+      const r=await Promise.race([fetch(`https://aviationweather.gov/api/data/metar?ids=${station}&format=json&taf=false`,{cache:'no-store'}),new Promise((_,rj)=>setTimeout(()=>rj(),6000))]);
       if(r.ok){const j=await r.json();const arr=Array.isArray(j)?j:(j.rawOb?[j]:null);if(arr&&arr[0]&&arr[0].rawOb)return arr[0].rawOb.trim();}
     }
   }catch{}
   // 2) AllOrigins proxy (in case direct CORS fails on some networks)
-  const base=type==='taf'?`https://aviationweather.gov/api/data/taf?ids=${WX_STA}&format=raw`:`https://aviationweather.gov/api/data/metar?ids=${WX_STA}&format=json&taf=false`;
+  const base=type==='taf'?`https://aviationweather.gov/api/data/taf?ids=${station}&format=raw`:`https://aviationweather.gov/api/data/metar?ids=${station}&format=json&taf=false`;
   try{
     const r=await Promise.race([fetch(`https://api.allorigins.win/raw?url=${encodeURIComponent(base)}`),new Promise((_,rj)=>setTimeout(()=>rj(),8000))]);
     if(r.ok){
@@ -2120,7 +2169,7 @@ async function wxFetch(type){
   }catch{}
   // 3) APAM proxy (Google Apps Script) — last resort, may cold-start
   try{
-    const d=await Promise.race([fetch(`${API}?action=getMetar&type=${type}&station=${WX_STA}`).then(r=>r.json()),new Promise((_,rj)=>setTimeout(()=>rj(),15000))]);
+    const d=await Promise.race([fetch(`${API}?action=getMetar&type=${type}&station=${station}`).then(r=>r.json()),new Promise((_,rj)=>setTimeout(()=>rj(),15000))]);
     if(d&&d.raw&&!d.error)return d.raw;
   }catch{}
   throw new Error('METAR indisponible');
@@ -2255,6 +2304,111 @@ function wxLoad(tid,_retry){
 }
 
 function wxReload(tid){hapticTick();wxTs=0;wxFetching=false;wxLoad(tid||'m-wx');}
+
+/* ── Recherche météo d'un autre terrain (indépendant du cache LFOE) ── */
+var _wxSearchToken=0;
+window.wxToggleSearch=function(){
+  hapticTick();
+  var bar=document.getElementById('wx-search-bar');
+  var tog=document.getElementById('wx-search-toggle');
+  if(!bar)return;
+  var open=bar.classList.toggle('open');
+  if(tog)tog.classList.toggle('on',open);
+  if(open){setTimeout(function(){var i=document.getElementById('wx-search-input');if(i)i.focus();},120);}
+};
+window.wxClearSearch=function(scope){
+  var id=scope==='d'?'d-wx-search':'wx-search-result';
+  var el=document.getElementById(id);if(el)el.innerHTML='';
+  var inp=document.getElementById(scope==='d'?'d-wx-search-input':'wx-search-input');if(inp)inp.value='';
+};
+window.wxDoSearch=function(scope){
+  hapticTick();
+  var inp=document.getElementById(scope==='d'?'d-wx-search-input':'wx-search-input');
+  var resId=scope==='d'?'d-wx-search':'wx-search-result';
+  var res=document.getElementById(resId);
+  if(!inp||!res)return;
+  var code=(inp.value||'').trim().toUpperCase().replace(/[^A-Z0-9]/g,'');
+  if(code.length<3||code.length>4){res.innerHTML='<div class="wx-error" style="border-radius:14px"><div class="wx-error-t">Code invalide</div><div class="wx-error-s">Entrez un code OACI de 4 lettres (ex : LFPG, EGLL, KJFK).</div></div>';return;}
+  if(code===WX_STA){wxClearSearch(scope);toast('LFOE est déjà affiché ci-dessous');if(inp)inp.value='';return;}
+  var token=++_wxSearchToken;
+  res.innerHTML='<div class="wx-loading" style="border-radius:14px">Recherche '+code+'…<br/><span style="display:block;margin-top:8px;opacity:.6;font-size:9.5px;letter-spacing:.16em">METAR &amp; TAF</span></div>';
+  wxFetch('metar',code).then(function(raw){
+    if(token!==_wxSearchToken)return;
+    wxRenderSearch(raw,code,scope);
+    /* TAF en arrière-plan */
+    wxFetch('taf',code).then(function(taf){
+      if(token!==_wxSearchToken)return;
+      var box=document.getElementById('wx-search-taf-'+scope);
+      if(box)box.innerHTML=renderTafFor(taf,code);
+    }).catch(function(){
+      var box=document.getElementById('wx-search-taf-'+scope);
+      if(box)box.innerHTML='';
+    });
+  }).catch(function(){
+    if(token!==_wxSearchToken)return;
+    res.innerHTML='<div class="wx-error" style="border-radius:14px"><div class="wx-error-t">'+code+' introuvable</div><div class="wx-error-s">Aucun METAR publié pour ce terrain, ou code inexistant.<br><button type="button" class="wx-result-close" style="margin:12px auto 0;width:auto;padding:6px 14px;border-radius:8px;font-family:\'Jost\',sans-serif;font-size:12px;gap:6px" onclick="wxClearSearch(\''+(scope||'')+'\')">Fermer</button></div></div>';
+  });
+};
+
+function wxRenderSearch(raw,station,scope){
+  var resId=scope==='d'?'d-wx-search':'wx-search-result';
+  var el=document.getElementById(resId);if(!el)return;
+  var wm=raw.match(/(\d{3}|VRB)(\d{2,3})(G(\d{2,3}))?KT/);
+  var wdeg=wm?(wm[1]==='VRB'?'VRB':parseInt(wm[1])):null;
+  var wspd=wm?parseInt(wm[2]):null;
+  var wgust=wm&&wm[4]?parseInt(wm[4]):null;
+  var wdir=wdeg==='VRB'?'Variable':(wdeg!==null?String(wdeg).padStart(3,'0')+'°':'—');
+  var wxBase=raw.split(' TEMPO ')[0].split(' BECMG ')[0].split(' RMK ')[0];
+  var cavok=wxBase.includes('CAVOK');
+  var vm=!cavok&&wxBase.match(/ (\d{4}) /);
+  var vis=cavok?'CAVOK':(vm?(parseInt(vm[1])>=9999?'> 10 km':parseInt(vm[1])>=1000?(parseInt(vm[1])/1000).toFixed(1)+' km':vm[1]+' m'):'—');
+  var cls=wxBase.match(/(FEW|SCT|BKN|OVC)\d{3}/g)||[];
+  var clouds=cls.length?cls.map(function(c){return c.slice(0,3)+' '+(parseInt(c.slice(-3))*100)+' ft';}).join(' · '):(cavok?'CAVOK':'—');
+  var tm=raw.match(/(M?\d{2})\/(M?\d{2})/);
+  var temp=tm?tm[1].replace('M','−')+'°C':'—';var dew=tm?tm[2].replace('M','−')+'°C':'—';
+  var qm=raw.match(/Q(\d{4})/);var qnh=qm?qm[1]+' hPa':'—';
+  var tz=raw.match(/\d{2}(\d{2})(\d{2})Z/);var time=tz?tz[1]+':'+tz[2]+' UTC':'';
+  var ph=(raw.match(/(TS|RA|SN|DZ|FG|BR|GR|SH|FZ\w+|BLSN)/g)||[]);
+  var phenom=ph.length?[...new Set(ph)].join(' '):'—';
+  var cat=wxCat(raw);var col=WX_COL[cat];var cls2=WX_CLS[cat];
+  var grid=[['Visibilité',vis],['Plafond',clouds],['QNH',qnh],['Température',temp],['Rosée',dew],['Phénomènes',phenom]]
+    .map(function(p){return '<div class="wx-cell"><div class="wx-val">'+p[1]+'</div><div class="wx-lbl">'+p[0]+'</div></div>';}).join('');
+  el.innerHTML=
+    '<div class="wx-result-label">Terrain recherché<button type="button" class="wx-result-close" onclick="wxClearSearch(\''+(scope||'')+'\')" title="Fermer"><svg viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg></button></div>'+
+    '<div class="wx-card">'+
+      '<div class="wx-hdr"><div><div class="wx-station">'+station+'</div><div class="wx-subtitle">METAR'+(time?' · '+time:'')+'</div></div><div class="wx-pill '+cls2+'"><div class="wx-dot"></div>'+cat+'</div></div>'+
+      '<div class="wx-wind"><div class="wx-compass">'+wxCompass(wdeg,col)+'</div><div class="wx-wind-data"><div class="wx-wind-spd">'+(wspd!==null?wspd:'—')+'<em>kt</em></div><div class="wx-wind-info">'+wdir+'</div>'+(wgust?'<div class="wx-gust">↑ Rafales '+wgust+' kt</div>':'')+'</div></div>'+
+      '<div class="wx-grid">'+grid+'</div>'+
+      '<div class="wx-raw">'+raw+'</div>'+
+      '<div class="wx-foot"><span class="wx-time">'+(time||station+' · METAR')+'</span><button type="button" class="wx-rbtn" onclick="wxDoSearch(\''+(scope||'')+'\')" title="Actualiser">↻</button></div>'+
+    '</div>'+
+    '<div id="wx-search-taf-'+(scope||'')+'"><div class="wx-loading" style="border-radius:14px;margin-bottom:0">Chargement TAF '+station+'…</div></div>';
+}
+
+function renderTafFor(text,station){
+  var raw=text.trim();
+  var t=raw.split(' TEMPO ').join('\nTEMPO ').split(' BECMG ').join('\nBECMG ').split(' PROB30 TEMPO ').join('\nPROB30 TEMPO ').split(' PROB40 TEMPO ').join('\nPROB40 TEMPO ').split(' PROB30 ').join('\nPROB30 ').split(' PROB40 ').join('\nPROB40 ');
+  t=t.replace(/\sFM(\d{6})/g,'\nFM$1');
+  var groups=t.split('\n').map(function(s){return s.trim();}).filter(Boolean);
+  var base=groups[0]||'';
+  var validM=base.match(/\d{4}\/\d{4}/);
+  var emitM=base.match(/\d{6}Z/);
+  var emitted=emitM?emitM[0]:'';
+  var rows=groups.map(function(g,i){
+    var label='BASE',cls='taf-type-base',timeStr='';
+    if(i>0){
+      if(/^TEMPO/.test(g)){label='TEMPO';cls='taf-type-tempo';var tm=g.match(/TEMPO\s+(\d{4}\/\d{4})/);timeStr=tm?tm[1]:'';}
+      else if(/^BECMG/.test(g)){label='BECMG';cls='taf-type-becmg';var tm=g.match(/BECMG\s+(\d{4}\/\d{4})/);timeStr=tm?tm[1]:'';}
+      else if(/^PROB\d+\s+TEMPO/.test(g)){var p=g.match(/^(PROB\d+)/)[1];label=p+'\nTEMPO';cls='taf-type-prob';var tm=g.match(/TEMPO\s+(\d{4}\/\d{4})/);timeStr=tm?tm[1]:'';}
+      else if(/^PROB/.test(g)){var p=g.match(/^(PROB\d+)/)[1];label=p;cls='taf-type-prob';var tm=g.match(/\d{4}\/\d{4}/);timeStr=tm?tm[0]:'';}
+      else if(/^FM/.test(g)){label='FM';cls='taf-type-fm';var tm=g.match(/FM(\d{2})(\d{2})\d{2}/);timeStr=tm?'Dès '+tm[1]+'Z'+tm[2]:'';}
+    }
+    var cond=parseTafCond(g);
+    var timeDisp=i===0?(validM?'Validité '+validM[0]:''):(timeStr||'');
+    return '<div class="taf-row"><div class="taf-row-type"><span class="taf-type-badge '+cls+'" style="white-space:pre-line">'+label+'</span></div><div class="taf-row-body"><div class="taf-row-time">'+timeDisp+'</div><div class="taf-row-cond">'+condChips(cond)+'</div></div></div>';
+  }).join('');
+  return '<div class="taf-widget"><div class="taf-hdr"><div><div class="taf-hdr-sta">TAF · '+station+'</div><div class="taf-hdr-validity">'+(validM?'Validité '+validM[0]:'')+'</div></div><div class="taf-emitted">Émis '+emitted+'</div></div><div class="taf-rows">'+rows+'</div><div class="taf-raw">'+raw+'</div></div>';
+}
 
 /* Greeting based on time of day */
 function setGreeting(){
