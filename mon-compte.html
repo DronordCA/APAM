@@ -652,6 +652,18 @@ html:not(.pwa) .desktop-only{display:flex}
 .res-section-h:first-of-type{margin-top:6px}
 
 .res-links{display:flex;flex-direction:column;gap:10px}
+/* Feature block (Espace élèves) */
+.res-feature{display:flex;align-items:center;gap:14px;padding:16px;background:linear-gradient(150deg,var(--accent-soft),transparent 80%),var(--card-bg);border:1px solid var(--accent-bord);border-radius:16px;text-decoration:none;color:inherit;cursor:pointer;width:100%;font-family:'Jost',sans-serif;box-shadow:inset 0 1px 0 var(--stroke-in);margin-bottom:8px;position:relative;overflow:hidden}
+.res-feature::before{content:"";position:absolute;inset:0;background-image:repeating-linear-gradient(135deg,var(--hatch) 0 2px,transparent 2px 9px);opacity:.4;pointer-events:none;mask-image:linear-gradient(150deg,transparent 55%,black 100%);-webkit-mask-image:linear-gradient(150deg,transparent 55%,black 100%)}
+.res-feature:active{transform:scale(.985)}
+.res-feature-icon{width:48px;height:48px;border-radius:13px;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0;position:relative;z-index:1}
+.res-feature-icon svg{width:26px;height:26px}
+.res-feature-body{flex:1;min-width:0;position:relative;z-index:1}
+.res-feature-tag{display:inline-block;font-family:'JetBrains Mono',monospace;font-size:9px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);margin-bottom:4px}
+.res-feature-body h4{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:21px;text-transform:uppercase;color:var(--text);line-height:1;letter-spacing:-.005em;margin-bottom:5px}
+.res-feature-body p{font-size:12.5px;color:var(--text-2);line-height:1.4}
+.res-feature-arr{flex-shrink:0;color:var(--accent);display:inline-flex;position:relative;z-index:1}
+.res-feature-arr svg{width:20px;height:20px}
 .res-link{display:flex;align-items:center;gap:14px;padding:14px 16px;background:var(--card-bg);border:1px solid var(--card-bord);border-radius:14px;text-decoration:none;cursor:pointer;width:100%;font-family:'Jost',sans-serif;text-align:left;box-shadow:inset 0 1px 0 var(--stroke-in);color:inherit;transition:all .22s}
 .res-link:hover{border-color:var(--accent-bord);background:var(--accent-soft)}
 .res-link-icon{width:40px;height:40px;border-radius:10px;background:var(--accent-soft);border:1px solid var(--accent-bord);color:var(--accent);display:flex;align-items:center;justify-content:center;flex-shrink:0}
@@ -890,16 +902,19 @@ html:not(.pwa) .desktop-only{display:flex}
 @keyframes spin{to{transform:rotate(360deg)}}
 
 /* Pull-to-refresh indicator */
-.ptr{position:absolute;top:env(safe-area-inset-top,0px);left:0;right:0;height:0;display:flex;align-items:center;justify-content:center;overflow:hidden;transition:height .2s;pointer-events:none;z-index:50}
+.ptr{position:absolute;top:env(safe-area-inset-top,0px);left:0;right:0;height:0;display:flex;align-items:flex-end;justify-content:center;overflow:visible;pointer-events:none;z-index:50}
 html.pwa .ptr{top:max(env(safe-area-inset-top,0px),52px)}
 
 /* Status bar blur — masks scrolling content behind Dynamic Island */
 .status-blur{display:none}
 html.pwa .status-blur{display:block;position:fixed;top:0;left:0;right:0;height:max(env(safe-area-inset-top,0px),52px);z-index:90;background:var(--backdrop);backdrop-filter:blur(22px) saturate(180%);-webkit-backdrop-filter:blur(22px) saturate(180%);pointer-events:none;transition:background-color .25s ease}
 .status-blur::after{content:"";position:absolute;left:0;right:0;bottom:0;height:1px;background:linear-gradient(180deg,transparent,var(--border))}
-.ptr.show{height:50px}
-.ptr.refresh .ptr-icon{animation:spin 1s linear infinite}
-.ptr-icon{font-size:18px;color:var(--accent);transition:transform .2s}
+.ptr-spinner{width:30px;height:30px;opacity:0;transform:translateY(6px) scale(.7);transition:opacity .2s,transform .2s}
+.ptr-spinner svg{width:100%;height:100%;transform:rotate(-90deg);display:block}
+.ptr-track{fill:none;stroke:var(--border);stroke-width:3}
+.ptr-prog{fill:none;stroke:var(--accent);stroke-width:3;stroke-linecap:round;stroke-dasharray:94.2;stroke-dashoffset:94.2}
+.ptr.refresh .ptr-spinner svg{animation:spin .8s linear infinite}
+.ptr.refresh .ptr-prog{stroke-dashoffset:24 !important}
 
 /* Logout */
 .logout-btn{width:100%;padding:14px;margin-top:18px;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-style:italic;font-size:13px;letter-spacing:.16em;text-transform:uppercase;background:transparent;border:1px solid rgba(239,68,68,.28);color:var(--err);opacity:.85;cursor:pointer;border-radius:12px;display:flex;align-items:center;justify-content:center;gap:8px}
@@ -1151,7 +1166,7 @@ button,a,.tap{transition:transform .28s cubic-bezier(.2,.7,.2,1),background-colo
 ════════════════════════════════════════ -->
 <div class="mobile-view">
   <div class="status-blur"></div>
-  <div class="ptr" id="ptr"><span class="ptr-icon" id="ptr-icon">↓</span></div>
+  <div class="ptr" id="ptr"><div class="ptr-spinner" id="ptr-spinner"><svg viewBox="0 0 36 36"><circle class="ptr-track" cx="18" cy="18" r="15"/><circle class="ptr-prog" id="ptr-prog" cx="18" cy="18" r="15"/></svg></div></div>
 
   <!-- ACCUEIL -->
   <div id="pane-home" class="tab-pane active">
@@ -1292,6 +1307,16 @@ button,a,.tap{transition:transform .28s cubic-bezier(.2,.7,.2,1),background-colo
         <h2>Ressources</h2>
         <span class="mobile-sec-h-sub">Aides &amp; liens pilote</span>
       </div>
+
+      <a class="res-feature" href="eleves.html">
+        <span class="res-feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10L12 5 2 10l10 5 10-5z"/><path d="M6 12v5c0 1 2.5 2.5 6 2.5s6-1.5 6-2.5v-5"/><path d="M22 10v6"/></svg></span>
+        <div class="res-feature-body">
+          <span class="res-feature-tag">Formation</span>
+          <h4>Espace élèves &amp; instructeurs</h4>
+          <p>Outils de progression, supports de cours et liens utiles</p>
+        </div>
+        <span class="res-feature-arr"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg></span>
+      </a>
 
       <div class="res-section-h">Liens essentiels</div>
       <div class="res-links">
@@ -1450,7 +1475,7 @@ button,a,.tap{transition:transform .28s cubic-bezier(.2,.7,.2,1),background-colo
 
 <script>
 'use strict';
-const APP_VERSION='2.2.0';
+const APP_VERSION='2.4.0';
 const API='https://script.google.com/macros/s/AKfycbxae9y3NHqDyAkbEI5rDVRappI-aAWoA0jcHqR8NBUgm3t5SCB1Hq8nebY5t23cV1Je/exec';
 
 /* ══ Onboarding ══ */
@@ -1736,25 +1761,23 @@ function applyNews(news){
   ['d-feed','m-feed'].forEach(id=>{const el=document.getElementById(id);if(el)el.innerHTML=html;});
 }
 
-function renderCard(n){
+function pollWrapHTML(n){
   const hasPoll=n.sondage&&n.sondage!=='aucun';
+  if(!hasPoll)return '';
   const rs=RS[n.id]||{};
   const ouiV=(rs.reactions||[]).filter(r=>r.reponse==='oui');
   const nonV=(rs.reactions||[]).filter(r=>r.reponse==='non');
   const mv=rs.myVote;
-  const delB=(perms.news_membres||perms.admin)?`<div class="mn-del"><button class="del-btn" type="button" onclick="delNews('${n.id}',${n._row})">Supprimer</button></div>`:'';
   const votersHtml=ouiV.length||nonV.length?`<div class="poll-summary"><div class="poll-counts"><span class="poll-count poll-count-oui">${ouiV.length} <em>oui</em></span><span class="poll-count poll-count-non">${nonV.length} <em>non</em></span></div><button type="button" class="poll-toggle" onclick="togglePollVoters(this)" data-open="0">Afficher les votants <span class="poll-toggle-arr">›</span></button></div><div class="poll-voters-wrap" hidden><div class="poll-voters">${ouiV.length?`<div class="poll-voters-grp"><span class="poll-voters-lbl oui">Oui · ${ouiV.length}</span><div class="poll-voters-list">${ouiV.map(v=>`<span class="vtag oui">${v.prenom} ${(v.nom||'').toUpperCase()}</span>`).join('')}</div></div>`:''}${nonV.length?`<div class="poll-voters-grp"><span class="poll-voters-lbl non">Non · ${nonV.length}</span><div class="poll-voters-list">${nonV.map(v=>`<span class="vtag non">${v.prenom} ${(v.nom||'').toUpperCase()}</span>`).join('')}</div></div>`:''}</div></div>`:'';
-  let pollHtml='';
-  if(hasPoll){
-    const open=_pollOpen[n.id]===true;
-    const total=ouiV.length+nonV.length;
-    const triggerSub=mv
-      ? `Vous : <strong style="color:${mv==='oui'?'var(--ok)':'var(--err)'}">${mv==='oui'?'présent':'absent'}</strong> · ${total} réponse${total>1?'s':''}`
-      : (total>0?`${total} réponse${total>1?'s':''} · appuyez pour voter`:'Appuyez pour indiquer votre présence');
-    const triggerIcon=mv
-      ? `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>`
-      : `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>`;
-    pollHtml=`<div class="mn-poll-wrap ${open?'open':''}">
+  const open=_pollOpen[n.id]===true;
+  const total=ouiV.length+nonV.length;
+  const triggerSub=mv
+    ? `Vous : <strong style="color:${mv==='oui'?'var(--ok)':'var(--err)'}">${mv==='oui'?'présent':'absent'}</strong> · ${total} réponse${total>1?'s':''}`
+    : (total>0?`${total} réponse${total>1?'s':''} · appuyez pour voter`:'Appuyez pour indiquer votre présence');
+  const triggerIcon=mv
+    ? `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>`
+    : `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>`;
+  return `<div class="mn-poll-wrap ${open?'open':''}">
       <button type="button" class="mn-poll-trigger ${mv?'voted':'unvoted'}" onclick="togglePoll('${n.id}')">
         <span class="mn-poll-trigger-icon">${triggerIcon}</span>
         <span class="mn-poll-trigger-tx"><span class="mn-poll-trigger-t">${mv?'Sondage — répondu':'Serez-vous présent ?'}</span><span class="mn-poll-trigger-s">${triggerSub}</span></span>
@@ -1764,8 +1787,35 @@ function renderCard(n){
         <div class="poll-btns"><button type="button" class="poll-btn oui ${mv==='oui'?'active':(mv?'dim':'')}" onclick="voter('${n.id}','oui')">OUI</button><button type="button" class="poll-btn non ${mv==='non'?'active':(mv?'dim':'')}" onclick="voter('${n.id}','non')">NON</button></div>${votersHtml}
       </div></div></div>
     </div>`;
-  }
-  return `<article class="mn-card"><div class="mn-card-head"><div class="mn-meta"><span class="mn-date">${n.date}</span><span class="mn-author">— ${n.auteur||'Le bureau'}</span></div><div class="mn-title">${n.titre}</div></div><div class="mn-body">${n.texte}</div>${pollHtml}${delB}</article>`;
+}
+
+/* Met à jour le badge "sondages en attente" sans reconstruire le fil */
+function updatePollBadge(news){
+  const pending=(news||[]).filter(n=>{
+    const hasPoll=n.sondage&&n.sondage!=='aucun';
+    if(!hasPoll)return false;
+    const rs=RS[n.id];return !rs||!rs.myVote;
+  }).length;
+  ['d-badge','m-badge'].forEach(id=>{const el=document.getElementById(id);if(el)el.textContent=pending>0?pending:'';});
+}
+
+/* Rafraîchit UNIQUEMENT le sondage d'une carte (zéro flash sur le reste du fil) */
+function refreshPollCard(newsId,news){
+  const n=(news||loadNC()||[]).find(x=>x.id===newsId);
+  if(!n)return;
+  const fresh=pollWrapHTML(n);
+  document.querySelectorAll('.mn-card[data-nid="'+newsId+'"] .mn-poll-wrap').forEach(old=>{
+    const tpl=document.createElement('template');
+    tpl.innerHTML=fresh.trim();
+    old.replaceWith(tpl.content.firstChild);
+  });
+  updatePollBadge(news||loadNC()||[]);
+}
+
+function renderCard(n){
+  const delB=(perms.news_membres||perms.admin)?`<div class="mn-del"><button class="del-btn" type="button" onclick="delNews('${n.id}',${n._row})">Supprimer</button></div>`:'';
+  const pollHtml=pollWrapHTML(n);
+  return `<article class="mn-card" data-nid="${n.id}"><div class="mn-card-head"><div class="mn-meta"><span class="mn-date">${n.date}</span><span class="mn-author">— ${n.auteur||'Le bureau'}</span></div><div class="mn-title">${n.titre}</div></div><div class="mn-body">${n.texte}</div>${pollHtml}${delB}</article>`;
 }
 
 async function fetchReactions(news){
@@ -1818,7 +1868,7 @@ async function voter(newsId,reponse){
       .filter(r=>!(r.prenom===memberPrenom&&(r.nom||'').toLowerCase()===(ownNom||'').toLowerCase()));
     RS[newsId].reactions.push({prenom:memberPrenom,nom:ownNom,reponse:reponse});
   }
-  const news=loadNC()||[];saveRC();applyNews(news);
+  const news=loadNC()||[];saveRC();refreshPollCard(newsId,news);
   try{
     const p=new URLSearchParams({action:'reagir',newsId,prenom:memberPrenom,nom:memberName,reponse:isToggle?'':reponse});
     await fetch(`${API}?${p}`);
@@ -1829,14 +1879,14 @@ async function voter(newsId,reponse){
       RS[newsId].myVote=isToggle?null:reponse;
       if(isToggle)RS[newsId]._unvoted=true;else delete RS[newsId]._unvoted;
     }
-    saveRC();applyNews(news);
+    saveRC();refreshPollCard(newsId,news);
   }catch{
     if(token!==_voteTokens[newsId])return;
     if(RS[newsId]){
       RS[newsId].myVote=isToggle?null:reponse;
       if(isToggle)RS[newsId]._unvoted=true;else delete RS[newsId]._unvoted;
     }
-    saveRC();applyNews(news);
+    saveRC();refreshPollCard(newsId,news);
     toast(isToggle?'Vote retiré localement':'Vote enregistré localement (hors-ligne)','err');
   }
 }
@@ -1873,7 +1923,7 @@ window.switchTab=function(tab){
     /* subpage → highlight Options as breadcrumb */
     document.getElementById('tab-outils')?.classList.add('on');
   }
-  if(tab==='meteo')wxLoad('m-wx');
+  if(tab==='meteo'){if(Date.now()-wxTs>120000){wxTs=0;wxFetching=false;}wxLoad('m-wx');}
   if(tab==='publication')openPublication();
   if(tab==='admin')openAdmin();
   if(tab==='maintenance')openMaintenance();
@@ -1884,7 +1934,7 @@ window.switchD=function(tab){
   document.querySelectorAll('.d-tab').forEach(b=>b.classList.remove('on'));
   const pane=document.getElementById('dpane-'+tab),btn=document.getElementById('dtab-'+tab);
   if(pane)pane.classList.add('active');if(btn)btn.classList.add('on');
-  if(tab==='meteo')wxLoad('d-wx');
+  if(tab==='meteo'){if(Date.now()-wxTs>120000){wxTs=0;wxFetching=false;}wxLoad('d-wx');}
 };
 
 /* ══════════════════════════════════════════
@@ -2652,7 +2702,7 @@ function wxLoad(tid,_retry){
   var el=document.getElementById(tid);
   if(!el)return;
   if(wxRaw) wxRender(wxRaw,tid);
-  if(wxRaw && Date.now()-wxTs < 1800000) return;
+  if(wxRaw && Date.now()-wxTs < 600000) return;
   if(wxFetching){
     if(wxPendingTargets.indexOf(tid)===-1) wxPendingTargets.push(tid);
     if(!wxRaw) el.innerHTML='<div class="wx-loading">Chargement météo…</div>';
@@ -2919,32 +2969,51 @@ if('serviceWorker'in navigator){
   navigator.serviceWorker.addEventListener('controllerchange',()=>window.location.reload());
 }
 
-/* ── Pull-to-refresh visuel ── */
+/* ── Pull-to-refresh visuel (spinner circulaire) ── */
 (function(){
   var ptr=document.getElementById('ptr');
-  if(!ptr)return;
-  var startY=0,pulling=false,armed=false;
+  var spinner=document.getElementById('ptr-spinner');
+  var prog=document.getElementById('ptr-prog');
+  if(!ptr||!spinner||!prog)return;
+  var CIRC=94.2,THRESHOLD=72,MAX=110;
+  var startY=0,pulling=false,armed=false,refreshing=false;
+  function reset(){spinner.style.opacity='';spinner.style.transform='';prog.style.strokeDashoffset='';}
   document.addEventListener('touchstart',function(e){
-    if(window.scrollY<=2){startY=e.touches[0].clientY;pulling=true;armed=false;}
+    if(refreshing){pulling=false;return;}
+    if(window.scrollY<=1){startY=e.touches[0].clientY;pulling=true;armed=false;}
     else pulling=false;
   },{passive:true});
   document.addEventListener('touchmove',function(e){
-    if(!pulling)return;
+    if(!pulling||refreshing)return;
     var d=e.touches[0].clientY-startY;
-    if(d>20){ptr.classList.add('show');var icon=document.getElementById('ptr-icon');if(icon)icon.style.transform='rotate('+Math.min(180,d*1.5)+'deg)';}
-    if(d>80&&!armed){armed=true;hapticTick();}
+    if(d<=0){spinner.style.opacity='0';return;}
+    var damp=Math.min(d*0.5,MAX);              // résistance élastique
+    var ratio=Math.min(damp/THRESHOLD,1);
+    spinner.style.opacity=Math.min(ratio*1.3,1);
+    spinner.style.transform='translateY('+damp+'px) scale('+(0.7+ratio*0.3)+') rotate('+(ratio*120)+'deg)';
+    prog.style.strokeDashoffset=CIRC-(CIRC-24)*ratio;
+    if(ratio>=1&&!armed){armed=true;hapticTick();}
+    if(ratio<1&&armed){armed=false;}
   },{passive:true});
   document.addEventListener('touchend',function(){
-    if(!pulling)return;
+    if(!pulling||refreshing)return;
     pulling=false;
     if(armed){
+      refreshing=true;armed=false;hapticThud();
+      spinner.style.opacity='1';
+      spinner.style.transform='translateY(46px) scale(1)';
       ptr.classList.add('refresh');
-      hapticThud();
-      chargerNews();
+      chargerNews();chargerFleet();
       wxRaw=null;wxTs=0;wxFetching=false;wxLoad('m-wx');
-      setTimeout(function(){ptr.classList.remove('show','refresh');},900);
+      setTimeout(function(){
+        ptr.classList.remove('refresh');
+        spinner.style.transition='opacity .3s,transform .3s';
+        spinner.style.opacity='0';spinner.style.transform='translateY(0) scale(.7)';
+        setTimeout(function(){spinner.style.transition='';reset();refreshing=false;},320);
+      },1100);
     }else{
-      ptr.classList.remove('show');
+      spinner.style.opacity='0';spinner.style.transform='translateY(0) scale(.7)';
+      setTimeout(reset,220);
     }
   },{passive:true});
 })();
@@ -2965,7 +3034,7 @@ setTimeout(function preloadTaf(_n){
     if(_n<3) setTimeout(function(){preloadTaf(_n+1);},(_n+1)*2500);
   });
 },2500);
-setInterval(function(){wxTs=0;wxLoad('m-wx');wxLoad('d-wx');},1800000);
+setInterval(function(){wxTs=0;wxFetching=false;wxLoad('m-wx');wxLoad('d-wx');},600000);
 
 /* Auto-check for app update silently 3s after launch */
 setTimeout(async function(){
@@ -2985,7 +3054,11 @@ setTimeout(async function(){
 },3500);
 
 document.addEventListener('visibilitychange',function(){
-  if(!document.hidden)setTimeout(function(){wxLoad('m-wx');wxLoad('d-wx');updateWxQuick();},300);
+  if(!document.hidden)setTimeout(function(){
+    /* Au retour sur l'app, force un METAR frais s'il a plus de 2 min */
+    if(Date.now()-wxTs>120000){wxTs=0;wxFetching=false;}
+    wxLoad('m-wx');wxLoad('d-wx');updateWxQuick();
+  },300);
 });
 // Periodic quick weather sync (in case raw cache populated)
 setInterval(updateWxQuick,4000);
