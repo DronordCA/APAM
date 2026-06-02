@@ -684,30 +684,36 @@ html:not(.pwa) .desktop-only{display:flex}
 /* ═══════════════════════ MISC ═══════════════════════ */
 
 /* ══ Flotte (accueil) ══ */
-.fleet{display:flex;flex-direction:column;gap:12px}
-.fleet-card{position:relative;background:var(--card-bg);border:1px solid var(--card-bord);border-radius:16px;overflow:hidden;box-shadow:inset 0 1px 0 var(--stroke-in);animation:cardIn .42s cubic-bezier(.16,1,.3,1) both}
-.fleet-img{position:relative;height:128px;background:linear-gradient(160deg,var(--sf2),var(--sf3));display:flex;align-items:center;justify-content:center;overflow:hidden}
-.fleet-img::before{content:"";position:absolute;inset:0;background-image:repeating-linear-gradient(135deg,var(--hatch) 0 2px,transparent 2px 9px);opacity:.5;pointer-events:none}
-.fleet-img img{width:100%;height:100%;object-fit:contain;padding:10px 14px;position:relative;z-index:1;mix-blend-mode:normal}
-.fleet-img-empty{position:relative;z-index:1;color:var(--dim);display:flex;flex-direction:column;align-items:center;gap:8px}
-.fleet-img-empty svg{width:48px;height:48px;stroke:currentColor;stroke-width:1.3;fill:none;stroke-linecap:round;stroke-linejoin:round;opacity:.5}
-.fleet-img-empty span{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.16em;text-transform:uppercase}
-.fleet-status-badge{position:absolute;top:12px;right:12px;z-index:2;display:inline-flex;align-items:center;gap:6px;padding:6px 12px;border-radius:100px;font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:12px;letter-spacing:.06em;text-transform:uppercase;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border:1.5px solid}
-.fleet-status-dot{width:7px;height:7px;border-radius:50%;background:currentColor}
-.fleet-status-badge.ok{color:var(--ok);border-color:rgba(34,215,122,.5);background:rgba(34,215,122,.16)}
-.fleet-status-badge.ok .fleet-status-dot{animation:pulse 2.2s ease-in-out infinite}
-.fleet-status-badge.maint{color:var(--amber);border-color:rgba(245,165,36,.5);background:rgba(245,165,36,.16)}
-.fleet-status-badge.indispo{color:var(--err);border-color:rgba(239,68,68,.5);background:rgba(239,68,68,.16)}
-.fleet-status-badge.voyage{color:var(--cyan);border-color:rgba(96,165,250,.5);background:rgba(96,165,250,.16)}
-.fleet-body{padding:14px 16px}
-.fleet-id{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;margin-bottom:4px}
-.fleet-immat{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:24px;text-transform:uppercase;color:var(--text);line-height:1;letter-spacing:.01em}
-.fleet-type{font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:500;color:var(--text-2);letter-spacing:.04em}
-.fleet-note{margin-top:8px;font-size:13px;line-height:1.5;color:var(--text-2);display:flex;align-items:flex-start;gap:8px}
-.fleet-note::before{content:"";flex-shrink:0;width:3px;align-self:stretch;border-radius:2px;background:var(--amber);margin-top:1px}
-.fleet-card.s-ok .fleet-note::before{background:var(--ok)}
-.fleet-card.s-indispo .fleet-note::before{background:var(--err)}
-.fleet-card.s-voyage .fleet-note::before{background:var(--cyan)}
+.fleet{display:flex;flex-direction:column;gap:10px}
+.fleet-card{position:relative;background:var(--card-bg);border:1px solid var(--card-bord);border-radius:14px;overflow:hidden;box-shadow:inset 0 1px 0 var(--stroke-in);animation:cardIn .42s cubic-bezier(.16,1,.3,1) both}
+.fleet-row{display:flex;align-items:center;gap:13px;padding:12px 14px;width:100%;background:none;border:none;text-align:left;font-family:'Jost',sans-serif;color:inherit;cursor:pointer}
+.fleet-thumb{position:relative;width:72px;height:54px;border-radius:10px;background:linear-gradient(160deg,var(--sf2),var(--sf3));flex-shrink:0;overflow:hidden;display:flex;align-items:center;justify-content:center}
+.fleet-thumb::before{content:"";position:absolute;inset:0;background-image:repeating-linear-gradient(135deg,var(--hatch) 0 2px,transparent 2px 8px);opacity:.5;pointer-events:none}
+.fleet-thumb img{width:100%;height:100%;object-fit:contain;padding:5px 7px;position:relative;z-index:1}
+.fleet-thumb-empty{position:relative;z-index:1;color:var(--dim);display:flex;align-items:center;justify-content:center}
+.fleet-thumb-empty svg{width:30px;height:30px;stroke:currentColor;stroke-width:1.3;fill:none;stroke-linecap:round;stroke-linejoin:round;opacity:.55}
+.fleet-main{flex:1;min-width:0}
+.fleet-id{display:flex;align-items:baseline;gap:9px;flex-wrap:wrap}
+.fleet-immat{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:21px;text-transform:uppercase;color:var(--text);line-height:1;letter-spacing:.01em;white-space:nowrap}
+.fleet-type{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:500;color:var(--text-2);letter-spacing:.03em}
+.fleet-pill{display:inline-flex;align-items:center;gap:6px;margin-top:6px;padding:3px 9px 3px 8px;border-radius:100px;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-style:italic;font-size:11px;letter-spacing:.06em;text-transform:uppercase;border:1px solid}
+.fleet-pill-dot{width:6px;height:6px;border-radius:50%;background:currentColor}
+.fleet-pill.ok{color:var(--ok);border-color:rgba(34,215,122,.4);background:rgba(34,215,122,.10)}
+.fleet-pill.ok .fleet-pill-dot{animation:pulse 2.2s ease-in-out infinite}
+.fleet-pill.maint{color:var(--amber);border-color:rgba(245,165,36,.4);background:rgba(245,165,36,.10)}
+.fleet-pill.indispo{color:var(--err);border-color:rgba(239,68,68,.4);background:rgba(239,68,68,.10)}
+.fleet-pill.voyage{color:var(--cyan);border-color:rgba(96,165,250,.4);background:rgba(96,165,250,.10)}
+.fleet-chev{flex-shrink:0;color:var(--muted);display:inline-flex;transition:transform .32s cubic-bezier(.2,.7,.2,1)}
+.fleet-chev svg{width:18px;height:18px;stroke:currentColor;stroke-width:2.2;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.fleet-card.open .fleet-chev{transform:rotate(90deg);color:var(--accent)}
+.fleet-card.no-info .fleet-chev{display:none}
+.fleet-detail{display:grid;grid-template-rows:0fr;transition:grid-template-rows .34s cubic-bezier(.2,.7,.2,1)}
+.fleet-card.open .fleet-detail{grid-template-rows:1fr}
+.fleet-detail-inner{overflow:hidden}
+.fleet-note{margin:0 14px 14px;padding:12px 13px;background:var(--sf2);border:1px solid var(--border);border-radius:11px;font-size:13.5px;line-height:1.55;color:var(--text-2);position:relative;border-left:3px solid var(--amber)}
+.fleet-card.s-ok .fleet-note{border-left-color:var(--ok)}
+.fleet-card.s-indispo .fleet-note{border-left-color:var(--err)}
+.fleet-card.s-voyage .fleet-note{border-left-color:var(--cyan)}
 .fleet-empty{padding:30px 18px;text-align:center;color:var(--muted);font-size:13px;background:var(--card-bg);border:1px dashed var(--border);border-radius:14px}
 
 /* ══ Maintenance (sub-page) ══ */
@@ -718,7 +724,7 @@ html:not(.pwa) .desktop-only{display:flex}
 .maint-thumb img{width:100%;height:100%;object-fit:contain;padding:3px}
 .maint-thumb svg{width:22px;height:22px;stroke:var(--dim);stroke-width:1.4;fill:none}
 .maint-hd-id{flex:1;min-width:0}
-.maint-hd-immat{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:20px;text-transform:uppercase;color:var(--text);line-height:1;letter-spacing:.01em}
+.maint-hd-immat{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:20px;text-transform:uppercase;color:var(--text);line-height:1;letter-spacing:.01em;white-space:nowrap}
 .maint-hd-type{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text-2);margin-top:3px}
 .maint-body{padding:14px 16px}
 .maint-field-label{font-family:'JetBrains Mono',monospace;font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--text-2);margin-bottom:9px;display:block}
@@ -1444,7 +1450,7 @@ button,a,.tap{transition:transform .28s cubic-bezier(.2,.7,.2,1),background-colo
 
 <script>
 'use strict';
-const APP_VERSION='2.1.1';
+const APP_VERSION='2.2.0';
 const API='https://script.google.com/macros/s/AKfycbxae9y3NHqDyAkbEI5rDVRappI-aAWoA0jcHqR8NBUgm3t5SCB1Hq8nebY5t23cV1Je/exec';
 
 /* ══ Onboarding ══ */
@@ -1905,20 +1911,45 @@ function saveFleetCache(f){try{localStorage.setItem('apam_fleet',JSON.stringify(
 
 function planeSVG(){return '<svg viewBox="0 0 24 24"><path d="M2 12h2l3-4h3l-1 4h4l2-3h2l-1 3h2.5a1.5 1.5 0 0 1 0 3H8l-2 3H4l1-3H2z"/></svg>';}
 
+/* Fallback propre quand une photo d'avion ne charge pas (évite l'HTML cassé d'un onerror inline) */
+window.fleetImgError=function(img){
+  var wrap=img.parentNode;
+  if(!wrap)return;
+  var d=document.createElement('div');
+  d.className='fleet-thumb-empty';
+  d.innerHTML=planeSVG();
+  img.replaceWith(d);
+};
+window.maintThumbError=function(img){
+  var wrap=img.parentNode;if(!wrap)return;
+  wrap.innerHTML=planeSVG();
+};
+
+window.toggleFleetCard=function(el){
+  if(el.classList.contains('no-info'))return;
+  hapticTick();
+  el.classList.toggle('open');
+};
+
 function renderFleet(fleet){
   const el=document.getElementById('m-fleet');if(!el)return;
   if(!fleet||!fleet.length){el.innerHTML='<div class="fleet-empty">Aucun avion enregistré.</div>';return;}
   el.innerHTML=fleet.map(a=>{
     const st=FLEET_STATUS[a.statut]||FLEET_STATUS.ok;
-    const img=a.img?`<img src="${esc(a.img)}" alt="${esc(a.id)}" onerror="this.parentNode.innerHTML='<div class=\\'fleet-img-empty\\'>'+${JSON.stringify(planeSVG())}+'<span>${esc(a.id)}</span></div>'"/>`
-      :`<div class="fleet-img-empty">${planeSVG()}<span>Photo à venir</span></div>`;
-    const note=a.note?`<div class="fleet-note">${esc(a.note)}</div>`:'';
-    return `<div class="fleet-card s-${st.cls}">
-      <div class="fleet-img">${img}<span class="fleet-status-badge ${st.cls}"><span class="fleet-status-dot"></span>${st.label}</span></div>
-      <div class="fleet-body">
-        <div class="fleet-id"><span class="fleet-immat">${esc(a.id)}</span><span class="fleet-type">${esc(a.type)}</span></div>
-        ${note}
-      </div>
+    const thumb=a.img?`<img src="${esc(a.img)}" alt="${esc(a.id)}" onerror="fleetImgError(this)"/>`
+      :`<div class="fleet-thumb-empty">${planeSVG()}</div>`;
+    const hasNote=!!(a.note&&a.note.trim());
+    const detail=hasNote?`<div class="fleet-detail"><div class="fleet-detail-inner"><div class="fleet-note">${esc(a.note)}</div></div></div>`:'';
+    return `<div class="fleet-card s-${st.cls} ${hasNote?'':'no-info'}">
+      <button type="button" class="fleet-row" onclick="toggleFleetCard(this.parentNode)">
+        <div class="fleet-thumb">${thumb}</div>
+        <div class="fleet-main">
+          <div class="fleet-id"><span class="fleet-immat">${esc(a.id)}</span><span class="fleet-type">${esc(a.type)}</span></div>
+          <span class="fleet-pill ${st.cls}"><span class="fleet-pill-dot"></span>${st.label}</span>
+        </div>
+        <span class="fleet-chev"><svg viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></span>
+      </button>
+      ${detail}
     </div>`;
   }).join('');
 }
@@ -1960,7 +1991,7 @@ function renderMaint(fleet){
   list.innerHTML=fleet.map((a,i)=>{
     const ph=_fleetPending[a.id]||{statut:a.statut,note:a.note||''};
     const dirty=!!_fleetPending[a.id];
-    const thumb=a.img?`<img src="${esc(a.img)}" alt=""/>`:planeSVG();
+    const thumb=a.img?`<img src="${esc(a.img)}" alt="" onerror="maintThumbError(this)"/>`:planeSVG();
     const opts=Object.keys(FLEET_STATUS).map(k=>{
       const s=FLEET_STATUS[k];
       return `<button type="button" class="maint-status-opt ${k} ${ph.statut===k?'sel':''}" onclick="maintSetStatus('${esc(a.id)}','${k}')"><span class="mso-dot"></span>${s.label}</button>`;
@@ -2919,7 +2950,7 @@ if('serviceWorker'in navigator){
 })();
 
 /* ── Init ── */
-buildOutils();chargerNews();
+buildOutils();chargerNews();chargerFleet();
 setTimeout(function(){wxLoad('m-wx');if(document.getElementById('d-wx'))wxPendingTargets.push('d-wx');updateWxQuick();},800);
 setTimeout(function preloadTaf(_n){
   _n=_n||0;
