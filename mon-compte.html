@@ -40,6 +40,25 @@ document.addEventListener('touchend',function(e){
 },{passive:false});
 </script>
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,400;0,600;0,700;0,900;1,400;1,700;1,900&family=Jost:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
+<script>
+/* ── OneSignal Web Push ── */
+window.OneSignalDeferred=window.OneSignalDeferred||[];
+window.__osReady=false;
+OneSignalDeferred.push(async function(OneSignal){
+  try{
+    await OneSignal.init({
+      appId:"5a4aa5e3-8135-480d-bd0e-d1547b3ad053",
+      serviceWorkerPath:"push/onesignal/OneSignalSDKWorker.js",
+      serviceWorkerParam:{scope:"/push/onesignal/"},
+      notifyButton:{enable:false},
+      allowLocalhostAsSecureOrigin:true
+    });
+    window.__osReady=true;
+    document.dispatchEvent(new Event('os-ready'));
+  }catch(e){}
+});
+</script>
 <style>
 /* ═══════════════════════ TOKENS ═══════════════════════ */
 :root, [data-theme="dark"]{
@@ -755,6 +774,9 @@ html:not(.pwa) .desktop-only{display:flex}
 .maint-save-btn{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-style:italic;font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;padding:9px 18px;background:var(--sf3);color:var(--muted);border:1px solid var(--bds);cursor:pointer;border-radius:9px;transition:all .2s}
 .maint-save-btn:disabled{opacity:.4;cursor:not-allowed}
 .maint-save-btn.dirty{background:var(--accent);color:#fff;border-color:var(--accent);animation:availPulse 1.6s ease-in-out infinite}
+
+.notif-state{margin-left:auto;display:inline-flex;align-items:center}
+.notif-on{font-family:'JetBrains Mono',monospace;font-size:9.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--ok);padding:3px 8px;background:rgba(34,215,122,.12);border:1px solid rgba(34,215,122,.3);border-radius:100px}
 
 /* ═══════════════════════ MISC2 ═══════════════════════ */
 
@@ -1475,7 +1497,7 @@ button,a,.tap{transition:transform .28s cubic-bezier(.2,.7,.2,1),background-colo
 
 <script>
 'use strict';
-const APP_VERSION='2.4.0';
+const APP_VERSION='2.5.0';
 const API='https://script.google.com/macros/s/AKfycbxae9y3NHqDyAkbEI5rDVRappI-aAWoA0jcHqR8NBUgm3t5SCB1Hq8nebY5t23cV1Je/exec';
 
 /* ══ Onboarding ══ */
@@ -2130,12 +2152,13 @@ function buildOutils(){
 
   const themeRowM=`<button type="button" class="tool-item theme-item" onclick="toggleTheme()"><span class="tool-icon" id="m-theme-ic">${ICN.moon}</span><div class="tool-tx"><h4>Apparence</h4><p>Mode <span id="m-theme-lbl">Sombre</span></p></div><span class="tool-chev">›</span></button>`;
   const cguRow=`<button type="button" class="tool-item" onclick="openCGU()"><span class="tool-icon">${ICN.cgu}</span><div class="tool-tx"><h4>Conditions d'utilisation</h4><p>Statut des données · responsabilité du pilote</p></div><span class="tool-chev">›</span></button>`;
+  const notifRow=`<button type="button" class="tool-item" onclick="toggleNotifs()"><span class="tool-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg></span><div class="tool-tx"><h4>Notifications</h4><p id="notif-sub">Actus, flotte &amp; mises à jour</p></div><span class="notif-state" id="notif-state"></span><span class="tool-chev">›</span></button>`;
   const tutoRow=`<button type="button" class="tool-item" onclick="openTutorial()"><span class="tool-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></span><div class="tool-tx"><h4>Revoir le tutoriel</h4><p>Visite guidée de l'app</p></div><span class="tool-chev">›</span></button>`;
   const updateRow=`<button type="button" class="update-btn" id="upd-btn" onclick="mettreAJour()"><span class="update-icon">${ICN.update}</span><div class="update-btn-tx" style="flex:1"><h4>Mise à jour</h4><p id="upd-sub">Version v${APP_VERSION} · Vérifier les mises à jour</p></div><span class="tool-chev">›</span></button>`;
 
   const mo=document.getElementById('m-outils');
   if(mo){
-    let listHtml='<div class="tools-list">'+updateRow+themeRowM;
+    let listHtml='<div class="tools-list">'+updateRow+notifRow+themeRowM;
     tools.forEach(t=>listHtml+=`<button type="button" class="tool-item ${t.c}" onclick="${t.a}"><span class="tool-icon">${t.i}</span><div class="tool-tx"><h4>${t.t}</h4><p>${t.s}</p></div><span class="tool-chev">›</span></button>`);
     listHtml+=tutoRow;
     listHtml+=cguRow;
@@ -2960,6 +2983,43 @@ function renderTaf(text){
   }).join('');
   return '<div class="taf-widget"><div class="taf-hdr"><div><div class="taf-hdr-sta">TAF · '+WX_STA+'</div><div class="taf-hdr-validity">'+(validM?'Validité '+validM[0]:'')+'</div></div><div class="taf-emitted">Émis '+emitted+'</div></div><div class="taf-rows">'+rows+'</div><div class="taf-raw">'+raw+'</div></div>';
 }
+
+/* ── Notifications (OneSignal) ── */
+function osCall(fn){
+  if(window.__osReady&&window.OneSignal){try{fn(window.OneSignal);}catch(e){}}
+  else{window.OneSignalDeferred=window.OneSignalDeferred||[];window.OneSignalDeferred.push(fn);}
+}
+function refreshNotifState(){
+  var el=document.getElementById('notif-state');var sub=document.getElementById('notif-sub');
+  if(!el)return;
+  osCall(function(OneSignal){
+    var on=false;
+    try{on=OneSignal.Notifications.permission===true;}catch(e){}
+    el.innerHTML=on?'<span class="notif-on">Activées</span>':'';
+    if(sub)sub.textContent=on?'Activées · actus, flotte & MAJ':'Actus, flotte & mises à jour';
+  });
+}
+window.toggleNotifs=function(){
+  hapticTick();
+  if(!('Notification'in window)){toast("Notifications non supportées sur cet appareil",'err');return;}
+  osCall(async function(OneSignal){
+    try{
+      var granted=false;
+      try{granted=OneSignal.Notifications.permission===true;}catch(e){}
+      if(granted){
+        toast('Notifications déjà activées ✓','ok');
+        refreshNotifState();
+        return;
+      }
+      await OneSignal.Notifications.requestPermission();
+      try{await OneSignal.User.PushSubscription.optIn();}catch(e){}
+      var ok=false;try{ok=OneSignal.Notifications.permission===true;}catch(e){}
+      if(ok)toast('✓ Notifications activées','ok');else toast('Activez-les dans les réglages iOS/Android','err',4000);
+      refreshNotifState();
+    }catch(e){toast('Erreur notifications','err');}
+  });
+}
+document.addEventListener('os-ready',refreshNotifState);
 
 /* ── Service Worker ── */
 if('serviceWorker'in navigator){
