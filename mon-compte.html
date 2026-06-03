@@ -821,7 +821,7 @@ html:not(.pwa) .desktop-only{display:flex}
 .tuto-btn-ghost:hover{color:var(--text);border-color:var(--bds)}
 
 /* ══ Onboarding Overlay ══ */
-.ob-overlay{position:fixed;inset:0;z-index:9000;background:var(--bg);display:flex;align-items:center;justify-content:center;padding:20px;opacity:1;transition:opacity .4s,visibility .4s;visibility:visible;overflow-y:auto;-webkit-overflow-scrolling:touch}
+.ob-overlay{position:fixed;inset:0;z-index:9000;background:var(--bg);display:flex;align-items:center;justify-content:center;padding:20px;opacity:1;transition:opacity .4s,visibility .4s;visibility:visible}
 .ob-overlay.hidden{opacity:0;visibility:hidden;pointer-events:none}
 .ob-glow{position:absolute;inset:0;pointer-events:none;background:radial-gradient(60% 40% at 50% 30%,rgba(37,99,235,.16),transparent 65%)}
 .ob-grid{position:absolute;inset:0;pointer-events:none;background-image:linear-gradient(rgba(37,99,235,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(37,99,235,.03) 1px,transparent 1px);background-size:64px 64px;mask-image:radial-gradient(60% 60% at 50% 40%,rgba(0,0,0,.5),transparent 80%);-webkit-mask-image:radial-gradient(60% 60% at 50% 40%,rgba(0,0,0,.5),transparent 80%)}
@@ -1497,7 +1497,7 @@ button,a,.tap{transition:transform .28s cubic-bezier(.2,.7,.2,1),background-colo
 
 <script>
 'use strict';
-const APP_VERSION='2.5.3';
+const APP_VERSION='2.6.0';
 const API='https://script.google.com/macros/s/AKfycbxae9y3NHqDyAkbEI5rDVRappI-aAWoA0jcHqR8NBUgm3t5SCB1Hq8nebY5t23cV1Je/exec';
 
 /* ══ Onboarding ══ */
@@ -1623,23 +1623,10 @@ function obSaveSession(pin,prenom,nom,perms){
 
 function showOnboarding(){
   var o=document.getElementById('ob-overlay');
-  if(o){
-    o.classList.remove('hidden');
-    document.body.style.overflow='hidden';
-    document.body.style.position='fixed';
-    document.body.style.width='100%';
-    document.body.style.top='-'+window.scrollY+'px';
-    setTimeout(function(){obFocusFirst('ob-pin-login');},200);
-  }
+  if(o){o.classList.remove('hidden');setTimeout(function(){obFocusFirst('ob-pin-login');},200);}
 }
 function hideOnboarding(){
   var o=document.getElementById('ob-overlay');if(o)o.classList.add('hidden');
-  var scrollY=document.body.style.top;
-  document.body.style.overflow='';
-  document.body.style.position='';
-  document.body.style.width='';
-  document.body.style.top='';
-  if(scrollY)window.scrollTo(0,parseInt(scrollY||'0')*-1);
 }
 
 // Input auto-uppercase pour le code club
@@ -2557,7 +2544,8 @@ window.mettreAJour=async function(){
     const m=txt.match(/APP_VERSION\s*=\s*['"]([\d.]+)['"]/);
     const remoteV=m?m[1]:null;
     btn.style.opacity='';
-    if(remoteV&&remoteV!==APP_VERSION){
+    if(remoteV&&remoteV!==APP_VERSION&&!sessionStorage.getItem('apam_upd_shown')){
+      sessionStorage.setItem('apam_upd_shown','1');
       _newVersion=remoteV;
       btn.classList.add('upd-available');
       sub.innerHTML='<strong style="color:var(--accent)">v'+remoteV+' disponible</strong> · Appuyez pour installer';
@@ -3034,21 +3022,12 @@ window.toggleNotifs=function(){
 }
 document.addEventListener('os-ready',refreshNotifState);
 
-/* ── Service Worker (démarré après splash) ── */
-function registerSW(){
-  if(!('serviceWorker'in navigator))return;
-  navigator.serviceWorker.register('sw.js').then(function(reg){
-    reg.addEventListener('updatefound',function(){
-      var w=reg.installing;if(w)w.addEventListener('statechange',function(){
-        if(w.state==='installed'&&navigator.serviceWorker.controller)toast('Mise à jour disponible');
-      });
-    });
+/* ── Service Worker ── */
+if('serviceWorker'in navigator){
+  navigator.serviceWorker.register('sw.js').then(reg=>{
+    reg.addEventListener('updatefound',()=>{const w=reg.installing;if(w)w.addEventListener('statechange',()=>{if(w.state==='installed'&&navigator.serviceWorker.controller)toast('Mise à jour disponible');});});
   }).catch(function(){});
-  navigator.serviceWorker.addEventListener('controllerchange',function(){
-    if(sessionStorage.getItem('apam_sw_reloaded'))return;
-    sessionStorage.setItem('apam_sw_reloaded','1');
-    window.location.reload();
-  });
+  navigator.serviceWorker.addEventListener('controllerchange',function(){if(sessionStorage.getItem('apam_sw_reloaded'))return;sessionStorage.setItem('apam_sw_reloaded','1');window.location.reload();});
 }
 
 /* ── Pull-to-refresh visuel (spinner circulaire) ── */
@@ -3100,13 +3079,42 @@ function registerSW(){
   },{passive:true});
 })();
 
-/* ── Init (léger pendant splash, lourd après) ── */
-buildOutils();
-/* Le reste est lancé par hideSplash() → bootApp() */
-/* TAF preload moved to bootApp() */
+/* ── Init ── */
+buildOutils();chargerNews();chargerFleet();
+setTimeout(function(){wxLoad('m-wx');if(document.getElementById('d-wx'))wxPendingTargets.push('d-wx');updateWxQuick();},800);
+setTimeout(function preloadTaf(_n){
+  _n=_n||0;
+  if(wxTafText)return;
+  if(wxTafFetching)return;
+  wxTafFetching=true;
+  wxFetch('taf').then(function(r){
+    wxTafFetching=false;wxTafText=r;
+    try{localStorage.setItem('apam_wx_taf',r);}catch(e){}
+  }).catch(function(){
+    wxTafFetching=false;
+    if(_n<3) setTimeout(function(){preloadTaf(_n+1);},(_n+1)*2500);
+  });
+},2500);
 setInterval(function(){wxTs=0;wxFetching=false;wxLoad('m-wx');wxLoad('d-wx');},600000);
 
-/* Auto-check déplacé dans bootApp() */
+/* Auto-check for app update silently 3s after launch */
+setTimeout(async function(){
+  try{
+    const r=await fetch(location.pathname+'?_v='+Date.now(),{cache:'no-store'});
+    const txt=await r.text();
+    const m=txt.match(/APP_VERSION\s*=\s*['"]([\d.]+)['"]/);
+    const remoteV=m?m[1]:null;
+    if(remoteV&&remoteV!==APP_VERSION&&!sessionStorage.getItem('apam_upd_shown')){
+      sessionStorage.setItem('apam_upd_shown','1');
+      _newVersion=remoteV;
+      const btn=document.getElementById('upd-btn'),sub=document.getElementById('upd-sub');
+      if(btn){btn.classList.add('upd-available');const ic=btn.querySelector('.update-icon');if(ic)ic.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>';}
+      if(sub)sub.innerHTML='<strong style="color:var(--accent)">v'+remoteV+' disponible</strong> · Appuyez pour installer';
+      toast('Mise à jour v'+remoteV+' disponible','ok',5000);
+    }
+  }catch(e){}
+},3500);
+
 document.addEventListener('visibilitychange',function(){
   if(!document.hidden)setTimeout(function(){
     /* Au retour sur l'app, force un METAR frais s'il a plus de 2 min */
@@ -3116,6 +3124,25 @@ document.addEventListener('visibilitychange',function(){
 });
 // Periodic quick weather sync (in case raw cache populated)
 setInterval(updateWxQuick,4000);
+
+
+/* ── Prompt notifications au premier lancement ── */
+(function(){
+  if(localStorage.getItem('apam_notif_asked'))return;
+  /* Attendre que l'app soit chargée + OneSignal prêt */
+  function askNotif(){
+    if(!window.__osReady){
+      document.addEventListener('os-ready',function(){setTimeout(askNotif,500);},{once:true});
+      return;
+    }
+    localStorage.setItem('apam_notif_asked','1');
+    OneSignalDeferred.push(function(OneSignal){
+      OneSignal.Notifications.requestPermission();
+    });
+  }
+  /* Demander 3s après le splash */
+  setTimeout(askNotif,3000);
+})();
 
 /* ── First-visit iOS install banner ── */
 if(!isStandalone&&isMobile&&isIOS){
@@ -3129,52 +3156,30 @@ if(!isStandalone&&isMobile&&isIOS){
   }
 }
 
-
-/* ── Boot complet (appelé après splash) ── */
-function bootApp(){
-  setTimeout(function(){sessionStorage.removeItem("apam_sw_reloaded");},5000);
-  registerSW();
-  chargerNews();
-  chargerFleet();
-  /* Auto-check version 5s après le splash */
-  setTimeout(function(){
-    fetch(location.pathname+'?_v='+Date.now(),{cache:'no-store'}).then(function(r){return r.text();}).then(function(txt){
-      var m=txt.match(/APP_VERSION\s*=\s*['"]([\d.]+)['"]/);
-      var remoteV=m?m[1]:null;
-      if(remoteV&&remoteV!==APP_VERSION){
-        _newVersion=remoteV;
-        var btn=document.getElementById('upd-btn'),sub=document.getElementById('upd-sub');
-        if(btn)btn.classList.add('upd-available');
-        if(sub)sub.innerHTML='<strong style="color:var(--accent)">v'+remoteV+' disponible</strong> \xb7 Appuyez pour installer';
-      }
-    }).catch(function(){});
-  },5000);
-  setTimeout(function(){wxLoad('m-wx');if(document.getElementById('d-wx'))wxPendingTargets.push('d-wx');try{updateWxQuick();}catch(e){}},300);
-  setTimeout(function(){if(!wxTafFetching){wxTafFetching=true;wxFetch('taf').then(function(r){wxTafFetching=false;wxTafText=r;try{localStorage.setItem('apam_wx_taf',r);}catch(e){}}).catch(function(){wxTafFetching=false;});}},2000);
-}
-
 /* ══════════════════════════════════════════
    SPLASH DE DÉMARRAGE + TUTORIEL 1ère CONNEXION
 ══════════════════════════════════════════ */
 (function(){
   var splashStart=Date.now();
   var hidden=false;
+  /* Si on revient d'un reload SW → skip le splash immédiatement */
+  var skipSplash=!!sessionStorage.getItem('apam_sw_reloaded');
+  if(skipSplash)sessionStorage.removeItem('apam_sw_reloaded');
   function hideSplash(){
     if(hidden)return;hidden=true;
     var s=document.getElementById('splash');
-    if(s){s.classList.add('gone');setTimeout(function(){if(s&&s.parentNode)s.parentNode.removeChild(s);},550);}
+    if(s){s.classList.add('gone');setTimeout(function(){if(s&&s.parentNode)s.parentNode.removeChild(s);},skipSplash?0:550);}
     settleViewport();
     maybeShowTutorial();
-    /* Lancer tout le chargement APRÈS le splash */
-    setTimeout(bootApp,100);
   }
   function ready(){
+    if(skipSplash){hideSplash();return;}
     var wait=Math.max(0,1150-(Date.now()-splashStart));
     setTimeout(hideSplash,wait);
   }
   if(document.readyState==='complete')ready();
   else window.addEventListener('load',ready);
-  setTimeout(hideSplash,3800); /* filet de sécurité */
+  setTimeout(hideSplash,skipSplash?0:3800);
 })();
 
 /* Force iOS standalone à recaler la nav fixe (sinon décalée au 1er lancement) */
