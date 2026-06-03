@@ -1497,7 +1497,7 @@ button,a,.tap{transition:transform .28s cubic-bezier(.2,.7,.2,1),background-colo
 
 <script>
 'use strict';
-const APP_VERSION='2.5.2';
+const APP_VERSION='2.5.3';
 const API='https://script.google.com/macros/s/AKfycbxae9y3NHqDyAkbEI5rDVRappI-aAWoA0jcHqR8NBUgm3t5SCB1Hq8nebY5t23cV1Je/exec';
 
 /* ══ Onboarding ══ */
@@ -3044,7 +3044,11 @@ function registerSW(){
       });
     });
   }).catch(function(){});
-  navigator.serviceWorker.addEventListener('controllerchange',function(){window.location.reload();});
+  navigator.serviceWorker.addEventListener('controllerchange',function(){
+    if(sessionStorage.getItem('apam_sw_reloaded'))return;
+    sessionStorage.setItem('apam_sw_reloaded','1');
+    window.location.reload();
+  });
 }
 
 /* ── Pull-to-refresh visuel (spinner circulaire) ── */
@@ -3128,6 +3132,7 @@ if(!isStandalone&&isMobile&&isIOS){
 
 /* ── Boot complet (appelé après splash) ── */
 function bootApp(){
+  setTimeout(function(){sessionStorage.removeItem("apam_sw_reloaded");},5000);
   registerSW();
   chargerNews();
   chargerFleet();
