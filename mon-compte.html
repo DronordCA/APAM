@@ -586,6 +586,24 @@ html:not(.pwa) .desktop-only{display:flex}
 .pub-item-cat{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-style:italic;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);padding:2px 8px;background:var(--accent-soft);border:1px solid var(--accent-bord);border-radius:100px}
 .pub-item-poll{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-style:italic;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--vio);padding:2px 8px;background:rgba(168,85,247,.10);border:1px solid rgba(168,85,247,.28);border-radius:100px}
 .pub-item-author{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.04em;color:var(--muted)}
+
+/* Edit & actions buttons */
+.pub-item-actions{display:flex;flex-direction:column;gap:4px;flex-shrink:0}
+.pub-item-edit{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;background:rgba(37,99,235,.08);border:1px solid rgba(37,99,235,.2);color:var(--accent);cursor:pointer;transition:background .2s,border-color .2s}
+.pub-item-edit:hover{background:rgba(37,99,235,.16);border-color:rgba(37,99,235,.4)}
+.pub-item-edit svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+/* Cross-publish checkbox */
+.pub-cross{display:flex;align-items:center;gap:10px;padding:10px 14px;background:rgba(255,255,255,.025);border:1px solid var(--bds);border-radius:10px;cursor:pointer;transition:border-color .2s,background .2s;margin-top:4px}
+.pub-cross:hover{border-color:rgba(37,99,235,.3);background:rgba(37,99,235,.04)}
+.pub-cross input[type=checkbox]{width:18px;height:18px;accent-color:var(--accent);cursor:pointer;flex-shrink:0}
+.pub-cross-lbl{font-size:12px;color:var(--muted);line-height:1.4}
+.pub-cross-lbl strong{color:rgba(255,255,255,.7);font-weight:600}
+/* Edit mode indicator */
+.pub-editing{display:none;align-items:center;gap:8px;padding:8px 12px;background:rgba(37,99,235,.06);border:1px solid rgba(37,99,235,.2);border-radius:8px;margin-bottom:8px;font-size:12px;color:var(--accent)}
+.pub-editing.show{display:flex}
+.pub-editing-cancel{margin-left:auto;font-size:11px;font-weight:700;color:rgba(255,255,255,.4);cursor:pointer;text-transform:uppercase;letter-spacing:.1em}
+.pub-editing-cancel:hover{color:#fff}
+
 .pub-item-del{width:30px;height:30px;border:1px solid var(--border);border-radius:50%;background:transparent;color:var(--muted);cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .2s}
 .pub-item-del svg{width:13px;height:13px;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;fill:none}
 .pub-item-del:hover{border-color:var(--err);color:var(--err);background:rgba(239,68,68,.06)}
@@ -1511,7 +1529,7 @@ button,a,.tap{transition:transform .28s cubic-bezier(.2,.7,.2,1),background-colo
 
 <script>
 'use strict';
-const APP_VERSION='2.6.1';
+const APP_VERSION='2.7.0';
 const API='https://script.google.com/macros/s/AKfycbxae9y3NHqDyAkbEI5rDVRappI-aAWoA0jcHqR8NBUgm3t5SCB1Hq8nebY5t23cV1Je/exec';
 
 /* ══ Onboarding ══ */
@@ -2277,7 +2295,12 @@ function renderPubSection(){
       </div>
       <div class="form-foot">
         <span class="form-status" id="pub-status"></span>
-        <button class="btn-pub ${accentClass}" id="pub-submit" type="button" onclick="pubSubmit()"><svg viewBox="0 0 24 24"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4z"/></svg>Publier</button>
+        <div class="pub-editing" id="pub-editing">✏️ Mode édition<span class="pub-editing-cancel" onclick="pubCancelEdit()">Annuler</span></div>
+        <label class="pub-cross" id="pub-cross">
+          <input type="checkbox" id="pub-cross-check">
+          <span class="pub-cross-lbl" id="pub-cross-lbl"><strong>Publier aussi pour les membres</strong><br>Le même contenu sera publié dans les deux espaces</span>
+        </label>
+        <button class="btn-pub ${accentClass}" id="pub-submit" type="button" onclick="pubSubmit()"><svg viewBox="0 0 24 24"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4z"/></svg><span id="pub-submit-text">Publier</span></button>
       </div>
     </div>
     <div class="mobile-sec-h" style="margin-top:22px;margin-bottom:12px"><h2>Publiées récemment</h2><span class="mobile-sec-h-sub">${isPublic?'Site public':'Espace membres'}</span></div>
@@ -2321,10 +2344,73 @@ function renderPubItems(news){
           <span class="pub-item-author">— ${esc(n.auteur||'')}</span>
         </div>
       </div>
-      <button class="pub-item-del" type="button" onclick="pubDelete(${n._row},this)" title="Supprimer"><svg viewBox="0 0 24 24"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2m3 0v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/></svg></button>
+      <div class="pub-item-actions">
+        <button class="pub-item-edit" type="button" onclick="pubEdit(${n._row})" title="Modifier"><svg viewBox="0 0 24 24"><path d="M17 3a2.83 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/></svg></button>
+        <button class="pub-item-del" type="button" onclick="pubDelete(${n._row},this)" title="Supprimer"><svg viewBox="0 0 24 24"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2m3 0v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/></svg></button>
+      </div>
     </div>`;
   }).join('');
 }
+
+
+/* ── Edit & Cross-publish ── */
+var _editingRow=null;
+var _editingMode=null; /* 'public' ou 'membres' */
+
+window.pubEdit=function(row){
+  hapticTick();
+  var item=(_pubCache[_pubMode]||[]).find(function(n){return n._row===row;});
+  if(!item){toast('Publication introuvable','err');return;}
+  /* Remplir le formulaire */
+  var ti=document.getElementById('pub-titre');if(ti)ti.value=item.titre||'';
+  var tx=document.getElementById('pub-texte');if(tx)tx.value=item.texte||'';
+  var cat=document.getElementById('pub-cat');if(cat)cat.value=item.categorie||'';
+  var img=document.getElementById('pub-image');if(img)img.value=item.image||'';
+  if(_pubMode==='membres'){
+    var sond=document.getElementById('pub-sondage');
+    if(sond){
+      if(item.sondage&&item.sondage!=='aucun'){
+        var opts=['dispo_vol','dispo_reunion','dispo_event','oui_non'];
+        if(opts.includes(item.sondage)){sond.value=item.sondage;}
+        else{sond.value='custom';var pc=document.getElementById('pub-poll-custom');if(pc)pc.value=item.sondage;var pw=document.getElementById('poll-custom-wrap');if(pw)pw.classList.add('show');}
+      }else{sond.value='aucun';}
+    }
+  }
+  _editingRow=row;
+  _editingMode=_pubMode;
+  /* UI : mode édition */
+  var indicator=document.getElementById('pub-editing');if(indicator)indicator.classList.add('show');
+  var submitText=document.getElementById('pub-submit-text');if(submitText)submitText.textContent='Modifier';
+  /* Scroll vers le formulaire */
+  var form=document.getElementById('pub-titre');if(form)form.scrollIntoView({behavior:'smooth',block:'center'});
+  setTimeout(function(){if(form)form.focus();},300);
+};
+
+window.pubCancelEdit=function(){
+  _editingRow=null;_editingMode=null;
+  var indicator=document.getElementById('pub-editing');if(indicator)indicator.classList.remove('show');
+  var submitText=document.getElementById('pub-submit-text');if(submitText)submitText.textContent='Publier';
+  ['pub-titre','pub-texte','pub-image','pub-poll-custom'].forEach(function(id){var e=document.getElementById(id);if(e)e.value='';});
+};
+
+/* Mettre à jour le label de cross-publish quand on change de mode */
+var _origSwitchPub=window.switchPub;
+window.switchPub=function(mode){
+  if(_origSwitchPub)_origSwitchPub(mode);
+  /* Adapter le label cross-publish */
+  var lbl=document.getElementById('pub-cross-lbl');
+  if(lbl){
+    if(mode==='public'){
+      lbl.innerHTML='<strong>Publier aussi pour les membres</strong><br>Le même contenu sera publié dans les deux espaces';
+    }else{
+      lbl.innerHTML='<strong>Publier aussi en public</strong><br>Le même contenu sera publié dans les deux espaces';
+    }
+  }
+  /* Reset cross-publish checkbox */
+  var cb=document.getElementById('pub-cross-check');if(cb)cb.checked=false;
+  /* Cancel edit mode si on change de tab */
+  pubCancelEdit();
+};
 
 window.pubSubmit=async function(){
   hapticTick();
@@ -2345,7 +2431,22 @@ window.pubSubmit=async function(){
   }else{
     image=document.getElementById('pub-image')?.value.trim()||'';
   }
-  btn.disabled=true;status.textContent='⏳ Publication en cours…';status.style.color='var(--muted)';
+  btn.disabled=true;
+  /* ── Mode édition : appeler editNews/editNewsMembre ── */
+  if(_editingRow){
+    status.textContent='⏳ Modification en cours…';status.style.color='var(--muted)';
+    try{
+      var editAction=_editingMode==='public'?'editNews':'editNewsMembre';
+      var editParams='&row='+_editingRow+'&titre='+enc(titre)+'&texte='+enc(texte);
+      if(_editingMode==='public')editParams+='&categorie='+enc(cat)+'&image='+enc(image);
+      else{var sv=document.getElementById('pub-sondage');editParams+='&sondage='+enc(sv?sv.value:'aucun');}
+      var edata=await fetch(API+'?action='+editAction+'&pin='+enc(memberPin)+editParams).then(function(r){return r.json();});
+      if(edata.error){status.textContent='✗ '+edata.error;status.style.color='var(--err)';}
+      else{status.textContent='✓ Modifié !';status.style.color='var(--ok)';hapticThud();pubCancelEdit();setTimeout(loadPubList,500);setTimeout(function(){status.textContent='';},3000);}
+    }catch(e){status.textContent='✗ Erreur réseau';status.style.color='var(--err)';}
+    btn.disabled=false;return;
+  }
+  status.textContent='⏳ Publication en cours…';status.style.color='var(--muted)';
   /* Optimistic add */
   const optimistic={_row:'pending-'+Date.now(),titre,texte,categorie:cat,sondage,date:todayISO(),auteur:memberFullName};
   if(!_pubCache[_pubMode])_pubCache[_pubMode]=[];
@@ -2365,6 +2466,19 @@ window.pubSubmit=async function(){
     }else{
       status.textContent='✓ Publié !';status.style.color='var(--ok)';
       hapticThud();
+      /* Cross-publish si checkbox cochée */
+      var crossCheck=document.getElementById('pub-cross-check');
+      if(crossCheck&&crossCheck.checked){
+        try{
+          var crossAction=_pubMode==='public'?'addNewsMembre':'addNews';
+          var crossParams=_pubMode==='public'
+            ? '&titre='+enc(titre)+'&texte='+enc(texte)+'&sondage=aucun&auteur='+enc(memberFullName)+'&date='+todayISO()
+            : '&titre='+enc(titre)+'&texte='+enc(texte)+'&categorie='+enc(cat)+'&image=&auteur='+enc(memberFullName)+'&date='+todayISO();
+          fetch(API+'?action='+crossAction+'&pin='+enc(memberPin)+crossParams);
+          status.textContent='✓ Publié dans les 2 espaces !';
+        }catch(e){}
+        crossCheck.checked=false;
+      }
       /* clear form */
       ['pub-titre','pub-texte','pub-image','pub-poll-custom'].forEach(id=>{const e=document.getElementById(id);if(e)e.value='';});
       const sondageSel=document.getElementById('pub-sondage');if(sondageSel)sondageSel.value='aucun';
