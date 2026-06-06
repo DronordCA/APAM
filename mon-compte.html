@@ -673,6 +673,7 @@ html:not(.pwa) .desktop-only{display:flex}
 .perm-switch::after{content:'';position:absolute;top:2px;left:2px;width:18px;height:18px;border-radius:50%;background:var(--muted);transition:transform .25s cubic-bezier(.2,.7,.2,1),background .25s}
 .perm-switch.on-pub{background:var(--accent);border-color:var(--accent)}
 .perm-switch.on-mn{background:var(--vio);border-color:var(--vio)}
+.perm-switch.on-ins{background:linear-gradient(135deg,#8b5cf6,#7c3aed);border-color:#8b5cf6;box-shadow:0 0 16px rgba(139,92,246,.3)}
 .perm-switch.on-mec{background:var(--cyan);border-color:var(--cyan)}
 .perm-switch.on-ph{background:var(--ok);border-color:var(--ok)}
 .perm-switch.on-adm{background:var(--amber);border-color:var(--amber)}
@@ -1661,7 +1662,7 @@ html.pwa .elev-safe{min-height:52px}
 
 <script>
 'use strict';
-const APP_VERSION='3.1.0';
+const APP_VERSION='3.1.1';
 const API='https://script.google.com/macros/s/AKfycbxae9y3NHqDyAkbEI5rDVRappI-aAWoA0jcHqR8NBUgm3t5SCB1Hq8nebY5t23cV1Je/exec';
 
 /* ══ Onboarding ══ */
@@ -1754,7 +1755,7 @@ async function obLogin(){
     }else{
       document.querySelectorAll('#ob-pin-login .ob-pin-box').forEach(function(b){b.classList.add('ok');});
       obMsg('ob-msg-login','Bonjour '+data.prenom+' !','ok');
-      obSaveSession(pin,data.prenom,data.nom,{admin:!!data.admin,news_pub:!!data.news_pub,news_membres:!!data.news_membres,photos:!!data.photos});
+      obSaveSession(pin,data.prenom,data.nom,{admin:!!data.admin,news_pub:!!data.news_pub,news_membres:!!data.news_membres,photos:!!data.photos,mecano:!!data.mecano,instructeur:!!data.instructeur});
       setTimeout(function(){location.reload();},600);
     }
   }catch(e){obMsg('ob-msg-login','Erreur réseau, réessayez.','err');}
@@ -2707,8 +2708,8 @@ function renderAdminMembers(){
     const hasChanges=!!_adminPending[m.pin];
     const isOpen=_adminOpen[m.pin]===true;
     const tag=(on,cls,label)=>on?`<span class="member-tag tag-${cls}">${label}</span>`:'';
-    const anyPerm=ph.admin||ph.news_pub||ph.news_membres||ph.photos||ph.mecano;
-    const tags=`<div class="member-tags">${tag(ph.admin,'adm','Admin')}${tag(ph.news_pub,'pub','News pub.')}${tag(ph.news_membres,'mn','News memb.')}${tag(ph.mecano,'mec','Mécano')}${tag(ph.photos,'ph','Photos')}${!anyPerm?'<span class="member-tags-empty">Aucune permission</span>':''}${hasChanges?'<span class="member-tags-dirty">● Modifié</span>':''}</div>`;
+    const anyPerm=ph.admin||ph.news_pub||ph.news_membres||ph.photos||ph.mecano||ph.instructeur;
+    const tags=`<div class="member-tags">${tag(ph.admin,'adm','Admin')}${tag(ph.news_pub,'pub','News pub.')}${tag(ph.news_membres,'mn','News memb.')}${tag(ph.mecano,'mec','Mécano')}${tag(ph.instructeur,'ins','Instructeur')}${tag(ph.photos,'ph','Photos')}${!anyPerm?'<span class="member-tags-empty">Aucune permission</span>':''}${hasChanges?'<span class="member-tags-dirty">● Modifié</span>':''}</div>`;
     return `<div class="member-card ${isOpen?'expanded':''} ${hasChanges?'has-changes':''}" id="row-${esc(m.pin)}">
       <button class="member-card-hd" type="button" onclick="adminToggleCard('${esc(m.pin)}')">
         <div class="member-card-id">
@@ -2722,6 +2723,7 @@ function renderAdminMembers(){
           ${permRow('Actualités publiques','Publier sur Le Club','news_pub','pub',ph.news_pub,m.pin,isSelf)}
           ${permRow('Actualités membres',"Publier dans l'espace membres",'news_membres','mn',ph.news_membres,m.pin,isSelf)}
           ${permRow('Mécanicien',"Gérer l'état de la flotte",'mecano','mec',ph.mecano,m.pin,isSelf)}
+          ${permRow('Instructeur','Répondre au forum élèves','instructeur','ins',ph.instructeur,m.pin,isSelf)}
           ${permRow('Galerie photos','Ajouter des photos','photos','ph',ph.photos,m.pin,isSelf)}
           ${permRow('Administrateur','Gérer membres &amp; accès','admin','adm',ph.admin,m.pin,isSelf)}
         </div>
@@ -2752,12 +2754,12 @@ window.adminToggle=function(pin,key,col,btn){
   hapticTick();
   if(!_adminPending[pin]){
     const m=_adminMembers.find(x=>x.pin===pin);
-    _adminPending[pin]={news_pub:!!m.news_pub,news_membres:!!m.news_membres,mecano:!!m.mecano,photos:!!m.photos,admin:!!m.admin};
+    _adminPending[pin]={news_pub:!!m.news_pub,news_membres:!!m.news_membres,mecano:!!m.mecano,instructeur:!!m.instructeur,photos:!!m.photos,admin:!!m.admin};
   }
   _adminPending[pin][key]=!_adminPending[pin][key];
   btn.className='perm-switch'+(_adminPending[pin][key]?' on-'+col:'');
   const m=_adminMembers.find(x=>x.pin===pin);
-  const same=m && _adminPending[pin].news_pub===!!m.news_pub && _adminPending[pin].news_membres===!!m.news_membres && _adminPending[pin].mecano===!!m.mecano && _adminPending[pin].photos===!!m.photos && _adminPending[pin].admin===!!m.admin;
+  const same=m && _adminPending[pin].news_pub===!!m.news_pub && _adminPending[pin].news_membres===!!m.news_membres && _adminPending[pin].mecano===!!m.mecano && _adminPending[pin].instructeur===!!m.instructeur && _adminPending[pin].photos===!!m.photos && _adminPending[pin].admin===!!m.admin;
   if(same)delete _adminPending[pin];
   /* Re-render this card to show/hide the save foot + dirty badge */
   renderAdminMembers();
@@ -2769,7 +2771,7 @@ window.adminSave=async function(pin){
   const btn=document.getElementById('b-'+pin),st=document.getElementById('s-'+pin);
   btn.disabled=true;st.textContent='⏳';st.style.color='var(--muted)';
   try{
-    const url=`${API}?action=setPermissions&pin=${enc(memberPin)}&targetPin=${enc(pin)}&admin=${p.admin?'OUI':'NON'}&news_pub=${p.news_pub?'OUI':'NON'}&news_membres=${p.news_membres?'OUI':'NON'}&mecano=${p.mecano?'OUI':'NON'}&photos=${p.photos?'OUI':'NON'}`;
+    const url=`${API}?action=setPermissions&pin=${enc(memberPin)}&targetPin=${enc(pin)}&admin=${p.admin?'OUI':'NON'}&news_pub=${p.news_pub?'OUI':'NON'}&news_membres=${p.news_membres?'OUI':'NON'}&mecano=${p.mecano?'OUI':'NON'}&instructeur=${p.instructeur?'OUI':'NON'}&photos=${p.photos?'OUI':'NON'}`;
     const data=await fetch(url).then(r=>r.json());
     if(data.error){st.textContent='✗';st.style.color='var(--err)';toast(data.error,'err');btn.disabled=false;return;}
     /* Update local copy */
@@ -3596,6 +3598,18 @@ function elevRenderDash(){
   el=document.getElementById('elev-q-attente');if(el)el.textContent=attente;
   el=document.getElementById('elev-docs-count');if(el)el.textContent=docs;
   el=document.getElementById('elev-instr-count');if(el)el.textContent=instr;
+  /* Mini-cartes questions en attente */
+  var homeQ=document.getElementById('elev-home-questions');
+  if(homeQ){
+    var pending=_elevQuestions?_elevQuestions.filter(function(q){return q.statut==='attente';}).slice(0,3):[];
+    homeQ.innerHTML=pending.length?pending.map(function(q){return '<div class="elev-mini-card" onclick="elevTab(\'forum\')"><h5>'+esc(q.titre)+'</h5><p>Par '+esc(q.auteur)+' · '+esc(fmtFR(q.date))+'</p></div>';}).join(''):'<div class="elev-empty">Aucune question en attente \u{1F389}</div>';
+  }
+  /* Mini-cartes derniers documents */
+  var homeD=document.getElementById('elev-home-docs');
+  if(homeD){
+    var recent=_elevDocs?_elevDocs.documents.slice(0,3):[];
+    homeD.innerHTML=recent.length?recent.map(function(d){return '<a class="elev-mini-card" href="'+d.url+'" target="_blank" style="display:block;text-decoration:none;color:inherit"><h5>'+d.icon+' '+esc(d.nom)+'</h5><p>'+esc(d.date)+'</p></a>';}).join(''):'<div class="elev-empty">Aucun document</div>';
+  }
 }
 
 /* ── Forum ── */
@@ -3737,7 +3751,43 @@ function elevRenderContacts(){
         <div class="elev-dash-card"><div class="elev-dash-val" id="elev-docs-count">—</div><div class="elev-dash-lbl">Documents</div></div>
         <div class="elev-dash-card"><div class="elev-dash-val" id="elev-instr-count">—</div><div class="elev-dash-lbl">Instructeurs</div></div>
       </div>
-      <p class="elev-sec-sub">Bienvenue dans l'espace formation. Posez vos questions, consultez les documents et contactez vos instructeurs.</p>
+
+      <!-- Dernières questions en attente -->
+      <div class="elev-home-section">
+        <div class="elev-home-head">
+          <h4 class="elev-home-title">❓ Questions en attente</h4>
+          <button class="elev-home-link" onclick="elevTab('forum')">Voir tout →</button>
+        </div>
+        <div id="elev-home-questions"><div class="elev-empty">Aucune question en attente</div></div>
+      </div>
+
+      <!-- Derniers documents -->
+      <div class="elev-home-section">
+        <div class="elev-home-head">
+          <h4 class="elev-home-title">📄 Derniers documents</h4>
+          <button class="elev-home-link" onclick="elevTab('docs')">Voir tout →</button>
+        </div>
+        <div id="elev-home-docs"><div class="elev-empty">Aucun document</div></div>
+      </div>
+
+      <!-- Accès rapide -->
+      <div class="elev-home-section">
+        <h4 class="elev-home-title">🚀 Accès rapide</h4>
+        <div class="elev-shortcuts">
+          <button class="elev-shortcut" onclick="elevTab('forum');setTimeout(function(){var t=document.getElementById('forum-q-titre');if(t)t.focus();},200)">
+            <span class="elev-shortcut-ic">💬</span>
+            <span class="elev-shortcut-lbl">Poser une question</span>
+          </button>
+          <button class="elev-shortcut" onclick="elevTab('docs')">
+            <span class="elev-shortcut-ic">📄</span>
+            <span class="elev-shortcut-lbl">Mes documents</span>
+          </button>
+          <button class="elev-shortcut" onclick="elevTab('contacts')">
+            <span class="elev-shortcut-ic">👨‍✈️</span>
+            <span class="elev-shortcut-lbl">Mes instructeurs</span>
+          </button>
+        </div>
+      </div>
     </div>
 
     <!-- DOCUMENTS -->
