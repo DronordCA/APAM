@@ -1081,6 +1081,30 @@ html.pwa .elev-safe{min-height:52px}
 .forum-ask-btn{padding:11px 18px;border-radius:8px;background:var(--accent);color:#fff;border:none;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:13px;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;width:100%}
 
 /* ── Documents ── */
+
+/* ── Document Viewer ── */
+.doc-viewer{position:fixed;inset:0;z-index:8800;background:var(--bg);display:flex;flex-direction:column;transform:translateY(100%);transition:transform .35s cubic-bezier(.22,1,.36,1);opacity:0}
+.doc-viewer.open{transform:none;opacity:1}
+.doc-viewer-safe{width:100%;flex-shrink:0;height:env(safe-area-inset-top,0px)}
+html.pwa .doc-viewer-safe{min-height:52px}
+.doc-viewer-head{display:flex;align-items:center;gap:10px;padding:10px 16px;border-bottom:1px solid var(--border);background:var(--backdrop);backdrop-filter:blur(28px) saturate(180%);-webkit-backdrop-filter:blur(28px) saturate(180%);flex-shrink:0}
+.doc-viewer-close{width:36px;height:36px;border-radius:10px;border:1px solid var(--bds);background:none;color:var(--muted);display:flex;align-items:center;justify-content:center;cursor:pointer}
+.doc-viewer-close svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.doc-viewer-title{flex:1;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:14px;color:#fff;text-transform:uppercase;letter-spacing:.02em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.doc-viewer-dl{padding:8px 14px;border-radius:8px;background:var(--accent);color:#fff;border:none;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:11px;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;text-decoration:none;display:flex;align-items:center;gap:5px;flex-shrink:0}
+.doc-viewer-dl svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.doc-viewer-frame{flex:1;border:none;background:#000}
+
+/* ── Upload button ── */
+.doc-upload-bar{display:flex;align-items:center;gap:10px;margin-bottom:16px}
+.doc-upload-btn{display:flex;align-items:center;gap:8px;padding:11px 18px;border-radius:10px;background:var(--accent);color:#fff;border:none;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:12px;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;transition:opacity .2s;flex-shrink:0}
+.doc-upload-btn svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.doc-upload-btn:disabled{opacity:.4;cursor:not-allowed}
+.doc-upload-status{font-size:12px;color:var(--muted);flex:1}
+.doc-upload-progress{height:3px;background:var(--bds);border-radius:2px;margin-top:8px;overflow:hidden;display:none}
+.doc-upload-progress.show{display:block}
+.doc-upload-progress-bar{height:100%;background:var(--accent);border-radius:2px;transition:width .3s;width:0}
+
 .doc-card{display:flex;align-items:center;gap:14px;padding:14px 16px;background:var(--sf);border:1px solid var(--border);border-radius:12px;margin-bottom:8px;text-decoration:none;color:#fff;transition:border-color .2s,transform .2s}
 .doc-card:hover{border-color:rgba(37,99,235,.3);transform:translateY(-2px)}
 .doc-icon{font-size:28px;flex-shrink:0;width:42px;text-align:center}
@@ -1662,7 +1686,7 @@ html.pwa .elev-safe{min-height:52px}
 
 <script>
 'use strict';
-const APP_VERSION='3.1.1';
+const APP_VERSION='3.2.0';
 const API='https://script.google.com/macros/s/AKfycbxae9y3NHqDyAkbEI5rDVRappI-aAWoA0jcHqR8NBUgm3t5SCB1Hq8nebY5t23cV1Je/exec';
 
 /* ══ Onboarding ══ */
@@ -3689,6 +3713,10 @@ window.forumAnswer=async function(row){
 /* ── Documents ── */
 function elevRenderDocs(){
   var list=document.getElementById('elev-docs-list');if(!list)return;
+  /* Afficher le bouton upload si instructeur ou admin */
+  var perms=JSON.parse(localStorage.getItem('apam_perms')||'{}');
+  var uploadBar=document.getElementById('doc-upload-bar');
+  if(uploadBar)uploadBar.style.display=(perms.instructeur||perms.admin)?'flex':'none';
   if(!_elevDocs||(!_elevDocs.documents.length&&!_elevDocs.dossiers.length)){list.innerHTML='<div class="elev-empty">Aucun document pour le moment.</div>';return;}
   var html='';
   _elevDocs.dossiers.forEach(function(f){
@@ -3696,7 +3724,7 @@ function elevRenderDocs(){
   });
   _elevDocs.documents.forEach(function(d){
     var size=d.taille>1048576?((d.taille/1048576).toFixed(1)+' Mo'):((d.taille/1024).toFixed(0)+' Ko');
-    html+='<a class="doc-card" href="'+d.url+'" target="_blank"><span class="doc-icon">'+d.icon+'</span><div class="doc-info"><h4>'+esc(d.nom)+'</h4><p>'+size+' · '+esc(d.date)+'</p></div><span class="doc-arr">↗</span></a>';
+    html+='<div class="doc-card" onclick="openDocViewer(\''+d.id+'\',\''+esc(d.nom).replace(/'/g,"\\'")+'\')"><span class="doc-icon">'+d.icon+'</span><div class="doc-info"><h4>'+esc(d.nom)+'</h4><p>'+size+' · '+esc(d.date)+'</p></div><span class="doc-arr"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg></span></div>';
   });
   list.innerHTML=html;
 }
@@ -3709,6 +3737,95 @@ function elevRenderContacts(){
     var initials=(i.prenom?i.prenom[0]:'')+(i.nom?i.nom[0]:'');
     return '<div class="instr-card"><div class="instr-avatar">'+initials.toUpperCase()+'</div><div class="instr-info"><h4>'+esc(i.prenom)+' '+esc(i.nom)+'</h4><p>Membre depuis '+esc(i.date)+'</p></div><span class="instr-badge">Instructeur</span></div>';
   }).join('');
+}
+
+
+
+/* ── Document Viewer in-app ── */
+function openDocViewer(id, nom){
+  var viewer=document.getElementById('doc-viewer');
+  var title=document.getElementById('doc-viewer-title');
+  var dl=document.getElementById('doc-viewer-dl');
+  var frame=document.getElementById('doc-viewer-frame');
+  if(!viewer)return;
+  if(title)title.textContent=nom||'Document';
+  if(dl)dl.href='https://drive.google.com/uc?export=download&id='+id;
+  if(frame)frame.src='https://drive.google.com/file/d/'+id+'/preview';
+  viewer.classList.add('open');
+}
+
+function closeDocViewer(){
+  var viewer=document.getElementById('doc-viewer');
+  var frame=document.getElementById('doc-viewer-frame');
+  if(viewer)viewer.classList.remove('open');
+  setTimeout(function(){if(frame)frame.src='about:blank';},400);
+}
+
+/* ── Upload documents ── */
+function docUploadPick(){
+  var inp=document.getElementById('doc-upload-input');
+  if(inp)inp.click();
+}
+
+async function docUploadFile(input){
+  if(!input.files||!input.files[0])return;
+  var file=input.files[0];
+  if(file.size>50*1024*1024){toast('Fichier trop volumineux (max 50 Mo)','err');input.value='';return;}
+  var btn=document.getElementById('doc-upload-btn');
+  var status=document.getElementById('doc-upload-status');
+  var progress=document.getElementById('doc-upload-progress');
+  var bar=document.getElementById('doc-upload-progress-bar');
+  if(btn)btn.disabled=true;
+  if(status)status.textContent='Envoi de '+file.name+'…';
+  if(progress){progress.classList.add('show');if(bar)bar.style.width='30%';}
+  try{
+    var base64=await new Promise(function(resolve,reject){
+      var reader=new FileReader();
+      reader.onload=function(){resolve(reader.result.split(',')[1]);};
+      reader.onerror=function(){reject(new Error('Lecture fichier échouée'));};
+      reader.readAsDataURL(file);
+    });
+    if(bar)bar.style.width='60%';
+    var res=await fetch(API,{
+      method:'POST',
+      headers:{'Content-Type':'text/plain;charset=utf-8'},
+      body:JSON.stringify({
+        action:'uploadDocument',
+        pin:memberPin,
+        filename:file.name,
+        contentType:file.type||'application/octet-stream',
+        data:base64
+      })
+    });
+    if(bar)bar.style.width='90%';
+    var data=await res.json();
+    if(data.error){
+      if(status)status.textContent='✗ '+data.error;
+      toast(data.error,'err');
+    }else{
+      if(status)status.textContent='✓ '+file.name+' ajouté !';
+      if(bar)bar.style.width='100%';
+      toast('Document ajouté !','ok');hapticThud();
+      /* Refresh la liste */
+      setTimeout(async function(){
+        try{
+          var dRes=await fetch(API+'?action=getDocuments').then(function(r){return r.json();});
+          _elevDocs={documents:dRes.documents||[],dossiers:dRes.dossiers||[]};
+          elevRenderDocs();elevRenderDash();
+        }catch(e){}
+      },1000);
+    }
+  }catch(e){
+    if(status)status.textContent='✗ Erreur réseau';
+    toast('Erreur réseau','err');
+  }
+  if(btn)btn.disabled=false;
+  input.value='';
+  setTimeout(function(){
+    if(progress)progress.classList.remove('show');
+    if(bar)bar.style.width='0';
+    if(status)setTimeout(function(){status.textContent='';},3000);
+  },1500);
 }
 
 </script>
@@ -3794,6 +3911,12 @@ function elevRenderContacts(){
     <div class="elev-pane" id="elev-docs">
       <h3 class="elev-sec-h">Documents</h3>
       <p class="elev-sec-sub">Supports de cours, fiches de progression et documents utiles partagés par vos instructeurs.</p>
+      <div class="doc-upload-bar" id="doc-upload-bar" style="display:none">
+        <button class="doc-upload-btn" id="doc-upload-btn" onclick="docUploadPick()"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Ajouter un document</button>
+        <span class="doc-upload-status" id="doc-upload-status"></span>
+        <input type="file" id="doc-upload-input" style="display:none" accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.txt,.csv,.jpg,.jpeg,.png,.gif,.webp" onchange="docUploadFile(this)">
+      </div>
+      <div class="doc-upload-progress" id="doc-upload-progress"><div class="doc-upload-progress-bar" id="doc-upload-progress-bar"></div></div>
       <div id="elev-docs-list"><div class="elev-loading">Chargement…</div></div>
     </div>
 
@@ -3856,6 +3979,18 @@ function elevRenderContacts(){
       <span>Contacts</span>
     </button>
   </nav>
+</div>
+
+
+<!-- ── Document Viewer ── -->
+<div class="doc-viewer" id="doc-viewer">
+  <div class="doc-viewer-safe"></div>
+  <div class="doc-viewer-head">
+    <button class="doc-viewer-close" onclick="closeDocViewer()"><svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></button>
+    <span class="doc-viewer-title" id="doc-viewer-title">Document</span>
+    <a class="doc-viewer-dl" id="doc-viewer-dl" href="#" target="_blank"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>Télécharger</a>
+  </div>
+  <iframe class="doc-viewer-frame" id="doc-viewer-frame" src="about:blank"></iframe>
 </div>
 
 </body>
