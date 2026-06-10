@@ -32,11 +32,18 @@
 document.addEventListener('gesturestart',function(e){e.preventDefault();},{passive:false});
 document.addEventListener('gesturechange',function(e){e.preventDefault();},{passive:false});
 document.addEventListener('gestureend',function(e){e.preventDefault();},{passive:false});
-var __lastTouch=0;
+/* Block ONLY genuine double-tap-zoom (same spot, fast) — never on interactive
+   controls. Buttons/links already have touch-action:manipulation, so calling
+   preventDefault() on their touchend would needlessly cancel the click and make
+   rapid taps feel dropped. */
+var __ltT=0,__ltX=0,__ltY=0;
 document.addEventListener('touchend',function(e){
-  var n=Date.now();
-  if(n-__lastTouch<=350){e.preventDefault();}
-  __lastTouch=n;
+  if(e.touches.length)return;
+  var t=e.changedTouches&&e.changedTouches[0];
+  var x=t?t.clientX:0,y=t?t.clientY:0,n=Date.now();
+  var interactive=e.target&&e.target.closest&&e.target.closest('button,a,input,textarea,select,label,[onclick],.tap');
+  if(!interactive&&n-__ltT<=300&&Math.abs(x-__ltX)<32&&Math.abs(y-__ltY)<32){e.preventDefault();}
+  __ltT=n;__ltX=x;__ltY=y;
 },{passive:false});
 </script>
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,400;0,600;0,700;0,900;1,400;1,700;1,900&family=Jost:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
@@ -1026,6 +1033,26 @@ html.pwa .elev-safe{min-height:52px}
 .elev-nav-btn.on svg{transform:scale(1.04)}
 .elev-nav-btn span{font-size:10.5px;font-weight:600;letter-spacing:.02em;line-height:1.1}
 
+/* Sélecteur de profil — inscription */
+.ob-profil-wrap{display:flex;flex-direction:column;gap:8px}
+.ob-profil-wrap>label{font-size:10px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.38)}
+.ob-profil{display:flex;flex-direction:column;gap:8px}
+.ob-profil-opt{display:flex;align-items:center;gap:12px;padding:13px 14px;background:var(--sf);border:1.5px solid var(--bds);border-radius:12px;color:var(--text-2);font-family:'Jost',sans-serif;font-size:14.5px;font-weight:500;cursor:pointer;text-align:left;transition:border-color .2s,background .2s,color .2s}
+.ob-profil-opt svg{width:22px;height:22px;flex-shrink:0;stroke:currentColor}
+.ob-profil-opt[data-p="prive"] svg{fill:currentColor;stroke:none}
+.ob-profil-opt span{flex:1}
+.ob-profil-opt.on{border-color:var(--accent);background:var(--accent-soft);color:var(--text)}
+.ob-profil-opt.on::after{content:"\2713";color:var(--accent);font-weight:700;font-size:15px}
+.ob-profil-hint{font-size:12px;color:var(--muted);line-height:1.5;min-height:18px}
+
+/* Sélecteur de profil — admin (gestion membres) */
+.member-profil{display:flex;flex-direction:column;gap:7px;margin-bottom:14px}
+.member-profil-lbl{font-size:10px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+.profil-seg{display:flex;gap:4px;background:var(--sf2);border:1px solid var(--border);border-radius:10px;padding:3px}
+.profil-seg-btn{flex:1;padding:8px 6px;background:transparent;border:none;border-radius:7px;color:var(--muted);font-family:'Barlow Condensed',sans-serif;font-weight:700;font-style:italic;font-size:12px;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;transition:background .2s,color .2s}
+.profil-seg-btn.on{background:var(--accent);color:#fff}
+.profil-seg-btn:disabled{opacity:.5;cursor:not-allowed}
+
 /* Section headers */
 .elev-sec-h{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:26px;text-transform:uppercase;color:#fff;letter-spacing:-.01em;margin-bottom:16px;line-height:1}
 .elev-sec-sub{font-size:12px;color:var(--muted);margin-top:4px;margin-bottom:16px;line-height:1.5}
@@ -1054,8 +1081,11 @@ html.pwa .elev-safe{min-height:52px}
 .forum-badge.attente{background:rgba(245,165,36,.1);border:1px solid rgba(245,165,36,.25);color:var(--warn)}
 .forum-badge.repondu{background:rgba(34,215,122,.08);border:1px solid rgba(34,215,122,.25);color:var(--ok)}
 .forum-card-detail{font-size:13px;color:var(--muted);line-height:1.6;margin-bottom:10px}
-.forum-card-meta{font-size:10px;color:rgba(255,255,255,.25);display:flex;gap:10px;flex-wrap:wrap}
+.forum-card-meta{font-size:10px;color:rgba(255,255,255,.25);display:flex;gap:10px;flex-wrap:wrap;align-items:center}
 .forum-card-meta strong{color:rgba(255,255,255,.45)}
+.forum-role{font-size:8.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;padding:3px 8px;border-radius:100px;line-height:1}
+.forum-role.eleve{background:rgba(125,140,255,.1);border:1px solid rgba(125,140,255,.3);color:#9aa6ff}
+.forum-role.pilote{background:var(--accent-soft,rgba(245,165,36,.1));border:1px solid var(--accent-bord,rgba(245,165,36,.3));color:var(--accent,#f5a524)}
 
 .forum-answer{margin-top:12px;padding:14px 16px;background:rgba(34,215,122,.04);border:1px solid rgba(34,215,122,.15);border-left:3px solid var(--ok);border-radius:10px}
 .forum-answer-head{display:flex;align-items:center;gap:8px;margin-bottom:6px}
@@ -1072,8 +1102,16 @@ html.pwa .elev-safe{min-height:52px}
 .forum-reply-form textarea:focus{outline:none;border-color:var(--accent)}
 .forum-reply-submit{margin-top:8px;padding:10px 18px;border-radius:8px;background:var(--accent);color:#fff;border:none;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:13px;letter-spacing:.1em;text-transform:uppercase;cursor:pointer}
 
-/* Ask question */
-.forum-ask{background:var(--sf);border:1px solid var(--border);border-radius:14px;padding:18px;margin-bottom:20px}
+/* Ask question (repliable) */
+.forum-ask-wrap{margin-bottom:20px}
+.forum-ask-toggle{width:100%;display:flex;align-items:center;gap:10px;padding:13px 16px;background:var(--sf);border:1px solid var(--border);border-radius:14px;color:#fff;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:15px;text-transform:uppercase;letter-spacing:.04em;cursor:pointer}
+.forum-ask-toggle-ic{font-size:16px;line-height:1}
+.forum-ask-toggle-arr{margin-left:auto;display:flex;transition:transform .25s ease}
+.forum-ask-toggle-arr svg{width:18px;height:18px;stroke:var(--accent);fill:none;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+.forum-ask-wrap.open .forum-ask-toggle{border-bottom-left-radius:0;border-bottom-right-radius:0;border-bottom:none}
+.forum-ask-wrap.open .forum-ask-toggle-arr{transform:rotate(90deg)}
+.forum-ask{display:none;background:var(--sf);border:1px solid var(--border);border-top:none;border-radius:0 0 14px 14px;padding:14px 18px 18px}
+.forum-ask-wrap.open .forum-ask{display:block}
 .forum-ask h4{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:15px;text-transform:uppercase;color:#fff;letter-spacing:.04em;margin-bottom:12px}
 .forum-ask input,.forum-ask textarea{width:100%;padding:12px;background:rgba(255,255,255,.03);border:1px solid var(--bds);border-radius:8px;color:#fff;font-family:'Jost',sans-serif;font-size:13px;margin-bottom:8px}
 .forum-ask input:focus,.forum-ask textarea:focus{outline:none;border-color:var(--accent)}
@@ -1124,6 +1162,146 @@ html.pwa .doc-viewer-safe{min-height:52px}
 .instr-info h4{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:16px;color:#fff;text-transform:uppercase;letter-spacing:.02em}
 .instr-info p{font-size:11px;color:var(--muted);margin-top:2px}
 .instr-badge{font-size:9px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;padding:4px 10px;border-radius:100px;background:rgba(34,215,122,.08);border:1px solid rgba(34,215,122,.25);color:var(--ok);margin-left:auto;flex-shrink:0}
+.instr-badge.bureau{background:var(--accent-soft,rgba(245,165,36,.1));border:1px solid var(--accent-bord,rgba(245,165,36,.3));color:var(--accent,#f5a524)}
+.instr-avatar.bureau{background:linear-gradient(135deg,var(--accent,#f5a524),#c97a10)}
+.instr-card .instr-call{margin-left:auto;flex-shrink:0;display:inline-flex;align-items:center;gap:6px;padding:8px 12px;border-radius:10px;background:var(--sf2,rgba(255,255,255,.04));border:1px solid var(--border);color:var(--muted);font-size:11px;font-weight:600;text-decoration:none}
+.instr-card .instr-call svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:1.8}
+.instr-card.has-call .instr-badge{margin-left:0}
+.elev-group-h{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-style:italic;font-size:13px;text-transform:uppercase;letter-spacing:.14em;color:var(--accent);margin:24px 0 12px}
+.elev-group-h:first-of-type{margin-top:10px}
+.instr-avatar.inst{background:var(--sf2,rgba(255,255,255,.05));border:1px solid var(--border);font-size:20px;color:inherit}
+.instr-card.link{text-decoration:none;color:inherit;transition:border-color .2s}
+.instr-card.link:hover{border-color:var(--accent-bord,rgba(245,165,36,.35))}
+.instr-card.link .instr-info h4{text-transform:none;font-size:15px}
+.instr-ext{margin-left:auto;flex-shrink:0;display:flex}
+.instr-ext svg{width:16px;height:16px;stroke:var(--muted);fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+/* Équipe (trombinoscope) */
+.team-card{display:flex;gap:14px;padding:15px 16px;background:var(--sf);border:1px solid var(--border);border-radius:14px;margin-bottom:10px}
+.team-avatar{position:relative;width:46px;height:46px;flex-shrink:0;border-radius:50%;background:linear-gradient(135deg,var(--accent),#c97a10);display:flex;align-items:center;justify-content:center;font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:17px;color:#fff}
+.team-ic{position:absolute;right:-3px;bottom:-3px;width:20px;height:20px;border-radius:50%;background:var(--card-bg,#1c2030);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:10px;color:var(--accent)}
+.team-body{flex:1;min-width:0}
+.team-top{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.team-top h4{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:17px;color:var(--text);text-transform:uppercase;letter-spacing:.02em}
+.team-tag{font-size:8.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;padding:3px 8px;border-radius:100px;background:var(--sf2,rgba(255,255,255,.05));border:1px solid var(--border);color:var(--muted)}
+.team-role{font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin:3px 0 6px}
+.team-desc{font-size:12.5px;color:var(--muted);line-height:1.55;text-wrap:pretty}
+/* ── Accueil : licences & bilan carburant ── */
+.acc-head{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.acc-head .elev-group-h{margin:10px 0 0}
+.acc-edit{background:none;border:1px solid var(--border);color:var(--muted);font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:11px;letter-spacing:.12em;text-transform:uppercase;padding:7px 13px;border-radius:8px;cursor:pointer}
+.acc-edit.on{border-color:var(--accent);color:var(--accent)}
+.acc-note{font-size:11px;color:var(--muted);line-height:1.5;margin:7px 0 13px}
+.lic-list{display:flex;flex-direction:column;gap:10px}
+.lic-card{display:flex;flex-direction:column;gap:11px;padding:14px 16px;background:var(--sf);border:1px solid var(--border);border-radius:14px;border-left:3px solid var(--border)}
+.lic-card.ok{border-left-color:#22d77a}
+.lic-card.warn{border-left-color:#f5a524}
+.lic-card.soon{border-left-color:#ff8c42}
+.lic-card.exp{border-left-color:#ff5f57}
+.lic-row{display:flex;align-items:center;gap:14px}
+.lic-bar{height:7px;border-radius:100px;background:rgba(255,255,255,.08);overflow:hidden}
+.lic-bar span{display:block;height:100%;border-radius:100px;transition:width .5s ease}
+.lic-card.ok .lic-bar span{background:linear-gradient(90deg,#1fa862,#2ee68a)}
+.lic-card.warn .lic-bar span{background:linear-gradient(90deg,#e0931a,#f5a524)}
+.lic-card.soon .lic-bar span{background:linear-gradient(90deg,#ff6f3c,#ff9a52)}
+.lic-card.exp .lic-bar span{background:#ff5f57;opacity:.45}
+.lic-info{flex:1;min-width:0}
+.lic-info h5{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:16px;color:var(--text);text-transform:uppercase;letter-spacing:.02em}
+.lic-info p{font-size:11.5px;color:var(--muted);margin-top:2px}
+.lic-cd{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:17px;text-align:right;flex-shrink:0;color:var(--muted)}
+.lic-cd small{display:block;font-family:'JetBrains Mono',monospace;font-weight:400;font-style:normal;font-size:8.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-top:2px}
+.lic-cd.ok{color:var(--ok,#22d77a)}
+.lic-cd.warn{color:#f5a524}
+.lic-cd.exp{color:#ff5f57}
+.lic-cd.soon{color:#ff8c42}
+.lic-addrow{display:flex;gap:8px;margin-top:2px}
+.lic-addrow select{flex:1;min-width:0;background:rgba(255,255,255,.03);border:1px solid var(--bds,var(--border));border-radius:8px;color:var(--text);font-family:'Jost',sans-serif;font-size:13px;padding:10px}
+.lic-addrow select:focus{outline:none;border-color:var(--accent)}
+.lic-addbtn{background:var(--accent);border:none;color:#fff;font-family:'Barlow Condensed',sans-serif;font-weight:700;letter-spacing:.08em;text-transform:uppercase;font-size:12px;padding:0 16px;border-radius:8px;cursor:pointer;flex-shrink:0}
+.lic-edit-row{display:flex;align-items:center;gap:9px;padding:9px 11px;background:var(--sf);border:1px solid var(--border);border-radius:12px;margin-bottom:8px}
+.lic-edit-row input[type=text]{flex:1;min-width:0}
+.lic-edit-row input,.fuel-field input,.fuel-field select{background:rgba(255,255,255,.03);border:1px solid var(--bds,var(--border));border-radius:8px;color:var(--text);font-family:'Jost',sans-serif;font-size:13px;padding:9px 10px}
+.lic-edit-row input:focus,.fuel-field input:focus,.fuel-field select:focus{outline:none;border-color:var(--accent)}
+.lic-del{background:none;border:none;color:#ff5f57;font-size:16px;cursor:pointer;flex-shrink:0;line-height:1;padding:4px}
+.lic-add{width:100%;padding:11px;border:1px dashed var(--border);border-radius:10px;background:none;color:var(--muted);font-family:'Barlow Condensed',sans-serif;font-weight:700;letter-spacing:.1em;text-transform:uppercase;font-size:12px;cursor:pointer;margin-top:2px}
+.fuel-card{background:var(--sf);border:1px solid var(--border);border-radius:14px;padding:16px}
+.fuel-field{display:flex;flex-direction:column;gap:5px;flex:1;min-width:0}
+.fuel-field label{font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.fuel-field select,.fuel-field input{width:100%}
+.fuel-row{display:flex;gap:10px;margin-top:10px}
+.fuel-seg{display:flex;gap:6px;margin-top:12px}
+.fuel-seg button{flex:1;padding:9px;border-radius:8px;border:1px solid var(--border);background:none;color:var(--muted);font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:12px;letter-spacing:.05em;text-transform:uppercase;cursor:pointer}
+.fuel-seg button.on{border-color:var(--accent);background:var(--accent-soft);color:var(--accent)}
+.fuel-out{margin-top:14px}
+.fuel-line{display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding:7px 0;border-bottom:1px solid var(--border);font-size:12.5px;color:var(--muted)}
+.fuel-line .v{font-family:'JetBrains Mono',monospace;color:var(--text);font-size:12px;flex-shrink:0}
+.fuel-total{display:flex;justify-content:space-between;align-items:baseline;margin-top:12px;padding:12px 14px;border-radius:12px}
+.fuel-total .lbl{font-family:'Barlow Condensed',sans-serif;font-weight:700;text-transform:uppercase;letter-spacing:.07em;font-size:14px;color:var(--text)}
+.fuel-total .amt{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:26px}
+.fuel-total.ok{background:rgba(34,215,122,.08);border:1px solid rgba(34,215,122,.25)}
+.fuel-total.ok .amt{color:var(--ok,#22d77a)}
+.fuel-total.bad{background:rgba(255,95,87,.08);border:1px solid rgba(255,95,87,.28)}
+.fuel-total.bad .amt{color:#ff5f57}
+.fuel-verdict{font-size:12px;margin-top:9px;line-height:1.5}
+.fuel-verdict.ok{color:var(--ok,#22d77a)}
+.fuel-verdict.bad{color:#ff5f57}
+.fuel-ac-row{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.fuel-ac-ic{width:40px;height:40px;flex-shrink:0;border-radius:10px;background:var(--accent-soft);border:1px solid var(--accent-bord);display:flex;align-items:center;justify-content:center;color:var(--accent)}
+.fuel-ac-ic svg{width:20px;height:20px;fill:currentColor}
+.fuel-ac-row select{flex:1;min-width:0;background:rgba(255,255,255,.03);border:1px solid var(--bds,var(--border));border-radius:10px;color:var(--text);font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:15px;letter-spacing:.02em;padding:11px 12px}
+.fuel-ac-row select:focus{outline:none;border-color:var(--accent)}
+.fuel-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.fuel-input{display:flex;align-items:center;background:rgba(255,255,255,.03);border:1px solid var(--bds,var(--border));border-radius:9px;overflow:hidden}
+.fuel-input:focus-within{border-color:var(--accent)}
+.fuel-input input{flex:1;min-width:0;width:100%;background:none;border:none;padding:10px;color:var(--text);font-family:'JetBrains Mono',monospace;font-size:14px}
+.fuel-input input:focus{outline:none}
+.fuel-input span{padding:0 11px 0 2px;font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted);text-transform:uppercase;flex-shrink:0}
+.fuel-hero{margin-top:16px;padding:16px;border-radius:14px;border:1px solid var(--border)}
+.fuel-hero.ok{background:linear-gradient(160deg,rgba(34,215,122,.1),transparent 80%);border-color:rgba(34,215,122,.28)}
+.fuel-hero.bad{background:linear-gradient(160deg,rgba(255,95,87,.1),transparent 80%);border-color:rgba(255,95,87,.3)}
+.fuel-hero-top{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+.fuel-hero-lbl{font-family:'Barlow Condensed',sans-serif;font-weight:700;text-transform:uppercase;letter-spacing:.08em;font-size:13px;color:var(--muted)}
+.fuel-hero-amt{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:32px;line-height:1}
+.fuel-hero.ok .fuel-hero-amt{color:#22d77a}
+.fuel-hero.bad .fuel-hero-amt{color:#ff5f57}
+.fuel-gauge{height:10px;border-radius:100px;background:rgba(255,255,255,.09);margin:13px 0 9px;overflow:hidden}
+.fuel-gauge .fill{display:block;height:100%;border-radius:100px;transition:width .5s ease}
+.fuel-hero.ok .fuel-gauge .fill{background:linear-gradient(90deg,#1fa862,#2ee68a)}
+.fuel-hero.bad .fuel-gauge .fill{background:linear-gradient(90deg,#ff8c42,#ff5f57)}
+.fuel-hero-sub{font-family:'JetBrains Mono',monospace;font-size:10.5px;color:var(--muted);letter-spacing:.03em}
+.fuel-breakdown{margin-top:14px}
+.fuel-line em{font-style:normal;color:rgba(255,255,255,.3);font-size:11px}
+/* Checklists */
+.ck-list{display:flex;flex-direction:column;gap:10px}
+.ck-card{display:flex;align-items:center;gap:14px;padding:14px 16px;background:var(--sf);border:1px solid var(--border);border-radius:14px;cursor:pointer;text-align:left;width:100%;color:var(--text)}
+.ck-card:hover{border-color:var(--accent-bord,rgba(245,165,36,.3))}
+.ck-card-ic{width:42px;height:42px;flex-shrink:0;border-radius:11px;background:var(--accent-soft);border:1px solid var(--accent-bord);display:flex;align-items:center;justify-content:center;font-size:18px}
+.ck-card-body{flex:1;min-width:0}
+.ck-card-body h4{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:17px;text-transform:uppercase;letter-spacing:.02em;color:var(--text)}
+.ck-card-body p{font-size:11.5px;color:var(--muted);margin-top:2px}
+.ck-card-arr{flex-shrink:0;display:flex;color:var(--muted)}
+.ck-card-arr svg{width:18px;height:18px}
+.ck-viewer{position:fixed;inset:0;z-index:8200;background:var(--bg);transform:translateX(100%);transition:transform .35s cubic-bezier(.16,1,.3,1);display:flex;flex-direction:column;overflow:hidden}
+.ck-viewer.open{transform:none}
+.ck-viewer-safe{height:env(safe-area-inset-top)}
+.ck-viewer-head{display:flex;align-items:center;gap:12px;padding:14px 16px;border-bottom:1px solid var(--border)}
+.ck-back{width:40px;height:40px;flex-shrink:0;border-radius:10px;background:var(--sf);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;color:var(--text);cursor:pointer}
+.ck-back svg{width:20px;height:20px}
+.ck-viewer-tt{flex:1;min-width:0}
+.ck-viewer-tt span{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent)}
+.ck-viewer-tt h2{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:24px;text-transform:uppercase;color:var(--text);line-height:1}
+.ck-reset{flex-shrink:0;background:none;border:1px solid var(--border);color:var(--muted);font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:11px;letter-spacing:.08em;text-transform:uppercase;padding:8px 12px;border-radius:8px;cursor:pointer}
+.ck-viewer-body{flex:1;overflow-y:auto;padding:16px 16px calc(40px + env(safe-area-inset-bottom));-webkit-overflow-scrolling:touch}
+.ck-disc{font-size:11px;color:var(--muted);line-height:1.5;margin-bottom:16px;padding:10px 12px;background:var(--sf);border:1px solid var(--border);border-radius:10px}
+.ck-sec{margin-bottom:18px}
+.ck-sec h3{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:15px;text-transform:uppercase;letter-spacing:.08em;color:var(--accent);margin-bottom:8px}
+.ck-item{display:flex;align-items:center;gap:12px;width:100%;text-align:left;padding:11px 12px;background:var(--sf);border:1px solid var(--border);border-radius:10px;margin-bottom:6px;cursor:pointer;color:var(--text)}
+.ck-box{width:20px;height:20px;flex-shrink:0;border-radius:6px;border:2px solid var(--border);position:relative;transition:all .15s}
+.ck-item.done .ck-box{background:var(--ok,#22d77a);border-color:var(--ok,#22d77a)}
+.ck-item.done .ck-box::after{content:"";position:absolute;left:5px;top:1px;width:5px;height:10px;border:solid #08130c;border-width:0 2px 2px 0;transform:rotate(45deg)}
+.ck-lbl{flex:1;min-width:0;font-size:14px}
+.ck-val{flex-shrink:0;font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.04em;color:var(--accent);text-align:right}
+.ck-item.done .ck-lbl,.ck-item.done .ck-val{opacity:.5}
+.ck-item.done .ck-lbl{text-decoration:line-through}
 
 /* ── Ressources (placeholder) ── */
 .res-wip{text-align:center;padding:40px 20px}
@@ -1198,6 +1376,15 @@ html.pwa .doc-viewer-safe{min-height:52px}
         <div class="ob-field"><label>Prénom *</label><input id="ob-prenom" type="text" placeholder="Frédéric" autocomplete="given-name"></div>
         <div class="ob-field"><label>Nom *</label><input id="ob-nom" type="text" placeholder="Dupont" autocomplete="family-name"></div>
       </div>
+      <div class="ob-profil-wrap">
+        <label>Je suis… *</label>
+        <div class="ob-profil" id="ob-profil">
+          <button type="button" class="ob-profil-opt on" data-p="prive" onclick="obSetProfil('prive')"><svg viewBox="0 0 24 24"><path d="M2 12h2l3-4h3l-1 4h4l2-3h2l-1 3h2.5a1.5 1.5 0 0 1 0 3H8l-2 3H4l1-3H2z"/></svg><span>Pilote / membre</span></button>
+          <button type="button" class="ob-profil-opt" data-p="eleve" onclick="obSetProfil('eleve')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10L12 5 2 10l10 5 10-5z"/><path d="M6 12v5c0 1 2.5 2.5 6 2.5s6-1.5 6-2.5v-5"/></svg><span>Élève</span></button>
+          <button type="button" class="ob-profil-opt" data-p="instructeur" onclick="obSetProfil('instructeur')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l2.4 5 5.6.8-4 4 1 5.5L12 19.8 6.9 22.3l1-5.5-4-4 5.6-.8z"/></svg><span>Instructeur</span></button>
+        </div>
+        <p class="ob-profil-hint" id="ob-profil-hint">Accès pilote complet : météo, flotte, ressources.</p>
+      </div>
       <p class="ob-msg" id="ob-msg-signup1"></p>
       <button class="ob-btn" onclick="obSignupStep2()">Suivant →</button>
     </div>
@@ -1265,8 +1452,8 @@ html.pwa .doc-viewer-safe{min-height:52px}
           <div class="d-pilot-name" id="d-pilot-name">Membre</div>
           <div class="d-pilot-meta">
             <span class="d-pilot-chip"><strong>ICAO</strong> LFOL</span>
-            <span class="d-pilot-chip"><strong>RWY</strong> 07/25 · 800m</span>
-            <span class="d-pilot-chip"><strong>RADIO</strong> 126.855</span>
+            <span class="d-pilot-chip"><strong>RWY</strong> 07/25 · 763m</span>
+            <span class="d-pilot-chip"><strong>RADIO</strong> 126.850</span>
             <span class="d-pilot-role" id="d-pilot-role" style="display:none"><span class="d-pilot-role-dot"></span><span id="d-pilot-role-lbl">Membre</span></span>
           </div>
         </div>
@@ -1304,12 +1491,12 @@ html.pwa .doc-viewer-safe{min-height:52px}
           <div class="widget">
             <div class="widget-hd"><span class="widget-hd-icon"><svg viewBox="0 0 24 24"><path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/></svg></span><span class="widget-hd-title">Terrain LFOL</span></div>
             <div class="widget-body">
-              <div class="widget-row"><span class="widget-row-k">Piste</span><span class="widget-row-v">07 / 25 · 800 m</span></div>
-              <div class="widget-row"><span class="widget-row-k">Surface</span><span class="widget-row-v">Herbe</span></div>
-              <div class="widget-row"><span class="widget-row-k">Élévation</span><span class="widget-row-v">200 ft · 61 m</span></div>
-              <div class="widget-row"><span class="widget-row-k">Radio</span><span class="widget-row-v">126.855 MHz</span></div>
-              <div class="widget-row"><span class="widget-row-k">Coord.</span><span class="widget-row-v">48°45'N 0°39'E</span></div>
-              <div class="widget-row"><span class="widget-row-k">Carburant</span><span class="widget-row-v">Avgas 100LL</span></div>
+              <div class="widget-row"><span class="widget-row-k">Piste</span><span class="widget-row-v">07 / 25 · 763 × 20 m</span></div>
+              <div class="widget-row"><span class="widget-row-k">Surface</span><span class="widget-row-v">Revêtue (bitume)</span></div>
+              <div class="widget-row"><span class="widget-row-k">Élévation</span><span class="widget-row-v">787 ft · 240 m</span></div>
+              <div class="widget-row"><span class="widget-row-k">Radio</span><span class="widget-row-v">126.850 MHz</span></div>
+              <div class="widget-row"><span class="widget-row-k">Coord.</span><span class="widget-row-v">48°45'32"N 0°39'28"E</span></div>
+              <div class="widget-row"><span class="widget-row-k">Carburant</span><span class="widget-row-v">100LL (AVGAS)</span></div>
             </div>
           </div>
           <a class="widget-link" href="activite.html">Voir Le Club<span>→</span></a>
@@ -1560,12 +1747,14 @@ html.pwa .doc-viewer-safe{min-height:52px}
           <h4>Fiche aérodrome</h4>
         </div>
         <div class="info-row"><span class="info-k">Code OACI</span><span class="info-v">LFOL</span></div>
-        <div class="info-row"><span class="info-k">Piste</span><span class="info-v">07 / 25 · 800 m</span></div>
-        <div class="info-row"><span class="info-k">Surface</span><span class="info-v">Herbe</span></div>
-        <div class="info-row"><span class="info-k">Élévation</span><span class="info-v">200 ft · 61 m</span></div>
-        <div class="info-row"><span class="info-k">Coordonnées</span><span class="info-v">48°45′N 0°39′E</span></div>
-        <div class="info-row"><span class="info-k">Fréquence A/A</span><span class="info-v">126.855 MHz</span></div>
-        <div class="info-row"><span class="info-k">Carburant</span><span class="info-v">Avgas 100LL</span></div>
+        <div class="info-row"><span class="info-k">Position</span><span class="info-v">St-Sulpice-sur-Risle · Orne</span></div>
+        <div class="info-row"><span class="info-k">Piste</span><span class="info-v">07 / 25 · 763 × 20 m</span></div>
+        <div class="info-row"><span class="info-k">Surface</span><span class="info-v">Revêtue (bitume)</span></div>
+        <div class="info-row"><span class="info-k">Élévation</span><span class="info-v">787 ft · 240 m</span></div>
+        <div class="info-row"><span class="info-k">Coordonnées</span><span class="info-v">48°45′32″N 0°39′28″E</span></div>
+        <div class="info-row"><span class="info-k">Statut</span><span class="info-v">Non contrôlé · auto-info</span></div>
+        <div class="info-row"><span class="info-k">Fréquence A/A</span><span class="info-v">126.850 MHz</span></div>
+        <div class="info-row"><span class="info-k">Carburant</span><span class="info-v">100LL (AVGAS)</span></div>
       </div>
 
       <div class="res-section-h">Pense-bête</div>
@@ -1585,7 +1774,7 @@ html.pwa .doc-viewer-safe{min-height:52px}
           <span class="info-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18v-6a9 9 0 0 1 18 0v6M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/></svg></span>
           <h4>Fréquences utiles</h4>
         </div>
-        <div class="info-row"><span class="info-k">A/A LFOL</span><span class="info-v mono">126.855</span></div>
+        <div class="info-row"><span class="info-k">A/A LFOL</span><span class="info-v mono">126.850</span></div>
         <div class="info-row"><span class="info-k">Évreux APP</span><span class="info-v mono">119.300</span></div>
         <div class="info-row"><span class="info-k">Paris Info</span><span class="info-v mono">126.100</span></div>
         <div class="info-row"><span class="info-k">SAR (urgence)</span><span class="info-v mono">121.500</span></div>
@@ -1686,7 +1875,7 @@ html.pwa .doc-viewer-safe{min-height:52px}
 
 <script>
 'use strict';
-const APP_VERSION='3.2.0';
+const APP_VERSION='3.4.0';
 const API='https://script.google.com/macros/s/AKfycbxae9y3NHqDyAkbEI5rDVRappI-aAWoA0jcHqR8NBUgm3t5SCB1Hq8nebY5t23cV1Je/exec';
 
 /* ══ Onboarding ══ */
@@ -1748,6 +1937,18 @@ function obShakeBoxes(id){
 var obGetPinLogin=obSetupPinBoxes('ob-pin-login',obLogin);
 var obGetPinCreate=obSetupPinBoxes('ob-pin-create',null);
 
+var _obProfil='prive';
+window.obSetProfil=function(p){
+  _obProfil=p;
+  var hints={
+    prive:'Accès pilote complet : météo, flotte, ressources.',
+    eleve:'L\u2019onglet Ressources devient votre Espace élèves (cours, forum, docs).',
+    instructeur:'Espace élèves + outils instructeur (réponses au forum après validation du bureau).'
+  };
+  document.querySelectorAll('#ob-profil .ob-profil-opt').forEach(function(b){b.classList.toggle('on',b.getAttribute('data-p')===p);});
+  var h=document.getElementById('ob-profil-hint');if(h)h.textContent=hints[p]||hints.prive;
+};
+
 function obSignupStep2(){
   var code=document.getElementById('ob-code').value.trim().toUpperCase();
   var prenom=document.getElementById('ob-prenom').value.trim();
@@ -1779,7 +1980,7 @@ async function obLogin(){
     }else{
       document.querySelectorAll('#ob-pin-login .ob-pin-box').forEach(function(b){b.classList.add('ok');});
       obMsg('ob-msg-login','Bonjour '+data.prenom+' !','ok');
-      obSaveSession(pin,data.prenom,data.nom,{admin:!!data.admin,news_pub:!!data.news_pub,news_membres:!!data.news_membres,photos:!!data.photos,mecano:!!data.mecano,instructeur:!!data.instructeur});
+      obSaveSession(pin,data.prenom,data.nom,{admin:!!data.admin,news_pub:!!data.news_pub,news_membres:!!data.news_membres,photos:!!data.photos,mecano:!!data.mecano,instructeur:!!data.instructeur,profil:data.profil||(data.instructeur?'instructeur':'prive')});
       setTimeout(function(){location.reload();},600);
     }
   }catch(e){obMsg('ob-msg-login','Erreur réseau, réessayez.','err');}
@@ -1792,12 +1993,12 @@ async function obCreateAccount(){
   var btn=document.getElementById('ob-btn-create');
   btn.disabled=true;obMsg('ob-msg-signup2','Création du compte…');
   try{
-    var url=API+'?action=inscription&codeClub='+encodeURIComponent(_obCode)+'&prenom='+encodeURIComponent(_obPrenom)+'&nom='+encodeURIComponent(_obNom)+'&pin='+pin;
+    var url=API+'?action=inscription&codeClub='+encodeURIComponent(_obCode)+'&prenom='+encodeURIComponent(_obPrenom)+'&nom='+encodeURIComponent(_obNom)+'&profil='+encodeURIComponent(_obProfil)+'&pin='+pin;
     var data=await fetch(url).then(function(r){return r.json();});
     if(data.error){obMsg('ob-msg-signup2',data.error,'err');btn.disabled=false;return;}
     document.querySelectorAll('#ob-pin-create .ob-pin-box').forEach(function(b){b.classList.add('ok');});
     obMsg('ob-msg-signup2','Compte créé !','ok');
-    obSaveSession(pin,_obPrenom,_obNom,{admin:false,news_pub:false,news_membres:false,photos:false});
+    obSaveSession(pin,_obPrenom,_obNom,{admin:false,news_pub:false,news_membres:false,photos:false,profil:_obProfil||'prive'});
     setTimeout(function(){location.reload();},700);
   }catch(e){obMsg('ob-msg-signup2','Erreur réseau, réessayez.','err');btn.disabled=false;}
 }
@@ -1857,7 +2058,13 @@ const DEMO_MODE = location.search.indexOf('demo=')>-1;
 if(DEMO_MODE){
   try{
     var mode=new URLSearchParams(location.search).get('demo')||'admin';
-    var permsByRole={member:{},pres:{news_pub:true,news_membres:true,photos:true},admin:{admin:true,news_pub:true,news_membres:true,photos:true}};
+    var permsByRole={
+      member:{profil:'prive'},
+      pres:{news_pub:true,news_membres:true,photos:true,profil:'prive'},
+      admin:{admin:true,news_pub:true,news_membres:true,photos:true,profil:'prive'},
+      eleve:{profil:'eleve'},
+      instr:{instructeur:true,profil:'instructeur'}
+    };
     sessionStorage.setItem('apam_prenom','Antoine');
     sessionStorage.setItem('apam_nom','Lambert');
     sessionStorage.setItem('apam_perms',JSON.stringify(permsByRole[mode]||permsByRole.admin));
@@ -1873,7 +2080,7 @@ if(DEMO_MODE){
     var arr=[];
     for(var i=0;i<firsts.length;i++){
       arr.push({pin:i===0?'0000':String(1000+i),prenom:firsts[i],nom:lasts[i],date:'2024-0'+((i%9)+1)+'-15',
-        news_pub:i<3,news_membres:i<5,photos:i<4,admin:i===0});
+        news_pub:i<3,news_membres:i<5,photos:i<4,admin:i===0,instructeur:i===2,profil:i===1?'eleve':(i===2?'instructeur':'prive')});
     }
     return arr;
   }
@@ -1899,6 +2106,42 @@ if(DEMO_MODE){
         }catch(e){}
         return Promise.resolve(new Response(JSON.stringify({ok:true}),{status:200,headers:{'Content-Type':'application/json'}}));
       }
+      /* ── Espace unifié : démo questions / docs / instructeurs / bureau ── */
+      if(url.indexOf('action=getQuestions')>-1){
+        if(!window._demoQuestions)window._demoQuestions=[
+          {_row:11,titre:"Conditions pour le lâcher solo ?",detail:"Combien d'heures en moyenne avant le premier solo au club ?",auteur:"Marc Durand",profil:"eleve",date:"2026-06-05",statut:"repondu",instructeur:"Sophie Martin",dateReponse:"6 juin 2026",reponse:"En général entre 12 et 20 h selon la progression. On en reparle à ton prochain vol !"},
+          {_row:12,titre:"Réservation du F-GHKE le week-end",detail:"Faut-il valider auprès du bureau pour un vol longue distance ?",auteur:"Pierre Bernard",profil:"prive",date:"2026-06-07",statut:"attente"},
+          {_row:13,titre:"Fiche masse & centrage TB200",detail:"Un modèle type est-il dispo quelque part ?",auteur:"Léa Petit",profil:"eleve",date:"2026-06-08",statut:"attente"},
+          {_row:14,titre:"Partage de frais — Deauville samedi",detail:"Une place dispo, quelqu'un d'intéressé ?",auteur:"Julien Robert",profil:"prive",date:"2026-06-08",statut:"attente"}
+        ];
+        return Promise.resolve(new Response(JSON.stringify({questions:window._demoQuestions}),{status:200,headers:{'Content-Type':'application/json'}}));
+      }
+      if(url.indexOf('action=getDocuments')>-1){
+        return Promise.resolve(new Response(JSON.stringify({documents:[
+          {id:'demo1',nom:'Règlement intérieur 2026.pdf',icon:'📄',taille:482000,date:'12 janv. 2026',url:'#'},
+          {id:'demo2',nom:'Tarifs club 2026.pdf',icon:'💶',taille:118000,date:'12 janv. 2026',url:'#'},
+          {id:'demo3',nom:'Fiche progression PPL.pdf',icon:'📘',taille:236000,date:'01 févr. 2026',url:'#'}
+        ],dossiers:[{nom:'Comptes-rendus d\'AG',icon:'📁',url:'#'}]}),{status:200,headers:{'Content-Type':'application/json'}}));
+      }
+      if(url.indexOf('action=getInstructors')>-1){
+        return Promise.resolve(new Response(JSON.stringify({instructeurs:[
+          {prenom:'Sophie',nom:'Martin',date:'mars 2022'},
+          {prenom:'Laurent',nom:'Richard',date:'sept. 2021'}
+        ]}),{status:200,headers:{'Content-Type':'application/json'}}));
+      }
+      if(url.indexOf('action=addQuestion')>-1){
+        try{var uq=new URL(url);if(!window._demoQuestions)window._demoQuestions=[];
+          window._demoQuestions.unshift({_row:90+window._demoQuestions.length,titre:uq.searchParams.get('titre')||'',detail:uq.searchParams.get('detail')||'',auteur:'Antoine Lambert',profil:uq.searchParams.get('profil')||'prive',date:new Date().toISOString().slice(0,10),statut:'attente'});
+        }catch(e){}
+        return Promise.resolve(new Response(JSON.stringify({ok:true}),{status:200,headers:{'Content-Type':'application/json'}}));
+      }
+      if(url.indexOf('action=answerQuestion')>-1){
+        try{var ua=new URL(url);var rw=parseInt(ua.searchParams.get('row'),10);
+          if(window._demoQuestions){var qq=window._demoQuestions.find(function(x){return x._row===rw;});
+            if(qq){qq.statut='repondu';qq.reponse=ua.searchParams.get('reponse')||'';qq.instructeur='Antoine Lambert';qq.dateReponse='aujourd\'hui';}}
+        }catch(e){}
+        return Promise.resolve(new Response(JSON.stringify({ok:true}),{status:200,headers:{'Content-Type':'application/json'}}));
+      }
       if(url.indexOf('action=addNews')>-1||url.indexOf('action=addNewsMembre')>-1||url.indexOf('action=deleteNews')>-1||url.indexOf('action=deleteNewsMembre')>-1||url.indexOf('action=reagir')>-1){
         return Promise.resolve(new Response(JSON.stringify({ok:true}),{status:200,headers:{'Content-Type':'application/json'}}));
       }
@@ -1913,6 +2156,9 @@ const memberPrenom=sessionStorage.getItem('apam_prenom')||localStorage.getItem('
 const memberNom=sessionStorage.getItem('apam_nom')||localStorage.getItem('apam_nom')||'';
 const memberName=(memberPrenom+' '+memberNom).trim();
 const memberPin=sessionStorage.getItem('apam_pin')||localStorage.getItem('apam_pin')||'';
+/* Profil d'usage : 'eleve' | 'instructeur' | 'prive' (par défaut). Pilote certifié = 'prive'. */
+const memberProfil=(perms.profil||'prive');
+const isFormationProfile=(memberProfil==='eleve'||memberProfil==='instructeur');
 if(!memberPrenom&&!memberNom) showOnboarding();
 
 /* Identité */
@@ -2124,6 +2370,13 @@ window.togglePollVoters=function(btn){
 const PRIMARY_TABS=['home','meteo','ressources','outils','webcam'];
 window.switchTab=function(tab){
   hapticTick();
+  /* Tous les rôles : l'onglet « Ressources » ouvre l'Espace (pilote ou élève selon le profil). */
+  if(tab==='ressources'){
+    document.querySelectorAll('.bn').forEach(b=>b.classList.remove('on'));
+    document.getElementById('tab-ressources')?.classList.add('on');
+    openEspaceEleves(true);
+    return;
+  }
   document.querySelectorAll('.tab-pane').forEach(p=>p.classList.remove('active'));
   const pane=document.getElementById('pane-'+tab);
   if(pane)pane.classList.add('active');
@@ -2743,6 +2996,7 @@ function renderAdminMembers(){
         <span class="member-chev" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg></span>
       </button>
       <div class="member-card-body">
+        ${profilSeg(m.pin, ph.profil||m.profil, isSelf)}
         <div class="perms-list">
           ${permRow('Actualités publiques','Publier sur Le Club','news_pub','pub',ph.news_pub,m.pin,isSelf)}
           ${permRow('Actualités membres',"Publier dans l'espace membres",'news_membres','mn',ph.news_membres,m.pin,isSelf)}
@@ -2767,6 +3021,27 @@ function permRow(title,sub,key,col,on,pin,disabled){
   </div>`;
 }
 
+function profilSeg(pin,cur,disabled){
+  cur=cur||'prive';
+  const opts=[['prive','Pilote'],['eleve','Élève'],['instructeur','Instructeur']];
+  return `<div class="member-profil"><span class="member-profil-lbl">Profil d'usage</span><div class="profil-seg">`+
+    opts.map(o=>`<button type="button" class="profil-seg-btn${cur===o[0]?' on':''}" ${disabled?'disabled':''} onclick="adminSetProfil('${esc(pin)}','${o[0]}',this)">${o[1]}</button>`).join('')+
+    `</div></div>`;
+}
+
+window.adminSetProfil=function(pin,val,btn){
+  hapticTick();
+  if(!_adminPending[pin]){
+    const m=_adminMembers.find(x=>x.pin===pin);
+    _adminPending[pin]={news_pub:!!m.news_pub,news_membres:!!m.news_membres,mecano:!!m.mecano,instructeur:!!m.instructeur,photos:!!m.photos,admin:!!m.admin,profil:m.profil||'prive'};
+  }
+  _adminPending[pin].profil=val;
+  const m=_adminMembers.find(x=>x.pin===pin);
+  const same=m && _adminPending[pin].news_pub===!!m.news_pub && _adminPending[pin].news_membres===!!m.news_membres && _adminPending[pin].mecano===!!m.mecano && _adminPending[pin].instructeur===!!m.instructeur && _adminPending[pin].photos===!!m.photos && _adminPending[pin].admin===!!m.admin && _adminPending[pin].profil===(m.profil||'prive');
+  if(same)delete _adminPending[pin];
+  renderAdminMembers();
+};
+
 window.adminToggleCard=function(pin){
   hapticTick();
   _adminOpen[pin]=!_adminOpen[pin];
@@ -2778,12 +3053,12 @@ window.adminToggle=function(pin,key,col,btn){
   hapticTick();
   if(!_adminPending[pin]){
     const m=_adminMembers.find(x=>x.pin===pin);
-    _adminPending[pin]={news_pub:!!m.news_pub,news_membres:!!m.news_membres,mecano:!!m.mecano,instructeur:!!m.instructeur,photos:!!m.photos,admin:!!m.admin};
+    _adminPending[pin]={news_pub:!!m.news_pub,news_membres:!!m.news_membres,mecano:!!m.mecano,instructeur:!!m.instructeur,photos:!!m.photos,admin:!!m.admin,profil:m.profil||'prive'};
   }
   _adminPending[pin][key]=!_adminPending[pin][key];
   btn.className='perm-switch'+(_adminPending[pin][key]?' on-'+col:'');
   const m=_adminMembers.find(x=>x.pin===pin);
-  const same=m && _adminPending[pin].news_pub===!!m.news_pub && _adminPending[pin].news_membres===!!m.news_membres && _adminPending[pin].mecano===!!m.mecano && _adminPending[pin].instructeur===!!m.instructeur && _adminPending[pin].photos===!!m.photos && _adminPending[pin].admin===!!m.admin;
+  const same=m && _adminPending[pin].news_pub===!!m.news_pub && _adminPending[pin].news_membres===!!m.news_membres && _adminPending[pin].mecano===!!m.mecano && _adminPending[pin].instructeur===!!m.instructeur && _adminPending[pin].photos===!!m.photos && _adminPending[pin].admin===!!m.admin && _adminPending[pin].profil===(m.profil||'prive');
   if(same)delete _adminPending[pin];
   /* Re-render this card to show/hide the save foot + dirty badge */
   renderAdminMembers();
@@ -2795,7 +3070,7 @@ window.adminSave=async function(pin){
   const btn=document.getElementById('b-'+pin),st=document.getElementById('s-'+pin);
   btn.disabled=true;st.textContent='⏳';st.style.color='var(--muted)';
   try{
-    const url=`${API}?action=setPermissions&pin=${enc(memberPin)}&targetPin=${enc(pin)}&admin=${p.admin?'OUI':'NON'}&news_pub=${p.news_pub?'OUI':'NON'}&news_membres=${p.news_membres?'OUI':'NON'}&mecano=${p.mecano?'OUI':'NON'}&instructeur=${p.instructeur?'OUI':'NON'}&photos=${p.photos?'OUI':'NON'}`;
+    const url=`${API}?action=setPermissions&pin=${enc(memberPin)}&targetPin=${enc(pin)}&admin=${p.admin?'OUI':'NON'}&news_pub=${p.news_pub?'OUI':'NON'}&news_membres=${p.news_membres?'OUI':'NON'}&mecano=${p.mecano?'OUI':'NON'}&instructeur=${p.instructeur?'OUI':'NON'}&photos=${p.photos?'OUI':'NON'}&profil=${enc(p.profil||'prive')}`;
     const data=await fetch(url).then(r=>r.json());
     if(data.error){st.textContent='✗';st.style.color='var(--err)';toast(data.error,'err');btn.disabled=false;return;}
     /* Update local copy */
@@ -3324,8 +3599,18 @@ if('serviceWorker'in navigator){
   var CIRC=94.2,THRESHOLD=72,MAX=110;
   var startY=0,pulling=false,armed=false,refreshing=false;
   function reset(){spinner.style.opacity='';spinner.style.transform='';prog.style.strokeDashoffset='';}
+  /* Ne pas déclencher le refresh global quand un overlay plein écran (espace élèves,
+     onboarding, tutoriel, modal) a son propre scroll — sinon pull = refresh fantôme. */
+  function blocked(){
+    if(document.querySelector('.elev-overlay.open'))return true;
+    if(document.querySelector('.ios-modal.show'))return true;
+    if(document.querySelector('#tuto.show'))return true;
+    var ob=document.getElementById('ob-overlay');
+    if(ob&&!ob.classList.contains('hidden'))return true;
+    return false;
+  }
   document.addEventListener('touchstart',function(e){
-    if(refreshing){pulling=false;return;}
+    if(refreshing||blocked()){pulling=false;return;}
     if(window.scrollY<=1){startY=e.touches[0].clientY;pulling=true;armed=false;}
     else pulling=false;
   },{passive:true});
@@ -3364,7 +3649,37 @@ if('serviceWorker'in navigator){
   },{passive:true});
 })();
 
+/* ── Adaptation par profil (élève / instructeur) ── */
+function applyProfileLayout(){
+  /* Espace unifié : l'onglet garde le libellé « Ressources » pour tous les rôles.
+     Le titre Espace pilote / élève est porté par l'en-tête de l'overlay. */
+  return;
+  /* eslint-disable no-unreachable */
+  var btn=document.getElementById('tab-ressources');
+  if(!btn)return;
+  var span=btn.querySelector('span');
+  if(span)span.textContent='Formation';
+  var ic=btn.querySelector('.bn-iconwrap');
+  if(ic)ic.innerHTML='<svg viewBox="0 0 24 24"><path d="M22 10L12 5 2 10l10 5 10-5z"/><path d="M6 12v5c0 1 2.5 2.5 6 2.5s6-1.5 6-2.5v-5"/><path d="M22 10v6"/></svg>';
+}
+/* Recopie le contenu Ressources pilote dans l'onglet Ressources de l'Espace élèves
+   (source unique : #pane-ressources) — sans la carte Espace élèves ni les en-têtes. */
+function mirrorEleveRessources(){
+  var dest=document.getElementById('elev-ressources');
+  if(!dest||dest.getAttribute('data-mirrored')==='1')return;
+  var src=document.querySelector('#pane-ressources .mobile-wrap');
+  if(!src)return;
+  var clone=src.cloneNode(true);
+  clone.querySelectorAll('.res-feature, .mobile-sec-h, .res-foot').forEach(function(n){n.remove();});
+  dest.innerHTML='';
+  var h=document.createElement('h3');h.className='elev-sec-h';h.textContent='Liens intéressants';
+  dest.appendChild(h);
+  while(clone.firstChild){dest.appendChild(clone.firstChild);}
+  dest.setAttribute('data-mirrored','1');
+}
+
 /* ── Init ── */
+applyProfileLayout();
 buildOutils();chargerNews();chargerFleet();
 setTimeout(function(){wxLoad('m-wx');if(document.getElementById('d-wx'))wxPendingTargets.push('d-wx');updateWxQuick();},800);
 setTimeout(function preloadTaf(_n){
@@ -3557,20 +3872,37 @@ window.closeTutorial=function(){
 
 
 /* ══ Espace Élèves & Instructeurs ══ */
-var _elevQuestions=null, _elevDocs=null, _elevInstr=null, _elevFilter='all', _elevLoaded=false;
+var _elevQuestions=null, _elevDocs=null, _elevInstr=null, _elevFilter='all', _elevLoaded=false, _elevPrimary=false;
+/* Espace unifié : 'pilote' (prive/admin/président) ou 'eleve' (élève/instructeur) */
+var _elevMode=(memberProfil==='eleve'||memberProfil==='instructeur')?'eleve':'pilote';
 
-function openEspaceEleves(){
+function applyEspaceMode(){
+  var isPilote=_elevMode==='pilote';
+  /* En-tête : seul le titre change selon le profil. */
+  var h2=document.querySelector('#elev-overlay .elev-header-txt h2');
+  var eye=document.querySelector('#elev-overlay .elev-header-txt span');
+  if(h2)h2.textContent = isPilote ? 'Espace pilote' : (memberProfil==='instructeur'?'Espace instructeur':'Espace élève');
+  if(eye)eye.textContent = isPilote ? 'APAM · Pilote' : 'APAM · Formation';
+}
+
+function openEspaceEleves(primary){
   hapticTick();
+  _elevPrimary=!!primary;
+  mirrorEleveRessources();
+  applyEspaceMode();
+  accInit();
+  elevRenderContacts();
   var o=document.getElementById('elev-overlay');
   if(o)o.classList.add('open');
   document.body.style.overflow='hidden';
   /* Badge rôle */
   var badge=document.getElementById('elev-role-badge');
   if(badge){
-    var perms=JSON.parse(localStorage.getItem('apam_perms')||'{}');
-    if(perms.instructeur)badge.textContent='Instructeur';
+    if(memberProfil==='instructeur'||perms.instructeur)badge.textContent='Instructeur';
+    else if(memberProfil==='eleve')badge.textContent='Élève';
     else if(perms.admin)badge.textContent='Admin';
-    else badge.textContent='Élève';
+    else if(perms.news_pub)badge.textContent='Président';
+    else badge.textContent='Pilote';
   }
   if(!_elevLoaded){_elevLoaded=true;elevLoadAll();}
 }
@@ -3579,6 +3911,7 @@ function closeEspaceEleves(){
   var o=document.getElementById('elev-overlay');
   if(o)o.classList.remove('open');
   document.body.style.overflow='';
+  if(_elevPrimary){_elevPrimary=false;switchTab('home');}
 }
 
 function elevTab(tab){
@@ -3616,7 +3949,7 @@ function elevRenderDash(){
   var total=_elevQuestions?_elevQuestions.length:0;
   var attente=_elevQuestions?_elevQuestions.filter(function(q){return q.statut==='attente';}).length:0;
   var docs=_elevDocs?_elevDocs.documents.length:0;
-  var instr=_elevInstr?_elevInstr.length:0;
+  var instr=(_elevMode==='pilote')?BUREAU.length:(_elevInstr?_elevInstr.length:0);
   var el;
   el=document.getElementById('elev-q-total');if(el)el.textContent=total;
   el=document.getElementById('elev-q-attente');if(el)el.textContent=attente;
@@ -3645,13 +3978,16 @@ function elevRenderForum(){
   var isInstr=perms.instructeur||perms.admin;
   list.innerHTML=filtered.map(function(q){
     var badge=q.statut==='repondu'?'<span class="forum-badge repondu">Répondu</span>':'<span class="forum-badge attente">En attente</span>';
+    var rb=(q.profil==='eleve')?'<span class="forum-role eleve">Élève</span>'
+          :(q.profil==='instructeur'?'<span class="forum-role pilote">Instructeur</span>'
+          :'<span class="forum-role pilote">Pilote</span>');
     var answer='';
     if(q.reponse){
       answer='<div class="forum-answer"><div class="forum-answer-head"><span class="forum-answer-name">'+esc(q.instructeur)+'</span><span class="forum-answer-date">'+esc(q.dateReponse)+'</span></div><div class="forum-answer-text">'+esc(q.reponse).replace(/\n/g,'<br>')+'</div></div>';
     }else if(isInstr){
       answer='<button class="forum-reply-btn" onclick="forumShowReply('+q._row+',this)">✍️ Répondre en tant qu\'instructeur</button><div class="forum-reply-form" id="reply-'+q._row+'"><textarea id="reply-txt-'+q._row+'" placeholder="Votre réponse…"></textarea><button class="forum-reply-submit" onclick="forumAnswer('+q._row+')">Envoyer la réponse</button></div>';
     }
-    return '<div class="forum-card"><div class="forum-card-head"><div class="forum-card-title">'+esc(q.titre)+'</div>'+badge+'</div>'+(q.detail?'<div class="forum-card-detail">'+esc(q.detail).replace(/\n/g,'<br>')+'</div>':'')+'<div class="forum-card-meta"><span>Par <strong>'+esc(q.auteur)+'</strong></span><span>'+esc(fmtFR(q.date))+'</span></div>'+answer+'</div>';
+    return '<div class="forum-card"><div class="forum-card-head"><div class="forum-card-title">'+esc(q.titre)+'</div>'+badge+'</div>'+(q.detail?'<div class="forum-card-detail">'+esc(q.detail).replace(/\n/g,'<br>')+'</div>':'')+'<div class="forum-card-meta">'+rb+'<span>Par <strong>'+esc(q.auteur)+'</strong></span><span>'+esc(fmtFR(q.date))+'</span></div>'+answer+'</div>';
   }).join('');
   elevUpdateCounts();
 }
@@ -3665,6 +4001,9 @@ function elevUpdateCounts(){
   el=document.getElementById('forum-cnt-attente');if(el)el.textContent=attente;
   el=document.getElementById('forum-cnt-repondu');if(el)el.textContent=repondu;
 }
+
+window.forumToggleAsk=function(){hapticTick();var w=document.getElementById('forum-ask-wrap');if(!w)return;w.classList.toggle('open');if(w.classList.contains('open')){var t=document.getElementById('forum-q-titre');if(t)setTimeout(function(){t.focus();},120);}};
+window.forumOpenAsk=function(){var w=document.getElementById('forum-ask-wrap');if(w&&!w.classList.contains('open'))w.classList.add('open');var t=document.getElementById('forum-q-titre');if(t)setTimeout(function(){t.focus();},160);};
 
 window.forumFilter=function(f){
   _elevFilter=f;
@@ -3684,10 +4023,11 @@ window.forumAsk=async function(){
   if(!titre||!titre.value.trim()){if(msg){msg.textContent='Entrez votre question';msg.className='ob-msg err';}return;}
   if(msg){msg.textContent='Envoi…';msg.className='ob-msg';}
   try{
-    var data=await fetch(API+'?action=addQuestion&pin='+enc(memberPin)+'&titre='+enc(titre.value.trim())+'&detail='+enc((detail?detail.value:'').trim())).then(function(r){return r.json();});
+    var data=await fetch(API+'?action=addQuestion&pin='+enc(memberPin)+'&profil='+enc(memberProfil)+'&titre='+enc(titre.value.trim())+'&detail='+enc((detail?detail.value:'').trim())).then(function(r){return r.json();});
     if(data.error){if(msg){msg.textContent=data.error;msg.className='ob-msg err';}return;}
     if(msg){msg.textContent='Question envoyée !';msg.className='ob-msg ok';}
     titre.value='';if(detail)detail.value='';
+    var w=document.getElementById('forum-ask-wrap');if(w)w.classList.remove('open');
     hapticThud();
     /* Refresh */
     var qRes=await fetch(API+'?action=getQuestions').then(function(r){return r.json();});
@@ -3729,14 +4069,212 @@ function elevRenderDocs(){
   list.innerHTML=html;
 }
 
-/* ── Contacts instructeurs ── */
+/* ── Contacts : équipe du club + contacts utiles ── */
+/* L'équipe — modifiable directement ici. ic = glyphe affiché sur l'avatar. */
+var TEAM=[
+  {cat:'Le Bureau', members:[
+    {ini:'FR', ic:'★', nom:'Frédéric Regnier', role:'Président', tag:'Bureau · Élu', desc:'À la tête du club, il en porte la vision et les projets. Référent du bureau, des AG et des relations avec la FFA.'},
+    {ini:'DJ', ic:'€', nom:'Dominique Jouandet', role:'Trésorier', tag:'Bureau · Élu', desc:'Garant des comptes du club. Suivi des cotisations, des heures facturées et du budget annuel de l\'association.'},
+    {ini:'MT', ic:'✎', nom:'Marianne Tocanne', role:'Secrétaire', tag:'Bureau · Élu', desc:'Pilier administratif du club. Coordonne les inscriptions, les courriers et l\'organisation des événements internes.'}
+  ]},
+  {cat:'Opérations', members:[
+    {ini:'LW', ic:'⚙', nom:'Luc Welsing', role:'Gestionnaire', tag:'Opérations', desc:'Opérations au quotidien : planning OpenFlyer, gestion des appareils, suivi maintenance et accueil des nouveaux.'}
+  ]},
+  {cat:'Formation', members:[
+    {ini:'SA', ic:'★', nom:'Sébastien Anquetil', role:'Resp. pédagogique', tag:'Formation', desc:'Pilote le contenu et la qualité de la formation. Encadre l\'équipe d\'instructeurs et valide les progressions élèves.'},
+    {ini:'YL', ic:'✈', nom:'Yannick Le Collen', role:'Instructeur', tag:'Formation', desc:'Accompagne les élèves pilotes du premier vol au lâcher, puis sur les phases de navigation et de préparation au brevet.'},
+    {ini:'FR', ic:'✈', nom:'Frédéric Regnier', role:'Instructeur', tag:'Formation', desc:'Outre la présidence, Frédéric assure aussi des heures d\'instruction au club, partageant son expérience.'}
+  ]},
+  {cat:'Digital', members:[
+    {ini:'PC', ic:'‹›', nom:'Pierre Cauvin', role:'Développement web', tag:'Digital', desc:'Conception, design et développement du site web APAM. Maintient la plateforme, l\'espace membres et l\'identité numérique.'}
+  ]}
+];
+/* Contacts utiles / institutionnels — coordonnées publiques officielles. */
+var CONTACTS_UTILES=[
+  {nom:'FFA — Fédération Française Aéronautique', meta:'155 av. de Wagram, 75017 Paris', tel:'+33144299200', url:'https://www.ffa-aero.fr', ic:'🏛️'},
+  {nom:'REX FFA — Sécurité', meta:'Signaler un événement / retour d\'expérience', tel:'', url:'https://rexffa.fr', ic:'🛡️'},
+  {nom:'Assurance FFA', meta:'Police & attestation — n° à compléter par le club', tel:'', url:'https://www.ffa-aero.fr', ic:'📄'}
+];
+function _teamCard(m){
+  return '<div class="team-card"><div class="team-avatar">'+esc(m.ini)+(m.ic?'<span class="team-ic">'+m.ic+'</span>':'')+'</div>'
+    +'<div class="team-body"><div class="team-top"><h4>'+esc(m.nom)+'</h4>'+(m.tag?'<span class="team-tag">'+esc(m.tag)+'</span>':'')+'</div>'
+    +'<div class="team-role">'+esc(m.role)+'</div>'+(m.desc?'<p class="team-desc">'+esc(m.desc)+'</p>':'')+'</div></div>';
+}
+function _extraCard(c){
+  var arr='<span class="instr-ext"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M9 7h8v8"/></svg></span>';
+  var inner='<span class="instr-avatar inst">'+(c.ic||'🔗')+'</span><div class="instr-info"><h4>'+esc(c.nom)+'</h4><p>'+esc(c.meta||'')+'</p></div>'+arr;
+  return c.url?('<a class="instr-card link" href="'+c.url+'" target="_blank" rel="noopener">'+inner+'</a>'):('<div class="instr-card">'+inner+'</div>');
+}
 function elevRenderContacts(){
-  var list=document.getElementById('elev-instr-list');if(!list)return;
-  if(!_elevInstr||!_elevInstr.length){list.innerHTML='<div class="elev-empty">Aucun instructeur enregistré.</div>';return;}
-  list.innerHTML=_elevInstr.map(function(i){
-    var initials=(i.prenom?i.prenom[0]:'')+(i.nom?i.nom[0]:'');
-    return '<div class="instr-card"><div class="instr-avatar">'+initials.toUpperCase()+'</div><div class="instr-info"><h4>'+esc(i.prenom)+' '+esc(i.nom)+'</h4><p>Membre depuis '+esc(i.date)+'</p></div><span class="instr-badge">Instructeur</span></div>';
+  var t=document.getElementById('elev-team');
+  if(t)t.innerHTML=TEAM.map(function(g){
+    return '<h4 class="elev-group-h">'+esc(g.cat)+'</h4>'+g.members.map(_teamCard).join('');
   }).join('');
+  var el=document.getElementById('elev-extra-list');
+  if(el)el.innerHTML=CONTACTS_UTILES.map(_extraCard).join('');
+}
+
+/* ── Accueil : licences & médicales (local, privé à l'appareil) ── */
+var LIC_KEY='apam_licences';
+var LIC_DEFAULTS=[{label:'Certificat médical',date:''},{label:'Qualification SEP',date:''}];
+function licLoad(){try{var r=localStorage.getItem(LIC_KEY);return r?JSON.parse(r):LIC_DEFAULTS.slice();}catch(e){return LIC_DEFAULTS.slice();}}
+function licSaveData(a){try{localStorage.setItem(LIC_KEY,JSON.stringify(a));}catch(e){}}
+function licStatus(date){
+  if(!date)return {cls:'none',cd:'—',sub:'À renseigner',note:'',pct:0};
+  var now=new Date();now.setHours(0,0,0,0);
+  var d=new Date(date+'T00:00:00');
+  var days=Math.round((d-now)/86400000);
+  var f=d.toLocaleDateString('fr-FR',{day:'2-digit',month:'short',year:'numeric'});
+  var pct=Math.max(4,Math.min(100,days/730*100));
+  if(days<0)return {cls:'exp',cd:'Expiré',sub:'depuis le '+f,note:'à renouveler',pct:100};
+  var months=Math.floor(days/30.44);
+  var cd=days<=31?(days+' j'):(months+' mois');
+  var cls=days<=30?'soon':(days<=90?'warn':'ok');
+  return {cls:cls,cd:cd,sub:'valide jusqu\'au '+f,note:'restant',pct:pct};
+}
+var _licEdit=false;
+function renderLic(){
+  var list=document.getElementById('lic-list');if(!list)return;
+  var data=licLoad();
+  if(_licEdit){
+    list.innerHTML=data.map(function(it,i){
+      return '<div class="lic-edit-row"><input type="text" value="'+esc(it.label)+'" oninput="licField('+i+',\'label\',this.value)" placeholder="Intitulé"><input type="date" value="'+esc(it.date||'')+'" oninput="licField('+i+',\'date\',this.value)"><button class="lic-del" onclick="licRemove('+i+')" title="Supprimer">✕</button></div>';
+    }).join('')+'<div class="lic-addrow"><select id="lic-preset"><option value="">+ Ajouter une qualification…</option>'+LIC_PRESETS.map(function(p){return '<option>'+esc(p)+'</option>';}).join('')+'<option value="__custom">Autre (saisir…)</option></select><button class="lic-addbtn" onclick="licAddPreset()">Ajouter</button></div>';
+    return;
+  }
+  if(!data.length){list.innerHTML='<div class="elev-empty">Aucune qualification suivie. Touchez « Modifier ».</div>';return;}
+  list.innerHTML=data.map(function(it){
+    var s=licStatus(it.date);
+    var bar=(s.cls==='none')?'':'<div class="lic-bar"><span style="width:'+s.pct.toFixed(0)+'%"></span></div>';
+    return '<div class="lic-card '+s.cls+'"><div class="lic-row"><div class="lic-info"><h5>'+esc(it.label)+'</h5><p>'+esc(s.sub)+'</p></div><div class="lic-cd '+s.cls+'">'+esc(s.cd)+'<small>'+esc(s.note)+'</small></div></div>'+bar+'</div>';
+  }).join('');
+}
+window.licToggleEdit=function(){hapticTick();_licEdit=!_licEdit;var b=document.getElementById('lic-edit-btn');if(b){b.textContent=_licEdit?'Terminé':'Modifier';b.classList.toggle('on',_licEdit);}renderLic();};
+window.licField=function(i,k,v){var d=licLoad();if(d[i]){d[i][k]=v;licSaveData(d);}};
+window.licAdd=function(){var d=licLoad();d.push({label:'Nouvelle qualification',date:''});licSaveData(d);renderLic();};
+var LIC_PRESETS=['Certificat médical','Qualification SEP','Vol de nuit (VN)','Qualification MEP','Qualification FI','Voltige','Montagne','Hydravion','Remorquage planeur'];
+window.licAddPreset=function(){var sel=document.getElementById('lic-preset');if(!sel||!sel.value)return;var d=licLoad();d.push({label:sel.value==='__custom'?'Nouvelle qualification':sel.value,date:''});licSaveData(d);renderLic();};
+window.licRemove=function(i){var d=licLoad();d.splice(i,1);licSaveData(d);renderLic();};
+
+/* ── Accueil : bilan carburant (aide, valeurs indicatives) ── */
+var FUEL_AC=[
+  {nom:'F-GHKE · Cessna 152', conso:23, cap:91},
+  {nom:'F-GSZA · Socata TB200', conso:40, cap:240},
+  {nom:'F-GYFF · Cirrus SR20', conso:42, cap:211}
+];
+var _fuelRes=30;
+function fuelInitSelect(){
+  var s=document.getElementById('fuel-ac');if(!s||s._init)return;s._init=true;
+  s.innerHTML=FUEL_AC.map(function(a,i){return '<option value="'+i+'">'+esc(a.nom)+'</option>';}).join('');
+}
+window.fuelPreset=function(){
+  var s=document.getElementById('fuel-ac');if(!s)return;
+  var a=FUEL_AC[+s.value]||FUEL_AC[0];
+  var c=document.getElementById('fuel-conso'),cap=document.getElementById('fuel-cap');
+  if(c)c.value=a.conso;if(cap)cap.value=a.cap;
+  fuelCalc();
+};
+window.fuelSetRes=function(min,btn){_fuelRes=min;document.querySelectorAll('#fuel-seg button').forEach(function(b){b.classList.toggle('on',b===btn);});fuelCalc();};
+window.fuelCalc=function(){
+  var g=function(id){return parseFloat((document.getElementById(id)||{}).value)||0;};
+  var conso=g('fuel-conso'),cap=g('fuel-cap'),taxi=g('fuel-taxi'),trip=g('fuel-trip'),alt=g('fuel-alt'),margin=g('fuel-margin');
+  var per=conso/60,L=function(m){return per*m;};
+  var taxiL=L(taxi),tripL=L(trip),altL=L(alt),resL=L(_fuelRes);
+  var sub=taxiL+tripL+altL+resL,marginL=sub*margin/100,total=sub+marginL;
+  var out=document.getElementById('fuel-out');if(!out)return;
+  var fmt=function(x){return x.toFixed(1);};
+  var ok=cap>0?total<=cap:true;
+  var pctTank=cap>0?Math.min(100,total/cap*100):0;
+  var auton=conso>0?cap/conso:0,hh=Math.floor(auton),mm=('0'+Math.round((auton-hh)*60)).slice(-2);
+  var sub2=cap>0?(fmt(total)+' / '+fmt(cap)+' L utiles'+(conso>0?' · autonomie '+hh+'h'+mm:'')):'Capacité non renseignée';
+  var html='<div class="fuel-hero '+(ok?'ok':'bad')+'"><div class="fuel-hero-top"><span class="fuel-hero-lbl">Total nécessaire</span><span class="fuel-hero-amt">'+fmt(total)+' L</span></div><div class="fuel-gauge"><span class="fill" style="width:'+pctTank.toFixed(0)+'%"></span></div><div class="fuel-hero-sub">'+sub2+'</div></div>';
+  var lines=[
+    ['Roulage / mise en route','('+taxi+' min)',taxiL],
+    ['Vol prévu','('+trip+' min)',tripL],
+    ['Dégagement','('+alt+' min)',altL],
+    ['Réserve finale','('+_fuelRes+' min)',resL],
+    ['Marge imprévus','('+margin+' %)',marginL]
+  ];
+  html+='<div class="fuel-breakdown">'+lines.map(function(l){return '<div class="fuel-line"><span>'+l[0]+' <em>'+l[1]+'</em></span><span class="v">'+fmt(l[2])+' L</span></div>';}).join('')+'</div>';
+  if(cap>0){
+    if(ok)html+='<p class="fuel-verdict ok">✓ Tient dans le plein. Reste '+fmt(cap-total)+' L après le vol.</p>';
+    else html+='<p class="fuel-verdict bad">✗ Dépasse de '+fmt(total-cap)+' L — revoir le plan ou prévoir une escale.</p>';
+  }
+  out.innerHTML=html;
+};
+function accInit(){renderLic();fuelInitSelect();fuelPreset();ckRenderList();}
+
+/* ── Checklists (génériques — à adapter par le club) ── */
+var CK_GEN_TAIL=[
+  {titre:'Croisière',items:['Puissance|CROISIÈRE','Mélange|AJUSTÉ','Réchauffe carbu|SELON CONDITIONS','Paramètres moteur|SURVEILLÉS']},
+  {titre:'Avant atterrissage',items:['Sélecteur carburant|OUVERT','Mélange|RICHE','Réchauffe carbu|SELON BESOIN','Volets|SELON VITESSE','Harnais|BOUCLÉS']},
+  {titre:'Après atterrissage & arrêt',items:['Volets|RENTRÉS','Transpondeur|STBY','Ralenti|STABILISÉ','Mélange|ÉTOUFFOIR','Contacteurs|OFF','Magnétos|OFF','Batterie / alternateur|OFF','Frein de parking|SERRÉ']}
+];
+var CHECKLISTS=[
+  {id:'gen',nom:'Générique SEP',sub:'Monomoteur à pistons',sections:[
+    {titre:'Prévol — cabine',items:['Documents de bord|À BORD','Commandes de vol|LIBRES','Contacteurs|OFF','Sélecteur carburant|OUVERT','Quantité carburant|VÉRIFIÉE','Purges|EFFECTUÉES','Niveau d\'huile|VÉRIFIÉ']},
+    {titre:'Tour extérieur',items:['État général|VÉRIFIÉ','Pitot / statiques|DÉGAGÉS','Gouvernes|LIBRES & DÉBATTUES','Pneus & freins|VÉRIFIÉS','Hélice & cône|VÉRIFIÉS']},
+    {titre:'Avant mise en route',items:['Briefing passagers|FAIT','Sièges & harnais|RÉGLÉS','Frein de parking|SERRÉ','Zone hélice|DÉGAGÉE']},
+    {titre:'Mise en route',items:['Mélange|RICHE','Pompe électrique|SELON ÉQUIP.','Démarreur|ACTIONNÉ','Pression d\'huile|VERTE < 30 s','Alternateur|CHARGE +']},
+    {titre:'Essais moteur (point d\'arrêt)',items:['Frein de parking|SERRÉ','Régime|RÉGLÉ','Magnétos|CHUTE < LIMITE','Réchauffe carbu|TESTÉE','Paramètres|DANS LE VERT','Ralenti|STABLE']},
+    {titre:'Avant décollage',items:['Trim|DÉCOLLAGE','Volets|DÉCOLLAGE','Portes & verrières|VERROUILLÉES','Harnais|BOUCLÉS','Commandes|LIBRES','Briefing décollage|FAIT']},
+    {titre:'Décollage & montée',items:['Plein gaz|AFFICHÉ','Paramètres moteur|VERTS','Vitesse de montée|ÉTABLIE','Volets|RENTRÉS']}
+  ].concat(CK_GEN_TAIL)},
+  {id:'c152',nom:'Cessna 152',sub:'F-GHKE',sections:[
+    {titre:'Prévol — cabine',items:['Documents de bord|À BORD','Commandes|LIBRES','Contacteurs|OFF','Robinet essence|OUVERT','Quantité essence|VÉRIFIÉE','Purges (3 points)|EFFECTUÉES','Huile|6 à 8 QTS']},
+    {titre:'Mise en route',items:['Réchauffe carbu|FROID (poussée)','Mélange|RICHE','Gaz|OUVERT 1 cm','Démarreur|ACTIONNÉ','Pression huile|VERTE < 30 s']},
+    {titre:'Essais moteur — 1700 tr/min',items:['Magnétos|CHUTE < 125, DIFF < 50','Réchauffe carbu|PERTE DE RÉGIME','Aspiration & ampèremètre|VÉRIFIÉS','Ralenti|VÉRIFIÉ']},
+    {titre:'Avant décollage',items:['Trim|DÉCOLLAGE','Volets|0 à 10°','Réchauffe carbu|FROID','Portes|FERMÉES','Harnais|BOUCLÉS']},
+    {titre:'Décollage & montée',items:['Plein gaz|AFFICHÉ','Vitesse|Vx 55 / Vy 67 kt','Volets|RENTRÉS']}
+  ].concat(CK_GEN_TAIL)},
+  {id:'tb200',nom:'Socata TB200',sub:'F-GSZA',sections:[
+    {titre:'Prévol — cabine',items:['Documents de bord|À BORD','Verrière|VÉRIFIÉE','Contacteurs|OFF','Sélecteur réservoir|PLUS PLEIN','Jauges carburant|VÉRIFIÉES','Purges|EFFECTUÉES','Huile|VÉRIFIÉE']},
+    {titre:'Mise en route',items:['Hélice|PLEIN PETIT PAS','Pompe électrique|ON','Mélange|RICHE','Démarreur|ACTIONNÉ','Pompe électrique|OFF (après)','Pression huile|VERTE']},
+    {titre:'Essais moteur',items:['Régime|RÉGLÉ','Hélice|ESSAI PAS VARIABLE','Magnétos|CHUTE < LIMITE','Paramètres|DANS LE VERT']},
+    {titre:'Avant décollage',items:['Hélice|PLEIN PETIT PAS','Pompe électrique|ON','Trim|DÉCOLLAGE','Volets|DÉCOLLAGE','Verrière|VERROUILLÉE','Harnais|BOUCLÉS']},
+    {titre:'Décollage & montée',items:['Plein gaz|AFFICHÉ','Vitesse de montée|ÉTABLIE','Pompe électrique|OFF (sécurité)','Volets|RENTRÉS']}
+  ].concat(CK_GEN_TAIL)},
+  {id:'sr20',nom:'Cirrus SR20',sub:'F-GYFF',sections:[
+    {titre:'Prévol — CAPS & cabine',items:['Goupille CAPS|RETIRÉE','Briefing CAPS|FAIT','Documents de bord|À BORD','Disjoncteurs|ENFONCÉS','Sélecteur carburant|PLUS PLEIN','Quantité carburant|VÉRIFIÉE','Huile|VÉRIFIÉE']},
+    {titre:'Mise en route',items:['Master 1 & 2|ON','Pompe (BOOST)|PRIME puis OFF','Mélange|RICHE','Démarreur|ACTIONNÉ','Pression huile|VERTE','Alternateurs 1 & 2|ON / CHARGE']},
+    {titre:'Avant décollage',items:['CAPS|BRIEFÉ','Volets|50 %','Trim|DÉCOLLAGE','Pompe (BOOST)|ON','Commandes|LIBRES','Harnais|BOUCLÉS']},
+    {titre:'Décollage & montée',items:['Plein gaz|AFFICHÉ','Vitesse|Vy ≈ 96 kt','Pompe (BOOST)|OFF','Volets|RENTRÉS']}
+  ].concat(CK_GEN_TAIL)}
+];
+var _ckCur=null,_ckState={};
+function ckRenderList(){
+  var l=document.getElementById('ck-list');if(!l)return;
+  l.innerHTML=CHECKLISTS.map(function(c){
+    return '<button class="ck-card" type="button" onclick="openChecklist(\''+c.id+'\')"><span class="ck-card-ic">'+(c.id==='gen'?'📋':'✈')+'</span><div class="ck-card-body"><h4>'+esc(c.nom)+'</h4><p>'+esc(c.sub)+' · '+c.sections.length+' sections</p></div><span class="ck-card-arr"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg></span></button>';
+  }).join('');
+}
+window.openChecklist=function(id){
+  var c=CHECKLISTS.filter(function(x){return x.id===id;})[0];if(!c)return;
+  _ckCur=c;ckRender();
+  var v=document.getElementById('ck-viewer');if(v)v.classList.add('open');
+  document.body.style.overflow='hidden';hapticTick();
+};
+window.closeChecklist=function(){var v=document.getElementById('ck-viewer');if(v)v.classList.remove('open');document.body.style.overflow='hidden';};
+window.ckReset=function(){if(_ckCur){_ckState[_ckCur.id]={};ckRender();hapticTick();}};
+window.ckToggle=function(si,ii){
+  if(!_ckCur)return;var k=_ckCur.id;_ckState[k]=_ckState[k]||{};var key=si+'-'+ii;
+  _ckState[k][key]=!_ckState[k][key];
+  var el=document.querySelector('.ck-item[data-k="'+key+'"]');if(el)el.classList.toggle('done',_ckState[k][key]);
+  hapticTick();
+};
+function ckRender(){
+  var c=_ckCur;if(!c)return;
+  var t=document.getElementById('ck-v-title');if(t)t.textContent=c.nom;
+  var s=document.getElementById('ck-v-sub');if(s)s.textContent=c.sub;
+  var st=_ckState[c.id]||{};
+  var body=document.getElementById('ck-viewer-body');if(!body)return;
+  body.innerHTML='<p class="ck-disc">Checklist générique — à adapter par le club. Le manuel de vol de l\'appareil et les procédures en vigueur prévalent.</p>'+c.sections.map(function(sec,si){
+    return '<div class="ck-sec"><h3>'+esc(sec.titre)+'</h3>'+sec.items.map(function(it,ii){
+      var p=it.split('|'),done=st[si+'-'+ii]?' done':'';
+      return '<button class="ck-item'+done+'" type="button" data-k="'+si+'-'+ii+'" onclick="ckToggle('+si+','+ii+')"><span class="ck-box"></span><span class="ck-lbl">'+esc(p[0])+'</span>'+(p[1]?'<span class="ck-val">'+esc(p[1])+'</span>':'')+'</button>';
+    }).join('')+'</div>';
+  }).join('');
+  body.scrollTop=0;
 }
 
 
@@ -3860,51 +4398,38 @@ async function docUploadFile(input){
 
   <div class="elev-body" id="elev-body">
     <!-- ACCUEIL -->
+    <!-- ACCUEIL -->
     <div class="elev-pane on" id="elev-accueil">
-      <h3 class="elev-sec-h">Tableau de bord</h3>
-      <div class="elev-dash" id="elev-dash">
-        <div class="elev-dash-card accent"><div class="elev-dash-val" id="elev-q-total">—</div><div class="elev-dash-lbl">Questions posées</div></div>
-        <div class="elev-dash-card warn"><div class="elev-dash-val" id="elev-q-attente">—</div><div class="elev-dash-lbl">En attente</div></div>
-        <div class="elev-dash-card"><div class="elev-dash-val" id="elev-docs-count">—</div><div class="elev-dash-lbl">Documents</div></div>
-        <div class="elev-dash-card"><div class="elev-dash-val" id="elev-instr-count">—</div><div class="elev-dash-lbl">Instructeurs</div></div>
-      </div>
+      <h3 class="elev-sec-h">Accueil</h3>
 
-      <!-- Dernières questions en attente -->
-      <div class="elev-home-section">
-        <div class="elev-home-head">
-          <h4 class="elev-home-title">❓ Questions en attente</h4>
-          <button class="elev-home-link" onclick="elevTab('forum')">Voir tout →</button>
-        </div>
-        <div id="elev-home-questions"><div class="elev-empty">Aucune question en attente</div></div>
+      <div class="acc-head">
+        <h4 class="elev-group-h">Vos licences &amp; médicales</h4>
+        <button class="acc-edit" type="button" onclick="licToggleEdit()" id="lic-edit-btn">Modifier</button>
       </div>
+      <p class="acc-note">Saisissez la date d'échéance figurant sur vos documents. Stocké sur cet appareil uniquement — rien n'est envoyé au club.</p>
+      <div id="lic-list" class="lic-list"></div>
 
-      <!-- Derniers documents -->
-      <div class="elev-home-section">
-        <div class="elev-home-head">
-          <h4 class="elev-home-title">📄 Derniers documents</h4>
-          <button class="elev-home-link" onclick="elevTab('docs')">Voir tout →</button>
+      <h4 class="elev-group-h" style="margin-top:26px">Bilan carburant</h4>
+      <div class="fuel-card">
+        <div class="fuel-ac-row">
+          <span class="fuel-ac-ic"><svg viewBox="0 0 24 24"><path d="M22 12l-9.5 2.5L9 21H7l1.5-6.5L4 16l-1 2.5H1.5L3 12 1.5 5.5H3L4 8l4.5 1.5L7 3h2l3.5 6.5L22 12z"/></svg></span>
+          <select id="fuel-ac" onchange="fuelPreset()"></select>
         </div>
-        <div id="elev-home-docs"><div class="elev-empty">Aucun document</div></div>
-      </div>
-
-      <!-- Accès rapide -->
-      <div class="elev-home-section">
-        <h4 class="elev-home-title">🚀 Accès rapide</h4>
-        <div class="elev-shortcuts">
-          <button class="elev-shortcut" onclick="elevTab('forum');setTimeout(function(){var t=document.getElementById('forum-q-titre');if(t)t.focus();},200)">
-            <span class="elev-shortcut-ic">💬</span>
-            <span class="elev-shortcut-lbl">Poser une question</span>
-          </button>
-          <button class="elev-shortcut" onclick="elevTab('docs')">
-            <span class="elev-shortcut-ic">📄</span>
-            <span class="elev-shortcut-lbl">Mes documents</span>
-          </button>
-          <button class="elev-shortcut" onclick="elevTab('contacts')">
-            <span class="elev-shortcut-ic">👨‍✈️</span>
-            <span class="elev-shortcut-lbl">Mes instructeurs</span>
-          </button>
+        <div class="fuel-grid">
+          <div class="fuel-field"><label>Conso</label><div class="fuel-input"><input id="fuel-conso" type="number" inputmode="decimal" oninput="fuelCalc()"><span>L/h</span></div></div>
+          <div class="fuel-field"><label>Capacité utile</label><div class="fuel-input"><input id="fuel-cap" type="number" inputmode="decimal" oninput="fuelCalc()"><span>L</span></div></div>
+          <div class="fuel-field"><label>Roulage</label><div class="fuel-input"><input id="fuel-taxi" type="number" inputmode="numeric" value="10" oninput="fuelCalc()"><span>min</span></div></div>
+          <div class="fuel-field"><label>Vol prévu</label><div class="fuel-input"><input id="fuel-trip" type="number" inputmode="numeric" value="60" oninput="fuelCalc()"><span>min</span></div></div>
+          <div class="fuel-field"><label>Dégagement</label><div class="fuel-input"><input id="fuel-alt" type="number" inputmode="numeric" value="20" oninput="fuelCalc()"><span>min</span></div></div>
+          <div class="fuel-field"><label>Marge</label><div class="fuel-input"><input id="fuel-margin" type="number" inputmode="numeric" value="10" oninput="fuelCalc()"><span>%</span></div></div>
         </div>
+        <div class="fuel-seg" id="fuel-seg">
+          <button type="button" class="on" onclick="fuelSetRes(30,this)">VFR jour · 30 min</button>
+          <button type="button" onclick="fuelSetRes(45,this)">VFR nuit · 45 min</button>
+        </div>
+        <div class="fuel-out" id="fuel-out"></div>
       </div>
+      <p class="acc-note">Aide à la préparation — valeurs indicatives. Le manuel de vol de l'appareil et la réglementation en vigueur prévalent.</p>
     </div>
 
     <!-- DOCUMENTS -->
@@ -3918,17 +4443,26 @@ async function docUploadFile(input){
       </div>
       <div class="doc-upload-progress" id="doc-upload-progress"><div class="doc-upload-progress-bar" id="doc-upload-progress-bar"></div></div>
       <div id="elev-docs-list"><div class="elev-loading">Chargement…</div></div>
+      <h4 class="elev-group-h" style="margin-top:26px">Checklists</h4>
+      <p class="acc-note">Checklists génériques — à adapter par le club. Le manuel de vol de l'appareil et les procédures en vigueur prévalent.</p>
+      <div id="ck-list" class="ck-list"></div>
     </div>
 
     <!-- FORUM -->
     <div class="elev-pane" id="elev-forum">
       <h3 class="elev-sec-h">Forum Q&A</h3>
-      <div class="forum-ask" id="forum-ask">
-        <h4>💬 Poser une question</h4>
-        <input id="forum-q-titre" type="text" placeholder="Votre question en quelques mots…">
-        <textarea id="forum-q-detail" placeholder="Détails, contexte… (optionnel)"></textarea>
-        <button class="forum-ask-btn" onclick="forumAsk()">Envoyer ma question →</button>
-        <p class="ob-msg" id="forum-ask-msg" style="margin-top:8px"></p>
+      <div class="forum-ask-wrap" id="forum-ask-wrap">
+        <button class="forum-ask-toggle" type="button" onclick="forumToggleAsk()">
+          <span class="forum-ask-toggle-ic">💬</span>
+          <span class="forum-ask-toggle-lbl">Poser une question</span>
+          <span class="forum-ask-toggle-arr"><svg viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></span>
+        </button>
+        <div class="forum-ask" id="forum-ask">
+          <input id="forum-q-titre" type="text" placeholder="Votre question en quelques mots…">
+          <textarea id="forum-q-detail" placeholder="Détails, contexte… (optionnel)"></textarea>
+          <button class="forum-ask-btn" onclick="forumAsk()">Envoyer ma question →</button>
+          <p class="ob-msg" id="forum-ask-msg" style="margin-top:8px"></p>
+        </div>
       </div>
       <div class="forum-filters" id="forum-filters">
         <button class="forum-filter on" onclick="forumFilter('all')">Toutes <span class="cnt" id="forum-cnt-all">0</span></button>
@@ -3940,7 +4474,7 @@ async function docUploadFile(input){
 
     <!-- RESSOURCES -->
     <div class="elev-pane" id="elev-ressources">
-      <h3 class="elev-sec-h">Ressources</h3>
+      <h3 class="elev-sec-h">Liens intéressants</h3>
       <div class="res-wip">
         <div class="res-wip-icon">🚧</div>
         <h3>En construction</h3>
@@ -3950,13 +4484,15 @@ async function docUploadFile(input){
 
     <!-- CONTACTS -->
     <div class="elev-pane" id="elev-contacts">
-      <h3 class="elev-sec-h">Vos Instructeurs</h3>
-      <p class="elev-sec-sub">Les instructeurs du club, prêts à vous accompagner dans votre formation.</p>
-      <div id="elev-instr-list"><div class="elev-loading">Chargement…</div></div>
+      <h3 class="elev-sec-h">Contacts</h3>
+      <p class="elev-sec-sub">L'équipe du club et les contacts utiles.</p>
+      <div id="elev-team"></div>
+      <h4 class="elev-group-h">Contacts utiles</h4>
+      <div id="elev-extra-list"></div>
     </div>
   </div>
 
-  <!-- Nav bottom élèves -->
+  <!-- Nav bottom espace -->
   <nav class="elev-nav">
     <button class="elev-nav-btn on" onclick="elevTab('accueil')">
       <div class="elev-nav-ic"><svg viewBox="0 0 24 24"><path d="M3 12l9-9 9 9"/><path d="M5 10v10a1 1 0 0 0 1 1h3a1 1 0 0 0 1-1v-4a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v4a1 1 0 0 0 1 1h3a1 1 0 0 0 1-1V10"/></svg></div>
@@ -3972,7 +4508,7 @@ async function docUploadFile(input){
     </button>
     <button class="elev-nav-btn" onclick="elevTab('ressources')">
       <div class="elev-nav-ic"><svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></div>
-      <span>Ressources</span>
+      <span>Liens</span>
     </button>
     <button class="elev-nav-btn" onclick="elevTab('contacts')">
       <div class="elev-nav-ic"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
@@ -3991,6 +4527,17 @@ async function docUploadFile(input){
     <a class="doc-viewer-dl" id="doc-viewer-dl" href="#" target="_blank"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>Télécharger</a>
   </div>
   <iframe class="doc-viewer-frame" id="doc-viewer-frame" src="about:blank"></iframe>
+</div>
+
+<!-- ── Checklist Viewer ── -->
+<div class="ck-viewer" id="ck-viewer">
+  <div class="ck-viewer-safe"></div>
+  <div class="ck-viewer-head">
+    <button class="ck-back" type="button" onclick="closeChecklist()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></button>
+    <div class="ck-viewer-tt"><span id="ck-v-sub">—</span><h2 id="ck-v-title">Checklist</h2></div>
+    <button class="ck-reset" type="button" onclick="ckReset()">Réinitialiser</button>
+  </div>
+  <div class="ck-viewer-body" id="ck-viewer-body"></div>
 </div>
 
 </body>
