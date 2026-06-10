@@ -1191,6 +1191,16 @@ html.pwa .doc-viewer-safe{min-height:52px}
 .acc-edit{background:none;border:1px solid var(--border);color:var(--muted);font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:11px;letter-spacing:.12em;text-transform:uppercase;padding:7px 13px;border-radius:8px;cursor:pointer}
 .acc-edit.on{border-color:var(--accent);color:var(--accent)}
 .acc-note{font-size:11px;color:var(--muted);line-height:1.5;margin:7px 0 13px}
+.lic-invite{display:flex;align-items:flex-start;gap:12px;padding:14px 15px;margin:14px 0 6px;background:linear-gradient(135deg,color-mix(in srgb,var(--accent) 16%,transparent),color-mix(in srgb,var(--accent) 6%,transparent));border:1px solid color-mix(in srgb,var(--accent) 38%,transparent);border-radius:14px;animation:licInviteIn .4s ease}
+.lic-invite[hidden]{display:none}
+@keyframes licInviteIn{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
+.lic-invite-ic{font-size:20px;line-height:1.15;flex-shrink:0}
+.lic-invite-tx{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px}
+.lic-invite-tx strong{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:14px;letter-spacing:.04em;text-transform:uppercase;color:var(--text)}
+.lic-invite-tx span{font-size:12px;color:var(--muted);line-height:1.5;text-wrap:pretty}
+.lic-invite-ax{display:flex;flex-direction:column;gap:7px;flex-shrink:0;align-items:stretch}
+.lic-invite-go{background:var(--accent);border:none;color:#0a0a0a;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:12px;letter-spacing:.08em;text-transform:uppercase;padding:9px 14px;border-radius:9px;cursor:pointer;white-space:nowrap}
+.lic-invite-later{background:none;border:none;color:var(--muted);font-size:10.5px;letter-spacing:.04em;cursor:pointer;padding:2px;white-space:nowrap}
 .lic-list{display:flex;flex-direction:column;gap:10px}
 .lic-card{display:flex;flex-direction:column;gap:11px;padding:14px 16px;background:var(--sf);border:1px solid var(--border);border-radius:14px;border-left:3px solid var(--border)}
 .lic-card.ok{border-left-color:#22d77a}
@@ -1875,7 +1885,7 @@ html.pwa .doc-viewer-safe{min-height:52px}
 
 <script>
 'use strict';
-const APP_VERSION='3.4.0';
+const APP_VERSION='3.5.0';
 const API='https://script.google.com/macros/s/AKfycbxae9y3NHqDyAkbEI5rDVRappI-aAWoA0jcHqR8NBUgm3t5SCB1Hq8nebY5t23cV1Je/exec';
 
 /* ══ Onboarding ══ */
@@ -4118,7 +4128,8 @@ function elevRenderContacts(){
 var LIC_KEY='apam_licences';
 var LIC_DEFAULTS=[{label:'Certificat médical',date:''},{label:'Qualification SEP',date:''}];
 function licLoad(){try{var r=localStorage.getItem(LIC_KEY);return r?JSON.parse(r):LIC_DEFAULTS.slice();}catch(e){return LIC_DEFAULTS.slice();}}
-function licSaveData(a){try{localStorage.setItem(LIC_KEY,JSON.stringify(a));}catch(e){}}
+function licSaveData(a){licSetLocal(a);licPushServer(a);}
+function licSetLocal(a){try{localStorage.setItem(LIC_KEY,JSON.stringify(a));}catch(e){}}
 function licStatus(date){
   if(!date)return {cls:'none',cd:'—',sub:'À renseigner',note:'',pct:0};
   var now=new Date();now.setHours(0,0,0,0);
@@ -4136,6 +4147,7 @@ var _licEdit=false;
 function renderLic(){
   var list=document.getElementById('lic-list');if(!list)return;
   var data=licLoad();
+  updateLicInvite();
   if(_licEdit){
     list.innerHTML=data.map(function(it,i){
       return '<div class="lic-edit-row"><input type="text" value="'+esc(it.label)+'" oninput="licField('+i+',\'label\',this.value)" placeholder="Intitulé"><input type="date" value="'+esc(it.date||'')+'" oninput="licField('+i+',\'date\',this.value)"><button class="lic-del" onclick="licRemove('+i+')" title="Supprimer">✕</button></div>';
@@ -4150,11 +4162,48 @@ function renderLic(){
   }).join('');
 }
 window.licToggleEdit=function(){hapticTick();_licEdit=!_licEdit;var b=document.getElementById('lic-edit-btn');if(b){b.textContent=_licEdit?'Terminé':'Modifier';b.classList.toggle('on',_licEdit);}renderLic();};
-window.licField=function(i,k,v){var d=licLoad();if(d[i]){d[i][k]=v;licSaveData(d);}};
+window.licField=function(i,k,v){var d=licLoad();if(d[i]){d[i][k]=v;licSaveData(d);if(k==='date')updateLicInvite();}};
 window.licAdd=function(){var d=licLoad();d.push({label:'Nouvelle qualification',date:''});licSaveData(d);renderLic();};
 var LIC_PRESETS=['Certificat médical','Qualification SEP','Vol de nuit (VN)','Qualification MEP','Qualification FI','Voltige','Montagne','Hydravion','Remorquage planeur'];
 window.licAddPreset=function(){var sel=document.getElementById('lic-preset');if(!sel||!sel.value)return;var d=licLoad();d.push({label:sel.value==='__custom'?'Nouvelle qualification':sel.value,date:''});licSaveData(d);renderLic();};
 window.licRemove=function(i){var d=licLoad();d.splice(i,1);licSaveData(d);renderLic();};
+
+/* ── Licences : invitation + synchro serveur ── */
+function licHasAnyDate(){try{return licLoad().some(function(it){return it&&it.date;});}catch(e){return false;}}
+function updateLicInvite(){
+  var el=document.getElementById('lic-invite');if(!el)return;
+  var off=false;try{off=sessionStorage.getItem('apam_lic_invite_off')==='1';}catch(e){}
+  el.hidden=licHasAnyDate()||off;
+}
+window.licInviteAct=function(){
+  hapticTick();
+  var el=document.getElementById('lic-invite');if(el)el.hidden=true;
+  if(!_licEdit){licToggleEdit();}else{renderLic();}
+  var list=document.getElementById('lic-list');
+  if(list){var inp=list.querySelector('input[type="date"]');if(inp){try{inp.focus({preventScroll:true});}catch(e){try{inp.focus();}catch(_){}}}}
+};
+window.licInviteLater=function(){hapticTick();try{sessionStorage.setItem('apam_lic_invite_off','1');}catch(e){}var el=document.getElementById('lic-invite');if(el)el.hidden=true;};
+
+var _licPushT=null;
+function licPushServerNow(a){
+  if(typeof memberPin==='undefined'||!memberPin)return;
+  try{fetch(API+'?action=saveLicences&pin='+encodeURIComponent(memberPin)+'&licences='+encodeURIComponent(JSON.stringify(a||licLoad())));}catch(e){}
+}
+function licPushServer(a){
+  if(typeof memberPin==='undefined'||!memberPin)return;
+  var snap=a||licLoad();
+  if(_licPushT)clearTimeout(_licPushT);
+  _licPushT=setTimeout(function(){licPushServerNow(snap);},800);
+}
+async function licSyncFromServer(){
+  if(typeof memberPin==='undefined'||!memberPin)return;
+  try{
+    var d=await fetch(API+'?action=getLicences&pin='+encodeURIComponent(memberPin)).then(function(r){return r.json();});
+    if(!d||!Array.isArray(d.licences))return;
+    if(d.licences.length){licSetLocal(d.licences);renderLic();}
+    else{var local=licLoad();if(local.some(function(it){return it&&it.date;}))licPushServerNow(local);}
+  }catch(e){}
+}
 
 /* ── Accueil : bilan carburant (aide, valeurs indicatives) ── */
 var FUEL_AC=[
@@ -4202,7 +4251,7 @@ window.fuelCalc=function(){
   }
   out.innerHTML=html;
 };
-function accInit(){renderLic();fuelInitSelect();fuelPreset();ckRenderList();}
+function accInit(){renderLic();fuelInitSelect();fuelPreset();ckRenderList();licSyncFromServer();}
 
 /* ── Checklists (génériques — à adapter par le club) ── */
 var CK_GEN_TAIL=[
@@ -4402,11 +4451,23 @@ async function docUploadFile(input){
     <div class="elev-pane on" id="elev-accueil">
       <h3 class="elev-sec-h">Accueil</h3>
 
+      <div id="lic-invite" class="lic-invite" hidden>
+        <div class="lic-invite-ic">🗓️</div>
+        <div class="lic-invite-tx">
+          <strong>Nouveau · Suivi des échéances</strong>
+          <span>Enregistrez les dates de vos licences &amp; médicales pour être alerté avant leur expiration.</span>
+        </div>
+        <div class="lic-invite-ax">
+          <button class="lic-invite-go" type="button" onclick="licInviteAct()">Renseigner</button>
+          <button class="lic-invite-later" type="button" onclick="licInviteLater()">Plus tard</button>
+        </div>
+      </div>
+
       <div class="acc-head">
         <h4 class="elev-group-h">Vos licences &amp; médicales</h4>
         <button class="acc-edit" type="button" onclick="licToggleEdit()" id="lic-edit-btn">Modifier</button>
       </div>
-      <p class="acc-note">Saisissez la date d'échéance figurant sur vos documents. Stocké sur cet appareil uniquement — rien n'est envoyé au club.</p>
+      <p class="acc-note">Saisissez la date d'échéance figurant sur vos documents. Vos dates sont enregistrées pour vous alerter avant expiration — visibles par les instructeurs pour le suivi du club.</p>
       <div id="lic-list" class="lic-list"></div>
 
       <h4 class="elev-group-h" style="margin-top:26px">Bilan carburant</h4>
