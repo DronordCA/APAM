@@ -195,9 +195,9 @@ button,a,.tap{transition:transform .28s cubic-bezier(.2,.7,.2,1),background .2s,
 .d-hero-side{display:flex;flex-direction:column;gap:18px;min-width:0}
 .d-hero-side .d-wxbox{flex:1}
 
-/* Licence block — accueil app (desktop + mobile) */
-.lic-home{position:relative;background:var(--sf);border:1px solid var(--border);border-radius:14px;padding:16px 18px;overflow:hidden;text-align:left}
-.lic-home::before{content:"";position:absolute;inset:0;background-image:repeating-linear-gradient(135deg,var(--hatch) 0 2px,transparent 2px 8px);opacity:.5;pointer-events:none;-webkit-mask-image:linear-gradient(160deg,#000,transparent 60%);mask-image:linear-gradient(160deg,#000,transparent 60%)}
+/* Licence wrapper — accueil app (conteneur transparent, le visuel est dans .lic-strip) */
+.lic-home{position:relative;text-align:left}
+.lic-home::before{display:none}
 .lic-home-hd{display:flex;align-items:center;gap:10px;margin-bottom:13px;position:relative}
 .lic-home-hd-l{font-size:9.5px;font-weight:700;letter-spacing:.26em;text-transform:uppercase;color:var(--muted)}
 .lic-home-hd-go{margin-left:auto;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-style:italic;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);background:none;border:none;cursor:pointer;display:inline-flex;align-items:center;gap:5px;padding:0}
@@ -211,12 +211,24 @@ button,a,.tap{transition:transform .28s cubic-bezier(.2,.7,.2,1),background .2s,
 .lic-home-cd.ok{color:var(--ok)}.lic-home-cd.warn{color:var(--amber)}.lic-home-cd.soon{color:#ff8c42}.lic-home-cd.exp{color:#ff5f57}
 .lic-home-empty{position:relative;font-size:12.5px;color:var(--muted);line-height:1.5;text-wrap:pretty}
 .lic-home-empty button{display:inline-flex;align-items:center;gap:6px;margin-top:10px;background:var(--accent-soft);border:1px solid var(--accent-bord);color:var(--accent);font-family:'Barlow Condensed',sans-serif;font-weight:700;font-style:italic;font-size:12px;letter-spacing:.12em;text-transform:uppercase;padding:8px 14px;border-radius:9px;cursor:pointer}
-.lic-home-m{margin:0 0 20px}
-.lic-home-row.ok .lic-bar span{background:linear-gradient(90deg,#1fa862,#2ee68a)}
-.lic-home-row.warn .lic-bar span{background:linear-gradient(90deg,#e0931a,#f5a524)}
-.lic-home-row.soon .lic-bar span{background:linear-gradient(90deg,#ff6f3c,#ff9a52)}
-.lic-home-row.exp .lic-bar span{background:#ff5f57;opacity:.5}
-.lic-home-row.none .lic-bar span{background:var(--dim)}
+/* Licence strip — accueil app (compact, contextuel) */
+.lic-home[hidden]{display:none}
+.lic-home-m{margin:0 0 20px;padding:0;background:none;border:none}
+.lic-home-m::before{display:none}
+.lic-strip{width:100%;display:flex;align-items:center;gap:13px;padding:14px 16px;border-radius:14px;background:var(--sf);border:1px solid var(--border);cursor:pointer;text-align:left;transition:border-color .2s,transform .12s;position:relative;overflow:hidden}
+.lic-strip::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--dim)}
+.lic-strip.soon::before{background:#ff8c42}
+.lic-strip.exp::before{background:#ff5f57}
+.lic-strip.ok::before{background:var(--ok)}
+.lic-strip:hover{border-color:var(--bds)}
+.lic-strip:active{transform:scale(.99)}
+.lic-strip-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0;margin-left:3px}
+.lic-strip-tx{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+.lic-strip-lbl{font-family:'JetBrains Mono',monospace;font-size:8.5px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+.lic-strip-nm{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:17px;text-transform:uppercase;letter-spacing:-.01em;color:var(--text);line-height:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.lic-strip-more{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:11px;color:var(--muted);background:var(--sf2);border:1px solid var(--border);border-radius:6px;padding:3px 7px;flex-shrink:0}
+.lic-strip-cd{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:13.5px;flex-shrink:0;white-space:nowrap}
+.lic-strip-chev{width:17px;height:17px;flex-shrink:0;stroke:var(--muted);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 
 /* DESKTOP NEWS LAYOUT */
 .d-grid{display:grid;grid-template-columns:1fr 320px;gap:24px;align-items:start}
@@ -285,17 +297,17 @@ html:not(.pwa) .desktop-only{display:flex}
 }
 
 /* ═══════════════════════ MOBILE HOME — WELCOME PANEL ═══════════════════════ */
-.welcome{position:relative;background:var(--sf);border:1px solid var(--border);border-radius:20px;padding:24px 22px 20px;overflow:hidden;margin-bottom:22px;box-shadow:inset 0 1px 0 var(--stroke-in)}
-.welcome::before{content:"";position:absolute;inset:0;background-image:repeating-linear-gradient(135deg,var(--hatch) 0 2px,transparent 2px 10px);opacity:.45;pointer-events:none;mask-image:linear-gradient(160deg,transparent 40%,black 100%);-webkit-mask-image:linear-gradient(160deg,transparent 40%,black 100%)}
-.welcome-glow{position:absolute;top:-30px;right:-30px;width:200px;height:200px;background:radial-gradient(circle at 50% 50%,var(--accent-soft) 0%,transparent 70%);opacity:.9;pointer-events:none}
-.welcome-ticks{position:absolute;top:18px;right:20px;display:flex;gap:4px;z-index:1}
-.welcome-ticks span{width:14px;height:2px;background:var(--accent);opacity:.75;display:block;border-radius:1px}
-.welcome-ticks span:nth-child(2){width:5px;opacity:.3}
+.welcome{position:relative;background:var(--sf);border:1px solid var(--border);border-radius:18px;padding:26px 24px 22px;overflow:hidden;margin-bottom:20px}
+.welcome::before{content:"";position:absolute;inset:0;background-image:repeating-linear-gradient(135deg,var(--hatch) 0 2px,transparent 2px 10px);opacity:.16;pointer-events:none;mask-image:linear-gradient(160deg,#000,transparent 55%)}
+.welcome-glow{position:absolute;top:-50px;right:-50px;width:190px;height:190px;background:radial-gradient(circle at 50% 50%,var(--accent-soft) 0%,transparent 70%);opacity:.35;pointer-events:none}
+.welcome-ticks{position:absolute;top:22px;right:22px;display:flex;gap:4px;z-index:1}
+.welcome-ticks span{width:12px;height:2px;background:var(--accent);opacity:.4;display:block;border-radius:1px}
+.welcome-ticks span:nth-child(2){width:5px;opacity:.18}
 .welcome-label{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);display:flex;align-items:center;gap:11px;margin-bottom:6px;position:relative;flex-wrap:wrap;z-index:1}
 .welcome-brand{display:inline-flex;align-items:center;gap:7px;font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:14px;letter-spacing:.08em;color:var(--accent);line-height:1}
 .welcome-brand img{height:18px;width:auto;display:block;object-fit:contain}
 .welcome-divider{width:20px;height:1px;background:var(--accent);opacity:.45;display:inline-block}
-.welcome-name{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:44px;text-transform:uppercase;line-height:.95;color:var(--text);margin-bottom:16px;position:relative;text-wrap:balance;letter-spacing:-.014em}
+.welcome-name{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:40px;text-transform:uppercase;line-height:.96;color:var(--text);margin-bottom:14px;position:relative;letter-spacing:-.005em};text-wrap:balance;letter-spacing:-.014em}
 .welcome-msg{font-family:'Jost',sans-serif;font-size:16.5px;font-weight:400;line-height:1.5;color:var(--text-2);margin-bottom:14px;position:relative;text-wrap:pretty;letter-spacing:.002em}
 .welcome-msg strong{color:var(--text);font-weight:600}
 .welcome-msg em{font-style:normal;color:var(--accent);font-weight:600}
@@ -1722,6 +1734,7 @@ html.pwa .doc-viewer-safe{min-height:52px}
         <h2>La flotte</h2>
         <span class="mobile-sec-h-sub">État des avions</span>
       </div>
+      <div class="fleet-alert" id="m-fleet-alert" hidden></div>
       <div class="fleet" id="m-fleet"></div>
     </div>
   </div>
@@ -2596,6 +2609,7 @@ window.toggleFleetCard=function(el){
 
 function renderFleet(fleet){
   const el=document.getElementById('m-fleet');if(!el)return;
+  fleetRenderAlert(fleet);
   if(!fleet||!fleet.length){el.innerHTML='<div class="fleet-empty">Aucun avion enregistré.</div>';return;}
   el.innerHTML=fleet.map(a=>{
     const st=FLEET_STATUS[a.statut]||FLEET_STATUS.ok;
@@ -4364,25 +4378,32 @@ window.licRemove=function(i){var d=licLoad();d.splice(i,1);licSaveData(d);render
 /* ── Licences : invitation + synchro serveur ── */
 function licHasAnyDate(){try{return licLoad().some(function(it){return it&&it.date;});}catch(e){return false;}}
 
-/* ── Bloc licences sur l'accueil de l'app (desktop + mobile) ── */
+/* ── Bloc licences sur l'accueil de l'app : statut compact, épuré ── */
 function licRenderHome(){
   var dated=licLoad().filter(function(it){return it&&it.label&&it.date&&licDays(it.date)!==null;});
-  var html;
+  var els=['lic-home-d','lic-home-m'].map(function(id){return document.getElementById(id);});
   if(!dated.length){
-    html='<div class="lic-home-hd"><span class="lic-home-hd-l">Licences &amp; médicales</span></div>'+
-      '<div class="lic-home-empty">Suivez vos échéances (médical, SEP…) et soyez alerté avant leur expiration.'+
-      '<br><button type="button" onclick="licHomeOpen()">Renseigner mes licences <span>→</span></button></div>';
-  }else{
-    var sorted=dated.slice().sort(function(a,b){return licDays(a.date)-licDays(b.date);});
-    var rows=sorted.slice(0,4).map(function(it){
-      var s=licStatus(it.date);
-      return '<div class="lic-home-row '+s.cls+'"><div class="lic-home-row-top"><span class="lic-home-nm">'+esc(it.label)+'</span><span class="lic-home-cd '+s.cls+'">'+esc(s.cd)+'</span></div><div class="lic-bar"><span style="width:'+s.pct.toFixed(0)+'%"></span></div></div>';
-    }).join('');
-    html='<div class="lic-home-hd"><span class="lic-home-hd-l">Licences &amp; médicales</span><button class="lic-home-hd-go" type="button" onclick="licHomeOpen()">Gérer <span>→</span></button></div><div class="lic-home-rows">'+rows+'</div>';
+    /* Rien à suivre → on masque (l'onboarding se fait dans l'espace pilote) */
+    els.forEach(function(el){if(el){el.hidden=true;el.innerHTML='';}});
+    return;
   }
-  ['lic-home-d','lic-home-m'].forEach(function(id){var el=document.getElementById(id);if(el)el.innerHTML=html;});
+  var sorted=dated.slice().sort(function(a,b){return licDays(a.date)-licDays(b.date);});
+  var urgent=sorted[0];var ud=licDays(urgent.date);var g=licGauge(ud);
+  var nbAlert=dated.filter(function(it){return licDays(it.date)<=90;}).length;
+  var cd=g.exp?('Expiré depuis '+g.num+' '+g.unit):(g.num+' '+g.unit);
+  var sub=g.exp?'Action requise':(ud<=90?'À renouveler bientôt':'Tout est à jour');
+  var cls=g.exp?'exp':(ud<=90?'soon':'ok');
+  var extra=(nbAlert>1)?('<span class="lic-strip-more">+'+(nbAlert-1)+'</span>'):'';
+  var html='<button type="button" class="lic-strip '+cls+'" onclick="licHomeOpen()">'+
+    '<span class="lic-strip-dot" style="background:'+g.color+';box-shadow:0 0 7px '+g.color+'"></span>'+
+    '<span class="lic-strip-tx"><span class="lic-strip-lbl">'+sub+'</span><span class="lic-strip-nm">'+esc(urgent.label)+'</span></span>'+
+    extra+
+    '<span class="lic-strip-cd" style="color:'+g.color+'">'+esc(cd)+'</span>'+
+    '<svg class="lic-strip-chev" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg>'+
+  '</button>';
+  els.forEach(function(el){if(el){el.hidden=false;el.innerHTML=html;}});
 }
-window.licHomeOpen=function(){if(typeof openEspaceEleves==='function')openEspaceEleves(false);setTimeout(function(){if(typeof elevTab==='function')elevTab('accueil');},130);};
+window.licHomeOpen=function(){if(typeof openEspaceEleves==='function')openEspaceEleves(false);setTimeout(function(){if(typeof elevTab==='function')elevTab('licences');},130);};
 function licInitHome(){try{licRenderHome();}catch(e){}try{licSyncFromServer();}catch(e){}}
 
 /* ── Cockpit licences : anneau radial + synthèse des échéances ── */
