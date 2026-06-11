@@ -191,6 +191,33 @@ button,a,.tap{transition:transform .28s cubic-bezier(.2,.7,.2,1),background .2s,
 .d-wxbox[data-cat="IFR"] .d-wxbox-cat{color:var(--err)}
 .d-wxbox[data-cat="LIFR"] .d-wxbox-cat{color:var(--vio)}
 
+/* Home hero side stack (weather + licences) */
+.d-hero-side{display:flex;flex-direction:column;gap:18px;min-width:0}
+.d-hero-side .d-wxbox{flex:1}
+
+/* Licence block — accueil app (desktop + mobile) */
+.lic-home{position:relative;background:var(--sf);border:1px solid var(--border);border-radius:14px;padding:16px 18px;overflow:hidden;text-align:left}
+.lic-home::before{content:"";position:absolute;inset:0;background-image:repeating-linear-gradient(135deg,var(--hatch) 0 2px,transparent 2px 8px);opacity:.5;pointer-events:none;-webkit-mask-image:linear-gradient(160deg,#000,transparent 60%);mask-image:linear-gradient(160deg,#000,transparent 60%)}
+.lic-home-hd{display:flex;align-items:center;gap:10px;margin-bottom:13px;position:relative}
+.lic-home-hd-l{font-size:9.5px;font-weight:700;letter-spacing:.26em;text-transform:uppercase;color:var(--muted)}
+.lic-home-hd-go{margin-left:auto;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-style:italic;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);background:none;border:none;cursor:pointer;display:inline-flex;align-items:center;gap:5px;padding:0}
+.lic-home-hd-go span{transition:transform .25s cubic-bezier(.2,.7,.2,1)}
+.lic-home-hd-go:hover span{transform:translateX(3px)}
+.lic-home-rows{display:flex;flex-direction:column;gap:11px;position:relative}
+.lic-home-row{display:flex;flex-direction:column;gap:6px}
+.lic-home-row-top{display:flex;align-items:baseline;justify-content:space-between;gap:12px}
+.lic-home-nm{flex:1 1 auto;min-width:0;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:14.5px;text-transform:uppercase;letter-spacing:.02em;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.lic-home-cd{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:14px;flex-shrink:0;color:var(--muted)}
+.lic-home-cd.ok{color:var(--ok)}.lic-home-cd.warn{color:var(--amber)}.lic-home-cd.soon{color:#ff8c42}.lic-home-cd.exp{color:#ff5f57}
+.lic-home-empty{position:relative;font-size:12.5px;color:var(--muted);line-height:1.5;text-wrap:pretty}
+.lic-home-empty button{display:inline-flex;align-items:center;gap:6px;margin-top:10px;background:var(--accent-soft);border:1px solid var(--accent-bord);color:var(--accent);font-family:'Barlow Condensed',sans-serif;font-weight:700;font-style:italic;font-size:12px;letter-spacing:.12em;text-transform:uppercase;padding:8px 14px;border-radius:9px;cursor:pointer}
+.lic-home-m{margin:0 0 20px}
+.lic-home-row.ok .lic-bar span{background:linear-gradient(90deg,#1fa862,#2ee68a)}
+.lic-home-row.warn .lic-bar span{background:linear-gradient(90deg,#e0931a,#f5a524)}
+.lic-home-row.soon .lic-bar span{background:linear-gradient(90deg,#ff6f3c,#ff9a52)}
+.lic-home-row.exp .lic-bar span{background:#ff5f57;opacity:.5}
+.lic-home-row.none .lic-bar span{background:var(--dim)}
+
 /* DESKTOP NEWS LAYOUT */
 .d-grid{display:grid;grid-template-columns:1fr 320px;gap:24px;align-items:start}
 .d-section-h{display:flex;align-items:baseline;gap:12px;margin-bottom:18px;padding-bottom:12px;border-bottom:1px solid var(--border)}
@@ -1010,17 +1037,19 @@ button,a,.tap{transition:transform .28s cubic-bezier(.2,.7,.2,1),background-colo
 html.pwa .elev-safe{min-height:52px}
 .elev-header{padding:14px var(--side) 10px;display:flex;align-items:center;gap:12px;min-height:56px;border-bottom:1px solid var(--border);background:var(--backdrop);backdrop-filter:blur(28px) saturate(180%);-webkit-backdrop-filter:blur(28px) saturate(180%);flex-shrink:0}
 /* safe area handled by .elev-safe spacer */
-.elev-back{width:34px;height:34px;border-radius:10px;border:1px solid var(--bds);display:flex;align-items:center;justify-content:center;color:var(--muted);cursor:pointer;transition:border-color .2s,color .2s;background:none}
-.elev-back:hover{border-color:var(--accent);color:#fff}
-.elev-back svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
-.elev-header-txt{flex:1}
-.elev-header-txt h2{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:20px;text-transform:uppercase;color:#fff;letter-spacing:-.01em;line-height:1}
-.elev-header-txt span{font-size:10px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--accent)}
+.elev-back{width:38px;height:38px;border-radius:12px;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;color:var(--text-2);cursor:pointer;transition:border-color .2s,color .2s,background .2s;background:var(--sf2);flex-shrink:0}
+.elev-back:hover{border-color:var(--accent);color:#fff;background:var(--accent-soft)}
+.elev-back svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.elev-header-txt{flex:1;min-width:0}
+.elev-header-txt h2{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:24px;text-transform:uppercase;color:#fff;letter-spacing:-.01em;line-height:.95;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.elev-header-txt span{display:block;font-family:'JetBrains Mono',monospace;font-size:9px;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);margin-bottom:5px}
 .elev-badge{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:10px;letter-spacing:.14em;text-transform:uppercase;padding:5px 10px;border-radius:100px;background:rgba(37,99,235,.08);border:1px solid rgba(37,99,235,.25);color:var(--accent)}
 
 .elev-body{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:0 0 0}
 .elev-pane{display:none;padding:14px 14px calc(86px + env(safe-area-inset-bottom,20px))}
 .elev-pane.on{display:block;animation:elevFadeIn .25s ease}
+.elev-pane>.elev-sec-h{position:relative;padding-left:15px}
+.elev-pane>.elev-sec-h::before{content:"";position:absolute;left:0;top:1px;bottom:3px;width:4px;border-radius:3px;background:linear-gradient(var(--accent),var(--accent-2))}
 @keyframes elevFadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
 
 /* Bottom nav élèves */
@@ -1028,6 +1057,7 @@ html.pwa .elev-safe{min-height:52px}
 .elev-nav-btn{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;padding:7px 0 5px;background:none;border:none;cursor:pointer;color:var(--muted);font-family:'Jost',sans-serif;text-decoration:none;position:relative;border-radius:12px;transition:color .25s,background .25s}
 .elev-nav-ic{position:relative;width:50px;height:30px;display:flex;align-items:center;justify-content:center;border-radius:14px;transition:background .28s cubic-bezier(.2,.7,.2,1)}
 .elev-nav-btn.on .elev-nav-ic{background:var(--accent-soft)}
+.elev-nav-btn.on .elev-nav-ic::after{content:"";position:absolute;top:-6px;left:50%;transform:translateX(-50%);width:20px;height:3px;border-radius:2px;background:var(--accent);box-shadow:0 0 8px var(--accent)}
 .elev-nav-btn.on{color:var(--accent)}
 .elev-nav-btn svg{width:21px;height:21px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;display:block;transition:transform .25s cubic-bezier(.2,.7,.2,1)}
 .elev-nav-btn.on svg{transform:scale(1.04)}
@@ -1208,7 +1238,7 @@ html.pwa .doc-viewer-safe{min-height:52px}
 .lic-card.soon{border-left-color:#ff8c42}
 .lic-card.exp{border-left-color:#ff5f57}
 .lic-row{display:flex;align-items:center;gap:14px}
-.lic-bar{height:7px;border-radius:100px;background:rgba(255,255,255,.08);overflow:hidden}
+.lic-bar{height:9px;border-radius:100px;background:rgba(255,255,255,.07);overflow:hidden;box-shadow:inset 0 1px 2px rgba(0,0,0,.25)}
 .lic-bar span{display:block;height:100%;border-radius:100px;transition:width .5s ease}
 .lic-card.ok .lic-bar span{background:linear-gradient(90deg,#1fa862,#2ee68a)}
 .lic-card.warn .lic-bar span{background:linear-gradient(90deg,#e0931a,#f5a524)}
@@ -1223,6 +1253,52 @@ html.pwa .doc-viewer-safe{min-height:52px}
 .lic-cd.warn{color:#f5a524}
 .lic-cd.exp{color:#ff5f57}
 .lic-cd.soon{color:#ff8c42}
+
+/* ── Cockpit licences : vue d'ensemble des échéances ── */
+.lic-cockpit{position:relative;display:flex;align-items:center;gap:20px;padding:20px;margin:14px 0 18px;border-radius:20px;background:radial-gradient(135% 150% at 0% 0%, var(--sf2), var(--sf));border:1px solid var(--bds);overflow:hidden;box-shadow:0 16px 40px -22px rgba(0,0,0,.6)}
+.lic-cockpit[hidden]{display:none}
+.lic-cockpit::before{content:"";position:absolute;inset:0;background-image:linear-gradient(var(--hatch) 1px,transparent 1px),linear-gradient(90deg,var(--hatch) 1px,transparent 1px);background-size:24px 24px;opacity:.6;pointer-events:none;-webkit-mask-image:radial-gradient(125% 120% at 100% 0%,#000,transparent 72%);mask-image:radial-gradient(125% 120% at 100% 0%,#000,transparent 72%)}
+.lic-cockpit-gauge{position:relative;width:110px;height:110px;flex-shrink:0}
+.lic-cockpit-gauge svg{width:100%;height:100%;transform:rotate(-90deg);overflow:visible}
+.lic-cockpit-track{fill:none;stroke:var(--sf3);stroke-width:9}
+.lic-cockpit-prog{fill:none;stroke-width:9;stroke-linecap:round;filter:drop-shadow(0 0 7px currentColor);transition:stroke-dashoffset 1s cubic-bezier(.16,1,.3,1),stroke .4s}
+.lic-cockpit-tick{stroke:var(--bg);stroke-width:3}
+.lic-cockpit-c{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
+.lic-cockpit-num{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:38px;line-height:.82;color:var(--text);font-variant-numeric:tabular-nums}
+.lic-cockpit-num.exp{color:#ff5f57}
+.lic-cockpit-unit{font-family:'JetBrains Mono',monospace;font-size:8px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-top:5px}
+.lic-cockpit-info{flex:1;min-width:0;position:relative}
+.lic-cockpit-eyebrow{font-family:'JetBrains Mono',monospace;font-size:9.5px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);display:flex;align-items:center;gap:9px;margin-bottom:8px}
+.lic-cockpit-eyebrow::before{content:"";width:16px;height:1px;background:var(--accent)}
+.lic-cockpit-next{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:24px;text-transform:uppercase;line-height:.98;color:var(--text);letter-spacing:-.01em;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.lic-cockpit-date{font-family:'JetBrains Mono',monospace;font-size:10.5px;color:var(--muted);margin-top:6px;letter-spacing:.02em}
+.lic-cockpit-stats{display:flex;flex-wrap:wrap;gap:7px;margin-top:14px}
+.lic-cockpit-stat{display:inline-flex;align-items:center;gap:7px;padding:5px 10px;border-radius:8px;background:color-mix(in srgb,var(--bg) 55%,transparent);border:1px solid var(--border);font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:12.5px;letter-spacing:.03em;text-transform:uppercase;color:var(--text-2);line-height:1;white-space:nowrap}
+.lic-cockpit-stat b{color:var(--text);font-weight:900;font-style:italic}
+.lic-cockpit-stat i{width:8px;height:8px;border-radius:2px;display:block;flex-shrink:0}
+.lic-cockpit-stat.ok i{background:var(--ok);box-shadow:0 0 6px rgba(34,215,122,.6)}
+.lic-cockpit-stat.soon i{background:#ff8c42;box-shadow:0 0 6px rgba(255,140,66,.6)}
+.lic-cockpit-stat.exp i{background:#ff5f57;box-shadow:0 0 6px rgba(255,95,87,.6)}
+
+/* Synthèse compacte licences (accueil espace) */
+.lic-synth{display:flex;align-items:center;gap:13px;padding:13px 15px;margin:6px 0 4px;border-radius:14px;background:var(--sf);border:1px solid var(--border);cursor:pointer;transition:border-color .2s,transform .12s}
+.lic-synth:hover{border-color:var(--bds)}
+.lic-synth:active{transform:scale(.99)}
+.lic-synth-dot{width:11px;height:11px;border-radius:50%;flex-shrink:0}
+.lic-synth-tx{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+.lic-synth-eyebrow{font-family:'JetBrains Mono',monospace;font-size:8.5px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
+.lic-synth-nm{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:18px;text-transform:uppercase;letter-spacing:-.01em;color:var(--text);line-height:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.lic-synth-right{display:flex;align-items:center;gap:11px;flex-shrink:0}
+.lic-synth-num{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:30px;line-height:.8;display:flex;flex-direction:column;align-items:flex-end;font-variant-numeric:tabular-nums}
+.lic-synth-num small{font-family:'JetBrains Mono',monospace;font-size:7.5px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-top:4px}
+.lic-synth-pills{display:flex;flex-direction:column;gap:4px}
+.lic-synth-pill{display:inline-flex;align-items:center;gap:5px;font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:12px;color:var(--text-2);line-height:1}
+.lic-synth-pill i{width:7px;height:7px;border-radius:2px;display:block}
+.lic-synth-pill.ok i{background:var(--ok)}.lic-synth-pill.soon i{background:#ff8c42}.lic-synth-pill.exp i{background:#ff5f57}
+.lic-synth-chev{width:18px;height:18px;flex-shrink:0;stroke:var(--muted);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.lic-synth-empty{font-size:12.5px;color:var(--muted);line-height:1.5;padding:2px 0}
+@media (max-width:380px){.lic-cockpit{gap:16px;padding:17px}.lic-cockpit-gauge{width:94px;height:94px}.lic-cockpit-num{font-size:32px}}
+
 .lic-addrow{display:flex;gap:8px;margin-top:2px}
 .lic-addrow select{flex:1;min-width:0;background:rgba(255,255,255,.03);border:1px solid var(--bds,var(--border));border-radius:8px;color:var(--text);font-family:'Jost',sans-serif;font-size:13px;padding:10px}
 .lic-addrow select:focus{outline:none;border-color:var(--accent)}
@@ -1234,6 +1310,29 @@ html.pwa .doc-viewer-safe{min-height:52px}
 .lic-del{background:none;border:none;color:#ff5f57;font-size:16px;cursor:pointer;flex-shrink:0;line-height:1;padding:4px}
 .lic-add{width:100%;padding:11px;border:1px dashed var(--border);border-radius:10px;background:none;color:var(--muted);font-family:'Barlow Condensed',sans-serif;font-weight:700;letter-spacing:.1em;text-transform:uppercase;font-size:12px;cursor:pointer;margin-top:2px}
 .fuel-card{background:var(--sf);border:1px solid var(--border);border-radius:14px;padding:16px}
+/* Collapsible (bilan carburant) */
+.acc-collapse{margin-top:24px}
+.acc-collapse-hd{width:100%;display:flex;align-items:center;gap:13px;padding:15px 16px;background:var(--sf);border:1px solid var(--border);border-radius:14px;cursor:pointer;text-align:left;color:var(--text);transition:border-color .2s}
+.acc-collapse-hd:hover{border-color:var(--bds)}
+.acc-collapse.open .acc-collapse-hd{border-bottom-left-radius:0;border-bottom-right-radius:0;border-bottom-color:transparent}
+.acc-collapse-ic{width:32px;height:32px;border-radius:9px;background:var(--accent-soft);border:1px solid var(--accent-bord);display:flex;align-items:center;justify-content:center;color:var(--accent);flex-shrink:0}
+.acc-collapse-ic svg{width:17px;height:17px;fill:currentColor}
+.acc-collapse-tx{flex:1;min-width:0;line-height:1.15}
+.acc-collapse-t{display:block;font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:17px;text-transform:uppercase;letter-spacing:.02em;color:var(--text)}
+.acc-collapse-sub{display:block;font-size:10.5px;color:var(--muted);margin-top:2px}
+.acc-collapse-chev{width:20px;height:20px;margin-left:6px;flex-shrink:0;stroke:var(--muted);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;transition:transform .3s cubic-bezier(.2,.7,.2,1)}
+.acc-collapse.open .acc-collapse-chev{transform:rotate(180deg)}
+.acc-collapse-body{display:none;border:1px solid var(--border);border-top:none;border-bottom-left-radius:14px;border-bottom-right-radius:14px;padding:14px}
+.acc-collapse.open .acc-collapse-body{display:block;animation:elevFadeIn .25s ease}
+.acc-collapse-body .fuel-card{border:none;background:none;padding:0}
+.acc-collapse-body .acc-note{margin-bottom:0}
+/* Fuel print/export actions */
+.fuel-actions{display:flex;gap:9px;margin-top:14px}
+.fuel-act{flex:1;display:inline-flex;align-items:center;justify-content:center;gap:7px;padding:11px;border-radius:10px;border:1px solid var(--bds);background:var(--sf2);color:var(--text);font-family:'Barlow Condensed',sans-serif;font-weight:700;font-style:italic;font-size:13px;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;transition:border-color .2s,color .2s}
+.fuel-act svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.fuel-act:hover{border-color:var(--accent);color:var(--accent)}
+.fuel-act.primary{background:var(--accent);border-color:var(--accent);color:#fff}
+.fuel-act.primary:hover{opacity:.92;color:#fff}
 .fuel-field{display:flex;flex-direction:column;gap:5px;flex:1;min-width:0}
 .fuel-field label{font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
 .fuel-field select,.fuel-field input{width:100%}
@@ -1467,14 +1566,17 @@ html.pwa .doc-viewer-safe{min-height:52px}
             <span class="d-pilot-role" id="d-pilot-role" style="display:none"><span class="d-pilot-role-dot"></span><span id="d-pilot-role-lbl">Membre</span></span>
           </div>
         </div>
-        <button class="d-wxbox" id="d-wxbox" data-cat="—" onclick="switchD('meteo')" type="button">
-          <div>
-            <div class="d-wxbox-label">METAR <span class="d-wxbox-icao">· LFOE</span></div>
-            <div class="d-wxbox-cat" id="d-wxbox-cat">—</div>
-            <div class="d-wxbox-wind" id="d-wxbox-wind">En attente du METAR…</div>
-          </div>
-          <div class="d-wxbox-go">Météo détail<span>→</span></div>
-        </button>
+        <div class="d-hero-side">
+          <button class="d-wxbox" id="d-wxbox" data-cat="—" onclick="switchD('meteo')" type="button">
+            <div>
+              <div class="d-wxbox-label">METAR <span class="d-wxbox-icao">· LFOE</span></div>
+              <div class="d-wxbox-cat" id="d-wxbox-cat">—</div>
+              <div class="d-wxbox-wind" id="d-wxbox-wind">En attente du METAR…</div>
+            </div>
+            <div class="d-wxbox-go">Météo détail<span>→</span></div>
+          </button>
+          <div class="lic-home" id="lic-home-d"></div>
+        </div>
       </div>
 
       <!-- 2-col -->
@@ -1602,6 +1704,8 @@ html.pwa .doc-viewer-safe{min-height:52px}
         <div class="welcome-disclaimer">Information non certifiée — briefing officiel à votre charge.</div>
       </div>
 
+      <div class="lic-home lic-home-m" id="lic-home-m"></div>
+
       <!-- News -->
       <div class="mobile-sec-h">
         <h2>Actualités</h2>
@@ -1690,6 +1794,23 @@ html.pwa .doc-viewer-safe{min-height:52px}
         <input id="admin-search-input" class="admin-search-input" type="text" placeholder="Rechercher un membre…" oninput="adminFilter(this.value)"/>
       </div>
       <div id="admin-members-list"></div>
+    </div>
+  </div>
+
+  <!-- CONTACTS (sub-page accessible depuis Options) -->
+  <div id="pane-contacts" class="tab-pane">
+    <div class="mobile-wrap">
+      <button class="subpage-back" onclick="switchTab('outils')" type="button">
+        <svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
+        <span>Options</span>
+      </button>
+      <div class="mobile-sec-h">
+        <h2>Contacts</h2>
+        <span class="mobile-sec-h-sub">Équipe &amp; contacts utiles</span>
+      </div>
+      <div id="ct-team"></div>
+      <h4 class="elev-group-h">Contacts utiles</h4>
+      <div id="ct-extra-list"></div>
     </div>
   </div>
 
@@ -2079,6 +2200,16 @@ if(DEMO_MODE){
     sessionStorage.setItem('apam_nom','Lambert');
     sessionStorage.setItem('apam_perms',JSON.stringify(permsByRole[mode]||permsByRole.admin));
     sessionStorage.setItem('apam_pin','0000');
+    /* Sème des dates de licences (relatives à aujourd'hui) pour montrer le cockpit en preview */
+    try{
+      var _lt=new Date();var _ld=function(n){return new Date(_lt.getTime()+n*86400000).toISOString().split('T')[0];};
+      localStorage.setItem('apam_licences',JSON.stringify([
+        {label:'Certificat médical',date:_ld(95)},
+        {label:'Qualification SEP',date:_ld(250)},
+        {label:'Vol de nuit (VN)',date:_ld(53)},
+        {label:'Qualification FI',date:_ld(34)}
+      ]));
+    }catch(e){}
   }catch(e){}
 
   /* Intercept network in demo mode: simulate success for write actions */
@@ -2125,6 +2256,13 @@ if(DEMO_MODE){
           {_row:14,titre:"Partage de frais — Deauville samedi",detail:"Une place dispo, quelqu'un d'intéressé ?",auteur:"Julien Robert",profil:"prive",date:"2026-06-08",statut:"attente"}
         ];
         return Promise.resolve(new Response(JSON.stringify({questions:window._demoQuestions}),{status:200,headers:{'Content-Type':'application/json'}}));
+      }
+      if(url.indexOf('action=getLicences')>-1){
+        var _dl=[];try{_dl=JSON.parse(localStorage.getItem('apam_licences')||'[]');}catch(e){}
+        return Promise.resolve(new Response(JSON.stringify({licences:_dl,maj:''}),{status:200,headers:{'Content-Type':'application/json'}}));
+      }
+      if(url.indexOf('action=saveLicences')>-1){
+        return Promise.resolve(new Response(JSON.stringify({success:true}),{status:200,headers:{'Content-Type':'application/json'}}));
       }
       if(url.indexOf('action=getDocuments')>-1){
         return Promise.resolve(new Response(JSON.stringify({documents:[
@@ -2401,6 +2539,7 @@ window.switchTab=function(tab){
   if(tab==='publication')openPublication();
   if(tab==='admin')openAdmin();
   if(tab==='maintenance')openMaintenance();
+  if(tab==='contacts'){try{elevRenderContacts();}catch(e){}}
   window.scrollTo({top:0,behavior:'instant'});
 };
 window.switchD=function(tab){
@@ -2595,9 +2734,11 @@ function buildOutils(){
     moon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>',
     cgu:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>',
     logout:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>',
-    wrench:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a4 4 0 0 0-5.4 5.3L3 18l3 3 6.4-6.3a4 4 0 0 0 5.3-5.4l-2.6 2.6-2.3-.6-.6-2.3z"/></svg>'
+    wrench:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a4 4 0 0 0-5.4 5.3L3 18l3 3 6.4-6.3a4 4 0 0 0 5.3-5.4l-2.6 2.6-2.3-.6-.6-2.3z"/></svg>',
+    contacts:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>'
   };
   const tools=[];
+  tools.push({i:ICN.contacts,t:'Contacts',s:'Équipe du club & contacts utiles',a:"switchTab('contacts')",h:'#',c:''});
   if(perms.news_pub||perms.news_membres||perms.photos)tools.push({i:ICN.pub,t:'Publication',s:'Publier actualités & sondages',a:"switchTab('publication')",h:'presidence.html',c:''});
   if(perms.admin||perms.news_pub||perms.mecano)tools.push({i:ICN.wrench,t:'Maintenance flotte',s:'État des avions',a:"switchTab('maintenance')",h:'#',c:''});
   if(perms.admin)tools.push({i:ICN.admin,t:'Gestion membres',s:'Permissions & accès',a:"switchTab('admin')",h:'admin.html',c:'admin-item'});
@@ -3690,7 +3831,7 @@ function mirrorEleveRessources(){
 
 /* ── Init ── */
 applyProfileLayout();
-buildOutils();chargerNews();chargerFleet();
+buildOutils();chargerNews();chargerFleet();licInitHome();
 setTimeout(function(){wxLoad('m-wx');if(document.getElementById('d-wx'))wxPendingTargets.push('d-wx');updateWxQuick();},800);
 setTimeout(function preloadTaf(_n){
   _n=_n||0;
@@ -3705,7 +3846,34 @@ setTimeout(function preloadTaf(_n){
     if(_n<3) setTimeout(function(){preloadTaf(_n+1);},(_n+1)*2500);
   });
 },2500);
-setInterval(function(){wxTs=0;wxFetching=false;wxLoad('m-wx');wxLoad('d-wx');},600000);
+setInterval(function(){wxTs=0;wxFetching=false;wxLoad('m-wx');wxLoad('d-wx');},300000);
+
+/* ── Auto-refresh actus + réactions (sondages oui/non) ── */
+var _newsTs=0, _newsRefreshing=false;
+function newsAutoRefresh(force){
+  if(_newsRefreshing)return;
+  if(!force && Date.now()-_newsTs < 45000) return;
+  if(typeof chargerNews!=='function')return;
+  _newsRefreshing=true;_newsTs=Date.now();
+  Promise.resolve(chargerNews()).catch(function(){}).then(function(){_newsRefreshing=false;});
+}
+/* Sondage : juste rafraîchir les réactions sans recharger toute la liste (léger) */
+async function reactionsAutoRefresh(){
+  try{
+    var news=(typeof loadNC==='function'&&loadNC())||[];
+    if(!news.length)return;
+    await fetchReactions(news);
+    if(typeof saveRC==='function')saveRC();
+    news.forEach(function(n){if(n.sondage&&n.sondage!=='aucun'&&typeof refreshPollCard==='function')refreshPollCard(n.id,news);});
+  }catch(e){}
+}
+/* Poll doux quand l'app est visible : réactions toutes les 30 s, actus complètes toutes les 45 s */
+setInterval(function(){if(!document.hidden)reactionsAutoRefresh();},30000);
+setInterval(function(){if(!document.hidden)newsAutoRefresh();},60000);
+/* Au retour sur l'app : actus + réactions fraîches */
+document.addEventListener('visibilitychange',function(){
+  if(!document.hidden)setTimeout(function(){newsAutoRefresh(true);},400);
+});
 
 /* Auto-check for app update silently 3s after launch */
 setTimeout(async function(){
@@ -3882,17 +4050,22 @@ window.closeTutorial=function(){
 
 
 /* ══ Espace Élèves & Instructeurs ══ */
-var _elevQuestions=null, _elevDocs=null, _elevInstr=null, _elevFilter='all', _elevLoaded=false, _elevPrimary=false;
+var _elevQuestions=null, _elevDocs=null, _elevInstr=null, _elevFilter='all', _elevLoaded=false, _elevPrimary=false, _elevLoading=false;
 /* Espace unifié : 'pilote' (prive/admin/président) ou 'eleve' (élève/instructeur) */
 var _elevMode=(memberProfil==='eleve'||memberProfil==='instructeur')?'eleve':'pilote';
 
 function applyEspaceMode(){
   var isPilote=_elevMode==='pilote';
   /* En-tête : seul le titre change selon le profil. */
-  var h2=document.querySelector('#elev-overlay .elev-header-txt h2');
   var eye=document.querySelector('#elev-overlay .elev-header-txt span');
-  if(h2)h2.textContent = isPilote ? 'Espace pilote' : (memberProfil==='instructeur'?'Espace instructeur':'Espace élève');
-  if(eye)eye.textContent = isPilote ? 'APAM · Pilote' : 'APAM · Formation';
+  if(eye)eye.textContent = isPilote ? 'Espace pilote' : (memberProfil==='instructeur'?'Espace instructeur':'Espace élève');
+  setElevTitle();
+}
+var SECT_TITLES={accueil:'Accueil',docs:'Documents',forum:'Forum',ressources:'Liens',licences:'Licences'};
+function setElevTitle(tab){
+  var h2=document.getElementById('elev-head-title');if(!h2)return;
+  if(!tab){var ap=document.querySelector('#elev-overlay .elev-pane.on');tab=ap?ap.id.replace('elev-',''):'accueil';}
+  h2.textContent=SECT_TITLES[tab]||'Accueil';
 }
 
 function openEspaceEleves(primary){
@@ -3931,28 +4104,46 @@ function elevTab(tab){
   var pane=document.getElementById('elev-'+tab);
   if(pane)pane.classList.add('on');
   var btns=document.querySelectorAll('.elev-nav-btn');
-  var tabs=['accueil','docs','forum','ressources','contacts'];
+  var tabs=['accueil','docs','forum','ressources','licences'];
   var idx=tabs.indexOf(tab);
   if(idx>=0&&btns[idx])btns[idx].classList.add('on');
+  setElevTitle(tab);
+  /* Rendu paresseux : garantit l'affichage à l'ouverture de l'onglet, même si un autre rendu a échoué */
+  try{
+    if(tab==='accueil'){elevRenderDash();renderLic();}
+    else if(tab==='docs'){if(!_elevDocs){elevEnsureLoaded(true);}else elevRenderDocs();}
+    else if(tab==='forum'){if(!_elevQuestions){elevEnsureLoaded(true);}else elevRenderForum();}
+    else if(tab==='licences'){renderLic();}
+  }catch(e){}
+}
+
+/* Recharge les données de l'espace si manquantes (après un échec réseau) */
+function elevEnsureLoaded(force){
+  if(_elevLoading)return;
+  if(force||_elevQuestions===null||_elevDocs===null){elevLoadAll();}
 }
 
 async function elevLoadAll(){
+  if(_elevLoading)return;
+  _elevLoading=true;
   try{
     var [qRes,dRes,iRes]=await Promise.all([
-      fetch(API+'?action=getQuestions').then(function(r){return r.json();}),
-      fetch(API+'?action=getDocuments').then(function(r){return r.json();}),
-      fetch(API+'?action=getInstructors').then(function(r){return r.json();})
+      fetch(API+'?action=getQuestions').then(function(r){return r.json();}).catch(function(){return {};}),
+      fetch(API+'?action=getDocuments').then(function(r){return r.json();}).catch(function(){return {};}),
+      fetch(API+'?action=getInstructors').then(function(r){return r.json();}).catch(function(){return {};})
     ]);
-    _elevQuestions=qRes.questions||[];
-    _elevDocs={documents:dRes.documents||[],dossiers:dRes.dossiers||[]};
-    _elevInstr=iRes.instructeurs||[];
+    if(qRes&&qRes.questions)_elevQuestions=qRes.questions;else if(_elevQuestions===null)_elevQuestions=[];
+    if(dRes&&dRes.documents)_elevDocs={documents:dRes.documents||[],dossiers:dRes.dossiers||[]};else if(_elevDocs===null)_elevDocs={documents:[],dossiers:[]};
+    if(iRes&&iRes.instructeurs)_elevInstr=iRes.instructeurs;else if(_elevInstr===null)_elevInstr=[];
   }catch(e){
-    _elevQuestions=[];_elevDocs={documents:[],dossiers:[]};_elevInstr=[];
+    if(_elevQuestions===null)_elevQuestions=[];if(_elevDocs===null)_elevDocs={documents:[],dossiers:[]};if(_elevInstr===null)_elevInstr=[];
   }
-  elevRenderDash();
-  elevRenderDocs();
-  elevRenderForum();
-  elevRenderContacts();
+  _elevLoading=false;
+  /* Chaque rendu est isolé : un échec n'empêche pas les autres de s'afficher */
+  try{elevRenderDash();}catch(e){}
+  try{elevRenderDocs();}catch(e){}
+  try{elevRenderForum();}catch(e){}
+  try{elevRenderContacts();}catch(e){}
 }
 
 function elevRenderDash(){
@@ -4116,12 +4307,12 @@ function _extraCard(c){
   return c.url?('<a class="instr-card link" href="'+c.url+'" target="_blank" rel="noopener">'+inner+'</a>'):('<div class="instr-card">'+inner+'</div>');
 }
 function elevRenderContacts(){
-  var t=document.getElementById('elev-team');
-  if(t)t.innerHTML=TEAM.map(function(g){
+  var teamHtml=TEAM.map(function(g){
     return '<h4 class="elev-group-h">'+esc(g.cat)+'</h4>'+g.members.map(_teamCard).join('');
   }).join('');
-  var el=document.getElementById('elev-extra-list');
-  if(el)el.innerHTML=CONTACTS_UTILES.map(_extraCard).join('');
+  var extraHtml=CONTACTS_UTILES.map(_extraCard).join('');
+  ['elev-team','ct-team'].forEach(function(id){var el=document.getElementById(id);if(el)el.innerHTML=teamHtml;});
+  ['elev-extra-list','ct-extra-list'].forEach(function(id){var el=document.getElementById(id);if(el)el.innerHTML=extraHtml;});
 }
 
 /* ── Accueil : licences & médicales (local, privé à l'appareil) ── */
@@ -4145,9 +4336,11 @@ function licStatus(date){
 }
 var _licEdit=false;
 function renderLic(){
+  if(typeof licRenderHome==='function')licRenderHome();
   var list=document.getElementById('lic-list');if(!list)return;
   var data=licLoad();
   updateLicInvite();
+  licRenderCockpit(_licEdit?[]:data);
   if(_licEdit){
     list.innerHTML=data.map(function(it,i){
       return '<div class="lic-edit-row"><input type="text" value="'+esc(it.label)+'" oninput="licField('+i+',\'label\',this.value)" placeholder="Intitulé"><input type="date" value="'+esc(it.date||'')+'" oninput="licField('+i+',\'date\',this.value)"><button class="lic-del" onclick="licRemove('+i+')" title="Supprimer">✕</button></div>';
@@ -4170,10 +4363,99 @@ window.licRemove=function(i){var d=licLoad();d.splice(i,1);licSaveData(d);render
 
 /* ── Licences : invitation + synchro serveur ── */
 function licHasAnyDate(){try{return licLoad().some(function(it){return it&&it.date;});}catch(e){return false;}}
+
+/* ── Bloc licences sur l'accueil de l'app (desktop + mobile) ── */
+function licRenderHome(){
+  var dated=licLoad().filter(function(it){return it&&it.label&&it.date&&licDays(it.date)!==null;});
+  var html;
+  if(!dated.length){
+    html='<div class="lic-home-hd"><span class="lic-home-hd-l">Licences &amp; médicales</span></div>'+
+      '<div class="lic-home-empty">Suivez vos échéances (médical, SEP…) et soyez alerté avant leur expiration.'+
+      '<br><button type="button" onclick="licHomeOpen()">Renseigner mes licences <span>→</span></button></div>';
+  }else{
+    var sorted=dated.slice().sort(function(a,b){return licDays(a.date)-licDays(b.date);});
+    var rows=sorted.slice(0,4).map(function(it){
+      var s=licStatus(it.date);
+      return '<div class="lic-home-row '+s.cls+'"><div class="lic-home-row-top"><span class="lic-home-nm">'+esc(it.label)+'</span><span class="lic-home-cd '+s.cls+'">'+esc(s.cd)+'</span></div><div class="lic-bar"><span style="width:'+s.pct.toFixed(0)+'%"></span></div></div>';
+    }).join('');
+    html='<div class="lic-home-hd"><span class="lic-home-hd-l">Licences &amp; médicales</span><button class="lic-home-hd-go" type="button" onclick="licHomeOpen()">Gérer <span>→</span></button></div><div class="lic-home-rows">'+rows+'</div>';
+  }
+  ['lic-home-d','lic-home-m'].forEach(function(id){var el=document.getElementById(id);if(el)el.innerHTML=html;});
+}
+window.licHomeOpen=function(){if(typeof openEspaceEleves==='function')openEspaceEleves(false);setTimeout(function(){if(typeof elevTab==='function')elevTab('accueil');},130);};
+function licInitHome(){try{licRenderHome();}catch(e){}try{licSyncFromServer();}catch(e){}}
+
+/* ── Cockpit licences : anneau radial + synthèse des échéances ── */
+function licDays(date){if(!date)return null;var now=new Date();now.setHours(0,0,0,0);var d=new Date(date+'T00:00:00');if(isNaN(d.getTime()))return null;return Math.round((d-now)/86400000);}
+function licGauge(days){
+  if(days<0)   return {num:Math.abs(days),unit:days===-1?'jour de retard':'jours de retard',color:'#ff5f57',fill:0,exp:true};
+  if(days<=31) return {num:days,unit:days===1?'jour restant':'jours restants',color:days<=30?'#ff8c42':'#f5a524',fill:Math.max(7,days/365*100),exp:false};
+  var months=Math.max(1,Math.floor(days/30.44));
+  return {num:months,unit:months===1?'mois restant':'mois restants',color:days<=90?'#f5a524':'#22d77a',fill:Math.max(7,Math.min(100,days/365*100)),exp:false};
+}
+function licRenderCockpit(data){
+  var el=document.getElementById('lic-cockpit');if(!el)return;
+  var dated=(data||[]).filter(function(it){return it&&it.date&&licDays(it.date)!==null;});
+  if(!dated.length){el.hidden=true;el.innerHTML='';return;}
+  el.hidden=false;
+  /* le plus urgent = plus petit nombre de jours (négatif = expiré) */
+  var urgent=dated.slice().sort(function(a,b){return licDays(a.date)-licDays(b.date);})[0];
+  var ud=licDays(urgent.date);var g=licGauge(ud);
+  var nb={ok:0,soon:0,exp:0};
+  dated.forEach(function(it){var dd=licDays(it.date);if(dd<0)nb.exp++;else if(dd<=90)nb.soon++;else nb.ok++;});
+  var f=new Date(urgent.date+'T00:00:00').toLocaleDateString('fr-FR',{day:'2-digit',month:'long',year:'numeric'});
+  var R=46,C=2*Math.PI*R,off=C*(1-g.fill/100);
+  var stats=[];
+  if(nb.ok)  stats.push('<span class="lic-cockpit-stat ok"><i></i><b>'+nb.ok+'</b> à jour</span>');
+  if(nb.soon)stats.push('<span class="lic-cockpit-stat soon"><i></i><b>'+nb.soon+'</b> à surveiller</span>');
+  if(nb.exp) stats.push('<span class="lic-cockpit-stat exp"><i></i><b>'+nb.exp+'</b> expirée'+(nb.exp>1?'s':'')+'</span>');
+  el.innerHTML=
+    '<div class="lic-cockpit-gauge">'+
+      '<svg viewBox="0 0 104 104">'+
+        '<circle class="lic-cockpit-track" cx="52" cy="52" r="'+R+'"></circle>'+
+        '<circle class="lic-cockpit-prog" cx="52" cy="52" r="'+R+'" style="stroke:'+g.color+';color:'+g.color+';stroke-dasharray:'+C.toFixed(1)+';stroke-dashoffset:'+off.toFixed(1)+'"></circle>'+
+      '</svg>'+
+      '<div class="lic-cockpit-c"><span class="lic-cockpit-num'+(g.exp?' exp':'')+'">'+(g.exp?'!':g.num)+'</span><span class="lic-cockpit-unit">'+(g.exp?'expiré':'échéance')+'</span></div>'+
+    '</div>'+
+    '<div class="lic-cockpit-info">'+
+      '<div class="lic-cockpit-eyebrow">'+(g.exp?'Action requise':'Prochaine échéance')+'</div>'+
+      '<div class="lic-cockpit-next">'+esc(urgent.label)+'</div>'+
+      '<div class="lic-cockpit-date">'+(g.exp?'expiré le ':'valide jusqu\'au ')+esc(f)+' · '+g.num+' '+g.unit+'</div>'+
+      '<div class="lic-cockpit-stats">'+stats.join('')+'</div>'+
+    '</div>';
+}
 function updateLicInvite(){
-  var el=document.getElementById('lic-invite');if(!el)return;
   var off=false;try{off=sessionStorage.getItem('apam_lic_invite_off')==='1';}catch(e){}
-  el.hidden=licHasAnyDate()||off;
+  var hide=licHasAnyDate();
+  var el=document.getElementById('lic-invite');if(el)el.hidden=hide||off;
+  var el2=document.getElementById('lic-invite-2');if(el2)el2.hidden=hide;
+  licRenderSynth();
+}
+/* Synthèse compacte des licences sur l'accueil de l'espace */
+function licRenderSynth(){
+  var el=document.getElementById('lic-synth');if(!el)return;
+  var dated=licLoad().filter(function(it){return it&&it.label&&it.date&&licDays(it.date)!==null;});
+  if(!dated.length){
+    el.innerHTML='<div class="lic-synth-empty">Aucune échéance suivie. Touchez pour ajouter vos licences &amp; médicales.</div>';
+    return;
+  }
+  var sorted=dated.slice().sort(function(a,b){return licDays(a.date)-licDays(b.date);});
+  var urgent=sorted[0];var ud=licDays(urgent.date);var g=licGauge(ud);
+  var nb={ok:0,soon:0,exp:0};
+  dated.forEach(function(it){var dd=licDays(it.date);if(dd<0)nb.exp++;else if(dd<=90)nb.soon++;else nb.ok++;});
+  var pills=[];
+  if(nb.ok)pills.push('<span class="lic-synth-pill ok"><i></i>'+nb.ok+'</span>');
+  if(nb.soon)pills.push('<span class="lic-synth-pill soon"><i></i>'+nb.soon+'</span>');
+  if(nb.exp)pills.push('<span class="lic-synth-pill exp"><i></i>'+nb.exp+'</span>');
+  el.innerHTML=
+    '<span class="lic-synth-dot" style="background:'+g.color+';box-shadow:0 0 8px '+g.color+'"></span>'+
+    '<div class="lic-synth-tx">'+
+      '<span class="lic-synth-eyebrow">'+(g.exp?'Action requise':'Prochaine échéance')+'</span>'+
+      '<span class="lic-synth-nm">'+esc(urgent.label)+'</span>'+
+    '</div>'+
+    '<div class="lic-synth-right"><span class="lic-synth-num'+(g.exp?' exp':'')+'" style="color:'+g.color+'">'+(g.exp?'!':g.num)+'<small>'+(g.exp?'exp.':g.unit.split(' ')[0])+'</small></span>'+
+    '<div class="lic-synth-pills">'+pills.join('')+'</div></div>'+
+    '<svg class="lic-synth-chev" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg>';
 }
 window.licInviteAct=function(){
   hapticTick();
@@ -4224,6 +4506,7 @@ window.fuelPreset=function(){
   fuelCalc();
 };
 window.fuelSetRes=function(min,btn){_fuelRes=min;document.querySelectorAll('#fuel-seg button').forEach(function(b){b.classList.toggle('on',b===btn);});fuelCalc();};
+var _fuelLast=null;
 window.fuelCalc=function(){
   var g=function(id){return parseFloat((document.getElementById(id)||{}).value)||0;};
   var conso=g('fuel-conso'),cap=g('fuel-cap'),taxi=g('fuel-taxi'),trip=g('fuel-trip'),alt=g('fuel-alt'),margin=g('fuel-margin');
@@ -4249,7 +4532,78 @@ window.fuelCalc=function(){
     if(ok)html+='<p class="fuel-verdict ok">✓ Tient dans le plein. Reste '+fmt(cap-total)+' L après le vol.</p>';
     else html+='<p class="fuel-verdict bad">✗ Dépasse de '+fmt(total-cap)+' L — revoir le plan ou prévoir une escale.</p>';
   }
+  var acSel=document.getElementById('fuel-ac');
+  var acName=(acSel&&acSel.options[acSel.selectedIndex])?acSel.options[acSel.selectedIndex].text:'Avion';
+  _fuelLast={acName:acName,conso:conso,cap:cap,taxi:taxi,trip:trip,alt:alt,res:_fuelRes,margin:margin,taxiL:taxiL,tripL:tripL,altL:altL,resL:resL,marginL:marginL,total:total,ok:ok,auton:auton,hh:hh,mm:mm};
+  if(total>0){
+    html+='<div class="fuel-actions">'+
+      '<button type="button" class="fuel-act" onclick="fuelPrintDoc(\'print\')"><svg viewBox="0 0 24 24"><path d="M6 9V2h12v7M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2M6 14h12v8H6z"/></svg>Imprimer</button>'+
+      '<button type="button" class="fuel-act primary" onclick="fuelPrintDoc(\'pdf\')"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>Enregistrer PDF</button>'+
+    '</div>';
+  }
   out.innerHTML=html;
+};
+window.fuelToggle=function(){var c=document.getElementById('fuel-collapse');if(!c)return;var open=c.classList.toggle('open');var hd=c.querySelector('.acc-collapse-hd');if(hd)hd.setAttribute('aria-expanded',open?'true':'false');if(typeof hapticTick==='function')hapticTick();};
+window.fuelPrintDoc=function(mode){
+  var f=_fuelLast;if(!f){try{fuelCalc();}catch(e){}f=_fuelLast;}if(!f)return;
+  var n2=function(x){return (Math.round(x*10)/10).toFixed(1);};
+  var d=new Date();
+  var dateStr=d.toLocaleDateString('fr-FR',{weekday:'long',day:'2-digit',month:'long',year:'numeric'});
+  var timeStr=d.toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'});
+  var pilot=((typeof memberName!=='undefined'&&memberName)||'').trim();
+  var rows=[['Roulage / mise en route',f.taxi+' min',f.taxiL],['Vol prévu',f.trip+' min',f.tripL],['Dégagement',f.alt+' min',f.altL],['Réserve finale',f.res+' min',f.resL],['Marge imprévus',f.margin+' %',f.marginL]];
+  var rowsHtml=rows.map(function(r){return '<tr><td>'+r[0]+'</td><td class="c">'+r[1]+'</td><td class="v">'+n2(r[2])+' L</td></tr>';}).join('');
+  var auton=f.conso>0?(f.hh+'h'+f.mm):'—';
+  var verdict=f.cap>0?(f.ok?'<div class="vd ok">Tient dans le plein — il reste '+n2(f.cap-f.total)+' L après le vol.</div>':'<div class="vd bad">Dépassement de '+n2(f.total-f.cap)+' L — revoir le plan ou prévoir une escale.</div>'):'';
+  var esc2=function(s){return String(s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});};
+  var doc='<!DOCTYPE html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Bilan carburant — '+esc2(f.acName)+'</title>'+
+  '<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,700;1,900&family=Jost:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">'+
+  '<style>'+
+  '*{margin:0;padding:0;box-sizing:border-box}'+
+  'body{font-family:Jost,system-ui,sans-serif;color:#15181f;background:#fff;padding:32px 30px;max-width:720px;margin:0 auto;-webkit-print-color-adjust:exact;print-color-adjust:exact}'+
+  '.hd{display:flex;align-items:flex-start;justify-content:space-between;border-bottom:3px solid #15181f;padding-bottom:16px;margin-bottom:4px}'+
+  '.brand{display:flex;align-items:center;gap:11px}'+
+  '.logo{font-family:"Barlow Condensed",sans-serif;font-weight:900;font-style:italic;font-size:26px;letter-spacing:.02em;color:#1a4690;border:2.5px solid #1a4690;border-radius:6px;padding:2px 11px}'+
+  '.brand small{display:block;font-family:"JetBrains Mono",monospace;font-size:9.5px;letter-spacing:.18em;text-transform:uppercase;color:#6a7385;margin-bottom:3px}'+
+  '.brand b{font-family:"Barlow Condensed",sans-serif;font-weight:900;font-style:italic;font-size:18px;text-transform:uppercase;letter-spacing:.01em}'+
+  '.meta{text-align:right;font-family:"JetBrains Mono",monospace;font-size:10.5px;color:#5a6172;line-height:1.6}'+
+  'h1{font-family:"Barlow Condensed",sans-serif;font-weight:900;font-style:italic;font-size:40px;text-transform:uppercase;letter-spacing:-.01em;margin:22px 0 4px}'+
+  '.ac{font-family:"JetBrains Mono",monospace;font-size:13px;color:#1a4690;font-weight:500;margin-bottom:22px}'+
+  '.params{display:flex;gap:10px;margin-bottom:22px;flex-wrap:wrap}'+
+  '.param{border:1px solid #d9dce3;border-radius:8px;padding:8px 13px;font-size:12px}'+
+  '.param span{display:block;font-family:"JetBrains Mono",monospace;font-size:8.5px;letter-spacing:.14em;text-transform:uppercase;color:#8a90a0;margin-bottom:3px}'+
+  '.param b{font-family:"Barlow Condensed",sans-serif;font-weight:900;font-style:italic;font-size:18px}'+
+  'table{width:100%;border-collapse:collapse;margin-bottom:20px}'+
+  'th{text-align:left;font-family:"JetBrains Mono",monospace;font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:#8a90a0;padding:0 0 9px;border-bottom:1.5px solid #15181f}'+
+  'th.r,td.v,td.c{text-align:right}'+
+  'td{padding:11px 0;border-bottom:1px solid #e7e9ee;font-size:14px}'+
+  'td.c{font-family:"JetBrains Mono",monospace;font-size:11px;color:#8a90a0;width:90px}'+
+  'td.v{font-family:"JetBrains Mono",monospace;font-weight:500;width:90px}'+
+  '.total{display:flex;align-items:center;justify-content:space-between;background:#15181f;color:#fff;border-radius:12px;padding:18px 22px;margin-bottom:14px}'+
+  '.total .l{font-family:"JetBrains Mono",monospace;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:#aab1c2}'+
+  '.total .a{font-family:"Barlow Condensed",sans-serif;font-weight:900;font-style:italic;font-size:42px;line-height:1}'+
+  '.vd{border-radius:9px;padding:12px 16px;font-size:13px;font-weight:600;margin-bottom:18px}'+
+  '.vd.ok{background:#e7f6ee;color:#0e6a32;border:1px solid #b6e2c8}'+
+  '.vd.bad{background:#fdeceb;color:#a3201d;border:1px solid #f3c4c1}'+
+  '.auton{font-family:"JetBrains Mono",monospace;font-size:11px;color:#5a6172;margin-bottom:26px}'+
+  '.foot{border-top:1px solid #e7e9ee;padding-top:14px;font-size:10.5px;color:#8a90a0;line-height:1.6}'+
+  '@media print{body{padding:0}@page{margin:16mm}}'+
+  '</style></head><body>'+
+  '<div class="hd"><div class="brand"><span class="logo">APAM</span><div><small>Aéroclub · Espace pilote</small><b>Bilan carburant</b></div></div>'+
+  '<div class="meta">'+esc2(dateStr)+'<br>'+timeStr+(pilot?'<br>'+esc2(pilot):'')+'</div></div>'+
+  '<h1>'+n2(f.total)+' litres</h1>'+
+  '<div class="ac">'+esc2(f.acName)+'</div>'+
+  '<div class="params"><div class="param"><span>Consommation</span><b>'+n2(f.conso)+' L/h</b></div><div class="param"><span>Capacité utile</span><b>'+(f.cap>0?n2(f.cap)+' L':'—')+'</b></div><div class="param"><span>Autonomie</span><b>'+auton+'</b></div></div>'+
+  '<table><thead><tr><th>Poste</th><th class="r">Durée</th><th class="r">Carburant</th></tr></thead><tbody>'+rowsHtml+'</tbody></table>'+
+  '<div class="total"><span class="l">Total nécessaire</span><span class="a">'+n2(f.total)+' L</span></div>'+
+  verdict+
+  '<div class="auton">Réserve finale calculée sur '+f.res+' min · marge imprévus '+f.margin+' %.</div>'+
+  '<div class="foot"><strong>Document d’aide à la préparation — valeurs indicatives.</strong> Le manuel de vol de l’appareil et la réglementation en vigueur prévalent. Établi via l’app APAM le '+esc2(dateStr)+' à '+timeStr+'.</div>'+
+  '<script>window.onload=function(){setTimeout(function(){window.print();},350);};window.onafterprint=function(){window.close();};<\/script>'+
+  '</body></html>';
+  var w=window.open('','_blank');
+  if(!w){alert('Autorisez les fenêtres pop-up pour imprimer ou exporter le bilan en PDF.');return;}
+  w.document.open();w.document.write(doc);w.document.close();
 };
 function accInit(){renderLic();fuelInitSelect();fuelPreset();ckRenderList();licSyncFromServer();}
 
@@ -4439,8 +4793,8 @@ async function docUploadFile(input){
   <div class="elev-header">
     <button class="elev-back" onclick="closeEspaceEleves()"><svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></button>
     <div class="elev-header-txt">
-      <span>Formation</span>
-      <h2>Espace Élèves</h2>
+      <span id="elev-head-eyebrow">Espace pilote</span>
+      <h2 id="elev-head-title">Accueil</h2>
     </div>
     <span class="elev-badge" id="elev-role-badge">Membre</span>
   </div>
@@ -4449,7 +4803,6 @@ async function docUploadFile(input){
     <!-- ACCUEIL -->
     <!-- ACCUEIL -->
     <div class="elev-pane on" id="elev-accueil">
-      <h3 class="elev-sec-h">Accueil</h3>
 
       <div id="lic-invite" class="lic-invite" hidden>
         <div class="lic-invite-ic">🗓️</div>
@@ -4458,21 +4811,26 @@ async function docUploadFile(input){
           <span>Enregistrez les dates de vos licences &amp; médicales pour être alerté avant leur expiration.</span>
         </div>
         <div class="lic-invite-ax">
-          <button class="lic-invite-go" type="button" onclick="licInviteAct()">Renseigner</button>
+          <button class="lic-invite-go" type="button" onclick="elevTab('licences')">Renseigner</button>
           <button class="lic-invite-later" type="button" onclick="licInviteLater()">Plus tard</button>
         </div>
       </div>
 
       <div class="acc-head">
-        <h4 class="elev-group-h">Vos licences &amp; médicales</h4>
-        <button class="acc-edit" type="button" onclick="licToggleEdit()" id="lic-edit-btn">Modifier</button>
+        <h4 class="elev-group-h">Licences &amp; médicales</h4>
+        <button class="acc-edit" type="button" onclick="elevTab('licences')">Gérer →</button>
       </div>
-      <p class="acc-note">Saisissez la date d'échéance figurant sur vos documents. Vos dates sont enregistrées pour vous alerter avant expiration — visibles par les instructeurs pour le suivi du club.</p>
-      <div id="lic-list" class="lic-list"></div>
+      <div id="lic-synth" class="lic-synth" onclick="elevTab('licences')"></div>
 
-      <h4 class="elev-group-h" style="margin-top:26px">Bilan carburant</h4>
-      <div class="fuel-card">
-        <div class="fuel-ac-row">
+      <div class="acc-collapse" id="fuel-collapse">
+        <button class="acc-collapse-hd" type="button" onclick="fuelToggle()" aria-expanded="false">
+          <span class="acc-collapse-ic"><svg viewBox="0 0 24 24"><path d="M3 22h12V4a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v18zM6 6h6M6 10h6M17 8l2 2v8a2 2 0 0 1-4 0v-3h2"/></svg></span>
+          <span class="acc-collapse-tx"><span class="acc-collapse-t">Bilan carburant</span><span class="acc-collapse-sub">Estimation détaillée · imprimable</span></span>
+          <svg class="acc-collapse-chev" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="acc-collapse-body">
+          <div class="fuel-card">
+            <div class="fuel-ac-row">
           <span class="fuel-ac-ic"><svg viewBox="0 0 24 24"><path d="M22 12l-9.5 2.5L9 21H7l1.5-6.5L4 16l-1 2.5H1.5L3 12 1.5 5.5H3L4 8l4.5 1.5L7 3h2l3.5 6.5L22 12z"/></svg></span>
           <select id="fuel-ac" onchange="fuelPreset()"></select>
         </div>
@@ -4488,14 +4846,33 @@ async function docUploadFile(input){
           <button type="button" class="on" onclick="fuelSetRes(30,this)">VFR jour · 30 min</button>
           <button type="button" onclick="fuelSetRes(45,this)">VFR nuit · 45 min</button>
         </div>
-        <div class="fuel-out" id="fuel-out"></div>
+          <div class="fuel-out" id="fuel-out"></div>
+          </div>
+          <p class="acc-note">Aide à la préparation — valeurs indicatives. Le manuel de vol de l'appareil et la réglementation en vigueur prévalent.</p>
+        </div>
       </div>
-      <p class="acc-note">Aide à la préparation — valeurs indicatives. Le manuel de vol de l'appareil et la réglementation en vigueur prévalent.</p>
+    </div>
+
+    <!-- LICENCES -->
+    <div class="elev-pane" id="elev-licences">
+      <div id="lic-invite-2" class="lic-invite" hidden>
+        <div class="lic-invite-ic">🗓️</div>
+        <div class="lic-invite-tx">
+          <strong>Suivez vos échéances</strong>
+          <span>Ajoutez les dates de vos licences &amp; médicales pour être alerté avant leur expiration.</span>
+        </div>
+      </div>
+      <div class="acc-head">
+        <h4 class="elev-group-h">Vos licences &amp; médicales</h4>
+        <button class="acc-edit" type="button" onclick="licToggleEdit()" id="lic-edit-btn">Modifier</button>
+      </div>
+      <p class="acc-note" style="margin-bottom:4px">Saisissez la date d'échéance figurant sur vos documents. Vos dates sont enregistrées pour vous alerter avant expiration, et visibles par les instructeurs pour le suivi du club.</p>
+      <div id="lic-cockpit" class="lic-cockpit" hidden></div>
+      <div id="lic-list" class="lic-list"></div>
     </div>
 
     <!-- DOCUMENTS -->
     <div class="elev-pane" id="elev-docs">
-      <h3 class="elev-sec-h">Documents</h3>
       <p class="elev-sec-sub">Supports de cours, fiches de progression et documents utiles partagés par vos instructeurs.</p>
       <div class="doc-upload-bar" id="doc-upload-bar" style="display:none">
         <button class="doc-upload-btn" id="doc-upload-btn" onclick="docUploadPick()"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Ajouter un document</button>
@@ -4511,7 +4888,6 @@ async function docUploadFile(input){
 
     <!-- FORUM -->
     <div class="elev-pane" id="elev-forum">
-      <h3 class="elev-sec-h">Forum Q&A</h3>
       <div class="forum-ask-wrap" id="forum-ask-wrap">
         <button class="forum-ask-toggle" type="button" onclick="forumToggleAsk()">
           <span class="forum-ask-toggle-ic">💬</span>
@@ -4535,7 +4911,6 @@ async function docUploadFile(input){
 
     <!-- RESSOURCES -->
     <div class="elev-pane" id="elev-ressources">
-      <h3 class="elev-sec-h">Liens intéressants</h3>
       <div class="res-wip">
         <div class="res-wip-icon">🚧</div>
         <h3>En construction</h3>
@@ -4543,9 +4918,8 @@ async function docUploadFile(input){
       </div>
     </div>
 
-    <!-- CONTACTS -->
-    <div class="elev-pane" id="elev-contacts">
-      <h3 class="elev-sec-h">Contacts</h3>
+    <!-- CONTACTS (déplacé vers Options dans l'app principale) -->
+    <div class="elev-pane" id="elev-contacts" hidden>
       <p class="elev-sec-sub">L'équipe du club et les contacts utiles.</p>
       <div id="elev-team"></div>
       <h4 class="elev-group-h">Contacts utiles</h4>
@@ -4571,9 +4945,9 @@ async function docUploadFile(input){
       <div class="elev-nav-ic"><svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></div>
       <span>Liens</span>
     </button>
-    <button class="elev-nav-btn" onclick="elevTab('contacts')">
-      <div class="elev-nav-ic"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
-      <span>Contacts</span>
+    <button class="elev-nav-btn" onclick="elevTab('licences')">
+      <div class="elev-nav-ic"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18"/><circle cx="8" cy="14" r="1.6"/><path d="M13 13h5M13 16h3"/></svg></div>
+      <span>Licences</span>
     </button>
   </nav>
 </div>
