@@ -1248,6 +1248,119 @@ html.pwa .doc-viewer-safe{min-height:52px}
 .team-tag{font-size:8.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;padding:3px 8px;border-radius:100px;background:var(--sf2,rgba(255,255,255,.05));border:1px solid var(--border);color:var(--muted)}
 .team-role{font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin:3px 0 6px}
 .team-desc{font-size:12.5px;color:var(--muted);line-height:1.55;text-wrap:pretty}
+/* ── Synthèse : tableau de bord pilote ── */
+.syn-greet{margin:2px 0 16px}
+.syn-greet-hi{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:27px;text-transform:uppercase;letter-spacing:-.01em;color:var(--text);line-height:.98}
+.syn-greet-date{font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-top:5px}
+.syn-ready{display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-bottom:22px}
+.syn-wx,.syn-fleet{position:relative;text-align:left;background:var(--sf);border:1px solid var(--border);border-radius:15px;padding:14px 15px;cursor:pointer;overflow:hidden;transition:border-color .2s,transform .12s;min-height:104px;display:flex;flex-direction:column}
+.syn-wx:active,.syn-fleet:active{transform:scale(.985)}
+.syn-wx:hover,.syn-fleet:hover{border-color:var(--bds)}
+.syn-card-lbl{font-family:'JetBrains Mono',monospace;font-size:8.5px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-bottom:10px}
+.syn-card-sub{font-size:11px;color:var(--muted);margin-top:auto;line-height:1.4;display:flex;flex-wrap:wrap;gap:4px}
+.syn-wx-row{display:flex;align-items:center;gap:9px;flex-wrap:wrap}
+.syn-wx-cat{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:30px;line-height:.85;color:var(--text)}
+.syn-wx[data-cat="VFR"] .syn-wx-cat{color:var(--ok)}
+.syn-wx[data-cat="MVFR"] .syn-wx-cat{color:var(--cyan)}
+.syn-wx[data-cat="IFR"] .syn-wx-cat{color:var(--err)}
+.syn-wx[data-cat="LIFR"] .syn-wx-cat{color:var(--vio)}
+.syn-go{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-style:italic;font-size:10.5px;letter-spacing:.04em;text-transform:uppercase;padding:3px 8px;border-radius:100px;white-space:nowrap}
+.syn-go.go{background:rgba(34,215,122,.13);color:var(--ok)}
+.syn-go.cau{background:rgba(96,165,250,.13);color:var(--cyan)}
+.syn-go.no{background:rgba(239,68,68,.13);color:var(--err)}
+.syn-fleet-row{display:flex;align-items:baseline;gap:7px}
+.syn-fleet-big{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:34px;line-height:.8;color:var(--text);font-variant-numeric:tabular-nums}
+.syn-fleet-big small{font-size:17px;color:var(--muted);font-weight:700}
+.syn-fleet-word{font-family:'JetBrains Mono',monospace;font-size:9px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.syn-fleet-ok{color:var(--ok);font-weight:600}
+.syn-fleet-flag{display:inline-flex;align-items:center;gap:4px;font-weight:600}
+.syn-fleet-flag::before{content:"";width:6px;height:6px;border-radius:50%;flex-shrink:0}
+.syn-fleet-flag.maint{color:var(--amber)}.syn-fleet-flag.maint::before{background:var(--amber)}
+.syn-fleet-flag.indispo{color:var(--err)}.syn-fleet-flag.indispo::before{background:var(--err)}
+/* Quoi de neuf */
+.syn-feed{display:flex;flex-direction:column;gap:8px;margin-top:8px}
+.syn-feed-row{display:flex;align-items:center;gap:12px;width:100%;text-align:left;background:var(--sf);border:1px solid var(--border);border-radius:13px;padding:12px 13px;cursor:pointer;transition:border-color .2s,transform .12s}
+.syn-feed-row:active{transform:scale(.99)}
+.syn-feed-row:hover{border-color:var(--bds)}
+.syn-feed-ic{width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;background:var(--sf2)}
+.syn-feed-ic.forum{background:rgba(34,215,122,.12)}
+.syn-feed-ic.news{background:var(--accent-soft)}
+.syn-feed-tx{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+.syn-feed-t{font-size:13.5px;font-weight:600;color:var(--text);line-height:1.25;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.syn-feed-s{font-family:'JetBrains Mono',monospace;font-size:9px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.syn-feed-chev{width:16px;height:16px;flex-shrink:0;stroke:var(--dim);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.syn-feed-empty{font-size:12.5px;color:var(--muted);line-height:1.5;padding:18px 16px;text-align:center;background:var(--sf);border:1px dashed var(--border);border-radius:13px;text-wrap:pretty}
+/* Accès rapides */
+.syn-quick{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:8px}
+.syn-q{display:flex;align-items:center;gap:10px;background:var(--sf);border:1px solid var(--border);border-radius:13px;padding:13px 13px;cursor:pointer;text-align:left;transition:border-color .2s,transform .12s}
+.syn-q:active{transform:scale(.98)}
+.syn-q:hover{border-color:var(--accent-bord)}
+.syn-q-ic{width:32px;height:32px;border-radius:9px;background:var(--accent-soft);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.syn-q-ic svg{width:17px;height:17px;fill:none;stroke:var(--accent);stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+.syn-q-t{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-style:italic;font-size:14px;letter-spacing:.01em;text-transform:uppercase;color:var(--text);line-height:1.05}
+
+/* ── Blocs liens Synthèse (Voyage / Activité) ── */
+.syn-link{position:relative;text-align:left;background:var(--sf);border:1px solid var(--border);border-radius:15px;padding:14px 15px;cursor:pointer;overflow:hidden;transition:border-color .2s,transform .12s;min-height:118px;display:flex;flex-direction:column}
+.syn-link::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--accent)}
+.syn-link.activite::before{background:var(--vio)}
+.syn-link:active{transform:scale(.985)}
+.syn-link:hover{border-color:var(--bds)}
+.syn-link-lbl{font-family:'JetBrains Mono',monospace;font-size:8.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:9px}
+.syn-link-title{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:19px;text-transform:uppercase;letter-spacing:-.01em;color:var(--text);line-height:1.02;margin-bottom:5px}
+.syn-link-meta{font-size:11px;color:var(--muted);line-height:1.35}
+.syn-link-meta b{color:var(--accent);font-weight:600}
+.syn-link.activite .syn-link-meta b{color:var(--vio)}
+.syn-link-empty{font-size:12.5px;color:var(--muted);line-height:1.35;flex:1}
+.syn-link-go{margin-top:auto;padding-top:9px;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-style:italic;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);display:inline-flex;align-items:center;gap:3px}
+.syn-link.activite .syn-link-go{color:var(--vio)}
+.syn-link-go svg{width:13px;height:13px;fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+
+/* ── Voyages & Activités : liste de cartes ── */
+.voy-new{color:var(--accent);border-color:var(--accent-bord)}
+.trip-list{display:flex;flex-direction:column;gap:13px;margin-top:6px}
+.trip-empty{padding:30px 18px;text-align:center;color:var(--muted);font-size:13px;line-height:1.6;background:var(--sf);border:1px dashed var(--border);border-radius:14px}
+.trip-empty span{font-size:11.5px;opacity:.8}
+.trip-past-h{font-family:'JetBrains Mono',monospace;font-size:9px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--dim);margin:14px 0 2px;padding-left:2px}
+.trip-card{background:var(--sf);border:1px solid var(--border);border-radius:16px;padding:16px 16px 14px;position:relative;overflow:hidden}
+.trip-card.past{opacity:.62}
+.trip-top{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:8px}
+.trip-when{font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.trip-badge{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-style:italic;font-size:10.5px;letter-spacing:.04em;text-transform:uppercase;padding:3px 9px;border-radius:100px;white-space:nowrap}
+.trip-badge.soon{background:rgba(34,215,122,.14);color:var(--ok)}
+.trip-badge.up{background:var(--accent-soft);color:var(--accent)}
+.trip-badge.past{background:var(--sf3);color:var(--muted)}
+.trip-title{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:23px;text-transform:uppercase;letter-spacing:-.01em;color:var(--text);line-height:1;margin-bottom:13px}
+.trip-detail{display:flex;flex-direction:column;gap:8px;margin-bottom:12px}
+.trip-row{display:flex;align-items:center;gap:10px;font-size:13px}
+.trip-row-ic{width:18px;text-align:center;flex-shrink:0;font-size:13px}
+.trip-row-l{font-family:'JetBrains Mono',monospace;font-size:9px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);width:74px;flex-shrink:0}
+.trip-row-v{color:var(--text);font-weight:500;flex:1;min-width:0}
+.trip-notes{font-size:12.5px;color:var(--text-2);line-height:1.5;text-wrap:pretty;margin-bottom:12px;padding:11px 13px;background:var(--sf2);border-radius:10px}
+.trip-brief{display:inline-flex;align-items:center;gap:7px;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-style:italic;font-size:12.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--accent);text-decoration:none;padding:9px 13px;border:1px solid var(--accent-bord);border-radius:10px;background:var(--accent-soft);margin-bottom:4px}
+.trip-brief svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+.trip-admin{display:flex;gap:8px;margin-top:12px;padding-top:12px;border-top:1px solid var(--border)}
+.trip-admin button{flex:1;padding:9px;border-radius:9px;border:1px solid var(--bds);background:var(--sf2);color:var(--text-2);font-family:'Barlow Condensed',sans-serif;font-weight:700;font-style:italic;font-size:12px;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;transition:border-color .2s,color .2s}
+.trip-admin button:hover{border-color:var(--accent);color:var(--accent)}
+.trip-admin button.del:hover{border-color:var(--err);color:var(--err)}
+/* ── Formulaire voyage/activité ── */
+.trip-form-ov{position:fixed;inset:0;z-index:9000;background:rgba(0,0,0,.55);backdrop-filter:blur(4px);display:none;align-items:flex-end;justify-content:center}
+.trip-form-ov.open{display:flex;animation:tripFadeIn .2s ease}
+@keyframes tripFadeIn{from{opacity:0}to{opacity:1}}
+.trip-form{width:100%;max-width:520px;max-height:92vh;display:flex;flex-direction:column;background:var(--sf);border:1px solid var(--bds);border-radius:20px 20px 0 0;overflow:hidden;animation:tripSlideUp .28s cubic-bezier(.16,1,.3,1)}
+@keyframes tripSlideUp{from{transform:translateY(100%)}to{transform:none}}
+.trip-form-hd{display:flex;align-items:center;justify-content:space-between;padding:16px 18px;border-bottom:1px solid var(--border);flex-shrink:0}
+.trip-form-hd h3{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:20px;text-transform:uppercase;color:var(--text)}
+.trip-form-x{width:32px;height:32px;border-radius:9px;border:1px solid var(--border);background:var(--sf2);color:var(--muted);font-size:15px;cursor:pointer}
+.trip-form-body{padding:16px 18px;overflow-y:auto;display:flex;flex-direction:column;gap:13px}
+.trip-f{display:flex;flex-direction:column;gap:6px}
+.trip-f span{font-family:'JetBrains Mono',monospace;font-size:9.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.trip-f input,.trip-f textarea{background:var(--sf2);border:1px solid var(--border);border-radius:10px;padding:11px 13px;color:var(--text);font-family:'Jost',sans-serif;font-size:14px;width:100%}
+.trip-f input:focus,.trip-f textarea:focus{outline:none;border-color:var(--accent)}
+.trip-f textarea{resize:vertical;line-height:1.5}
+.trip-form-ax{display:flex;gap:10px;padding:14px 18px;border-top:1px solid var(--border);padding-bottom:calc(14px + env(safe-area-inset-bottom,0px));flex-shrink:0}
+.trip-cancel{flex:1;padding:13px;border-radius:11px;border:1px solid var(--bds);background:none;color:var(--text-2);font-family:'Barlow Condensed',sans-serif;font-weight:700;font-style:italic;font-size:14px;letter-spacing:.08em;text-transform:uppercase;cursor:pointer}
+.trip-save{flex:2;padding:13px;border-radius:11px;border:none;background:var(--accent);color:#fff;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-style:italic;font-size:14px;letter-spacing:.08em;text-transform:uppercase;cursor:pointer}
+
 /* ── Accueil : licences & bilan carburant ── */
 .acc-head{display:flex;align-items:center;justify-content:space-between;gap:10px}
 .acc-head .elev-group-h{margin:10px 0 0}
@@ -1397,6 +1510,31 @@ html.pwa .doc-viewer-safe{min-height:52px}
 .fuel-input input{flex:1;min-width:0;width:100%;background:none;border:none;padding:10px;color:var(--text);font-family:'JetBrains Mono',monospace;font-size:14px}
 .fuel-input input:focus{outline:none}
 .fuel-input span{padding:0 11px 0 2px;font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted);text-transform:uppercase;flex-shrink:0}
+
+/* ── Masse & centrage ── */
+.wb-sec{margin-top:20px;padding-top:18px;border-top:1px solid var(--border)}
+.wb-sec-h{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:16px;text-transform:uppercase;letter-spacing:.02em;color:var(--text);margin-bottom:13px}
+.wb-stations{display:flex;flex-direction:column;gap:9px;margin-bottom:9px}
+.wb-field{display:flex;align-items:center;gap:12px}
+.wb-field label{flex:1;min-width:0;font-size:13px;color:var(--text-2);display:flex;flex-direction:column}
+.wb-field label span{font-family:'JetBrains Mono',monospace;font-size:8.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--dim);margin-top:1px}
+.wb-field .wb-input{width:108px;flex-shrink:0;display:flex;align-items:center;background:rgba(255,255,255,.03);border:1px solid var(--bds,var(--border));border-radius:9px;overflow:hidden}
+.wb-field .wb-input:focus-within{border-color:var(--accent)}
+.wb-field .wb-input input{flex:1;min-width:0;width:100%;background:none;border:none;padding:9px 10px;color:var(--text);font-family:'JetBrains Mono',monospace;font-size:14px;text-align:right}
+.wb-field .wb-input input:focus{outline:none}
+.wb-field .wb-input span{padding:0 10px 0 2px;font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted);text-transform:uppercase;flex-shrink:0}
+.wb-fuelfield{margin-bottom:14px}
+.wb-fuelfield label{font-size:13px;color:var(--text-2);font-family:'Jost',sans-serif;text-transform:none;letter-spacing:0}
+.wb-totrow{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:4px}
+.wb-tot{background:var(--sf2);border:1px solid var(--border);border-radius:12px;padding:12px 13px;display:flex;flex-direction:column;gap:2px}
+.wb-tot-l{font-family:'JetBrains Mono',monospace;font-size:8.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.wb-tot-v{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:28px;line-height:.9;font-variant-numeric:tabular-nums}
+.wb-tot-v small{font-size:13px;color:var(--muted);margin-left:3px;font-weight:700}
+.wb-tot-v.ok{color:var(--ok)}.wb-tot-v.bad{color:#ff5f57}
+.wb-tot-s{font-size:10px;color:var(--dim);margin-top:2px}
+.wb-chart{margin-top:14px;background:var(--sf2);border:1px solid var(--border);border-radius:12px;padding:10px 8px 4px}
+.wb-svg{width:100%;height:auto;display:block}
+.wb-legend{font-size:10px;color:var(--dim);line-height:1.5;margin-top:8px;text-wrap:pretty}
 .fuel-hero{margin-top:16px;padding:16px;border-radius:14px;border:1px solid var(--border)}
 .fuel-hero.ok{background:linear-gradient(160deg,rgba(34,215,122,.1),transparent 80%);border-color:rgba(34,215,122,.28)}
 .fuel-hero.bad{background:linear-gradient(160deg,rgba(255,95,87,.1),transparent 80%);border-color:rgba(255,95,87,.3)}
@@ -2242,6 +2380,16 @@ if(DEMO_MODE){
         {label:'Vol de nuit (VN)',date:_ld(53)},
         {label:'Qualification FI',date:_ld(34)}
       ]));
+      /* Voyages & activités de démo */
+      localStorage.setItem('apam_voyages',JSON.stringify([
+        {id:'v_demo1',titre:'La Rochelle (LFBH)',date:_ld(12),terrain:'LFBH',avions:'F-GHKE · F-GYJL',participants:'Antoine, Sophie, Marc, Léa',briefing:'',notes:'Départ 9h00, déjeuner sur place, retour avant la nuit aéronautique. Plein complet exigé.'},
+        {id:'v_demo2',titre:'Tour du Mont-Blanc',date:_ld(34),terrain:'LFLB',avions:'F-GYFF',participants:'Pierre, Julien',briefing:'',notes:'Vol montagne — briefing obligatoire la veille.'},
+        {id:'v_demo3',titre:'Sortie Annecy (passé)',date:_ld(-20),terrain:'LFLP',avions:'F-GHKE',participants:'Camille, Thomas',briefing:'',notes:''}
+      ]));
+      localStorage.setItem('apam_activites',JSON.stringify([
+        {id:'a_demo1',titre:'Barbecue de fin de saison',date:_ld(8),type:'Repas',lieu:'Hangar club',inscription:'Liste au secrétariat',briefing:'',notes:'Chacun apporte un plat à partager. Boissons offertes par le club.'},
+        {id:'a_demo2',titre:'Soirée théorique météo',date:_ld(21),type:'Formation au sol',lieu:'Salle de briefing',inscription:'Entrée libre',briefing:'',notes:'Animée par un instructeur. Ouvert aux élèves et pilotes.'}
+      ]));
     }catch(e){}
   }catch(e){}
 
@@ -2296,6 +2444,14 @@ if(DEMO_MODE){
       }
       if(url.indexOf('action=saveLicences')>-1){
         return Promise.resolve(new Response(JSON.stringify({success:true}),{status:200,headers:{'Content-Type':'application/json'}}));
+      }
+      if(url.indexOf('action=getVoyages')>-1){
+        var _dv=[];try{_dv=JSON.parse(localStorage.getItem('apam_voyages')||'[]');}catch(e){}
+        return Promise.resolve(new Response(JSON.stringify({voyages:_dv}),{status:200,headers:{'Content-Type':'application/json'}}));
+      }
+      if(url.indexOf('action=getActivites')>-1){
+        var _da=[];try{_da=JSON.parse(localStorage.getItem('apam_activites')||'[]');}catch(e){}
+        return Promise.resolve(new Response(JSON.stringify({activites:_da}),{status:200,headers:{'Content-Type':'application/json'}}));
       }
       if(url.indexOf('action=getDocuments')>-1){
         return Promise.resolve(new Response(JSON.stringify({documents:[
@@ -3884,7 +4040,7 @@ function mirrorEleveRessources(){
 
 /* ── Init ── */
 applyProfileLayout();
-buildOutils();chargerNews();chargerFleet();licInitHome();
+buildOutils();chargerNews();chargerFleet();licInitHome();tripLoadCache();
 setTimeout(function(){wxLoad('m-wx');if(document.getElementById('d-wx'))wxPendingTargets.push('d-wx');updateWxQuick();},800);
 setTimeout(function preloadTaf(_n){
   _n=_n||0;
@@ -4132,6 +4288,7 @@ function openEspaceEleves(primary){
   if(o)o.classList.add('open');
   elevTab('accueil');
   if(!_elevLoaded){_elevLoaded=true;elevLoadAll();}
+  if(!_tripsLoaded)tripLoadAll();
 }
 
 function closeEspaceEleves(){
@@ -4149,6 +4306,8 @@ function elevTab(tab){
   /* Rendu paresseux : garantit l'affichage à l'ouverture de l'onglet, même si un autre rendu a échoué */
   try{
     if(tab==='accueil'){elevRenderDash();renderLic();}
+    else if(tab==='voyage'){voyRender();}
+    else if(tab==='activite'){actRender();}
     else if(tab==='docs'){if(!_elevDocs){elevEnsureLoaded(true);}else elevRenderDocs();}
     else if(tab==='forum'){if(!_elevQuestions){elevEnsureLoaded(true);}else elevRenderForum();}
     else if(tab==='ressources'){mirrorEleveRessources();}
@@ -4207,7 +4366,212 @@ function elevRenderDash(){
     var recent=_elevDocs?_elevDocs.documents.slice(0,3):[];
     homeD.innerHTML=recent.length?recent.map(function(d){return '<a class="elev-mini-card" href="'+d.url+'" target="_blank" style="display:block;text-decoration:none;color:inherit"><h5>'+d.icon+' '+esc(d.nom)+'</h5><p>'+esc(d.date)+'</p></a>';}).join(''):'<div class="elev-empty">Aucun document</div>';
   }
+  try{synRenderGreet();}catch(e){}
+  try{synRenderLinks();}catch(e){}
 }
+
+/* ── Synthèse : tableau de bord pilote ── */
+function synRenderGreet(){
+  var el=document.getElementById('syn-greet');if(!el)return;
+  var h=new Date().getHours();
+  var hi=h<12?'Bonjour':h<18?'Bon après-midi':'Bonsoir';
+  var prenom=(memberPrenom||'').trim();
+  var d=new Date();
+  var dateStr=d.toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long'});
+  dateStr=dateStr.charAt(0).toUpperCase()+dateStr.slice(1);
+  el.innerHTML='<div class="syn-greet-hi">'+hi+(prenom?', '+esc(prenom):'')+'</div><div class="syn-greet-date">'+esc(dateStr)+'</div>';
+}
+
+/* Peut gérer voyages/activités : instructeur, admin, gestionnaire (news_pub) */
+function canManageTrips(){return !!(perms.admin||perms.instructeur||perms.news_pub||(typeof DEMO_MODE!=='undefined'&&DEMO_MODE));}
+function tripFmtDate(iso){
+  if(!iso)return '';
+  var d=new Date(iso);if(isNaN(d))return iso;
+  return d.toLocaleDateString('fr-FR',{weekday:'short',day:'numeric',month:'short',year:'numeric'});
+}
+function tripDaysTo(iso){var d=new Date(iso);if(isNaN(d))return null;return Math.ceil((d-new Date().setHours(0,0,0,0))/86400000);}
+function tripNext(list){
+  var up=(list||[]).filter(function(t){var n=tripDaysTo(t.date);return n===null||n>=0;});
+  up.sort(function(a,b){return new Date(a.date)-new Date(b.date);});
+  return up[0]||null;
+}
+
+/* ── Blocs liens Synthèse (Prochain voyage / Prochaine activité) ── */
+function synRenderLinks(){
+  synRenderLinkCard('syn-voyage', VOYAGES, 'Prochain voyage', 'Aucun voyage programmé', '\uD83D\uDEE9\uFE0F');
+  synRenderLinkCard('syn-activite', ACTIVITES, 'Prochaine activité', 'Aucune activité prévue', '\uD83C\uDF89');
+}
+function synRenderLinkCard(id, list, label, emptyTxt, icon){
+  var el=document.getElementById(id);if(!el)return;
+  var nx=tripNext(list);
+  if(!nx){
+    el.innerHTML='<div class="syn-link-lbl">'+icon+' '+label+'</div><div class="syn-link-empty">'+emptyTxt+'</div><div class="syn-link-go">Voir<svg viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></div>';
+    return;
+  }
+  var dleft=tripDaysTo(nx.date);
+  var when=dleft===null?'':dleft===0?"Aujourd'hui":dleft===1?'Demain':dleft>0?('Dans '+dleft+' j'):'';
+  el.innerHTML=
+    '<div class="syn-link-lbl">'+icon+' '+label+'</div>'+
+    '<div class="syn-link-title">'+esc(nx.titre||nx.destination||'—')+'</div>'+
+    '<div class="syn-link-meta">'+esc(tripFmtDate(nx.date))+(when?' · <b>'+esc(when)+'</b>':'')+'</div>'+
+    '<div class="syn-link-go">Détails<svg viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></div>';
+}
+
+window.synOpenFuel=function(){
+  var c=document.getElementById('fuel-collapse');if(!c)return;
+  if(!c.classList.contains('open'))fuelToggle();
+  setTimeout(function(){var body=document.getElementById('elev-body');if(body&&c)body.scrollTo({top:c.offsetTop-12,behavior:'smooth'});},120);
+};
+
+/* ═══════════ VOYAGES & ACTIVITÉS ═══════════ */
+var VOYAGES=[], ACTIVITES=[], _tripsLoaded=false;
+function tripLoadCache(){
+  try{VOYAGES=JSON.parse(localStorage.getItem('apam_voyages')||'[]');}catch(e){VOYAGES=[];}
+  try{ACTIVITES=JSON.parse(localStorage.getItem('apam_activites')||'[]');}catch(e){ACTIVITES=[];}
+}
+function tripSaveCache(){
+  try{localStorage.setItem('apam_voyages',JSON.stringify(VOYAGES));}catch(e){}
+  try{localStorage.setItem('apam_activites',JSON.stringify(ACTIVITES));}catch(e){}
+}
+async function tripLoadAll(){
+  try{
+    var [v,a]=await Promise.all([
+      fetch(API+'?action=getVoyages').then(function(r){return r.json();}).catch(function(){return{};}),
+      fetch(API+'?action=getActivites').then(function(r){return r.json();}).catch(function(){return{};})
+    ]);
+    if(v&&v.voyages)VOYAGES=v.voyages;
+    if(a&&a.activites)ACTIVITES=a.activites;
+    tripSaveCache();
+  }catch(e){}
+  _tripsLoaded=true;
+  try{voyRender();actRender();synRenderLinks();}catch(e){}
+}
+
+function voyRender(){tripRenderList('voy-list',VOYAGES,'voyage');var b=document.getElementById('voy-new-btn');if(b)b.hidden=!canManageTrips();}
+function actRender(){tripRenderList('act-list',ACTIVITES,'activite');var b=document.getElementById('act-new-btn');if(b)b.hidden=!canManageTrips();}
+
+function tripRenderList(elId, list, kind){
+  var el=document.getElementById(elId);if(!el)return;
+  if(!list||!list.length){
+    el.innerHTML='<div class="trip-empty">'+(kind==='voyage'?'Aucun voyage programmé pour le moment.':'Aucune activité prévue pour le moment.')+(canManageTrips()?'<br><span>Touchez « + Nouveau » pour en ajouter un.</span>':'')+'</div>';
+    return;
+  }
+  var sorted=list.slice().sort(function(a,b){return new Date(a.date)-new Date(b.date);});
+  var now=new Date().setHours(0,0,0,0);
+  var up=sorted.filter(function(t){var d=new Date(t.date);return isNaN(d)||d>=now;});
+  var past=sorted.filter(function(t){var d=new Date(t.date);return !isNaN(d)&&d<now;}).reverse();
+  var html='';
+  if(up.length)html+=up.map(function(t){return tripCard(t,kind,false);}).join('');
+  if(past.length){html+='<div class="trip-past-h">Passés</div>'+past.map(function(t){return tripCard(t,kind,true);}).join('');}
+  el.innerHTML=html;
+}
+
+function tripCard(t, kind, isPast){
+  var dleft=tripDaysTo(t.date);
+  var badge=isPast?'<span class="trip-badge past">Terminé</span>':
+    (dleft===0?'<span class="trip-badge soon">Aujourd\'hui</span>':
+     dleft===1?'<span class="trip-badge soon">Demain</span>':
+     dleft>0&&dleft<=14?'<span class="trip-badge up">Dans '+dleft+' j</span>':'');
+  var rows=[];
+  if(kind==='voyage'){
+    if(t.terrain)rows.push(['Terrain','\u2708\uFE0F',t.terrain]);
+    if(t.avions)rows.push(['Avions','\uD83D\uDEE9\uFE0F',t.avions]);
+    if(t.participants)rows.push(['Équipage','\uD83D\uDC65',t.participants]);
+  }else{
+    if(t.lieu)rows.push(['Lieu','\uD83D\uDCCD',t.lieu]);
+    if(t.type)rows.push(['Type','\uD83C\uDFF7\uFE0F',t.type]);
+    if(t.inscription)rows.push(['Inscription','\u270D\uFE0F',t.inscription]);
+  }
+  var detail=rows.map(function(r){return '<div class="trip-row"><span class="trip-row-ic">'+r[1]+'</span><span class="trip-row-l">'+r[0]+'</span><span class="trip-row-v">'+esc(r[2])+'</span></div>';}).join('');
+  var manage=canManageTrips()?'<div class="trip-admin"><button type="button" onclick="'+(kind==='voyage'?'voyOpenForm':'actOpenForm')+'(\''+t.id+'\')">Modifier</button><button type="button" class="del" onclick="tripDelete(\''+kind+'\',\''+t.id+'\')">Supprimer</button></div>':'';
+  var brief=t.briefing?'<a class="trip-brief" href="'+esc(t.briefing)+'" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>Briefing / infos</a>':'';
+  var notes=t.notes?'<p class="trip-notes">'+esc(t.notes)+'</p>':'';
+  return '<div class="trip-card'+(isPast?' past':'')+'">'+
+    '<div class="trip-top"><div class="trip-when">'+esc(tripFmtDate(t.date))+'</div>'+badge+'</div>'+
+    '<h3 class="trip-title">'+esc(t.titre||t.destination||'—')+'</h3>'+
+    (detail?'<div class="trip-detail">'+detail+'</div>':'')+
+    notes+brief+manage+
+  '</div>';
+}
+
+window.tripDelete=function(kind,id){
+  if(!canManageTrips())return;
+  if(!confirm('Supprimer définitivement ?'))return;
+  var arr=kind==='voyage'?VOYAGES:ACTIVITES;
+  var i=arr.findIndex(function(t){return t.id===id;});
+  if(i>-1)arr.splice(i,1);
+  tripSaveCache();
+  if(kind==='voyage')voyRender();else actRender();
+  synRenderLinks();
+  var act=kind==='voyage'?'deleteVoyage':'deleteActivite';
+  try{fetch(API+'?action='+act+'&id='+enc(id)+'&pin='+enc(memberPin));}catch(e){}
+  toast('Supprimé');
+};
+
+window.voyOpenForm=function(id){tripOpenForm('voyage',id);};
+window.actOpenForm=function(id){tripOpenForm('activite',id);};
+function tripOpenForm(kind, id){
+  if(!canManageTrips())return;
+  hapticTick();
+  var arr=kind==='voyage'?VOYAGES:ACTIVITES;
+  var t=id?arr.find(function(x){return x.id===id;}):null;
+  var isV=kind==='voyage';
+  var fields=isV?[
+    ['titre','Titre / destination','text',t?t.titre:''],
+    ['date','Date','date',t?t.date:''],
+    ['terrain','Terrain d\'arrivée (OACI)','text',t?t.terrain:''],
+    ['avions','Avions engagés','text',t?t.avions:''],
+    ['participants','Équipage / participants','text',t?t.participants:''],
+    ['briefing','Lien briefing (URL)','url',t?t.briefing:''],
+    ['notes','Notes','textarea',t?t.notes:'']
+  ]:[
+    ['titre','Titre de l\'activité','text',t?t.titre:''],
+    ['date','Date','date',t?t.date:''],
+    ['type','Type (repas, fly-in…)','text',t?t.type:''],
+    ['lieu','Lieu','text',t?t.lieu:''],
+    ['inscription','Modalité d\'inscription','text',t?t.inscription:''],
+    ['briefing','Lien infos (URL)','url',t?t.briefing:''],
+    ['notes','Notes','textarea',t?t.notes:'']
+  ];
+  var body=fields.map(function(f){
+    var val=(f[3]||'').replace(/"/g,'&quot;');
+    if(f[2]==='textarea')return '<label class="trip-f"><span>'+f[1]+'</span><textarea id="tf-'+f[0]+'" rows="3">'+esc(f[3]||'')+'</textarea></label>';
+    return '<label class="trip-f"><span>'+f[1]+'</span><input id="tf-'+f[0]+'" type="'+f[2]+'" value="'+val+'"></label>';
+  }).join('');
+  var ov=document.getElementById('trip-form-ov');
+  ov.innerHTML='<div class="trip-form" role="dialog"><div class="trip-form-hd"><h3>'+(t?'Modifier':'Nouveau')+(isV?' voyage':' activité')+'</h3><button type="button" class="trip-form-x" onclick="tripCloseForm()">✕</button></div><div class="trip-form-body">'+body+'</div><div class="trip-form-ax"><button type="button" class="trip-cancel" onclick="tripCloseForm()">Annuler</button><button type="button" class="trip-save" onclick="tripSave(\''+kind+'\',\''+(id||'')+'\')">Enregistrer</button></div></div>';
+  ov.classList.add('open');
+}
+window.tripCloseForm=function(){var ov=document.getElementById('trip-form-ov');if(ov){ov.classList.remove('open');ov.innerHTML='';}};
+window.tripSave=function(kind,id){
+  var get=function(k){var el=document.getElementById('tf-'+k);return el?el.value.trim():'';};
+  var titre=get('titre'), date=get('date');
+  if(!titre){toast('Titre obligatoire');return;}
+  if(!date){toast('Date obligatoire');return;}
+  var arr=kind==='voyage'?VOYAGES:ACTIVITES;
+  var obj=id?arr.find(function(x){return x.id===id;}):null;
+  var isNew=!obj;
+  if(isNew){obj={id:(kind[0]+'_'+Date.now())};arr.push(obj);}
+  obj.titre=titre;obj.date=date;obj.briefing=get('briefing');obj.notes=get('notes');
+  if(kind==='voyage'){obj.terrain=get('terrain');obj.avions=get('avions');obj.participants=get('participants');}
+  else{obj.type=get('type');obj.lieu=get('lieu');obj.inscription=get('inscription');}
+  tripSaveCache();
+  tripCloseForm();
+  if(kind==='voyage')voyRender();else actRender();
+  synRenderLinks();
+  var act=kind==='voyage'?(isNew?'addVoyage':'editVoyage'):(isNew?'addActivite':'editActivite');
+  try{
+    var p=new URLSearchParams(Object.assign({action:act,pin:memberPin},obj));
+    fetch(API+'?'+p.toString());
+  }catch(e){}
+  toast(isNew?'Ajouté ✓':'Modifié ✓');
+};
+
+window.synOpenFuel=function(){
+  var c=document.getElementById('fuel-collapse');if(!c)return;
+  if(!c.classList.contains('open'))fuelToggle();
+  setTimeout(function(){var body=document.getElementById('elev-body');if(body&&c)body.scrollTo({top:c.offsetTop-12,behavior:'smooth'});},120);
+};
 
 /* ── Forum ── */
 function elevRenderForum(){
@@ -4541,11 +4905,22 @@ async function licSyncFromServer(){
   }catch(e){}
 }
 
-/* ── Accueil : bilan carburant (aide, valeurs indicatives) ── */
+/* ── Accueil : devis de masse (carburant + masse & centrage) ──
+   Valeurs d'EXEMPLE à corriger avec les vraies fiches de pesée du club.
+   arm = bras de levier (m depuis le datum) · w en kg · fuel 0.72 kg/L (100LL) */
 var FUEL_AC=[
-  {nom:'F-GHKE · Cessna 152', conso:23, cap:91},
-  {nom:'F-GSZA · Socata TB200', conso:40, cap:240},
-  {nom:'F-GYFF · Cirrus SR20', conso:42, cap:211}
+  {nom:'F-GHKE · Cessna 152', conso:23, cap:91,
+   wb:{empty:{w:522,arm:0.79}, fuelArm:1.07, fuelKgL:0.72, mtow:757,
+       stations:[{k:'pil',label:'Pilote',arm:1.04,def:80},{k:'pax',label:'Passager',arm:1.04,def:0},{k:'bag',label:'Bagages',arm:1.55,def:0,max:30}],
+       env:[[0.83,470],[0.79,600],[0.79,757],[0.93,757],[0.93,470]]}},
+  {nom:'F-GYJL · Socata TB200', conso:40, cap:240,
+   wb:{empty:{w:700,arm:1.00}, fuelArm:1.20, fuelKgL:0.72, mtow:1150,
+       stations:[{k:'pil',label:'Pilote',arm:1.00,def:80},{k:'pax',label:'Passager avant',arm:1.00,def:0},{k:'arr',label:'Passagers arrière',arm:1.85,def:0},{k:'bag',label:'Bagages',arm:2.50,def:0,max:40}],
+       env:[[1.02,700],[0.95,950],[0.95,1150],[1.10,1150],[1.10,700]]}},
+  {nom:'F-GYFF · Cirrus SR20', conso:42, cap:211,
+   wb:{empty:{w:960,arm:1.42}, fuelArm:1.60, fuelKgL:0.72, mtow:1386,
+       stations:[{k:'pil',label:'Pilote',arm:1.45,def:80},{k:'pax',label:'Passager avant',arm:1.45,def:0},{k:'arr',label:'Passagers arrière',arm:2.30,def:0},{k:'bag',label:'Bagages',arm:2.95,def:0,max:60}],
+       env:[[1.36,960],[1.32,1150],[1.32,1386],[1.45,1386],[1.45,960]]}}
 ];
 var _fuelRes=30;
 function fuelInitSelect(){
@@ -4557,6 +4932,7 @@ window.fuelPreset=function(){
   var a=FUEL_AC[+s.value]||FUEL_AC[0];
   var c=document.getElementById('fuel-conso'),cap=document.getElementById('fuel-cap');
   if(c)c.value=a.conso;if(cap)cap.value=a.cap;
+  wbBuildStations(a);
   fuelCalc();
 };
 window.fuelSetRes=function(min,btn){_fuelRes=min;document.querySelectorAll('#fuel-seg button').forEach(function(b){b.classList.toggle('on',b===btn);});fuelCalc();};
@@ -4596,8 +4972,94 @@ window.fuelCalc=function(){
     '</div>';
   }
   out.innerHTML=html;
+  try{wbCalc();}catch(e){}
 };
+
+/* ── Masse & centrage ── */
+var _wbLast=null;
+function wbBuildStations(a){
+  var host=document.getElementById('wb-stations');if(!host)return;
+  if(!a||!a.wb){host.innerHTML='';return;}
+  var prev={};
+  host.querySelectorAll('input[data-wbk]').forEach(function(i){prev[i.getAttribute('data-wbk')]=i.value;});
+  host.innerHTML=a.wb.stations.map(function(s){
+    var val=(prev[s.k]!==undefined&&prev[s.k]!=='')?prev[s.k]:(s.def||0);
+    var mx=s.max?(' · max '+s.max+' kg'):'';
+    return '<div class="wb-field"><label>'+esc(s.label)+'<span>'+mx+'</span></label><div class="wb-input"><input type="number" inputmode="numeric" data-wbk="'+s.k+'" value="'+val+'" oninput="wbCalc()"><span>kg</span></div></div>';
+  }).join('');
+}
+window.wbCalc=function(){
+  var s=document.getElementById('fuel-ac');if(!s)return;
+  var a=FUEL_AC[+s.value]||FUEL_AC[0];
+  var out=document.getElementById('wb-out');var chart=document.getElementById('wb-chart');
+  if(!a.wb||!out){if(out)out.innerHTML='';if(chart)chart.innerHTML='';return;}
+  var wb=a.wb;
+  /* carburant embarqué (L) → kg */
+  var fuelL=parseFloat((document.getElementById('wb-fuel')||{}).value);
+  if(isNaN(fuelL))fuelL=a.cap||0;
+  var fuelKg=fuelL*wb.fuelKgL;
+  var totW=wb.empty.w, totM=wb.empty.w*wb.empty.arm;
+  var items=[['À vide',wb.empty.w,wb.empty.arm]];
+  document.querySelectorAll('#wb-stations input[data-wbk]').forEach(function(inp){
+    var k=inp.getAttribute('data-wbk');
+    var st=wb.stations.filter(function(x){return x.k===k;})[0];if(!st)return;
+    var w=parseFloat(inp.value)||0;
+    totW+=w;totM+=w*st.arm;
+    items.push([st.label,w,st.arm]);
+  });
+  totW+=fuelKg;totM+=fuelKg*wb.fuelArm;
+  items.push(['Carburant ('+fuelL.toFixed(0)+' L)',fuelKg,wb.fuelArm]);
+  var cg=totW>0?totM/totW:0;
+  var inEnv=wbPointInPoly([cg,totW],wb.env)&&totW<=wb.mtow;
+  var overW=totW>wb.mtow;
+  _wbLast={acName:a.nom,items:items,totW:totW,cg:cg,mtow:wb.mtow,inEnv:inEnv,overW:overW,fuelL:fuelL,fuelKg:fuelKg};
+  var n1=function(x){return (Math.round(x*10)/10).toFixed(1);};
+  var verdict=inEnv?'<p class="fuel-verdict ok">✓ Dans le domaine de centrage'+(overW?'':' — masse '+n1(totW)+' kg, CG '+n1(cg)+' m.')+'</p>':
+    (overW?'<p class="fuel-verdict bad">✗ Masse '+n1(totW)+' kg &gt; MTOW '+wb.mtow+' kg — surcharge.</p>':
+     '<p class="fuel-verdict bad">✗ Hors domaine de centrage — CG '+n1(cg)+' m à '+n1(totW)+' kg.</p>');
+  out.innerHTML=
+    '<div class="wb-totrow"><div class="wb-tot"><span class="wb-tot-l">Masse totale</span><span class="wb-tot-v '+(overW?'bad':'ok')+'">'+n1(totW)+'<small>kg</small></span><span class="wb-tot-s">MTOW '+wb.mtow+' kg</span></div>'+
+    '<div class="wb-tot"><span class="wb-tot-l">Centrage</span><span class="wb-tot-v '+(inEnv?'ok':'bad')+'">'+n1(cg)+'<small>m</small></span><span class="wb-tot-s">'+(inEnv?'dans l\'enveloppe':'hors enveloppe')+'</span></div></div>'+
+    verdict;
+  if(chart)chart.innerHTML=wbChartSvg(wb,cg,totW,inEnv);
+};
+function wbPointInPoly(pt,poly){
+  var x=pt[0],y=pt[1],inside=false;
+  for(var i=0,j=poly.length-1;i<poly.length;j=i++){
+    var xi=poly[i][0],yi=poly[i][1],xj=poly[j][0],yj=poly[j][1];
+    var inter=((yi>y)!==(yj>y))&&(x<(xj-xi)*(y-yi)/(yj-yi)+xi);
+    if(inter)inside=!inside;
+  }
+  return inside;
+}
 window.fuelToggle=function(){var c=document.getElementById('fuel-collapse');if(!c)return;var open=c.classList.toggle('open');var hd=c.querySelector('.acc-collapse-hd');if(hd)hd.setAttribute('aria-expanded',open?'true':'false');if(typeof hapticTick==='function')hapticTick();};
+function wbChartSvg(wb,cg,totW,inEnv){
+  var W=300,H=210,pl=42,pr=12,pt=12,pb=26;
+  var arms=wb.env.map(function(p){return p[0];}).concat([cg]);
+  var wgts=wb.env.map(function(p){return p[1];}).concat([totW,wb.mtow]);
+  var aMin=Math.min.apply(null,arms),aMax=Math.max.apply(null,arms);
+  var wMin=Math.min.apply(null,wgts),wMax=Math.max.apply(null,wgts);
+  var aPad=(aMax-aMin)*0.12||0.05,wPad=(wMax-wMin)*0.08||30;
+  aMin-=aPad;aMax+=aPad;wMin-=wPad;wMax+=wPad;
+  var sx=function(a){return pl+(a-aMin)/(aMax-aMin)*(W-pl-pr);};
+  var sy=function(w){return pt+(1-(w-wMin)/(wMax-wMin))*(H-pt-pb);};
+  var poly=wb.env.map(function(p){return sx(p[0]).toFixed(1)+','+sy(p[1]).toFixed(1);}).join(' ');
+  var col=inEnv?'#22d77a':'#ef4444';
+  var mtowY=sy(wb.mtow);
+  var px=sx(cg),py=sy(totW);
+  return '<svg viewBox="0 0 '+W+' '+H+'" class="wb-svg">'+
+    '<polygon points="'+poly+'" fill="rgba(77,139,245,.13)" stroke="rgba(77,139,245,.55)" stroke-width="1.5"/>'+
+    '<line x1="'+pl+'" y1="'+mtowY.toFixed(1)+'" x2="'+(W-pr)+'" y2="'+mtowY.toFixed(1)+'" stroke="rgba(245,165,36,.6)" stroke-width="1" stroke-dasharray="4 3"/>'+
+    '<text x="'+(W-pr)+'" y="'+(mtowY-4).toFixed(1)+'" text-anchor="end" fill="#f5a524" font-size="8" font-family="JetBrains Mono,monospace">MTOW</text>'+
+    '<line x1="'+pl+'" y1="'+pt+'" x2="'+pl+'" y2="'+(H-pb)+'" stroke="rgba(255,255,255,.15)" stroke-width="1"/>'+
+    '<line x1="'+pl+'" y1="'+(H-pb)+'" x2="'+(W-pr)+'" y2="'+(H-pb)+'" stroke="rgba(255,255,255,.15)" stroke-width="1"/>'+
+    '<text x="'+pl+'" y="'+(H-8)+'" text-anchor="middle" fill="#7e8aa3" font-size="8" font-family="JetBrains Mono,monospace">'+aMin.toFixed(2)+'</text>'+
+    '<text x="'+(W-pr)+'" y="'+(H-8)+'" text-anchor="middle" fill="#7e8aa3" font-size="8" font-family="JetBrains Mono,monospace">'+aMax.toFixed(2)+'m</text>'+
+    '<line x1="'+px.toFixed(1)+'" y1="'+pt+'" x2="'+px.toFixed(1)+'" y2="'+(H-pb)+'" stroke="'+col+'" stroke-width="1" stroke-dasharray="2 2" opacity=".5"/>'+
+    '<line x1="'+pl+'" y1="'+py.toFixed(1)+'" x2="'+(W-pr)+'" y2="'+py.toFixed(1)+'" stroke="'+col+'" stroke-width="1" stroke-dasharray="2 2" opacity=".5"/>'+
+    '<circle cx="'+px.toFixed(1)+'" cy="'+py.toFixed(1)+'" r="5.5" fill="'+col+'" stroke="#0b0e15" stroke-width="2"/>'+
+  '</svg>';
+}
 window.fuelPrintDoc=function(mode){
   var f=_fuelLast;if(!f){try{fuelCalc();}catch(e){}f=_fuelLast;}if(!f)return;
   var n2=function(x){return (Math.round(x*10)/10).toFixed(1);};
@@ -4846,6 +5308,8 @@ async function docUploadFile(input){
   <div class="elev-tabs-wrap">
     <div class="elev-tabs" id="elev-tabs">
       <button class="elev-tab on" data-tab="accueil" onclick="elevTab('accueil')" type="button">Synthèse</button>
+      <button class="elev-tab" data-tab="voyage" onclick="elevTab('voyage')" type="button">Voyage</button>
+      <button class="elev-tab" data-tab="activite" onclick="elevTab('activite')" type="button">Activité</button>
       <button class="elev-tab" data-tab="docs" onclick="elevTab('docs')" type="button">Documents</button>
       <button class="elev-tab" data-tab="forum" onclick="elevTab('forum')" type="button">Forum</button>
       <button class="elev-tab" data-tab="ressources" onclick="elevTab('ressources')" type="button">Liens</button>
@@ -4870,16 +5334,45 @@ async function docUploadFile(input){
         </div>
       </div>
 
+      <div class="syn-greet" id="syn-greet"></div>
+
+      <div class="syn-ready">
+        <button class="syn-link voyage" id="syn-voyage" type="button" onclick="elevTab('voyage')"></button>
+        <button class="syn-link activite" id="syn-activite" type="button" onclick="elevTab('activite')"></button>
+      </div>
+
       <div class="acc-head">
         <h4 class="elev-group-h">Licences &amp; médicales</h4>
         <button class="acc-edit" type="button" onclick="elevTab('licences')">Gérer →</button>
       </div>
       <div id="lic-synth" class="lic-synth" onclick="elevTab('licences')"></div>
 
-      <div class="acc-collapse" id="fuel-collapse">
+      <div class="acc-head" style="margin-top:24px">
+        <h4 class="elev-group-h">Accès rapides</h4>
+      </div>
+      <div class="syn-quick">
+        <button class="syn-q" type="button" onclick="elevTab('forum')">
+          <span class="syn-q-ic"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></span>
+          <span class="syn-q-t">Poser une question</span>
+        </button>
+        <button class="syn-q" type="button" onclick="elevTab('docs')">
+          <span class="syn-q-ic"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></span>
+          <span class="syn-q-t">Documents</span>
+        </button>
+        <button class="syn-q" type="button" onclick="synOpenFuel()">
+          <span class="syn-q-ic"><svg viewBox="0 0 24 24"><path d="M3 22h12V4a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v18zM6 6h6M6 10h6M17 8l2 2v8a2 2 0 0 1-4 0v-3h2"/></svg></span>
+          <span class="syn-q-t">Devis de masse</span>
+        </button>
+        <button class="syn-q" type="button" onclick="elevTab('licences')">
+          <span class="syn-q-ic"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18"/><circle cx="8" cy="14" r="1.6"/><path d="M13 13h5M13 16h3"/></svg></span>
+          <span class="syn-q-t">Mes licences</span>
+        </button>
+      </div>
+
+      <div class="acc-collapse" id="fuel-collapse" style="margin-top:24px">
         <button class="acc-collapse-hd" type="button" onclick="fuelToggle()" aria-expanded="false">
           <span class="acc-collapse-ic"><svg viewBox="0 0 24 24"><path d="M3 22h12V4a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v18zM6 6h6M6 10h6M17 8l2 2v8a2 2 0 0 1-4 0v-3h2"/></svg></span>
-          <span class="acc-collapse-tx"><span class="acc-collapse-t">Bilan carburant</span><span class="acc-collapse-sub">Estimation détaillée · imprimable</span></span>
+          <span class="acc-collapse-tx"><span class="acc-collapse-t">Devis de masse</span><span class="acc-collapse-sub">Carburant, masse &amp; centrage · imprimable</span></span>
           <svg class="acc-collapse-chev" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
         </button>
         <div class="acc-collapse-body">
@@ -4901,8 +5394,17 @@ async function docUploadFile(input){
           <button type="button" onclick="fuelSetRes(45,this)">VFR nuit · 45 min</button>
         </div>
           <div class="fuel-out" id="fuel-out"></div>
+
+          <div class="wb-sec">
+            <div class="wb-sec-h">Masse &amp; centrage</div>
+            <div class="wb-stations" id="wb-stations"></div>
+            <div class="fuel-field wb-fuelfield"><label>Carburant embarqué</label><div class="fuel-input"><input id="wb-fuel" type="number" inputmode="decimal" placeholder="plein" oninput="wbCalc()"><span>L</span></div></div>
+            <div class="wb-out" id="wb-out"></div>
+            <div class="wb-chart" id="wb-chart"></div>
+            <div class="wb-legend">Point vert = dans le domaine de centrage · zone bleue = enveloppe · ligne orange = MTOW</div>
           </div>
-          <p class="acc-note">Aide à la préparation — valeurs indicatives. Le manuel de vol de l'appareil et la réglementation en vigueur prévalent.</p>
+          </div>
+          <p class="acc-note">Aide à la préparation — valeurs d'exemple à vérifier avec les fiches de pesée du club. Le manuel de vol de l'appareil et la réglementation en vigueur prévalent.</p>
         </div>
       </div>
     </div>
@@ -4923,6 +5425,26 @@ async function docUploadFile(input){
       <p class="acc-note" style="margin-bottom:4px">Saisissez la date d'échéance figurant sur vos documents. Vos dates sont enregistrées pour vous alerter avant expiration, et visibles par les instructeurs pour le suivi du club.</p>
       <div id="lic-cockpit" class="lic-cockpit" hidden></div>
       <div id="lic-list" class="lic-list"></div>
+    </div>
+
+    <!-- VOYAGE -->
+    <div class="elev-pane" id="elev-voyage">
+      <div class="acc-head">
+        <h4 class="elev-group-h">Voyages du club</h4>
+        <button class="acc-edit voy-new" id="voy-new-btn" type="button" onclick="voyOpenForm()" hidden>+ Nouveau</button>
+      </div>
+      <p class="elev-sec-sub">Les sorties et voyages organisés par l'APAM. Destination, date, équipage et briefing.</p>
+      <div id="voy-list" class="trip-list"></div>
+    </div>
+
+    <!-- ACTIVITÉ -->
+    <div class="elev-pane" id="elev-activite">
+      <div class="acc-head">
+        <h4 class="elev-group-h">Activités du club</h4>
+        <button class="acc-edit voy-new" id="act-new-btn" type="button" onclick="actOpenForm()" hidden>+ Nouveau</button>
+      </div>
+      <p class="elev-sec-sub">La vie du club : repas, fly-in, formations au sol, événements.</p>
+      <div id="act-list" class="trip-list"></div>
     </div>
 
     <!-- DOCUMENTS -->
@@ -4982,6 +5504,9 @@ async function docUploadFile(input){
   </div>
 </div>
 
+
+<!-- ── Formulaire Voyage / Activité (instructeurs/admins) ── -->
+<div class="trip-form-ov" id="trip-form-ov"></div>
 
 <!-- ── Document Viewer ── -->
 <div class="doc-viewer" id="doc-viewer">
