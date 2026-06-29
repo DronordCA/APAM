@@ -281,6 +281,51 @@ html.pwa .tab-pane{padding-top:max(env(safe-area-inset-top,0px),52px)}
 .mobile-sec-h h2{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:26px;text-transform:uppercase;color:var(--text);line-height:1;letter-spacing:-.005em}
 .mobile-sec-h .sec-badge{background:var(--accent);color:#fff;border-radius:100px;font-size:11px;font-weight:700;padding:2px 8px;font-family:'Jost',sans-serif;letter-spacing:0;min-width:20px;text-align:center}
 .mobile-sec-h-sub{margin-left:auto;font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--text-2)}
+/* Roue Options intégrée au panneau d'accueil */
+.welcome>.app-gear{position:absolute;top:14px;right:14px;z-index:5;width:34px;height:34px;border-radius:10px;border:1px solid var(--border);background:rgba(255,255,255,.04);color:var(--text-2);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:color .2s,border-color .2s,background .2s,transform .25s}
+.welcome>.app-gear:hover{color:var(--accent);border-color:var(--accent-bord);background:var(--accent-soft)}
+.welcome>.app-gear:active{transform:rotate(40deg)}
+.welcome>.app-gear svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+/* Lien « Tout voir » dans un section header */
+.sec-link{margin-left:auto;background:none;border:none;cursor:pointer;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-style:italic;font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--accent)}
+/* Accès rapide Devis de masse (accueil) — uniforme avec les autres cartes */
+.home-wb{width:100%;display:flex;align-items:center;gap:13px;margin-top:13px;padding:13px 15px;border-radius:15px;cursor:pointer;text-align:left;background:var(--sf);border:1px solid var(--border);position:relative;overflow:hidden;transition:transform .12s,border-color .2s}
+.home-wb::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--accent)}
+.home-wb:hover{border-color:var(--bds)}
+.home-wb:active{transform:scale(.99)}
+.home-wb-ic{width:38px;height:38px;border-radius:11px;background:var(--sf2);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.home-wb-ic svg{width:20px;height:20px;fill:none;stroke:var(--accent);stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.home-wb-tx{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px}
+.home-wb-t{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:17px;text-transform:uppercase;letter-spacing:-.01em;color:var(--text);line-height:1}
+.home-wb-s{font-size:11px;color:var(--muted);line-height:1.3}
+.home-wb-go{width:18px;height:18px;flex-shrink:0;stroke:var(--muted);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+/* Onglet News : sections repliables */
+.news-sec{border:1px solid var(--border);border-radius:15px;background:var(--sf);margin-bottom:13px;overflow:hidden}
+.news-sec-h{width:100%;display:flex;align-items:center;gap:11px;padding:15px 16px;background:none;border:none;cursor:pointer;text-align:left}
+.news-sec-ic{font-size:17px;flex-shrink:0}
+.news-sec-t{flex:1;min-width:0;font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:18px;text-transform:uppercase;letter-spacing:-.005em;color:var(--text)}
+.news-sec-chev{width:19px;height:19px;flex-shrink:0;stroke:var(--muted);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;transition:transform .3s cubic-bezier(.2,.7,.2,1)}
+.news-sec.open .news-sec-chev{transform:rotate(180deg)}
+.news-sec-body{display:none;padding:0 12px 14px}
+.news-sec.open .news-sec-body{display:block;animation:elevFadeIn .25s ease}
+.news-sec-body .mn-feed{margin:0}
+.news-past-toggle{display:block;width:100%;margin-top:8px;padding:9px;background:var(--sf2);border:1px solid var(--border);border-radius:10px;cursor:pointer;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-style:italic;font-size:12.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--text-2)}
+.news-past-toggle:hover{border-color:var(--bds);color:var(--text)}
+.news-past-arr{font-style:normal}
+.news-past{margin-top:8px;opacity:.72}
+/* Bouton + Nouveau (g\u00e9rants) dans News */
+.news-add-btn{display:block;width:100%;margin-bottom:11px;padding:11px;background:var(--accent-soft);border:1px solid var(--accent-bord);border-radius:11px;cursor:pointer;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-style:italic;font-size:13.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--accent)}
+.news-add-btn:hover{filter:brightness(1.08)}
+/* Lien Synth\u00e8se \u2192 News */
+.syn-news-link{width:100%;display:flex;align-items:center;gap:13px;padding:14px 15px;border-radius:15px;cursor:pointer;text-align:left;background:var(--sf);border:1px solid var(--border);position:relative;overflow:hidden;transition:transform .12s,border-color .2s}
+.syn-news-link::before{content:\"\";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--accent)}
+.syn-news-link:hover{border-color:var(--bds)}
+.syn-news-link:active{transform:scale(.99)}
+.syn-news-ic{font-size:20px;width:38px;height:38px;border-radius:11px;background:var(--sf2);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.syn-news-tx{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px}
+.syn-news-t{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:17px;text-transform:uppercase;letter-spacing:-.01em;color:var(--text);line-height:1}
+.syn-news-s{font-size:11px;color:var(--muted);line-height:1.3}
+.syn-news-go{width:18px;height:18px;flex-shrink:0;stroke:var(--muted);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 
 /* MOBILE BOTTOM NAV */
 .bottom-nav{position:fixed;bottom:0;left:0;right:0;z-index:100;display:flex;justify-content:space-around;align-items:stretch;padding:6px 12px;padding-bottom:calc(env(safe-area-inset-bottom,12px) + 4px);background:var(--backdrop);border-top:1px solid var(--border);backdrop-filter:blur(28px) saturate(180%);-webkit-backdrop-filter:blur(28px) saturate(180%);transform:translateZ(0);-webkit-transform:translateZ(0);backface-visibility:hidden}
@@ -316,7 +361,7 @@ html:not(.pwa) .desktop-only{display:flex}
 .welcome-ticks{position:absolute;top:22px;right:22px;display:flex;gap:4px;z-index:1}
 .welcome-ticks span{width:12px;height:2px;background:var(--accent);opacity:.4;display:block;border-radius:1px}
 .welcome-ticks span:nth-child(2){width:5px;opacity:.18}
-.welcome-label{font-family:'JetBrains Mono',monospace;font-size:10.5px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);display:flex;align-items:center;flex-wrap:wrap;gap:9px 11px;margin-bottom:6px;position:relative;flex-wrap:wrap;z-index:1}
+.welcome-label{font-family:'JetBrains Mono',monospace;font-size:10.5px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);display:flex;align-items:center;flex-wrap:wrap;gap:9px 11px;margin-bottom:6px;position:relative;flex-wrap:wrap;z-index:1;padding-right:42px}
 .welcome-brand{display:inline-flex;align-items:center;gap:7px;font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:14px;letter-spacing:.08em;color:var(--accent);line-height:1}
 .welcome-brand img{height:18px;width:auto;display:block;object-fit:contain}
 .welcome-divider{width:20px;height:1px;background:var(--accent);opacity:.45;display:inline-block}
@@ -1076,9 +1121,12 @@ button,a,.tap{transition:transform .28s cubic-bezier(.2,.7,.2,1),background-colo
 .elev-header{display:none}
 
 /* Onglets hauts de l'Espace (barre soulignée) */
-.elev-tabs-wrap{flex-shrink:0;background:var(--backdrop);backdrop-filter:blur(28px) saturate(180%);-webkit-backdrop-filter:blur(28px) saturate(180%);border-bottom:1px solid var(--border);padding-top:env(safe-area-inset-top,0px)}
+.elev-tabs-wrap{flex-shrink:0;display:flex;align-items:stretch;background:var(--backdrop);backdrop-filter:blur(28px) saturate(180%);-webkit-backdrop-filter:blur(28px) saturate(180%);border-bottom:1px solid var(--border);padding-top:env(safe-area-inset-top,0px)}
+.elev-gear{flex:0 0 auto;align-self:center;width:38px;height:38px;margin:0 6px;border-radius:11px;border:1px solid var(--border);background:var(--sf2);color:var(--text-2);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:color .2s,border-color .2s}
+.elev-gear:hover{color:var(--accent);border-color:var(--accent-bord)}
+.elev-gear svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
 html.pwa .elev-tabs-wrap{padding-top:max(env(safe-area-inset-top,0px),52px)}
-.elev-tabs{display:flex;gap:2px;overflow-x:auto;scrollbar-width:none;padding:0 8px}
+.elev-tabs{display:flex;gap:2px;overflow-x:auto;scrollbar-width:none;padding:0 8px;flex:1;min-width:0}
 .elev-tabs::-webkit-scrollbar{display:none}
 .elev-tab{position:relative;flex:0 0 auto;background:none;border:none;cursor:pointer;padding:15px 12px 13px;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-style:italic;font-size:15px;letter-spacing:.03em;text-transform:uppercase;color:var(--muted);white-space:nowrap;transition:color .2s}
 .elev-tab::after{content:"";position:absolute;left:12px;right:12px;bottom:0;height:2.5px;border-radius:2px 2px 0 0;background:var(--accent);transform:scaleX(0);transform-origin:center;transition:transform .26s cubic-bezier(.2,.7,.2,1)}
@@ -1361,6 +1409,99 @@ html.pwa .doc-viewer-safe{min-height:52px}
 .trip-cancel{flex:1;padding:13px;border-radius:11px;border:1px solid var(--bds);background:none;color:var(--text-2);font-family:'Barlow Condensed',sans-serif;font-weight:700;font-style:italic;font-size:14px;letter-spacing:.08em;text-transform:uppercase;cursor:pointer}
 .trip-save{flex:2;padding:13px;border-radius:11px;border:none;background:var(--accent);color:#fff;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-style:italic;font-size:14px;letter-spacing:.08em;text-transform:uppercase;cursor:pointer}
 
+/* ── Carnet d'essence (cuve) ── */
+.carb-quick{width:100%;display:flex;align-items:center;gap:12px;background:var(--sf);border:1px solid var(--border);border-radius:15px;padding:13px 15px;margin-bottom:22px;cursor:pointer;text-align:left;transition:border-color .2s,transform .12s;position:relative;overflow:hidden}
+.carb-quick::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--cyan)}
+.carb-quick:active{transform:scale(.99)}
+.carb-quick:hover{border-color:var(--bds)}
+.carb-quick-ic{font-size:22px;flex-shrink:0;width:38px;height:38px;display:flex;align-items:center;justify-content:center;background:var(--sf2);border-radius:11px}
+.carb-quick-tx{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px}
+.carb-quick-lbl{font-family:'JetBrains Mono',monospace;font-size:8.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.carb-quick-last{font-size:11.5px;color:var(--text-2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.carb-quick-bal{display:flex;flex-direction:column;align-items:flex-end;flex-shrink:0;line-height:1}
+.carb-quick-num{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:26px;color:var(--text);font-variant-numeric:tabular-nums}
+.carb-quick-num.neg{color:#ff5f57}
+.carb-quick-u{font-family:'JetBrains Mono',monospace;font-size:7.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-top:3px}
+.carb-quick-chev{width:16px;height:16px;flex-shrink:0;stroke:var(--dim);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+/* Bandeau solde */
+.carb-balance{background:var(--sf);border:1px solid var(--border);border-radius:18px;padding:20px 20px 18px;position:relative;overflow:hidden}
+/* Bandeau de synchro (file d'attente) */
+.carb-sync{display:flex;align-items:center;gap:10px;padding:11px 13px;border-radius:13px;margin-bottom:12px;background:color-mix(in srgb,#f5a524 12%,var(--sf));border:1px solid color-mix(in srgb,#f5a524 35%,transparent);font-size:12px;color:var(--text)}
+.carb-sync.offline{background:color-mix(in srgb,#ff5f57 12%,var(--sf));border-color:color-mix(in srgb,#ff5f57 35%,transparent)}
+.carb-sync-ic{flex-shrink:0;font-size:15px}
+.carb-sync:not(.offline) .carb-sync-ic{animation:carbSpin 1.4s linear infinite;display:inline-block}
+@keyframes carbSpin{to{transform:rotate(360deg)}}
+.carb-sync-tx{flex:1;min-width:0;line-height:1.35}
+.carb-sync-btn{flex-shrink:0;background:var(--accent);border:none;color:#fff;border-radius:8px;padding:7px 12px;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-style:italic;font-size:12px;letter-spacing:.06em;text-transform:uppercase;cursor:pointer}
+.carb-row.pending{opacity:.74}
+.carb-row-pend{color:var(--amber);font-weight:600;margin-left:6px}
+.carb-balance::before{content:"";position:absolute;inset:0;background-image:repeating-linear-gradient(135deg,var(--hatch) 0 2px,transparent 2px 9px);opacity:.4;pointer-events:none;mask-image:linear-gradient(160deg,#000,transparent 60%)}
+.carb-bal-lbl{font-family:'JetBrains Mono',monospace;font-size:9px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-bottom:6px;position:relative}
+.carb-bal-big{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:54px;line-height:.85;color:var(--cyan);font-variant-numeric:tabular-nums;position:relative}
+.carb-bal-big.neg{color:#ff5f57}
+.carb-bal-big small{font-size:22px;color:var(--muted);margin-left:6px;font-weight:700}
+.carb-bal-month{display:flex;align-items:center;gap:12px;margin-top:13px;position:relative;font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:500}
+.carb-bal-month .up{color:var(--ok)}
+.carb-bal-month .dn{color:#ff8c42}
+.carb-bal-month .lbl{color:var(--dim);font-size:9px;letter-spacing:.12em;text-transform:uppercase;margin-left:auto}
+.carb-bal-warn{margin-top:12px;position:relative;font-size:11.5px;color:#ff8c42;background:rgba(245,165,36,.1);border:1px solid rgba(245,165,36,.25);border-radius:9px;padding:8px 11px;line-height:1.4}
+/* Actions */
+.carb-actions{display:flex;flex-direction:column;gap:10px;margin-top:14px}
+.carb-act{display:flex;align-items:center;gap:13px;padding:15px 15px;border-radius:15px;cursor:pointer;border:1px solid;transition:transform .12s,filter .2s,border-color .2s;text-align:left;width:100%}
+.carb-act:active{transform:scale(.985)}
+.carb-act-ic{width:42px;height:42px;border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.carb-act-ic svg{width:22px;height:22px;fill:none;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+.carb-act-tx{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+.carb-act-t{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:18px;letter-spacing:.01em;text-transform:uppercase;line-height:1}
+.carb-act-s{font-size:11px;line-height:1.2}
+.carb-act-go{width:18px;height:18px;flex-shrink:0;fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;opacity:.55}
+/* Primaire : plein avion (geste quotidien) */
+.carb-act.primary{background:linear-gradient(135deg,#2f7bf0,#1f5fd0);border-color:transparent;color:#fff;box-shadow:0 6px 18px rgba(31,95,208,.32)}
+.carb-act.primary .carb-act-ic{background:rgba(255,255,255,.16)}
+.carb-act.primary .carb-act-ic svg{stroke:#fff}
+.carb-act.primary .carb-act-s{color:rgba(255,255,255,.8)}
+.carb-act.primary .carb-act-go{stroke:#fff}
+.carb-act.primary:hover{filter:brightness(1.04)}
+/* Secondaire : remplir la cuve */
+.carb-act.ghost{background:var(--sf);border-color:var(--border);color:var(--text)}
+.carb-act.ghost .carb-act-ic{background:var(--accent-soft);border:1px solid var(--accent-bord)}
+.carb-act.ghost .carb-act-ic svg{stroke:var(--cyan)}
+.carb-act.ghost .carb-act-s{color:var(--muted)}
+.carb-act.ghost .carb-act-go{stroke:var(--muted)}
+.carb-act.ghost:hover{border-color:var(--bds)}
+/* Historique */
+.carb-list{display:flex;flex-direction:column;gap:8px;margin-top:6px}
+.carb-row{display:flex;align-items:flex-start;gap:11px;background:var(--sf);border:1px solid var(--border);border-radius:13px;padding:12px 12px 12px 13px;position:relative}
+.carb-row::before{content:"";position:absolute;left:0;top:10px;bottom:10px;width:3px;border-radius:3px}
+.carb-row.add::before{background:var(--ok)}
+.carb-row.rm::before{background:#ff8c42}
+.carb-row-ic{font-size:17px;flex-shrink:0;width:30px;text-align:center;margin-top:1px}
+.carb-row-mid{flex:1;min-width:0}
+.carb-row-top{display:flex;align-items:baseline;justify-content:space-between;gap:10px}
+.carb-row-sub{font-size:13.5px;font-weight:600;color:var(--text);line-height:1.25}
+.carb-row-amt{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:17px;flex-shrink:0;font-variant-numeric:tabular-nums}
+.carb-row.add .carb-row-amt{color:var(--ok)}
+.carb-row.rm .carb-row-amt{color:#ff8c42}
+.carb-row-meta{font-family:'JetBrains Mono',monospace;font-size:9.5px;font-weight:500;letter-spacing:.04em;text-transform:uppercase;color:var(--muted);margin-top:3px}
+.carb-row-note{font-size:11.5px;color:var(--text-2);margin-top:5px;line-height:1.4}
+.carb-row-del{background:none;border:none;color:var(--dim);font-size:14px;cursor:pointer;flex-shrink:0;padding:2px 4px;line-height:1;align-self:center}
+.carb-row-del:hover{color:#ff5f57}
+/* Vente extérieure */
+.carb-row.sale::before{background:#a855f7}
+.carb-row.sale .carb-row-amt{color:#c084fc}
+.carb-tag{display:inline-block;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-style:italic;font-size:9.5px;letter-spacing:.04em;text-transform:uppercase;padding:1px 7px;border-radius:100px;margin-left:2px;vertical-align:middle}
+.carb-tag.regle{background:rgba(34,215,122,.14);color:var(--ok)}
+.carb-tag.facturer{background:rgba(245,165,36,.14);color:var(--amber)}
+.carb-bal-sales{margin-top:11px;position:relative;display:flex;align-items:center;gap:8px;font-size:11.5px;color:var(--text-2);background:rgba(168,85,247,.1);border:1px solid rgba(168,85,247,.25);border-radius:9px;padding:8px 11px;line-height:1.4}
+.carb-bal-sales b{color:#c084fc;font-weight:700}
+.carb-sales-ic{width:18px;height:18px;border-radius:6px;background:rgba(168,85,247,.2);color:#c084fc;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:11px;flex-shrink:0}
+/* Segmented toggle club/extérieur */
+.carb-seg{display:flex;gap:4px;background:var(--sf2);border:1px solid var(--border);border-radius:11px;padding:4px;margin-bottom:4px}
+.carb-seg button{flex:1;padding:9px;border:none;border-radius:8px;background:none;color:var(--muted);font-family:'Barlow Condensed',sans-serif;font-weight:700;font-style:italic;font-size:13px;letter-spacing:.04em;text-transform:uppercase;cursor:pointer;transition:background .2s,color .2s}
+.carb-seg button.on{background:var(--accent);color:#fff}
+.carb-total{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-style:italic;font-size:14px;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);padding:4px 2px 2px}
+.carb-total b{font-size:22px;color:var(--cyan);font-style:italic}
+
 /* ── Accueil : licences & bilan carburant ── */
 .acc-head{display:flex;align-items:center;justify-content:space-between;gap:10px}
 .acc-head .elev-group-h{margin:10px 0 0}
@@ -1456,8 +1597,13 @@ html.pwa .doc-viewer-safe{min-height:52px}
 .lic-del{background:none;border:none;color:#ff5f57;font-size:16px;cursor:pointer;flex-shrink:0;line-height:1;padding:4px}
 .lic-add{width:100%;padding:11px;border:1px dashed var(--border);border-radius:10px;background:none;color:var(--muted);font-family:'Barlow Condensed',sans-serif;font-weight:700;letter-spacing:.1em;text-transform:uppercase;font-size:12px;cursor:pointer;margin-top:2px}
 .fuel-card{background:var(--sf);border:1px solid var(--border);border-radius:14px;padding:16px}
-/* Collapsible (bilan carburant) */
 .acc-collapse{margin-top:24px}
+/* Synthèse en flex pour hiérarchiser via order */
+.syn-pane.on{display:flex;flex-direction:column;gap:18px}
+.syn-pane .acc-collapse{margin-top:0}
+.syn-pane .carb-quick{margin-bottom:0}
+.syn-group .acc-head{margin-bottom:12px}
+.syn-group .syn-quick{margin-top:0}
 .acc-collapse-hd{width:100%;display:flex;align-items:center;gap:13px;padding:15px 16px;background:var(--sf);border:1px solid var(--border);border-radius:14px;cursor:pointer;text-align:left;color:var(--text);transition:border-color .2s}
 .acc-collapse-hd:hover{border-color:var(--bds)}
 .acc-collapse.open .acc-collapse-hd{border-bottom-left-radius:0;border-bottom-right-radius:0;border-bottom-color:transparent}
@@ -1852,9 +1998,10 @@ html.pwa .doc-viewer-safe{min-height:52px}
   <!-- ACCUEIL -->
   <div id="pane-home" class="tab-pane active">
     <div class="mobile-wrap">
-      <!-- Welcome panel (identité + météo conversationnelle) -->
+      <!-- Welcome panel (identité + météo go/no-go) -->
       <div class="welcome">
         <div class="welcome-glow"></div>
+        <button class="app-gear" type="button" onclick="switchTab('outils')" aria-label="Options"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></button>
         <div class="welcome-label">
           <span class="welcome-brand"><img src="assets/images/apam-logo2.png?v=2" alt="" onerror="this.style.display='none'"/>APAM</span>
           <span class="welcome-divider"></span>
@@ -1874,26 +2021,65 @@ html.pwa .doc-viewer-safe{min-height:52px}
         <div class="welcome-disclaimer">Information non certifiée — briefing officiel à votre charge.</div>
       </div>
 
-      <div class="lic-home lic-home-m" id="lic-home-m"></div>
+      <button class="carb-quick" id="carb-quick" type="button" onclick="carbHomeOpen()"></button>
 
-      <!-- News -->
+      <button class="home-wb" type="button" onclick="homeOpenWB()">
+        <span class="home-wb-ic"><svg viewBox="0 0 24 24"><path d="M3 22h12V4a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v18zM6 6h6M6 10h6M17 8l2 2v8a2 2 0 0 1-4 0v-3h2"/></svg></span>
+        <span class="home-wb-tx"><span class="home-wb-t">Devis de masse</span><span class="home-wb-s">Carburant, masse &amp; centrage · imprimable</span></span>
+        <svg class="home-wb-go" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg>
+      </button>
+
+      <div class="syn-ready" style="margin-top:13px">
+        <button class="syn-link voyage" id="home-voyage" type="button" onclick="homeOpenTrip('voyage')"></button>
+        <button class="syn-link activite" id="home-activite" type="button" onclick="homeOpenTrip('activite')"></button>
+      </div>
+
+      <div class="mobile-sec-h" style="margin-top:24px">
+        <h2>Dernière actu</h2>
+        <button class="sec-link" type="button" onclick="switchTab('news')">Tout voir →</button>
+      </div>
+      <div id="home-news-mini" class="mn-feed"></div>
+    </div>
+  </div>
+
+  <!-- NEWS -->
+  <div id="pane-news" class="tab-pane">
+    <div class="mobile-wrap">
       <div class="mobile-sec-h">
-        <h2>Actualités</h2>
+        <h2>News</h2>
         <span class="sec-badge" id="m-badge"></span>
-        <span class="mobile-sec-h-sub">Le bureau</span>
-      </div>
-      <div class="mn-feed" id="m-feed">
-        <div class="skel-card"><div class="skel skel-line w-50"></div><div class="skel skel-title"></div><div class="skel skel-line w-full"></div><div class="skel skel-line w-80"></div><div class="skel skel-poll"></div></div>
-        <div class="skel-card"><div class="skel skel-line w-50"></div><div class="skel skel-title"></div><div class="skel skel-line w-80"></div></div>
+        <span class="mobile-sec-h-sub">Le club APAM</span>
       </div>
 
-      <!-- Flotte -->
-      <div class="mobile-sec-h">
-        <h2>La flotte</h2>
-        <span class="mobile-sec-h-sub">État des avions</span>
+      <div class="news-sec open" id="news-sec-actus">
+        <button class="news-sec-h" type="button" onclick="newsToggle('actus')"><span class="news-sec-ic">📢</span><span class="news-sec-t">Actualités</span><svg class="news-sec-chev" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></button>
+        <div class="news-sec-body">
+          <div class="mn-feed" id="m-feed">
+            <div class="skel-card"><div class="skel skel-line w-50"></div><div class="skel skel-title"></div><div class="skel skel-line w-full"></div><div class="skel skel-line w-80"></div><div class="skel skel-poll"></div></div>
+            <div class="skel-card"><div class="skel skel-line w-50"></div><div class="skel skel-title"></div><div class="skel skel-line w-80"></div></div>
+          </div>
+        </div>
       </div>
-      <div class="fleet-alert" id="m-fleet-alert" hidden></div>
-      <div class="fleet" id="m-fleet"></div>
+
+      <div class="news-sec open" id="news-sec-act">
+        <button class="news-sec-h" type="button" onclick="newsToggle('act')"><span class="news-sec-ic">🎉</span><span class="news-sec-t">Prochaines activités</span><svg class="news-sec-chev" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></button>
+        <div class="news-sec-body">
+          <button class="news-add-btn" id="act-new-btn" type="button" onclick="actOpenForm()" hidden>+ Nouvelle activité</button>
+          <div id="news-activites" class="trip-list news-trip"></div>
+          <button class="news-past-toggle" id="act-past-toggle" type="button" onclick="newsTogglePast('act')" hidden></button>
+          <div id="news-activites-past" class="trip-list news-trip news-past" hidden></div>
+        </div>
+      </div>
+
+      <div class="news-sec open" id="news-sec-voy">
+        <button class="news-sec-h" type="button" onclick="newsToggle('voy')"><span class="news-sec-ic">🛩️</span><span class="news-sec-t">Prochains voyages</span><svg class="news-sec-chev" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></button>
+        <div class="news-sec-body">
+          <button class="news-add-btn" id="voy-new-btn" type="button" onclick="voyOpenForm()" hidden>+ Nouveau voyage</button>
+          <div id="news-voyages" class="trip-list news-trip"></div>
+          <button class="news-past-toggle" id="voy-past-toggle" type="button" onclick="newsTogglePast('voy')" hidden></button>
+          <div id="news-voyages-past" class="trip-list news-trip news-past" hidden></div>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -2116,7 +2302,7 @@ html.pwa .doc-viewer-safe{min-height:52px}
     <button class="bn on" id="tab-home"       onclick="switchTab('home')"       type="button"><span class="bn-iconwrap"><svg viewBox="0 0 24 24"><path d="M3 11l9-8 9 8M5 10v10a1 1 0 0 0 1 1h4v-7h4v7h4a1 1 0 0 0 1-1V10"/></svg></span><span>Accueil</span></button>
     <button class="bn"    id="tab-meteo"      onclick="switchTab('meteo')"      type="button"><span class="bn-iconwrap"><svg viewBox="0 0 24 24"><path d="M7 18a5 5 0 1 1 .6-9.96A6 6 0 0 1 19 9.5a4.5 4.5 0 0 1-1.5 8.5H7z"/></svg></span><span>Météo</span></button>
     <button class="bn bn-center" id="tab-ressources" onclick="switchTab('ressources')" type="button"><span class="bn-center-fab"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.6"/><rect x="14" y="3" width="7" height="7" rx="1.6"/><rect x="3" y="14" width="7" height="7" rx="1.6"/><rect x="14" y="14" width="7" height="7" rx="1.6"/></svg></span><span>Espace</span></button>
-    <button class="bn"    id="tab-outils"     onclick="switchTab('outils')"     type="button"><span class="bn-iconwrap"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></span><span>Options</span></button>
+    <button class="bn"    id="tab-news"       onclick="switchTab('news')"       type="button"><span class="bn-iconwrap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5a1 1 0 0 1 1-1h11a1 1 0 0 1 1 1v13a2 2 0 0 0 2 2H6a2 2 0 0 1-2-2z"/><path d="M17 8h2a1 1 0 0 1 1 1v9a2 2 0 0 1-2 2"/><path d="M8 7h5M8 11h5M8 15h3"/></svg></span><span>News</span></button>
     <button class="bn"    id="tab-webcam"     onclick="switchTab('webcam')"     type="button"><span class="bn-iconwrap"><svg viewBox="0 0 24 24"><path d="M23 7l-7 5 7 5z"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg></span><span>Webcam</span></button>
   </nav>
 </div>
@@ -2390,6 +2576,15 @@ if(DEMO_MODE){
         {id:'a_demo1',titre:'Barbecue de fin de saison',date:_ld(8),type:'Repas',lieu:'Hangar club',inscription:'Liste au secrétariat',briefing:'',notes:'Chacun apporte un plat à partager. Boissons offertes par le club.'},
         {id:'a_demo2',titre:'Soirée théorique météo',date:_ld(21),type:'Formation au sol',lieu:'Salle de briefing',inscription:'Entrée libre',briefing:'',notes:'Animée par un instructeur. Ouvert aux élèves et pilotes.'}
       ]));
+      /* Carnet d'essence de démo (solde cuve) */
+      localStorage.setItem('apam_carburant',JSON.stringify([
+        {id:'c_d1',_ts:6,type:'ajout',litres:2000,date:_ld(-18),qui:'Jean Dupont',note:'Livraison TotalEnergies'},
+        {id:'c_d2',_ts:5,type:'retrait',litres:38,date:_ld(-12),qui:'Antoine Martin',avion:'F-GHKE',plein:'complet',note:''},
+        {id:'c_d3',_ts:4,type:'retrait',litres:95,date:_ld(-9),qui:'Sophie Bernard',avion:'F-GYJL',plein:'complet',note:''},
+        {id:'c_d4',_ts:3,type:'retrait',litres:60,date:_ld(-5),qui:'Marc Petit',avion:'F-GYFF',plein:'partiel',note:'avant convoyage'},
+        {id:'c_d5',_ts:2,type:'retrait',litres:42,date:_ld(-2),qui:'Antoine Martin',avion:'F-GHKE',plein:'complet',note:''},
+        {id:'c_d6',_ts:1,type:'retrait',litres:120,date:_ld(-3),qui:'Antoine Martin',vente:true,immat:'F-HBKG',client:'Pierre Aubert',tel:'06 12 34 56 78',prix:2.45,montant:294,paid:'regle',note:'avion de passage'}
+      ]));
     }catch(e){}
   }catch(e){}
 
@@ -2452,6 +2647,13 @@ if(DEMO_MODE){
       if(url.indexOf('action=getActivites')>-1){
         var _da=[];try{_da=JSON.parse(localStorage.getItem('apam_activites')||'[]');}catch(e){}
         return Promise.resolve(new Response(JSON.stringify({activites:_da}),{status:200,headers:{'Content-Type':'application/json'}}));
+      }
+      if(url.indexOf('action=getCarburant')>-1){
+        var _dc=[];try{_dc=JSON.parse(localStorage.getItem('apam_carburant')||'[]');}catch(e){}
+        return Promise.resolve(new Response(JSON.stringify({carburant:_dc}),{status:200,headers:{'Content-Type':'application/json'}}));
+      }
+      if(url.indexOf('action=addCarburant')>-1||url.indexOf('action=deleteCarburant')>-1){
+        return Promise.resolve(new Response(JSON.stringify({success:true}),{status:200,headers:{'Content-Type':'application/json'}}));
       }
       if(url.indexOf('action=getDocuments')>-1){
         return Promise.resolve(new Response(JSON.stringify({documents:[
@@ -2553,6 +2755,7 @@ function applyNews(news){
   ['d-badge','m-badge'].forEach(id=>{const el=document.getElementById(id);if(el)el.textContent=pending>0?pending:'';});
   const html=news.length?news.map(renderCard).join(''):`<div class="mn-empty"><div class="mn-empty-icon">📭</div><p class="mn-empty-title">Aucune actualité</p><p class="mn-empty-sub">Rien de nouveau pour l'instant.</p></div>`;
   ['d-feed','m-feed'].forEach(id=>{const el=document.getElementById(id);if(el)el.innerHTML=html;});
+  try{homeRenderNewsMini();}catch(e){}
 }
 
 function pollWrapHTML(n){
@@ -2704,7 +2907,7 @@ window.togglePollVoters=function(btn){
 };
 
 /* ── Tabs ── */
-const PRIMARY_TABS=['home','meteo','ressources','outils','webcam'];
+const PRIMARY_TABS=['home','meteo','ressources','news','webcam'];
 window.switchTab=function(tab){
   hapticTick();
   /* Tous les rôles : l'onglet « Espace » ouvre l'Espace (pilote ou élève selon le profil). */
@@ -2721,11 +2924,11 @@ window.switchTab=function(tab){
   document.querySelectorAll('.bn').forEach(b=>b.classList.remove('on'));
   if(PRIMARY_TABS.indexOf(tab)>=0){
     const btn=document.getElementById('tab-'+tab);if(btn)btn.classList.add('on');
-  }else{
-    /* subpage → highlight Options as breadcrumb */
-    document.getElementById('tab-outils')?.classList.add('on');
+  }else if(tab==='outils'||tab==='publication'||tab==='admin'||tab==='maintenance'||tab==='contacts'){
+    /* Options & ses sous-pages : pas d'item navbar dédié (accès via la roue ⚙) */
   }
   if(tab==='meteo'){if(Date.now()-wxTs>120000){wxTs=0;wxFetching=false;}wxLoad('m-wx');}
+  if(tab==='news'){try{renderNews();}catch(e){}}
   if(tab==='publication')openPublication();
   if(tab==='admin')openAdmin();
   if(tab==='maintenance')openMaintenance();
@@ -4040,7 +4243,7 @@ function mirrorEleveRessources(){
 
 /* ── Init ── */
 applyProfileLayout();
-buildOutils();chargerNews();chargerFleet();licInitHome();tripLoadCache();
+buildOutils();chargerNews();chargerFleet();tripLoadCache();carbLoadCache();carbRenderQuick();carbLoadAll();homeRenderSynth();
 setTimeout(function(){wxLoad('m-wx');if(document.getElementById('d-wx'))wxPendingTargets.push('d-wx');updateWxQuick();},800);
 setTimeout(function preloadTaf(_n){
   _n=_n||0;
@@ -4270,7 +4473,7 @@ function applyEspaceMode(){
   if(eye)eye.textContent = isPilote ? 'Espace pilote' : (memberProfil==='instructeur'?'Espace instructeur':'Espace élève');
   setElevTitle();
 }
-var SECT_TITLES={accueil:'Accueil',docs:'Documents',forum:'Forum',ressources:'Liens',licences:'Licences'};
+var SECT_TITLES={accueil:'Accueil',docs:'Documents',forum:'Forum',ressources:'Liens',voyage:'Voyage',activite:'Activité',carburant:'Carburant'};
 function setElevTitle(tab){
   var h2=document.getElementById('elev-head-title');if(!h2)return;
   if(!tab){var ap=document.querySelector('#elev-overlay .elev-pane.on');tab=ap?ap.id.replace('elev-',''):'accueil';}
@@ -4289,6 +4492,7 @@ function openEspaceEleves(primary){
   elevTab('accueil');
   if(!_elevLoaded){_elevLoaded=true;elevLoadAll();}
   if(!_tripsLoaded)tripLoadAll();
+  if(!_carbLoaded)carbLoadAll();
 }
 
 function closeEspaceEleves(){
@@ -4305,13 +4509,11 @@ function elevTab(tab){
   var body=document.getElementById('elev-body');if(body)body.scrollTop=0;
   /* Rendu paresseux : garantit l'affichage à l'ouverture de l'onglet, même si un autre rendu a échoué */
   try{
-    if(tab==='accueil'){elevRenderDash();renderLic();}
-    else if(tab==='voyage'){voyRender();}
-    else if(tab==='activite'){actRender();}
+    if(tab==='accueil'){elevRenderDash();}
+    else if(tab==='carburant'){carbRender();}
     else if(tab==='docs'){if(!_elevDocs){elevEnsureLoaded(true);}else elevRenderDocs();}
     else if(tab==='forum'){if(!_elevQuestions){elevEnsureLoaded(true);}else elevRenderForum();}
     else if(tab==='ressources'){mirrorEleveRessources();}
-    else if(tab==='licences'){renderLic();}
   }catch(e){}
 }
 
@@ -4397,9 +4599,10 @@ function tripNext(list){
 }
 
 /* ── Blocs liens Synthèse (Prochain voyage / Prochaine activité) ── */
+/* ── Synthèse Espace : carte essence + lien News ── */
+window.elevGoNews=function(){if(typeof closeEspaceEleves==='function')closeEspaceEleves();setTimeout(function(){switchTab('news');},120);};
 function synRenderLinks(){
-  synRenderLinkCard('syn-voyage', VOYAGES, 'Prochain voyage', 'Aucun voyage programmé', '\uD83D\uDEE9\uFE0F');
-  synRenderLinkCard('syn-activite', ACTIVITES, 'Prochaine activité', 'Aucune activité prévue', '\uD83C\uDF89');
+  try{carbRenderQuick();}catch(e){}
 }
 function synRenderLinkCard(id, list, label, emptyTxt, icon){
   var el=document.getElementById(id);if(!el)return;
@@ -4425,6 +4628,71 @@ window.synOpenFuel=function(){
 
 /* ═══════════ VOYAGES & ACTIVITÉS ═══════════ */
 var VOYAGES=[], ACTIVITES=[], _tripsLoaded=false;
+
+/* ── Accueil app (synthèse) & onglet News ── */
+window.homeOpenWB=function(){if(typeof openEspaceEleves==='function')openEspaceEleves(false);setTimeout(function(){if(typeof elevTab==='function'){elevTab('accueil');setTimeout(function(){try{synOpenFuel();}catch(e){}},200);}},140);};
+window.homeOpenTrip=function(t){switchTab('news');};
+function homeRenderSynth(){
+  try{carbRenderQuick();}catch(e){}
+  try{synRenderLinkCard('home-voyage', VOYAGES, 'Prochain voyage', 'Aucun voyage programmé', '\uD83D\uDEE9\uFE0F');}catch(e){}
+  try{synRenderLinkCard('home-activite', ACTIVITES, 'Prochaine activité', 'Aucune activité prévue', '\uD83C\uDF89');}catch(e){}
+  try{homeRenderNewsMini();}catch(e){}
+}
+function homeRenderNewsMini(){
+  var el=document.getElementById('home-news-mini');if(!el)return;
+  var news=loadNC()||[];
+  if(!news.length){el.innerHTML='<div class="mn-empty"><div class="mn-empty-icon">📭</div><p class="mn-empty-title">Aucune actualité</p></div>';return;}
+  el.innerHTML=news.slice(0,1).map(renderCard).join('');
+}
+function renderNews(){
+  if(!_tripsLoaded){try{tripLoadAll();}catch(e){}}
+  newsRenderTrips();
+  try{chargerNews();}catch(e){}
+}
+function newsSplit(list){
+  var up=[],past=[];
+  (list||[]).forEach(function(t){var d=tripDaysTo(t.date);if(d===null||d>=0)up.push(t);else past.push(t);});
+  up.sort(function(a,b){return new Date(a.date)-new Date(b.date);});
+  past.sort(function(a,b){return new Date(b.date)-new Date(a.date);});
+  return {up:up,past:past};
+}
+function newsRenderTrips(){
+  var sv=newsSplit(VOYAGES), sa=newsSplit(ACTIVITES);
+  try{tripRenderList('news-activites',sa.up,'activite');}catch(e){}
+  try{tripRenderList('news-voyages',sv.up,'voyage');}catch(e){}
+  newsFillPast('act','news-activites-past',sa.past,'activite','activité');
+  newsFillPast('voy','news-voyages-past',sv.past,'voyage','voyage');
+  var canM=false;try{canM=canManageTrips();}catch(e){}
+  var vb=document.getElementById('voy-new-btn');if(vb)vb.hidden=!canM;
+  var ab=document.getElementById('act-new-btn');if(ab)ab.hidden=!canM;
+}
+function newsFillPast(key,boxId,list,kind,word){
+  var toggle=document.getElementById(key+'-past-toggle');
+  var box=document.getElementById(boxId);
+  if(!toggle||!box)return;
+  if(!list.length){toggle.hidden=true;box.hidden=true;box.innerHTML='';return;}
+  toggle.hidden=false;
+  try{tripRenderList(boxId,list,kind);}catch(e){}
+  newsPastLabel(key,box,list.length,word);
+}
+function newsPastLabel(key,box,n,word){
+  var toggle=document.getElementById(key+'-past-toggle');if(!toggle)return;
+  var plural=n>1?'s':'';
+  toggle.innerHTML=(box.hidden?'Voir les '+word+'s passé'+plural:'Masquer les '+word+'s passé'+plural)+' ('+n+') <span class="news-past-arr">'+(box.hidden?'▾':'▴')+'</span>';
+}
+window.newsTogglePast=function(key){
+  hapticTick();
+  var map={act:['news-activites-past','activité'],voy:['news-voyages-past','voyage']};
+  var box=document.getElementById(map[key][0]);if(!box)return;
+  box.hidden=!box.hidden;
+  newsPastLabel(key,box,box.children.length,map[key][1]);
+};
+window.newsToggle=function(key){
+  hapticTick();
+  var sec=document.getElementById('news-sec-'+key);if(!sec)return;
+  sec.classList.toggle('open');
+};
+
 function tripLoadCache(){
   try{VOYAGES=JSON.parse(localStorage.getItem('apam_voyages')||'[]');}catch(e){VOYAGES=[];}
   try{ACTIVITES=JSON.parse(localStorage.getItem('apam_activites')||'[]');}catch(e){ACTIVITES=[];}
@@ -4445,10 +4713,12 @@ async function tripLoadAll(){
   }catch(e){}
   _tripsLoaded=true;
   try{voyRender();actRender();synRenderLinks();}catch(e){}
+  try{homeRenderSynth();}catch(e){}
+  try{if(document.getElementById('pane-news').classList.contains('active'))newsRenderTrips();}catch(e){}
 }
 
-function voyRender(){tripRenderList('voy-list',VOYAGES,'voyage');var b=document.getElementById('voy-new-btn');if(b)b.hidden=!canManageTrips();}
-function actRender(){tripRenderList('act-list',ACTIVITES,'activite');var b=document.getElementById('act-new-btn');if(b)b.hidden=!canManageTrips();}
+function voyRender(){try{newsRenderTrips();}catch(e){}}
+function actRender(){try{newsRenderTrips();}catch(e){}}
 
 function tripRenderList(elId, list, kind){
   var el=document.getElementById(elId);if(!el)return;
@@ -4565,6 +4835,242 @@ window.tripSave=function(kind,id){
     fetch(API+'?'+p.toString());
   }catch(e){}
   toast(isNew?'Ajouté ✓':'Modifié ✓');
+};
+
+/* ═══════════ CARNET D'ESSENCE (solde cuve) ═══════════ */
+var CARBURANT=[], _carbLoaded=false;
+function carbLoadCache(){try{CARBURANT=JSON.parse(localStorage.getItem('apam_carburant')||'[]');}catch(e){CARBURANT=[];}}
+function carbSaveCache(){try{localStorage.setItem('apam_carburant',JSON.stringify(CARBURANT));}catch(e){}}
+
+/* ── File d'attente de synchro (zéro perte, même hors réseau) ──
+   Chaque saisie est écrite localement ET poussée dans une file persistante.
+   La file est rejouée tant que le serveur n'a pas confirmé (retour en ligne,
+   réouverture de l'app, périodiquement). Le serveur dédoublonne par id. */
+var CARB_Q='apam_carb_queue', _carbFlushing=false, _carbRetry=null;
+function carbQLoad(){try{return JSON.parse(localStorage.getItem(CARB_Q)||'[]');}catch(e){return [];}}
+function carbQSave(q){try{localStorage.setItem(CARB_Q,JSON.stringify(q));}catch(e){}}
+function carbPendingIds(){var ids={};carbQLoad().forEach(function(it){if(it.op==='add'&&it.entry)ids[it.entry.id]=true;});return ids;}
+function carbPendingCount(){return carbQLoad().length;}
+function carbEnqueue(item){var q=carbQLoad();q.push(item);carbQSave(q);carbUpdateSyncUI();carbFlushQueue();}
+async function carbFlushQueue(){
+  if(_carbFlushing)return;
+  var q=carbQLoad();
+  if(!q.length){carbUpdateSyncUI();return;}
+  if(typeof navigator!=='undefined'&&navigator.onLine===false){carbUpdateSyncUI();return;}
+  _carbFlushing=true;carbUpdateSyncUI();
+  while(q.length){
+    var item=q[0], ok=false;
+    try{
+      var url;
+      if(item.op==='del'){url=API+'?action=deleteCarburant&id='+enc(item.id)+'&pin='+enc(memberPin);}
+      else{var p=new URLSearchParams(Object.assign({action:'addCarburant',pin:memberPin},item.entry));url=API+'?'+p.toString();}
+      var res=await fetch(url);
+      var j=await res.json().catch(function(){return{};});
+      ok=res.ok && !j.error;
+    }catch(e){ok=false;}
+    if(ok){q.shift();carbQSave(q);try{carbRender();carbRenderQuick();}catch(e){}}
+    else{break;}
+  }
+  _carbFlushing=false;
+  carbUpdateSyncUI();
+  if(carbQLoad().length){clearTimeout(_carbRetry);_carbRetry=setTimeout(carbFlushQueue,15000);}
+}
+function carbUpdateSyncUI(){
+  var el=document.getElementById('carb-sync');if(!el)return;
+  var n=carbPendingCount();
+  if(!n){el.hidden=true;el.innerHTML='';return;}
+  var online=!(typeof navigator!=='undefined'&&navigator.onLine===false);
+  el.hidden=false;
+  el.className='carb-sync'+(online?'':' offline');
+  el.innerHTML='<span class="carb-sync-ic">'+(online?'⟳':'⚠️')+'</span>'+
+    '<span class="carb-sync-tx"><b>'+n+'</b> mouvement'+(n>1?'s':'')+' en attente'+(online?' de synchronisation…':' · hors réseau, sera envoyé automatiquement')+'</span>'+
+    (online?'<button type="button" class="carb-sync-btn" onclick="carbFlushQueue()">Réessayer</button>':'');
+}
+if(typeof window!=='undefined'){
+  window.addEventListener('online',function(){carbUpdateSyncUI();carbFlushQueue();});
+  window.addEventListener('offline',function(){carbUpdateSyncUI();});
+  document.addEventListener('visibilitychange',function(){if(!document.hidden)carbFlushQueue();});
+  setInterval(function(){if(!document.hidden&&carbPendingCount())carbFlushQueue();},30000);
+}
+async function carbLoadAll(){
+  try{
+    var r=await fetch(API+'?action=getCarburant').then(function(r){return r.json();}).catch(function(){return{};});
+    if(r&&r.carburant){
+      var server=r.carburant, serverIds={};
+      server.forEach(function(x){serverIds[x.id]=true;});
+      /* On conserve les saisies locales encore en attente d'envoi (pas encore sur le serveur) */
+      var pend=carbPendingIds();
+      var pendingLocal=CARBURANT.filter(function(x){return pend[x.id] && !serverIds[x.id];});
+      CARBURANT=server.concat(pendingLocal);
+      carbSaveCache();
+    }
+  }catch(e){}
+  _carbLoaded=true;
+  try{carbRender();carbRenderQuick();}catch(e){}
+  carbFlushQueue();
+}
+function carbBalance(){return CARBURANT.reduce(function(s,e){return s+(e.type==='ajout'?1:-1)*(parseFloat(e.litres)||0);},0);}
+function carbMonth(){
+  var now=new Date(),mk=now.getFullYear()+'-'+now.getMonth();
+  var add=0,rm=0,extL=0,extEur=0;
+  CARBURANT.forEach(function(e){var d=new Date(e.date);if(isNaN(d))return;if(d.getFullYear()+'-'+d.getMonth()===mk){if(e.type==='ajout')add+=parseFloat(e.litres)||0;else{rm+=parseFloat(e.litres)||0;if(e.vente){extL+=parseFloat(e.litres)||0;extEur+=parseFloat(e.montant)||0;}}}});
+  return {add:add,rm:rm,extL:extL,extEur:extEur};
+}
+function carbFmtDate(iso){if(!iso)return '';var d=new Date(iso);if(isNaN(d))return iso;return d.toLocaleDateString('fr-FR',{day:'2-digit',month:'short'});}
+
+function carbRender(){
+  var bal=document.getElementById('carb-balance');
+  if(bal){
+    var b=carbBalance(),m=carbMonth();
+    var neg=b<0;
+    bal.innerHTML=
+      '<div class="carb-bal-lbl">Niveau de la cuve · 100LL</div>'+
+      '<div class="carb-bal-big '+(neg?'neg':'')+'">'+(Math.round(b*10)/10).toLocaleString('fr-FR')+'<small>L</small></div>'+
+      '<div class="carb-bal-month"><span class="up">+'+(Math.round(m.add)).toLocaleString('fr-FR')+' L</span><span class="dn">−'+(Math.round(m.rm)).toLocaleString('fr-FR')+' L</span><span class="lbl">ce mois-ci</span></div>'+
+      (m.extL>0?'<div class="carb-bal-sales"><span class="carb-sales-ic">€</span>Ventes extérieures du mois : <b>'+(Math.round(m.extL)).toLocaleString('fr-FR')+' L</b> · <b>'+m.extEur.toFixed(2).replace('.',',')+' €</b></div>':'')+
+      (neg?'<div class="carb-bal-warn">Solde négatif — pensez à enregistrer les remplissages de cuve.</div>':'');
+  }
+  var list=document.getElementById('carb-list');if(!list)return;
+  try{carbUpdateSyncUI();}catch(e){}
+  if(!CARBURANT.length){list.innerHTML='<div class="trip-empty">Aucun mouvement enregistré.<br><span>Touchez « Plein avion » ou « Remplir la cuve » pour commencer.</span></div>';return;}
+  var pendIds=carbPendingIds();
+  var sorted=CARBURANT.slice().sort(function(a,b){var d=new Date(b.date)-new Date(a.date);return d||((b._ts||0)-(a._ts||0));});
+  list.innerHTML=sorted.map(function(e){
+    var isAdd=e.type==='ajout';
+    var who=esc(e.qui||'');
+    var sub, extra='', meta2='';
+    if(isAdd){sub='Remplissage cuve';}
+    else if(e.vente){
+      sub='Vente · '+(e.immat||'extérieur');
+      var paidCls=e.paid==='facturer'?'facturer':'regle';
+      var paidTxt=e.paid==='facturer'?'À facturer':'Réglé';
+      extra='<span class="carb-tag '+paidCls+'">'+paidTxt+'</span>';
+      var bits=[];
+      if(e.client)bits.push(esc(e.client));
+      if(e.montant)bits.push(parseFloat(e.montant).toFixed(2).replace('.',',')+' €'+(e.prix?' ('+parseFloat(e.prix).toFixed(2).replace('.',',')+' €/L)':''));
+      if(e.tel)bits.push(esc(e.tel));
+      if(bits.length)meta2='<div class="carb-row-note">'+bits.join(' · ')+'</div>';
+    }
+    else{sub='Plein '+(e.avion||'avion')+(e.plein?' · '+(e.plein==='complet'?'complet':'partiel'):'');}
+    var note=e.note?'<div class="carb-row-note">'+esc(e.note)+'</div>':'';
+    var pendBadge=pendIds[e.id]?'<span class="carb-row-pend">⟳ en attente</span>':'';
+    return '<div class="carb-row '+(isAdd?'add':(e.vente?'sale':'rm'))+(pendIds[e.id]?' pending':'')+'">'+
+      '<span class="carb-row-ic">'+(isAdd?'⛽':(e.vente?'💶':'✈️'))+'</span>'+
+      '<div class="carb-row-mid"><div class="carb-row-top"><span class="carb-row-sub">'+esc(sub)+'</span><span class="carb-row-amt">'+(isAdd?'+':'−')+(Math.round((parseFloat(e.litres)||0)*10)/10)+' L</span></div>'+
+      '<div class="carb-row-meta">'+carbFmtDate(e.date)+(who?' · '+who:'')+(extra?' '+extra:'')+pendBadge+'</div>'+meta2+note+'</div>'+
+      '<button type="button" class="carb-row-del" onclick="carbDelete(\''+e.id+'\')" aria-label="Supprimer">✕</button>'+
+    '</div>';
+  }).join('');
+}
+function carbRenderQuick(){
+  var els=document.querySelectorAll('.carb-quick');if(!els.length)return;
+  var b=carbBalance();
+  var last=CARBURANT.slice().sort(function(a,b){return new Date(b.date)-new Date(a.date)||((b._ts||0)-(a._ts||0));})[0];
+  var lastTxt=last?((last.type==='ajout'?'+':'−')+(Math.round((parseFloat(last.litres)||0))+' L · '+(last.type==='ajout'?'cuve':(last.avion||'avion'))+' · '+carbFmtDate(last.date))):'Aucun mouvement';
+  var html='<span class="carb-quick-ic">⛽</span>'+
+    '<div class="carb-quick-tx"><span class="carb-quick-lbl">Carnet d\'essence · cuve</span><span class="carb-quick-last">'+esc(lastTxt)+'</span></div>'+
+    '<div class="carb-quick-bal"><span class="carb-quick-num'+(b<0?' neg':'')+'">'+(Math.round(b*10)/10).toLocaleString('fr-FR')+'</span><span class="carb-quick-u">litres</span></div>'+
+    '<svg class="carb-quick-chev" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg>';
+  els.forEach(function(el){el.innerHTML=html;});
+}
+window.carbHomeOpen=function(){if(typeof openEspaceEleves==='function')openEspaceEleves(false);setTimeout(function(){if(typeof elevTab==='function')elevTab('carburant');},130);};
+window.carbDelete=function(id){
+  if(!confirm('Supprimer ce mouvement ?'))return;
+  var i=CARBURANT.findIndex(function(e){return e.id===id;});
+  if(i>-1)CARBURANT.splice(i,1);
+  carbSaveCache();
+  /* Si la saisie n'était pas encore synchronisée, on retire juste son ajout de la file (rien à supprimer côté serveur) */
+  var pend=carbPendingIds();
+  if(pend[id]){var q=carbQLoad().filter(function(it){return !(it.op==='add'&&it.entry&&it.entry.id===id);});carbQSave(q);carbUpdateSyncUI();}
+  else{carbEnqueue({op:'del',id:id});}
+  carbRender();carbRenderQuick();
+  toast('Supprimé');
+};
+window.carbOpenForm=function(type){
+  hapticTick();
+  var isAdd=type==='ajout';
+  var today=new Date().toISOString().split('T')[0];
+  var ov=document.getElementById('trip-form-ov');
+  if(isAdd){
+    ov.innerHTML='<div class="trip-form" role="dialog"><div class="trip-form-hd"><h3>Remplir la cuve</h3><button type="button" class="trip-form-x" onclick="tripCloseForm()">✕</button></div><div class="trip-form-body">'+
+      '<label class="trip-f"><span>Quantité reçue (litres)</span><input id="cf-litres" type="number" inputmode="decimal" placeholder="ex : 2000"></label>'+
+      '<label class="trip-f"><span>Date</span><input id="cf-date" type="date" value="'+today+'"></label>'+
+      '<label class="trip-f"><span>Remarque (facultatif)</span><input id="cf-note" type="text" placeholder="fournisseur, bon de livraison…"></label>'+
+      '</div><div class="trip-form-ax"><button type="button" class="trip-cancel" onclick="tripCloseForm()">Annuler</button><button type="button" class="trip-save" onclick="carbSave(\'ajout\')">Enregistrer</button></div></div>';
+    ov.classList.add('open');
+    setTimeout(function(){var l=document.getElementById('cf-litres');if(l)l.focus();},200);
+    return;
+  }
+  /* Retrait : avion du club OU vente avion extérieur */
+  var acOpts=(loadFleetCache()||[]).map(function(a){return '<option value="'+esc(a.id)+'">'+esc(a.id)+(a.type?' · '+esc(a.type):'')+'</option>';}).join('');
+  ov.innerHTML='<div class="trip-form" role="dialog"><div class="trip-form-hd"><h3>Plein carburant</h3><button type="button" class="trip-form-x" onclick="tripCloseForm()">✕</button></div><div class="trip-form-body">'+
+    '<div class="carb-seg" id="carb-seg"><button type="button" data-m="club" class="on" onclick="carbSetMode(\'club\')">Avion du club</button><button type="button" data-m="ext" onclick="carbSetMode(\'ext\')">Avion extérieur</button></div>'+
+    '<div id="carb-club-fields">'+
+      '<label class="trip-f"><span>Avion</span><select id="cf-avion">'+(acOpts||'<option value="">—</option>')+'</select></label>'+
+      '<label class="trip-f"><span>Type de plein</span><select id="cf-plein"><option value="complet">Plein complet</option><option value="partiel">Plein partiel</option></select></label>'+
+    '</div>'+
+    '<div id="carb-ext-fields" hidden>'+
+      '<label class="trip-f"><span>Immatriculation</span><input id="cf-immat" type="text" placeholder="ex : F-XXXX" style="text-transform:uppercase"></label>'+
+      '<label class="trip-f"><span>Pilote / client</span><input id="cf-client" type="text" placeholder="Nom"></label>'+
+      '<label class="trip-f"><span>Téléphone / contact</span><input id="cf-tel" type="tel" placeholder="facultatif"></label>'+
+    '</div>'+
+    '<label class="trip-f"><span>Quantité (litres)</span><input id="cf-litres" type="number" inputmode="decimal" placeholder="ex : 35" oninput="carbCalcTotal()"></label>'+
+    '<div id="carb-ext-money" hidden>'+
+      '<label class="trip-f"><span>Prix au litre (€/L)</span><input id="cf-prix" type="number" inputmode="decimal" step="0.01" placeholder="ex : 2.45" oninput="carbCalcTotal()"></label>'+
+      '<div class="carb-total" id="carb-total">Montant : <b>—</b></div>'+
+      '<label class="trip-f"><span>Paiement</span><select id="cf-paid"><option value="regle">Réglé</option><option value="facturer">À facturer</option></select></label>'+
+    '</div>'+
+    '<label class="trip-f"><span>Date</span><input id="cf-date" type="date" value="'+today+'"></label>'+
+    '<label class="trip-f"><span>Remarque (facultatif)</span><input id="cf-note" type="text" placeholder="observation…"></label>'+
+    '</div><div class="trip-form-ax"><button type="button" class="trip-cancel" onclick="tripCloseForm()">Annuler</button><button type="button" class="trip-save" onclick="carbSave(\'retrait\')">Enregistrer</button></div></div>';
+  ov.classList.add('open');
+  ov._carbMode='club';
+};
+window.carbSetMode=function(m){
+  var ov=document.getElementById('trip-form-ov');if(ov)ov._carbMode=m;
+  document.querySelectorAll('#carb-seg button').forEach(function(b){b.classList.toggle('on',b.getAttribute('data-m')===m);});
+  var club=document.getElementById('carb-club-fields'),ext=document.getElementById('carb-ext-fields'),money=document.getElementById('carb-ext-money');
+  var isExt=m==='ext';
+  if(club)club.hidden=isExt;
+  if(ext)ext.hidden=!isExt;
+  if(money)money.hidden=!isExt;
+  if(typeof hapticTick==='function')hapticTick();
+};
+window.carbCalcTotal=function(){
+  var litres=parseFloat((document.getElementById('cf-litres')||{}).value)||0;
+  var prix=parseFloat((document.getElementById('cf-prix')||{}).value)||0;
+  var el=document.getElementById('carb-total');if(!el)return;
+  if(litres>0&&prix>0){el.innerHTML='Montant : <b>'+(litres*prix).toFixed(2).replace('.',',')+' €</b>';}
+  else{el.innerHTML='Montant : <b>—</b>';}
+};
+window.carbSave=function(type){
+  var get=function(k){var el=document.getElementById('cf-'+k);return el?el.value.trim():'';};
+  var litres=parseFloat(get('litres'));
+  if(!litres||litres<=0){toast('Quantité invalide');return;}
+  var date=get('date')||new Date().toISOString().split('T')[0];
+  var e={id:'c_'+Date.now(),_ts:Date.now(),type:type,litres:litres,date:date,qui:(memberName||memberPrenom||'').trim(),note:get('note')};
+  if(type==='retrait'){
+    var ov=document.getElementById('trip-form-ov');
+    var mode=(ov&&ov._carbMode)||'club';
+    if(mode==='ext'){
+      e.vente=true;
+      e.immat=(get('immat')||'').toUpperCase();
+      e.client=get('client');
+      e.tel=get('tel');
+      e.avion=e.immat;
+      var prix=parseFloat(get('prix'))||0;
+      e.prix=prix;
+      e.montant=Math.round(litres*prix*100)/100;
+      e.paid=get('paid')||'regle';
+      if(!e.immat){toast('Immatriculation requise');return;}
+    }else{
+      e.avion=get('avion');e.plein=get('plein');
+    }
+  }
+  CARBURANT.push(e);
+  carbSaveCache();tripCloseForm();carbRender();carbRenderQuick();
+  carbEnqueue({op:'add',entry:e});
+  toast(type==='ajout'?'Cuve remplie ✓':(e.vente?'Vente enregistrée ✓':'Plein enregistré ✓'));
 };
 
 window.synOpenFuel=function(){
@@ -4908,19 +5414,17 @@ async function licSyncFromServer(){
 /* ── Accueil : devis de masse (carburant + masse & centrage) ──
    Valeurs d'EXEMPLE à corriger avec les vraies fiches de pesée du club.
    arm = bras de levier (m depuis le datum) · w en kg · fuel 0.72 kg/L (100LL) */
+/* ── Devis de masse : données réelles (fiches de pesée Aéro Services, Bernay) ──
+   bras de levier (m) depuis la face AV de la cloison pare-feu · essence 100LL 0.72 kg/L */
 var FUEL_AC=[
-  {nom:'F-GHKE · Cessna 152', conso:23, cap:91,
-   wb:{empty:{w:522,arm:0.79}, fuelArm:1.07, fuelKgL:0.72, mtow:757,
-       stations:[{k:'pil',label:'Pilote',arm:1.04,def:80},{k:'pax',label:'Passager',arm:1.04,def:0},{k:'bag',label:'Bagages',arm:1.55,def:0,max:30}],
-       env:[[0.83,470],[0.79,600],[0.79,757],[0.93,757],[0.93,470]]}},
-  {nom:'F-GYJL · Socata TB200', conso:40, cap:240,
-   wb:{empty:{w:700,arm:1.00}, fuelArm:1.20, fuelKgL:0.72, mtow:1150,
-       stations:[{k:'pil',label:'Pilote',arm:1.00,def:80},{k:'pax',label:'Passager avant',arm:1.00,def:0},{k:'arr',label:'Passagers arrière',arm:1.85,def:0},{k:'bag',label:'Bagages',arm:2.50,def:0,max:40}],
-       env:[[1.02,700],[0.95,950],[0.95,1150],[1.10,1150],[1.10,700]]}},
-  {nom:'F-GYFF · Cirrus SR20', conso:42, cap:211,
-   wb:{empty:{w:960,arm:1.42}, fuelArm:1.60, fuelKgL:0.72, mtow:1386,
-       stations:[{k:'pil',label:'Pilote',arm:1.45,def:80},{k:'pax',label:'Passager avant',arm:1.45,def:0},{k:'arr',label:'Passagers arrière',arm:2.30,def:0},{k:'bag',label:'Bagages',arm:2.95,def:0,max:60}],
-       env:[[1.36,960],[1.32,1150],[1.32,1386],[1.45,1386],[1.45,960]]}}
+  {nom:'F-GHKE · Cessna 152', conso:23, cap:93,
+   wb:{empty:{w:535,arm:0.786}, fuelArm:1.067, fuelKgL:0.72, mtow:758,
+       stations:[{k:'pil',label:'Pilote',arm:0.95,def:80},{k:'pax',label:'Passager',arm:0.95,def:0},{k:'bagav',label:'Bagages avant',arm:1.50,def:0},{k:'bagar',label:'Bagages arrière',arm:2.16,def:0}],
+       env:[[0.829,758],[0.927,758],[0.927,490],[0.787,490],[0.787,613]]}},
+  {nom:'F-GSZA · Socata TB200', conso:40, cap:198,
+   wb:{empty:{w:791.8,arm:0.962}, fuelArm:1.075, fuelKgL:0.72, mtow:1150,
+       stations:[{k:'pil',label:'Pilote',arm:1.165,def:80},{k:'pav',label:'Passager avant',arm:1.165,def:0},{k:'arr',label:'Passagers arrière',arm:2.095,def:0},{k:'bag',label:'Bagages',arm:2.60,def:0}],
+       env:[[1.083,1150],[1.205,1150],[1.205,790],[0.96,790],[0.96,970],[1.01,1070]]}}
 ];
 var _fuelRes=30;
 function fuelInitSelect(){
@@ -5014,12 +5518,13 @@ window.wbCalc=function(){
   var overW=totW>wb.mtow;
   _wbLast={acName:a.nom,items:items,totW:totW,cg:cg,mtow:wb.mtow,inEnv:inEnv,overW:overW,fuelL:fuelL,fuelKg:fuelKg};
   var n1=function(x){return (Math.round(x*10)/10).toFixed(1);};
-  var verdict=inEnv?'<p class="fuel-verdict ok">✓ Dans le domaine de centrage'+(overW?'':' — masse '+n1(totW)+' kg, CG '+n1(cg)+' m.')+'</p>':
+  var n3=function(x){return (Math.round(x*1000)/1000).toFixed(3);};
+  var verdict=inEnv?'<p class="fuel-verdict ok">✓ Dans le domaine de centrage'+(overW?'':' — masse '+n1(totW)+' kg, CG '+n3(cg)+' m.')+'</p>':
     (overW?'<p class="fuel-verdict bad">✗ Masse '+n1(totW)+' kg &gt; MTOW '+wb.mtow+' kg — surcharge.</p>':
-     '<p class="fuel-verdict bad">✗ Hors domaine de centrage — CG '+n1(cg)+' m à '+n1(totW)+' kg.</p>');
+     '<p class="fuel-verdict bad">✗ Hors domaine de centrage — CG '+n3(cg)+' m à '+n1(totW)+' kg.</p>');
   out.innerHTML=
     '<div class="wb-totrow"><div class="wb-tot"><span class="wb-tot-l">Masse totale</span><span class="wb-tot-v '+(overW?'bad':'ok')+'">'+n1(totW)+'<small>kg</small></span><span class="wb-tot-s">MTOW '+wb.mtow+' kg</span></div>'+
-    '<div class="wb-tot"><span class="wb-tot-l">Centrage</span><span class="wb-tot-v '+(inEnv?'ok':'bad')+'">'+n1(cg)+'<small>m</small></span><span class="wb-tot-s">'+(inEnv?'dans l\'enveloppe':'hors enveloppe')+'</span></div></div>'+
+    '<div class="wb-tot"><span class="wb-tot-l">Centrage</span><span class="wb-tot-v '+(inEnv?'ok':'bad')+'">'+n3(cg)+'<small>m</small></span><span class="wb-tot-s">'+(inEnv?'dans l\'enveloppe':'hors enveloppe')+'</span></div></div>'+
     verdict;
   if(chart)chart.innerHTML=wbChartSvg(wb,cg,totW,inEnv);
 };
@@ -5034,31 +5539,48 @@ function wbPointInPoly(pt,poly){
 }
 window.fuelToggle=function(){var c=document.getElementById('fuel-collapse');if(!c)return;var open=c.classList.toggle('open');var hd=c.querySelector('.acc-collapse-hd');if(hd)hd.setAttribute('aria-expanded',open?'true':'false');if(typeof hapticTick==='function')hapticTick();};
 function wbChartSvg(wb,cg,totW,inEnv){
-  var W=300,H=210,pl=42,pr=12,pt=12,pb=26;
-  var arms=wb.env.map(function(p){return p[0];}).concat([cg]);
-  var wgts=wb.env.map(function(p){return p[1];}).concat([totW,wb.mtow]);
-  var aMin=Math.min.apply(null,arms),aMax=Math.max.apply(null,arms);
-  var wMin=Math.min.apply(null,wgts),wMax=Math.max.apply(null,wgts);
-  var aPad=(aMax-aMin)*0.12||0.05,wPad=(wMax-wMin)*0.08||30;
-  aMin-=aPad;aMax+=aPad;wMin-=wPad;wMax+=wPad;
+  var W=320,H=232,pl=46,pr=14,pt=14,pb=34;
+  var env=wb.env;
+  var xs=env.map(function(p){return p[0];}), ys=env.map(function(p){return p[1];});
+  // graduations officielles = valeurs distinctes de l'enveloppe (+ MTOW)
+  var xticks=xs.filter(function(v,i){return xs.indexOf(v)===i;}).sort(function(a,b){return a-b;});
+  var yticks=ys.concat([wb.mtow]).filter(function(v,i,a){return a.indexOf(v)===i;}).sort(function(a,b){return a-b;});
+  var aMin=Math.min.apply(null,xs), aMax=Math.max.apply(null,xs);
+  var wMin=Math.min.apply(null,ys), wMax=Math.max.apply(null,ys.concat([wb.mtow]));
+  // étend pour inclure le point courant
+  aMin=Math.min(aMin,cg); aMax=Math.max(aMax,cg); wMin=Math.min(wMin,totW); wMax=Math.max(wMax,totW);
+  var aPad=(aMax-aMin)*0.14||0.05, wPad=(wMax-wMin)*0.1||30;
+  aMin-=aPad; aMax+=aPad; wMin-=wPad; wMax+=wPad;
   var sx=function(a){return pl+(a-aMin)/(aMax-aMin)*(W-pl-pr);};
   var sy=function(w){return pt+(1-(w-wMin)/(wMax-wMin))*(H-pt-pb);};
-  var poly=wb.env.map(function(p){return sx(p[0]).toFixed(1)+','+sy(p[1]).toFixed(1);}).join(' ');
+  var g='';
+  // gridlines + labels masse (Y)
+  yticks.forEach(function(w){
+    var y=sy(w);
+    g+='<line x1="'+pl+'" y1="'+y.toFixed(1)+'" x2="'+(W-pr)+'" y2="'+y.toFixed(1)+'" stroke="rgba(255,255,255,'+(w===wb.mtow?'.18':'.07')+')" stroke-width="1"'+(w===wb.mtow?' stroke-dasharray="4 3"':'')+'/>';
+    g+='<text x="'+(pl-5)+'" y="'+(y+3).toFixed(1)+'" text-anchor="end" fill="'+(w===wb.mtow?'#f5a524':'#7e8aa3')+'" font-size="8.5" font-family="JetBrains Mono,monospace">'+w+'</text>';
+  });
+  // gridlines + labels CG (X)
+  xticks.forEach(function(a){
+    var x=sx(a);
+    g+='<line x1="'+x.toFixed(1)+'" y1="'+pt+'" x2="'+x.toFixed(1)+'" y2="'+(H-pb)+'" stroke="rgba(255,255,255,.07)" stroke-width="1"/>';
+    g+='<text x="'+x.toFixed(1)+'" y="'+(H-pb+13)+'" text-anchor="middle" fill="#7e8aa3" font-size="8.5" font-family="JetBrains Mono,monospace">'+a.toFixed(3)+'</text>';
+  });
+  // enveloppe
+  var poly=env.map(function(p){return sx(p[0]).toFixed(1)+','+sy(p[1]).toFixed(1);}).join(' ');
+  g+='<polygon points="'+poly+'" fill="rgba(77,139,245,.16)" stroke="rgba(77,139,245,.7)" stroke-width="1.5" stroke-linejoin="round"/>';
+  // axes
+  g+='<line x1="'+pl+'" y1="'+pt+'" x2="'+pl+'" y2="'+(H-pb)+'" stroke="rgba(255,255,255,.3)" stroke-width="1"/>';
+  g+='<line x1="'+pl+'" y1="'+(H-pb)+'" x2="'+(W-pr)+'" y2="'+(H-pb)+'" stroke="rgba(255,255,255,.3)" stroke-width="1"/>';
+  g+='<text x="'+(pl-5)+'" y="'+(pt-4)+'" text-anchor="end" fill="#9aa3b8" font-size="8" font-family="JetBrains Mono,monospace">kg</text>';
+  g+='<text x="'+(W-pr)+'" y="'+(H-4)+'" text-anchor="end" fill="#9aa3b8" font-size="8" font-family="JetBrains Mono,monospace">CG (m)</text>';
+  // point courant
   var col=inEnv?'#22d77a':'#ef4444';
-  var mtowY=sy(wb.mtow);
-  var px=sx(cg),py=sy(totW);
-  return '<svg viewBox="0 0 '+W+' '+H+'" class="wb-svg">'+
-    '<polygon points="'+poly+'" fill="rgba(77,139,245,.13)" stroke="rgba(77,139,245,.55)" stroke-width="1.5"/>'+
-    '<line x1="'+pl+'" y1="'+mtowY.toFixed(1)+'" x2="'+(W-pr)+'" y2="'+mtowY.toFixed(1)+'" stroke="rgba(245,165,36,.6)" stroke-width="1" stroke-dasharray="4 3"/>'+
-    '<text x="'+(W-pr)+'" y="'+(mtowY-4).toFixed(1)+'" text-anchor="end" fill="#f5a524" font-size="8" font-family="JetBrains Mono,monospace">MTOW</text>'+
-    '<line x1="'+pl+'" y1="'+pt+'" x2="'+pl+'" y2="'+(H-pb)+'" stroke="rgba(255,255,255,.15)" stroke-width="1"/>'+
-    '<line x1="'+pl+'" y1="'+(H-pb)+'" x2="'+(W-pr)+'" y2="'+(H-pb)+'" stroke="rgba(255,255,255,.15)" stroke-width="1"/>'+
-    '<text x="'+pl+'" y="'+(H-8)+'" text-anchor="middle" fill="#7e8aa3" font-size="8" font-family="JetBrains Mono,monospace">'+aMin.toFixed(2)+'</text>'+
-    '<text x="'+(W-pr)+'" y="'+(H-8)+'" text-anchor="middle" fill="#7e8aa3" font-size="8" font-family="JetBrains Mono,monospace">'+aMax.toFixed(2)+'m</text>'+
-    '<line x1="'+px.toFixed(1)+'" y1="'+pt+'" x2="'+px.toFixed(1)+'" y2="'+(H-pb)+'" stroke="'+col+'" stroke-width="1" stroke-dasharray="2 2" opacity=".5"/>'+
-    '<line x1="'+pl+'" y1="'+py.toFixed(1)+'" x2="'+(W-pr)+'" y2="'+py.toFixed(1)+'" stroke="'+col+'" stroke-width="1" stroke-dasharray="2 2" opacity=".5"/>'+
-    '<circle cx="'+px.toFixed(1)+'" cy="'+py.toFixed(1)+'" r="5.5" fill="'+col+'" stroke="#0b0e15" stroke-width="2"/>'+
-  '</svg>';
+  var px=sx(cg), py=sy(totW);
+  g+='<line x1="'+px.toFixed(1)+'" y1="'+pt+'" x2="'+px.toFixed(1)+'" y2="'+(H-pb)+'" stroke="'+col+'" stroke-width="1" stroke-dasharray="2 2" opacity=".45"/>';
+  g+='<line x1="'+pl+'" y1="'+py.toFixed(1)+'" x2="'+(W-pr)+'" y2="'+py.toFixed(1)+'" stroke="'+col+'" stroke-width="1" stroke-dasharray="2 2" opacity=".45"/>';
+  g+='<circle cx="'+px.toFixed(1)+'" cy="'+py.toFixed(1)+'" r="5.5" fill="'+col+'" stroke="#0b0e15" stroke-width="2"/>';
+  return '<svg viewBox="0 0 '+W+' '+H+'" class="wb-svg">'+g+'</svg>';
 }
 window.fuelPrintDoc=function(mode){
   var f=_fuelLast;if(!f){try{fuelCalc();}catch(e){}f=_fuelLast;}if(!f)return;
@@ -5072,7 +5594,17 @@ window.fuelPrintDoc=function(mode){
   var auton=f.conso>0?(f.hh+'h'+f.mm):'—';
   var verdict=f.cap>0?(f.ok?'<div class="vd ok">Tient dans le plein — il reste '+n2(f.cap-f.total)+' L après le vol.</div>':'<div class="vd bad">Dépassement de '+n2(f.total-f.cap)+' L — revoir le plan ou prévoir une escale.</div>'):'';
   var esc2=function(s){return String(s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});};
-  var doc='<!DOCTYPE html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Bilan carburant — '+esc2(f.acName)+'</title>'+
+  /* Masse & centrage */
+  var wb=_wbLast, wbHtml='';
+  if(wb){
+    var wbRows=wb.items.map(function(it){return '<tr><td>'+esc2(it[0])+'</td><td class="v">'+n2(it[1])+' kg</td><td class="c">'+n2(it[2])+' m</td><td class="v">'+n2(it[1]*it[2])+'</td></tr>';}).join('');
+    var wbVd=wb.inEnv?'<div class="vd ok">Dans le domaine de centrage — masse '+n2(wb.totW)+' kg, CG '+n2(wb.cg)+' m.</div>':(wb.overW?'<div class="vd bad">Surcharge — masse '+n2(wb.totW)+' kg supérieure à la MTOW ('+wb.mtow+' kg).</div>':'<div class="vd bad">Hors domaine de centrage — CG '+n2(wb.cg)+' m à '+n2(wb.totW)+' kg.</div>');
+    wbHtml='<h2 class="sec2">Masse &amp; centrage</h2>'+
+      '<table><thead><tr><th>Poste</th><th class="r">Masse</th><th class="r">Bras</th><th class="r">Moment</th></tr></thead><tbody>'+wbRows+'</tbody></table>'+
+      '<div class="total"><span class="l">Masse totale · CG</span><span class="a">'+n2(wb.totW)+' kg <span style="font-size:24px;opacity:.7">· '+n2(wb.cg)+' m</span></span></div>'+
+      wbVd;
+  }
+  var doc='<!DOCTYPE html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Devis de masse — '+esc2(f.acName)+'</title>'+
   '<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,700;1,900&family=Jost:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">'+
   '<style>'+
   '*{margin:0;padding:0;box-sizing:border-box}'+
@@ -5103,9 +5635,10 @@ window.fuelPrintDoc=function(mode){
   '.vd.bad{background:#fdeceb;color:#a3201d;border:1px solid #f3c4c1}'+
   '.auton{font-family:"JetBrains Mono",monospace;font-size:11px;color:#5a6172;margin-bottom:26px}'+
   '.foot{border-top:1px solid #e7e9ee;padding-top:14px;font-size:10.5px;color:#8a90a0;line-height:1.6}'+
+  '.sec2{font-family:"Barlow Condensed",sans-serif;font-weight:900;font-style:italic;font-size:22px;text-transform:uppercase;letter-spacing:-.01em;margin:30px 0 12px;padding-top:22px;border-top:1px solid #e7e9ee}'+
   '@media print{body{padding:0}@page{margin:16mm}}'+
   '</style></head><body>'+
-  '<div class="hd"><div class="brand"><span class="logo">APAM</span><div><small>Aéroclub · Espace pilote</small><b>Bilan carburant</b></div></div>'+
+  '<div class="hd"><div class="brand"><span class="logo">APAM</span><div><small>Aéroclub · Espace pilote</small><b>Devis de masse</b></div></div>'+
   '<div class="meta">'+esc2(dateStr)+'<br>'+timeStr+(pilot?'<br>'+esc2(pilot):'')+'</div></div>'+
   '<h1>'+n2(f.total)+' litres</h1>'+
   '<div class="ac">'+esc2(f.acName)+'</div>'+
@@ -5114,7 +5647,8 @@ window.fuelPrintDoc=function(mode){
   '<div class="total"><span class="l">Total nécessaire</span><span class="a">'+n2(f.total)+' L</span></div>'+
   verdict+
   '<div class="auton">Réserve finale calculée sur '+f.res+' min · marge imprévus '+f.margin+' %.</div>'+
-  '<div class="foot"><strong>Document d’aide à la préparation — valeurs indicatives.</strong> Le manuel de vol de l’appareil et la réglementation en vigueur prévalent. Établi via l’app APAM le '+esc2(dateStr)+' à '+timeStr+'.</div>'+
+  wbHtml+
+  '<div class="foot"><strong>Document d’aide à la préparation — valeurs indicatives'+(wb?' ; masse &amp; centrage établi sur des données d’exemple à vérifier':'')+'.</strong> Le manuel de vol de l’appareil et la réglementation en vigueur prévalent. Établi via l’app APAM le '+esc2(dateStr)+' à '+timeStr+'.</div>'+
   '<script>window.onload=function(){setTimeout(function(){window.print();},350);};window.onafterprint=function(){window.close();};<\/script>'+
   '</body></html>';
   var w=window.open('','_blank');
@@ -5308,68 +5842,52 @@ async function docUploadFile(input){
   <div class="elev-tabs-wrap">
     <div class="elev-tabs" id="elev-tabs">
       <button class="elev-tab on" data-tab="accueil" onclick="elevTab('accueil')" type="button">Synthèse</button>
-      <button class="elev-tab" data-tab="voyage" onclick="elevTab('voyage')" type="button">Voyage</button>
-      <button class="elev-tab" data-tab="activite" onclick="elevTab('activite')" type="button">Activité</button>
+      <button class="elev-tab" data-tab="carburant" onclick="elevTab('carburant')" type="button">Carburant</button>
       <button class="elev-tab" data-tab="docs" onclick="elevTab('docs')" type="button">Documents</button>
       <button class="elev-tab" data-tab="forum" onclick="elevTab('forum')" type="button">Forum</button>
       <button class="elev-tab" data-tab="ressources" onclick="elevTab('ressources')" type="button">Liens</button>
-      <button class="elev-tab" data-tab="licences" onclick="elevTab('licences')" type="button">Licences</button>
     </div>
+    <button class="elev-gear" type="button" onclick="switchTab('outils')" aria-label="Options"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></button>
   </div>
 
   <div class="elev-body" id="elev-body">
     <!-- ACCUEIL -->
-    <!-- ACCUEIL -->
-    <div class="elev-pane on" id="elev-accueil">
+    <div class="elev-pane on syn-pane" id="elev-accueil">
 
-      <div id="lic-invite" class="lic-invite" hidden>
-        <div class="lic-invite-ic">🗓️</div>
-        <div class="lic-invite-tx">
-          <strong>Nouveau · Suivi des échéances</strong>
-          <span>Enregistrez les dates de vos licences &amp; médicales pour être alerté avant leur expiration.</span>
+      <div class="syn-greet" id="syn-greet" style="order:1"></div>
+
+      <button class="carb-quick" id="carb-quick-syn" type="button" onclick="elevTab('carburant')" style="order:3"></button>
+
+      <div class="syn-group" style="order:4">
+        <div class="acc-head"><h4 class="elev-group-h">Accès rapides</h4></div>
+        <div class="syn-quick">
+          <button class="syn-q" type="button" onclick="elevTab('forum')">
+            <span class="syn-q-ic"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></span>
+            <span class="syn-q-t">Poser une question</span>
+          </button>
+          <button class="syn-q" type="button" onclick="elevTab('docs')">
+            <span class="syn-q-ic"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></span>
+            <span class="syn-q-t">Documents</span>
+          </button>
         </div>
-        <div class="lic-invite-ax">
-          <button class="lic-invite-go" type="button" onclick="elevTab('licences')">Renseigner</button>
-          <button class="lic-invite-later" type="button" onclick="licInviteLater()">Plus tard</button>
-        </div>
       </div>
 
-      <div class="syn-greet" id="syn-greet"></div>
-
-      <div class="syn-ready">
-        <button class="syn-link voyage" id="syn-voyage" type="button" onclick="elevTab('voyage')"></button>
-        <button class="syn-link activite" id="syn-activite" type="button" onclick="elevTab('activite')"></button>
-      </div>
-
-      <div class="acc-head">
-        <h4 class="elev-group-h">Licences &amp; médicales</h4>
-        <button class="acc-edit" type="button" onclick="elevTab('licences')">Gérer →</button>
-      </div>
-      <div id="lic-synth" class="lic-synth" onclick="elevTab('licences')"></div>
-
-      <div class="acc-head" style="margin-top:24px">
-        <h4 class="elev-group-h">Accès rapides</h4>
-      </div>
-      <div class="syn-quick">
-        <button class="syn-q" type="button" onclick="elevTab('forum')">
-          <span class="syn-q-ic"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></span>
-          <span class="syn-q-t">Poser une question</span>
-        </button>
-        <button class="syn-q" type="button" onclick="elevTab('docs')">
-          <span class="syn-q-ic"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></span>
-          <span class="syn-q-t">Documents</span>
-        </button>
-        <button class="syn-q" type="button" onclick="synOpenFuel()">
-          <span class="syn-q-ic"><svg viewBox="0 0 24 24"><path d="M3 22h12V4a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v18zM6 6h6M6 10h6M17 8l2 2v8a2 2 0 0 1-4 0v-3h2"/></svg></span>
-          <span class="syn-q-t">Devis de masse</span>
-        </button>
-        <button class="syn-q" type="button" onclick="elevTab('licences')">
-          <span class="syn-q-ic"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18"/><circle cx="8" cy="14" r="1.6"/><path d="M13 13h5M13 16h3"/></svg></span>
-          <span class="syn-q-t">Mes licences</span>
+      <div class="syn-group" style="order:5">
+        <div class="acc-head"><h4 class="elev-group-h">Voyages &amp; activités</h4></div>
+        <button class="syn-news-link" type="button" onclick="elevGoNews()">
+          <span class="syn-news-ic">📰</span>
+          <span class="syn-news-tx"><span class="syn-news-t">Voir dans News</span><span class="syn-news-s">Prochains voyages, activités et actualités du club</span></span>
+          <svg class="syn-news-go" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg>
         </button>
       </div>
 
-      <div class="acc-collapse" id="fuel-collapse" style="margin-top:24px">
+      <div class="syn-group" style="order:6">
+        <div class="acc-head"><h4 class="elev-group-h">La flotte</h4></div>
+        <div class="fleet-alert" id="m-fleet-alert" hidden></div>
+        <div class="fleet" id="m-fleet" style="margin-bottom:4px"></div>
+      </div>
+
+      <div class="acc-collapse" id="fuel-collapse" style="order:2">
         <button class="acc-collapse-hd" type="button" onclick="fuelToggle()" aria-expanded="false">
           <span class="acc-collapse-ic"><svg viewBox="0 0 24 24"><path d="M3 22h12V4a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v18zM6 6h6M6 10h6M17 8l2 2v8a2 2 0 0 1-4 0v-3h2"/></svg></span>
           <span class="acc-collapse-tx"><span class="acc-collapse-t">Devis de masse</span><span class="acc-collapse-sub">Carburant, masse &amp; centrage · imprimable</span></span>
@@ -5409,42 +5927,26 @@ async function docUploadFile(input){
       </div>
     </div>
 
-    <!-- LICENCES -->
-    <div class="elev-pane" id="elev-licences">
-      <div id="lic-invite-2" class="lic-invite" hidden>
-        <div class="lic-invite-ic">🗓️</div>
-        <div class="lic-invite-tx">
-          <strong>Suivez vos échéances</strong>
-          <span>Ajoutez les dates de vos licences &amp; médicales pour être alerté avant leur expiration.</span>
-        </div>
+    <!-- CARBURANT (carnet d'essence — solde cuve) -->
+    <div class="elev-pane" id="elev-carburant">
+      <div class="carb-sync" id="carb-sync" hidden></div>
+      <div class="carb-balance" id="carb-balance"></div>
+      <div class="carb-actions">
+        <button class="carb-act primary" type="button" onclick="carbOpenForm('retrait')">
+          <span class="carb-act-ic"><svg viewBox="0 0 24 24"><path d="M16 3H6a2 2 0 0 0-2 2v16h12V5a2 2 0 0 0-2-2z"/><path d="M8 8h4M8 12h4"/><path d="M16 9h1.5a1.5 1.5 0 0 1 1.5 1.5V17a1.5 1.5 0 0 0 3 0V8l-2.5-2.5"/></svg></span>
+          <span class="carb-act-tx"><span class="carb-act-t">Plein avion</span><span class="carb-act-s">Sortie de cuve · club ou vente</span></span>
+          <svg class="carb-act-go" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg>
+        </button>
+        <button class="carb-act ghost" type="button" onclick="carbOpenForm('ajout')">
+          <span class="carb-act-ic"><svg viewBox="0 0 24 24"><path d="M12 3v18M3 12h18"/></svg></span>
+          <span class="carb-act-tx"><span class="carb-act-t">Remplir la cuve</span><span class="carb-act-s">Livraison de carburant</span></span>
+          <svg class="carb-act-go" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg>
+        </button>
       </div>
-      <div class="acc-head">
-        <h4 class="elev-group-h">Vos licences &amp; médicales</h4>
-        <button class="acc-edit" type="button" onclick="licToggleEdit()" id="lic-edit-btn">Modifier</button>
+      <div class="acc-head" style="margin-top:22px">
+        <h4 class="elev-group-h">Historique</h4>
       </div>
-      <p class="acc-note" style="margin-bottom:4px">Saisissez la date d'échéance figurant sur vos documents. Vos dates sont enregistrées pour vous alerter avant expiration, et visibles par les instructeurs pour le suivi du club.</p>
-      <div id="lic-cockpit" class="lic-cockpit" hidden></div>
-      <div id="lic-list" class="lic-list"></div>
-    </div>
-
-    <!-- VOYAGE -->
-    <div class="elev-pane" id="elev-voyage">
-      <div class="acc-head">
-        <h4 class="elev-group-h">Voyages du club</h4>
-        <button class="acc-edit voy-new" id="voy-new-btn" type="button" onclick="voyOpenForm()" hidden>+ Nouveau</button>
-      </div>
-      <p class="elev-sec-sub">Les sorties et voyages organisés par l'APAM. Destination, date, équipage et briefing.</p>
-      <div id="voy-list" class="trip-list"></div>
-    </div>
-
-    <!-- ACTIVITÉ -->
-    <div class="elev-pane" id="elev-activite">
-      <div class="acc-head">
-        <h4 class="elev-group-h">Activités du club</h4>
-        <button class="acc-edit voy-new" id="act-new-btn" type="button" onclick="actOpenForm()" hidden>+ Nouveau</button>
-      </div>
-      <p class="elev-sec-sub">La vie du club : repas, fly-in, formations au sol, événements.</p>
-      <div id="act-list" class="trip-list"></div>
+      <div id="carb-list" class="carb-list"></div>
     </div>
 
     <!-- DOCUMENTS -->
