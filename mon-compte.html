@@ -14,12 +14,17 @@
 /* Theme + PWA init (must run before paint) */
 (function(){
   try{
-    var saved=localStorage.getItem('apam_theme')||'dark';
-    document.documentElement.setAttribute('data-theme',saved);
+    var pref=localStorage.getItem('apam_theme')||'dark';
+    var resolved=pref;
+    if(pref==='auto'){
+      resolved=window.matchMedia('(prefers-color-scheme: light)').matches?'light':'dark';
+    }
+    document.documentElement.setAttribute('data-theme',resolved);
+    document.documentElement.setAttribute('data-theme-pref',pref);
     var card=localStorage.getItem('apam_cards')||'solid';
     document.documentElement.setAttribute('data-cards',card);
     var m=document.querySelector('meta[name=theme-color]');
-    if(m)m.setAttribute('content',saved==='light'?'#f3f1ea':'#0a0d14');
+    if(m)m.setAttribute('content',resolved==='light'?'#eef1f6':'#0a0d14');
   }catch(e){}
   if(navigator.standalone||window.matchMedia('(display-mode:standalone)').matches){
     document.documentElement.classList.add('pwa');
@@ -83,17 +88,17 @@ OneSignalDeferred.push(async function(OneSignal){
   color-scheme:dark;
 }
 [data-theme="light"]{
-  --bg:#f4f2eb;--sf:#ffffff;--sf2:#ecebe3;--sf3:#ddd9cc;--sf-hi:#fff;
-  --accent:#1a4690;--accent-2:#0f3270;--accent-soft:rgba(26,70,144,.08);--accent-bord:rgba(26,70,144,.24);
-  --amber:#8c5210;--amber-soft:rgba(140,82,16,.08);--amber-bord:rgba(140,82,16,.30);
-  --ok:#0e6a32;--err:#a3201d;--vio:#6929d4;--cyan:#15558e;
-  --text:#0c1018;--text-2:#283042;--muted:#4a5060;--dim:#8b8e9a;
-  --border:rgba(15,20,32,.10);--bds:rgba(15,20,32,.20);--stroke-in:rgba(255,255,255,.6);
-  --hatch:rgba(15,20,32,.045);--hatch-2:rgba(15,20,32,.08);
+  --bg:#eef2f8;--sf:#ffffff;--sf2:#f1f5fb;--sf3:#e4eaf3;--sf-hi:#fff;
+  --accent:#2563eb;--accent-2:#1b4fc4;--accent-soft:rgba(37,99,235,.07);--accent-bord:rgba(37,99,235,.22);
+  --amber:#b26a00;--amber-soft:rgba(178,106,0,.09);--amber-bord:rgba(178,106,0,.28);
+  --ok:#0f8a43;--err:#d72d2d;--vio:#7c3aed;--cyan:#1d6fd0;
+  --text:#0f1726;--text-2:#3a4458;--muted:#646e82;--dim:#9aa3b4;
+  --border:rgba(16,24,40,.08);--bds:rgba(16,24,40,.15);--stroke-in:rgba(255,255,255,.7);
+  --hatch:rgba(37,99,235,.045);--hatch-2:rgba(16,24,40,.06);
   --card-bg:var(--sf);--card-bord:var(--border);
-  --backdrop:rgba(244,242,235,.86);
-  --shadow-1:0 1px 1px rgba(15,20,32,.04),0 4px 18px rgba(15,20,32,.07);
-  --shadow-2:0 1px 2px rgba(15,20,32,.05),0 12px 30px -8px rgba(15,20,32,.12);
+  --backdrop:rgba(238,242,248,.85);
+  --shadow-1:0 1px 2px rgba(16,24,40,.04),0 4px 16px rgba(16,24,40,.05);
+  --shadow-2:0 2px 4px rgba(16,24,40,.05),0 14px 34px -10px rgba(16,24,40,.12);
   color-scheme:light;
 }
 /* Card style variants (tweak) */
@@ -289,7 +294,7 @@ html.pwa .tab-pane{padding-top:max(env(safe-area-inset-top,0px),52px)}
 /* Lien « Tout voir » dans un section header */
 .sec-link{margin-left:auto;background:none;border:none;cursor:pointer;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-style:italic;font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--accent)}
 /* Accès rapide Devis de masse (accueil) — uniforme avec les autres cartes */
-.home-wb{width:100%;display:flex;align-items:center;gap:13px;margin-top:13px;padding:13px 15px;border-radius:15px;cursor:pointer;text-align:left;background:var(--sf);border:1px solid var(--border);position:relative;overflow:hidden;transition:transform .12s,border-color .2s}
+.home-wb{width:100%;display:flex;align-items:center;gap:13px;margin:0 0 11px;padding:14px 15px;border-radius:15px;cursor:pointer;text-align:left;background:var(--sf);border:1px solid var(--border);position:relative;overflow:hidden;transition:transform .12s,border-color .2s}
 .home-wb::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--accent)}
 .home-wb:hover{border-color:var(--bds)}
 .home-wb:active{transform:scale(.99)}
@@ -304,6 +309,10 @@ html.pwa .tab-pane{padding-top:max(env(safe-area-inset-top,0px),52px)}
 .news-sec-h{width:100%;display:flex;align-items:center;gap:11px;padding:15px 16px;background:none;border:none;cursor:pointer;text-align:left}
 .news-sec-ic{font-size:17px;flex-shrink:0}
 .news-sec-t{flex:1;min-width:0;font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:18px;text-transform:uppercase;letter-spacing:-.005em;color:var(--text)}
+.news-sec-badge{flex-shrink:0;min-width:21px;height:21px;padding:0 7px;border-radius:100px;background:var(--accent);color:#fff;font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:12px;display:flex;align-items:center;justify-content:center;margin-right:2px}
+.news-sec-badge[hidden]{display:none}
+.bn-dot{position:absolute;top:4px;right:50%;transform:translateX(13px);width:8px;height:8px;border-radius:50%;background:var(--accent);border:1.5px solid var(--bg)}
+.bn-dot[hidden]{display:none}
 .news-sec-chev{width:19px;height:19px;flex-shrink:0;stroke:var(--muted);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;transition:transform .3s cubic-bezier(.2,.7,.2,1)}
 .news-sec.open .news-sec-chev{transform:rotate(180deg)}
 .news-sec-body{display:none;padding:0 12px 14px}
@@ -355,7 +364,7 @@ html:not(.pwa) .desktop-only{display:flex}
 }
 
 /* ═══════════════════════ MOBILE HOME — WELCOME PANEL ═══════════════════════ */
-.welcome{position:relative;background:var(--sf);border:1px solid var(--border);border-radius:18px;padding:26px 24px 22px;overflow:hidden;margin-bottom:20px}
+.welcome{position:relative;background:var(--sf);border:1px solid var(--border);border-radius:18px;padding:20px 20px 18px;overflow:hidden;margin-bottom:14px}
 .welcome::before{content:"";position:absolute;inset:0;background-image:repeating-linear-gradient(135deg,var(--hatch) 0 2px,transparent 2px 10px);opacity:.16;pointer-events:none;mask-image:linear-gradient(160deg,#000,transparent 55%)}
 .welcome-glow{position:absolute;top:-50px;right:-50px;width:190px;height:190px;background:radial-gradient(circle at 50% 50%,var(--accent-soft) 0%,transparent 70%);opacity:.35;pointer-events:none}
 .welcome-ticks{position:absolute;top:22px;right:22px;display:flex;gap:4px;z-index:1}
@@ -366,7 +375,7 @@ html:not(.pwa) .desktop-only{display:flex}
 .welcome-brand img{height:18px;width:auto;display:block;object-fit:contain}
 .welcome-divider{width:20px;height:1px;background:var(--accent);opacity:.45;display:inline-block}
 #m-greeting{white-space:nowrap}
-.welcome-name{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:40px;text-transform:uppercase;line-height:.96;color:var(--text);margin-bottom:14px;position:relative;letter-spacing:-.005em};text-wrap:balance;letter-spacing:-.014em}
+.welcome-name{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:34px;text-transform:uppercase;line-height:.96;color:var(--text);margin-bottom:14px;position:relative;letter-spacing:-.005em};text-wrap:balance;letter-spacing:-.014em}
 .welcome-msg{font-family:'Jost',sans-serif;font-size:16.5px;font-weight:400;line-height:1.5;color:var(--text-2);margin-bottom:14px;position:relative;text-wrap:pretty;letter-spacing:.002em}
 .welcome-msg strong{color:var(--text);font-weight:600}
 .welcome-msg em{font-style:normal;color:var(--accent);font-weight:600}
@@ -388,6 +397,24 @@ html:not(.pwa) .desktop-only{display:flex}
 .welcome-cta svg{width:16px;height:16px;display:block;transition:transform .25s cubic-bezier(.2,.7,.2,1)}
 .welcome-cta:hover svg{transform:translateX(3px)}
 .welcome-disclaimer{margin-top:14px;font-family:'Jost',sans-serif;font-size:11px;font-style:italic;color:var(--muted);line-height:1.45;position:relative;padding-left:14px;border-left:2px solid var(--border)}
+/* Héros : bande météo compacte tappable */
+.welcome-wx{position:relative;display:flex;align-items:center;gap:10px;width:100%;padding:11px 12px;border-radius:13px;background:var(--sf2);border:1px solid var(--border);cursor:pointer;text-align:left;transition:border-color .2s,transform .12s}
+.welcome-wx:active{transform:scale(.99)}
+.welcome-wx:hover{border-color:var(--bds)}
+.welcome-wx-txt{flex:1;min-width:0;font-family:'JetBrains Mono',monospace;font-size:12.5px;font-weight:500;color:var(--text-2);letter-spacing:.02em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.welcome-wx-go{width:17px;height:17px;flex-shrink:0;stroke:var(--muted);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+/* Rappel discret prochain voyage/activité (accueil) */
+.home-trip{display:flex;align-items:center;gap:13px;width:100%;margin:0 0 11px;padding:14px 15px;border-radius:15px;background:var(--sf);border:1px solid var(--border);cursor:pointer;text-align:left;position:relative;overflow:hidden;transition:border-color .2s,transform .12s}
+.home-trip[hidden]{display:none}
+.home-trip::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--accent)}
+.home-trip:active{transform:scale(.99)}
+.home-trip:hover{border-color:var(--bds)}
+.home-trip-ic{font-size:18px;flex-shrink:0;width:38px;height:38px;border-radius:11px;background:var(--sf2);display:flex;align-items:center;justify-content:center}
+.home-trip-tx{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+.home-trip-lbl{font-family:'JetBrains Mono',monospace;font-size:8.5px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+.home-trip-ti{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:16px;text-transform:uppercase;letter-spacing:-.01em;color:var(--text);line-height:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.home-trip-when{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-style:italic;font-size:12px;color:var(--accent);flex-shrink:0;white-space:nowrap}
+.home-trip-go{width:16px;height:16px;flex-shrink:0;stroke:var(--muted);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 
 /* ═══════════════════════ MOBILE HOME — PILOT CARD ═══════════════════════ */
 .hero-pilot{position:relative;background:var(--sf);border:1px solid var(--border);border-radius:18px;padding:22px 22px 20px;overflow:hidden;margin-bottom:20px;box-shadow:inset 0 1px 0 var(--stroke-in)}
@@ -1340,6 +1367,21 @@ html.pwa .doc-viewer-safe{min-height:52px}
 .syn-feed-empty{font-size:12.5px;color:var(--muted);line-height:1.5;padding:18px 16px;text-align:center;background:var(--sf);border:1px dashed var(--border);border-radius:13px;text-wrap:pretty}
 /* Accès rapides */
 .syn-quick{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:8px}
+/* Cartes Forum & Documents (synthèse) */
+.syn-big{width:100%;display:flex;align-items:center;gap:12px;background:var(--sf);border:1px solid var(--border);border-radius:14px;padding:14px 15px;cursor:pointer;text-align:left;margin-bottom:9px;transition:border-color .2s,transform .12s}
+.syn-big:last-child{margin-bottom:0}
+.syn-big:active{transform:scale(.99)}
+.syn-big:hover{border-color:var(--bds)}
+.syn-big-ic{width:40px;height:40px;border-radius:11px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.syn-big-ic svg{width:20px;height:20px}
+.syn-big-ic.forum{background:rgba(34,215,122,.12);color:var(--ok)}
+.syn-big-ic.docs{background:var(--accent-soft);color:var(--accent)}
+.syn-big-tx{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px}
+.syn-big-t{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:18px;text-transform:uppercase;letter-spacing:-.01em;color:var(--text);line-height:1}
+.syn-big-s{font-size:11.5px;color:var(--muted);line-height:1.3}
+.syn-big-badge{flex-shrink:0;min-width:22px;height:22px;padding:0 7px;border-radius:100px;background:var(--accent);color:#fff;font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:12px;display:flex;align-items:center;justify-content:center}
+.syn-big-badge[hidden]{display:none}
+.syn-big-go{width:18px;height:18px;flex-shrink:0;stroke:var(--muted);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 .syn-q{display:flex;align-items:center;gap:10px;background:var(--sf);border:1px solid var(--border);border-radius:13px;padding:13px 13px;cursor:pointer;text-align:left;transition:border-color .2s,transform .12s}
 .syn-q:active{transform:scale(.98)}
 .syn-q:hover{border-color:var(--accent-bord)}
@@ -1410,12 +1452,13 @@ html.pwa .doc-viewer-safe{min-height:52px}
 .trip-save{flex:2;padding:13px;border-radius:11px;border:none;background:var(--accent);color:#fff;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-style:italic;font-size:14px;letter-spacing:.08em;text-transform:uppercase;cursor:pointer}
 
 /* ── Carnet d'essence (cuve) ── */
-.carb-quick{width:100%;display:flex;align-items:center;gap:12px;background:var(--sf);border:1px solid var(--border);border-radius:15px;padding:13px 15px;margin-bottom:22px;cursor:pointer;text-align:left;transition:border-color .2s,transform .12s;position:relative;overflow:hidden}
+.carb-quick{width:100%;display:flex;align-items:center;gap:13px;background:var(--sf);border:1px solid var(--border);border-radius:15px;padding:14px 15px;margin-bottom:11px;cursor:pointer;text-align:left;transition:border-color .2s,transform .12s;position:relative;overflow:hidden}
 .carb-quick::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--cyan)}
 .carb-quick:active{transform:scale(.99)}
 .carb-quick:hover{border-color:var(--bds)}
 .carb-quick-ic{font-size:22px;flex-shrink:0;width:38px;height:38px;display:flex;align-items:center;justify-content:center;background:var(--sf2);border-radius:11px}
 .carb-quick-tx{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px}
+.carb-quick-title{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:17px;text-transform:uppercase;letter-spacing:-.01em;color:var(--text);line-height:1}
 .carb-quick-lbl{font-family:'JetBrains Mono',monospace;font-size:8.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
 .carb-quick-last{font-size:11.5px;color:var(--text-2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .carb-quick-bal{display:flex;flex-direction:column;align-items:flex-end;flex-shrink:0;line-height:1}
@@ -1426,6 +1469,7 @@ html.pwa .doc-viewer-safe{min-height:52px}
 /* Bandeau solde */
 .carb-balance{background:var(--sf);border:1px solid var(--border);border-radius:18px;padding:20px 20px 18px;position:relative;overflow:hidden}
 /* Bandeau de synchro (file d'attente) */
+.carb-sync[hidden]{display:none !important}
 .carb-sync{display:flex;align-items:center;gap:10px;padding:11px 13px;border-radius:13px;margin-bottom:12px;background:color-mix(in srgb,#f5a524 12%,var(--sf));border:1px solid color-mix(in srgb,#f5a524 35%,transparent);font-size:12px;color:var(--text)}
 .carb-sync.offline{background:color-mix(in srgb,#ff5f57 12%,var(--sf));border-color:color-mix(in srgb,#ff5f57 35%,transparent)}
 .carb-sync-ic{flex-shrink:0;font-size:15px}
@@ -1597,6 +1641,51 @@ html.pwa .doc-viewer-safe{min-height:52px}
 .lic-del{background:none;border:none;color:#ff5f57;font-size:16px;cursor:pointer;flex-shrink:0;line-height:1;padding:4px}
 .lic-add{width:100%;padding:11px;border:1px dashed var(--border);border-radius:10px;background:none;color:var(--muted);font-family:'Barlow Condensed',sans-serif;font-weight:700;letter-spacing:.1em;text-transform:uppercase;font-size:12px;cursor:pointer;margin-top:2px}
 .fuel-card{background:var(--sf);border:1px solid var(--border);border-radius:14px;padding:16px}
+/* Page Devis dédiée (overlay plein écran) */
+.wb-page{position:fixed;inset:0;z-index:9500;background:var(--bg);display:flex;flex-direction:column;transform:translateY(14px);opacity:0;transition:transform .28s cubic-bezier(.16,1,.3,1),opacity .24s ease}
+.wb-page[hidden]{display:none}
+.wb-page.open{transform:none;opacity:1}
+.wb-page-head{flex-shrink:0;display:flex;align-items:center;gap:12px;padding:14px 16px;padding-top:max(env(safe-area-inset-top,0px),14px);border-bottom:1px solid var(--border);background:var(--backdrop);backdrop-filter:blur(28px) saturate(180%);-webkit-backdrop-filter:blur(28px) saturate(180%)}
+html.pwa .wb-page-head{padding-top:max(env(safe-area-inset-top,0px),50px)}
+.wb-page-back{width:38px;height:38px;border-radius:12px;border:1px solid var(--border);background:var(--sf2);display:flex;align-items:center;justify-content:center;color:var(--text-2);cursor:pointer;flex-shrink:0;transition:border-color .2s,color .2s}
+.wb-page-back:hover{border-color:var(--accent);color:var(--accent)}
+.wb-page-back svg{width:18px;height:18px}
+.wb-page-title{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:21px;text-transform:uppercase;letter-spacing:-.01em;color:var(--text)}
+.wb-page-body{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:16px 14px 20px}
+.wb-page-body .fuel-card{border:none;background:none;padding:0}
+.wb-page-foot{flex-shrink:0;display:flex;gap:10px;padding:12px 14px;padding-bottom:max(env(safe-area-inset-bottom,12px),12px);border-top:1px solid var(--border);background:var(--backdrop);backdrop-filter:blur(28px) saturate(180%);-webkit-backdrop-filter:blur(28px) saturate(180%)}
+.wb-page-foot .fuel-act{flex:1;margin:0}
+/* Carte compte (Options) */
+.account-card{width:100%;display:flex;align-items:center;gap:13px;background:var(--sf);border:1px solid var(--border);border-radius:16px;padding:15px 16px;margin-bottom:16px;cursor:pointer;text-align:left;transition:border-color .2s,transform .12s}
+.account-card:active{transform:scale(.99)}
+.account-card:hover{border-color:var(--bds)}
+.account-av{width:46px;height:46px;border-radius:50%;flex-shrink:0;background:linear-gradient(150deg,var(--accent),var(--accent-2));color:#fff;display:flex;align-items:center;justify-content:center;font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:19px;letter-spacing:.02em}
+.account-tx{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px}
+.account-nm{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:19px;text-transform:uppercase;letter-spacing:-.01em;color:var(--text);line-height:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.account-sub{font-size:11.5px;color:var(--muted)}
+.account-go{width:18px;height:18px;flex-shrink:0;stroke:var(--muted);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+/* Page Mon compte */
+.mc-page{position:fixed;inset:0;z-index:9500;background:var(--bg);display:flex;flex-direction:column;transform:translateY(14px);opacity:0;transition:transform .28s cubic-bezier(.16,1,.3,1),opacity .24s ease}
+.mc-page[hidden]{display:none}
+.mc-page.open{transform:none;opacity:1}
+.mc-hero{display:flex;align-items:center;gap:14px;margin-bottom:22px}
+.mc-hero-av{width:58px;height:58px;border-radius:50%;flex-shrink:0;background:linear-gradient(150deg,var(--accent),var(--accent-2));color:#fff;display:flex;align-items:center;justify-content:center;font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:24px}
+.mc-hero-tx{display:flex;flex-direction:column;gap:4px}
+.mc-hero-nm{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:26px;text-transform:uppercase;letter-spacing:-.01em;color:var(--text);line-height:.95}
+.mc-hero-role{font-family:'JetBrains Mono',monospace;font-size:9.5px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--accent)}
+.mc-field{margin-bottom:16px}
+.mc-field label{display:block;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-style:italic;font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--text-2);margin-bottom:7px}
+.mc-opt{font-family:'Jost',sans-serif;font-weight:400;font-style:normal;font-size:10px;letter-spacing:.04em;text-transform:none;color:var(--muted)}
+.mc-field input{width:100%;background:var(--sf);border:1px solid var(--border);border-radius:12px;padding:13px 14px;font-family:'Jost',sans-serif;font-size:16px;color:var(--text);outline:none;transition:border-color .2s}
+.mc-field input:focus{border-color:var(--accent)}
+.mc-hint{font-size:11px;color:var(--muted);margin-top:7px;line-height:1.4;text-wrap:pretty}
+.mc-meta{background:var(--sf2);border:1px solid var(--border);border-radius:13px;padding:4px 14px;margin:6px 0 22px}
+.mc-meta-row{display:flex;align-items:center;justify-content:space-between;padding:11px 0;border-bottom:1px solid var(--border);font-size:13px;color:var(--muted)}
+.mc-meta-row:last-child{border-bottom:none}
+.mc-meta-row b{font-family:'JetBrains Mono',monospace;font-weight:500;color:var(--text-2);letter-spacing:.04em}
+.mc-save{width:100%;padding:15px;border:none;border-radius:13px;background:var(--accent);color:#fff;font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:16px;letter-spacing:.04em;text-transform:uppercase;cursor:pointer;transition:opacity .2s}
+.mc-save:active{opacity:.9}
+.mc-save:disabled{opacity:.5}
 .acc-collapse{margin-top:24px}
 /* Synthèse en flex pour hiérarchiser via order */
 .syn-pane.on{display:flex;flex-direction:column;gap:18px}
@@ -2006,35 +2095,27 @@ html.pwa .doc-viewer-safe{min-height:52px}
           <span class="welcome-brand"><img src="assets/images/apam-logo2.png?v=2" alt="" onerror="this.style.display='none'"/>APAM</span>
           <span class="welcome-divider"></span>
           <span id="m-greeting">Bonjour</span>
-          <span class="hero-pilot-role m" id="m-pilot-role" style="display:none"><span class="hero-pilot-role-dot"></span><span id="m-pilot-role-lbl">Membre</span></span>
         </div>
         <div class="welcome-name" id="m-pilot-name">Membre</div>
-        <div class="welcome-msg" id="m-wx-msg">Vérification des conditions météo…</div>
-        <div class="welcome-stats">
+        <button class="welcome-wx" type="button" onclick="switchTab('meteo')">
           <span class="welcome-stat-pill" id="m-wx-pill" data-cat="—"><span class="welcome-stat-dot"></span><span id="m-wx-pill-lbl">—</span></span>
-          <span class="welcome-stat-wind mono" id="m-wx-wind-txt">LFOE</span>
-        </div>
-        <button class="welcome-cta" type="button" onclick="switchTab('meteo')">
-          <span>Voir la météo détaillée</span>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+          <span class="welcome-wx-txt mono" id="m-wx-wind-txt">LFOE</span>
+          <svg class="welcome-wx-go" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
         </button>
-        <div class="welcome-disclaimer">Information non certifiée — briefing officiel à votre charge.</div>
+        <div class="welcome-msg" id="m-wx-msg" hidden></div>
       </div>
 
       <button class="carb-quick" id="carb-quick" type="button" onclick="carbHomeOpen()"></button>
 
-      <button class="home-wb" type="button" onclick="homeOpenWB()">
+      <button class="home-wb" type="button" onclick="openWBPage()">
         <span class="home-wb-ic"><svg viewBox="0 0 24 24"><path d="M3 22h12V4a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v18zM6 6h6M6 10h6M17 8l2 2v8a2 2 0 0 1-4 0v-3h2"/></svg></span>
-        <span class="home-wb-tx"><span class="home-wb-t">Devis de masse</span><span class="home-wb-s">Carburant, masse &amp; centrage · imprimable</span></span>
+        <span class="home-wb-tx"><span class="home-wb-t">Devis carburant / masse</span></span>
         <svg class="home-wb-go" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg>
       </button>
 
-      <div class="syn-ready" style="margin-top:13px">
-        <button class="syn-link voyage" id="home-voyage" type="button" onclick="homeOpenTrip('voyage')"></button>
-        <button class="syn-link activite" id="home-activite" type="button" onclick="homeOpenTrip('activite')"></button>
-      </div>
+      <button class="home-trip" id="home-trip" type="button" onclick="switchTab('news')" hidden></button>
 
-      <div class="mobile-sec-h" style="margin-top:24px">
+      <div class="mobile-sec-h" style="margin-top:26px">
         <h2>Dernière actu</h2>
         <button class="sec-link" type="button" onclick="switchTab('news')">Tout voir →</button>
       </div>
@@ -2051,8 +2132,8 @@ html.pwa .doc-viewer-safe{min-height:52px}
         <span class="mobile-sec-h-sub">Le club APAM</span>
       </div>
 
-      <div class="news-sec open" id="news-sec-actus">
-        <button class="news-sec-h" type="button" onclick="newsToggle('actus')"><span class="news-sec-ic">📢</span><span class="news-sec-t">Actualités</span><svg class="news-sec-chev" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></button>
+      <div class="news-sec" id="news-sec-actus">
+        <button class="news-sec-h" type="button" onclick="newsToggle('actus')"><span class="news-sec-ic">📢</span><span class="news-sec-t">Actualités</span><span class="news-sec-badge" id="news-badge-actus" hidden></span><svg class="news-sec-chev" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></button>
         <div class="news-sec-body">
           <div class="mn-feed" id="m-feed">
             <div class="skel-card"><div class="skel skel-line w-50"></div><div class="skel skel-title"></div><div class="skel skel-line w-full"></div><div class="skel skel-line w-80"></div><div class="skel skel-poll"></div></div>
@@ -2061,8 +2142,8 @@ html.pwa .doc-viewer-safe{min-height:52px}
         </div>
       </div>
 
-      <div class="news-sec open" id="news-sec-act">
-        <button class="news-sec-h" type="button" onclick="newsToggle('act')"><span class="news-sec-ic">🎉</span><span class="news-sec-t">Prochaines activités</span><svg class="news-sec-chev" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></button>
+      <div class="news-sec" id="news-sec-act">
+        <button class="news-sec-h" type="button" onclick="newsToggle('act')"><span class="news-sec-ic">🎉</span><span class="news-sec-t">Prochaines activités</span><span class="news-sec-badge" id="news-badge-act" hidden></span><svg class="news-sec-chev" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></button>
         <div class="news-sec-body">
           <button class="news-add-btn" id="act-new-btn" type="button" onclick="actOpenForm()" hidden>+ Nouvelle activité</button>
           <div id="news-activites" class="trip-list news-trip"></div>
@@ -2071,8 +2152,8 @@ html.pwa .doc-viewer-safe{min-height:52px}
         </div>
       </div>
 
-      <div class="news-sec open" id="news-sec-voy">
-        <button class="news-sec-h" type="button" onclick="newsToggle('voy')"><span class="news-sec-ic">🛩️</span><span class="news-sec-t">Prochains voyages</span><svg class="news-sec-chev" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></button>
+      <div class="news-sec" id="news-sec-voy">
+        <button class="news-sec-h" type="button" onclick="newsToggle('voy')"><span class="news-sec-ic">🛩️</span><span class="news-sec-t">Prochains voyages</span><span class="news-sec-badge" id="news-badge-voy" hidden></span><svg class="news-sec-chev" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></button>
         <div class="news-sec-body">
           <button class="news-add-btn" id="voy-new-btn" type="button" onclick="voyOpenForm()" hidden>+ Nouveau voyage</button>
           <div id="news-voyages" class="trip-list news-trip"></div>
@@ -2302,7 +2383,7 @@ html.pwa .doc-viewer-safe{min-height:52px}
     <button class="bn on" id="tab-home"       onclick="switchTab('home')"       type="button"><span class="bn-iconwrap"><svg viewBox="0 0 24 24"><path d="M3 11l9-8 9 8M5 10v10a1 1 0 0 0 1 1h4v-7h4v7h4a1 1 0 0 0 1-1V10"/></svg></span><span>Accueil</span></button>
     <button class="bn"    id="tab-meteo"      onclick="switchTab('meteo')"      type="button"><span class="bn-iconwrap"><svg viewBox="0 0 24 24"><path d="M7 18a5 5 0 1 1 .6-9.96A6 6 0 0 1 19 9.5a4.5 4.5 0 0 1-1.5 8.5H7z"/></svg></span><span>Météo</span></button>
     <button class="bn bn-center" id="tab-ressources" onclick="switchTab('ressources')" type="button"><span class="bn-center-fab"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.6"/><rect x="14" y="3" width="7" height="7" rx="1.6"/><rect x="3" y="14" width="7" height="7" rx="1.6"/><rect x="14" y="14" width="7" height="7" rx="1.6"/></svg></span><span>Espace</span></button>
-    <button class="bn"    id="tab-news"       onclick="switchTab('news')"       type="button"><span class="bn-iconwrap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5a1 1 0 0 1 1-1h11a1 1 0 0 1 1 1v13a2 2 0 0 0 2 2H6a2 2 0 0 1-2-2z"/><path d="M17 8h2a1 1 0 0 1 1 1v9a2 2 0 0 1-2 2"/><path d="M8 7h5M8 11h5M8 15h3"/></svg></span><span>News</span></button>
+    <button class="bn"    id="tab-news"       onclick="switchTab('news')"       type="button"><span class="bn-iconwrap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5a1 1 0 0 1 1-1h11a1 1 0 0 1 1 1v13a2 2 0 0 0 2 2H6a2 2 0 0 1-2-2z"/><path d="M17 8h2a1 1 0 0 1 1 1v9a2 2 0 0 1-2 2"/><path d="M8 7h5M8 11h5M8 15h3"/></svg></span><span class="bn-dot" id="news-nav-dot" hidden></span><span>News</span></button>
     <button class="bn"    id="tab-webcam"     onclick="switchTab('webcam')"     type="button"><span class="bn-iconwrap"><svg viewBox="0 0 24 24"><path d="M23 7l-7 5 7 5z"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg></span><span>Webcam</span></button>
   </nav>
 </div>
@@ -2515,23 +2596,40 @@ const isIOS=/iPad|iPhone|iPod/.test(navigator.userAgent)&&!window.MSStream;
 const isMobile=/Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
 let deferredPrompt=null;
 
-/* ── Theme toggle ── */
-function toggleTheme(){
-  hapticTick();
-  const cur=document.documentElement.getAttribute('data-theme')||'dark';
-  const next=cur==='dark'?'light':'dark';
-  document.documentElement.setAttribute('data-theme',next);
-  try{localStorage.setItem('apam_theme',next);}catch(e){}
+/* ── Theme : Sombre → Clair → Auto ── */
+function resolveTheme(pref){
+  if(pref==='auto')return window.matchMedia('(prefers-color-scheme: light)').matches?'light':'dark';
+  return pref;
+}
+function applyThemePref(pref){
+  var resolved=resolveTheme(pref);
+  document.documentElement.setAttribute('data-theme',resolved);
+  document.documentElement.setAttribute('data-theme-pref',pref);
+  try{localStorage.setItem('apam_theme',pref);}catch(e){}
   const m=document.querySelector('meta[name=theme-color]');
-  if(m)m.setAttribute('content',next==='light'?'#f3f1ea':'#0a0d14');
+  if(m)m.setAttribute('content',resolved==='light'?'#eef1f6':'#0a0d14');
   syncThemeIcons();
 }
+function toggleTheme(){
+  hapticTick();
+  const cur=document.documentElement.getAttribute('data-theme-pref')||'dark';
+  const order=['dark','light','auto'];
+  const next=order[(order.indexOf(cur)+1)%order.length];
+  applyThemePref(next);
+}
+/* Suit le système quand le mode auto est actif */
+try{
+  window.matchMedia('(prefers-color-scheme: light)').addEventListener('change',function(){
+    if((document.documentElement.getAttribute('data-theme-pref')||'dark')==='auto')applyThemePref('auto');
+  });
+}catch(e){}
 function syncThemeIcons(){
-  const t=document.documentElement.getAttribute('data-theme')||'dark';
+  const pref=document.documentElement.getAttribute('data-theme-pref')||'dark';
   const moonSvg='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>';
   const sunSvg='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>';
-  const ic=t==='dark'?moonSvg:sunSvg;
-  const lbl=t==='dark'?'Sombre':'Clair';
+  const autoSvg='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 0 0 0 18z" fill="currentColor" stroke="none"/></svg>';
+  const ic=pref==='dark'?moonSvg:(pref==='light'?sunSvg:autoSvg);
+  const lbl=pref==='dark'?'Sombre':(pref==='light'?'Clair':'Auto');
   ['d-theme-ic','m-theme-ic'].forEach(id=>{const el=document.getElementById(id);if(el)el.innerHTML=ic;});
   ['d-theme-lbl','m-theme-lbl'].forEach(id=>{const el=document.getElementById(id);if(el)el.textContent=lbl;});
 }
@@ -2756,6 +2854,7 @@ function applyNews(news){
   const html=news.length?news.map(renderCard).join(''):`<div class="mn-empty"><div class="mn-empty-icon">📭</div><p class="mn-empty-title">Aucune actualité</p><p class="mn-empty-sub">Rien de nouveau pour l'instant.</p></div>`;
   ['d-feed','m-feed'].forEach(id=>{const el=document.getElementById(id);if(el)el.innerHTML=html;});
   try{homeRenderNewsMini();}catch(e){}
+  try{newsRenderBadges();}catch(e){}
 }
 
 function pollWrapHTML(n){
@@ -3147,7 +3246,8 @@ function buildOutils(){
     cgu:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>',
     logout:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>',
     wrench:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a4 4 0 0 0-5.4 5.3L3 18l3 3 6.4-6.3a4 4 0 0 0 5.3-5.4l-2.6 2.6-2.3-.6-.6-2.3z"/></svg>',
-    contacts:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>'
+    contacts:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>',
+    compte:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>'
   };
   const tools=[];
   tools.push({i:ICN.contacts,t:'Contacts',s:'Équipe du club & contacts utiles',a:"switchTab('contacts')",h:'#',c:''});
@@ -3163,7 +3263,10 @@ function buildOutils(){
 
   const mo=document.getElementById('m-outils');
   if(mo){
-    let listHtml='<div class="tools-list">'+updateRow+notifRow+themeRowM;
+    var _nm=((memberPrenom||'')+' '+(memberNom||'')).trim()||'Mon compte';
+    var _ini=((memberPrenom||'?').charAt(0)+(memberNom||'').charAt(0)).toUpperCase();
+    var accountCard='<button type="button" class="account-card" onclick="openMonCompte()"><span class="account-av">'+esc(_ini)+'</span><span class="account-tx"><span class="account-nm">'+esc(_nm)+'</span><span class="account-sub">Voir et modifier mes informations</span></span><svg class="account-go" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></button>';
+    let listHtml=accountCard+'<div class="tools-list">'+updateRow+notifRow+themeRowM;
     tools.forEach(t=>listHtml+=`<button type="button" class="tool-item ${t.c}" onclick="${t.a}"><span class="tool-icon">${t.i}</span><div class="tool-tx"><h4>${t.t}</h4><p>${t.s}</p></div><span class="tool-chev">›</span></button>`);
     listHtml+=tutoRow;
     listHtml+=cguRow;
@@ -3651,6 +3754,26 @@ window.adminFilter=function(q){_adminFilter=q||'';renderAdminMembers();};
 
 /* ── Mise à jour avec versioning ── */
 let _newVersion=null;
+/* Signature de contenu (hash) du HTML servi — permet de détecter une nouvelle
+   version même si APP_VERSION n'a pas été modifié lors du déploiement. */
+function appSig(t){
+  if(!t)return '';
+  /* on ignore le paramètre anti-cache ?_v= pour ne pas fausser le hash */
+  t=String(t);
+  var h=5381;
+  for(var i=0;i<t.length;i++){h=((h<<5)+h+t.charCodeAt(i))>>>0;}
+  return String(h)+'.'+t.length;
+}
+let _runningSig=null;
+/* Capture la signature de la version actuellement chargée (1 seule fois) */
+(function captureRunningSig(){
+  try{
+    fetch(location.pathname+'?_v='+Date.now(),{cache:'no-store'})
+      .then(function(r){return r.text();})
+      .then(function(t){_runningSig=appSig(t);})
+      .catch(function(){});
+  }catch(e){}
+})();
 
 window.mettreAJour=async function(){
   hapticTick();
@@ -3660,21 +3783,24 @@ window.mettreAJour=async function(){
   if(_newVersion){installUpdate();return;}
   btn.style.opacity='.6';sub.textContent='Vérification…';
   try{
-    // Force network fetch to detect version mismatch
+    // Force network fetch to detect changes
     const ctrl=new AbortController();const to=setTimeout(()=>ctrl.abort(),10000);
     const r=await fetch(location.pathname+'?_v='+Date.now(),{cache:'no-store',signal:ctrl.signal});
     clearTimeout(to);
     const txt=await r.text();
     const m=txt.match(/APP_VERSION\s*=\s*['"]([\d.]+)['"]/);
     const remoteV=m?m[1]:null;
+    const remoteSig=appSig(txt);
     btn.style.opacity='';
-    if(remoteV&&remoteV!==APP_VERSION&&!sessionStorage.getItem('apam_upd_notified')){
+    // « Nouvelle version » = contenu différent (hash) OU numéro différent. Plus besoin de bumper APP_VERSION.
+    const changed=(remoteSig&&remoteSig!==_runningSig)||(remoteV&&remoteV!==APP_VERSION);
+    if(changed&&!sessionStorage.getItem('apam_upd_notified')){
       sessionStorage.setItem('apam_upd_notified','1');
-      _newVersion=remoteV;
+      _newVersion=remoteV||'update';
       btn.classList.add('upd-available');
-      sub.innerHTML='<strong style="color:var(--accent)">v'+remoteV+' disponible</strong> · Appuyez pour installer';
+      sub.innerHTML='<strong style="color:var(--accent)">Nouvelle version disponible</strong> · Appuyez pour installer';
       const ic=btn.querySelector('.update-icon');if(ic)ic.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>';
-      toast('Nouvelle version v'+remoteV+' disponible','ok',4000);
+      toast('Nouvelle version disponible','ok',4000);
     }else{
       // Also nudge service worker to check
       if('serviceWorker'in navigator){
@@ -4243,6 +4369,8 @@ function mirrorEleveRessources(){
 
 /* ── Init ── */
 applyProfileLayout();
+/* Sort la page Devis hors de l'overlay espace (sinon position:fixed est piégée) */
+(function(){var p=document.getElementById('wb-page');if(p&&p.parentNode!==document.body)document.body.appendChild(p);})();
 buildOutils();chargerNews();chargerFleet();tripLoadCache();carbLoadCache();carbRenderQuick();carbLoadAll();homeRenderSynth();
 setTimeout(function(){wxLoad('m-wx');if(document.getElementById('d-wx'))wxPendingTargets.push('d-wx');updateWxQuick();},800);
 setTimeout(function preloadTaf(_n){
@@ -4287,23 +4415,27 @@ document.addEventListener('visibilitychange',function(){
   if(!document.hidden)setTimeout(function(){newsAutoRefresh(true);},400);
 });
 
-/* Auto-check for app update silently 3s after launch */
+/* Auto-check for app update silently 4s after launch (content hash, no need to bump APP_VERSION) */
 setTimeout(async function(){
   try{
     const r=await fetch(location.pathname+'?_v='+Date.now(),{cache:'no-store'});
     const txt=await r.text();
     const m=txt.match(/APP_VERSION\s*=\s*['"]([\d.]+)['"]/);
     const remoteV=m?m[1]:null;
-    if(remoteV&&remoteV!==APP_VERSION&&!sessionStorage.getItem('apam_upd_notified')){
+    const remoteSig=appSig(txt);
+    /* _runningSig est capturé au lancement ; on attend qu'il soit prêt */
+    if(_runningSig===null){_runningSig=remoteSig;return;}
+    const changed=(remoteSig&&remoteSig!==_runningSig)||(remoteV&&remoteV!==APP_VERSION);
+    if(changed&&!sessionStorage.getItem('apam_upd_notified')){
       sessionStorage.setItem('apam_upd_notified','1');
-      _newVersion=remoteV;
+      _newVersion=remoteV||'update';
       const btn=document.getElementById('upd-btn'),sub=document.getElementById('upd-sub');
       if(btn){btn.classList.add('upd-available');const ic=btn.querySelector('.update-icon');if(ic)ic.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>';}
-      if(sub)sub.innerHTML='<strong style="color:var(--accent)">v'+remoteV+' disponible</strong> · Appuyez pour installer';
-      toast('Mise à jour v'+remoteV+' disponible','ok',5000);
+      if(sub)sub.innerHTML='<strong style="color:var(--accent)">Nouvelle version disponible</strong> · Appuyez pour installer';
+      toast('Mise à jour disponible','ok',5000);
     }
   }catch(e){}
-},3500);
+},4200);
 
 document.addEventListener('visibilitychange',function(){
   if(!document.hidden)setTimeout(function(){
@@ -4547,6 +4679,8 @@ async function elevLoadAll(){
 }
 
 function elevRenderDash(){
+  try{synRenderGreet();}catch(e){}
+  try{synRenderLinks();}catch(e){}
   var total=_elevQuestions?_elevQuestions.length:0;
   var attente=_elevQuestions?_elevQuestions.filter(function(q){return q.statut==='attente';}).length:0;
   var docs=_elevDocs?_elevDocs.documents.length:0;
@@ -4556,6 +4690,13 @@ function elevRenderDash(){
   el=document.getElementById('elev-q-attente');if(el)el.textContent=attente;
   el=document.getElementById('elev-docs-count');if(el)el.textContent=docs;
   el=document.getElementById('elev-instr-count');if(el)el.textContent=instr;
+  /* Synthèse : sous-titres Forum & Documents */
+  var fSub=document.getElementById('syn-forum-sub');
+  if(fSub)fSub.textContent=total?(total+' question'+(total>1?'s':'')+(attente?' · '+attente+' en attente':' · toutes répondues')):'Posez votre première question';
+  var fBadge=document.getElementById('syn-forum-badge');
+  if(fBadge){if(attente>0){fBadge.hidden=false;fBadge.textContent=attente;}else{fBadge.hidden=true;}}
+  var dSub=document.getElementById('syn-docs-sub');
+  if(dSub)dSub.textContent=docs?(docs+' document'+(docs>1?'s':'')+' partagé'+(docs>1?'s':'')):'Supports & fiches de progression';
   /* Mini-cartes questions en attente */
   var homeQ=document.getElementById('elev-home-questions');
   if(homeQ){
@@ -4568,8 +4709,6 @@ function elevRenderDash(){
     var recent=_elevDocs?_elevDocs.documents.slice(0,3):[];
     homeD.innerHTML=recent.length?recent.map(function(d){return '<a class="elev-mini-card" href="'+d.url+'" target="_blank" style="display:block;text-decoration:none;color:inherit"><h5>'+d.icon+' '+esc(d.nom)+'</h5><p>'+esc(d.date)+'</p></a>';}).join(''):'<div class="elev-empty">Aucun document</div>';
   }
-  try{synRenderGreet();}catch(e){}
-  try{synRenderLinks();}catch(e){}
 }
 
 /* ── Synthèse : tableau de bord pilote ── */
@@ -4586,12 +4725,19 @@ function synRenderGreet(){
 
 /* Peut gérer voyages/activités : instructeur, admin, gestionnaire (news_pub) */
 function canManageTrips(){return !!(perms.admin||perms.instructeur||perms.news_pub||(typeof DEMO_MODE!=='undefined'&&DEMO_MODE));}
+function parseLocalDate(iso){
+  if(!iso)return null;
+  var s=String(iso).trim();
+  var m=s.match(/^(\d{4})-(\d{2})-(\d{2})/);
+  if(m)return new Date(+m[1],+m[2]-1,+m[3]);
+  var d=new Date(s);return isNaN(d)?null:d;
+}
 function tripFmtDate(iso){
   if(!iso)return '';
-  var d=new Date(iso);if(isNaN(d))return iso;
+  var d=parseLocalDate(iso);if(!d||isNaN(d))return iso;
   return d.toLocaleDateString('fr-FR',{weekday:'short',day:'numeric',month:'short',year:'numeric'});
 }
-function tripDaysTo(iso){var d=new Date(iso);if(isNaN(d))return null;return Math.ceil((d-new Date().setHours(0,0,0,0))/86400000);}
+function tripDaysTo(iso){var d=parseLocalDate(iso);if(!d||isNaN(d))return null;return Math.ceil((d.getTime()-new Date().setHours(0,0,0,0))/86400000);}
 function tripNext(list){
   var up=(list||[]).filter(function(t){var n=tripDaysTo(t.date);return n===null||n>=0;});
   up.sort(function(a,b){return new Date(a.date)-new Date(b.date);});
@@ -4620,23 +4766,36 @@ function synRenderLinkCard(id, list, label, emptyTxt, icon){
     '<div class="syn-link-go">Détails<svg viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></div>';
 }
 
-window.synOpenFuel=function(){
-  var c=document.getElementById('fuel-collapse');if(!c)return;
-  if(!c.classList.contains('open'))fuelToggle();
-  setTimeout(function(){var body=document.getElementById('elev-body');if(body&&c)body.scrollTo({top:c.offsetTop-12,behavior:'smooth'});},120);
-};
+window.synOpenFuel=function(){openWBPage();};
 
 /* ═══════════ VOYAGES & ACTIVITÉS ═══════════ */
 var VOYAGES=[], ACTIVITES=[], _tripsLoaded=false;
 
 /* ── Accueil app (synthèse) & onglet News ── */
-window.homeOpenWB=function(){if(typeof openEspaceEleves==='function')openEspaceEleves(false);setTimeout(function(){if(typeof elevTab==='function'){elevTab('accueil');setTimeout(function(){try{synOpenFuel();}catch(e){}},200);}},140);};
+window.homeOpenWB=function(){openWBPage();};
 window.homeOpenTrip=function(t){switchTab('news');};
 function homeRenderSynth(){
   try{carbRenderQuick();}catch(e){}
-  try{synRenderLinkCard('home-voyage', VOYAGES, 'Prochain voyage', 'Aucun voyage programmé', '\uD83D\uDEE9\uFE0F');}catch(e){}
-  try{synRenderLinkCard('home-activite', ACTIVITES, 'Prochaine activité', 'Aucune activité prévue', '\uD83C\uDF89');}catch(e){}
+  try{homeRenderTripReminder();}catch(e){}
   try{homeRenderNewsMini();}catch(e){}
+}
+/* Rappel discret : prochain voyage OU activité (le plus proche), sinon masqué */
+function homeRenderTripReminder(){
+  var el=document.getElementById('home-trip');if(!el)return;
+  var nextV=tripNext(VOYAGES), nextA=tripNext(ACTIVITES);
+  var cand=[];
+  if(nextV)cand.push({o:nextV,kind:'voyage',ic:'\uD83D\uDEE9\uFE0F',lbl:'Prochain voyage'});
+  if(nextA)cand.push({o:nextA,kind:'activite',ic:'\uD83C\uDF89',lbl:'Prochaine activité'});
+  if(!cand.length){el.hidden=true;el.innerHTML='';return;}
+  cand.sort(function(a,b){return new Date(a.o.date)-new Date(b.o.date);});
+  var c=cand[0], dleft=tripDaysTo(c.o.date);
+  var when=dleft===null?'':dleft===0?"Aujourd'hui":dleft===1?'Demain':dleft>0?('Dans '+dleft+' j'):'';
+  el.hidden=false;
+  el.innerHTML='<span class="home-trip-ic">'+c.ic+'</span>'+
+    '<span class="home-trip-tx"><span class="home-trip-lbl">'+c.lbl+'</span>'+
+    '<span class="home-trip-ti">'+esc(c.o.titre||c.o.destination||'—')+'</span></span>'+
+    (when?'<span class="home-trip-when">'+esc(when)+'</span>':'')+
+    '<svg class="home-trip-go" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg>';
 }
 function homeRenderNewsMini(){
   var el=document.getElementById('home-news-mini');if(!el)return;
@@ -4665,6 +4824,7 @@ function newsRenderTrips(){
   var canM=false;try{canM=canManageTrips();}catch(e){}
   var vb=document.getElementById('voy-new-btn');if(vb)vb.hidden=!canM;
   var ab=document.getElementById('act-new-btn');if(ab)ab.hidden=!canM;
+  try{newsRenderBadges();}catch(e){}
 }
 function newsFillPast(key,boxId,list,kind,word){
   var toggle=document.getElementById(key+'-past-toggle');
@@ -4690,8 +4850,35 @@ window.newsTogglePast=function(key){
 window.newsToggle=function(key){
   hapticTick();
   var sec=document.getElementById('news-sec-'+key);if(!sec)return;
+  var willOpen=!sec.classList.contains('open');
   sec.classList.toggle('open');
+  if(willOpen)newsMarkSeen(key);
 };
+
+/* ── Non-lus par section (badge) ── */
+function newsItemKeys(key){
+  if(key==='actus'){var n=(typeof loadNC==='function'&&loadNC())||[];return n.map(function(x){return 'a:'+(x.date||'')+'|'+(x.titre||'');});}
+  if(key==='act'){return (ACTIVITES||[]).filter(function(t){var d=tripDaysTo(t.date);return d===null||d>=0;}).map(function(x){return String(x.id);});}
+  if(key==='voy'){return (VOYAGES||[]).filter(function(t){var d=tripDaysTo(t.date);return d===null||d>=0;}).map(function(x){return String(x.id);});}
+  return [];
+}
+function newsSeen(key){try{return JSON.parse(localStorage.getItem('apam_seen_'+key)||'[]');}catch(e){return [];}}
+function newsUnreadCount(key){var seen=newsSeen(key);return newsItemKeys(key).filter(function(k){return seen.indexOf(k)===-1;}).length;}
+function newsMarkSeen(key){
+  try{localStorage.setItem('apam_seen_'+key,JSON.stringify(newsItemKeys(key)));}catch(e){}
+  newsRenderBadges();
+}
+function newsRenderBadges(){
+  ['actus','act','voy'].forEach(function(key){
+    var b=document.getElementById('news-badge-'+key);if(!b)return;
+    var n=newsUnreadCount(key);
+    if(n>0){b.hidden=false;b.textContent=n;}else{b.hidden=true;}
+  });
+  /* Pastille globale sur l'onglet News (bottom nav) */
+  var tot=newsUnreadCount('actus')+newsUnreadCount('act')+newsUnreadCount('voy');
+  var dot=document.getElementById('news-nav-dot');
+  if(dot)dot.hidden=tot<=0;
+}
 
 function tripLoadCache(){
   try{VOYAGES=JSON.parse(localStorage.getItem('apam_voyages')||'[]');}catch(e){VOYAGES=[];}
@@ -4829,6 +5016,8 @@ window.tripSave=function(kind,id){
   tripCloseForm();
   if(kind==='voyage')voyRender();else actRender();
   synRenderLinks();
+  try{homeRenderSynth();}catch(e){}
+  try{newsRenderTrips();}catch(e){}
   var act=kind==='voyage'?(isNew?'addVoyage':'editVoyage'):(isNew?'addActivite':'editActivite');
   try{
     var p=new URLSearchParams(Object.assign({action:act,pin:memberPin},obj));
@@ -4916,7 +5105,7 @@ function carbMonth(){
   CARBURANT.forEach(function(e){var d=new Date(e.date);if(isNaN(d))return;if(d.getFullYear()+'-'+d.getMonth()===mk){if(e.type==='ajout')add+=parseFloat(e.litres)||0;else{rm+=parseFloat(e.litres)||0;if(e.vente){extL+=parseFloat(e.litres)||0;extEur+=parseFloat(e.montant)||0;}}}});
   return {add:add,rm:rm,extL:extL,extEur:extEur};
 }
-function carbFmtDate(iso){if(!iso)return '';var d=new Date(iso);if(isNaN(d))return iso;return d.toLocaleDateString('fr-FR',{day:'2-digit',month:'short'});}
+function carbFmtDate(iso){if(!iso)return '';var d=parseLocalDate(iso);if(!d||isNaN(d))return iso;return d.toLocaleDateString('fr-FR',{day:'2-digit',month:'short'});}
 
 function carbRender(){
   var bal=document.getElementById('carb-balance');
@@ -4964,12 +5153,8 @@ function carbRender(){
 }
 function carbRenderQuick(){
   var els=document.querySelectorAll('.carb-quick');if(!els.length)return;
-  var b=carbBalance();
-  var last=CARBURANT.slice().sort(function(a,b){return new Date(b.date)-new Date(a.date)||((b._ts||0)-(a._ts||0));})[0];
-  var lastTxt=last?((last.type==='ajout'?'+':'−')+(Math.round((parseFloat(last.litres)||0))+' L · '+(last.type==='ajout'?'cuve':(last.avion||'avion'))+' · '+carbFmtDate(last.date))):'Aucun mouvement';
   var html='<span class="carb-quick-ic">⛽</span>'+
-    '<div class="carb-quick-tx"><span class="carb-quick-lbl">Carnet d\'essence · cuve</span><span class="carb-quick-last">'+esc(lastTxt)+'</span></div>'+
-    '<div class="carb-quick-bal"><span class="carb-quick-num'+(b<0?' neg':'')+'">'+(Math.round(b*10)/10).toLocaleString('fr-FR')+'</span><span class="carb-quick-u">litres</span></div>'+
+    '<div class="carb-quick-tx"><span class="carb-quick-title">Carnet d\'essence</span></div>'+
     '<svg class="carb-quick-chev" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg>';
   els.forEach(function(el){el.innerHTML=html;});
 }
@@ -5073,10 +5258,69 @@ window.carbSave=function(type){
   toast(type==='ajout'?'Cuve remplie ✓':(e.vente?'Vente enregistrée ✓':'Plein enregistré ✓'));
 };
 
-window.synOpenFuel=function(){
-  var c=document.getElementById('fuel-collapse');if(!c)return;
-  if(!c.classList.contains('open'))fuelToggle();
-  setTimeout(function(){var body=document.getElementById('elev-body');if(body&&c)body.scrollTo({top:c.offsetTop-12,behavior:'smooth'});},120);
+window.openWBPage=function(){
+  var p=document.getElementById('wb-page');if(!p)return;
+  if(p.parentNode!==document.body)document.body.appendChild(p);
+  if(typeof fuelInitSelect==='function'){try{fuelInitSelect();}catch(e){}}
+  if(typeof fuelPreset==='function'){try{fuelPreset();}catch(e){}}
+  p.hidden=false;
+  requestAnimationFrame(function(){p.classList.add('open');});
+  document.body.style.overflow='hidden';
+  if(typeof hapticTick==='function')hapticTick();
+};
+window.closeWBPage=function(){
+  var p=document.getElementById('wb-page');if(!p)return;
+  p.classList.remove('open');
+  setTimeout(function(){p.hidden=true;},280);
+  document.body.style.overflow='';
+};
+
+/* ── Mon compte ── */
+window.openMonCompte=function(){
+  var p=document.getElementById('mc-page');if(!p)return;
+  if(p.parentNode!==document.body)document.body.appendChild(p);
+  var prenom=memberPrenom||'', nom=memberNom||'';
+  var phone='';try{phone=localStorage.getItem('apam_phone')||'';}catch(e){}
+  var ini=((prenom||'?').charAt(0)+(nom||'').charAt(0)).toUpperCase();
+  var since='';try{since=localStorage.getItem('apam_member_since')||sessionStorage.getItem('apam_member_since')||'';}catch(e){}
+  var role=perms.admin?'Administrateur':perms.news_pub?'Bureau':(memberProfil==='instructeur'?'Instructeur':memberProfil==='eleve'?'Élève':'Pilote');
+  var set=function(id,v){var el=document.getElementById(id);if(el){if(el.tagName==='INPUT')el.value=v;else el.textContent=v;}};
+  set('mc-av',ini||'?');set('mc-fullname',(prenom+' '+nom).trim()||'Membre');set('mc-role',role);
+  set('mc-prenom',prenom);set('mc-nom',nom);set('mc-phone',phone);
+  set('mc-pin',memberPin?memberPin.replace(/.(?=.)/g,'•'):'••••••');
+  set('mc-since',since||'—');
+  p.hidden=false;
+  requestAnimationFrame(function(){p.classList.add('open');});
+  document.body.style.overflow='hidden';
+  if(typeof hapticTick==='function')hapticTick();
+};
+window.closeMonCompte=function(){
+  var p=document.getElementById('mc-page');if(!p)return;
+  p.classList.remove('open');
+  setTimeout(function(){p.hidden=true;},280);
+  document.body.style.overflow='';
+};
+window.saveMonCompte=function(){
+  var prenom=(document.getElementById('mc-prenom').value||'').trim();
+  var nom=(document.getElementById('mc-nom').value||'').trim();
+  var phone=(document.getElementById('mc-phone').value||'').trim();
+  if(!prenom||!nom){toast('Prénom et nom obligatoires','err');return;}
+  var btn=document.getElementById('mc-save-btn');if(btn){btn.disabled=true;btn.textContent='Enregistrement…';}
+  try{
+    sessionStorage.setItem('apam_prenom',prenom);localStorage.setItem('apam_prenom',prenom);
+    sessionStorage.setItem('apam_nom',nom);localStorage.setItem('apam_nom',nom);
+    localStorage.setItem('apam_phone',phone);
+  }catch(e){}
+  /* Synchro serveur (best-effort) — prêt pour un futur endpoint saveProfile */
+  try{
+    if(memberPin){var p=new URLSearchParams({action:'saveProfile',pin:memberPin,prenom:prenom,nom:nom,tel:phone});fetch(API+'?'+p.toString()).catch(function(){});}
+  }catch(e){}
+  setTimeout(function(){
+    if(btn){btn.disabled=false;btn.textContent='Enregistrer mes informations';}
+    toast('Informations enregistrées ✓','ok');
+    closeMonCompte();
+    setTimeout(function(){location.reload();},600);
+  },400);
 };
 
 /* ── Forum ── */
@@ -5469,12 +5713,6 @@ window.fuelCalc=function(){
   var acSel=document.getElementById('fuel-ac');
   var acName=(acSel&&acSel.options[acSel.selectedIndex])?acSel.options[acSel.selectedIndex].text:'Avion';
   _fuelLast={acName:acName,conso:conso,cap:cap,taxi:taxi,trip:trip,alt:alt,res:_fuelRes,margin:margin,taxiL:taxiL,tripL:tripL,altL:altL,resL:resL,marginL:marginL,total:total,ok:ok,auton:auton,hh:hh,mm:mm};
-  if(total>0){
-    html+='<div class="fuel-actions">'+
-      '<button type="button" class="fuel-act" onclick="fuelPrintDoc(\'print\')"><svg viewBox="0 0 24 24"><path d="M6 9V2h12v7M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2M6 14h12v8H6z"/></svg>Imprimer</button>'+
-      '<button type="button" class="fuel-act primary" onclick="fuelPrintDoc(\'pdf\')"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>Enregistrer PDF</button>'+
-    '</div>';
-  }
   out.innerHTML=html;
   try{wbCalc();}catch(e){}
 };
@@ -5859,41 +6097,37 @@ async function docUploadFile(input){
       <button class="carb-quick" id="carb-quick-syn" type="button" onclick="elevTab('carburant')" style="order:3"></button>
 
       <div class="syn-group" style="order:4">
-        <div class="acc-head"><h4 class="elev-group-h">Accès rapides</h4></div>
-        <div class="syn-quick">
-          <button class="syn-q" type="button" onclick="elevTab('forum')">
-            <span class="syn-q-ic"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></span>
-            <span class="syn-q-t">Poser une question</span>
-          </button>
-          <button class="syn-q" type="button" onclick="elevTab('docs')">
-            <span class="syn-q-ic"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></span>
-            <span class="syn-q-t">Documents</span>
-          </button>
-        </div>
-      </div>
-
-      <div class="syn-group" style="order:5">
-        <div class="acc-head"><h4 class="elev-group-h">Voyages &amp; activités</h4></div>
-        <button class="syn-news-link" type="button" onclick="elevGoNews()">
-          <span class="syn-news-ic">📰</span>
-          <span class="syn-news-tx"><span class="syn-news-t">Voir dans News</span><span class="syn-news-s">Prochains voyages, activités et actualités du club</span></span>
-          <svg class="syn-news-go" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg>
+        <div class="acc-head"><h4 class="elev-group-h">Forum &amp; documents</h4></div>
+        <button class="syn-big" type="button" onclick="elevTab('forum')">
+          <span class="syn-big-ic forum"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></span>
+          <span class="syn-big-tx"><span class="syn-big-t">Forum</span><span class="syn-big-s" id="syn-forum-sub">Questions &amp; réponses</span></span>
+          <span class="syn-big-badge" id="syn-forum-badge" hidden></span>
+          <svg class="syn-big-go" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg>
+        </button>
+        <button class="syn-big" type="button" onclick="elevTab('docs')">
+          <span class="syn-big-ic docs"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></span>
+          <span class="syn-big-tx"><span class="syn-big-t">Documents</span><span class="syn-big-s" id="syn-docs-sub">Supports &amp; fiches</span></span>
+          <svg class="syn-big-go" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg>
         </button>
       </div>
 
       <div class="syn-group" style="order:6">
         <div class="acc-head"><h4 class="elev-group-h">La flotte</h4></div>
-        <div class="fleet-alert" id="m-fleet-alert" hidden></div>
         <div class="fleet" id="m-fleet" style="margin-bottom:4px"></div>
       </div>
 
-      <div class="acc-collapse" id="fuel-collapse" style="order:2">
-        <button class="acc-collapse-hd" type="button" onclick="fuelToggle()" aria-expanded="false">
-          <span class="acc-collapse-ic"><svg viewBox="0 0 24 24"><path d="M3 22h12V4a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v18zM6 6h6M6 10h6M17 8l2 2v8a2 2 0 0 1-4 0v-3h2"/></svg></span>
-          <span class="acc-collapse-tx"><span class="acc-collapse-t">Devis de masse</span><span class="acc-collapse-sub">Carburant, masse &amp; centrage · imprimable</span></span>
-          <svg class="acc-collapse-chev" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
-        </button>
-        <div class="acc-collapse-body">
+      <button class="home-wb" style="order:2" type="button" onclick="openWBPage()">
+        <span class="home-wb-ic"><svg viewBox="0 0 24 24"><path d="M3 22h12V4a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v18zM6 6h6M6 10h6M17 8l2 2v8a2 2 0 0 1-4 0v-3h2"/></svg></span>
+        <span class="home-wb-tx"><span class="home-wb-t">Devis carburant / masse</span></span>
+        <svg class="home-wb-go" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg>
+      </button>
+
+      <div class="wb-page" id="wb-page" hidden>
+        <div class="wb-page-head">
+          <button class="wb-page-back" type="button" onclick="closeWBPage()" aria-label="Retour"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button>
+          <div class="wb-page-title">Devis carburant &amp; masse</div>
+        </div>
+        <div class="wb-page-body">
           <div class="fuel-card">
             <div class="fuel-ac-row">
           <span class="fuel-ac-ic"><svg viewBox="0 0 24 24"><path d="M22 12l-9.5 2.5L9 21H7l1.5-6.5L4 16l-1 2.5H1.5L3 12 1.5 5.5H3L4 8l4.5 1.5L7 3h2l3.5 6.5L22 12z"/></svg></span>
@@ -5923,6 +6157,10 @@ async function docUploadFile(input){
           </div>
           </div>
           <p class="acc-note">Aide à la préparation — valeurs d'exemple à vérifier avec les fiches de pesée du club. Le manuel de vol de l'appareil et la réglementation en vigueur prévalent.</p>
+        </div>
+        <div class="wb-page-foot">
+          <button type="button" class="fuel-act" onclick="fuelPrintDoc('print')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9V2h12v7M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2M6 14h12v8H6z"/></svg>Imprimer</button>
+          <button type="button" class="fuel-act primary" onclick="fuelPrintDoc('pdf')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>Enregistrer PDF</button>
         </div>
       </div>
     </div>
@@ -6009,6 +6247,41 @@ async function docUploadFile(input){
 
 <!-- ── Formulaire Voyage / Activité (instructeurs/admins) ── -->
 <div class="trip-form-ov" id="trip-form-ov"></div>
+
+<!-- ── Mon compte ── -->
+<div class="mc-page" id="mc-page" hidden>
+  <div class="wb-page-head">
+    <button class="wb-page-back" type="button" onclick="closeMonCompte()" aria-label="Retour"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button>
+    <div class="wb-page-title">Mon compte</div>
+  </div>
+  <div class="wb-page-body">
+    <div class="mc-hero">
+      <span class="mc-hero-av" id="mc-av">?</span>
+      <div class="mc-hero-tx"><span class="mc-hero-nm" id="mc-fullname">Membre</span><span class="mc-hero-role" id="mc-role">Pilote</span></div>
+    </div>
+
+    <div class="mc-field">
+      <label for="mc-prenom">Prénom</label>
+      <input id="mc-prenom" type="text" autocomplete="given-name" placeholder="Votre prénom">
+    </div>
+    <div class="mc-field">
+      <label for="mc-nom">Nom</label>
+      <input id="mc-nom" type="text" autocomplete="family-name" placeholder="Votre nom">
+    </div>
+    <div class="mc-field">
+      <label for="mc-phone">Téléphone <span class="mc-opt">facultatif</span></label>
+      <input id="mc-phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="06 12 34 56 78">
+      <p class="mc-hint">Utile pour que le club puisse vous joindre. Visible uniquement par le bureau.</p>
+    </div>
+
+    <div class="mc-meta">
+      <div class="mc-meta-row"><span>Identifiant (PIN)</span><b id="mc-pin">••••••</b></div>
+      <div class="mc-meta-row"><span>Membre depuis</span><b id="mc-since">—</b></div>
+    </div>
+
+    <button class="mc-save" type="button" id="mc-save-btn" onclick="saveMonCompte()">Enregistrer mes informations</button>
+  </div>
+</div>
 
 <!-- ── Document Viewer ── -->
 <div class="doc-viewer" id="doc-viewer">
