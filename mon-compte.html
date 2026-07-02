@@ -1663,7 +1663,7 @@ html.pwa .doc-viewer-safe{min-height:52px}
 .lic-add{width:100%;padding:11px;border:1px dashed var(--border);border-radius:10px;background:none;color:var(--muted);font-family:'Jost',sans-serif;font-weight:700;letter-spacing:.1em;text-transform:uppercase;font-size:12px;cursor:pointer;margin-top:2px}
 .fuel-card{background:var(--sf);border:1px solid var(--border);border-radius:14px;padding:16px}
 /* Page Devis dédiée (overlay plein écran) */
-.wb-page{position:fixed;inset:0;z-index:9500;background:var(--bg);display:flex;flex-direction:column;transform:translateY(14px);opacity:0;transition:transform .28s cubic-bezier(.16,1,.3,1),opacity .24s ease}
+.wb-page{position:fixed;inset:0;z-index:9600;background:var(--bg);display:flex;flex-direction:column;transform:translateY(14px);opacity:0;transition:transform .28s cubic-bezier(.16,1,.3,1),opacity .24s ease}
 .wb-page[hidden]{display:none}
 .wb-page.open{transform:none;opacity:1}
 .wb-page-head{flex-shrink:0;display:flex;align-items:center;gap:12px;padding:14px 16px;padding-top:max(env(safe-area-inset-top,0px),14px);border-bottom:1px solid var(--border);background:var(--backdrop);backdrop-filter:blur(14px) saturate(150%);-webkit-backdrop-filter:blur(14px) saturate(150%)}
@@ -1691,6 +1691,58 @@ html.pwa .wb-page-head{padding-top:max(env(safe-area-inset-top,0px),50px)}
 .fp-card-s{font-size:11.5px;color:var(--muted);line-height:1.3}
 .fp-card-badge{flex-shrink:0;font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:12px;padding:3px 9px;border-radius:100px}
 .fp-card-go{width:18px;height:18px;flex-shrink:0;stroke:var(--muted);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+/* Choix avion */
+.fp-picker{display:flex;flex-direction:column;gap:11px}
+.fp-ac{width:100%;display:flex;align-items:center;gap:14px;background:var(--sf);border:1px solid var(--border);border-radius:16px;padding:18px 16px;cursor:pointer;text-align:left;transition:border-color .2s,transform .12s}
+.fp-ac:active{transform:scale(.99)}
+.fp-ac:hover{border-color:var(--accent-bord)}
+.fp-ac-ic{width:48px;height:48px;border-radius:14px;background:var(--accent-soft);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:24px}
+.fp-ac-ic.sm{width:40px;height:40px;font-size:20px;border-radius:12px}
+.fp-ac-tx{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px}
+.fp-ac-reg{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:21px;text-transform:uppercase;letter-spacing:-.01em;color:var(--text);line-height:1}
+.fp-ac-type{font-size:12px;color:var(--muted)}
+/* En-tête avion (écran étapes) */
+.fp-ac-head{display:flex;align-items:center;gap:12px;background:var(--sf);border:1px solid var(--border);border-radius:14px;padding:12px 14px;margin-bottom:14px}
+.fp-ac-head-tx{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+.fp-ac-change{flex-shrink:0;background:none;border:none;color:var(--accent);font-family:'Barlow Condensed',sans-serif;font-weight:700;font-style:italic;font-size:12px;letter-spacing:.06em;text-transform:uppercase;cursor:pointer}
+/* Progression */
+.fp-prog{display:flex;align-items:center;gap:11px;margin-bottom:16px}
+.fp-prog-bar{flex:1;height:6px;border-radius:100px;background:var(--sf3);overflow:hidden}
+.fp-prog-bar span{display:block;height:100%;border-radius:100px;background:var(--accent);transition:width .4s cubic-bezier(.2,.7,.2,1)}
+.fp-prog-tx{flex-shrink:0;font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:600;letter-spacing:.06em;color:var(--muted)}
+/* Étapes (accordéon) */
+.fp-steps{display:flex;flex-direction:column;gap:10px;margin-bottom:18px}
+.fp-step{border:1px solid var(--border);border-radius:14px;background:var(--sf);overflow:hidden;transition:border-color .2s}
+.fp-step.done{border-color:var(--accent-bord)}
+.fp-step-hd{width:100%;display:flex;align-items:center;gap:12px;padding:14px 15px;background:none;border:none;cursor:pointer;text-align:left}
+.fp-step-check{width:24px;height:24px;border-radius:50%;flex-shrink:0;border:2px solid var(--bds);display:flex;align-items:center;justify-content:center;color:#fff;font-size:13px;font-weight:700;transition:background .2s,border-color .2s}
+.fp-step-check.on{background:var(--accent);border-color:var(--accent)}
+.fp-step-ic{font-size:18px;flex-shrink:0}
+.fp-step-t{flex:1;min-width:0;font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:17px;text-transform:uppercase;letter-spacing:-.01em;color:var(--text)}
+.fp-step-chev{width:19px;height:19px;flex-shrink:0;stroke:var(--muted);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;transition:transform .3s cubic-bezier(.2,.7,.2,1)}
+.fp-step.open .fp-step-chev{transform:rotate(180deg)}
+.fp-step-body{display:none;padding:0 15px 15px;flex-direction:column;gap:12px}
+.fp-step.open .fp-step-body{display:flex;animation:elevFadeIn .22s ease}
+.fp-step-info{font-size:13px;color:var(--muted);line-height:1.5;text-wrap:pretty}
+.fp-wx{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.fp-wx-cat{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:22px;color:var(--text)}
+.fp-wx-meta{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted)}
+.fp-devis-sum{display:flex;align-items:center;justify-content:space-between;padding:9px 0;border-bottom:1px solid var(--border);font-size:13px;color:var(--muted)}
+.fp-devis-sum b{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:16px;color:var(--text)}
+.fp-devis-sum b.ok{color:var(--ok)}.fp-devis-sum b.bad{color:var(--err)}
+.fp-link{align-self:flex-start;background:none;border:none;color:var(--accent);font-family:'Barlow Condensed',sans-serif;font-weight:700;font-style:italic;font-size:14px;letter-spacing:.03em;cursor:pointer;padding:0}
+.fp-link.primary{align-self:stretch;text-align:center;background:var(--accent-soft);border:1px solid var(--accent-bord);border-radius:10px;padding:11px}
+.fp-links{display:flex;gap:9px;flex-wrap:wrap}
+.fp-ext{display:inline-flex;align-items:center;gap:5px;background:var(--sf2);border:1px solid var(--border);border-radius:9px;padding:9px 13px;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-style:italic;font-size:13px;letter-spacing:.03em;text-transform:uppercase;color:var(--text);text-decoration:none}
+.fp-ext:hover{border-color:var(--accent-bord);color:var(--accent)}
+.fp-note{width:100%;background:var(--sf2);border:1px solid var(--border);border-radius:10px;padding:10px 12px;font-family:'Jost',sans-serif;font-size:14px;color:var(--text);outline:none;resize:vertical;min-height:56px;transition:border-color .2s}
+.fp-note:focus{border-color:var(--accent)}
+.fp-done-btn{width:100%;padding:11px;border-radius:10px;border:1px solid var(--bds);background:var(--sf2);color:var(--text-2);font-family:'Barlow Condensed',sans-serif;font-weight:700;font-style:italic;font-size:13.5px;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;transition:background .2s,color .2s,border-color .2s}
+.fp-done-btn.on{background:var(--accent);border-color:var(--accent);color:#fff}
+.fp-generate{width:100%;padding:15px;border-radius:13px;border:none;background:var(--accent);color:#fff;font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:16px;letter-spacing:.03em;text-transform:uppercase;cursor:pointer}
+.fp-generate.disabled{background:var(--sf3);color:var(--muted);cursor:not-allowed;font-size:13px;text-transform:none;font-style:normal;font-family:'Jost',sans-serif;font-weight:500}
+.fp-reset{flex-shrink:0;background:none;border:1px solid var(--border);border-radius:9px;padding:7px 12px;color:var(--text-2);font-family:'Barlow Condensed',sans-serif;font-weight:700;font-style:italic;font-size:12px;letter-spacing:.06em;text-transform:uppercase;cursor:pointer}
+.fp-reset[hidden]{display:none}
 /* Carte compte (Options) */
 .account-card{width:100%;display:flex;align-items:center;gap:13px;background:var(--sf);border:1px solid var(--border);border-radius:16px;padding:15px 16px;margin-bottom:16px;cursor:pointer;text-align:left;transition:border-color .2s,transform .12s}
 .account-card:active{transform:scale(.99)}
@@ -2423,7 +2475,7 @@ html.pwa .wb-page-head{padding-top:max(env(safe-area-inset-top,0px),50px)}
   <nav class="bottom-nav">
     <button class="bn on" id="tab-home"       onclick="switchTab('home')"       type="button"><span class="bn-iconwrap"><svg viewBox="0 0 24 24"><path d="M3 11l9-8 9 8M5 10v10a1 1 0 0 0 1 1h4v-7h4v7h4a1 1 0 0 0 1-1V10"/></svg></span><span>Accueil</span></button>
     <button class="bn"    id="tab-meteo"      onclick="switchTab('meteo')"      type="button"><span class="bn-iconwrap"><svg viewBox="0 0 24 24"><path d="M7 18a5 5 0 1 1 .6-9.96A6 6 0 0 1 19 9.5a4.5 4.5 0 0 1-1.5 8.5H7z"/></svg></span><span>Météo</span></button>
-    <button class="bn bn-center" id="tab-ressources" onclick="switchTab('ressources')" type="button"><span class="bn-center-fab"><svg viewBox="0 0 24 24"><path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L11 19v-5.5z"/></svg></span><span>Espace</span></button>PLACEHOLDER_OLD_FAB_REMOVE/><rect x="14" y="3" width="7" height="7" rx="1.6"/><rect x="3" y="14" width="7" height="7" rx="1.6"/><rect x="14" y="14" width="7" height="7" rx="1.6"/></svg></span><span>Espace</span></button>
+    <button class="bn bn-center" id="tab-ressources" onclick="switchTab('ressources')" type="button"><span class="bn-center-fab"><svg viewBox="0 0 24 24"><path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L11 19v-5.5z"/></svg></span><span>Espace</span></button>
     <button class="bn"    id="tab-news"       onclick="switchTab('news')"       type="button"><span class="bn-iconwrap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5a1 1 0 0 1 1-1h11a1 1 0 0 1 1 1v13a2 2 0 0 0 2 2H6a2 2 0 0 1-2-2z"/><path d="M17 8h2a1 1 0 0 1 1 1v9a2 2 0 0 1-2 2"/><path d="M8 7h5M8 11h5M8 15h3"/></svg></span><span class="bn-dot" id="news-nav-dot" hidden></span><span>News</span></button>
     <button class="bn"    id="tab-webcam"     onclick="switchTab('webcam')"     type="button"><span class="bn-iconwrap"><svg viewBox="0 0 24 24"><path d="M23 7l-7 5 7 5z"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg></span><span>Webcam</span></button>
   </nav>
@@ -4690,6 +4742,8 @@ function closeEspaceEleves(){
 
 function elevTab(tab){
   hapticTick();
+  /* « Préparer » ouvre la page dossier plein écran (flux à part entière) */
+  if(tab==='preparer'){document.querySelectorAll('#elev-tabs .elev-tab').forEach(function(b){b.classList.toggle('on',b.getAttribute('data-tab')===tab);});openFlightPrep();return;}
   document.querySelectorAll('.elev-pane').forEach(function(p){p.classList.remove('on');});
   var pane=document.getElementById('elev-'+tab);
   if(pane)pane.classList.add('on');
@@ -5332,10 +5386,28 @@ window.closeWBPage=function(){
 };
 
 /* ── Préparer mon vol (dossier) ── */
+/* ══════════ PRÉPARER MON VOL — dossier de vol par étapes ══════════ */
+var FP_STEPS=[
+  {k:'meteo', t:'Météo du terrain', ic:'☁️'},
+  {k:'devis', t:'Devis carburant & masse', ic:'⚖️'},
+  {k:'notam', t:'NOTAM & AZBA', ic:'📋'},
+  {k:'checklist', t:'Checklists', ic:'✓'},
+  {k:'docs', t:'Documents', ic:'📄'}
+];
+var FP={ac:null, steps:{}, ts:0, open:null};
+function fpLoad(){
+  try{var s=JSON.parse(localStorage.getItem('apam_flightprep')||'null');if(s&&typeof s==='object'){FP=s;if(!FP.steps)FP.steps={};}}catch(e){}
+}
+function fpSave(){
+  FP.ts=Date.now();
+  try{localStorage.setItem('apam_flightprep',JSON.stringify(FP));}catch(e){}
+}
 window.openFlightPrep=function(){
   var p=document.getElementById('fp-page');if(!p)return;
   if(p.parentNode!==document.body)document.body.appendChild(p);
-  try{fpRenderWx();}catch(e){}
+  fpLoad();
+  FP.open=null;
+  fpRender();
   p.hidden=false;
   requestAnimationFrame(function(){p.classList.add('open');});
   document.body.style.overflow='hidden';
@@ -5347,20 +5419,156 @@ window.closeFlightPrep=function(){
   setTimeout(function(){p.hidden=true;},280);
   document.body.style.overflow='';
 };
-window.fpOpenDocs=function(){if(typeof openEspaceEleves==='function')openEspaceEleves(false);setTimeout(function(){if(typeof elevTab==='function')elevTab('docs');},130);};
-function fpRenderWx(){
+window.fpBack=function(){
+  /* Nav interne : si une étape est ouverte, on revient à la liste ; sinon on ferme */
+  if(FP.open){FP.open=null;fpRender();return;}
+  closeFlightPrep();
+};
+window.fpReset=function(){
+  if(!confirm('Démarrer un nouveau dossier de vol ? La préparation en cours sera effacée.'))return;
+  FP={ac:null,steps:{},ts:0,open:null};
+  fpSave();fpRender();
+  if(typeof hapticTick==='function')hapticTick();
+};
+window.fpPick=function(idx){
+  FP.ac=idx;FP.open=null;
+  if(!FP.steps)FP.steps={};
+  fpSave();
+  /* pré-remplit le devis avec l'avion choisi */
+  try{var sel=document.getElementById('fuel-ac');if(sel){sel.value=String(idx);}}catch(e){}
+  fpRender();
+  if(typeof hapticTick==='function')hapticTick();
+};
+window.fpOpenStep=function(k){FP.open=(FP.open===k?null:k);fpRender();if(typeof hapticTick==='function')hapticTick();};
+window.fpSetDone=function(k,val){if(!FP.steps[k])FP.steps[k]={};FP.steps[k].done=!!val;fpSave();fpRender();if(typeof hapticTick==='function')hapticTick();};
+window.fpSetNote=function(k,val){if(!FP.steps[k])FP.steps[k]={};FP.steps[k].note=val;fpSave();};
+window.fpOpenDevis=function(){
+  try{var sel=document.getElementById('fuel-ac');if(sel&&FP.ac!=null){sel.value=String(FP.ac);}}catch(e){}
+  openWBPage();
+};
+window.fpOpenDocs=function(){closeFlightPrep();if(typeof openEspaceEleves==='function')openEspaceEleves(false);setTimeout(function(){if(typeof elevTab==='function')elevTab('docs');},160);};
+
+function fpAcName(){var a=FUEL_AC[FP.ac];return a?a.nom:'';}
+function fpMeteoSummary(){
   var raw=(typeof wxRaw!=='undefined'&&wxRaw)||localStorage.getItem('apam_wx_raw');
-  var ic=document.getElementById('fp-wx-ic'),sub=document.getElementById('fp-wx-sub'),badge=document.getElementById('fp-wx-badge');
-  if(!raw||typeof wxCat!=='function'){if(badge)badge.hidden=true;return;}
+  if(!raw||typeof wxCat!=='function')return null;
   var cat=wxCat(raw);
-  var go=(cat==='VFR')?'go':(cat==='MVFR')?'cau':'no';
-  var goTxt=(cat==='VFR')?'Favorable':(cat==='MVFR')?'Marginal':'Défavorable';
-  var col=(cat==='VFR')?'var(--ok)':(cat==='MVFR')?'var(--cyan)':'var(--err)';
   var wm=raw.match(/(\d{3}|VRB)(\d{2,3})(G(\d{2,3}))?KT/);
-  if(ic)ic.textContent=(cat==='VFR')?'🟢':(cat==='MVFR')?'🔵':'🔴';
-  if(sub)sub.textContent=(WX_STA||'LFOE')+' · '+cat+(wm?' · '+parseInt(wm[2])+' kt':'');
-  if(badge){badge.hidden=false;badge.textContent=goTxt;badge.style.color=col;badge.style.background='color-mix(in srgb,'+col+' 14%,transparent)';}
+  return {cat:cat, go:(cat==='VFR')?'Favorable':(cat==='MVFR')?'Marginal':'Défavorable',
+    cls:(cat==='VFR')?'go':(cat==='MVFR')?'cau':'no',
+    wind:wm?(wm[1]+'° · '+parseInt(wm[2])+' kt'):'vent n/c', sta:(typeof WX_STA!=='undefined'?WX_STA:'LFOE')};
 }
+function fpStepBody(k){
+  if(k==='meteo'){
+    var m=fpMeteoSummary();
+    if(!m)return '<p class="fp-step-info">Météo indisponible pour le moment. <button type="button" class="fp-link" onclick="closeFlightPrep();switchTab(\'meteo\')">Ouvrir la météo</button></p>';
+    return '<div class="fp-wx"><span class="syn-go '+m.cls+'">'+m.go+'</span><span class="fp-wx-cat">'+m.cat+'</span><span class="fp-wx-meta">'+m.sta+' · '+esc(m.wind)+'</span></div>'+
+      '<button type="button" class="fp-link" onclick="closeFlightPrep();switchTab(\'meteo\')">Voir la météo détaillée →</button>';
+  }
+  if(k==='devis'){
+    var s='';
+    if(_fuelLast&&FP.ac!=null){s='<div class="fp-devis-sum"><span>Total carburant</span><b>'+_fuelLast.total.toFixed(1)+' L</b></div>';}
+    if(_wbLast&&_wbLast.inEnv!=null){s+='<div class="fp-devis-sum"><span>Centrage</span><b class="'+(_wbLast.inEnv?'ok':'bad')+'">'+(_wbLast.inEnv?'Dans l\'enveloppe ✓':'Hors enveloppe ✗')+'</b></div>';}
+    return (s||'<p class="fp-step-info">Calculez le carburant, la masse et le centrage.</p>')+
+      '<button type="button" class="fp-link primary" onclick="fpOpenDevis()">Ouvrir le devis complet →</button>';
+  }
+  if(k==='notam'){
+    return '<p class="fp-step-info">Vérifiez les NOTAM et l\'activité des zones (AZBA) sur votre route.</p>'+
+      '<div class="fp-links"><a class="fp-ext" href="https://notamweb.aviation-civile.gouv.fr/" target="_blank" rel="noopener">NOTAM SIA ↗</a><a class="fp-ext" href="https://www.sia.aviation-civile.gouv.fr/schedules" target="_blank" rel="noopener">AZBA ↗</a></div>';
+  }
+  if(k==='checklist'){
+    return '<p class="fp-step-info">Parcourez la checklist de l\'appareil avant le départ.</p>'+
+      '<button type="button" class="fp-link" onclick="closeFlightPrep();openEspaceEleves&&openEspaceEleves(false);setTimeout(function(){elevTab&&elevTab(\'ressources\')},160)">Ouvrir les checklists →</button>';
+  }
+  if(k==='docs'){
+    return '<p class="fp-step-info">Fiches, manuels et supports partagés par le club.</p>'+
+      '<button type="button" class="fp-link" onclick="fpOpenDocs()">Ouvrir les documents →</button>';
+  }
+  return '';
+}
+function fpRender(){
+  var body=document.getElementById('fp-body');if(!body)return;
+  var title=document.getElementById('fp-title'),reset=document.getElementById('fp-reset');
+  /* Écran 1 : choix de l'avion */
+  if(FP.ac==null){
+    if(title)title.textContent='Préparer mon vol';
+    if(reset)reset.hidden=true;
+    body.innerHTML='<p class="fp-intro">Choisissez votre appareil pour démarrer votre dossier de vol.</p>'+
+      '<div class="fp-picker">'+FUEL_AC.map(function(a,i){
+        var parts=a.nom.split(' · ');
+        return '<button type="button" class="fp-ac" onclick="fpPick('+i+')"><span class="fp-ac-ic">✈️</span><span class="fp-ac-tx"><span class="fp-ac-reg">'+esc(parts[0]||a.nom)+'</span><span class="fp-ac-type">'+esc(parts[1]||'')+'</span></span><svg class="fp-card-go" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></button>';
+      }).join('')+'</div>';
+    return;
+  }
+  /* Écran 2 : étapes */
+  if(title)title.textContent='Dossier de vol';
+  if(reset)reset.hidden=false;
+  var done=FP_STEPS.filter(function(s){return FP.steps[s.k]&&FP.steps[s.k].done;}).length;
+  var pct=Math.round(done/FP_STEPS.length*100);
+  var allDone=done===FP_STEPS.length;
+  var parts=fpAcName().split(' · ');
+  var html='<div class="fp-ac-head"><span class="fp-ac-ic sm">✈️</span><div class="fp-ac-head-tx"><span class="fp-ac-reg">'+esc(parts[0]||'')+'</span><span class="fp-ac-type">'+esc(parts[1]||'')+'</span></div><button type="button" class="fp-ac-change" onclick="fpPick(null);FP.ac=null;fpSave();fpRender()">Changer</button></div>';
+  html+='<div class="fp-prog"><div class="fp-prog-bar"><span style="width:'+pct+'%"></span></div><span class="fp-prog-tx">'+done+'/'+FP_STEPS.length+' étapes</span></div>';
+  html+='<div class="fp-steps">'+FP_STEPS.map(function(s){
+    var st=FP.steps[s.k]||{};var isOpen=FP.open===s.k;
+    var note=st.note||'';
+    return '<div class="fp-step'+(st.done?' done':'')+(isOpen?' open':'')+'">'+
+      '<button type="button" class="fp-step-hd" onclick="fpOpenStep(\''+s.k+'\')">'+
+        '<span class="fp-step-check'+(st.done?' on':'')+'">'+(st.done?'✓':'')+'</span>'+
+        '<span class="fp-step-ic">'+s.ic+'</span>'+
+        '<span class="fp-step-t">'+esc(s.t)+'</span>'+
+        '<svg class="fp-step-chev" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>'+
+      '</button>'+
+      '<div class="fp-step-body">'+fpStepBody(s.k)+
+        '<textarea class="fp-note" placeholder="Ajouter une note…" oninput="fpSetNote(\''+s.k+'\',this.value)">'+esc(note)+'</textarea>'+
+        '<button type="button" class="fp-done-btn'+(st.done?' on':'')+'" onclick="fpSetDone(\''+s.k+'\','+(st.done?'false':'true')+')">'+(st.done?'✓ Fait':'Marquer comme fait')+'</button>'+
+      '</div>'+
+    '</div>';
+  }).join('')+'</div>';
+  html+='<button type="button" class="fp-generate'+(allDone?'':' disabled')+'" '+(allDone?'onclick="fpGenerateDossier()"':'disabled')+'>'+(allDone?'📄 Enregistrer / imprimer le dossier':'Cochez toutes les étapes pour générer le dossier')+'</button>';
+  body.innerHTML=html;
+}
+window.fpGenerateDossier=function(){
+  var parts=fpAcName().split(' · ');
+  var d=new Date();
+  var dateStr=d.toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+  var timeStr=d.toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'});
+  var pilot=((memberPrenom||'')+' '+(memberNom||'')).trim()||'—';
+  var m=fpMeteoSummary();
+  var esc2=function(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});};
+  var rows=FP_STEPS.map(function(s){
+    var st=FP.steps[s.k]||{};
+    var val='';
+    if(s.k==='meteo'&&m)val=m.sta+' · '+m.cat+' ('+m.go+') · '+m.wind;
+    if(s.k==='devis'){var bits=[];if(_fuelLast)bits.push('Carburant '+_fuelLast.total.toFixed(1)+' L');if(_wbLast&&_wbLast.inEnv!=null)bits.push(_wbLast.inEnv?'Centrage OK':'Centrage HORS enveloppe');val=bits.join(' · ');}
+    return '<tr><td class="c">'+(st.done?'☑':'☐')+'</td><td><b>'+esc2(s.t)+'</b>'+(val?'<br><span class="sub">'+esc2(val)+'</span>':'')+(st.note?'<br><span class="note">'+esc2(st.note)+'</span>':'')+'</td></tr>';
+  }).join('');
+  var doc='<!DOCTYPE html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Dossier de vol — '+esc2(parts[0])+'</title>'+
+  '<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,700;1,900&family=Jost:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">'+
+  '<style>*{margin:0;padding:0;box-sizing:border-box}body{font-family:Jost,sans-serif;color:#15181f;background:#fff;padding:32px 30px;max-width:720px;margin:0 auto;-webkit-print-color-adjust:exact;print-color-adjust:exact}'+
+  '.hd{display:flex;align-items:flex-start;justify-content:space-between;border-bottom:3px solid #15181f;padding-bottom:16px;margin-bottom:4px}'+
+  '.logo{font-family:"Barlow Condensed";font-weight:900;font-style:italic;font-size:26px;color:#1e3a8a;border:2.5px solid #1e3a8a;border-radius:6px;padding:2px 11px}'+
+  '.brand small{display:block;font-family:"JetBrains Mono";font-size:9.5px;letter-spacing:.18em;text-transform:uppercase;color:#6a7385;margin-bottom:3px}'+
+  '.brand b{font-family:"Barlow Condensed";font-weight:900;font-style:italic;font-size:18px;text-transform:uppercase}'+
+  '.meta{text-align:right;font-family:"JetBrains Mono";font-size:10.5px;color:#5a6172;line-height:1.6}'+
+  'h1{font-family:"Barlow Condensed";font-weight:900;font-style:italic;font-size:40px;text-transform:uppercase;margin:22px 0 2px}'+
+  '.ac{font-family:"JetBrains Mono";font-size:13px;color:#1e3a8a;font-weight:500;margin-bottom:22px}'+
+  'table{width:100%;border-collapse:collapse;margin-bottom:22px}'+
+  'td{padding:13px 0;border-bottom:1px solid #e7e9ee;font-size:14px;vertical-align:top}'+
+  'td.c{width:34px;font-size:18px;color:#1e3a8a}'+
+  '.sub{font-family:"JetBrains Mono";font-size:11px;color:#5a6172}.note{font-size:12px;color:#333;font-style:italic}'+
+  '.foot{border-top:1px solid #e7e9ee;padding-top:14px;font-size:10.5px;color:#8a90a0;line-height:1.6}'+
+  '@media print{body{padding:0}@page{margin:16mm}}</style></head><body>'+
+  '<div class="hd"><div class="brand" style="display:flex;align-items:center;gap:11px"><span class="logo">APAM</span><div><small>Aéroclub · Dossier de vol</small><b>Préparation vol</b></div></div>'+
+  '<div class="meta">'+esc2(dateStr)+'<br>'+timeStr+'<br>'+esc2(pilot)+'</div></div>'+
+  '<h1>Dossier de vol</h1><div class="ac">'+esc2(fpAcName())+'</div>'+
+  '<table><tbody>'+rows+'</tbody></table>'+
+  '<div class="foot"><strong>Document d\'aide à la préparation.</strong> Le briefing officiel, les NOTAM à jour et le manuel de vol de l\'appareil prévalent. Établi via l\'app APAM le '+esc2(dateStr)+' à '+timeStr+'.</div>'+
+  '<script>window.onload=function(){setTimeout(function(){window.print();},350);};window.onafterprint=function(){window.close();};<\/script></body></html>';
+  var w=window.open('','_blank');
+  if(!w){alert('Autorisez les fenêtres pop-up pour imprimer ou enregistrer le dossier.');return;}
+  w.document.open();w.document.write(doc);w.document.close();
+};
 
 /* ── Mon compte ── */
 window.openMonCompte=function(){
@@ -6167,6 +6375,7 @@ async function docUploadFile(input){
   <div class="elev-tabs-wrap">
     <div class="elev-tabs" id="elev-tabs">
       <button class="elev-tab on" data-tab="accueil" onclick="elevTab('accueil')" type="button">Synthèse</button>
+      <button class="elev-tab" data-tab="preparer" onclick="elevTab('preparer')" type="button">Préparer</button>
       <button class="elev-tab" data-tab="carburant" onclick="elevTab('carburant')" type="button">Carburant</button>
       <button class="elev-tab" data-tab="docs" onclick="elevTab('docs')" type="button">Documents</button>
       <button class="elev-tab" data-tab="forum" onclick="elevTab('forum')" type="button">Forum</button>
@@ -6338,34 +6547,11 @@ async function docUploadFile(input){
 <!-- ── Préparer mon vol (dossier) ── -->
 <div class="fp-page" id="fp-page" hidden>
   <div class="wb-page-head">
-    <button class="wb-page-back" type="button" onclick="closeFlightPrep()" aria-label="Retour"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button>
-    <div class="wb-page-title">Préparer mon vol</div>
+    <button class="wb-page-back" type="button" onclick="fpBack()" aria-label="Retour"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button>
+    <div class="wb-page-title" id="fp-title">Préparer mon vol</div>
+    <button class="fp-reset" id="fp-reset" type="button" onclick="fpReset()" hidden>Nouveau</button>
   </div>
-  <div class="wb-page-body">
-    <p class="fp-intro">Votre dossier de vol — tout ce qu'il faut avant de partir.</p>
-    <button class="fp-card" type="button" onclick="closeFlightPrep();switchTab('meteo')">
-      <span class="fp-card-ic wx" id="fp-wx-ic">☁️</span>
-      <span class="fp-card-tx"><span class="fp-card-t">Météo du terrain</span><span class="fp-card-s" id="fp-wx-sub">Conditions & go/no-go</span></span>
-      <span class="fp-card-badge" id="fp-wx-badge" hidden></span>
-      <svg class="fp-card-go" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg>
-    </button>
-    <button class="fp-card" type="button" onclick="closeFlightPrep();openWBPage()">
-      <span class="fp-card-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 22h12V4a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v18zM6 6h6M6 10h6M17 8l2 2v8a2 2 0 0 1-4 0v-3h2"/></svg></span>
-      <span class="fp-card-tx"><span class="fp-card-t">Devis carburant &amp; masse</span><span class="fp-card-s">Carburant, masse &amp; centrage · imprimable</span></span>
-      <svg class="fp-card-go" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg>
-    </button>
-    <button class="fp-card" type="button" onclick="closeFlightPrep();openChecklist('gen')">
-      <span class="fp-card-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3 8-8"/><path d="M20 12v6a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h9"/></svg></span>
-      <span class="fp-card-tx"><span class="fp-card-t">Checklists</span><span class="fp-card-s">Prévol, croisière, arrêt</span></span>
-      <svg class="fp-card-go" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg>
-    </button>
-    <button class="fp-card" type="button" onclick="closeFlightPrep();fpOpenDocs()">
-      <span class="fp-card-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></span>
-      <span class="fp-card-tx"><span class="fp-card-t">Documents</span><span class="fp-card-s">Fiches, manuels & supports</span></span>
-      <svg class="fp-card-go" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg>
-    </button>
-    <p class="acc-note" style="margin-top:6px">Aide à la préparation — le briefing officiel et le manuel de vol prévalent.</p>
-  </div>
+  <div class="wb-page-body" id="fp-body"></div>
 </div>
 
 <!-- ── Mon compte ── -->
