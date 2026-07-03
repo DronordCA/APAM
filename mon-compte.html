@@ -83,6 +83,7 @@ OneSignalDeferred.push(async function(OneSignal){
   --hatch:rgba(255,255,255,.04);--hatch-2:rgba(255,255,255,.07);
   --card-bg:var(--sf);--card-bord:var(--border);
   --backdrop:rgba(11,14,21,.82);
+  --nav-glass:rgba(20,26,38,.72);--nav-glass-bord:rgba(255,255,255,.10);--nav-glass-hi:rgba(255,255,255,.08);
   --shadow-1:0 1px 2px rgba(0,0,0,.4),0 8px 24px rgba(0,0,0,.25);
   --shadow-2:0 2px 4px rgba(0,0,0,.5),0 24px 48px -16px rgba(0,0,0,.45);
   color-scheme:dark;
@@ -97,12 +98,13 @@ OneSignalDeferred.push(async function(OneSignal){
   --hatch:rgba(37,99,235,.04);--hatch-2:rgba(13,23,42,.055);
   --card-bg:var(--sf);--card-bord:var(--border);
   --backdrop:rgba(238,241,247,.86);
+  --nav-glass:rgba(255,255,255,.72);--nav-glass-bord:rgba(13,23,42,.08);--nav-glass-hi:rgba(255,255,255,.9);
   --shadow-1:0 1px 2px rgba(13,23,42,.04),0 4px 16px rgba(13,23,42,.05);
   --shadow-2:0 2px 4px rgba(13,23,42,.05),0 14px 34px -10px rgba(13,23,42,.11);
   color-scheme:light;
 }
 /* ── Audit mode clair : surcharges des fonds/textes pensés pour le sombre ── */
-[data-theme="light"] .welcome>.app-gear{background:var(--sf2)}
+[data-theme="light"] .welcome .app-tool{background:var(--sf2)}
 [data-theme="light"] .lic-card-bar,[data-theme="light"] .lic-bar{background:rgba(16,24,40,.08)}
 [data-theme="light"] .lic-bar{box-shadow:none}
 [data-theme="light"] .fuel-gauge{background:rgba(16,24,40,.09)}
@@ -120,6 +122,10 @@ OneSignalDeferred.push(async function(OneSignal){
 [data-theme="light"] .lic-del{color:#c62828}
 [data-theme="light"] .carb-quick-num.neg,[data-theme="light"] .fuel-hero.bad .fuel-hero-amt{color:#c62828}
 [data-theme="light"] .fuel-hero.ok .fuel-hero-amt{color:#0f8a43}
+[data-theme="light"] .pub-editing-cancel{color:var(--muted)}
+[data-theme="light"] .pub-editing-cancel:hover{color:var(--text)}
+[data-theme="light"] .pub-cross{background:var(--sf2)}
+[data-theme="light"] .maint-status-opt{background:var(--sf2)}
 /* Card style variants (tweak) */
 [data-cards="outline"]{--card-bg:transparent;}
 [data-cards="ghost"]{--card-bg:transparent;--card-bord:transparent;}
@@ -298,18 +304,20 @@ html.pwa .mobile-nav{padding-top:max(env(safe-area-inset-top,0px),52px)}
 .tab-pane{display:none;min-height:100dvh;padding-top:env(safe-area-inset-top,0px)}
 html.pwa .tab-pane{padding-top:max(env(safe-area-inset-top,0px),52px)}
 .tab-pane.active{display:block;animation:paneIn .26s cubic-bezier(.2,.7,.2,1)}
-.mobile-wrap{padding:14px 14px calc(86px + env(safe-area-inset-bottom,20px))}
+.mobile-wrap{padding:14px 14px calc(104px + env(safe-area-inset-bottom,20px))}
 /* SECTION HEADERS */
 .mobile-sec-h{display:flex;align-items:baseline;gap:10px;margin:28px 0 16px}
 .mobile-sec-h:first-child{margin-top:0}
 .mobile-sec-h h2{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:26px;text-transform:uppercase;color:var(--text);line-height:1;letter-spacing:-.005em}
 .mobile-sec-h .sec-badge{background:var(--accent);color:#fff;border-radius:100px;font-size:11px;font-weight:700;padding:2px 8px;font-family:'Jost',sans-serif;letter-spacing:0;min-width:20px;text-align:center}
 .mobile-sec-h-sub{margin-left:auto;font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--text-2)}
-/* Roue Options intégrée au panneau d'accueil */
-.welcome>.app-gear{position:absolute;top:14px;right:14px;z-index:5;width:34px;height:34px;border-radius:10px;border:1px solid var(--border);background:rgba(255,255,255,.04);color:var(--text-2);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:color .2s,border-color .2s,background .2s,transform .25s}
-.welcome>.app-gear:hover{color:var(--accent);border-color:var(--accent-bord);background:var(--accent-soft)}
-.welcome>.app-gear:active{transform:rotate(40deg)}
-.welcome>.app-gear svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+/* Outils intégrés au panneau d'accueil (webcam + options) */
+.welcome-tools{position:absolute;top:13px;right:13px;z-index:5;display:flex;gap:7px}
+.app-tool{width:34px;height:34px;border-radius:10px;border:1px solid var(--border);background:rgba(255,255,255,.04);color:var(--text-2);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:color .2s,border-color .2s,background .2s,transform .3s cubic-bezier(.2,.7,.2,1)}
+.app-tool svg{width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+.app-tool:hover{color:var(--accent);border-color:var(--accent-bord);background:var(--accent-soft)}
+.app-gear:active{transform:rotate(40deg)}
+.app-tool:not(.app-gear):active{transform:scale(.92)}
 /* Lien « Tout voir » dans un section header */
 .sec-link{margin-left:auto;background:none;border:none;cursor:pointer;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-style:italic;font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--accent)}
 /* Accès rapide Devis de masse (accueil) — rangée pro, icône teintée, sans liseré */
@@ -356,7 +364,7 @@ html.pwa .tab-pane{padding-top:max(env(safe-area-inset-top,0px),52px)}
 .syn-news-go{width:18px;height:18px;flex-shrink:0;stroke:var(--muted);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 
 /* MOBILE BOTTOM NAV */
-.bottom-nav{position:fixed;bottom:0;left:0;right:0;z-index:100;display:flex;justify-content:space-around;align-items:stretch;padding:6px 12px;padding-bottom:calc(env(safe-area-inset-bottom,12px) + 4px);background:var(--backdrop);border-top:1px solid var(--border);backdrop-filter:blur(14px) saturate(150%);-webkit-backdrop-filter:blur(14px) saturate(150%);transform:translateZ(0);-webkit-transform:translateZ(0);backface-visibility:hidden}
+.bottom-nav{position:fixed;bottom:calc(env(safe-area-inset-bottom,10px) + 10px);left:14px;right:14px;z-index:100;display:flex;justify-content:space-around;align-items:stretch;padding:7px 8px;border-radius:24px;background:var(--nav-glass);border:1px solid var(--nav-glass-bord);box-shadow:0 8px 30px -6px rgba(0,0,0,.28),0 2px 8px rgba(0,0,0,.12),inset 0 1px 0 var(--nav-glass-hi);backdrop-filter:blur(26px) saturate(180%);-webkit-backdrop-filter:blur(26px) saturate(180%);transform:translateZ(0);-webkit-transform:translateZ(0);backface-visibility:hidden}
 .bn{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;padding:7px 0 5px;background:none;border:none;cursor:pointer;color:var(--muted);font-family:'Jost',sans-serif;text-decoration:none;position:relative;border-radius:12px;transition:color .25s,background .25s}
 .bn-iconwrap{position:relative;width:50px;height:30px;display:flex;align-items:center;justify-content:center;border-radius:14px;transition:background .28s cubic-bezier(.2,.7,.2,1)}
 .ob-field-hint{display:block;font-size:10.5px;color:var(--muted);margin-top:5px;line-height:1.4}
@@ -385,14 +393,12 @@ html.pwa .tab-pane{padding-top:max(env(safe-area-inset-top,0px),52px)}
 .gest-t{font-size:14.5px;font-weight:600;color:var(--text);line-height:1.15}
 .gest-s{font-size:11.5px;color:var(--muted);line-height:1.3}
 .gest-go{width:17px;height:17px;flex-shrink:0;stroke:var(--dim);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
-/* Bouton central « Espace » — premium, compact */
-.bn-center{overflow:visible}
-.bn-center-fab{width:44px;height:44px;border-radius:50%;background:linear-gradient(155deg,#2450b8 0%,#183a8c 55%,#122c6e 100%);display:flex;align-items:center;justify-content:center;margin-top:-18px;margin-bottom:2px;position:relative;box-shadow:0 5px 14px -2px rgba(18,44,110,.55),0 1px 3px rgba(18,44,110,.35),0 0 0 4px var(--bg),inset 0 1px 0 rgba(255,255,255,.22);transition:transform .26s cubic-bezier(.2,.7,.2,1),box-shadow .26s}
-.bn-center-fab svg{width:19px;height:19px;fill:none;stroke:#fff;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round;transition:transform .26s cubic-bezier(.2,.7,.2,1)}
-.bn-center:active .bn-center-fab{transform:scale(.93)}
-.bn-center.on .bn-center-fab{transform:translateY(-2px);box-shadow:0 8px 20px -2px rgba(18,44,110,.65),0 0 0 4px var(--bg),inset 0 1px 0 rgba(255,255,255,.25)}
-.bn-center.on .bn-center-fab svg{transform:rotate(-8deg)}
+/* Bouton « Espace » — même taille, teinte accent pour le distinguer */
 .bn-center span:last-child{color:var(--accent);font-weight:700}
+.bn-center .bn-iconwrap{color:var(--accent)}
+.bn-center svg{stroke-width:2}
+.bn-center.on .bn-iconwrap{background:var(--accent-soft)}
+.bn-center.on svg{transform:rotate(-8deg);transition:transform .26s cubic-bezier(.2,.7,.2,1)}
 .bn.on .bn-iconwrap{background:var(--accent-soft)}
 .bn.on{color:var(--accent)}
 .bn svg{width:21px;height:21px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;display:block;transition:transform .25s cubic-bezier(.2,.7,.2,1)}
@@ -747,6 +753,7 @@ html.pwa .upd-banner{top:calc(env(safe-area-inset-top,0px) + 52px)}
 .taf-raw{padding:12px 16px;background:var(--sf2);border-top:1px solid var(--border);font-family:'JetBrains Mono',monospace;font-size:11.5px;color:var(--text-2);line-height:1.7;word-break:break-all;font-weight:500}
 
 /* ═══════════════════════ PUBLICATION & ADMIN (sub-pages) ═══════════════════════ */
+.subpage-back[hidden]{display:none}
 .subpage-back{display:inline-flex;align-items:center;gap:5px;background:none;border:none;color:var(--accent);font-family:'Jost',sans-serif;font-size:14.5px;font-weight:500;cursor:pointer;padding:4px 0 4px 0;margin-bottom:8px;letter-spacing:-.005em}
 .subpage-back svg{width:18px;height:18px;stroke:currentColor;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round;fill:none}
 .subpage-back:active{transform:scale(.96)}
@@ -2250,7 +2257,10 @@ html.pwa .wb-page-head{padding-top:max(env(safe-area-inset-top,0px),50px)}
       <!-- Welcome panel (identité + météo go/no-go) -->
       <div class="welcome">
         <div class="welcome-glow"></div>
-        <button class="app-gear" type="button" onclick="switchTab('outils')" aria-label="Options"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></button>
+        <div class="welcome-tools">
+          <button class="app-tool" type="button" onclick="switchTab('webcam')" aria-label="Webcam terrain"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M23 7l-7 5 7 5z"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg></button>
+          <button class="app-tool app-gear" type="button" onclick="switchTab('outils')" aria-label="Options"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></button>
+        </div>
         <div class="welcome-label">
           <span class="welcome-brand"><img src="assets/images/apam-logo2.png?v=2" alt="" onerror="this.style.display='none'"/>APAM</span>
           <span class="welcome-divider"></span>
@@ -2367,9 +2377,9 @@ html.pwa .wb-page-head{padding-top:max(env(safe-area-inset-top,0px),50px)}
   <!-- PUBLICATION (sub-page accessible depuis Options) -->
   <div id="pane-publication" class="tab-pane">
     <div class="mobile-wrap">
-      <button class="subpage-back" onclick="switchTab('outils')" type="button">
+      <button class="subpage-back" onclick="switchTab(canManage()?'gestion':'outils')" type="button">
         <svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
-        <span>Options</span>
+        <span>Gestion</span>
       </button>
       <div class="mobile-sec-h">
         <h2>Publication</h2>
@@ -2383,9 +2393,9 @@ html.pwa .wb-page-head{padding-top:max(env(safe-area-inset-top,0px),50px)}
   <!-- ADMIN (sub-page accessible depuis Options) -->
   <div id="pane-admin" class="tab-pane">
     <div class="mobile-wrap">
-      <button class="subpage-back" onclick="switchTab('outils')" type="button">
+      <button class="subpage-back" onclick="switchTab(canManage()?'gestion':'outils')" type="button">
         <svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
-        <span>Options</span>
+        <span>Gestion</span>
       </button>
       <div class="mobile-sec-h">
         <h2>Gestion membres</h2>
@@ -2422,9 +2432,9 @@ html.pwa .wb-page-head{padding-top:max(env(safe-area-inset-top,0px),50px)}
   <!-- MAINTENANCE FLOTTE (sub-page accessible depuis Options) -->
   <div id="pane-maintenance" class="tab-pane">
     <div class="mobile-wrap">
-      <button class="subpage-back" onclick="switchTab('outils')" type="button">
+      <button class="subpage-back" onclick="switchTab(canManage()?'gestion':'outils')" type="button">
         <svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
-        <span>Options</span>
+        <span>Gestion</span>
       </button>
       <div class="mobile-sec-h">
         <h2>Maintenance flotte</h2>
@@ -2560,7 +2570,7 @@ html.pwa .wb-page-head{padding-top:max(env(safe-area-inset-top,0px),50px)}
   <nav class="bottom-nav">
     <button class="bn on" id="tab-home"       onclick="switchTab('home')"       type="button"><span class="bn-iconwrap"><svg viewBox="0 0 24 24"><path d="M3 11l9-8 9 8M5 10v10a1 1 0 0 0 1 1h4v-7h4v7h4a1 1 0 0 0 1-1V10"/></svg></span><span>Accueil</span></button>
     <button class="bn"    id="tab-meteo"      onclick="switchTab('meteo')"      type="button"><span class="bn-iconwrap"><svg viewBox="0 0 24 24"><path d="M7 18a5 5 0 1 1 .6-9.96A6 6 0 0 1 19 9.5a4.5 4.5 0 0 1-1.5 8.5H7z"/></svg></span><span>Météo</span></button>
-    <button class="bn bn-center" id="tab-ressources" onclick="switchTab('ressources')" type="button"><span class="bn-center-fab"><svg viewBox="0 0 24 24"><path d="M22 2L11 13"/><path d="M22 2l-7 20-4-9-9-4z"/></svg></span><span>Espace</span></button>
+    <button class="bn bn-center" id="tab-ressources" onclick="switchTab('ressources')" type="button"><span class="bn-iconwrap"><svg viewBox="0 0 24 24"><path d="M22 2L11 13"/><path d="M22 2l-7 20-4-9-9-4z"/></svg></span><span>Espace</span></button>
     <button class="bn"    id="tab-news"       onclick="switchTab('news')"       type="button"><span class="bn-iconwrap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5a1 1 0 0 1 1-1h11a1 1 0 0 1 1 1v13a2 2 0 0 0 2 2H6a2 2 0 0 1-2-2z"/><path d="M17 8h2a1 1 0 0 1 1 1v9a2 2 0 0 1-2 2"/><path d="M8 7h5M8 11h5M8 15h3"/></svg></span><span class="bn-dot" id="news-nav-dot" hidden></span><span>News</span></button>
     <button class="bn"    id="tab-more"     onclick="navMore()"     type="button"><span class="bn-iconwrap" id="more-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg></span><span id="more-lbl">Contacts</span></button>
   </nav>
@@ -4977,7 +4987,7 @@ function synRenderGreet(){
   var d=new Date();
   var dateStr=d.toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long'});
   dateStr=dateStr.charAt(0).toUpperCase()+dateStr.slice(1);
-  el.innerHTML='<div class="syn-greet-row"><div style="flex:1;min-width:0"><div class="syn-greet-hi">'+hi+(prenom?', '+esc(prenom):'')+'</div><div class="syn-greet-date">'+esc(dateStr)+'</div></div><button type="button" class="syn-cam" onclick="closeEspaceEleves();switchTab(\'webcam\')" aria-label="Webcam terrain"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M23 7l-7 5 7 5z"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg></button></div>';
+  el.innerHTML='<div class="syn-greet-row"><div style="flex:1;min-width:0"><div class="syn-greet-hi">'+hi+(prenom?', '+esc(prenom):'')+'</div><div class="syn-greet-date">'+esc(dateStr)+'</div></div></div>';
 }
 
 /* Peut gérer voyages/activités : instructeur, admin, gestionnaire (news_pub) */
@@ -5758,10 +5768,11 @@ window.saveMonCompte=function(){
     sessionStorage.setItem('apam_nom',nom);localStorage.setItem('apam_nom',nom);
     localStorage.setItem('apam_phone',phone);
   }catch(e){}
-  /* Synchro serveur (best-effort) — prêt pour un futur endpoint saveProfile */
+  /* Synchro serveur : téléphone → colonne K (annuaire) */
   try{
-    if(memberPin){var p=new URLSearchParams({action:'saveProfile',pin:memberPin,prenom:prenom,nom:nom,tel:phone});fetch(API+'?'+p.toString()).catch(function(){});}
+    if(memberPin){var qp=new URLSearchParams({action:'setTelephone',pin:memberPin,telephone:phone});fetch(API+'?'+qp.toString()).catch(function(){});}
   }catch(e){}
+  try{_annuaire=null;}catch(e){}
   setTimeout(function(){
     if(btn){btn.disabled=false;btn.textContent='Enregistrer mes informations';}
     toast('Informations enregistrées ✓','ok');
@@ -6762,7 +6773,7 @@ async function docUploadFile(input){
     <div class="mc-field">
       <label for="mc-phone">Téléphone <span class="mc-opt">facultatif</span></label>
       <input id="mc-phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="06 12 34 56 78">
-      <p class="mc-hint">Utile pour que le club puisse vous joindre. Visible uniquement par le bureau.</p>
+      <p class="mc-hint">Partagé dans l'annuaire des membres pour que le club puisse vous joindre (appel / WhatsApp).</p>
     </div>
 
     <div class="mc-meta">
