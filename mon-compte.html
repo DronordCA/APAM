@@ -331,7 +331,54 @@ html.pwa .tab-pane{padding-top:max(env(safe-area-inset-top,0px),52px)}
 .home-wb-s{font-size:11.5px;color:var(--muted);line-height:1.3}
 .home-wb-go{width:18px;height:18px;flex-shrink:0;stroke:var(--muted);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 /* Onglet News : sections repliables */
-.news-sec{border:1px solid var(--border);border-radius:15px;background:var(--sf);margin-bottom:13px;overflow:hidden}
+.feed-compose{width:100%;display:flex;align-items:center;gap:11px;background:var(--sf);border:1px solid var(--border);border-radius:100px;padding:9px 9px 9px 12px;margin-bottom:13px;cursor:pointer;box-shadow:var(--shadow-1);transition:border-color .2s,transform .12s}
+.feed-compose[hidden]{display:none}
+.feed-compose:active{transform:scale(.99)}
+.feed-compose:hover{border-color:var(--bds)}
+.feed-compose-ava .ava{width:34px;height:34px;font-size:13px}
+.feed-compose-ph{flex:1;min-width:0;text-align:left;font-size:14px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.feed-compose-ic{flex-shrink:0;width:34px;height:34px;border-radius:50%;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center}
+.feed-compose-ic svg{width:18px;height:18px}
+/* Sélecteur de publication (action sheet) */
+.feed-chooser{position:fixed;inset:0;z-index:9700;display:flex;align-items:flex-end;justify-content:center}
+.feed-chooser[hidden]{display:none}
+.feed-chooser-back{position:absolute;inset:0;background:rgba(0,0,0,.42);opacity:0;transition:opacity .26s ease}
+.feed-chooser.open .feed-chooser-back{opacity:1}
+.feed-chooser-sheet{position:relative;width:100%;max-width:520px;background:var(--sf);border-radius:26px 26px 0 0;padding:10px 16px calc(env(safe-area-inset-bottom,14px) + 16px);box-shadow:0 -12px 40px rgba(0,0,0,.28);transform:translateY(104%);transition:transform .3s cubic-bezier(.16,1,.3,1);border:1px solid var(--border);border-bottom:none}
+.feed-chooser.open .feed-chooser-sheet{transform:translateY(0)}
+.feed-chooser-grip{width:38px;height:5px;border-radius:100px;background:var(--bds);margin:2px auto 12px}
+.feed-chooser-title{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:19px;text-transform:uppercase;letter-spacing:.01em;color:var(--text);margin:0 4px 12px}
+.feed-chooser-opt{width:100%;display:flex;align-items:center;gap:13px;padding:13px 14px;margin-bottom:9px;background:var(--sf2);border:1px solid var(--border);border-radius:16px;cursor:pointer;text-align:left;transition:border-color .18s,transform .1s}
+.feed-chooser-opt[hidden]{display:none}
+.feed-chooser-opt:active{transform:scale(.99)}
+.feed-chooser-opt:hover{border-color:var(--bds)}
+.fco-ic{flex-shrink:0;width:44px;height:44px;border-radius:13px;display:flex;align-items:center;justify-content:center}
+.fco-ic svg{width:22px;height:22px}
+.fco-ic.actu{background:var(--accent-soft);color:var(--accent)}
+.fco-ic.act{background:color-mix(in srgb,var(--vio) 15%,transparent);color:var(--vio)}
+.fco-ic.voy{background:color-mix(in srgb,var(--cyan) 16%,transparent);color:var(--cyan)}
+.fco-tx{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+.fco-t{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:17px;text-transform:uppercase;letter-spacing:-.01em;color:var(--text);line-height:1}
+.fco-s{font-size:11.5px;color:var(--muted);line-height:1.2}
+.fco-go{width:17px;height:17px;flex-shrink:0;stroke:var(--dim);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.feed-chooser-cancel{width:100%;margin-top:5px;padding:13px;border-radius:14px;border:none;background:var(--sf3);color:var(--text-2);font-family:'Barlow Condensed',sans-serif;font-weight:700;font-style:italic;font-size:15px;letter-spacing:.04em;text-transform:uppercase;cursor:pointer}
+/* Icône rafraîchir sur l'en-tête Actualités */
+.news-sec-reload{flex-shrink:0;width:30px;height:30px;border-radius:9px;display:flex;align-items:center;justify-content:center;color:var(--muted);cursor:pointer;transition:background .18s,color .18s}
+.news-sec-reload:hover{background:var(--sf2);color:var(--accent)}
+.news-sec-reload svg{width:16px;height:16px}
+.news-sec-reload.spin svg{animation:nsReloadSpin .9s cubic-bezier(.4,.1,.2,1)}
+@keyframes nsReloadSpin{from{transform:rotate(0)}to{transform:rotate(360deg)}}
+.feed-filters{display:flex;gap:8px;margin-bottom:14px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.feed-filters::-webkit-scrollbar{display:none}
+.feed-chip{flex-shrink:0;padding:8px 16px;border-radius:100px;border:1px solid var(--border);background:var(--sf);color:var(--text-2);font-family:'Jost',sans-serif;font-size:13px;font-weight:600;cursor:pointer;transition:all .18s}
+.feed-chip:active{transform:scale(.96)}
+.feed-chip.on{background:var(--accent);border-color:var(--accent);color:#fff}
+/* En fil unifié : sections sans chrome de carte */
+.news-sec.flat{border:none;background:none;margin-bottom:0;overflow:visible}
+.news-sec.flat .news-sec-h{padding:6px 2px 10px}
+.news-sec.flat .news-sec-chev{display:none}
+.news-sec.flat .news-sec-body{display:block!important}
+/* Onglet News : sections repliables */
 .news-sec-h{width:100%;display:flex;align-items:center;gap:11px;padding:15px 16px;background:none;border:none;cursor:pointer;text-align:left}
 .news-sec-ic{flex-shrink:0;width:36px;height:36px;border-radius:11px;background:var(--accent-soft);color:var(--accent);display:flex;align-items:center;justify-content:center}
 .news-sec-ic svg{width:18px;height:18px}
@@ -547,6 +594,8 @@ html:not(.pwa) .desktop-only{display:flex}
 .mn-author{font-size:12px;color:var(--muted);font-style:italic}
 .mn-title{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:24px;text-transform:uppercase;line-height:1.05;color:var(--text);margin-bottom:12px;text-wrap:balance;letter-spacing:-.005em}
 .mn-body{font-size:15px;line-height:1.7;color:var(--text-2);padding:0 18px 16px;letter-spacing:.005em}
+.mn-media{margin:0 0 4px;background:var(--sf2);overflow:hidden}
+.mn-media img{display:block;width:100%;max-height:420px;object-fit:cover}
 
 .mn-poll-wrap{border-top:1px solid var(--border)}
 .mn-poll-trigger{width:100%;display:flex;align-items:center;gap:12px;padding:13px 16px;background:none;border:none;cursor:pointer;text-align:left;font-family:'Jost',sans-serif;color:inherit}
@@ -772,7 +821,8 @@ html.pwa .upd-banner{top:calc(env(safe-area-inset-top,0px) + 52px)}
 .g-add.vio{background:var(--vio)}
 .g-add svg{width:19px;height:19px;fill:none;stroke:#fff;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
 /* Carte élément d'une liste de gestion */
-.g-item{display:flex;align-items:center;gap:12px;background:var(--sf);border:1px solid var(--border);border-radius:14px;padding:13px 14px;margin-bottom:9px;box-shadow:var(--shadow-1);cursor:pointer;transition:border-color .2s,transform .12s}
+.g-item{display:flex;align-items:center;gap:12px;min-height:64px;background:var(--sf);border:1px solid var(--border);border-radius:14px;padding:13px 14px;margin-bottom:9px;box-shadow:var(--shadow-1);cursor:pointer;transition:border-color .2s,transform .12s}
+.admin-stat.solo{max-width:none;width:100%}
 .g-item:active{transform:scale(.99)}
 .g-item:hover{border-color:var(--bds)}
 .g-item-ic{flex-shrink:0;width:38px;height:38px;border-radius:11px;background:var(--accent-soft);color:var(--accent);display:flex;align-items:center;justify-content:center;font-size:17px}
@@ -788,8 +838,9 @@ html.pwa .upd-banner{top:calc(env(safe-area-inset-top,0px) + 52px)}
 .g-list-empty{text-align:center;padding:34px 20px;color:var(--muted);font-size:13px;line-height:1.6;background:var(--sf);border:1px dashed var(--border);border-radius:14px}
 .g-sec-label{font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:18px 2px 10px}
 .subpage-back[hidden]{display:none}
-.subpage-back{display:inline-flex;align-items:center;gap:5px;background:none;border:none;color:var(--accent);font-family:'Jost',sans-serif;font-size:14.5px;font-weight:500;cursor:pointer;padding:4px 0 4px 0;margin-bottom:8px;letter-spacing:-.005em}
-.subpage-back svg{width:18px;height:18px;stroke:currentColor;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round;fill:none}
+.subpage-back{display:inline-flex;align-items:center;gap:6px;background:var(--sf);border:1px solid var(--border);border-radius:100px;color:var(--text-2);font-family:'Jost',sans-serif;font-size:13px;font-weight:600;cursor:pointer;padding:7px 14px 7px 11px;margin-bottom:14px;letterr-spacing:-.005em}
+.subpage-back svg{width:16px;height:16px;stroke:currentColor;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round;fill:none}
+.subpage-back:hover{border-color:var(--bds);color:var(--text)}
 .subpage-back:active{transform:scale(.96)}
 
 /* Segmented control */
@@ -1046,6 +1097,43 @@ html.pwa .upd-banner{top:calc(env(safe-area-inset-top,0px) + 52px)}
 .maint-row-badge{flex-shrink:0;display:inline-flex;align-items:center;gap:5px;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-style:italic;font-size:12px;letter-spacing:.02em;padding:4px 9px;border-radius:100px}
 .maint-row-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
 .maint-sheet-hd{display:flex;align-items:center;gap:12px;margin-bottom:16px}
+.member-delete{width:100%;margin-top:18px;padding:13px;border-radius:12px;border:1px solid var(--err);background:rgba(210,47,42,.06);color:var(--err);font-family:'Barlow Condensed',sans-serif;font-weight:700;font-style:italic;font-size:14px;letter-spacing:.03em;text-transform:uppercase;cursor:pointer}
+.member-delete:active{transform:scale(.98)}
+.member-self-note{margin-top:16px;font-size:12px;color:var(--muted);text-align:center;line-height:1.5}
+/* ── Barre d'interaction réseau social (news) ── */
+.feed-bar{position:relative;margin-top:12px;padding-top:10px;border-top:1px solid var(--border)}
+.feed-icons{display:flex;align-items:center;gap:2px}
+.feed-ic-btn{width:40px;height:40px;display:flex;align-items:center;justify-content:center;border:none;background:none;color:var(--text);cursor:pointer;border-radius:50%;transition:transform .14s,color .18s,background .18s}
+.feed-ic-btn svg{width:24px;height:24px}
+.feed-ic-btn:hover{background:var(--sf2)}
+.feed-ic-btn:active{transform:scale(.85)}
+.feed-ic-btn.like.on{color:#ed4956}
+.feed-ic-emo{font-size:22px;line-height:1;animation:feedPop .32s cubic-bezier(.2,.9,.3,1.4)}
+@keyframes feedPop{0%{transform:scale(.4)}60%{transform:scale(1.25)}100%{transform:scale(1)}}
+.feed-meta{display:flex;flex-wrap:wrap;align-items:center;gap:4px 12px;margin-top:6px;padding:0 2px;min-height:1px}
+.feed-likes{font-size:13px;color:var(--text);display:inline-flex;align-items:center;gap:6px}
+.feed-likes strong{font-weight:700}
+.feed-likes-emo{font-size:14px;letter-spacing:-2px}
+.feed-cmt-link{border:none;background:none;padding:0;font-family:'Jost',sans-serif;font-size:13px;color:var(--muted);cursor:pointer}
+.feed-cmt-link:hover{color:var(--text-2)}
+.feed-picker{position:absolute;bottom:calc(100% - 2px);left:0;display:flex;gap:4px;padding:7px;background:var(--sf);border:1px solid var(--bds);border-radius:100px;box-shadow:var(--shadow-2);opacity:0;transform:translateY(6px) scale(.9);transform-origin:bottom left;pointer-events:none;transition:opacity .18s,transform .22s cubic-bezier(.2,.9,.3,1.3);z-index:5}
+.feed-picker.open{opacity:1;transform:none;pointer-events:auto}
+.feed-emo{width:42px;height:42px;border:none;background:none;border-radius:50%;font-size:23px;cursor:pointer;transition:transform .14s,background .14s}
+.feed-emo:hover{transform:scale(1.25) translateY(-3px)}
+.feed-emo.on{background:var(--accent-soft)}
+/* Commentaires (feuille) */
+.fc-list{display:flex;flex-direction:column;gap:14px;min-height:60px}
+.fc-empty{text-align:center;color:var(--muted);font-size:13px;padding:26px 12px}
+.fc-item{display:flex;gap:10px;align-items:flex-start}
+.fc-bubble{flex:1;min-width:0;background:var(--sf2);border-radius:4px 14px 14px 14px;padding:10px 13px}
+.fc-who{font-size:12.5px;font-weight:600;color:var(--text);margin-bottom:2px}
+.fc-tx{font-size:13.5px;color:var(--text-2);line-height:1.45;text-wrap:pretty;word-break:break-word}
+.fc-date{font-size:10.5px;color:var(--muted);margin-top:4px}
+.fc-input{flex:1;min-width:0;background:var(--sf2);border:1px solid var(--border);border-radius:100px;padding:11px 16px;font-family:'Jost',sans-serif;font-size:14px;color:var(--text);outline:none}
+.fc-input:focus{border-color:var(--accent)}
+.fc-send{flex-shrink:0;width:44px;height:44px;border-radius:50%;border:none;background:var(--accent);cursor:pointer;display:flex;align-items:center;justify-content:center}
+.fc-send svg{width:19px;height:19px}
+.fc-send:active{transform:scale(.92)}
 .maint-card{background:var(--card-bg);border:1px solid var(--card-bord);border-radius:16px;overflow:hidden;box-shadow:inset 0 1px 0 var(--stroke-in);animation:cardIn .32s cubic-bezier(.16,1,.3,1) both}
 .maint-card-hd{display:flex;align-items:center;gap:12px;padding:14px 16px;border-bottom:1px solid var(--border);background:var(--sf2)}
 .maint-thumb{width:54px;height:40px;border-radius:8px;background:var(--sf3);overflow:hidden;flex-shrink:0;display:flex;align-items:center;justify-content:center}
@@ -2353,8 +2441,45 @@ html.pwa .wb-page-head{padding-top:max(env(safe-area-inset-top,0px),50px)}
         <span class="mobile-sec-h-sub">Le club APAM</span>
       </div>
 
-      <div class="news-sec" id="news-sec-actus">
-        <button class="news-sec-h" type="button" onclick="newsToggle('actus')"><span class="news-sec-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l18-7-7 18-2.5-7.5z"/></svg></span><span class="news-sec-t">Actualités</span><span class="news-sec-badge" id="news-badge-actus" hidden></span><svg class="news-sec-chev" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></button>
+      <button class="feed-compose" id="feed-compose" type="button" onclick="feedCompose()" hidden>
+        <span class="feed-compose-ava" id="feed-compose-ava"></span>
+        <span class="feed-compose-ph">Quoi de neuf, <span id="feed-compose-name">pilote</span> ?</span>
+        <span class="feed-compose-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg></span>
+      </button>
+
+      <div class="feed-chooser" id="feed-chooser" hidden>
+        <div class="feed-chooser-back" onclick="feedChooserClose()"></div>
+        <div class="feed-chooser-sheet">
+          <div class="feed-chooser-grip"></div>
+          <div class="feed-chooser-title">Publier…</div>
+          <button class="feed-chooser-opt" id="fch-actu" type="button" onclick="feedChoose('actu')">
+            <span class="fco-ic actu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l18-7-7 18-2.5-7.5z"/></svg></span>
+            <span class="fco-tx"><span class="fco-t">Une actualité</span><span class="fco-s">Annonce, info, sondage présence</span></span>
+            <svg class="fco-go" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg>
+          </button>
+          <button class="feed-chooser-opt" id="fch-act" type="button" onclick="feedChoose('act')">
+            <span class="fco-ic act"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18M9 16l2 2 4-4"/></svg></span>
+            <span class="fco-tx"><span class="fco-t">Une activité</span><span class="fco-s">BBQ, journée club, formation…</span></span>
+            <svg class="fco-go" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg>
+          </button>
+          <button class="feed-chooser-opt" id="fch-voy" type="button" onclick="feedChoose('voy')">
+            <span class="fco-ic voy"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17.8 19.2L16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z"/></svg></span>
+            <span class="fco-tx"><span class="fco-t">Un voyage</span><span class="fco-s">Sortie, navigation, destination…</span></span>
+            <svg class="fco-go" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg>
+          </button>
+          <button class="feed-chooser-cancel" type="button" onclick="feedChooserClose()">Annuler</button>
+        </div>
+      </div>
+
+      <div class="feed-filters" id="feed-filters">
+        <button class="feed-chip on" data-f="all" type="button" onclick="feedFilter('all')">Tout</button>
+        <button class="feed-chip" data-f="actus" type="button" onclick="feedFilter('actus')">Actus</button>
+        <button class="feed-chip" data-f="act" type="button" onclick="feedFilter('act')">Activités</button>
+        <button class="feed-chip" data-f="voy" type="button" onclick="feedFilter('voy')">Voyages</button>
+      </div>
+
+      <div class="news-sec flat" id="news-sec-actus">
+        <button class="news-sec-h" type="button" onclick="newsToggle('actus')"><span class="news-sec-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l18-7-7 18-2.5-7.5z"/></svg></span><span class="news-sec-t">Actualités</span><span class="news-sec-badge" id="news-badge-actus" hidden></span><span class="news-sec-reload" role="button" tabindex="0" title="Rafraîchir" onclick="event.stopPropagation();newsReload(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-2.64-6.36"/><path d="M21 3v6h-6"/></svg></span><svg class="news-sec-chev" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></button>
         <div class="news-sec-body">
           <div class="mn-feed" id="m-feed">
             <div class="skel-card"><div class="skel skel-line w-50"></div><div class="skel skel-title"></div><div class="skel skel-line w-full"></div><div class="skel skel-line w-80"></div><div class="skel skel-poll"></div></div>
@@ -2363,7 +2488,7 @@ html.pwa .wb-page-head{padding-top:max(env(safe-area-inset-top,0px),50px)}
         </div>
       </div>
 
-      <div class="news-sec" id="news-sec-act">
+      <div class="news-sec flat" id="news-sec-act">
         <button class="news-sec-h" type="button" onclick="newsToggle('act')"><span class="news-sec-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18M9 16l2 2 4-4"/></svg></span><span class="news-sec-t">Prochaines activités</span><span class="news-sec-badge" id="news-badge-act" hidden></span><svg class="news-sec-chev" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></button>
         <div class="news-sec-body">
           <button class="news-add-btn" id="act-new-btn" type="button" onclick="actOpenForm()" hidden>+ Nouvelle activité</button>
@@ -2373,7 +2498,7 @@ html.pwa .wb-page-head{padding-top:max(env(safe-area-inset-top,0px),50px)}
         </div>
       </div>
 
-      <div class="news-sec" id="news-sec-voy">
+      <div class="news-sec flat" id="news-sec-voy">
         <button class="news-sec-h" type="button" onclick="newsToggle('voy')"><span class="news-sec-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17.8 19.2L16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z"/></svg></span><span class="news-sec-t">Prochains voyages</span><span class="news-sec-badge" id="news-badge-voy" hidden></span><svg class="news-sec-chev" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></button>
         <div class="news-sec-body">
           <button class="news-add-btn" id="voy-new-btn" type="button" onclick="voyOpenForm()" hidden>+ Nouveau voyage</button>
@@ -3084,6 +3209,65 @@ window.togglePoll=function(id){
   });
 };
 
+/* ══════════ Fil News : filtre + compositeur ══════════ */
+var _feedFilter='all';
+window.feedFilter=function(f){
+  hapticTick();
+  _feedFilter=f;
+  document.querySelectorAll('#feed-filters .feed-chip').forEach(function(b){b.classList.toggle('on',b.getAttribute('data-f')===f);});
+  var map={actus:'news-sec-actus',act:'news-sec-act',voy:'news-sec-voy'};
+  Object.keys(map).forEach(function(k){
+    var el=document.getElementById(map[k]);if(!el)return;
+    el.style.display=(f==='all'||f===k)?'':'none';
+  });
+};
+window.feedCompose=function(){
+  /* Ouvre le sélecteur : Actualité · Activité · Voyage (selon droits) */
+  feedChooserOpen();
+};
+window.feedChooserOpen=function(){
+  var ov=document.getElementById('feed-chooser');if(!ov)return;
+  var canNews=!!(perms&&(perms.news_pub||perms.news_membres||perms.admin));
+  var canTrip=!!(perms&&(perms.news_pub||perms.instructeur||perms.admin));
+  document.getElementById('fch-actu').hidden=!canNews;
+  document.getElementById('fch-act').hidden=!canTrip;
+  document.getElementById('fch-voy').hidden=!canTrip;
+  ov.hidden=false;requestAnimationFrame(function(){ov.classList.add('open');});
+  document.body.style.overflow='hidden';
+  if(typeof hapticTick==='function')hapticTick();
+};
+window.feedChooserClose=function(){
+  var ov=document.getElementById('feed-chooser');if(!ov)return;
+  ov.classList.remove('open');
+  setTimeout(function(){ov.hidden=true;},260);
+  document.body.style.overflow='';
+};
+window.feedChoose=function(kind){
+  feedChooserClose();
+  setTimeout(function(){
+    if(kind==='actu'){
+      if(typeof _pubMode!=='undefined'){_pubMode=(perms.news_pub||perms.admin)?'public':'membres';}
+      if(typeof _editingRow!=='undefined')_editingRow=null;
+      if(typeof pubOpenSheet==='function')pubOpenSheet();
+    }else if(kind==='act'){
+      if(typeof actOpenForm==='function')actOpenForm();
+    }else if(kind==='voy'){
+      if(typeof voyOpenForm==='function')voyOpenForm();
+    }
+  },220);
+};
+function feedSetupCompose(){
+  var c=document.getElementById('feed-compose');if(!c)return;
+  var can=!!(perms&&(perms.news_pub||perms.news_membres||perms.admin));
+  c.hidden=!can;
+  if(can){
+    var ava=document.getElementById('feed-compose-ava');
+    if(ava)ava.innerHTML=avatarHTML(memberFullName||'Moi','xs');
+    var nm=document.getElementById('feed-compose-name');
+    if(nm)nm.textContent=(memberPrenom||'pilote');
+  }
+}
+
 function applyNews(news){
   /* Badge = polls awaiting my vote (not total news) */
   const pending=news.filter(n=>{
@@ -3179,8 +3363,98 @@ function renderCard(n){
   const delB=(perms.news_membres||perms.admin)?`<div class="mn-del"><button class="del-btn" type="button" onclick="delNews('${n.id}',${n._row})">Supprimer</button></div>`:'';
   const pollHtml=pollWrapHTML(n);
   const who=n.auteur||'Le bureau';
-  return `<article class="mn-card" data-nid="${n.id}"><div class="mn-card-head"><div class="mn-meta">${avatarHTML(who,'')}<span class="mn-meta-tx"><span class="mn-name">${who}</span><span class="mn-when">${newsRelDate(n.date)}</span></span></div><div class="mn-title">${n.titre}</div></div><div class="mn-body">${n.texte}</div>${pollHtml}${delB}</article>`;
+  const imgHtml=n.image?`<div class="mn-media"><img src="${esc(n.image)}" alt="" loading="lazy" onerror="this.closest('.mn-media').remove()"></div>`:'';
+  return `<article class="mn-card" data-nid="${n.id}"><div class="mn-card-head"><div class="mn-meta">${avatarHTML(who,'')}<span class="mn-meta-tx"><span class="mn-name">${who}</span><span class="mn-when">${newsRelDate(n.date)}</span></span></div><div class="mn-title">${n.titre}</div></div><div class="mn-body">${n.texte}</div>${imgHtml}${pollHtml}${feedBarHTML(n.id)}${delB}</article>`;
 }
+
+/* ══════════ Interactions type réseau social (réactions + commentaires) ══════════ */
+var FEED_EMOJI=[['like','👍'],['love','❤️'],['haha','😂'],['party','🎉']];
+function feedReactStore(){try{return JSON.parse(localStorage.getItem('apam_feed_react')||'{}');}catch(e){return {};}}
+function feedReactSave(o){try{localStorage.setItem('apam_feed_react',JSON.stringify(o));}catch(e){}}
+function feedCmtStore(){try{return JSON.parse(localStorage.getItem('apam_feed_cmt')||'{}');}catch(e){return {};}}
+function feedCmtSave(o){try{localStorage.setItem('apam_feed_cmt',JSON.stringify(o));}catch(e){}}
+function feedBarHTML(id){
+  var st=feedReactStore()[id]||{counts:{},mine:null};
+  var counts=st.counts||{};var mine=st.mine;
+  var total=FEED_EMOJI.reduce(function(s,e){return s+(counts[e[0]]||0);},0);
+  var shown=FEED_EMOJI.filter(function(e){return counts[e[0]];}).map(function(e){return e[1];}).slice(0,3).join('');
+  var cmts=(feedCmtStore()[id]||[]).length;
+  var mineEmoji=mine?(FEED_EMOJI.find(function(e){return e[0]===mine;})||['','👍'])[1]:'';
+  return `<div class="feed-bar" data-fid="${id}">
+    <div class="feed-icons">
+      <button type="button" class="feed-ic-btn like ${mine?'on':''}" aria-label="J'aime" onclick="feedTogglePicker('${id}',this)">${mine?`<span class="feed-ic-emo">${mineEmoji}</span>`:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"/></svg>`}</button>
+      <button type="button" class="feed-ic-btn" aria-label="Commenter" onclick="feedOpenComments('${id}')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.4 8.4 0 0 1-8.5 8.5 8.7 8.7 0 0 1-3.9-.9L3 21l1.9-5.6a8.4 8.4 0 0 1-.9-3.9A8.4 8.4 0 0 1 12.5 3 8.4 8.4 0 0 1 21 11.5z"/></svg></button>
+      <button type="button" class="feed-ic-btn" aria-label="Partager" onclick="feedShare('${id}')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13"/><path d="M22 2l-7 20-4-9-9-4 20-7z"/></svg></button>
+    </div>
+    <div class="feed-meta">${total?`<span class="feed-likes"><span class="feed-likes-emo">${shown}</span><strong>${total}</strong> j'aime</span>`:''}${cmts?`<button type="button" class="feed-cmt-link" onclick="feedOpenComments('${id}')">Voir ${cmts>1?'les '+cmts+' commentaires':'le commentaire'}</button>`:''}</div>
+    <div class="feed-picker" id="feed-picker-${id}">${FEED_EMOJI.map(function(e){return `<button type="button" class="feed-emo ${mine===e[0]?'on':''}" onclick="feedReact('${id}','${e[0]}')">${e[1]}</button>`;}).join('')}</div>
+  </div>`;
+}
+window.feedTogglePicker=function(id,btn){
+  hapticTick();
+  var p=document.getElementById('feed-picker-'+id);if(!p)return;
+  var open=p.classList.contains('open');
+  document.querySelectorAll('.feed-picker.open').forEach(function(x){x.classList.remove('open');});
+  if(!open)p.classList.add('open');
+};
+window.feedReact=function(id,key){
+  hapticThud();
+  var store=feedReactStore();
+  var st=store[id]||{counts:{},mine:null};
+  if(st.mine===key){st.counts[key]=Math.max(0,(st.counts[key]||1)-1);st.mine=null;}
+  else{if(st.mine){st.counts[st.mine]=Math.max(0,(st.counts[st.mine]||1)-1);}st.counts[key]=(st.counts[key]||0)+1;st.mine=key;}
+  store[id]=st;feedReactSave(store);
+  var bar=document.querySelector('.feed-bar[data-fid="'+id+'"]');
+  if(bar){var wrap=document.createElement('div');wrap.innerHTML=feedBarHTML(id);bar.replaceWith(wrap.firstElementChild);}
+  /* Persistance serveur (fire-and-forget) */
+  try{if(typeof memberPin!=='undefined'&&memberPin){fetch(API+'?action=react&pin='+enc(memberPin)+'&postId='+enc(id)+'&emoji='+enc(st.mine||'')).catch(function(){});}}catch(e){}
+};
+window.feedShare=function(id){
+  hapticTick();
+  var url=location.origin+location.pathname+'#post-'+id;
+  if(navigator.share){navigator.share({title:'APAM',url:url}).catch(function(){});}
+  else if(navigator.clipboard){navigator.clipboard.writeText(url).then(function(){toast('Lien copié ✓','ok');}).catch(function(){toast('Lien : '+url);});}
+  else toast('Lien : '+url);
+};
+window.feedOpenComments=function(id){
+  var render=function(cmts){
+    var list=cmts.length?cmts.map(function(c){return `<div class="fc-item">${avatarHTML(c.who||c.auteur,'xs')}<div class="fc-bubble"><div class="fc-who">${esc(c.who||c.auteur)}</div><div class="fc-tx">${esc(c.text||c.texte)}</div><div class="fc-date">${esc(relDate(c.date))}</div></div></div>`;}).join(''):'<div class="fc-empty">Aucun commentaire. Soyez le premier !</div>';
+    var body=`<div class="fc-list" id="fc-list">${list}</div>`;
+    var foot=`<input class="fc-input" id="fc-input" type="text" placeholder="Votre commentaire…" onkeydown="if(event.key==='Enter')feedAddComment('${id}')"><button class="fc-send" type="button" onclick="feedAddComment('${id}')" aria-label="Envoyer"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4z"/></svg></button>`;
+    gsheetOpen('Commentaires',body,foot);
+  };
+  render(feedCmtStore()[id]||[]);
+  /* Rafraîchit depuis le serveur */
+  try{fetch(API+'?action=getComments&postId='+enc(id)).then(function(r){return r.json();}).then(function(d){
+    if(d&&d.comments){var arr=d.comments.map(function(c){return {who:c.auteur,text:c.texte,date:c.date};});var s=feedCmtStore();s[id]=arr;feedCmtSave(s);if(document.getElementById('fc-list'))render(arr);}
+  }).catch(function(){});}catch(e){}
+};
+window.feedAddComment=function(id){
+  var inp=document.getElementById('fc-input');if(!inp)return;
+  var tx=inp.value.trim();if(!tx)return;
+  var store=feedCmtStore();var arr=store[id]||[];
+  arr.push({who:(memberFullName||'Moi'),text:tx,date:todayISO()});
+  store[id]=arr;feedCmtSave(store);
+  inp.value='';hapticTick();
+  feedOpenComments(id);
+  /* maj compteur sur la carte */
+  var bar=document.querySelector('.feed-bar[data-fid="'+id+'"]');
+  if(bar){var wrap=document.createElement('div');wrap.innerHTML=feedBarHTML(id);bar.replaceWith(wrap.firstElementChild);}
+  /* Persistance serveur */
+  try{if(typeof memberPin!=='undefined'&&memberPin){fetch(API+'?action=addComment&pin='+enc(memberPin)+'&postId='+enc(id)+'&texte='+enc(tx)).catch(function(){});}}catch(e){}
+};
+/* Synchro des réactions/commentaires depuis le serveur (fil partagé) */
+function feedSyncFromServer(){
+  try{if(typeof memberPin==='undefined'||!memberPin)return;
+    fetch(API+'?action=getFeed&pin='+enc(memberPin)).then(function(r){return r.json();}).then(function(d){
+      if(!d)return;
+      if(d.reactions){var rs=feedReactStore();Object.keys(d.reactions).forEach(function(id){rs[id]={counts:d.reactions[id].counts||{},mine:d.reactions[id].mine||null};});feedReactSave(rs);}
+      /* Re-render les barres visibles */
+      document.querySelectorAll('.feed-bar').forEach(function(bar){var id=bar.getAttribute('data-fid');var wrap=document.createElement('div');wrap.innerHTML=feedBarHTML(id);bar.replaceWith(wrap.firstElementChild);});
+    }).catch(function(){});
+  }catch(e){}
+}
+document.addEventListener('click',function(e){if(!e.target.closest('.feed-bar'))document.querySelectorAll('.feed-picker.open').forEach(function(x){x.classList.remove('open');});});
 
 async function fetchReactions(news){
   const ids=news.filter(n=>n.sondage&&n.sondage!=='aucun').map(n=>n.id);
@@ -3198,6 +3472,14 @@ async function fetchReactions(news){
   }));
 }
 
+window.newsReload=function(el){
+  if(typeof hapticTick==='function')hapticTick();
+  if(el&&el.classList){el.classList.add('spin');setTimeout(function(){el.classList.remove('spin');},900);}
+  window._newsSig=null;
+  try{chargerNews();}catch(e){}
+  try{if(!_tripsLoaded)tripLoadAll();else tripLoadAll();}catch(e){}
+  try{feedSyncFromServer&&feedSyncFromServer();}catch(e){}
+};
 async function chargerNews(){
   const cached=loadNC(),cReact=loadRC();
   if(cached&&cached.length){Object.assign(RS,cReact);applyNews(cached);}
@@ -3990,20 +4272,7 @@ async function loadAdminMembers(){
 
 function renderAdminStats(){
   const stats=document.getElementById('admin-stats');if(!stats)return;
-  const ICN={
-    users:'<svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>',
-    pub:'<svg viewBox="0 0 24 24"><path d="M3 11a9 9 0 0 1 9-9v18a9 9 0 0 1-9-9z"/><path d="M21 11a9 9 0 0 1-9 9"/></svg>',
-    mn:'<svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>',
-    ph:'<svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>',
-    adm:'<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 1v3M12 20v3M4.22 4.22l2.12 2.12M17.66 17.66l2.12 2.12M1 12h3M20 12h3M4.22 19.78l2.12-2.12M17.66 6.34l2.12-2.12"/></svg>'
-  };
-  stats.innerHTML=`
-    <div class="admin-stat"><span class="admin-stat-icon">${ICN.users}</span><div class="admin-stat-info"><span class="admin-stat-val">${_adminMembers.length}</span><span class="admin-stat-lbl">Inscrits</span></div></div>
-    <div class="admin-stat pub"><span class="admin-stat-icon">${ICN.pub}</span><div class="admin-stat-info"><span class="admin-stat-val">${_adminMembers.filter(m=>m.news_pub).length}</span><span class="admin-stat-lbl">News pub.</span></div></div>
-    <div class="admin-stat mn"><span class="admin-stat-icon">${ICN.mn}</span><div class="admin-stat-info"><span class="admin-stat-val">${_adminMembers.filter(m=>m.news_membres).length}</span><span class="admin-stat-lbl">News memb.</span></div></div>
-    <div class="admin-stat ph"><span class="admin-stat-icon">${ICN.ph}</span><div class="admin-stat-info"><span class="admin-stat-val">${_adminMembers.filter(m=>m.photos).length}</span><span class="admin-stat-lbl">Photos</span></div></div>
-    <div class="admin-stat adm"><span class="admin-stat-icon">${ICN.adm}</span><div class="admin-stat-info"><span class="admin-stat-val">${_adminMembers.filter(m=>m.admin).length}</span><span class="admin-stat-lbl">Admins</span></div></div>
-  `;
+  stats.innerHTML=`<div class="admin-stat solo"><span class="admin-stat-icon"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg></span><div class="admin-stat-info"><span class="admin-stat-val">${_adminMembers.length}</span><span class="admin-stat-lbl">Membres inscrits</span></div></div>`;
 }
 
 function renderAdminMembers(){
@@ -4013,39 +4282,44 @@ function renderAdminMembers(){
   if(!filtered.length){list.innerHTML='<div class="pub-list-empty">Aucun membre trouvé.</div>';return;}
   list.innerHTML=filtered.map(m=>{
     const isSelf=m.pin===memberPin;
-    const dis=isSelf?'disabled':'';
     const ph=_adminPending[m.pin]||m;
     const hasChanges=!!_adminPending[m.pin];
-    const isOpen=_adminOpen[m.pin]===true;
-    const tag=(on,cls,label)=>on?`<span class="member-tag tag-${cls}">${label}</span>`:'';
-    const anyPerm=ph.admin||ph.news_pub||ph.news_membres||ph.photos||ph.mecano||ph.instructeur;
-    const tags=`<div class="member-tags">${tag(ph.admin,'adm','Admin')}${tag(ph.news_pub,'pub','News pub.')}${tag(ph.news_membres,'mn','News memb.')}${tag(ph.mecano,'mec','Mécano')}${tag(ph.instructeur,'ins','Instructeur')}${tag(ph.photos,'ph','Photos')}${!anyPerm?'<span class="member-tags-empty">Aucune permission</span>':''}${hasChanges?'<span class="member-tags-dirty">● Modifié</span>':''}</div>`;
-    return `<div class="member-card ${isOpen?'expanded':''} ${hasChanges?'has-changes':''}" id="row-${esc(m.pin)}">
-      <button class="member-card-hd" type="button" onclick="adminToggleCard('${esc(m.pin)}')">
-        <div class="member-card-id">
-          <div class="member-name">${esc(m.prenom)} ${esc(m.nom)}${isSelf?' <span class="member-meta-self">Vous</span>':''}</div>
-          ${tags}
-        </div>
-        <span class="member-chev" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg></span>
-      </button>
-      <div class="member-card-body">
-        ${profilSeg(m.pin, ph.profil||m.profil, isSelf)}
-        <div class="perms-list">
-          ${permRow('Actualités publiques','Publier sur Le Club','news_pub','pub',ph.news_pub,m.pin,isSelf)}
-          ${permRow('Actualités membres',"Publier dans l'espace membres",'news_membres','mn',ph.news_membres,m.pin,isSelf)}
-          ${permRow('Mécanicien',"Gérer l'état de la flotte",'mecano','mec',ph.mecano,m.pin,isSelf)}
-          ${permRow('Instructeur','Répondre au forum élèves','instructeur','ins',ph.instructeur,m.pin,isSelf)}
-          ${permRow('Galerie photos','Ajouter des photos','photos','ph',ph.photos,m.pin,isSelf)}
-          ${permRow('Administrateur','Gérer membres &amp; accès','admin','adm',ph.admin,m.pin,isSelf)}
-        </div>
-        ${hasChanges?`<div class="member-foot">
-          <span class="save-status" id="s-${esc(m.pin)}"></span>
-          <button class="btn-save has-changes" id="b-${esc(m.pin)}" onclick="event.stopPropagation();adminSave('${esc(m.pin)}')" ${dis}>Enregistrer</button>
-        </div>`:''}
-      </div>
-    </div>`;
+    const ini=((m.prenom||'').charAt(0)+(m.nom||'').charAt(0)).toUpperCase();
+    const cnt=[ph.admin,ph.news_pub,ph.news_membres,ph.mecano,ph.instructeur,ph.photos].filter(Boolean).length;
+    const roleTxt=ph.admin?'Administrateur':(cnt?cnt+' permission'+(cnt>1?'s':''):'Aucune permission');
+    return `<button type="button" class="g-item" onclick="adminOpenSheet('${esc(m.pin)}')">
+      ${avatarHTML((m.prenom||'')+' '+(m.nom||''),'')}
+      <span class="g-item-tx">
+        <span class="g-item-t">${esc(m.prenom)} ${esc(m.nom)}${isSelf?' · Vous':''}</span>
+        <span class="g-item-s">${roleTxt}${hasChanges?' · ● Modifié':''}</span>
+      </span>
+      ${ph.admin?'<span class="g-item-chip" style="background:rgba(210,47,42,.10);color:var(--err)">ADMIN</span>':''}
+      <svg class="g-item-go" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg>
+    </button>`;
   }).join('');
 }
+
+/* Feuille iOS : profil + permissions d'un membre */
+window.adminOpenSheet=function(pin){
+  const m=_adminMembers.find(x=>x.pin===pin);if(!m)return;
+  const isSelf=m.pin===memberPin;
+  const ph=_adminPending[pin]||m;
+  const body=`<div id="row-${esc(pin)}">
+    ${profilSeg(pin, ph.profil||m.profil, isSelf)}
+    <div class="perms-list">
+      ${permRow('Actualités publiques','Publier sur Le Club','news_pub','pub',ph.news_pub,pin,isSelf)}
+      ${permRow('Actualités membres',"Publier dans l'espace membres",'news_membres','mn',ph.news_membres,pin,isSelf)}
+      ${permRow('Mécanicien',"Gérer l'état de la flotte",'mecano','mec',ph.mecano,pin,isSelf)}
+      ${permRow('Instructeur','Répondre au forum élèves','instructeur','ins',ph.instructeur,pin,isSelf)}
+      ${permRow('Galerie photos','Ajouter des photos','photos','ph',ph.photos,pin,isSelf)}
+      ${permRow('Administrateur','Gérer membres &amp; accès','admin','adm',ph.admin,pin,isSelf)}
+    </div>
+    ${!isSelf?`<button type="button" class="member-delete" onclick="adminDelete('${esc(pin)}')">Supprimer ce membre</button>`:'<p class="member-self-note">Vous ne pouvez pas modifier votre propre compte ici.</p>'}
+  </div>`;
+  const dirty=!!_adminPending[pin];
+  const foot=`<span class="save-status" id="s-${esc(pin)}"></span><button class="btn-save ${dirty?'has-changes':''}" id="b-${esc(pin)}" onclick="adminSave('${esc(pin)}')" style="flex:1" ${isSelf||!dirty?'disabled':''}>Enregistrer</button>`;
+  gsheetOpen(m.prenom+' '+m.nom, body, foot);
+};
 
 function permRow(title,sub,key,col,on,pin,disabled){
   return `<div class="perm-row">
@@ -4072,15 +4346,21 @@ window.adminSetProfil=function(pin,val,btn){
   const m=_adminMembers.find(x=>x.pin===pin);
   const same=m && _adminPending[pin].news_pub===!!m.news_pub && _adminPending[pin].news_membres===!!m.news_membres && _adminPending[pin].mecano===!!m.mecano && _adminPending[pin].instructeur===!!m.instructeur && _adminPending[pin].photos===!!m.photos && _adminPending[pin].admin===!!m.admin && _adminPending[pin].profil===(m.profil||'prive');
   if(same)delete _adminPending[pin];
-  renderAdminMembers();
+  /* maj boutons profil dans la feuille */
+  var seg=document.querySelectorAll('#gsheet .profil-seg-btn');
+  seg.forEach(function(b){b.classList.remove('on');});
+  if(btn)btn.classList.add('on');
+  adminSyncSheet(pin);
 };
 
-window.adminToggleCard=function(pin){
-  hapticTick();
-  _adminOpen[pin]=!_adminOpen[pin];
-  const card=document.getElementById('row-'+pin);
-  if(card)card.classList.toggle('expanded',_adminOpen[pin]);
-};
+function adminSyncSheet(pin){
+  var b=document.getElementById('b-'+pin);if(!b)return;
+  var dirty=!!_adminPending[pin];
+  var isSelf=pin===memberPin;
+  b.classList.toggle('has-changes',dirty);
+  b.disabled=isSelf||!dirty;
+  b.textContent='Enregistrer';
+}
 
 window.adminToggle=function(pin,key,col,btn){
   hapticTick();
@@ -4093,8 +4373,8 @@ window.adminToggle=function(pin,key,col,btn){
   const m=_adminMembers.find(x=>x.pin===pin);
   const same=m && _adminPending[pin].news_pub===!!m.news_pub && _adminPending[pin].news_membres===!!m.news_membres && _adminPending[pin].mecano===!!m.mecano && _adminPending[pin].instructeur===!!m.instructeur && _adminPending[pin].photos===!!m.photos && _adminPending[pin].admin===!!m.admin && _adminPending[pin].profil===(m.profil||'prive');
   if(same)delete _adminPending[pin];
-  /* Re-render this card to show/hide the save foot + dirty badge */
-  renderAdminMembers();
+  /* Met à jour l'état du bouton Enregistrer dans la feuille */
+  adminSyncSheet(pin);
 };
 
 window.adminSave=async function(pin){
@@ -4111,10 +4391,26 @@ window.adminSave=async function(pin){
     if(idx!==-1)Object.assign(_adminMembers[idx],p);
     delete _adminPending[pin];
     st.textContent='✓';st.style.color='var(--ok)';hapticThud();
-    btn.classList.remove('has-changes');btn.textContent='\u2713 OK';
     renderAdminStats();
+    renderAdminMembers();
+    setTimeout(gsheetClose,450);
     setTimeout(()=>{st.textContent='';},2500);
   }catch{st.textContent='✗';st.style.color='var(--err)';toast('Erreur réseau','err');btn.disabled=false;}
+};
+
+window.adminDelete=async function(pin){
+  const m=_adminMembers.find(x=>x.pin===pin);if(!m)return;
+  if(!confirm('Supprimer définitivement '+m.prenom+' '+m.nom+' ? Cette action est irréversible.'))return;
+  hapticTick();
+  try{
+    const data=await fetch(`${API}?action=deleteMember&pin=${enc(memberPin)}&targetPin=${enc(pin)}`).then(r=>r.json());
+    if(data.error){toast(data.error,'err');return;}
+    _adminMembers=_adminMembers.filter(x=>x.pin!==pin);
+    delete _adminPending[pin];
+    hapticThud();gsheetClose();
+    renderAdminStats();renderAdminMembers();
+    toast('Membre supprimé','ok');
+  }catch{toast('Erreur réseau','err');}
 };
 
 window.adminFilter=function(q){_adminFilter=q||'';renderAdminMembers();};
@@ -5188,6 +5484,9 @@ function renderNews(){
   if(!_tripsLoaded){try{tripLoadAll();}catch(e){}}
   newsRenderTrips();
   try{chargerNews();}catch(e){}
+  try{feedSetupCompose();}catch(e){}
+  try{feedFilter(_feedFilter);}catch(e){}
+  try{setTimeout(feedSyncFromServer,900);}catch(e){}
 }
 function newsSplit(list){
   var up=[],past=[];
