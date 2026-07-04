@@ -364,7 +364,7 @@ html.pwa .tab-pane{padding-top:max(env(safe-area-inset-top,0px),52px)}
 .syn-news-go{width:18px;height:18px;flex-shrink:0;stroke:var(--muted);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 
 /* MOBILE BOTTOM NAV */
-.bottom-nav{position:fixed;bottom:calc(env(safe-area-inset-bottom,10px) + 10px);left:14px;right:14px;z-index:100;display:flex;justify-content:space-around;align-items:stretch;padding:7px 8px;border-radius:24px;background:var(--nav-glass);border:1px solid var(--nav-glass-bord);box-shadow:0 8px 30px -6px rgba(0,0,0,.28),0 2px 8px rgba(0,0,0,.12),inset 0 1px 0 var(--nav-glass-hi);backdrop-filter:blur(26px) saturate(180%);-webkit-backdrop-filter:blur(26px) saturate(180%);transform:translateZ(0);-webkit-transform:translateZ(0);backface-visibility:hidden}
+.bottom-nav{position:fixed;bottom:calc(env(safe-area-inset-bottom,10px) + 10px);left:16px;right:16px;z-index:100;display:flex;justify-content:space-around;align-items:stretch;padding:8px 10px;border-radius:32px;background:var(--nav-glass);border:1px solid var(--nav-glass-bord);box-shadow:0 10px 34px -6px rgba(0,0,0,.30),0 2px 8px rgba(0,0,0,.12),inset 0 1px 0 var(--nav-glass-hi);backdrop-filter:blur(26px) saturate(180%);-webkit-backdrop-filter:blur(26px) saturate(180%);transform:translateZ(0);-webkit-transform:translateZ(0);backface-visibility:hidden}
 .bn{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;padding:7px 0 5px;background:none;border:none;cursor:pointer;color:var(--muted);font-family:'Jost',sans-serif;text-decoration:none;position:relative;border-radius:12px;transition:color .25s,background .25s}
 .bn-iconwrap{position:relative;width:50px;height:30px;display:flex;align-items:center;justify-content:center;border-radius:14px;transition:background .28s cubic-bezier(.2,.7,.2,1)}
 .ob-field-hint{display:block;font-size:10.5px;color:var(--muted);margin-top:5px;line-height:1.4}
@@ -753,6 +753,40 @@ html.pwa .upd-banner{top:calc(env(safe-area-inset-top,0px) + 52px)}
 .taf-raw{padding:12px 16px;background:var(--sf2);border-top:1px solid var(--border);font-family:'JetBrains Mono',monospace;font-size:11.5px;color:var(--text-2);line-height:1.7;word-break:break-all;font-weight:500}
 
 /* ═══════════════════════ PUBLICATION & ADMIN (sub-pages) ═══════════════════════ */
+/* ── Bottom sheet iOS partagé (Gestion) ── */
+.gsheet-backdrop{position:fixed;inset:0;z-index:9700;background:rgba(0,0,0,.45);opacity:0;pointer-events:none;transition:opacity .3s ease;backdrop-filter:blur(2px);-webkit-backdrop-filter:blur(2px)}
+.gsheet-backdrop.open{opacity:1;pointer-events:auto}
+.gsheet{position:fixed;left:0;right:0;bottom:0;z-index:9710;background:var(--bg);border-radius:24px 24px 0 0;box-shadow:0 -8px 40px -8px rgba(0,0,0,.4);transform:translateY(100%);transition:transform .34s cubic-bezier(.16,1,.3,1);max-height:92vh;display:flex;flex-direction:column;border-top:1px solid var(--border)}
+.gsheet.open{transform:translateY(0)}
+.gsheet-grip{flex-shrink:0;padding:9px 0 4px;display:flex;justify-content:center;cursor:grab;touch-action:none}
+.gsheet-grip::before{content:"";width:38px;height:5px;border-radius:100px;background:var(--bds)}
+.gsheet-hd{flex-shrink:0;display:flex;align-items:center;gap:12px;padding:4px 18px 14px;border-bottom:1px solid var(--border)}
+.gsheet-hd h3{flex:1;min-width:0;font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:23px;text-transform:uppercase;letter-spacing:-.01em;color:var(--text)}
+.gsheet-close{flex-shrink:0;width:32px;height:32px;border-radius:50%;border:none;background:var(--sf2);color:var(--muted);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:18px;line-height:1}
+.gsheet-close:active{transform:scale(.92)}
+.gsheet-body{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:18px;padding-bottom:calc(18px + env(safe-area-inset-bottom,0px))}
+.gsheet-foot{flex-shrink:0;padding:12px 18px;padding-bottom:calc(14px + env(safe-area-inset-bottom,0px));border-top:1px solid var(--border);background:var(--sf);display:flex;gap:10px}
+/* Bouton « + Nouveau » proéminent */
+.g-add{width:100%;display:flex;align-items:center;justify-content:center;gap:9px;padding:15px;border-radius:15px;border:none;background:var(--accent);color:#fff;font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:16.5px;text-transform:uppercase;letter-spacing:.02em;cursor:pointer;box-shadow:0 4px 14px -3px var(--accent-bord);transition:transform .12s}
+.g-add:active{transform:scale(.98)}
+.g-add.vio{background:var(--vio)}
+.g-add svg{width:19px;height:19px;fill:none;stroke:#fff;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+/* Carte élément d'une liste de gestion */
+.g-item{display:flex;align-items:center;gap:12px;background:var(--sf);border:1px solid var(--border);border-radius:14px;padding:13px 14px;margin-bottom:9px;box-shadow:var(--shadow-1);cursor:pointer;transition:border-color .2s,transform .12s}
+.g-item:active{transform:scale(.99)}
+.g-item:hover{border-color:var(--bds)}
+.g-item-ic{flex-shrink:0;width:38px;height:38px;border-radius:11px;background:var(--accent-soft);color:var(--accent);display:flex;align-items:center;justify-content:center;font-size:17px}
+.g-item-ic svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+.g-item-tx{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px}
+.g-item-t{font-size:14.5px;font-weight:600;color:var(--text);line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.g-item-s{font-size:11.5px;color:var(--muted);line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.g-item-meta{display:flex;align-items:center;gap:7px;font-size:11px;color:var(--muted);margin-top:1px}
+.g-item-chip{font-family:'JetBrains Mono',monospace;font-size:9px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;padding:2px 6px;border-radius:5px;background:var(--sf2);color:var(--text-2)}
+.g-item-go{width:16px;height:16px;flex-shrink:0;stroke:var(--dim);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.g-item-del{flex-shrink:0;width:32px;height:32px;border-radius:9px;border:none;background:rgba(210,47,42,.08);color:var(--err);display:flex;align-items:center;justify-content:center;cursor:pointer}
+.g-item-del svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.g-list-empty{text-align:center;padding:34px 20px;color:var(--muted);font-size:13px;line-height:1.6;background:var(--sf);border:1px dashed var(--border);border-radius:14px}
+.g-sec-label{font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:18px 2px 10px}
 .subpage-back[hidden]{display:none}
 .subpage-back{display:inline-flex;align-items:center;gap:5px;background:none;border:none;color:var(--accent);font-family:'Jost',sans-serif;font-size:14.5px;font-weight:500;cursor:pointer;padding:4px 0 4px 0;margin-bottom:8px;letter-spacing:-.005em}
 .subpage-back svg{width:18px;height:18px;stroke:currentColor;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round;fill:none}
@@ -1000,6 +1034,18 @@ html.pwa .upd-banner{top:calc(env(safe-area-inset-top,0px) + 52px)}
 
 /* ══ Maintenance (sub-page) ══ */
 .maint-list{display:flex;flex-direction:column;gap:12px}
+.maint-row{width:100%;display:flex;align-items:center;gap:12px;background:var(--sf);border:1px solid var(--border);border-radius:14px;padding:12px 14px;margin-bottom:9px;box-shadow:var(--shadow-1);cursor:pointer;text-align:left;transition:border-color .2s,transform .12s}
+.maint-row:active{transform:scale(.99)}
+.maint-row:hover{border-color:var(--bds)}
+.maint-row-thumb{width:48px;height:36px;border-radius:8px;background:var(--sf3);overflow:hidden;flex-shrink:0;display:flex;align-items:center;justify-content:center}
+.maint-row-thumb img{width:100%;height:100%;object-fit:contain;padding:3px}
+.maint-row-thumb svg{width:26px;height:26px}
+.maint-row-tx{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+.maint-row-immat{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:17px;text-transform:uppercase;letter-spacing:-.01em;color:var(--text);line-height:1}
+.maint-row-type{font-size:11.5px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.maint-row-badge{flex-shrink:0;display:inline-flex;align-items:center;gap:5px;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-style:italic;font-size:12px;letter-spacing:.02em;padding:4px 9px;border-radius:100px}
+.maint-row-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+.maint-sheet-hd{display:flex;align-items:center;gap:12px;margin-bottom:16px}
 .maint-card{background:var(--card-bg);border:1px solid var(--card-bord);border-radius:16px;overflow:hidden;box-shadow:inset 0 1px 0 var(--stroke-in);animation:cardIn .32s cubic-bezier(.16,1,.3,1) both}
 .maint-card-hd{display:flex;align-items:center;gap:12px;padding:14px 16px;border-bottom:1px solid var(--border);background:var(--sf2)}
 .maint-thumb{width:54px;height:40px;border-radius:8px;background:var(--sf3);overflow:hidden;flex-shrink:0;display:flex;align-items:center;justify-content:center}
@@ -3395,32 +3441,43 @@ function openMaintenance(){
 
 function renderMaint(fleet){
   const list=document.getElementById('maint-list');if(!list)return;
-  list.innerHTML=fleet.map((a,i)=>{
-    const ph=_fleetPending[a.id]||{statut:a.statut,note:a.note||''};
-    const dirty=!!_fleetPending[a.id];
+  const dot={ok:'var(--ok)',maint:'var(--amber)',indispo:'var(--err)',voyage:'var(--vio)'};
+  list.innerHTML=fleet.map(a=>{
+    const st=FLEET_STATUS[a.statut]||FLEET_STATUS.ok;
     const thumb=a.img?`<img src="${esc(a.img)}" alt="" onerror="maintThumbError(this)"/>`:planeSVG();
-    const opts=Object.keys(FLEET_STATUS).map(k=>{
-      const s=FLEET_STATUS[k];
-      return `<button type="button" class="maint-status-opt ${k} ${ph.statut===k?'sel':''}" onclick="maintSetStatus('${esc(a.id)}','${k}')"><span class="mso-dot"></span>${s.label}</button>`;
-    }).join('');
-    return `<div class="maint-card" id="maint-row-${esc(a.id)}">
-      <div class="maint-card-hd">
-        <div class="maint-thumb">${thumb}</div>
-        <div class="maint-hd-id"><div class="maint-hd-immat">${esc(a.id)}</div><div class="maint-hd-type">${esc(a.type)}</div></div>
-      </div>
-      <div class="maint-body">
-        <span class="maint-field-label">Statut</span>
-        <div class="maint-status-grid">${opts}</div>
-        <span class="maint-field-label">Note (motif, retour prévu…)</span>
-        <textarea class="maint-note-input" id="maint-note-${esc(a.id)}" placeholder="Ex : Visite 50h en cours, retour prévu vendredi" oninput="maintSetNote('${esc(a.id)}',this.value)">${esc(ph.note)}</textarea>
-        <div class="maint-foot">
-          <span class="maint-save-status" id="maint-st-${esc(a.id)}"></span>
-          <button class="maint-save-btn ${dirty?'dirty':''}" id="maint-btn-${esc(a.id)}" onclick="maintSave('${esc(a.id)}')" ${dirty?'':'disabled'}>Enregistrer</button>
-        </div>
-      </div>
-    </div>`;
+    return `<button type="button" class="maint-row" onclick="maintOpenSheet('${esc(a.id)}')">
+      <span class="maint-row-thumb">${thumb}</span>
+      <span class="maint-row-tx">
+        <span class="maint-row-immat">${esc(a.id)}</span>
+        <span class="maint-row-type">${esc(a.type)}${a.note?' · '+esc(a.note):''}</span>
+      </span>
+      <span class="maint-row-badge" style="color:${dot[a.statut]||dot.ok};background:color-mix(in srgb,${dot[a.statut]||dot.ok} 12%,transparent)"><span class="maint-row-dot" style="background:${dot[a.statut]||dot.ok}"></span>${st.label}</span>
+      <svg class="g-item-go" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg>
+    </button>`;
   }).join('');
 }
+
+/* Feuille iOS : statut + note d'un avion */
+window.maintOpenSheet=function(id){
+  const a=(_fleet||loadFleetCache()||[]).find(x=>x.id===id);if(!a)return;
+  _maintEnsurePending(id);
+  const ph=_fleetPending[id];
+  const opts=Object.keys(FLEET_STATUS).map(k=>{
+    const s=FLEET_STATUS[k];
+    return `<button type="button" class="maint-status-opt ${k} ${ph.statut===k?'sel':''}" onclick="maintSetStatus('${esc(id)}','${k}')"><span class="mso-dot"></span>${s.label}</button>`;
+  }).join('');
+  const thumb=a.img?`<img src="${esc(a.img)}" alt="" onerror="maintThumbError(this)"/>`:planeSVG();
+  const body=`<div class="maint-sheet-hd"><span class="maint-thumb">${thumb}</span><div class="maint-hd-id"><div class="maint-hd-immat">${esc(a.id)}</div><div class="maint-hd-type">${esc(a.type)}</div></div></div>
+    <div id="maint-row-${esc(id)}">
+      <span class="maint-field-label">Statut</span>
+      <div class="maint-status-grid">${opts}</div>
+      <span class="maint-field-label">Note (motif, retour prévu…)</span>
+      <textarea class="maint-note-input" id="maint-note-${esc(id)}" placeholder="Ex : Visite 50h en cours, retour prévu vendredi" oninput="maintSetNote('${esc(id)}',this.value)">${esc(ph.note)}</textarea>
+    </div>`;
+  const dirty=!!_fleetPending[id];
+  const foot=`<span class="maint-save-status" id="maint-st-${esc(id)}"></span><button class="maint-save-btn ${dirty?'dirty':''}" id="maint-btn-${esc(id)}" onclick="maintSave('${esc(id)}')" style="flex:1" ${dirty?'':'disabled'}>Enregistrer</button>`;
+  gsheetOpen(a.id+' — '+a.type, body, foot);
+};
 
 function _maintEnsurePending(id){
   if(!_fleetPending[id]){
@@ -3465,6 +3522,8 @@ window.maintSave=async function(id){
     btn.classList.remove('dirty');
     st.textContent='✓ Enregistré';st.style.color='var(--ok)';hapticThud();
     renderFleet(_fleet);
+    try{renderMaint(_fleet);}catch(e){}
+    setTimeout(gsheetClose,450);
     setTimeout(()=>{st.textContent='';},2500);
   }catch{st.textContent='✗ Erreur';st.style.color='var(--err)';btn.disabled=false;}
 };
@@ -3551,6 +3610,51 @@ function enc(s){return encodeURIComponent(s);}
 
 const memberFullName=(memberPrenom+' '+(memberNom||'')).trim()||memberPrenom||'Membre';
 let _pubMode='public';
+/* ══════════ Bottom-sheet iOS partagé (Gestion) ══════════ */
+function gsheetEnsure(){
+  if(document.getElementById('gsheet-backdrop'))return;
+  var bd=document.createElement('div');bd.className='gsheet-backdrop';bd.id='gsheet-backdrop';
+  bd.onclick=function(){gsheetClose();};
+  document.body.appendChild(bd);
+  var sh=document.createElement('div');sh.className='gsheet';sh.id='gsheet';
+  sh.innerHTML='<div class="gsheet-grip" id="gsheet-grip"></div>'+
+    '<div class="gsheet-hd"><h3 id="gsheet-title"></h3><button class="gsheet-close" type="button" onclick="gsheetClose()" aria-label="Fermer">✕</button></div>'+
+    '<div class="gsheet-body" id="gsheet-body"></div>'+
+    '<div class="gsheet-foot" id="gsheet-foot"></div>';
+  document.body.appendChild(sh);
+  gsheetBindDrag(sh);
+}
+function gsheetBindDrag(sh){
+  var grip=sh.querySelector('#gsheet-grip');var startY=0,cur=0,dragging=false;
+  function down(y){startY=y;dragging=true;sh.style.transition='none';}
+  function move(y){if(!dragging)return;cur=Math.max(0,y-startY);sh.style.transform='translateY('+cur+'px)';}
+  function up(){if(!dragging)return;dragging=false;sh.style.transition='';if(cur>110){gsheetClose();}else{sh.style.transform='';}cur=0;}
+  grip.addEventListener('touchstart',function(e){down(e.touches[0].clientY);},{passive:true});
+  grip.addEventListener('touchmove',function(e){move(e.touches[0].clientY);},{passive:true});
+  grip.addEventListener('touchend',up);
+  grip.addEventListener('mousedown',function(e){down(e.clientY);e.preventDefault();
+    var mm=function(ev){move(ev.clientY);};var mu=function(){up();document.removeEventListener('mousemove',mm);document.removeEventListener('mouseup',mu);};
+    document.addEventListener('mousemove',mm);document.addEventListener('mouseup',mu);});
+}
+window.gsheetOpen=function(title,bodyHTML,footHTML){
+  gsheetEnsure();
+  document.getElementById('gsheet-title').textContent=title||'';
+  document.getElementById('gsheet-body').innerHTML=bodyHTML||'';
+  var foot=document.getElementById('gsheet-foot');
+  if(footHTML){foot.innerHTML=footHTML;foot.style.display='';}else{foot.innerHTML='';foot.style.display='none';}
+  var bd=document.getElementById('gsheet-backdrop');var sh=document.getElementById('gsheet');
+  sh.style.transform='';
+  requestAnimationFrame(function(){bd.classList.add('open');sh.classList.add('open');});
+  document.body.style.overflow='hidden';
+  if(typeof hapticTick==='function')hapticTick();
+};
+window.gsheetClose=function(){
+  var bd=document.getElementById('gsheet-backdrop');var sh=document.getElementById('gsheet');
+  if(!sh)return;
+  bd.classList.remove('open');sh.classList.remove('open');
+  document.body.style.overflow='';
+};
+
 let _pubCache={public:null,membres:null};
 
 function openPublication(){
@@ -3586,7 +3690,20 @@ window.switchPub=function(mode){
 function renderPubSection(){
   const sec=document.getElementById('pub-section');if(!sec)return;
   const isPublic=_pubMode==='public';
-  const accentClass=isPublic?'':'vio';
+  sec.innerHTML=`
+    <button class="g-add ${isPublic?'':'vio'}" type="button" onclick="pubOpenSheet()"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>Nouvelle publication</button>
+    <div class="mobile-sec-h" style="margin-top:20px;margin-bottom:12px"><h2>Publiées récemment</h2><span class="mobile-sec-h-sub">${isPublic?'Site public':'Espace membres'}</span></div>
+    <div id="pub-list" class="pub-list"><div class="pub-list-loading">Chargement…</div></div>
+  `;
+  loadPubList();
+}
+
+/* Construit le formulaire (mêmes IDs → pubSubmit inchangé) dans la feuille */
+function pubFormHTML(){
+  const isPublic=_pubMode==='public';
+  const cats=isPublic
+    ? ['Annonce','Événement','Formation','Vol','Info pratique','Résultat']
+    : ['Annonce','Événement','Sondage','Info pratique','Convivialité'];
   const sondageField=isPublic?'':`<div class="field field-full">
         <label class="field-label">Sondage</label>
         <select class="field-select" id="pub-sondage" onchange="togglePollCustom(this.value)">
@@ -3596,16 +3713,11 @@ function renderPubSection(){
         </select>
         <div class="poll-custom" id="poll-custom-wrap"><input class="field-input" id="pub-poll-custom" type="text" placeholder="Ex : Samedi ou dimanche ?"/></div>
       </div>`;
-  const cats=isPublic
-    ? ['Annonce','Événement','Formation','Vol','Info pratique','Résultat']
-    : ['Annonce','Événement','Sondage','Info pratique','Convivialité'];
   const imageField=isPublic?`<div class="field field-full">
         <label class="field-label">URL image (optionnel)</label>
         <input class="field-input" id="pub-image" type="url" placeholder="https://…/photo.jpg"/>
       </div>`:'';
-  sec.innerHTML=`
-    <div class="form-card">
-      <div class="form-grid cols2">
+  return `<div class="form-grid cols2">
         <div class="field field-full">
           <label class="field-label">Titre</label>
           <input class="field-input" id="pub-titre" type="text" placeholder="${isPublic?"Titre de l'actualité":'Ex : Barbecue dimanche !'}"/>
@@ -3623,22 +3735,25 @@ function renderPubSection(){
         <div class="field field-full">
           <div class="field-author"><span>Signature : <strong>${esc(memberFullName)}</strong></span><span class="field-author-lock">Non modifiable</span></div>
         </div>
-      </div>
-      <div class="form-foot">
-        <span class="form-status" id="pub-status"></span>
-        <div class="pub-editing" id="pub-editing">✏️ Mode édition<span class="pub-editing-cancel" onclick="pubCancelEdit()">Annuler</span></div>
-        <label class="pub-cross" id="pub-cross">
-          <input type="checkbox" id="pub-cross-check">
-          <span class="pub-cross-lbl" id="pub-cross-lbl"><strong>Publier aussi pour les membres</strong><br>Le même contenu sera publié dans les deux espaces</span>
-        </label>
-        <button class="btn-pub ${accentClass}" id="pub-submit" type="button" onclick="pubSubmit()"><svg viewBox="0 0 24 24"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4z"/></svg><span id="pub-submit-text">Publier</span></button>
-      </div>
-    </div>
-    <div class="mobile-sec-h" style="margin-top:22px;margin-bottom:12px"><h2>Publiées récemment</h2><span class="mobile-sec-h-sub">${isPublic?'Site public':'Espace membres'}</span></div>
-    <div id="pub-list" class="pub-list"><div class="pub-list-loading">Chargement…</div></div>
-  `;
-  loadPubList();
+        <div class="field field-full">
+          <label class="pub-cross" id="pub-cross">
+            <input type="checkbox" id="pub-cross-check">
+            <span class="pub-cross-lbl" id="pub-cross-lbl"><strong>Publier aussi pour les membres</strong><br>Le même contenu sera publié dans les deux espaces</span>
+          </label>
+        </div>
+        <div class="pub-editing" id="pub-editing" style="display:none">✏️ Mode édition<span class="pub-editing-cancel" onclick="pubCancelEdit()">Annuler</span></div>
+      </div>`;
 }
+
+/* Ouvre la feuille de création/édition d'une publication */
+window.pubOpenSheet=function(){
+  const isPublic=_pubMode==='public';
+  const foot=`<span class="form-status" id="pub-status"></span><button class="btn-pub ${isPublic?'':'vio'}" id="pub-submit" type="button" onclick="pubSubmit()" style="flex:1"><svg viewBox="0 0 24 24"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4z"/></svg><span id="pub-submit-text">Publier</span></button>`;
+  gsheetOpen(_editingRow?'Modifier la publication':(isPublic?'Nouvelle actualité':'Publication membres'),pubFormHTML(),foot);
+  /* Ajuste le libellé cross-publish selon le mode */
+  var lbl=document.getElementById('pub-cross-lbl');var cross=document.getElementById('pub-cross');
+  if(cross){cross.style.display=isPublic?'':'none';}
+};
 
 window.togglePollCustom=function(v){
   const el=document.getElementById('poll-custom-wrap');
@@ -3692,7 +3807,10 @@ window.pubEdit=function(row){
   hapticTick();
   var item=(_pubCache[_pubMode]||[]).find(function(n){return n._row===row;});
   if(!item){toast('Publication introuvable','err');return;}
-  /* Remplir le formulaire */
+  _editingRow=row;
+  _editingMode=_pubMode;
+  /* Ouvre la feuille (construit le formulaire) puis remplit */
+  pubOpenSheet();
   var ti=document.getElementById('pub-titre');if(ti)ti.value=item.titre||'';
   var tx=document.getElementById('pub-texte');if(tx)tx.value=item.texte||'';
   var cat=document.getElementById('pub-cat');if(cat)cat.value=item.categorie||'';
@@ -3701,27 +3819,20 @@ window.pubEdit=function(row){
     var sond=document.getElementById('pub-sondage');
     if(sond){
       if(item.sondage&&item.sondage!=='aucun'){
-        var opts=['dispo_vol','dispo_reunion','dispo_event','oui_non'];
+        var opts=['dispo_vol','dispo_reunion','dispo_event','oui_non','oui-non'];
         if(opts.includes(item.sondage)){sond.value=item.sondage;}
         else{sond.value='custom';var pc=document.getElementById('pub-poll-custom');if(pc)pc.value=item.sondage;var pw=document.getElementById('poll-custom-wrap');if(pw)pw.classList.add('show');}
       }else{sond.value='aucun';}
     }
   }
-  _editingRow=row;
-  _editingMode=_pubMode;
-  /* UI : mode édition */
-  var indicator=document.getElementById('pub-editing');if(indicator)indicator.classList.add('show');
-  var submitText=document.getElementById('pub-submit-text');if(submitText)submitText.textContent='Modifier';
-  /* Scroll vers le formulaire */
-  var form=document.getElementById('pub-titre');if(form)form.scrollIntoView({behavior:'smooth',block:'center'});
-  setTimeout(function(){if(form)form.focus();},300);
+  var indicator=document.getElementById('pub-editing');if(indicator)indicator.style.display='flex';
+  var submitText=document.getElementById('pub-submit-text');if(submitText)submitText.textContent='Enregistrer';
+  var cross=document.getElementById('pub-cross');if(cross)cross.style.display='none';
 };
 
 window.pubCancelEdit=function(){
   _editingRow=null;_editingMode=null;
-  var indicator=document.getElementById('pub-editing');if(indicator)indicator.classList.remove('show');
-  var submitText=document.getElementById('pub-submit-text');if(submitText)submitText.textContent='Publier';
-  ['pub-titre','pub-texte','pub-image','pub-poll-custom'].forEach(function(id){var e=document.getElementById(id);if(e)e.value='';});
+  gsheetClose();
 };
 
 /* Mettre à jour le label de cross-publish quand on change de mode */
@@ -3773,7 +3884,7 @@ window.pubSubmit=async function(){
       else{var sv=document.getElementById('pub-sondage');editParams+='&sondage='+enc(sv?sv.value:'aucun');}
       var edata=await fetch(API+'?action='+editAction+'&pin='+enc(memberPin)+editParams).then(function(r){return r.json();});
       if(edata.error){status.textContent='✗ '+edata.error;status.style.color='var(--err)';}
-      else{status.textContent='✓ Modifié !';status.style.color='var(--ok)';hapticThud();pubCancelEdit();setTimeout(loadPubList,500);setTimeout(function(){status.textContent='';},3000);}
+      else{status.textContent='✓ Modifié !';status.style.color='var(--ok)';hapticThud();pubCancelEdit();setTimeout(loadPubList,500);setTimeout(gsheetClose,450);setTimeout(function(){status.textContent='';},3000);}
     }catch(e){status.textContent='✗ Erreur réseau';status.style.color='var(--err)';}
     btn.disabled=false;return;
   }
@@ -3816,6 +3927,7 @@ window.pubSubmit=async function(){
       const pc=document.getElementById('poll-custom-wrap');if(pc)pc.classList.remove('show');
       /* refresh real list */
       setTimeout(loadPubList,500);
+      setTimeout(gsheetClose,450);
       /* invalidate news cache so accueil shows latest */
       if(_pubMode==='membres'){try{localStorage.removeItem('apam_news');}catch(e){}chargerNews();}
       setTimeout(()=>{status.textContent='';},3500);
