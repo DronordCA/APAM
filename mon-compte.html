@@ -572,10 +572,17 @@ html:not(.pwa) .desktop-only{display:flex}
 
 /* ═══════════════════════ NEWS CARDS ═══════════════════════ */
 .mn-feed{display:flex;flex-direction:column;gap:14px}
+.news-feed-bar{display:flex;align-items:center;gap:10px;margin-bottom:12px;padding:0 2px}
+.news-feed-lbl{font-family:'Barlow Condensed',sans-serif;font-weight:800;font-style:italic;font-size:15px;text-transform:uppercase;letter-spacing:.04em;color:var(--muted)}
+.news-feed-reload{margin-left:auto;width:34px;height:34px;display:flex;align-items:center;justify-content:center;border:1px solid var(--border);background:var(--sf);color:var(--muted);border-radius:50%;cursor:pointer;transition:color .18s,border-color .18s,transform .5s}
+.news-feed-reload svg{width:16px;height:16px}
+.news-feed-reload:hover{color:var(--accent);border-color:var(--accent)}
+.news-feed-reload.spin{animation:reloadSpin .7s ease}
+@keyframes reloadSpin{to{transform:rotate(360deg)}}
 .mn-card{background:var(--card-bg);border:1px solid var(--card-bord);border-radius:16px;overflow:hidden;animation:cardIn .42s cubic-bezier(.16,1,.3,1) both;position:relative;box-shadow:inset 0 1px 0 var(--stroke-in)}
 [data-cards="ghost"] .mn-card{box-shadow:none;border-radius:0;border-left:none;border-right:none;border-top:none}
-.mn-card-head{padding:18px 18px 0}
-.mn-meta{display:flex;align-items:center;gap:11px;margin-bottom:13px}
+.mn-card-head{padding:15px 16px 0}
+.mn-meta{display:flex;align-items:center;gap:11px;margin-bottom:12px}
 /* Avatar générique (initiales) */
 .ava{width:38px;height:38px;border-radius:50%;flex-shrink:0;color:#fff;display:flex;align-items:center;justify-content:center;font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:15px;letter-spacing:.02em}
 .ava.xs{width:26px;height:26px;font-size:11px}
@@ -592,9 +599,9 @@ html:not(.pwa) .desktop-only{display:flex}
 .mn-date::before{content:"";width:5px;height:5px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 2px var(--accent-soft)}
 [data-cards="ghost"] .mn-date{background:transparent;border:none;padding:0}
 .mn-author{font-size:12px;color:var(--muted);font-style:italic}
-.mn-title{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:24px;text-transform:uppercase;line-height:1.05;color:var(--text);margin-bottom:12px;text-wrap:balance;letter-spacing:-.005em}
-.mn-body{font-size:15px;line-height:1.7;color:var(--text-2);padding:0 18px 16px;letter-spacing:.005em}
-.mn-media{margin:0 0 4px;background:var(--sf2);overflow:hidden}
+.mn-title{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-style:italic;font-size:22px;text-transform:uppercase;line-height:1.06;color:var(--text);margin-bottom:10px;text-wrap:balance;letter-spacing:-.005em}
+.mn-body{font-size:15px;line-height:1.65;color:var(--text-2);padding:0 16px 14px;letter-spacing:.005em}
+.mn-media{margin:2px 0 4px;background:var(--sf2);overflow:hidden}
 .mn-media img{display:block;width:100%;max-height:420px;object-fit:cover}
 
 .mn-poll-wrap{border-top:1px solid var(--border)}
@@ -649,9 +656,19 @@ html:not(.pwa) .desktop-only{display:flex}
 .vtag{font-size:12px;font-weight:500;padding:4px 10px;border-radius:100px;background:var(--sf2);border:1px solid var(--bds);color:var(--text-2)}
 .vtag.oui{border-color:rgba(34,215,122,.32);color:var(--ok);background:rgba(34,215,122,.06)}
 .vtag.non{border-color:rgba(239,68,68,.28);color:var(--err);background:rgba(239,68,68,.05)}
-.mn-del{padding:8px 14px;border-top:1px solid var(--border);display:flex;justify-content:flex-end}
-.del-btn{font-size:10.5px;font-weight:600;color:var(--err);opacity:.55;background:none;border:none;cursor:pointer}
-.del-btn:hover{opacity:1}
+.mn-menu{margin-left:auto;width:34px;height:34px;flex-shrink:0;display:flex;align-items:center;justify-content:center;border:none;background:none;color:var(--muted);cursor:pointer;border-radius:50%;transition:background .18s,color .18s}
+.mn-menu svg{width:20px;height:20px}
+.mn-menu:hover{background:var(--sf2);color:var(--text)}
+.mn-menu:active{transform:scale(.9)}
+.post-menu{display:flex;flex-direction:column;gap:2px}
+.post-menu-it{display:flex;align-items:center;gap:14px;width:100%;padding:14px 6px;border:none;background:none;font-family:'Jost',sans-serif;font-size:15px;font-weight:500;color:var(--text);cursor:pointer;text-align:left;border-radius:12px;transition:background .15s}
+.post-menu-it:hover{background:var(--sf2)}
+.post-menu-it:active{transform:scale(.985)}
+.post-menu-it.danger{color:var(--err)}
+.pm-ic{width:38px;height:38px;flex-shrink:0;border-radius:11px;display:flex;align-items:center;justify-content:center;background:var(--sf2)}
+.pm-ic svg{width:19px;height:19px}
+.pm-ic.edit{color:var(--accent)}
+.pm-ic.del{color:var(--err);background:rgba(239,68,68,.09)}
 
 /* SKELETONS */
 .skel-card{background:var(--sf);border:1px solid var(--border);border-radius:12px;padding:16px;margin-bottom:12px}
@@ -1101,7 +1118,7 @@ html.pwa .upd-banner{top:calc(env(safe-area-inset-top,0px) + 52px)}
 .member-delete:active{transform:scale(.98)}
 .member-self-note{margin-top:16px;font-size:12px;color:var(--muted);text-align:center;line-height:1.5}
 /* ── Barre d'interaction réseau social (news) ── */
-.feed-bar{position:relative;margin-top:12px;padding-top:10px;border-top:1px solid var(--border)}
+.feed-bar{position:relative;margin-top:6px;padding:8px 8px 12px;border-top:1px solid var(--border)}
 .feed-icons{display:flex;align-items:center;gap:2px}
 .feed-ic-btn{width:40px;height:40px;display:flex;align-items:center;justify-content:center;border:none;background:none;color:var(--text);cursor:pointer;border-radius:50%;transition:transform .14s,color .18s,background .18s}
 .feed-ic-btn svg{width:24px;height:24px}
@@ -2479,7 +2496,7 @@ html.pwa .wb-page-head{padding-top:max(env(safe-area-inset-top,0px),50px)}
       </div>
 
       <div class="news-sec flat" id="news-sec-actus">
-        <button class="news-sec-h" type="button" onclick="newsToggle('actus')"><span class="news-sec-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l18-7-7 18-2.5-7.5z"/></svg></span><span class="news-sec-t">Actualités</span><span class="news-sec-badge" id="news-badge-actus" hidden></span><span class="news-sec-reload" role="button" tabindex="0" title="Rafraîchir" onclick="event.stopPropagation();newsReload(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-2.64-6.36"/><path d="M21 3v6h-6"/></svg></span><svg class="news-sec-chev" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></button>
+        <div class="news-feed-bar"><span class="news-feed-lbl">Fil du club</span><button class="news-feed-reload" type="button" title="Rafraîchir" onclick="newsReload(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-2.64-6.36"/><path d="M21 3v6h-6"/></svg></button></div>
         <div class="news-sec-body">
           <div class="mn-feed" id="m-feed">
             <div class="skel-card"><div class="skel skel-line w-50"></div><div class="skel skel-title"></div><div class="skel skel-line w-full"></div><div class="skel skel-line w-80"></div><div class="skel skel-poll"></div></div>
@@ -2488,7 +2505,7 @@ html.pwa .wb-page-head{padding-top:max(env(safe-area-inset-top,0px),50px)}
         </div>
       </div>
 
-      <div class="news-sec flat" id="news-sec-act">
+      <div class="news-sec flat" id="news-sec-act" hidden>
         <button class="news-sec-h" type="button" onclick="newsToggle('act')"><span class="news-sec-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18M9 16l2 2 4-4"/></svg></span><span class="news-sec-t">Prochaines activités</span><span class="news-sec-badge" id="news-badge-act" hidden></span><svg class="news-sec-chev" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></button>
         <div class="news-sec-body">
           <button class="news-add-btn" id="act-new-btn" type="button" onclick="actOpenForm()" hidden>+ Nouvelle activité</button>
@@ -2498,7 +2515,7 @@ html.pwa .wb-page-head{padding-top:max(env(safe-area-inset-top,0px),50px)}
         </div>
       </div>
 
-      <div class="news-sec flat" id="news-sec-voy">
+      <div class="news-sec flat" id="news-sec-voy" hidden>
         <button class="news-sec-h" type="button" onclick="newsToggle('voy')"><span class="news-sec-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17.8 19.2L16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z"/></svg></span><span class="news-sec-t">Prochains voyages</span><span class="news-sec-badge" id="news-badge-voy" hidden></span><svg class="news-sec-chev" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></button>
         <div class="news-sec-body">
           <button class="news-add-btn" id="voy-new-btn" type="button" onclick="voyOpenForm()" hidden>+ Nouveau voyage</button>
@@ -3215,11 +3232,7 @@ window.feedFilter=function(f){
   hapticTick();
   _feedFilter=f;
   document.querySelectorAll('#feed-filters .feed-chip').forEach(function(b){b.classList.toggle('on',b.getAttribute('data-f')===f);});
-  var map={actus:'news-sec-actus',act:'news-sec-act',voy:'news-sec-voy'};
-  Object.keys(map).forEach(function(k){
-    var el=document.getElementById(map[k]);if(!el)return;
-    el.style.display=(f==='all'||f===k)?'':'none';
-  });
+  try{renderUnifiedFeed();}catch(e){}
 };
 window.feedCompose=function(){
   /* Ouvre le sélecteur : Actualité · Activité · Voyage (selon droits) */
@@ -3282,10 +3295,45 @@ function applyNews(news){
   const sig=JSON.stringify(news.map(n=>[n.id,n.date,n.titre,n.texte,n.image,(RS[n.id]||{}).myVote,((RS[n.id]||{}).reactions||[]).length]));
   if(sig===window._newsSig){try{newsRenderBadges();}catch(e){}return;}
   window._newsSig=sig;
-  const html=news.length?news.map(renderCard).join(''):`<div class="mn-empty"><div class="mn-empty-icon">📭</div><p class="mn-empty-title">Aucune actualité</p><p class="mn-empty-sub">Rien de nouveau pour l'instant.</p></div>`;
-  ['d-feed','m-feed'].forEach(id=>{const el=document.getElementById(id);if(el)el.innerHTML=html;});
+  window._feedActus=news;
+  try{renderUnifiedFeed();}catch(e){
+    const html=news.length?news.map(renderCard).join(''):`<div class="mn-empty"><div class="mn-empty-icon">📭</div><p class="mn-empty-title">Aucune actualité</p><p class="mn-empty-sub">Rien de nouveau pour l'instant.</p></div>`;
+    ['d-feed','m-feed'].forEach(id=>{const el=document.getElementById(id);if(el)el.innerHTML=html;});
+  }
   try{homeRenderNewsMini();}catch(e){}
   try{newsRenderBadges();}catch(e){}
+}
+
+/* ══════════ FIL UNIQUE : fusion actus + activités + voyages, tri chronologique ══════════ */
+function renderUnifiedFeed(){
+  var actus=window._feedActus||loadNC()||[];
+  var acts=(typeof ACTIVITES!=='undefined'&&ACTIVITES)?ACTIVITES:[];
+  var voys=(typeof VOYAGES!=='undefined'&&VOYAGES)?VOYAGES:[];
+  var now=new Date().setHours(0,0,0,0);
+  var items=[];
+  actus.forEach(function(n){
+    var d=parseLocalDate?parseLocalDate(n.date):new Date(n.date);
+    items.push({type:'actus',t:(d&&!isNaN(d))?d.getTime():0,html:renderCard(n)});
+  });
+  acts.forEach(function(t){
+    var d=new Date(t.date);var past=!isNaN(d)&&d.setHours(0,0,0,0)<now;
+    items.push({type:'act',t:(d&&!isNaN(d))?new Date(t.date).getTime():0,past:past,html:feedTripWrap(t,'activite',past)});
+  });
+  voys.forEach(function(t){
+    var d=new Date(t.date);var past=!isNaN(d)&&d.setHours(0,0,0,0)<now;
+    items.push({type:'voy',t:(d&&!isNaN(d))?new Date(t.date).getTime():0,past:past,html:feedTripWrap(t,'voyage',past)});
+  });
+  /* Tri : à venir d'abord (plus proche en haut), puis actus/passés par date décroissante */
+  items.sort(function(a,b){return b.t-a.t;});
+  var f=(typeof _feedFilter!=='undefined')?_feedFilter:'all';
+  var shown=items.filter(function(it){return f==='all'||it.type===f;});
+  var html=shown.length?shown.map(function(it){return it.html;}).join(''):
+    `<div class="mn-empty"><div class="mn-empty-icon">📭</div><p class="mn-empty-title">Rien à afficher</p><p class="mn-empty-sub">Aucune publication dans ce filtre.</p></div>`;
+  ['d-feed','m-feed'].forEach(function(id){var el=document.getElementById(id);if(el)el.innerHTML=html;});
+}
+/* Enveloppe une carte voyage/activité pour l'intégrer au fil unique */
+function feedTripWrap(t,kind,past){
+  try{return tripCard(t,kind,past);}catch(e){return '';}
 }
 
 function pollWrapHTML(n){
@@ -3360,12 +3408,39 @@ function newsRelDate(iso){
   return d.toLocaleDateString('fr-FR',{day:'numeric',month:'short',year:(new Date().getFullYear()!==d.getFullYear()?'numeric':undefined)});
 }
 function renderCard(n){
-  const delB=(perms.news_membres||perms.admin)?`<div class="mn-del"><button class="del-btn" type="button" onclick="delNews('${n.id}',${n._row})">Supprimer</button></div>`:'';
+  const canMng=(perms.news_membres||perms.admin);
+  const menuB=canMng?`<button class="mn-menu" type="button" aria-label="Gérer" onclick="feedPostMenu('${n.id}',${n._row})"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="12" r="1.7"/><circle cx="12" cy="12" r="1.7"/><circle cx="19" cy="12" r="1.7"/></svg></button>`:'';
   const pollHtml=pollWrapHTML(n);
   const who=n.auteur||'Le bureau';
   const imgHtml=n.image?`<div class="mn-media"><img src="${esc(n.image)}" alt="" loading="lazy" onerror="this.closest('.mn-media').remove()"></div>`:'';
-  return `<article class="mn-card" data-nid="${n.id}"><div class="mn-card-head"><div class="mn-meta">${avatarHTML(who,'')}<span class="mn-meta-tx"><span class="mn-name">${who}</span><span class="mn-when">${newsRelDate(n.date)}</span></span></div><div class="mn-title">${n.titre}</div></div><div class="mn-body">${n.texte}</div>${imgHtml}${pollHtml}${feedBarHTML(n.id)}${delB}</article>`;
+  return `<article class="mn-card" data-nid="${n.id}"><div class="mn-card-head"><div class="mn-meta">${avatarHTML(who,'')}<span class="mn-meta-tx"><span class="mn-name">${who}</span><span class="mn-when">${newsRelDate(n.date)}</span></span>${menuB}</div>${n.titre?`<div class="mn-title">${n.titre}</div>`:''}</div><div class="mn-body">${n.texte}</div>${imgHtml}${pollHtml}${feedBarHTML(n.id)}</article>`;
 }
+
+/* Menu ••• de gestion d'un post (admin / news_membres) */
+window.feedPostMenu=function(id,row){
+  if(typeof hapticTick==='function')hapticTick();
+  const body=`<div class="post-menu">
+    <button type="button" class="post-menu-it" onclick="gsheetClose();feedPostEdit(${row})"><span class="pm-ic edit"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.12 2.12 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></span>Modifier la publication</button>
+    <button type="button" class="post-menu-it danger" onclick="gsheetClose();delNews('${id}',${row})"><span class="pm-ic del"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></span>Supprimer</button>
+  </div>`;
+  gsheetOpen('Gérer la publication',body,'');
+};
+/* Ouvre la feuille de publication en mode édition membre depuis le fil */
+window.feedPostEdit=function(row){
+  if(typeof _pubMode!=='undefined')_pubMode='membres';
+  /* S'assure que le cache d'édition contient bien ce post (le fil vient de loadNC) */
+  try{
+    if(typeof _pubCache!=='undefined'){
+      if(!_pubCache.membres)_pubCache.membres=[];
+      var have=_pubCache.membres.find(function(n){return n._row===row;});
+      if(!have){
+        var src=(loadNC()||[]).find(function(n){return n._row===row;});
+        if(src)_pubCache.membres.push(src);
+      }
+    }
+  }catch(e){}
+  if(typeof pubEdit==='function'){pubEdit(row);}
+};
 
 /* ══════════ Interactions type réseau social (réactions + commentaires) ══════════ */
 var FEED_EMOJI=[['like','👍'],['love','❤️'],['haha','😂'],['party','🎉']];
@@ -5505,6 +5580,7 @@ function newsRenderTrips(){
   var vb=document.getElementById('voy-new-btn');if(vb)vb.hidden=!canM;
   var ab=document.getElementById('act-new-btn');if(ab)ab.hidden=!canM;
   try{newsRenderBadges();}catch(e){}
+  try{renderUnifiedFeed();}catch(e){}
 }
 function newsFillPast(key,boxId,list,kind,word){
   var toggle=document.getElementById(key+'-past-toggle');
