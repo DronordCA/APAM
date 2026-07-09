@@ -5933,7 +5933,33 @@ if(typeof window!=='undefined'){
   document.addEventListener('visibilitychange',function(){if(!document.hidden)carbFlushQueue();});
   setInterval(function(){if(!document.hidden&&carbPendingCount())carbFlushQueue();},30000);
 }
+/* ── Pont Firebase carburant : carnet en direct + auto-migration du Sheet ── */
+var _carbFbActive=(typeof DEMO_MODE==='undefined'||!DEMO_MODE);
+var _carbMigrated=false;
+window.__apamFuelData=function(arr){
+  if(!_carbFbActive)return; /* en démo : on garde les données mock */
+  CARBURANT = arr || [];
+  carbSaveCache();
+  _carbLoaded=true;
+  try{carbRender();carbRenderQuick();}catch(e){}
+  /* Auto-migration unique : si Firestore est vide, importer le carnet existant du Sheet */
+  if(!_carbMigrated && (!arr||!arr.length) && !localStorage.getItem('apam_carb_migrated')){
+    _carbMigrated=true;
+    try{fetch(API+'?action=getCarburant').then(function(r){return r.json();}).then(function(d){
+      if(d&&d.carburant&&d.carburant.length&&window.APAM_FB&&window.APAM_FB.fuelAdd){
+        d.carburant.forEach(function(e){ window.APAM_FB.fuelAdd(e); });
+        localStorage.setItem('apam_carb_migrated','1');
+      }
+    }).catch(function(){});}catch(e){}
+  }
+};
 async function carbLoadAll(){
+  /* Si Firebase est prêt (hors démo), le listener temps réel alimente le carnet */
+  if(_carbFbActive && window.APAM_FB){
+    _carbLoaded=true;
+    try{carbRender();carbRenderQuick();}catch(e){}
+    return;
+  }
   try{
     var r=await fetch(API+'?action=getCarburant').then(function(r){return r.json();}).catch(function(){return{};});
     if(r&&r.carburant){
@@ -6016,10 +6042,14 @@ window.carbDelete=function(id){
   var i=CARBURANT.findIndex(function(e){return e.id===id;});
   if(i>-1)CARBURANT.splice(i,1);
   carbSaveCache();
-  /* Si la saisie n'était pas encore synchronisée, on retire juste son ajout de la file (rien à supprimer côté serveur) */
-  var pend=carbPendingIds();
-  if(pend[id]){var q=carbQLoad().filter(function(it){return !(it.op==='add'&&it.entry&&it.entry.id===id);});carbQSave(q);carbUpdateSyncUI();}
-  else{carbEnqueue({op:'del',id:id});}
+  if(_carbFbActive && window.APAM_FB && window.APAM_FB.fuelDelete){
+    window.APAM_FB.fuelDelete(id);
+  } else {
+    /* Si la saisie n'était pas encore synchronisée, on retire juste son ajout de la file (rien à supprimer côté serveur) */
+    var pend=carbPendingIds();
+    if(pend[id]){var q=carbQLoad().filter(function(it){return !(it.op==='add'&&it.entry&&it.entry.id===id);});carbQSave(q);carbUpdateSyncUI();}
+    else{carbEnqueue({op:'del',id:id});}
+  }
   carbRender();carbRenderQuick();
   toast('Supprimé');
 };
@@ -6106,7 +6136,8 @@ window.carbSave=function(type){
   }
   CARBURANT.push(e);
   carbSaveCache();tripCloseForm();carbRender();carbRenderQuick();
-  carbEnqueue({op:'add',entry:e});
+  if(_carbFbActive && window.APAM_FB && window.APAM_FB.fuelAdd){ window.APAM_FB.fuelAdd(e); }
+  else { carbEnqueue({op:'add',entry:e}); }
   toast(type==='ajout'?'Cuve remplie ✓':(e.vente?'Vente enregistrée ✓':'Plein enregistré ✓'));
 };
 
@@ -7394,7 +7425,7 @@ async function docUploadFile(input){
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-app.js";
   import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-auth.js";
-  import { getFirestore, collection, doc, setDoc, deleteDoc, addDoc, onSnapshot, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-firestore.js";
+  import { getFirestore, initializeFirestore, persistentLocalCache, persistentMultipleTabManager, collection, doc, setDoc, deleteDoc, addDoc, onSnapshot, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-firestore.js";
 
   const firebaseConfig = {
     apiKey: "AIzaSyDsg_moulx-G5cfyDkEma-IENjAyd_Okjs",
@@ -7407,7 +7438,10 @@ async function docUploadFile(input){
 
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
-  const db = getFirestore(app);
+  /* Persistance hors-ligne : les écritures survivent même app fermée + resync auto */
+  let db;
+  try { db = initializeFirestore(app, { localCache: persistentLocalCache({ tabManager: persistentMultipleTabManager() }) }); }
+  catch(e){ db = getFirestore(app); }
 
   let ready = false;
   const queue = [];
@@ -7427,6 +7461,13 @@ async function docUploadFile(input){
     /* Ajoute un commentaire */
     comment(postId, pin, auteur, texte){
       enqueue(()=> addDoc(collection(db,'comments'), { postId, pin, auteur, texte, ts: serverTimestamp() }));
+    },
+    /* ── Carburant ── */
+    fuelAdd(entry){
+      enqueue(()=>{ const id = entry.id || ('c_'+Date.now()); const data = Object.assign({}, entry, { id: id, ts: serverTimestamp() }); setDoc(doc(db,'carburant', id), data); });
+    },
+    fuelDelete(id){
+      enqueue(()=> deleteDoc(doc(db,'carburant', id)));
     },
     _started:false,
     start(){
@@ -7453,6 +7494,12 @@ async function docUploadFile(input){
         });
         if(window.__apamFeedComments) window.__apamFeedComments(agg);
       }, e=>console.warn('APAM FB comments:', e.code||e.message));
+      /* Carburant : carnet en direct */
+      onSnapshot(collection(db,'carburant'), snap=>{
+        const arr = [];
+        snap.forEach(d=>{ arr.push(Object.assign({}, d.data(), { id:d.id })); });
+        if(window.__apamFuelData) window.__apamFuelData(arr);
+      }, e=>console.warn('APAM FB carburant:', e.code||e.message));
     }
   };
   window.APAM_FB = FB;
