@@ -1,6 +1,10 @@
 /* APAM service worker — v2
+   ⚠️ Ce fichier sert AUSSI de worker OneSignal (serviceWorkerPath:"sw.js").
+   La ligne importScripts ci-dessous gère les notifications push — NE PAS la retirer.
    HTML/navigation : réseau d'abord (toujours la dernière version quand il y a du réseau,
    repli sur le cache hors-ligne). Autres ressources : cache d'abord + maj en arrière-plan. */
+importScripts("https://cdn.onesignal.com/sdks/web/v16/OneSignalSDKWorker.js");
+
 const CACHE = 'apam-cache-v2';
 
 self.addEventListener('install', function(e){ self.skipWaiting(); });
