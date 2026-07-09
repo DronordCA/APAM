@@ -1141,6 +1141,11 @@ html.pwa .upd-banner{top:calc(env(safe-area-inset-top,0px) + 52px)}
 /* Commentaires (feuille) */
 .fc-list{display:flex;flex-direction:column;gap:14px;min-height:60px}
 .fc-empty{text-align:center;color:var(--muted);font-size:13px;padding:26px 12px}
+.fc-loading{display:flex;align-items:center;justify-content:center;gap:10px;color:var(--muted);font-size:13px;padding:26px 12px}
+.fc-spin{width:16px;height:16px;border:2px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:reloadSpin .7s linear infinite}
+.fc-sync{text-align:center;color:var(--muted);font-size:11px;padding:4px 0 2px;opacity:.7}
+.fc-item-new{animation:fcPop .3s cubic-bezier(.2,.9,.3,1.3)}
+@keyframes fcPop{0%{opacity:0;transform:translateY(6px)}100%{opacity:1;transform:none}}
 .fc-item{display:flex;gap:10px;align-items:flex-start}
 .fc-bubble{flex:1;min-width:0;background:var(--sf2);border-radius:4px 14px 14px 14px;padding:10px 13px}
 .fc-who{font-size:12.5px;font-weight:600;color:var(--text);margin-bottom:2px}
@@ -3457,7 +3462,7 @@ function feedBarHTML(id){
   var mineEmoji=mine?(FEED_EMOJI.find(function(e){return e[0]===mine;})||['','👍'])[1]:'';
   return `<div class="feed-bar" data-fid="${id}">
     <div class="feed-icons">
-      <button type="button" class="feed-ic-btn like ${mine?'on':''}" aria-label="J'aime" onclick="feedTogglePicker('${id}',this)">${mine?`<span class="feed-ic-emo">${mineEmoji}</span>`:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"/></svg>`}</button>
+      <button type="button" class="feed-ic-btn like ${mine?'on':''}" aria-label="J'aime" onclick="feedQuickLike('${id}')" oncontextmenu="event.preventDefault();feedTogglePicker('${id}',this);return false;" onpointerdown="feedLikeHold('${id}',this)" onpointerup="feedLikeRelease()" onpointercancel="feedLikeRelease()" onpointerleave="feedLikeRelease()">${mine?`<span class="feed-ic-emo">${mineEmoji}</span>`:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"/></svg>`}</button>
       <button type="button" class="feed-ic-btn" aria-label="Commenter" onclick="feedOpenComments('${id}')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.4 8.4 0 0 1-8.5 8.5 8.7 8.7 0 0 1-3.9-.9L3 21l1.9-5.6a8.4 8.4 0 0 1-.9-3.9A8.4 8.4 0 0 1 12.5 3 8.4 8.4 0 0 1 21 11.5z"/></svg></button>
       <button type="button" class="feed-ic-btn" aria-label="Partager" onclick="feedShare('${id}')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13"/><path d="M22 2l-7 20-4-9-9-4 20-7z"/></svg></button>
     </div>
@@ -3465,25 +3470,54 @@ function feedBarHTML(id){
     <div class="feed-picker" id="feed-picker-${id}">${FEED_EMOJI.map(function(e){return `<button type="button" class="feed-emo ${mine===e[0]?'on':''}" onclick="feedReact('${id}','${e[0]}')">${e[1]}</button>`;}).join('')}</div>
   </div>`;
 }
+/* Tap = like instantané (❤️) ; appui long = sélecteur d'émojis */
+var _likeHoldTimer=null,_likeDidLong=false;
+window.feedLikeHold=function(id,btn){
+  _likeDidLong=false;
+  if(_likeHoldTimer)clearTimeout(_likeHoldTimer);
+  _likeHoldTimer=setTimeout(function(){_likeDidLong=true;feedTogglePicker(id,btn);},420);
+};
+window.feedLikeRelease=function(){
+  if(_likeHoldTimer){clearTimeout(_likeHoldTimer);_likeHoldTimer=null;}
+};
+window.feedQuickLike=function(id){
+  if(_likeDidLong){_likeDidLong=false;return;} /* l'appui long a déjà ouvert le sélecteur */
+  var st=feedReactStore()[id]||{counts:{},mine:null};
+  feedReact(id, st.mine ? st.mine : 'love'); /* toggle off si déjà réagi, sinon ❤️ */
+};
 window.feedTogglePicker=function(id,btn){
   hapticTick();
-  var p=document.getElementById('feed-picker-'+id);if(!p)return;
+  var bar=btn?btn.closest('.feed-bar'):null;
+  var p=bar?bar.querySelector('.feed-picker'):document.getElementById('feed-picker-'+id);
+  if(!p)return;
   var open=p.classList.contains('open');
   document.querySelectorAll('.feed-picker.open').forEach(function(x){x.classList.remove('open');});
   if(!open)p.classList.add('open');
 };
 window.feedReact=function(id,key){
   hapticThud();
+  feedLikeRelease();
   var store=feedReactStore();
   var st=store[id]||{counts:{},mine:null};
   if(st.mine===key){st.counts[key]=Math.max(0,(st.counts[key]||1)-1);st.mine=null;}
   else{if(st.mine){st.counts[st.mine]=Math.max(0,(st.counts[st.mine]||1)-1);}st.counts[key]=(st.counts[key]||0)+1;st.mine=key;}
   store[id]=st;feedReactSave(store);
-  var bar=document.querySelector('.feed-bar[data-fid="'+id+'"]');
-  if(bar){var wrap=document.createElement('div');wrap.innerHTML=feedBarHTML(id);bar.replaceWith(wrap.firstElementChild);}
-  /* Persistance serveur (fire-and-forget) */
-  try{if(typeof memberPin!=='undefined'&&memberPin){fetch(API+'?action=react&pin='+enc(memberPin)+'&postId='+enc(id)+'&emoji='+enc(st.mine||'')).catch(function(){});}}catch(e){}
+  _feedActed[id]=Date.now(); /* ma réaction fait autorité — la synchro serveur ne l'écrase plus */
+  feedRerenderBars(id);
+  /* Persistance : Firebase en priorité, sinon Apps Script */
+  try{
+    if(window.APAM_FB && memberPin){ window.APAM_FB.react(id, memberPin, st.mine||''); }
+    else if(typeof memberPin!=='undefined' && memberPin){ fetch(API+'?action=react&pin='+enc(memberPin)+'&postId='+enc(id)+'&emoji='+enc(st.mine||'')).catch(function(){}); }
+  }catch(e){}
 };
+var _feedActed={};
+/* Re-render TOUTES les copies d'une barre (le fil existe en double : #d-feed + #m-feed) */
+function feedRerenderBars(id){
+  document.querySelectorAll('.feed-bar[data-fid="'+id+'"]').forEach(function(bar){
+    var wrap=document.createElement('div');wrap.innerHTML=feedBarHTML(id);
+    if(wrap.firstElementChild)bar.replaceWith(wrap.firstElementChild);
+  });
+}
 window.feedShare=function(id){
   hapticTick();
   var url=location.origin+location.pathname+'#post-'+id;
@@ -3491,44 +3525,106 @@ window.feedShare=function(id){
   else if(navigator.clipboard){navigator.clipboard.writeText(url).then(function(){toast('Lien copié ✓','ok');}).catch(function(){toast('Lien : '+url);});}
   else toast('Lien : '+url);
 };
+/* Rend la liste des commentaires dans la feuille ouverte (utilisé en direct par Firebase) */
+function feedRenderCommentList(id, loading){
+  var listEl=document.getElementById('fc-list');if(!listEl)return;
+  var cmts=feedCmtStore()[id]||[];
+  var html;
+  if(cmts.length){
+    html=cmts.map(function(c){return `<div class="fc-item">${avatarHTML(c.who||c.auteur,'xs')}<div class="fc-bubble"><div class="fc-who">${esc(c.who||c.auteur)}</div><div class="fc-tx">${esc(c.text||c.texte)}</div><div class="fc-date">${esc(relDate(c.date))}</div></div></div>`;}).join('');
+    if(loading)html+='<div class="fc-sync">Actualisation…</div>';
+  }else if(loading){
+    html='<div class="fc-loading"><span class="fc-spin"></span>Chargement des commentaires…</div>';
+  }else{
+    html='<div class="fc-empty">Aucun commentaire. Soyez le premier !</div>';
+  }
+  listEl.innerHTML=html;
+}
 window.feedOpenComments=function(id){
-  var render=function(cmts){
-    var list=cmts.length?cmts.map(function(c){return `<div class="fc-item">${avatarHTML(c.who||c.auteur,'xs')}<div class="fc-bubble"><div class="fc-who">${esc(c.who||c.auteur)}</div><div class="fc-tx">${esc(c.text||c.texte)}</div><div class="fc-date">${esc(relDate(c.date))}</div></div></div>`;}).join(''):'<div class="fc-empty">Aucun commentaire. Soyez le premier !</div>';
-    var body=`<div class="fc-list" id="fc-list">${list}</div>`;
-    var foot=`<input class="fc-input" id="fc-input" type="text" placeholder="Votre commentaire…" onkeydown="if(event.key==='Enter')feedAddComment('${id}')"><button class="fc-send" type="button" onclick="feedAddComment('${id}')" aria-label="Envoyer"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4z"/></svg></button>`;
-    gsheetOpen('Commentaires',body,foot);
-  };
-  render(feedCmtStore()[id]||[]);
-  /* Rafraîchit depuis le serveur */
-  try{fetch(API+'?action=getComments&postId='+enc(id)).then(function(r){return r.json();}).then(function(d){
-    if(d&&d.comments){var arr=d.comments.map(function(c){return {who:c.auteur,text:c.texte,date:c.date};});var s=feedCmtStore();s[id]=arr;feedCmtSave(s);if(document.getElementById('fc-list'))render(arr);}
-  }).catch(function(){});}catch(e){}
+  window._openCmtPost=id;
+  var body=`<div class="fc-list" id="fc-list"></div>`;
+  var foot=`<input class="fc-input" id="fc-input" type="text" placeholder="Votre commentaire…" onkeydown="if(event.key==='Enter')feedAddComment('${id}')"><button class="fc-send" type="button" onclick="feedAddComment('${id}')" aria-label="Envoyer"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4z"/></svg></button>`;
+  gsheetOpen('Commentaires',body,foot);
+  var hasCache=(feedCmtStore()[id]||[]).length>0;
+  if(window.APAM_FB){
+    /* Firebase : le listener garde le cache à jour en direct */
+    feedRenderCommentList(id, !hasCache);
+  }else{
+    feedRenderCommentList(id, true);
+    try{fetch(API+'?action=getComments&postId='+enc(id)).then(function(r){return r.json();}).then(function(d){
+      if(d&&d.comments){var arr=d.comments.map(function(c){return {who:c.auteur,text:c.texte,date:c.date};});var s=feedCmtStore();s[id]=arr;feedCmtSave(s);}
+      feedRenderCommentList(id, false);
+    }).catch(function(){feedRenderCommentList(id, false);});}catch(e){feedRenderCommentList(id, false);}
+  }
 };
 window.feedAddComment=function(id){
   var inp=document.getElementById('fc-input');if(!inp)return;
   var tx=inp.value.trim();if(!tx)return;
   var store=feedCmtStore();var arr=store[id]||[];
-  arr.push({who:(memberFullName||'Moi'),text:tx,date:todayISO()});
+  var c={who:(memberFullName||'Moi'),text:tx,date:todayISO()};
+  arr.push(c);
   store[id]=arr;feedCmtSave(store);
   inp.value='';hapticTick();
-  feedOpenComments(id);
-  /* maj compteur sur la carte */
-  var bar=document.querySelector('.feed-bar[data-fid="'+id+'"]');
-  if(bar){var wrap=document.createElement('div');wrap.innerHTML=feedBarHTML(id);bar.replaceWith(wrap.firstElementChild);}
-  /* Persistance serveur */
-  try{if(typeof memberPin!=='undefined'&&memberPin){fetch(API+'?action=addComment&pin='+enc(memberPin)+'&postId='+enc(id)+'&texte='+enc(tx)).catch(function(){});}}catch(e){}
+  /* Ajout instantané dans la liste ouverte (sans recharger) */
+  var listEl=document.getElementById('fc-list');
+  if(listEl){
+    var empty=listEl.querySelector('.fc-empty,.fc-loading');if(empty)empty.remove();
+    var div=document.createElement('div');div.className='fc-item fc-item-new';
+    div.innerHTML=`${avatarHTML(c.who,'xs')}<div class="fc-bubble"><div class="fc-who">${esc(c.who)}</div><div class="fc-tx">${esc(c.text)}</div><div class="fc-date">à l'instant</div></div>`;
+    listEl.appendChild(div);
+    listEl.scrollTop=listEl.scrollHeight;
+  }
+  /* maj compteur sur la carte (toutes les copies) */
+  feedRerenderBars(id);
+  /* Persistance : Firebase en priorité, sinon Apps Script */
+  try{
+    if(window.APAM_FB && memberPin){ window.APAM_FB.comment(id, memberPin, memberFullName, tx); }
+    else if(typeof memberPin!=='undefined' && memberPin){ fetch(API+'?action=addComment&pin='+enc(memberPin)+'&postId='+enc(id)+'&texte='+enc(tx)).catch(function(){}); }
+  }catch(e){}
 };
-/* Synchro des réactions/commentaires depuis le serveur (fil partagé) */
+/* Synchro des réactions/commentaires — Firebase (temps réel) sinon Apps Script (repli) */
 function feedSyncFromServer(){
+  if(window.APAM_FB){return;} /* Firebase gère la synchro en direct via ses listeners */
   try{if(typeof memberPin==='undefined'||!memberPin)return;
     fetch(API+'?action=getFeed&pin='+enc(memberPin)).then(function(r){return r.json();}).then(function(d){
       if(!d)return;
-      if(d.reactions){var rs=feedReactStore();Object.keys(d.reactions).forEach(function(id){rs[id]={counts:d.reactions[id].counts||{},mine:d.reactions[id].mine||null};});feedReactSave(rs);}
-      /* Re-render les barres visibles */
-      document.querySelectorAll('.feed-bar').forEach(function(bar){var id=bar.getAttribute('data-fid');var wrap=document.createElement('div');wrap.innerHTML=feedBarHTML(id);bar.replaceWith(wrap.firstElementChild);});
+      if(d.reactions){var rs=feedReactStore();Object.keys(d.reactions).forEach(function(id){
+        var srv=d.reactions[id]||{};
+        var localMine=(rs[id]||{}).mine;
+        /* Si j'ai réagi localement il y a < 60 s, MA réaction prime (le serveur peut être en retard) */
+        var acted=_feedActed[id]&&(Date.now()-_feedActed[id]<60000);
+        var mine=acted?localMine:(srv.mine||null);
+        var counts=srv.counts||{};
+        if(acted&&localMine){counts=Object.assign({},counts);if(!counts[localMine])counts[localMine]=(counts[localMine]||0)+1;}
+        rs[id]={counts:counts,mine:mine};
+      });feedReactSave(rs);}
+      /* Re-render les barres visibles (toutes copies) */
+      var seen={};
+      document.querySelectorAll('.feed-bar').forEach(function(bar){var id=bar.getAttribute('data-fid');if(id&&!seen[id]){seen[id]=1;feedRerenderBars(id);}});
     }).catch(function(){});
   }catch(e){}
 }
+/* ── Ponts Firebase : reçoivent les données Firestore en direct ── */
+function _feedRerenderAll(){
+  var seen={};
+  document.querySelectorAll('.feed-bar').forEach(function(bar){var id=bar.getAttribute('data-fid');if(id&&!seen[id]){seen[id]=1;feedRerenderBars(id);}});
+}
+window.__apamFeedReactions=function(agg){
+  var rs={};
+  Object.keys(agg||{}).forEach(function(id){
+    rs[id]={counts:agg[id].counts||{}, mine:(agg[id].byPin||{})[memberPin]||null};
+  });
+  feedReactSave(rs);
+  _feedRerenderAll();
+};
+window.__apamFeedComments=function(agg){
+  feedCmtSave(agg||{});
+  _feedRerenderAll();
+  /* Si la feuille de commentaires est ouverte, la rafraîchir en direct */
+  if(window._openCmtPost && document.getElementById('fc-list')){
+    try{feedRenderCommentList(window._openCmtPost);}catch(e){}
+  }
+};
 document.addEventListener('click',function(e){if(!e.target.closest('.feed-bar'))document.querySelectorAll('.feed-picker.open').forEach(function(x){x.classList.remove('open');});});
 
 async function fetchReactions(news){
@@ -7293,6 +7389,83 @@ async function docUploadFile(input){
   </div>
   <div class="ck-viewer-body" id="ck-viewer-body"></div>
 </div>
+
+<!-- ══════════ Firebase (fil social temps réel : réactions + commentaires) ══════════ -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-app.js";
+  import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-auth.js";
+  import { getFirestore, collection, doc, setDoc, deleteDoc, addDoc, onSnapshot, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyDsg_moulx-G5cfyDkEma-IENjAyd_Okjs",
+    authDomain: "apam-81abb.firebaseapp.com",
+    projectId: "apam-81abb",
+    storageBucket: "apam-81abb.firebasestorage.app",
+    messagingSenderId: "221663875633",
+    appId: "1:221663875633:web:ae9c3f1c35ceb1712bfb10"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
+
+  let ready = false;
+  const queue = [];
+  function run(fn){ try{ fn(); }catch(e){ console.warn('APAM FB write:', e.code||e.message); } }
+  function enqueue(fn){ ready ? run(fn) : queue.push(fn); }
+
+  const FB = {
+    ready:false, uid:null,
+    /* Pose ou retire une réaction (emoji vide = retrait) */
+    react(postId, pin, emoji){
+      enqueue(()=>{
+        const ref = doc(db, 'reactions', postId + '__' + pin);
+        if(emoji){ setDoc(ref, { postId, pin, emoji, ts: serverTimestamp() }); }
+        else { deleteDoc(ref); }
+      });
+    },
+    /* Ajoute un commentaire */
+    comment(postId, pin, auteur, texte){
+      enqueue(()=> addDoc(collection(db,'comments'), { postId, pin, auteur, texte, ts: serverTimestamp() }));
+    },
+    _started:false,
+    start(){
+      if(this._started) return; this._started = true;
+      /* Réactions : agrégées en direct pour tous les posts */
+      onSnapshot(collection(db,'reactions'), snap=>{
+        const agg = {};
+        snap.forEach(d=>{ const r = d.data(); if(!r.postId) return;
+          if(!agg[r.postId]) agg[r.postId] = { counts:{}, byPin:{} };
+          agg[r.postId].counts[r.emoji] = (agg[r.postId].counts[r.emoji]||0)+1;
+          agg[r.postId].byPin[r.pin] = r.emoji;
+        });
+        if(window.__apamFeedReactions) window.__apamFeedReactions(agg);
+      }, e=>console.warn('APAM FB reactions:', e.code||e.message));
+      /* Commentaires : agrégés par post, triés par date */
+      onSnapshot(collection(db,'comments'), snap=>{
+        const rows = [];
+        snap.forEach(d=>{ const c = d.data(); rows.push({ id:d.id, ...c }); });
+        rows.sort((a,b)=> ((a.ts&&a.ts.seconds)||0) - ((b.ts&&b.ts.seconds)||0));
+        const agg = {};
+        rows.forEach(c=>{ if(!c.postId) return;
+          if(!agg[c.postId]) agg[c.postId] = [];
+          agg[c.postId].push({ who:c.auteur||'Membre', text:c.texte||'', date: (c.ts&&c.ts.toDate)? c.ts.toDate().toISOString().slice(0,10) : '' });
+        });
+        if(window.__apamFeedComments) window.__apamFeedComments(agg);
+      }, e=>console.warn('APAM FB comments:', e.code||e.message));
+    }
+  };
+  window.APAM_FB = FB;
+
+  signInAnonymously(auth).catch(e=> console.warn('APAM Firebase auth:', e.code||e.message));
+  onAuthStateChanged(auth, user=>{
+    if(user){ ready = true; FB.ready = true; FB.uid = user.uid;
+      while(queue.length) run(queue.shift());
+      FB.start();
+      document.dispatchEvent(new CustomEvent('apam-fb-ready'));
+    }
+  });
+</script>
 
 </body>
 </html>
