@@ -1,77 +1,63 @@
-importScripts("https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.sw.js");
-// ============================================================
-//  APAM Service Worker – v1
-// ============================================================
-const CACHE     = 'apam-v2';
-const CACHE_NET = 'apam-net-v2';
+/* APAM service worker — v2
+   HTML/navigation : réseau d'abord (toujours la dernière version quand il y a du réseau,
+   repli sur le cache hors-ligne). Autres ressources : cache d'abord + maj en arrière-plan. */
+const CACHE = 'apam-cache-v2';
 
-const SHELL = [
-  '/mon-compte.html',
-  '/connexion-membres-password.html',
-  '/assets/images/apam-logo2.png',
-  'https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,400;0,700;0,900;1,700;1,900&family=Jost:wght@300;400;500;600;700&display=swap',
-];
+self.addEventListener('install', function(e){ self.skipWaiting(); });
 
-// Install — cache le shell
-self.addEventListener('install', e => {
+self.addEventListener('activate', function(e){
   e.waitUntil(
-    caches.open(CACHE).then(c => c.addAll(SHELL)).then(() => self.skipWaiting())
+    caches.keys().then(function(keys){
+      return Promise.all(keys.filter(function(k){ return k !== CACHE; }).map(function(k){ return caches.delete(k); }));
+    }).then(function(){ return self.clients.claim(); })
   );
 });
 
-// Activate — nettoie les anciens caches
-self.addEventListener('activate', e => {
-  e.waitUntil(
-    caches.keys().then(keys =>
-      Promise.all(keys.filter(k => k !== CACHE && k !== CACHE_NET).map(k => caches.delete(k)))
-    ).then(() => self.clients.claim())
-  );
+self.addEventListener('message', function(e){
+  if (e.data && e.data.type === 'SKIP_WAITING') self.skipWaiting();
+  if (e.data && e.data.type === 'CLEAR_CACHE') {
+    caches.keys().then(function(keys){ keys.forEach(function(k){ caches.delete(k); }); });
+  }
 });
 
-// Message — permet à la page de forcer la mise à jour
-self.addEventListener('message', e => {
-  if(e.data && e.data.type === 'SKIP_WAITING') self.skipWaiting();
-});
+self.addEventListener('fetch', function(e){
+  var req = e.request;
+  if (req.method !== 'GET') return;
+  var url = new URL(req.url);
+  /* On ne met en cache que le même origine ; on laisse passer l'API (Apps Script),
+     Firebase/Firestore, les tuiles, OneSignal, etc. directement au réseau. */
+  if (url.origin !== self.location.origin) return;
 
-// Fetch — network first pour l'API, cache first pour les assets
-self.addEventListener('fetch', e => {
-  const url = new URL(e.request.url);
-
-  // API Google Apps Script → network only
-  if (url.hostname.includes('script.google.com')) return;
-
-  // APIs météo → network only
-  if (url.hostname.includes('open-meteo.com') ||
-      url.hostname.includes('aviationweather.gov') ||
-      url.hostname.includes('corsproxy.io')) return;
-
-  // Google Fonts → cache first
-  if (url.hostname.includes('fonts.g')) {
+  /* HTML / navigation → RÉSEAU D'ABORD : toujours la dernière version en ligne,
+     repli sur le cache si hors-ligne. */
+  var isDoc = req.mode === 'navigate' ||
+              (req.headers.get('accept') || '').indexOf('text/html') !== -1 ||
+              url.pathname.endsWith('.html');
+  if (isDoc) {
     e.respondWith(
-      caches.match(e.request).then(cached => cached || fetch(e.request).then(res => {
-        caches.open(CACHE).then(c => c.put(e.request, res.clone()));
+      fetch(req).then(function(res){
+        if (res && res.status === 200) {
+          var copy = res.clone();
+          caches.open(CACHE).then(function(cache){ cache.put(req, copy); });
+        }
         return res;
-      }))
+      }).catch(function(){
+        return caches.open(CACHE).then(function(cache){ return cache.match(req); });
+      })
     );
     return;
   }
 
-  // Pages HTML → network first, fallback cache
-  if (e.request.mode === 'navigate') {
-    e.respondWith(
-      fetch(e.request).then(res => {
-        caches.open(CACHE).then(c => c.put(e.request, res.clone()));
-        return res;
-      }).catch(() => caches.match(e.request))
-    );
-    return;
-  }
-
-  // Assets → cache first
+  /* Autres ressources (images, polices, JS) → cache d'abord + maj arrière-plan. */
   e.respondWith(
-    caches.match(e.request).then(cached => cached || fetch(e.request).then(res => {
-      if (res.ok) caches.open(CACHE).then(c => c.put(e.request, res.clone()));
-      return res;
-    }))
+    caches.open(CACHE).then(function(cache){
+      return cache.match(req).then(function(cached){
+        var network = fetch(req).then(function(res){
+          if (res && res.status === 200) cache.put(req, res.clone());
+          return res;
+        }).catch(function(){ return cached; });
+        return cached || network;
+      });
+    })
   );
 });
