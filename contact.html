@@ -445,6 +445,8 @@ body:has(a:hover) .cur-ring,body:has(button:hover) .cur-ring,body:has(input:focu
         </div>
 
         <form class="cont-form" id="contact-form" novalidate>
+          <!-- Honeypot anti-spam (ne pas remplir) -->
+          <input type="text" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
           <div class="field">
             <label class="field-lbl">— Sujet du message <span class="req">●</span></label>
             <div class="subject-pills" id="subject-pills">
@@ -844,12 +846,32 @@ document.querySelectorAll('.faq-q').forEach(btn=>{
 // Form submit demo
 const form=document.getElementById('contact-form');
 const success=document.getElementById('cf-success');
-form?.addEventListener('submit',(e)=>{
+form?.addEventListener('submit',async (e)=>{
   e.preventDefault();
   if(!form.checkValidity()){form.reportValidity();return;}
-  form.classList.add('hidden');
-  success.classList.add('on');
-  form.scrollIntoView({block:'nearest'});
+  const btn=form.querySelector('button[type="submit"]');
+  const prev=btn?btn.innerHTML:'';
+  if(btn){btn.disabled=true;btn.innerHTML='Envoi…';}
+  try{
+    const data=new FormData(form);
+    const sujet=document.getElementById('subject-val')?.value||'contact';
+    data.append('_subject','Site APAM — nouveau message ('+sujet+')');
+    data.append('_replyto',document.getElementById('cf-email')?.value||'');
+    data.append('_template','table');
+    data.append('_captcha','false');
+    const res=await fetch('https://formsubmit.co/ajax/apam61@orange.fr',{
+      method:'POST',
+      headers:{'Accept':'application/json'},
+      body:data
+    });
+    if(!res.ok)throw new Error('HTTP '+res.status);
+    form.classList.add('hidden');
+    success.classList.add('on');
+    form.scrollIntoView({block:'nearest'});
+  }catch(err){
+    if(btn){btn.disabled=false;btn.innerHTML=prev;}
+    alert("Désolé, l'envoi a échoué. Vous pouvez nous écrire directement à apam61@orange.fr ou réessayer dans un instant.");
+  }
 });
 </script>
 </body>
