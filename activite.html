@@ -782,7 +782,7 @@ body:has(a:hover) .cur-ring,body:has(button:hover) .cur-ring{width:44px;height:4
           <footer class="act-scene-foot">
             <div class="act-scene-pills">
               <span class="act-scene-pill hi">PPL requis</span>
-              <span class="act-scene-pill">TB200 · SR20</span>
+              <span class="act-scene-pill">TB200 · C172</span>
               <span class="act-scene-pill">Navigation VFR</span>
             </div>
           </footer>
@@ -1144,7 +1144,7 @@ document.querySelectorAll('.fc').forEach(card=>{
 });
 /* ── Ticker ──────────────────────────── */
 const track=document.getElementById('ticker-track');
-const TICKS=['LFOL · L\'Aigle Saint-Michel','FRQ 126.855 MHz','Piste 07/25 · 800 m','Formation PPL · LAPL','120 membres actifs','Cessna 152 · TB200 · Cirrus SR20','Baptêmes sur réservation','Depuis 1965 · Normandie'];
+const TICKS=['LFOL · L\'Aigle Saint-Michel','FRQ 126.855 MHz','Piste 07/25 · 800 m','Formation PPL · LAPL','120 membres actifs','Cessna 152 · TB200 · Cessna 172','Baptêmes sur réservation','Depuis 1965 · Normandie'];
 [...TICKS,...TICKS].forEach(t=>{const s=document.createElement('span');s.className='ticker-item';s.textContent=t;track.appendChild(s);});
 /* ══════════════════════════════════════
    GALERIE — depuis localStorage
@@ -1157,7 +1157,7 @@ const DEFAULT_PHOTOS=[
   {id:'dp4',src:'',caption:'Premier solo · Jet d\'eau',span:'s-4-2'},
   {id:'dp5',src:'assets/images/TB200M.png',caption:'TB200 · Voyage Deauville',span:'s-3-3'},
   {id:'dp6',src:'',caption:'Méchoui annuel · Juin',span:'s-5-2'},
-  {id:'dp7',src:'assets/images/SR1.png',caption:'Cirrus SR20',span:'s-4-2'},
+  {id:'dp7',src:'assets/images/C172.svg',caption:'Cessna 172',span:'s-4-2'},
 ];
 const SPANS=['s-5-3','s-4-2','s-3-2','s-4-2','s-3-3','s-5-2','s-4-2'];
 function getPhotos(){try{return JSON.parse(localStorage.getItem(PHOTO_KEY)||'[]');}catch{return[];}}

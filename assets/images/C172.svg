@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 300" role="img" aria-label="Cessna 172 (illustration générique)">
+  <defs>
+    <linearGradient id="c172body" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#f4f6f8"/>
+      <stop offset="0.5" stop-color="#d7dde3"/>
+      <stop offset="1" stop-color="#aab4bd"/>
+    </linearGradient>
+    <linearGradient id="c172wing" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#e9edf1"/>
+      <stop offset="1" stop-color="#bcc6ce"/>
+    </linearGradient>
+  </defs>
+  <g fill="url(#c172body)" stroke="#8a97a2" stroke-width="1.5" stroke-linejoin="round">
+    <!-- Fuselage -->
+    <path d="M70 176
+             C 96 168, 120 164, 150 162
+             L 360 158
+             C 430 156, 480 150, 520 138
+             L 560 128
+             C 566 127, 568 132, 563 135
+             L 528 156
+             C 500 170, 470 176, 430 179
+             L 150 184
+             C 118 184, 92 182, 72 180
+             C 68 179, 68 177, 70 176 Z"/>
+    <!-- Vertical stabilizer / tail fin -->
+    <path d="M500 142 L556 96 C560 93, 566 95, 564 100 L544 150 C530 148, 514 146, 500 142 Z"/>
+    <!-- Horizontal stabilizer -->
+    <path d="M508 150 L586 150 C592 150, 592 156, 586 157 L512 160 Z"/>
+  </g>
+  <!-- Cabin windows -->
+  <path d="M150 162 C 168 150, 200 146, 236 148 L 250 160 L 152 163 Z" fill="#5b6b78" stroke="#8a97a2" stroke-width="1.5" stroke-linejoin="round"/>
+  <!-- High wing -->
+  <path d="M96 118 L392 108 C402 108, 404 116, 394 118 L120 132 C104 133, 92 128, 96 118 Z"
+        fill="url(#c172wing)" stroke="#8a97a2" stroke-width="1.5" stroke-linejoin="round"/>
+  <!-- Wing strut -->
+  <path d="M176 132 L206 170 L212 168 L184 131 Z" fill="#c2ccd4" stroke="#8a97a2" stroke-width="1"/>
+  <!-- Propeller spinner + blade -->
+  <path d="M64 178 C 54 176, 52 170, 60 168 L 74 174 Z" fill="#7c8892" stroke="#8a97a2" stroke-width="1"/>
+  <rect x="55" y="150" width="4" height="56" rx="2" fill="#9aa6b0"/>
+  <!-- Landing gear -->
+  <g stroke="#8a97a2" stroke-width="4" stroke-linecap="round" fill="none">
+    <path d="M120 184 L104 214"/>
+    <path d="M300 184 L316 216"/>
+    <path d="M300 184 L285 216"/>
+  </g>
+  <circle cx="101" cy="220" r="9" fill="#4a555e" stroke="#8a97a2" stroke-width="2"/>
+  <circle cx="320" cy="222" r="11" fill="#4a555e" stroke="#8a97a2" stroke-width="2"/>
+  <circle cx="282" cy="222" r="11" fill="#4a555e" stroke="#8a97a2" stroke-width="2"/>
+  <!-- Cheatline -->
+  <path d="M150 172 L470 168" stroke="#c9553e" stroke-width="3" stroke-linecap="round" fill="none" opacity="0.85"/>
+</svg>

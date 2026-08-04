@@ -3049,7 +3049,7 @@ if(DEMO_MODE){
       /* Voyages & activités de démo */
       localStorage.setItem('apam_voyages',JSON.stringify([
         {id:'v_demo1',titre:'La Rochelle (LFBH)',date:_ld(12),terrain:'LFBH',avions:'F-GHKE · F-GYJL',participants:'Antoine, Sophie, Marc, Léa',briefing:'',notes:'Départ 9h00, déjeuner sur place, retour avant la nuit aéronautique. Plein complet exigé.'},
-        {id:'v_demo2',titre:'Tour du Mont-Blanc',date:_ld(34),terrain:'LFLB',avions:'F-GYFF',participants:'Pierre, Julien',briefing:'',notes:'Vol montagne — briefing obligatoire la veille.'},
+        {id:'v_demo2',titre:'Tour du Mont-Blanc',date:_ld(34),terrain:'LFLB',avions:'F-GBQH',participants:'Pierre, Julien',briefing:'',notes:'Vol montagne — briefing obligatoire la veille.'},
         {id:'v_demo3',titre:'Sortie Annecy (passé)',date:_ld(-20),terrain:'LFLP',avions:'F-GHKE',participants:'Camille, Thomas',briefing:'',notes:''}
       ]));
       localStorage.setItem('apam_activites',JSON.stringify([
@@ -3061,7 +3061,7 @@ if(DEMO_MODE){
         {id:'c_d1',_ts:6,type:'ajout',litres:2000,date:_ld(-18),qui:'Jean Dupont',note:'Livraison TotalEnergies'},
         {id:'c_d2',_ts:5,type:'retrait',litres:38,date:_ld(-12),qui:'Antoine Martin',avion:'F-GHKE',plein:'complet',note:''},
         {id:'c_d3',_ts:4,type:'retrait',litres:95,date:_ld(-9),qui:'Sophie Bernard',avion:'F-GYJL',plein:'complet',note:''},
-        {id:'c_d4',_ts:3,type:'retrait',litres:60,date:_ld(-5),qui:'Marc Petit',avion:'F-GYFF',plein:'partiel',note:'avant convoyage'},
+        {id:'c_d4',_ts:3,type:'retrait',litres:60,date:_ld(-5),qui:'Marc Petit',avion:'F-GBQH',plein:'partiel',note:'avant convoyage'},
         {id:'c_d5',_ts:2,type:'retrait',litres:42,date:_ld(-2),qui:'Antoine Martin',avion:'F-GHKE',plein:'complet',note:''},
         {id:'c_d6',_ts:1,type:'retrait',litres:120,date:_ld(-3),qui:'Antoine Martin',vente:true,immat:'F-HBKG',client:'Pierre Aubert',tel:'06 12 34 56 78',prix:2.45,montant:294,paid:'regle',note:'avion de passage'}
       ]));
@@ -3782,7 +3782,7 @@ window.switchD=function(tab){
 const FLEET_DEFAULT=[
   {id:'F-GHKE',type:'Cessna 152',img:'assets/images/FGHKE2.png',statut:'ok',note:''},
   {id:'F-GYJL',type:'Socata TB200',img:'assets/images/TB200M.png',statut:'ok',note:''},
-  {id:'F-GYFF',type:'Cirrus SR20',img:'assets/images/SR1.png',statut:'ok',note:''}
+  {id:'F-GBQH',type:'Cessna 172N',img:'assets/images/C172.svg',statut:'ok',note:''}
 ];
 const FLEET_STATUS={
   ok:{cls:'ok',label:'En état'},
@@ -7030,11 +7030,12 @@ var CHECKLISTS=[
     {titre:'Avant décollage',items:['Hélice|PLEIN PETIT PAS','Pompe électrique|ON','Trim|DÉCOLLAGE','Volets|DÉCOLLAGE','Verrière|VERROUILLÉE','Harnais|BOUCLÉS']},
     {titre:'Décollage & montée',items:['Plein gaz|AFFICHÉ','Vitesse de montée|ÉTABLIE','Pompe électrique|OFF (sécurité)','Volets|RENTRÉS']}
   ].concat(CK_GEN_TAIL)},
-  {id:'sr20',nom:'Cirrus SR20',sub:'F-GYFF',sections:[
-    {titre:'Prévol — CAPS & cabine',items:['Goupille CAPS|RETIRÉE','Briefing CAPS|FAIT','Documents de bord|À BORD','Disjoncteurs|ENFONCÉS','Sélecteur carburant|PLUS PLEIN','Quantité carburant|VÉRIFIÉE','Huile|VÉRIFIÉE']},
-    {titre:'Mise en route',items:['Master 1 & 2|ON','Pompe (BOOST)|PRIME puis OFF','Mélange|RICHE','Démarreur|ACTIONNÉ','Pression huile|VERTE','Alternateurs 1 & 2|ON / CHARGE']},
-    {titre:'Avant décollage',items:['CAPS|BRIEFÉ','Volets|50 %','Trim|DÉCOLLAGE','Pompe (BOOST)|ON','Commandes|LIBRES','Harnais|BOUCLÉS']},
-    {titre:'Décollage & montée',items:['Plein gaz|AFFICHÉ','Vitesse|Vy ≈ 96 kt','Pompe (BOOST)|OFF','Volets|RENTRÉS']}
+  {id:'c172',nom:'Cessna 172',sub:'F-GBQH',sections:[
+    {titre:'Prévol — cabine & extérieur',items:['Documents de bord|À BORD','Contacteurs|OFF','Sélecteur carburant|SUR LES DEUX','Niveau huile|VÉRIFIÉ','Quantité carburant|VÉRIFIÉE','Purges carburant|EFFECTUÉES','Hélice & cône|ÉTAT','Prise Pitot|DÉGAGÉE','Commandes|LIBRES']},
+    {titre:'Mise en route',items:['Freins de parking|SERRÉS','Sélecteur carburant|SUR LES DEUX','Mélange|RICHE','Réchauffage carbu|FROID','Amorçage (primer)|2-3 COUPS','Zone hélice|DÉGAGÉE','Master|ON','Magnétos / Démarreur|START','Pression huile|VERTE','Ampèremètre|CHARGE']},
+    {titre:'Essais moteur',items:['Régime|1700 tr/min','Magnétos|TESTÉS','Réchauffage carbu|TESTÉ','Instruments moteur|VERTS','Ralenti|VÉRIFIÉ']},
+    {titre:'Avant décollage',items:['Trim|DÉCOLLAGE','Volets|0-10°','Réchauffage carbu|FROID','Mélange|RICHE','Instruments|VÉRIFIÉS','Portes & harnais|VERROUILLÉS']},
+    {titre:'Décollage & montée',items:['Plein gaz|AFFICHÉ','Vitesse|Vy ≈ 73 kt','Volets|RENTRÉS','Réchauffage carbu|SELON BESOIN']}
   ].concat(CK_GEN_TAIL)}
 ];
 var _ckCur=null,_ckState={};
