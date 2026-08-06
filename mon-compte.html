@@ -756,6 +756,15 @@ html.pwa .upd-banner{top:calc(env(safe-area-inset-top,0px) + 52px)}
 .wx-gust{font-family:'JetBrains Mono',monospace;font-size:11.5px;color:var(--err);margin-top:5px;font-weight:500}
 .wx-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border)}
 .wx-cell{background:var(--sf);padding:14px 14px}
+.wx-cell-ic{display:block;width:15px;height:15px;color:var(--dim);margin-bottom:7px}
+.wx-cell-ic svg{width:100%;height:100%}
+.wx-cond{display:flex;align-items:center;gap:13px;padding:15px 18px;border-bottom:1px solid var(--border)}
+.wx-cond-ic{width:40px;height:40px;flex-shrink:0;color:var(--text-2)}
+.wx-cond-ic svg{width:100%;height:100%}
+.wx-cond-lbl{font-family:var(--font-display);font-weight:700;font-size:19px;letter-spacing:-.02em;color:var(--text)}
+.wx-cond-clear .wx-cond-ic{color:#d99a2b}
+.wx-cond-rain .wx-cond-ic{color:var(--cyan)}
+.wx-cond-storm .wx-cond-ic{color:var(--err)}
 .wx-val{font-family:'JetBrains Mono',monospace;font-weight:500;font-size:15px;color:var(--text);line-height:1.2;word-break:break-word}
 .wx-lbl{font-size:10.5px;font-weight:600;letter-spacing:.03em;text-transform:uppercase;color:var(--muted);margin-top:6px}
 .wx-raw{padding:13px 16px;border-top:1px solid var(--border);background:var(--sf2);font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--text-2);line-height:1.7;word-break:break-all;font-weight:500}
@@ -4805,6 +4814,35 @@ function wxCompass(deg,col){
   </svg>`;
 }
 
+/* Picto + libellé clair de la condition du ciel (meilleure compréhension) */
+function wxSky(cavok, clsArr, ph){
+  var P=ph||'', S='fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"';
+  var sun='<circle cx="12" cy="12" r="4.2"/><path d="M12 2.6v1.8M12 19.6v1.8M2.6 12h1.8M19.6 12h1.8M5.1 5.1l1.3 1.3M17.6 17.6l1.3 1.3M18.9 5.1l-1.3 1.3M6.4 17.6l-1.3 1.3"/>';
+  var cloud='<path d="M7.4 18.5A4.4 4.4 0 1 1 8 9.6 6 6 0 0 1 19.4 11a4 4 0 0 1-.4 7.5H7.4z"/>';
+  var suncloud='<circle cx="8.5" cy="7.5" r="3"/><path d="M8.5 2.8v1.4M3.8 7.5h1.4M5.1 4.1l1 1M11.9 4.1l-1 1"/><path d="M9 19.5A3.6 3.6 0 1 1 9.5 12 5 5 0 0 1 19 13.4a3.3 3.3 0 0 1-.4 6.1H9z"/>';
+  var ic, lbl, tone='cloud';
+  if(/TS/.test(P)){ lbl='Orage'; ic=cloud+'<path d="M12.5 12.5l-2 3h2l-1.2 3"/>'; tone='storm'; }
+  else if(/SN|BLSN/.test(P)){ lbl='Neige'; ic=cloud+'<path d="M8.5 20.5v0M11.5 21.5v0M14.5 20.5v0"/>'; tone='cloud'; }
+  else if(/FG|BR/.test(P)){ lbl='Brume / brouillard'; ic='<path d="M4 8.5h13M3 12.5h16M5 16.5h12M7 20.5h9"/>'; tone='cloud'; }
+  else if(/RA|DZ|SH|GR/.test(P)){ lbl='Pluie'; ic=cloud+'<path d="M9 19.5l-1 2.2M12.5 19.5l-1 2.2M16 19.5l-1 2.2"/>'; tone='rain'; }
+  else {
+    var s=clsArr.join(' ');
+    if(cavok || clsArr.length===0){ lbl='Ciel dégagé'; ic=sun; tone='clear'; }
+    else if(/OVC/.test(s)){ lbl='Couvert'; ic=cloud; tone='cloud'; }
+    else if(/BKN/.test(s)){ lbl='Très nuageux'; ic=cloud; tone='cloud'; }
+    else { lbl='Quelques nuages'; ic=suncloud; tone='clear'; }
+  }
+  return {svg:'<svg viewBox="0 0 24 24" '+S+'>'+ic+'</svg>', label:lbl, tone:tone};
+}
+/* Petites icônes des métriques */
+var WX_MIC={
+  vis:'<path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z"/><circle cx="12" cy="12" r="3"/>',
+  plaf:'<path d="M7.4 18.5A4.4 4.4 0 1 1 8 9.6 6 6 0 0 1 19.4 11a4 4 0 0 1-.4 7.5H7.4z"/>',
+  qnh:'<path d="M12 21a9 9 0 1 1 0-18 9 9 0 0 1 0 18z"/><path d="M12 12l4-2.5"/>',
+  temp:'<path d="M14 14.76V5a2 2 0 0 0-4 0v9.76a4 4 0 1 0 4 0z"/>',
+  dew:'<path d="M12 3s5.5 6 5.5 10a5.5 5.5 0 0 1-11 0C6.5 9 12 3 12 3z"/>',
+  ph:'<path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9v4M12 17v0"/>'
+};
 function wxRender(raw,tid){
   const el=document.getElementById(tid);if(!el)return;
   const wm=raw.match(/(\d{3}|VRB)(\d{2,3})(G(\d{2,3}))?KT/);
@@ -4825,6 +4863,7 @@ function wxRender(raw,tid){
   const ph=(raw.match(/(TS|RA|SN|DZ|FG|BR|GR|SH|FZ\w+|BLSN)/g)||[]);
   const phenom=ph.length?[...new Set(ph)].join(' '):'—';
   const cat=wxCat(raw);const col=WX_COL[cat];const cls2=WX_CLS[cat];
+  const sky=wxSky(cavok,cls,phenom);
   const tafBoxId='wx-taf-box-'+tid;
   el.innerHTML=`
     <div class="wx-card">
@@ -4832,6 +4871,7 @@ function wxRender(raw,tid){
         <div><div class="wx-station">${WX_STA}</div><div class="wx-subtitle">Évreux · Normandie${time?' · '+time:''}</div></div>
         <div class="wx-pill ${cls2}"><div class="wx-dot"></div>${cat}</div>
       </div>
+      <div class="wx-cond wx-cond-${sky.tone}"><span class="wx-cond-ic">${sky.svg}</span><span class="wx-cond-lbl">${sky.label}</span></div>
       <div class="wx-wind">
         <div class="wx-compass">${wxCompass(wdeg,col)}</div>
         <div class="wx-wind-data">
@@ -4841,7 +4881,7 @@ function wxRender(raw,tid){
         </div>
       </div>
       <div class="wx-grid">
-        ${[['Visibilité',vis],['Plafond',clouds],['QNH',qnh],['Température',temp],['Rosée',dew],['Phénomènes',phenom]].map(([l,v])=>`<div class="wx-cell"><div class="wx-val">${v}</div><div class="wx-lbl">${l}</div></div>`).join('')}
+        ${[['Visibilité',vis,'vis'],['Plafond',clouds,'plaf'],['QNH',qnh,'qnh'],['Température',temp,'temp'],['Rosée',dew,'dew'],['Phénomènes',phenom,'ph']].map(([l,v,k])=>`<div class="wx-cell"><span class="wx-cell-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">${WX_MIC[k]}</svg></span><div class="wx-val">${v}</div><div class="wx-lbl">${l}</div></div>`).join('')}
       </div>
       <div class="wx-raw">${raw}</div>
       <div class="wx-foot">
@@ -4972,13 +5012,14 @@ function wxRenderSearch(raw,station,scope){
   var tz=raw.match(/\d{2}(\d{2})(\d{2})Z/);var time=tz?tz[1]+':'+tz[2]+' UTC':'';
   var ph=(raw.match(/(TS|RA|SN|DZ|FG|BR|GR|SH|FZ\w+|BLSN)/g)||[]);
   var phenom=ph.length?[...new Set(ph)].join(' '):'—';
-  var cat=wxCat(raw);var col=WX_COL[cat];var cls2=WX_CLS[cat];
-  var grid=[['Visibilité',vis],['Plafond',clouds],['QNH',qnh],['Température',temp],['Rosée',dew],['Phénomènes',phenom]]
-    .map(function(p){return '<div class="wx-cell"><div class="wx-val">'+p[1]+'</div><div class="wx-lbl">'+p[0]+'</div></div>';}).join('');
+  var cat=wxCat(raw);var col=WX_COL[cat];var cls2=WX_CLS[cat];var sky=wxSky(cavok,cls,phenom);
+  var grid=[['Visibilité',vis,'vis'],['Plafond',clouds,'plaf'],['QNH',qnh,'qnh'],['Température',temp,'temp'],['Rosée',dew,'dew'],['Phénomènes',phenom,'ph']]
+    .map(function(p){return '<div class="wx-cell"><span class="wx-cell-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">'+WX_MIC[p[2]]+'</svg></span><div class="wx-val">'+p[1]+'</div><div class="wx-lbl">'+p[0]+'</div></div>';}).join('');
   el.innerHTML=
     '<div class="wx-result-label">Terrain recherché<button type="button" class="wx-result-close" onclick="wxClearSearch(\''+(scope||'')+'\')" title="Fermer"><svg viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg></button></div>'+
     '<div class="wx-card">'+
       '<div class="wx-hdr"><div><div class="wx-station">'+station+'</div><div class="wx-subtitle">METAR'+(time?' · '+time:'')+'</div></div><div class="wx-pill '+cls2+'"><div class="wx-dot"></div>'+cat+'</div></div>'+
+      '<div class="wx-cond wx-cond-'+sky.tone+'"><span class="wx-cond-ic">'+sky.svg+'</span><span class="wx-cond-lbl">'+sky.label+'</span></div>'+
       '<div class="wx-wind"><div class="wx-compass">'+wxCompass(wdeg,col)+'</div><div class="wx-wind-data"><div class="wx-wind-spd">'+(wspd!==null?wspd:'—')+'<em>kt</em></div><div class="wx-wind-info">'+wdir+'</div>'+(wgust?'<div class="wx-gust">↑ Rafales '+wgust+' kt</div>':'')+'</div></div>'+
       '<div class="wx-grid">'+grid+'</div>'+
       '<div class="wx-raw">'+raw+'</div>'+
