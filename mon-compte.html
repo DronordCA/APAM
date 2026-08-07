@@ -4281,6 +4281,12 @@ function pubFormHTML(){
             <span class="pub-cross-lbl" id="pub-cross-lbl"><strong>Publier aussi pour les membres</strong><br>Le même contenu sera publié dans les deux espaces</span>
           </label>
         </div>
+        <div class="field field-full">
+          <label class="pub-cross" id="pub-notify">
+            <input type="checkbox" id="pub-notify-check" checked>
+            <span class="pub-cross-lbl"><strong>🔔 Prévenir les membres</strong><br>Envoie une notification push aux membres qui l'ont activée</span>
+          </label>
+        </div>
         <div class="pub-editing" id="pub-editing" style="display:none">✏️ Mode édition<span class="pub-editing-cancel" onclick="pubCancelEdit()">Annuler</span></div>
       </div>`;
 }
@@ -4460,6 +4466,11 @@ window.pubSubmit=async function(){
           status.textContent='✓ Publié dans les 2 espaces !';
         }catch(e){}
         crossCheck.checked=false;
+      }
+      /* Notification push aux membres (via backend Apps Script → OneSignal) */
+      var notifyCheck=document.getElementById('pub-notify-check');
+      if(notifyCheck&&notifyCheck.checked){
+        try{ fetch(API+'?action=notify&pin='+enc(memberPin)+'&titre='+enc(titre)+'&texte='+enc(texte.slice(0,140))+'&scope='+enc(_pubMode)); }catch(e){}
       }
       /* clear form */
       ['pub-titre','pub-texte','pub-image','pub-poll-custom'].forEach(id=>{const e=document.getElementById(id);if(e)e.value='';});
