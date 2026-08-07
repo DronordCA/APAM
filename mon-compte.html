@@ -712,6 +712,11 @@ html:not(.pwa) .desktop-only{display:flex}
 .tool-item.admin-item:hover{border-color:var(--amber-bord);background:var(--amber-soft)}
 .tools-list{display:flex;flex-direction:column;gap:10px}
 
+.upd-banner{position:fixed;left:12px;right:12px;top:calc(env(safe-area-inset-top,8px) + 8px);z-index:500;display:flex;align-items:center;gap:12px;background:var(--inv-bg);color:var(--inv-text);padding:11px 12px 11px 18px;border-radius:16px;box-shadow:0 12px 32px -8px rgba(0,0,0,.42);transform:translateY(-160%);transition:transform .42s cubic-bezier(.2,.85,.25,1)}
+.upd-banner.on{transform:translateY(0)}
+.upd-banner-tx{flex:1;min-width:0;font-size:14px;font-weight:600;letter-spacing:-.01em}
+.upd-banner-btn{flex-shrink:0;background:var(--accent);color:#fff;border:none;border-radius:100px;padding:8px 16px;font-family:var(--font-ui);font-size:13px;font-weight:700;cursor:pointer}
+.upd-banner-btn:disabled{opacity:.6}
 .update-btn{width:100%;padding:14px 16px;display:flex;align-items:center;gap:14px;background:var(--accent-soft);border:1px solid var(--accent-bord);color:var(--accent);cursor:pointer;border-radius:14px;font-family:'Jost',sans-serif;text-align:left}
 .update-btn:hover{background:var(--accent);color:#fff}
 /* Bannière mise à jour (haut, manuelle) */
@@ -2907,7 +2912,7 @@ html.pwa .wb-page-head{padding-top:max(env(safe-area-inset-top,0px),50px)}
 
 <script>
 'use strict';
-const APP_VERSION='3.5.0';
+const APP_VERSION='3.6.0';
 const API='https://script.google.com/macros/s/AKfycbxae9y3NHqDyAkbEI5rDVRappI-aAWoA0jcHqR8NBUgm3t5SCB1Hq8nebY5t23cV1Je/exec';
 
 /* ══ Onboarding ══ */
@@ -5233,8 +5238,24 @@ document.addEventListener('os-ready',refreshNotifState);
 /* ── Service Worker ── */
 if('serviceWorker'in navigator){
   navigator.serviceWorker.register('sw.js').then(reg=>{
-    reg.addEventListener('updatefound',()=>{const w=reg.installing;if(w)w.addEventListener('statechange',()=>{if(w.state==='installed'&&navigator.serviceWorker.controller)toast('Mise à jour disponible');});});
+    function showUpdBanner(){
+      if(document.getElementById('upd-banner'))return;
+      var b=document.createElement('div');
+      b.id='upd-banner';b.className='upd-banner';
+      b.innerHTML='<span class="upd-banner-tx">Nouvelle version disponible</span><button type="button" class="upd-banner-btn" id="upd-banner-btn">Mettre à jour</button>';
+      document.body.appendChild(b);
+      requestAnimationFrame(function(){b.classList.add('on');});
+      document.getElementById('upd-banner-btn').addEventListener('click',function(){
+        this.textContent='Mise à jour…';this.disabled=true;
+        var w=reg.waiting||reg.installing;
+        if(w){w.postMessage({type:'SKIP_WAITING'});}else{location.reload();}
+      });
+    }
+    if(reg.waiting&&navigator.serviceWorker.controller)showUpdBanner();
+    reg.addEventListener('updatefound',()=>{const w=reg.installing;if(w)w.addEventListener('statechange',()=>{if(w.state==='installed'&&navigator.serviceWorker.controller)showUpdBanner();});});
+    try{setInterval(function(){reg.update().catch(function(){});},60*60*1000);}catch(e){}
   }).catch(function(){});
+  (function(){var _rl=false;navigator.serviceWorker.addEventListener('controllerchange',function(){if(_rl)return;_rl=true;location.reload();});})();
 }
 
 /* ── Pull-to-refresh visuel (spinner circulaire) ── */
