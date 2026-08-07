@@ -1429,7 +1429,12 @@ button,a,.tap{transition:transform .28s cubic-bezier(.2,.7,.2,1),background-colo
 .elev-gear:hover{color:var(--accent);border-color:var(--accent-bord)}
 .elev-gear svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
 html.pwa .elev-tabs-wrap{padding-top:max(env(safe-area-inset-top,0px),52px)}
-.elev-tabs{display:flex;gap:2px;overflow-x:auto;scrollbar-width:none;padding:0 8px;flex:1;min-width:0}
+.elev-tabs{display:none}
+.elev-back{display:inline-flex;align-items:center;gap:3px;background:none;border:none;cursor:pointer;color:var(--text);font-family:var(--font-ui);font-size:16px;font-weight:600;letter-spacing:-.01em;padding:10px 6px 10px 10px;margin-right:auto}
+.elev-back[hidden]{display:none}
+.elev-back svg{width:23px;height:23px}
+.elev-back:active{opacity:.5}
+.elev-tabs-wrap{min-height:52px}
 .elev-tabs::-webkit-scrollbar{display:none}
 .elev-tab{position:relative;flex:0 0 auto;background:none;border:none;cursor:pointer;padding:15px 12px 13px;font-family:var(--font-display);font-weight:700;font-style:normal;font-size:15px;letter-spacing:.03em;color:var(--muted);white-space:nowrap;transition:color .2s}
 .elev-tab::after{content:"";position:absolute;left:12px;right:12px;bottom:0;height:2.5px;border-radius:2px 2px 0 0;background:var(--accent);transform:scaleX(0);transform-origin:center;transition:transform .26s cubic-bezier(.2,.7,.2,1)}
@@ -1733,6 +1738,14 @@ html.pwa .doc-viewer-safe{min-height:52px}
 .trip-save{flex:2;padding:13px;border-radius:11px;border:none;background:var(--accent);color:#fff;font-family:var(--font-display);font-weight:700;font-style:normal;font-size:14px;letter-spacing:.08em;cursor:pointer}
 
 /* ── Carnet d'essence (cuve) — rangée pro assortie ── */
+.home-resa{width:100%;display:flex;align-items:center;gap:13px;background:var(--sf);border:none;border-radius:22px;padding:16px 17px;margin-bottom:11px;cursor:pointer;text-align:left;box-shadow:var(--shadow-1);transition:transform .12s}
+.home-resa:active{transform:scale(.99)}
+.home-resa-ic{flex-shrink:0;width:40px;height:40px;border-radius:12px;background:var(--accent-soft);color:var(--accent-2);display:flex;align-items:center;justify-content:center}
+.home-resa-ic svg{width:20px;height:20px}
+.home-resa-tx{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+.home-resa-t{font-size:15px;font-weight:600;color:var(--text);letter-spacing:-.01em}
+.home-resa-s{font-size:12px;color:var(--muted)}
+.home-resa-go{width:18px;height:18px;flex-shrink:0;stroke:var(--dim);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 .home-fuel-group{background:var(--sf);border:1px solid var(--border);border-radius:16px;overflow:hidden;margin-bottom:10px}
 .home-fuel-group>.carb-quick,.home-fuel-group>.home-wb{background:transparent!important;border:none;border-radius:0;margin:0}
 .home-fuel-group>.carb-quick{border-bottom:1px solid var(--border)}
@@ -2505,6 +2518,12 @@ html.pwa .wb-page-head{padding-top:max(env(safe-area-inset-top,0px),50px)}
         <div class="welcome-msg" id="m-wx-msg" hidden></div>
       </div>
 
+      <button class="home-resa" type="button" onclick="window.open('https://openflyers.com/apam/','_blank')">
+        <span class="home-resa-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18M8 15l2.5 2.5L15 13"/></svg></span>
+        <span class="home-resa-tx"><span class="home-resa-t">Réserver un avion</span><span class="home-resa-s">Planning OpenFlyer ↗</span></span>
+        <svg class="home-resa-go" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg>
+      </button>
+
       <button class="carb-quick" id="carb-quick" type="button" onclick="carbHomeOpen()"></button>
 
       <button class="home-trip" id="home-trip" type="button" onclick="switchTab('news')" hidden></button>
@@ -2826,7 +2845,7 @@ html.pwa .wb-page-head{padding-top:max(env(safe-area-inset-top,0px),50px)}
   <nav class="bottom-nav">
     <button class="bn on" id="tab-home"       onclick="switchTab('home')"       type="button"><span class="bn-iconwrap"><svg viewBox="0 0 24 24"><path d="M3 11l9-8 9 8M5 10v10a1 1 0 0 0 1 1h4v-7h4v7h4a1 1 0 0 0 1-1V10"/></svg></span><span>Accueil</span></button>
     <button class="bn"    id="tab-meteo"      onclick="switchTab('meteo')"      type="button"><span class="bn-iconwrap"><svg viewBox="0 0 24 24"><path d="M7 18a5 5 0 1 1 .6-9.96A6 6 0 0 1 19 9.5a4.5 4.5 0 0 1-1.5 8.5H7z"/></svg></span><span>Météo</span></button>
-    <button class="bn bn-center" id="tab-ressources" onclick="switchTab('ressources')" type="button"><span class="bn-iconwrap"><svg viewBox="0 0 24 24"><path d="M22 2L11 13"/><path d="M22 2l-7 20-4-9-9-4z"/></svg></span><span>Espace</span></button>
+    <button class="bn bn-center" id="tab-ressources" onclick="switchTab('ressources')" type="button"><span class="bn-iconwrap"><svg viewBox="0 0 24 24"><path d="M22 2L11 13"/><path d="M22 2l-7 20-4-9-9-4z"/></svg></span><span>Vol</span></button>
     <button class="bn"    id="tab-news"       onclick="switchTab('news')"       type="button"><span class="bn-iconwrap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5a1 1 0 0 1 1-1h11a1 1 0 0 1 1 1v13a2 2 0 0 0 2 2H6a2 2 0 0 1-2-2z"/><path d="M17 8h2a1 1 0 0 1 1 1v9a2 2 0 0 1-2 2"/><path d="M8 7h5M8 11h5M8 15h3"/></svg></span><span class="bn-dot" id="news-nav-dot" hidden></span><span>News</span></button>
     <button class="bn"    id="tab-more"     onclick="navMore()"     type="button"><span class="bn-iconwrap" id="more-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg></span><span id="more-lbl">Contacts</span></button>
   </nav>
@@ -5578,6 +5597,7 @@ function elevTab(tab){
   document.querySelectorAll('.elev-pane').forEach(function(p){p.classList.remove('on');});
   var pane=document.getElementById('elev-'+tab);
   if(pane)pane.classList.add('on');
+  var _eb=document.getElementById('elev-back');if(_eb)_eb.hidden=(tab==='accueil');
   document.querySelectorAll('#elev-tabs .elev-tab').forEach(function(b){b.classList.toggle('on',b.getAttribute('data-tab')===tab);});
   var body=document.getElementById('elev-body');if(body)body.scrollTop=0;
   /* Rendu paresseux : garantit l'affichage à l'ouverture de l'onglet, même si un autre rendu a échoué */
@@ -7329,6 +7349,7 @@ async function docUploadFile(input){
       <button class="elev-tab" data-tab="forum" onclick="elevTab('forum')" type="button">Forum</button>
       <button class="elev-tab" data-tab="ressources" onclick="elevTab('ressources')" type="button">Liens</button>
     </div>
+    <button id="elev-back" class="elev-back" type="button" onclick="elevTab('accueil')" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg><span>Vol</span></button>
     <button class="elev-gear" type="button" onclick="switchTab('outils')" aria-label="Options"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></button>
   </div>
 
@@ -7338,33 +7359,33 @@ async function docUploadFile(input){
 
       <div class="syn-greet" id="syn-greet" style="order:1"></div>
 
-      <button class="carb-quick" id="carb-quick-syn" type="button" onclick="elevTab('carburant')" style="order:3"></button>
+      <button class="prep-cta" type="button" onclick="openFlightPrep()" style="order:2;margin-bottom:14px">
+        <span class="prep-cta-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13"/><path d="M22 2l-7 20-4-9-9-4z"/></svg></span>
+        <span class="prep-cta-tx"><span class="prep-cta-t">Préparer un vol</span><span class="prep-cta-s">Masse &amp; centrage · checklists · docs</span></span>
+        <svg class="prep-cta-go" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg>
+      </button>
 
-      <div class="syn-group" style="order:4">
-        <div class="acc-head"><h4 class="elev-group-h">Forum &amp; documents</h4></div>
-        <button class="syn-big" type="button" onclick="elevTab('forum')">
-          <span class="syn-big-ic forum"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></span>
-          <span class="syn-big-tx"><span class="syn-big-t">Forum</span><span class="syn-big-s" id="syn-forum-sub">Questions &amp; réponses</span></span>
-          <span class="syn-big-badge" id="syn-forum-badge" hidden></span>
-          <svg class="syn-big-go" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg>
-        </button>
+      <button class="syn-big" style="order:3;margin-bottom:16px" type="button" onclick="window.open('https://openflyers.com/apam/','_blank')">
+        <span class="syn-big-ic" style="background:var(--accent-soft);color:var(--accent-2)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18M8 15l2.5 2.5L15 13"/></svg></span>
+        <span class="syn-big-tx"><span class="syn-big-t">Réserver un avion</span><span class="syn-big-s">Planning OpenFlyer ↗</span></span>
+        <svg class="syn-big-go" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg>
+      </button>
+
+      <div class="syn-group" style="order:5">
+        <div class="acc-head"><h4 class="elev-group-h">Documents &amp; liens</h4></div>
         <button class="syn-big" type="button" onclick="elevTab('docs')">
           <span class="syn-big-ic docs"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></span>
           <span class="syn-big-tx"><span class="syn-big-t">Documents</span><span class="syn-big-s" id="syn-docs-sub">Supports &amp; fiches</span></span>
           <svg class="syn-big-go" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg>
         </button>
+        <button class="syn-big" type="button" onclick="elevTab('ressources')">
+          <span class="syn-big-ic" style="background:var(--sf3);color:var(--text-2)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.07 0l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.07 0l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></span>
+          <span class="syn-big-tx"><span class="syn-big-t">Liens utiles</span><span class="syn-big-s">Ressources &amp; sites</span></span>
+          <svg class="syn-big-go" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg>
+        </button>
       </div>
 
-      <div class="syn-group" style="order:6">
-        <div class="acc-head"><h4 class="elev-group-h">La flotte</h4></div>
-        <div class="fleet" id="m-fleet" style="margin-bottom:4px"></div>
-      </div>
 
-      <button class="home-wb" style="order:2" type="button" onclick="openWBPage()">
-        <span class="home-wb-ic"><svg viewBox="0 0 24 24"><path d="M3 22h12V4a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v18zM6 6h6M6 10h6M17 8l2 2v8a2 2 0 0 1-4 0v-3h2"/></svg></span>
-        <span class="home-wb-tx"><span class="home-wb-t">Devis carburant / masse</span></span>
-        <svg class="home-wb-go" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg>
-      </button>
 
       <div class="wb-page" id="wb-page" hidden>
         <div class="wb-page-head">
