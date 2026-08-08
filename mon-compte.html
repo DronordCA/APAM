@@ -68,6 +68,10 @@ OneSignalDeferred.push(async function(OneSignal){
       allowLocalhostAsSecureOrigin:true
     });
     window.__osReady=true;
+    /* Lie ce device à l'utilisateur (external_id = PIN) pour que les notifications
+       CIBLÉES (ex. alertes licences via include_aliases.external_id) arrivent
+       réellement. Sans ça, seuls les push « à tous » sont reçus. */
+    try{var _pin=(localStorage.getItem('apam_pin')||'');if(/^\d{6}$/.test(_pin))await OneSignal.login(_pin);}catch(e){}
     document.dispatchEvent(new Event('os-ready'));
   }catch(e){}
 });
@@ -3309,6 +3313,7 @@ async function syncPerms(force){
   if(data.error){
     /* Compte supprimé/désactivé côté serveur → déconnexion propre. */
     if(data.code===404){
+      try{osUnlinkUser();}catch(e){}
       ['apam_perms','apam_prenom','apam_nom','apam_pin','apam_role','apam_tel'].forEach(function(k){localStorage.removeItem(k);sessionStorage.removeItem(k);});
       location.reload();
     }
@@ -4214,7 +4219,7 @@ function buildOutils(){
   try{setupMoreTab();}catch(e){}
 }
 
-function logout(){if(!confirm('Se déconnecter ?'))return;['apam_perms','apam_nom','apam_prenom','apam_pin'].forEach(k=>{localStorage.removeItem(k);sessionStorage.removeItem(k);});location.reload();}
+function logout(){if(!confirm('Se déconnecter ?'))return;try{osUnlinkUser();}catch(e){}['apam_perms','apam_nom','apam_prenom','apam_pin','apam_role','apam_tel'].forEach(k=>{localStorage.removeItem(k);sessionStorage.removeItem(k);});location.reload();}
 
 /* ── Gestion (hub des outils du club) ── */
 function openGestion(){
@@ -5319,6 +5324,9 @@ function osCall(fn){
   if(window.__osReady&&window.OneSignal){try{fn(window.OneSignal);}catch(e){}}
   else{window.OneSignalDeferred=window.OneSignalDeferred||[];window.OneSignalDeferred.push(fn);}
 }
+/* Lie / délie ce device à l'utilisateur (external_id = PIN) → ciblage push fiable. */
+function osLinkUser(pin){pin=String(pin||'');if(!/^\d{6}$/.test(pin))return;osCall(function(OS){try{OS.login(pin);}catch(e){}});}
+function osUnlinkUser(){osCall(function(OS){try{OS.logout();}catch(e){}});}
 function refreshNotifState(){
   var el=document.getElementById('notif-state');var sub=document.getElementById('notif-sub');
   if(!el)return;
@@ -5348,6 +5356,8 @@ window.toggleNotifs=function(){
       }
       await OneSignal.Notifications.requestPermission();
       try{await OneSignal.User.PushSubscription.optIn();}catch(e){}
+      /* Lie le device au PIN pour recevoir les notifications ciblées. */
+      try{if(/^\d{6}$/.test(String(memberPin||'')))await OneSignal.login(String(memberPin));}catch(e){}
       var ok=false;try{ok=OneSignal.Notifications.permission===true;}catch(e){}
       if(ok)toast('✓ Notifications activées','ok');else toast('Activez-les dans les réglages iOS/Android','err',4000);
       refreshNotifState();
@@ -5557,16 +5567,23 @@ function showNotifPrompt(){
   var el=document.getElementById('notif-prompt');
   if(el)setTimeout(function(){el.classList.add('show');},2500);
 }
+/* Flux d'activation COMPLET : permission → abonnement (optIn) → liaison au PIN.
+   (Le simple requestPermission ne suffit pas à recevoir les push.) */
+async function osEnableFull(OS){
+  try{await OS.Notifications.requestPermission();}catch(e){}
+  try{await OS.User.PushSubscription.optIn();}catch(e){}
+  try{var _pin=(localStorage.getItem('apam_pin')||'');if(/^\d{6}$/.test(_pin))await OS.login(_pin);}catch(e){}
+  try{refreshNotifState();}catch(e){}
+}
 function acceptNotifPrompt(){
   localStorage.setItem('apam_notif_asked','1');
   var el=document.getElementById('notif-prompt');
   if(el){el.classList.remove('show');setTimeout(function(){if(el.parentNode)el.parentNode.removeChild(el);},500);}
-  /* Déclencher le vrai prompt natif */
   if(window.__osReady){
-    OneSignalDeferred.push(function(OS){OS.Notifications.requestPermission();});
+    OneSignalDeferred.push(function(OS){osEnableFull(OS);});
   }else{
     document.addEventListener('os-ready',function(){
-      OneSignalDeferred.push(function(OS){OS.Notifications.requestPermission();});
+      OneSignalDeferred.push(function(OS){osEnableFull(OS);});
     },{once:true});
   }
 }
