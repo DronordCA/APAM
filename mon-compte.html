@@ -944,11 +944,12 @@ html.pwa .upd-banner{top:calc(env(safe-area-inset-top,0px) + 52px)}
 .pub-item-edit:hover{background:rgba(37,99,235,.16);border-color:rgba(37,99,235,.4)}
 .pub-item-edit svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 /* Cross-publish checkbox */
-.pub-cross{display:flex;align-items:center;gap:10px;padding:10px 14px;background:rgba(255,255,255,.025);border:1px solid var(--bds);border-radius:10px;cursor:pointer;transition:border-color .2s,background .2s;margin-top:4px}
-.pub-cross:hover{border-color:rgba(37,99,235,.3);background:rgba(37,99,235,.04)}
+.pub-cross{display:flex;align-items:center;gap:10px;padding:10px 14px;background:var(--sf2);border:1px solid var(--bds);border-radius:10px;cursor:pointer;transition:border-color .2s,background .2s,box-shadow .2s;margin-top:4px}
+.pub-cross:hover{border-color:var(--accent-bord);background:var(--accent-soft)}
+.pub-cross-accent{border-color:var(--accent);background:var(--accent-soft);box-shadow:0 0 0 3px var(--accent-bord)}
 .pub-cross input[type=checkbox]{width:18px;height:18px;accent-color:var(--accent);cursor:pointer;flex-shrink:0}
 .pub-cross-lbl{font-size:12px;color:var(--muted);line-height:1.4}
-.pub-cross-lbl strong{color:rgba(255,255,255,.7);font-weight:600}
+.pub-cross-lbl strong{color:var(--text);font-weight:600}
 /* Edit mode indicator */
 .pub-editing{display:none;align-items:center;gap:8px;padding:8px 12px;background:rgba(37,99,235,.06);border:1px solid rgba(37,99,235,.2);border-radius:8px;margin-bottom:8px;font-size:12px;color:var(--accent)}
 .pub-editing.show{display:flex}
@@ -1259,23 +1260,23 @@ html.pwa .upd-banner{top:calc(env(safe-area-inset-top,0px) + 52px)}
 .tuto-btn-ghost:hover{color:var(--text);border-color:var(--bds)}
 
 /* ══ Onboarding Overlay ══ */
-.ob-overlay{position:fixed;inset:0;z-index:9000;background:var(--bg);display:flex;align-items:center;justify-content:center;padding:20px;opacity:1;transition:opacity .4s,visibility .4s;visibility:visible}
+.ob-overlay{position:fixed;inset:0;z-index:9000;background:var(--bg);display:flex;align-items:center;justify-content:center;padding:max(20px,env(safe-area-inset-top)) 20px max(20px,env(safe-area-inset-bottom));overflow-y:auto;opacity:1;transition:opacity .4s,visibility .4s;visibility:visible}
 .ob-overlay.hidden{opacity:0;visibility:hidden;pointer-events:none}
-.ob-glow{position:absolute;inset:0;pointer-events:none;background:radial-gradient(60% 40% at 50% 30%,rgba(37,99,235,.16),transparent 65%)}
-.ob-grid{position:absolute;inset:0;pointer-events:none;background-image:linear-gradient(rgba(37,99,235,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(37,99,235,.03) 1px,transparent 1px);background-size:64px 64px;mask-image:radial-gradient(60% 60% at 50% 40%,rgba(0,0,0,.5),transparent 80%);-webkit-mask-image:radial-gradient(60% 60% at 50% 40%,rgba(0,0,0,.5),transparent 80%)}
+.ob-glow{position:absolute;inset:0;pointer-events:none;background:radial-gradient(60% 40% at 50% 30%,var(--accent-soft),transparent 65%);opacity:.7}
+.ob-grid{position:absolute;inset:0;pointer-events:none;background-image:linear-gradient(var(--border) 1px,transparent 1px),linear-gradient(90deg,var(--border) 1px,transparent 1px);background-size:64px 64px;mask-image:radial-gradient(60% 60% at 50% 40%,rgba(0,0,0,.5),transparent 80%);-webkit-mask-image:radial-gradient(60% 60% at 50% 40%,rgba(0,0,0,.5),transparent 80%)}
 
 .ob-card{position:relative;z-index:1;width:100%;max-width:420px;display:flex;flex-direction:column;align-items:center;gap:0}
-.ob-logo{width:68px;height:68px;border-radius:18px;background:var(--sf);border:1px solid var(--bds);display:flex;align-items:center;justify-content:center;box-shadow:0 12px 32px rgba(0,0,0,.5);margin-bottom:20px;overflow:hidden;padding:4px}
+.ob-logo{width:68px;height:68px;border-radius:18px;background:var(--sf);border:1px solid var(--bds);display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow-2);margin-bottom:20px;overflow:hidden;padding:4px}
 .ob-logo img{width:100%;height:100%;object-fit:contain}
-.ob-title{font-family:var(--font-display);font-weight:900;font-style:normal;font-size:clamp(36px,8vw,48px);line-height:.88;letter-spacing:-.018em;text-align:center;color:#fff;margin-bottom:6px}
-.ob-title .ol{color:transparent;-webkit-text-stroke:1.5px rgba(255,255,255,.3)}
+.ob-title{font-family:var(--font-display);font-weight:900;font-style:normal;font-size:clamp(36px,8vw,48px);line-height:.88;letter-spacing:-.018em;text-align:center;color:var(--text);margin-bottom:6px}
+.ob-title .ol{color:transparent;-webkit-text-stroke:1.5px var(--dim)}
 .ob-sub{font-size:14px;color:var(--muted);text-align:center;margin-bottom:28px;line-height:1.6}
 
 /* Tabs */
 .ob-tabs{display:flex;width:100%;border:1px solid var(--bds);border-radius:12px;overflow:hidden;margin-bottom:24px;background:var(--sf)}
 .ob-tab{flex:1;padding:13px;text-align:center;font-family:'Jost',sans-serif;font-weight:700;font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);cursor:pointer;transition:color .25s,background .25s;border:none;background:none}
-.ob-tab.on{color:#fff;background:var(--accent)}
-.ob-tab:not(.on):hover{color:rgba(255,255,255,.7)}
+.ob-tab.on{color:var(--on-accent);background:var(--accent)}
+.ob-tab:not(.on):hover{color:var(--text)}
 
 /* Panels */
 .ob-panel{display:none;flex-direction:column;gap:16px;width:100%;animation:obFadeIn .3s cubic-bezier(.16,1,.3,1)}
@@ -1284,8 +1285,8 @@ html.pwa .upd-banner{top:calc(env(safe-area-inset-top,0px) + 52px)}
 
 /* Fields */
 .ob-field{display:flex;flex-direction:column;gap:5px}
-.ob-field label{font-size:10px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.38)}
-.ob-field input{width:100%;padding:14px 16px;background:var(--sf);border:1.5px solid var(--bds);border-radius:10px;color:#fff;font-family:'Jost',sans-serif;font-size:15px;outline:none;transition:border-color .22s}
+.ob-field label{font-size:10px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--muted)}
+.ob-field input{width:100%;padding:14px 16px;background:var(--sf);border:1.5px solid var(--bds);border-radius:10px;color:var(--text);font-family:'Jost',sans-serif;font-size:15px;outline:none;transition:border-color .22s}
 .ob-field input:focus{border-color:var(--accent)}
 .ob-field-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .ob-field input.ob-err{border-color:var(--err);animation:obShake .3s ease}
@@ -1293,24 +1294,24 @@ html.pwa .upd-banner{top:calc(env(safe-area-inset-top,0px) + 52px)}
 
 /* PIN boxes */
 .ob-pin{display:flex;align-items:center;justify-content:center;gap:8px}
-.ob-pin-box{width:48px;height:60px;text-align:center;font-family:'Jost',sans-serif;font-weight:900;font-size:28px;background:var(--sf);border:1.5px solid var(--bds);border-radius:10px;color:var(--white);outline:none;transition:border-color .22s,box-shadow .22s;caret-color:var(--accent);padding:0}
-.ob-pin-box:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(37,99,235,.12)}
-.ob-pin-box.filled{border-color:rgba(37,99,235,.4);background:rgba(37,99,235,.06)}
+.ob-pin-box{width:48px;height:60px;text-align:center;font-family:'Jost',sans-serif;font-weight:900;font-size:28px;background:var(--sf);border:1.5px solid var(--bds);border-radius:10px;color:var(--text);outline:none;transition:border-color .22s,box-shadow .22s;caret-color:var(--accent);padding:0}
+.ob-pin-box:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-bord)}
+.ob-pin-box.filled{border-color:var(--accent-bord);background:var(--accent-soft)}
 .ob-pin-box.ok{border-color:var(--ok)!important;background:rgba(34,215,122,.06)!important}
 .ob-pin-box.err{border-color:var(--err)!important;animation:obShake .3s ease}
-.ob-pin-sep{width:12px;height:2px;background:rgba(255,255,255,.15);flex-shrink:0}
-.ob-pin-hint{font-size:10px;color:rgba(255,255,255,.22);text-align:center;margin-top:4px}
+.ob-pin-sep{width:12px;height:2px;background:var(--bds);flex-shrink:0}
+.ob-pin-hint{font-size:10px;color:var(--muted);text-align:center;margin-top:4px}
 
 /* Buttons */
-.ob-btn{width:100%;padding:16px;font-family:'Jost',sans-serif;font-weight:700;font-size:15px;letter-spacing:.14em;text-transform:uppercase;background:var(--accent);color:var(--white);border:1.5px solid var(--accent);border-radius:10px;cursor:pointer;transition:opacity .2s}
+.ob-btn{width:100%;padding:16px;font-family:'Jost',sans-serif;font-weight:700;font-size:15px;letter-spacing:.14em;text-transform:uppercase;background:var(--accent);color:var(--on-accent);border:1.5px solid var(--accent);border-radius:10px;cursor:pointer;transition:opacity .2s}
 .ob-btn:disabled{opacity:.4;cursor:not-allowed}
-.ob-btn-ghost{width:100%;padding:13px;font-family:'Jost',sans-serif;font-weight:700;font-size:13px;letter-spacing:.12em;text-transform:uppercase;background:transparent;color:rgba(255,255,255,.4);border:1.5px solid var(--bds);border-radius:10px;cursor:pointer;transition:color .2s,border-color .2s}
-.ob-btn-ghost:hover{color:#fff;border-color:rgba(255,255,255,.3)}
+.ob-btn-ghost{width:100%;padding:13px;font-family:'Jost',sans-serif;font-weight:700;font-size:13px;letter-spacing:.12em;text-transform:uppercase;background:transparent;color:var(--text-2);border:1.5px solid var(--bds);border-radius:10px;cursor:pointer;transition:color .2s,border-color .2s}
+.ob-btn-ghost:hover{color:var(--text);border-color:var(--bds)}
 
 .ob-msg{font-size:12px;min-height:18px;text-align:center;transition:color .2s}
 .ob-msg.err{color:var(--err)}.ob-msg.ok{color:var(--ok)}.ob-msg.warn{color:var(--warn)}
 
-.ob-help{font-size:12px;color:rgba(255,255,255,.22);text-align:center;line-height:1.7;margin-top:4px}
+.ob-help{font-size:12px;color:var(--muted);text-align:center;line-height:1.7;margin-top:4px}
 .ob-help a{color:var(--accent);text-decoration:none}
 
 /* Step 2 inscription (PIN) */
@@ -2278,7 +2279,7 @@ html.pwa .wb-page-head{padding-top:max(env(safe-area-inset-top,0px),50px)}
     </div>
     <div class="ob-panel on" id="ob-login">
       <div>
-        <label style="font-size:10px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.38);display:block;margin-bottom:8px">Votre PIN à 6 chiffres</label>
+        <label style="font-size:10px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:8px">Votre PIN à 6 chiffres</label>
         <div class="ob-pin" id="ob-pin-login">
           <input class="ob-pin-box" type="text" inputmode="numeric" maxlength="1" autocomplete="off"><input class="ob-pin-box" type="text" inputmode="numeric" maxlength="1" autocomplete="off"><input class="ob-pin-box" type="text" inputmode="numeric" maxlength="1" autocomplete="off">
           <div class="ob-pin-sep"></div>
@@ -2314,8 +2315,8 @@ html.pwa .wb-page-head{padding-top:max(env(safe-area-inset-top,0px),50px)}
     </div>
     <div class="ob-step2" id="ob-signup2">
       <div>
-        <label style="font-size:10px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.38);display:block;margin-bottom:4px">Choisissez votre PIN à 6 chiffres</label>
-        <p style="font-size:12px;color:rgba(122,131,153,1);margin-bottom:10px">Ce code sera votre clé de connexion. Mémorisez-le.</p>
+        <label style="font-size:10px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:4px">Choisissez votre PIN à 6 chiffres</label>
+        <p style="font-size:12px;color:var(--muted);margin-bottom:10px">Ce code sera votre clé de connexion. Mémorisez-le.</p>
         <div class="ob-pin" id="ob-pin-create">
           <input class="ob-pin-box" type="text" inputmode="numeric" maxlength="1" autocomplete="off"><input class="ob-pin-box" type="text" inputmode="numeric" maxlength="1" autocomplete="off"><input class="ob-pin-box" type="text" inputmode="numeric" maxlength="1" autocomplete="off">
           <div class="ob-pin-sep"></div>
@@ -3274,6 +3275,60 @@ const memberProfil=(perms.profil||'prive');
 const isFormationProfile=(memberProfil==='eleve'||memberProfil==='instructeur');
 if(!memberPrenom&&!memberNom) showOnboarding();
 
+/* ══════════ Revalidation dynamique du rôle / permissions (V1) ══════════
+   Le rôle vit sur le serveur (feuille « Membres ») ; ?action=login&pin= renvoie
+   toujours les droits À JOUR. On revalide au lancement et à chaque retour sur
+   l'app : si un admin change un rôle, l'interface se reconstruit (reload) SANS
+   réinstallation. Anti-boucle : on ne recharge QUE si un droit a réellement
+   changé (on réécrit d'abord un cache normalisé). Le profil (élève/instructeur)
+   n'étant pas renvoyé par le backend, on le PRÉSERVE depuis le stockage local. */
+var _permSyncBusy=false,_permSyncTs=0;
+async function syncPerms(force){
+  if(DEMO_MODE)return;
+  var pin=localStorage.getItem('apam_pin')||'';
+  if(!/^\d{6}$/.test(pin))return;                 // pas connecté
+  if(_permSyncBusy)return;
+  if(!force&&Date.now()-_permSyncTs<20000)return; // throttle
+  if(navigator.onLine===false)return;             // hors-ligne : on garde le cache
+  _permSyncBusy=true;_permSyncTs=Date.now();
+  var data=null;
+  try{
+    var ctrl=new AbortController();var to=setTimeout(function(){ctrl.abort();},8000);
+    data=await fetch(API+'?action=login&pin='+encodeURIComponent(pin),{cache:'no-store',signal:ctrl.signal}).then(function(r){return r.json();});
+    clearTimeout(to);
+  }catch(e){_permSyncBusy=false;return;}           // réseau : ne rien casser
+  _permSyncBusy=false;
+  if(!data)return;
+  if(data.error){
+    /* Compte supprimé/désactivé côté serveur → déconnexion propre. */
+    if(data.code===404){
+      ['apam_perms','apam_prenom','apam_nom','apam_pin','apam_role','apam_tel'].forEach(function(k){localStorage.removeItem(k);sessionStorage.removeItem(k);});
+      location.reload();
+    }
+    return;
+  }
+  var prev={};try{prev=JSON.parse(localStorage.getItem('apam_perms')||'{}');}catch(e){}
+  var fresh={
+    admin:!!data.admin,news_pub:!!data.news_pub,news_membres:!!data.news_membres,
+    photos:!!data.photos,mecano:!!data.mecano,instructeur:!!data.instructeur,
+    profil:prev.profil||(data.instructeur?'instructeur':'prive')   // profil préservé
+  };
+  var permKeys=['admin','news_pub','news_membres','photos','mecano','instructeur'];
+  var changed=permKeys.some(function(k){return !!prev[k]!==fresh[k];})
+           ||(prev.profil||'prive')!==fresh.profil
+           ||(!!data.prenom&&data.prenom!==(localStorage.getItem('apam_prenom')||''))
+           ||(!!data.nom&&data.nom!==(localStorage.getItem('apam_nom')||''));
+  localStorage.setItem('apam_perms',JSON.stringify(fresh)); // normalise le cache
+  if(data.prenom)localStorage.setItem('apam_prenom',data.prenom);
+  if(data.nom)localStorage.setItem('apam_nom',data.nom);
+  if(data.telephone!==undefined)localStorage.setItem('apam_tel',String(data.telephone||''));
+  if(changed)location.reload();
+}
+if(!DEMO_MODE&&memberPin){setTimeout(function(){syncPerms(true);},1000);}
+document.addEventListener('visibilitychange',function(){
+  if(!document.hidden&&!DEMO_MODE)syncPerms(false);
+});
+
 /* Identité */
 const dn=(memberPrenom||memberName);
 const fullName=(memberPrenom+' '+(memberNom||'')).trim();
@@ -3351,7 +3406,7 @@ window.feedChoose=function(kind){
   feedChooserClose();
   setTimeout(function(){
     if(kind==='actu'){
-      if(typeof _pubMode!=='undefined'){_pubMode=(perms.news_pub||perms.admin)?'public':'membres';}
+      if(typeof _pubMode!=='undefined')_pubMode='membres'; /* le + de News ouvre TOUJOURS sur App */
       if(typeof _editingRow!=='undefined')_editingRow=null;
       if(typeof pubOpenSheet==='function')pubOpenSheet();
     }else if(kind==='act'){
@@ -4149,7 +4204,7 @@ function todayISO(){return new Date().toISOString().split('T')[0];}
 function enc(s){return encodeURIComponent(s);}
 
 const memberFullName=(memberPrenom+' '+(memberNom||'')).trim()||memberPrenom||'Membre';
-let _pubMode='public';
+let _pubMode='membres'; /* défaut : App (fil membres) */
 /* ══════════ Bottom-sheet iOS partagé (Gestion) ══════════ */
 function gsheetEnsure(){
   if(document.getElementById('gsheet-backdrop'))return;
@@ -4209,12 +4264,12 @@ function openPublication(){
   }
   if(canPub&&canMn){
     seg.innerHTML=`<div class="seg" role="tablist">
-      <button class="seg-btn ${_pubMode==='public'?'on':''}" type="button" onclick="switchPub('public')"><span class="seg-btn-dot"></span>Public</button>
-      <button class="seg-btn vio ${_pubMode==='membres'?'on':''}" type="button" onclick="switchPub('membres')"><span class="seg-btn-dot"></span>Membres</button>
+      <button class="seg-btn vio ${_pubMode==='membres'?'on':''}" type="button" data-mode="membres" onclick="switchPub('membres')"><span class="seg-btn-dot"></span>App</button>
+      <button class="seg-btn ${_pubMode==='public'?'on':''}" type="button" data-mode="public" onclick="switchPub('public')"><span class="seg-btn-dot"></span>Site web</button>
     </div>`;
   }else{
     seg.innerHTML='';
-    _pubMode=canPub?'public':'membres';
+    _pubMode=canMn?'membres':'public';
   }
   renderPubSection();
 }
@@ -4222,8 +4277,7 @@ function openPublication(){
 window.switchPub=function(mode){
   hapticTick();
   _pubMode=mode;
-  document.querySelectorAll('#pub-seg-wrap .seg-btn').forEach(b=>b.classList.remove('on'));
-  document.querySelectorAll('#pub-seg-wrap .seg-btn').forEach(b=>{if(b.textContent.toLowerCase().includes(mode))b.classList.add('on');});
+  document.querySelectorAll('#pub-seg-wrap .seg-btn').forEach(b=>b.classList.toggle('on',b.getAttribute('data-mode')===mode));
   renderPubSection();
 };
 
@@ -4232,7 +4286,7 @@ function renderPubSection(){
   const isPublic=_pubMode==='public';
   sec.innerHTML=`
     <button class="g-add ${isPublic?'':'vio'}" type="button" onclick="pubOpenSheet()"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>Nouvelle publication</button>
-    <div class="mobile-sec-h" style="margin-top:20px;margin-bottom:12px"><h2>Publiées récemment</h2><span class="mobile-sec-h-sub">${isPublic?'Site public':'Espace membres'}</span></div>
+    <div class="mobile-sec-h" style="margin-top:20px;margin-bottom:12px"><h2>Publiées récemment</h2><span class="mobile-sec-h-sub">${isPublic?'Site web':'App · fil membres'}</span></div>
     <div id="pub-list" class="pub-list"><div class="pub-list-loading">Chargement…</div></div>
   `;
   loadPubList();
@@ -4295,10 +4349,17 @@ function pubFormHTML(){
 window.pubOpenSheet=function(){
   const isPublic=_pubMode==='public';
   const foot=`<span class="form-status" id="pub-status"></span><button class="btn-pub ${isPublic?'':'vio'}" id="pub-submit" type="button" onclick="pubSubmit()" style="flex:1"><svg viewBox="0 0 24 24"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4z"/></svg><span id="pub-submit-text">Publier</span></button>`;
-  gsheetOpen(_editingRow?'Modifier la publication':(isPublic?'Nouvelle actualité':'Publication membres'),pubFormHTML(),foot);
-  /* Ajuste le libellé cross-publish selon le mode */
+  gsheetOpen(_editingRow?'Modifier la publication':(isPublic?'Nouvelle publication · Site web':'Nouvelle publication · App'),pubFormHTML(),foot);
+  /* Case « publier aussi sur… » : visible dans LES DEUX sens, libellé selon le mode.
+     Mise en avant côté Site web pour que la case « App » soit bien visible. */
   var lbl=document.getElementById('pub-cross-lbl');var cross=document.getElementById('pub-cross');
-  if(cross){cross.style.display=isPublic?'':'none';}
+  if(cross){
+    cross.style.display='';
+    cross.classList.toggle('pub-cross-accent',isPublic);
+  }
+  if(lbl){lbl.innerHTML=isPublic
+    ? '<strong>Publier aussi sur l’App</strong><br>Le même contenu apparaîtra aussi dans le fil de l’app'
+    : '<strong>Publier aussi sur le Site web</strong><br>Le même contenu apparaîtra aussi sur le site public';}
 };
 
 window.togglePollCustom=function(v){
@@ -5255,7 +5316,7 @@ if('serviceWorker'in navigator){
       b.id='upd-banner';b.className='upd-banner';
       b.innerHTML='<span class="upd-banner-tx">Nouvelle version disponible</span><button type="button" class="upd-banner-btn" id="upd-banner-btn">Mettre à jour</button>';
       document.body.appendChild(b);
-      requestAnimationFrame(function(){b.classList.add('on');});
+      requestAnimationFrame(function(){b.classList.add('show');});
       document.getElementById('upd-banner-btn').addEventListener('click',function(){
         this.textContent='Mise à jour…';this.disabled=true;
         var w=reg.waiting||reg.installing;

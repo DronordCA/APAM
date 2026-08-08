@@ -5,7 +5,7 @@
    repli sur le cache hors-ligne). Autres ressources : cache d'abord + maj en arrière-plan. */
 importScripts("https://cdn.onesignal.com/sdks/web/v16/OneSignalSDKWorker.js");
 
-const CACHE = 'apam-cache-v3';
+const CACHE = 'apam-cache-v4';
 
 self.addEventListener('install', function(e){ self.skipWaiting(); });
 
