@@ -3915,7 +3915,9 @@ window.togglePollVoters=function(btn){
 
 /* ── Tabs ── */
 const PRIMARY_TABS=['home','meteo','ressources','news'];
-function canManage(){return !!(perms.admin||perms.news_pub||perms.news_membres||perms.mecano||perms.photos);}
+/* « Gestionnaire » = a une vraie action dans le hub Gestion (Publication ou admin).
+   mecano/photos ne donnent plus d'entrée Gestion depuis la refonte V1. */
+function canManage(){return !!(perms.admin||perms.news_pub||perms.news_membres);}
 window.navMore=function(){switchTab(canManage()?'gestion':'contacts');};
 function setupMoreTab(){
   var lbl=document.getElementById('more-lbl'),ic=document.getElementById('more-ic');
@@ -4200,7 +4202,8 @@ function buildOutils(){
     var _nm=((memberPrenom||'')+' '+(memberNom||'')).trim()||'Mon compte';
     var _ini=((memberPrenom||'?').charAt(0)+(memberNom||'').charAt(0)).toUpperCase();
     var accountCard='<button type="button" class="account-card" onclick="openMonCompte()"><span class="account-av">'+esc(_ini)+'</span><span class="account-tx"><span class="account-nm">'+esc(_nm)+'</span><span class="account-sub">Voir et modifier mes informations</span></span><svg class="account-go" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></button>';
-    let listHtml=accountCard+'<div class="tools-list">'+updateRow+notifRow+themeRowM;
+    const contactRow=`<button type="button" class="tool-item" onclick="switchTab('contacts')"><span class="tool-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg></span><div class="tool-tx"><h4>Contacts</h4><p>Équipe du club &amp; annuaire des membres</p></div><span class="tool-chev">›</span></button>`;
+    let listHtml=accountCard+'<div class="tools-list">'+contactRow+updateRow+notifRow+themeRowM;
     listHtml+=tutoRow;
     listHtml+=cguRow;
     listHtml+='</div><button type="button" class="logout-btn" onclick="logout()"><span class="logout-icn">'+ICN.logout+'</span>Se déconnecter</button>';
@@ -4233,12 +4236,9 @@ function openGestion(){
   };
   var rows=[];
   var row=function(ic,cls,t,s,a){return '<button type="button" class="gest-card" onclick="'+a+'"><span class="gest-ic '+cls+'">'+ic+'</span><span class="gest-tx"><span class="gest-t">'+t+'</span><span class="gest-s">'+s+'</span></span><svg class="gest-go" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></button>';};
-  if(perms.news_pub||perms.news_membres||perms.photos)rows.push(row(I.pub,'pub','Publication','Actualités publiques, membres & sondages',"switchTab('publication')"));
-  var canTrips=false;try{canTrips=canManageTrips();}catch(e){}
-  if(canTrips)rows.push(row(I.trip,'trip','Voyages & activités','Programmer les prochains événements',"switchTab('news');setTimeout(function(){newsToggle&&newsToggle('act',true)},150)"));
-  if(perms.admin||perms.news_pub||perms.mecano)rows.push(row(I.wrench,'maint','Maintenance flotte','État & disponibilité des avions',"switchTab('maintenance')"));
+  /* Hub Gestion épuré (refonte V1) : uniquement les vraies actions de gestion. */
+  if(perms.news_pub||perms.news_membres||perms.admin)rows.push(row(I.pub,'pub','Publication','Site web, fil App & sondages',"switchTab('publication')"));
   if(perms.admin)rows.push(row(I.admin,'adm','Gestion membres','Permissions, accès & comptes',"switchTab('admin')"));
-  rows.push(row(I.ct,'ct','Contacts','Équipe du club & annuaire des membres',"switchTab('contacts')"));
   el.innerHTML=rows.join('');
 }
 
