@@ -4147,7 +4147,8 @@ function buildOutils(){
   const cguRow=`<button type="button" class="tool-item" onclick="openCGU()"><span class="tool-icon">${ICN.cgu}</span><div class="tool-tx"><h4>Conditions d'utilisation</h4><p>Statut des données · responsabilité du pilote</p></div><span class="tool-chev">›</span></button>`;
   const notifRow=`<button type="button" class="tool-item" onclick="toggleNotifs()"><span class="tool-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg></span><div class="tool-tx"><h4>Notifications</h4><p id="notif-sub">Actus, flotte &amp; mises à jour</p></div><span class="notif-state" id="notif-state"></span><span class="tool-chev">›</span></button>`;
   const tutoRow=`<button type="button" class="tool-item" onclick="openTutorial()"><span class="tool-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></span><div class="tool-tx"><h4>Revoir le tutoriel</h4><p>Visite guidée de l'app</p></div><span class="tool-chev">›</span></button>`;
-  const updateRow=`<button type="button" class="update-btn" id="upd-btn" onclick="mettreAJour()"><span class="update-icon">${ICN.update}</span><div class="update-btn-tx" style="flex:1"><h4>Mise à jour</h4><p id="upd-sub">Version v${APP_VERSION} · Vérifier les mises à jour</p></div><span class="tool-chev">›</span></button>`;
+  const _updAvail=(typeof _newVersion!=='undefined'&&_newVersion);
+  const updateRow=`<button type="button" class="update-btn${_updAvail?' upd-available':''}" id="upd-btn" onclick="mettreAJour()"><span class="update-icon">${ICN.update}</span><div class="update-btn-tx" style="flex:1"><h4>Mise à jour</h4><p id="upd-sub">${_updAvail?'<strong style="color:var(--accent)">Nouvelle version disponible</strong> · Appuyez pour installer':'Version v'+APP_VERSION+' · Vérifier les mises à jour'}</p></div><span class="tool-chev">›</span></button>`;
 
   const mo=document.getElementById('m-outils');
   if(mo){
@@ -4160,6 +4161,7 @@ function buildOutils(){
     listHtml+='</div><button type="button" class="logout-btn" onclick="logout()"><span class="logout-icn">'+ICN.logout+'</span>Se déconnecter</button>';
     listHtml+='<div class="version-foot">APAM Espace pilote · v'+APP_VERSION+'</div>';
     mo.innerHTML=listHtml;
+    try{refreshNotifState();}catch(e){}   /* le badge Notifications reflète l'état réel à chaque ouverture */
   }
   const dg=document.getElementById('d-outils');
   if(dg){
@@ -5278,11 +5280,16 @@ function osCall(fn){
 function refreshNotifState(){
   var el=document.getElementById('notif-state');var sub=document.getElementById('notif-sub');
   if(!el)return;
-  osCall(function(OneSignal){
-    var on=false;
-    try{on=OneSignal.Notifications.permission===true;}catch(e){}
+  function paint(on){
     el.innerHTML=on?'<span class="notif-on">Activées</span>':'';
     if(sub)sub.textContent=on?'Activées · actus, flotte & MAJ':'Actus, flotte & mises à jour';
+  }
+  /* Reflet immédiat via l'API native (fiable, synchrone), puis affinage via OneSignal. */
+  var native=(typeof Notification!=='undefined'&&Notification.permission==='granted');
+  paint(native);
+  osCall(function(OneSignal){
+    var on=native;try{on=native||OneSignal.Notifications.permission===true;}catch(e){}
+    paint(on);
   });
 }
 window.toggleNotifs=function(){
@@ -5502,6 +5509,8 @@ setInterval(updateWxQuick,4000);
 /* ── Prompt notifications au 1er lancement ── */
 function showNotifPrompt(){
   if(localStorage.getItem('apam_notif_asked'))return;
+  /* Déjà accordées → jamais reproposer (corrige « Activer » alors que déjà activées). */
+  if(typeof Notification!=='undefined'&&Notification.permission==='granted'){localStorage.setItem('apam_notif_asked','1');return;}
   if(!memberPrenom&&!memberNom)return; /* pas si onboarding visible */
   var el=document.getElementById('notif-prompt');
   if(el)setTimeout(function(){el.classList.add('show');},2500);
@@ -5663,6 +5672,9 @@ function setElevTitle(tab){
   h2.textContent=SECT_TITLES[tab]||'Accueil';
 }
 
+/* Onglet d'origine à restaurer quand on quitte l'Espace via « retour » après y être
+   entré en deep-link (ex. Carnet depuis l'Accueil). null = navigation interne à l'Espace. */
+let _elevReturn=null;
 function openEspaceEleves(primary){
   hapticTick();
   _elevPrimary=!!primary;
@@ -5681,16 +5693,26 @@ function openEspaceEleves(primary){
 function closeEspaceEleves(){
   var o=document.getElementById('elev-overlay');
   if(o)o.classList.remove('open');
+  _elevReturn=null;
 }
+/* Retour de l'Espace : si on y est entré en deep-link (origine mémorisée), on
+   retourne à l'écran d'origine ; sinon on remonte à l'accueil de l'Espace. */
+window.elevBack=function(){
+  if(_elevReturn){var t=_elevReturn;_elevReturn=null;closeEspaceEleves();switchTab(t);return;}
+  elevTab('accueil');
+};
 
 function elevTab(tab){
   hapticTick();
+  /* Atteindre l'accueil de l'Espace = navigation interne : on oublie l'origine deep-link. */
+  if(tab==='accueil')_elevReturn=null;
   /* « Préparer » ouvre la page dossier plein écran (flux à part entière) */
   if(tab==='preparer'){document.querySelectorAll('#elev-tabs .elev-tab').forEach(function(b){b.classList.toggle('on',b.getAttribute('data-tab')===tab);});openFlightPrep();return;}
   document.querySelectorAll('.elev-pane').forEach(function(p){p.classList.remove('on');});
   var pane=document.getElementById('elev-'+tab);
   if(pane)pane.classList.add('on');
   var _eb=document.getElementById('elev-back');if(_eb)_eb.hidden=(tab==='accueil');
+  var _ebl=document.getElementById('elev-back-lbl');if(_ebl)_ebl.textContent=(_elevReturn==='home'?'Accueil':'Vol');
   document.querySelectorAll('#elev-tabs .elev-tab').forEach(function(b){b.classList.toggle('on',b.getAttribute('data-tab')===tab);});
   var body=document.getElementById('elev-body');if(body)body.scrollTop=0;
   /* Rendu paresseux : garantit l'affichage à l'ouverture de l'onglet, même si un autre rendu a échoué */
@@ -6244,7 +6266,7 @@ function carbRenderQuick(){
     '<span class="cq-add" role="button" tabindex="0" onclick="event.stopPropagation();carbSheetOpen(\'retrait\')">Enregistrer</span>';
   els.forEach(function(el){el.innerHTML=html;});
 }
-window.carbHomeOpen=function(){if(typeof openEspaceEleves==='function')openEspaceEleves(false);setTimeout(function(){if(typeof elevTab==='function')elevTab('carburant');},130);};
+window.carbHomeOpen=function(){if(typeof openEspaceEleves==='function')openEspaceEleves(false);_elevReturn='home';setTimeout(function(){if(typeof elevTab==='function')elevTab('carburant');},130);};
 /* ── Feuille glissante : saisir un mouvement carburant sans quitter l'accueil ── */
 var _carbSheetType='retrait',_carbSheetPlein='complet';
 function carbSheetEnsure(){
@@ -7442,7 +7464,7 @@ async function docUploadFile(input){
       <button class="elev-tab" data-tab="forum" onclick="elevTab('forum')" type="button">Forum</button>
       <button class="elev-tab" data-tab="ressources" onclick="elevTab('ressources')" type="button">Liens</button>
     </div>
-    <button id="elev-back" class="elev-back" type="button" onclick="elevTab('accueil')" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg><span>Vol</span></button>
+    <button id="elev-back" class="elev-back" type="button" onclick="elevBack()" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg><span id="elev-back-lbl">Vol</span></button>
     <button class="elev-gear" type="button" onclick="switchTab('outils')" aria-label="Options"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></button>
   </div>
 
