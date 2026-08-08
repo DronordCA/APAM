@@ -1410,12 +1410,12 @@ button,a,.tap{transition:transform .28s cubic-bezier(.2,.7,.2,1),background-colo
 }
 
 /* ── Notification Prompt ── */
-.notif-prompt{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(120%);z-index:8500;width:calc(100% - 40px);max-width:400px;background:var(--sf);border:1px solid var(--bds);border-radius:18px;padding:22px 24px;box-shadow:0 20px 50px rgba(0,0,0,.5),0 0 0 1px rgba(37,99,235,.08);transition:transform .5s cubic-bezier(.16,1,.3,1),opacity .4s;opacity:0}
+.notif-prompt{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(120%);z-index:8500;width:calc(100% - 40px);max-width:400px;background:var(--sf);border:1px solid var(--bds);border-radius:18px;padding:22px 24px;box-shadow:var(--shadow-2);transition:transform .5s cubic-bezier(.16,1,.3,1),opacity .4s;opacity:0}
 .notif-prompt.show{transform:translateX(-50%) translateY(0);opacity:1}
 .notif-prompt-top{display:flex;align-items:center;gap:14px;margin-bottom:14px}
-.notif-prompt-icon{width:46px;height:46px;border-radius:13px;background:linear-gradient(135deg,var(--accent),#4f46e5);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;box-shadow:0 6px 16px rgba(37,99,235,.35)}
+.notif-prompt-icon{width:46px;height:46px;border-radius:13px;background:linear-gradient(135deg,var(--accent),var(--accent-2));display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;box-shadow:0 6px 16px var(--accent-bord)}
 .notif-prompt-text{flex:1}
-.notif-prompt-text h4{font-family:'Jost',sans-serif;font-weight:700;font-size:16px;color:#fff;text-transform:uppercase;letter-spacing:.04em;margin-bottom:3px}
+.notif-prompt-text h4{font-family:'Jost',sans-serif;font-weight:700;font-size:16px;color:var(--text);text-transform:uppercase;letter-spacing:.04em;margin-bottom:3px}
 .notif-prompt-text p{font-size:12.5px;color:var(--muted);line-height:1.5}
 .notif-prompt-btns{display:flex;gap:8px}
 .notif-prompt-btn{flex:1;padding:12px;border-radius:10px;font-family:'Jost',sans-serif;font-weight:700;font-size:13px;letter-spacing:.1em;text-transform:uppercase;text-align:center;cursor:pointer;border:none;transition:opacity .2s}
@@ -1583,7 +1583,7 @@ html.pwa .doc-viewer-safe{min-height:52px}
 
 /* ── Contacts (instructeurs) ── */
 .instr-card{display:flex;align-items:center;gap:16px;padding:16px 18px;background:var(--sf);border:1px solid var(--border);border-radius:14px;margin-bottom:10px}
-.instr-avatar{width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,var(--accent),#4f46e5);display:flex;align-items:center;justify-content:center;font-family:'Jost',sans-serif;font-weight:900;font-size:18px;color:#fff;flex-shrink:0}
+.instr-avatar{width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--accent-2));display:flex;align-items:center;justify-content:center;font-family:'Jost',sans-serif;font-weight:900;font-size:18px;color:#fff;flex-shrink:0}
 .instr-info h4{font-family:'Jost',sans-serif;font-weight:700;font-size:16px;color:#fff;text-transform:uppercase;letter-spacing:.02em}
 .instr-info p{font-size:11px;color:var(--muted);margin-top:2px}
 .instr-badge{font-size:9px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;padding:4px 10px;border-radius:100px;background:rgba(34,215,122,.08);border:1px solid rgba(34,215,122,.25);color:var(--ok);margin-left:auto;flex-shrink:0}
@@ -4639,8 +4639,8 @@ window.adminOpenSheet=function(pin){
   const body=`<div id="row-${esc(pin)}">
     ${profilSeg(pin, ph.profil||m.profil, isSelf)}
     <div class="perms-list">
-      ${permRow('Actualités publiques','Publier sur Le Club','news_pub','pub',ph.news_pub,pin,isSelf)}
-      ${permRow('Actualités membres',"Publier dans l'espace membres",'news_membres','mn',ph.news_membres,pin,isSelf)}
+      ${permRow('Actualités — Site web','Publier sur le site public','news_pub','pub',ph.news_pub,pin,isSelf)}
+      ${permRow('Actualités — App',"Publier dans le fil de l'app",'news_membres','mn',ph.news_membres,pin,isSelf)}
       ${permRow('Mécanicien',"Gérer l'état de la flotte",'mecano','mec',ph.mecano,pin,isSelf)}
       ${permRow('Instructeur','Répondre au forum élèves','instructeur','ins',ph.instructeur,pin,isSelf)}
       ${permRow('Galerie photos','Ajouter des photos','photos','ph',ph.photos,pin,isSelf)}
