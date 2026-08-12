@@ -468,6 +468,17 @@ html:not(.pwa) .desktop-only{display:flex}
   html:not(.pwa) .desktop-only{display:none}
   html:not(.pwa) .mobile-view{display:block}
 }
+/* ═══════ Version iPad / tablette : app centrée dans une colonne confortable,
+   au lieu de s'étirer sur toute la largeur (vue mobile installée sur grand écran). ═══════ */
+@media(min-width:768px){
+  .mobile-wrap{max-width:640px;margin-inline:auto}
+  .mobile-nav-inner{max-width:640px;margin-inline:auto}
+  .bottom-nav{max-width:440px;left:50%;right:auto;transform:translateX(-50%)}
+  .gsheet{left:50%;right:auto;width:560px;margin-left:-280px}
+  /* Espace (Vol) : contenu et onglets centrés */
+  #elev-body{padding-left:max(16px,calc(50% - 336px));padding-right:max(16px,calc(50% - 336px))}
+  .elev-tabs{max-width:672px;margin-inline:auto;width:100%}
+}
 
 /* ═══════════════════════ MOBILE HOME — WELCOME PANEL ═══════════════════════ */
 .welcome{position:relative;background:transparent;border:none;border-radius:0;padding:6px 2px 8px;margin-bottom:6px}
